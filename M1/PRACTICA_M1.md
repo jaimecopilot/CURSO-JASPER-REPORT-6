@@ -319,7 +319,7 @@ en el formato cerrado que el impresor espera recibir.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -373,8 +373,8 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"
-bold="false" italic="false" underline="false" strikeThrough="false"/>  - declara el estilo
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
 detrás del resto.
@@ -665,7 +665,7 @@ archivo .jasper no aparece junto al .jrxml, repetir el paso 10.
 | Las vocales acentuadas del título aparecen corruptas en el PDF | El archivo JRXML se guardó con codificación ISO-8859-1 | Abrir el archivo con un editor de texto, guardarlo como UTF-8 y recompilar |
 | El título se sale por el borde derecho de la página | El campo Width del Static Text tiene un valor superior a columnWidth | Seleccionar el elemento, ir a Properties y escribir 555 en el campo Width |
 | Error Unknown source al llenar el informe | Se pasó la ruta del .jrxml al método fillReport en lugar de la ruta del .jasper | Corregir la variable rutaJasper para que apunte al archivo .jasper |
-| El panel Problems muestra Duplicate default style | Existe más de un estilo con default="true" en la plantilla | Dejar default="true" en un único estilo y desmarcarlo en los demás |
+| El panel Problems muestra Duplicate default style | Existe más de un estilo con isDefault="true" en la plantilla | Dejar isDefault="true" en un único estilo y desmarcarlo en los demás |
 | El compilador informa incompatible types: X cannot be converted to JRDataSource | La clase que se pasa como fuente de datos no implementa la interfaz JRDataSource | Añadir implements JRDataSource a la clase y escribir los métodos next() y getFieldValue() |
 | El compilador informa package net.sf.jasperreports.pdf does not exist | Se han importado clases de la versión 7.x en un proyecto 6.20.0 | Sustituir la importación por la ruta correcta de la versión 6.20.0 |
 
@@ -1071,7 +1071,7 @@ mismo módulo.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -1125,8 +1125,8 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"
-bold="false" italic="false" underline="false" strikeThrough="false"/>  - declara el estilo
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
 detrás del resto.
@@ -1811,7 +1811,7 @@ mismo módulo.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -1866,8 +1866,8 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"
-bold="false" italic="false" underline="false" strikeThrough="false"/>  - declara el estilo
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
 detrás del resto.
@@ -2552,7 +2552,7 @@ informe. PAGE_COUNT  cuenta registros de la página actual.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -2635,8 +2635,8 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"
-bold="false" italic="false" underline="false" strikeThrough="false"/>  - declara el estilo
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
 detrás del resto.
@@ -3459,7 +3459,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <background>
@@ -3586,8 +3586,8 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"
-bold="false" italic="false" underline="false" strikeThrough="false"/>  - declara el estilo
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <field name="titulo" class="java.lang.String"/>  - declara un campo que puede ser
 solicitado a la fuente de datos durante el llenado.
@@ -4211,9 +4211,9 @@ el pliego del catálogo qué manuscrito se ha utilizado para esta edición.
 
 1. Seleccionar el elemento <style name="Sans_Normal" ...>  en Source.
 2. Seleccionar name y comprobar que vale Sans_Normal.
-3. Seleccionar default y comprobar que vale true.
+3. Seleccionar isDefault y comprobar que vale true.
 4. Seleccionar fontName y fontSize y comprobar los valores definidos por el proyecto.
-5. Seleccionar bold e italic y comprobar sus valores.
+5. Seleccionar isBold e isItalic y comprobar sus valores.
 6. Seleccionar el final de la etiqueta y comprobar que se cierra con /> porque este style no contiene
 elementos hijos.
 
@@ -4221,8 +4221,8 @@ Verificación visual: el elemento <style>  aparece después de la sección de pr
 sección de bandas.
 
 Qué hace: verifica la declaración del estilo por defecto del informe. Por qué: el estilo por defecto se aplica a
-todos los elementos que no declaren un estilo propio. Error común: declarar dos estilos con default="true". El
-compilador informa Duplicate default style. Solución: dejar solo un estilo con default="true" y quitar el atributo
+todos los elementos que no declaren un estilo propio. Error común: declarar dos estilos con isDefault="true". El
+compilador informa Duplicate default style. Solución: dejar solo un estilo con isDefault="true" y quitar el atributo
 en los demás. Analogía: es como definir la tipografía por defecto de todo el catálogo antes de empezar a
 componer.
 
@@ -4414,7 +4414,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <background>
@@ -4541,8 +4541,8 @@ utilizado por el entorno visual.
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
 
-- Línea 16: <style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"
-bold="false" italic="false" underline="false" strikeThrough="false"/>  - declara el estilo
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <field name="titulo" class="java.lang.String"/>  - declara un campo que puede ser
 solicitado a la fuente de datos durante el llenado.
@@ -4833,8 +4833,8 @@ Páginas del documento: 1
 |                uuid="8f2c1a4e-...">                                     |
 |      <property name="com.jaspersoft.studio.data.defaultdataadapter"     |
 |                value="EmptyDataSource"/>                                |
-|      <style name="Sans_Normal" default="true" fontName="Sans Serif"     |
-|             fontSize="10" bold="false" italic="false" .../>             |
+|      <style name="Sans_Normal" isDefault="true" fontName="Sans Serif"     |
+|             fontSize="10" isBold="false" isItalic="false" .../>             |
 |      <title>                                                            |
 |          <band height="70">                                             |
 |              <staticText>                                               |
@@ -5017,7 +5017,7 @@ JRXML.md no aparece, repetir el paso 12 de la Parte A.
 | El editor muestra un subrayado amarillo en un elemento | El elemento está fuera del orden definido por el esquema XSD | Mover el elemento a la posición correcta desde el panel Outline |
 | Los cambios en la vista Source no aparecen en la vista Design | El archivo no se ha guardado antes de cambiar de vista | Pulsar Ctrl+S antes de cambiar de vista |
 | Los cambios en la vista Design no aparecen en la vista Source | El editor está en una versión desactualizada del archivo | Hacer clic en la pestaña Source y pulsar F5 para refrescar |
-| Duplicate default style al compilar | Existe más de un estilo con default="true" | Dejar default="true" en un único estilo y quitarlo en los demás |
+| Duplicate default style al compilar | Existe más de un estilo con isDefault="true" | Dejar isDefault="true" en un único estilo y quitarlo en los demás |
 | Unrecognized element al compilar | Se ha añadido un elemento que no existe en el esquema de JasperReports 6.20.0 | Consultar el esquema XSD y eliminar el elemento desconocido |
 | El atributo uuid no aparece en un elemento | El elemento se ha añadido manualmente al XML sin generarlo desde el entorno | Abrir el archivo en el entorno y guardarlo para que se regeneren los uuid |
 | El informe muestra un error de análisis XML al abrirlo | El archivo contiene un carácter especial sin escapar | Encerrar el texto en un bloque CDATA o escapar el carácter |
@@ -5062,7 +5062,7 @@ Simulación de la sección de importaciones en el JRXML tras el reto
 ```text
 <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
 <import value="java.text.SimpleDateFormat"/>
-<style name="Sans_Normal" default="true" .../>
+<style name="Sans_Normal" isDefault="true" .../>
 ```
 
 Simulación de la expresión modificada

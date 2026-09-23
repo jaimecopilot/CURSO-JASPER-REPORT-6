@@ -1550,7 +1550,7 @@ Un archivo JRXML es un documento XML que describe un informe JasperReports. Su e
               pageHeight="842">
     <property name="..." value="..."/>
     <import value="java.util.Date"/>
-    <style name="..." default="true"/>
+    <style name="..." isDefault="true"/>
     <parameter name="..." class="..."/>
     <field name="..." class="..."/>
     <variable name="..." class="..." calculation="..."/>
@@ -1661,7 +1661,7 @@ Las secciones del JRXML aparecen en un orden específico dentro del elemento ra�
 ```xml
 <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
 <import value="java.util.Date"/>
-<style name="Sans_Normal" default="true" fontName="Sans Serif" fontSize="10"/>
+<style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"/>
 <parameter name="usuario" class="java.lang.String"/>
 <field name="titulo" class="java.lang.String"/>
 <variable name="TotalPrecio" class="java.lang.Double" calculation="Sum">
@@ -1670,7 +1670,7 @@ Las secciones del JRXML aparecen en un orden específico dentro del elemento ra�
 ```
 Línea 1: <property name="..." value="..."/> → propiedad específica de Jaspersoft Studio que asocia el adaptador de datos al informe.
 Línea 2: <import value="java.util.Date"/> → importa la clase java.util.Date para que pueda referenciarse como Date en las expresiones.
-Línea 3: <style name="Sans_Normal" default="true" .../> → declara un estilo por defecto aplicable a todos los elementos.
+Línea 3: <style name="Sans_Normal" isDefault="true" .../> → declara un estilo por defecto aplicable a todos los elementos.
 Línea 4: <parameter name="usuario" class="java.lang.String"/> → declara un parámetro de tipo cadena.
 Línea 5: <field name="titulo" class="java.lang.String"/> → declara un campo de tipo cadena.
 Línea 6-8: <variable name="TotalPrecio" ...> → declara una variable de tipo Double que se calcula mediante suma.
