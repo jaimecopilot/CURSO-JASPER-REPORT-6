@@ -1064,7 +1064,9 @@ Las expresiones tienen acceso a variables incorporadas del sistema. PAGE_NUMBER 
 
 #### Bloque 3 — La banda de resumen y las variables incorporadas
 
-La banda summary se emite una sola vez al final del informe, después de que se hayan procesado todos los registros de la fuente de datos. Su función habitual es presentar totales, medias o resúmenes que dependen del conjunto completo de datos. En un informe sin fuente de datos, como el que se construye en este punto, la banda summary se emite igualmente una vez, aunque no haya registros que agregar. Esta característica permite colocar en ella valores que dependen del conjunto del informe, como el número total de páginas o un mensaje de cierre. La banda de resumen es la última banda que se emite antes de que el motor cierre el documento. Su posición en el orden de emisión la convierte en el lugar natural para los valores que solo se conocen al final.
+La banda summary se procesa una sola vez al final del informe, después de que se hayan recorrido todos los registros de la fuente de datos. Su función habitual es presentar totales, medias o resúmenes que dependen del conjunto completo de datos. En un informe sin datos empresariales, como el que se construye en este punto, summary se procesa igualmente una vez. Esto permite colocar en ella el total de páginas calculado con PAGE_NUMBER y evaluationTime="Report" o un mensaje de cierre.
+
+Es importante distinguir **momento de procesamiento** de **posición visual en la página**. Que summary se procese al final no significa que se dibuje debajo de pageFooter. Los pies de columna y de página reservan posiciones en la zona inferior; si summary cabe en la última página, ocupa el área de cuerpo disponible por encima de esos pies. La ejecución real del checkpoint 1.4 confirma ese comportamiento.
 
 ```xml
 <summary>
@@ -1127,7 +1129,7 @@ ORDEN DE EMISIÓN DE LAS BANDAS
         ▼
   Fin del informe
 ```
-Qué representa el diagrama: el orden de emisión de las bandas durante el llenado. Las bandas de título y resumen se emiten una sola vez. Las bandas de cabecera y pie de página se emiten en cada página. La banda de detalle se emite una vez por registro.
+Qué representa el diagrama: una secuencia conceptual del ciclo de llenado, no una coordenada vertical exacta de cada banda en la página. Las bandas de título y resumen se procesan una sola vez; las cabeceras y pies se gestionan por página o columna; Detail se procesa por registro. En el PDF final, Page Footer y Column Footer pueden quedar anclados abajo mientras Summary aparece visualmente por encima.
 
 Por qué es relevante: permite decidir en qué banda colocar cada elemento en función de cuándo debe aparecer. Un total general en la banda de resumen aparece una sola vez al final; el mismo total en la banda de pie de página aparecería repetido al final de cada página con el valor parcial acumulado hasta ese momento.
 
@@ -1325,7 +1327,7 @@ ORDEN DE EMISIÓN DE LAS BANDAS
   8. lastPageFooter    (sustituye a pageFooter en la última página)
   9. summary           (una vez, al final)
 ```
-Qué representa el diagrama: las nueve secciones de banda trabajadas en este punto y su orden conceptual de emisión. No es un inventario exhaustivo de todas las secciones que soporta JasperReports 6.20.0; `noData` y los grupos se estudian fuera de este punto.
+Qué representa el diagrama: las nueve secciones de banda trabajadas en este punto y una secuencia conceptual del llenado. No debe leerse como la posición vertical final de todas las bandas: Page Footer y Column Footer reservan la parte inferior y Summary puede imprimirse por encima de ellos en la última página. Tampoco es un inventario exhaustivo de todas las secciones que soporta JasperReports 6.20.0; `noData` y los grupos quedan fuera del alcance de este punto.
 
 Por qué es relevante: permite decidir con precisión dónde colocar cada elemento. Un elemento que debe aparecer en cada página se coloca en pageHeader o en pageFooter. Un elemento que debe aparecer una sola vez se coloca en title o en summary.
 

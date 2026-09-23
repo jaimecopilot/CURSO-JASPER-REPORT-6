@@ -837,11 +837,13 @@ Acciones:
 4. Hacer clic con el botón derecho sobre el archivo y seleccionar Copiar.
 5. Abrir Jaspersoft Studio y hacer clic con el botón derecho sobre la carpeta lib en el panel Project Explorer.
 6. Seleccionar Paste en el menú contextual.
-7. Copiar también commons-digester-2.1.jar, commons-collections4-4.2.jar, commons-logging-1.1.1.jar y
-ecj-3.21.0.jar siguiendo el mismo procedimiento en la carpeta lib.
+7. Copiar también jasperreports-fonts-6.20.0.jar para disponer de DejaVu Sans de forma portable.
+8. Incorporar además el conjunto completo de dependencias de ejecución de JasperReports 6.20.0
+(resueltas desde su POM o tomadas de una distribución 6.20.0 compatible), incluidas las librerías
+necesarias para compilación, llenado y exportación. No limitar el runtime a una lista parcial de cinco JAR.
 
-Verificación visual: la carpeta lib del panel Project Explorer contiene jasperreports-6.20.0.jar  y las
-dependencias de ejecución copiadas desde la distribución oficial 6.20.0.
+Verificación visual: la carpeta lib del panel Project Explorer contiene jasperreports-6.20.0.jar,
+jasperreports-fonts-6.20.0.jar y el conjunto completo de dependencias de ejecución utilizado por el proyecto.
 
 Qué hace: incorpora los archivos JAR de la biblioteca y sus dependencias al proyecto Java. Por qué: el
 classpath debe contener estos archivos para que la máquina virtual de Java encuentre las clases de
@@ -1399,10 +1401,12 @@ EditorialReportsJava/
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
-│   ├── commons-digester-2.1.jar                  (análisis XML)
-│   ├── commons-collections4-4.2.jar             (colecciones)
-│   ├── commons-logging-1.1.1.jar                   (registro de eventos)
-│   └── ecj-3.21.0.jar                            (compilador de expresiones)
+│   ├── jasperreports-fonts-6.20.0.jar            (DejaVu Sans portable)
+│   ├── commons-digester-2.1.jar                  (dependencia de ejecución)
+│   ├── commons-collections4-4.2.jar              (dependencia de ejecución)
+│   ├── commons-logging-1.1.1.jar                 (dependencia de ejecución)
+│   ├── ecj-3.21.0.jar                            (compilador de expresiones)
+│   └── ...                                       (resto del runtime 6.20.0 resuelto desde el POM)
 │
 └── src/
     └── GeneradorInformeConcepto.java             (programa de generación)
@@ -2149,10 +2153,12 @@ EditorialReportsJava/
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
-│   ├── commons-digester-2.1.jar                  (análisis XML)
-│   ├── commons-collections4-4.2.jar             (colecciones)
-│   ├── commons-logging-1.1.1.jar                   (registro de eventos)
-│   └── ecj-3.21.0.jar                            (compilador de expresiones)
+│   ├── jasperreports-fonts-6.20.0.jar            (DejaVu Sans portable)
+│   ├── commons-digester-2.1.jar                  (dependencia de ejecución)
+│   ├── commons-collections4-4.2.jar              (dependencia de ejecución)
+│   ├── commons-logging-1.1.1.jar                 (dependencia de ejecución)
+│   ├── ecj-3.21.0.jar                            (compilador de expresiones)
+│   └── ...                                       (resto del runtime 6.20.0 resuelto desde el POM)
 │
 └── src/
     └── GeneradorInformeConcepto.java             (programa de generación)
@@ -2947,55 +2953,42 @@ textField debe mostrar su expresión entre corchetes.
 
 #### D.3 — Documento PDF resultante, página por página
 
+La fecha es dinámica: en la ejecución E2E realizada en GitHub Actions el 23/09/2026 se obtuvo la fecha
+23/09/2026. En otra ejecución aparecerá la fecha correspondiente a ese día.
+
 ```text
 INFORME: informe_concepto.pdf
 PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 píxeles (A4 vertical)
+TAMAÑO DE PÁGINA: 595 × 842 (A4 vertical)
 MÁRGENES: izquierdo 20, derecho 20, superior 20, inferior 20
-ENTORNO: Jaspersoft Studio 6.20.0 Community + JasperReports 6.20.0
-EXPRESIONES EVALUADAS: 3 (fecha, número de página, total de páginas)
+ENTORNO VALIDADO: JasperReports Library 6.20.0
+EXPRESIONES EVALUADAS: fecha, PAGE_NUMBER actual y PAGE_NUMBER con evaluationTime="Report"
 ──────────────────── Página 1 de 1 ────────────────────
 ╔══════════════════════════════════════════════════════════╗
-║  ── margen superior: 20 px ────────────────────────────  ║
+║  ── margen superior ───────────────────────────────────  ║
 ║                                                          ║
-║         Catálogo Editorial - Informe Conceptual          ║
+║         Catálogo Editorial - Informe Conceptual          ║   ← Title
+║  Fecha de emisión:  23/09/2026                           ║
+║  ── fin de Title ──────────────────────────────────────  ║
 ║                                                          ║
-║                                                          ║
-║  Fecha de emisión:  22/09/2026                           ║
-║                                                          ║
-║  ── fin de banda Title: 70 px ─────────────────────────  ║
-║                                                          ║
-║                                                          ║
-║              (área vacía: no hay banda de detalle)       ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║                                                          ║
-║  EditorialReports - Documento...          Página 1       ║
-║  ── banda Page Footer: 30 px ──────────────────────────  ║
-║                                                          ║
-║  Total de páginas: 1                                     ║
-║                                                          ║
+║  Total de páginas: 1                                     ║   ← Summary
 ║           Fin del informe. EditorialReports.             ║
-║  ── banda Summary: 50 px ──────────────────────────────  ║
-║  ── margen inferior: 20 px ────────────────────────────  ║
+║                                                          ║
+║                                                          ║
+║                 (área de cuerpo vacía)                   ║
+║                                                          ║
+║  EditorialReports - Documento...          Página 1       ║   ← Page Footer
+║  ── margen inferior ───────────────────────────────────  ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
-Qué representa: la página única del PDF resultante. Los valores de las expresiones aparecen ya resueltos: la
-fecha 22/09/2026, el número de página 1 y el total 1. El texto EditorialReports - Documento... aparece truncado
-en la simulación por razones de espacio, pero en el PDF real se muestra completo.
+Qué representa: la disposición visual observada en el PDF generado realmente. La banda Summary se procesa
+al final del informe, pero en la última página ocupa el área de cuerpo disponible; Page Footer permanece
+reservada en la parte inferior. Por eso el resumen se ve por encima del pie de página.
 
-Cómo verificarlo: abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que la página
-contiene los cinco bloques de contenido. Si falta alguno, revisar el JRXML en busca del elemento
-correspondiente.
+Cómo verificarlo: ejecutar el programa Java del checkpoint 1.4 y abrir
+`output/informe_concepto.pdf`. La validación E2E confirma una página A4, el título y la fecha en la parte
+superior, el resumen debajo de ellos y el pie de página anclado en la parte inferior.
 
 #### D.4 — Árbol de carpetas del proyecto tras completar el punto
 
@@ -3023,10 +3016,12 @@ EditorialReportsJava/
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
-│   ├── commons-digester-2.1.jar                  (análisis XML)
-│   ├── commons-collections4-4.2.jar             (colecciones)
-│   ├── commons-logging-1.1.1.jar                   (registro de eventos)
-│   └── ecj-3.21.0.jar                            (compilador de expresiones)
+│   ├── jasperreports-fonts-6.20.0.jar            (DejaVu Sans portable)
+│   ├── commons-digester-2.1.jar                  (dependencia de ejecución)
+│   ├── commons-collections4-4.2.jar              (dependencia de ejecución)
+│   ├── commons-logging-1.1.1.jar                 (dependencia de ejecución)
+│   ├── ecj-3.21.0.jar                            (compilador de expresiones)
+│   └── ...                                       (resto del runtime 6.20.0 resuelto desde el POM)
 │
 └── src/
     └── GeneradorInformeConcepto.java             (programa actualizado)
@@ -3401,8 +3396,9 @@ Footer y Summary; los campos de Detail pueden aparecer vacíos porque EmptyDataS
 valores reales para titulo y precio.
 
 Verificación visual: la pestaña Preview muestra una página con las bandas Title, Page Header, Column
-Header, Column Footer, Page Footer y Summary visibles. La banda Detail no emite contenido porque
-EmptyDataSource no devuelve registros.
+Header, Detail, Column Footer, Page Footer y Summary. Con el Empty Data Source configurado con su
+comportamiento por defecto se procesa un registro virtual: la banda Detail se emite una vez y los campos
+titulo y precio aparecen sin valor (null) porque el origen no aporta datos empresariales reales.
 
 Qué hace: compila y previsualiza el informe con las nuevas bandas. Por qué: la previsualización permite
 verificar que cada banda se emite en el momento correcto. Error común: olvidar compilar antes de
@@ -3953,53 +3949,45 @@ debe estar en el orden indicado.
 
 #### D.3 — Documento PDF resultante, página por página
 
+Esta simulación se ha contrastado con el PDF producido por el checkpoint 1.5 en la ejecución E2E real.
+La fecha mostrada es dinámica; aquí se reproduce la obtenida el 23/09/2026.
+
 ```text
 INFORME: informe_concepto.pdf
 PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 píxeles (A4 vertical)
+TAMAÑO DE PÁGINA: 595 × 842 (A4 vertical)
 MÁRGENES: izquierdo 20, derecho 20, superior 20, inferior 20
-BANDAS EMITIDAS: Title, Page Header, Column Header, Column Footer,
-                 Page Footer, Summary, Background
-BANDAS NO EMITIDAS: Detail (0 registros)
+FUENTE DE DATOS: JREmptyDataSource() / un registro virtual
+BANDAS CON CONTENIDO VISIBLE: Title, Page Header, Column Header, Detail,
+                              Summary, Column Footer, Page Footer
 ──────────────────── Página 1 de 1 ────────────────────
 ╔══════════════════════════════════════════════════════════╗
-║  ── margen superior: 20 px ────────────────────────────  ║
-║                                                          ║
 ║         Catálogo Editorial - Informe Conceptual          ║   ← Title
+║  Fecha de emisión:  23/09/2026                           ║
 ║                                                          ║
-║  Fecha de emisión:  22/09/2026                           ║
-║  ── fin de banda Title: 70 px ─────────────────────────  ║
-║                                                          ║
-║  Catálogo Editorial - Informe Conceptual   (cursiva)     ║   ← Page Header
-║  ── fin de banda Page Header: 25 px ───────────────────  ║
+║  Catálogo Editorial - Informe Conceptual                 ║   ← Page Header
 ║                                                          ║
 ║  Título                              │  Precio           ║   ← Column Header
-║  ── fin de banda Column Header: 25 px ─────────────────  ║
-║                                                          ║
-║       (banda Detail no emitida: sin registros)           ║   ← Detail
-║                                                          ║
-║  ── fin de banda Detail: 0 px emitidos ────────────────  ║
-║                                                          ║
-║           --- Fin de la tabla de datos ---               ║   ← Column Footer
-║  ── fin de banda Column Footer: 25 px ─────────────────  ║
-║                                                          ║
-║  EditorialReports - Documento...          Página 1       ║   ← Page Footer
-║  ── fin de banda Page Footer: 30 px ───────────────────  ║
+║  null                                │  null             ║   ← Detail
 ║                                                          ║
 ║  Total de páginas: 1                                     ║   ← Summary
-║                                                          ║
 ║           Fin del informe. EditorialReports.             ║
-║  ── fin de banda Summary: 50 px ───────────────────────  ║
-║  ── margen inferior: 20 px ────────────────────────────  ║
+║                                                          ║
+║                                                          ║
+║           --- Fin de la tabla de datos ---               ║   ← Column Footer
+║                                                          ║
+║  EditorialReports - Documento...          Página 1       ║   ← Page Footer
 ╚══════════════════════════════════════════════════════════╝
 ```
 
-Qué representa: la página única del PDF resultante con las ocho bandas del informe. La banda Detail no emite
-contenido porque EmptyDataSource no devuelve registros.
+Qué representa: la página única producida realmente por B + C. `new JREmptyDataSource()` no equivale a
+cero registros: su constructor sin argumentos crea un registro virtual. Por ello Detail se emite una vez y
+`$F{titulo}` y `$F{precio}` se resuelven como null. Summary aparece en el área de cuerpo de la última
+página, mientras Column Footer y Page Footer quedan situados en la zona inferior reservada.
 
-Cómo verificarlo: abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que la página
-contiene los siete bloques de contenido. Si falta alguno, revisar el JRXML en busca del elemento
-correspondiente.
+Cómo verificarlo: ejecutar el checkpoint 1.5 y abrir `output/informe_concepto.pdf`. La ejecución E2E
+registrada en GitHub Actions generó una página A4 con la fila `null / null`, total de páginas 1, el separador
+de Column Footer y el pie de página.
 
 #### D.4 — Árbol de carpetas del proyecto tras completar el punto
 
@@ -4916,53 +4904,42 @@ Cómo verificarlo: expandir el nodo informe_concepto en el panel Outline y compa
 
 #### D.3 — Documento PDF resultante, página por página
 
+El punto 1.6 documenta y revisa el JRXML sin cambiar el contenido funcional heredado de 1.5. La ejecución
+E2E confirma que ambos checkpoints generan el mismo contenido visible. La fecha es dinámica; se reproduce
+la obtenida el 23/09/2026.
+
 ```text
 INFORME: informe_concepto.pdf
 PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 píxeles (A4 vertical)
-MÁRGENES: izquierdo 20, derecho 20, superior 20, inferior 20
-FORMATO JRXML: codificación UTF-8, esquema jasperreport.xsd
-BANDAS EMITIDAS: Title, Page Header, Column Header, Column Footer,
-                 Page Footer, Summary, Background
-BANDAS NO EMITIDAS: Detail (0 registros)
+TAMAÑO DE PÁGINA: 595 × 842 (A4 vertical)
+FORMATO JRXML: UTF-8 + esquema JasperReports 6.20.0
+FUENTE DE DATOS: JREmptyDataSource() / un registro virtual
 ──────────────────── Página 1 de 1 ────────────────────
 ╔══════════════════════════════════════════════════════════╗
-║  ── margen superior: 20 px ────────────────────────────  ║
-║                                                          ║
 ║         Catálogo Editorial - Informe Conceptual          ║   ← Title
+║  Fecha de emisión:  23/09/2026                           ║
 ║                                                          ║
-║  Fecha de emisión:  22/09/2026                           ║
-║  ── fin de banda Title: 70 px ─────────────────────────  ║
-║                                                          ║
-║  Catálogo Editorial - Informe Conceptual   (cursiva)     ║   ← Page Header
-║  ── fin de banda Page Header: 25 px ───────────────────  ║
+║  Catálogo Editorial - Informe Conceptual                 ║   ← Page Header
 ║                                                          ║
 ║  Título                              │  Precio           ║   ← Column Header
-║  ── fin de banda Column Header: 25 px ─────────────────  ║
-║                                                          ║
-║       (banda Detail no emitida: sin registros)           ║   ← Detail
-║                                                          ║
-║  ── fin de banda Detail: 0 px emitidos ────────────────  ║
-║                                                          ║
-║           --- Fin de la tabla de datos ---               ║   ← Column Footer
-║  ── fin de banda Column Footer: 25 px ─────────────────  ║
-║                                                          ║
-║  EditorialReports - Documento...          Página 1       ║   ← Page Footer
-║  ── fin de banda Page Footer: 30 px ───────────────────  ║
+║  null                                │  null             ║   ← Detail
 ║                                                          ║
 ║  Total de páginas: 1                                     ║   ← Summary
-║                                                          ║
 ║           Fin del informe. EditorialReports.             ║
-║  ── fin de banda Summary: 50 px ───────────────────────  ║
-║  ── margen inferior: 20 px ────────────────────────────  ║
+║                                                          ║
+║                                                          ║
+║           --- Fin de la tabla de datos ---               ║   ← Column Footer
+║                                                          ║
+║  EditorialReports - Documento...          Página 1       ║   ← Page Footer
 ╚══════════════════════════════════════════════════════════╝
 ```
 
-Qué representa: la página única del PDF resultante. El documento mantiene la estructura del punto 1.5 porque
-el punto 1.6 no modifica el contenido del informe, solo documenta el formato.
+Qué representa: el resultado real del checkpoint 1.6. El formato JRXML está validado por el motor 6.20.0,
+Detail se emite una vez por el registro virtual y los campos sin datos aparecen como null. La disposición
+coincide con 1.5 porque 1.6 no introduce cambios funcionales en la plantilla.
 
-Cómo verificarlo: abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que la página
-contiene los siete bloques de contenido.
+Cómo verificarlo: ejecutar el checkpoint 1.6 y comparar su PDF con el del 1.5. En la ejecución E2E ambos
+produjeron una página A4 y el mismo contenido visible.
 
 #### D.4 — Árbol de carpetas del proyecto tras completar el punto
 
@@ -4992,10 +4969,12 @@ EditorialReportsJava/
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
-│   ├── commons-digester-2.1.jar                  (análisis XML)
-│   ├── commons-collections4-4.2.jar             (colecciones)
-│   ├── commons-logging-1.1.1.jar                   (registro de eventos)
-│   └── ecj-3.21.0.jar                            (compilador de expresiones)
+│   ├── jasperreports-fonts-6.20.0.jar            (DejaVu Sans portable)
+│   ├── commons-digester-2.1.jar                  (dependencia de ejecución)
+│   ├── commons-collections4-4.2.jar              (dependencia de ejecución)
+│   ├── commons-logging-1.1.1.jar                 (dependencia de ejecución)
+│   ├── ecj-3.21.0.jar                            (compilador de expresiones)
+│   └── ...                                       (resto del runtime 6.20.0 resuelto desde el POM)
 │
 └── src/
     └── GeneradorInformeConcepto.java             (programa de generación)
@@ -5159,5 +5138,7 @@ Esta corrección complementa el **Punto 1.2, Parte A, Paso 3**. La enumeración 
 El POM oficial 6.20.0 declara como dependencias directas no opcionales, entre otras: `commons-beanutils 1.9.4`, `commons-digester 2.1`, `commons-logging 1.1.1`, `commons-collections4 4.2`, `com.lowagie:itext 2.1.7.js10`, `jcommon 1.0.23`, `jfreechart 1.0.19`, `ecj 3.21.0` y Jackson 2.13.3 (`core`, `databind`, `annotations`, `dataformat-xml`). El procedimiento manual debe incorporar también las dependencias transitivas que correspondan.
 
 **Regla operativa corregida:** no copiar solo cinco JAR. Usar el runtime completo de la distribución 6.20.0 o resolver `net.sf.jasperreports:jasperreports:6.20.0` desde su POM y trasladar al `lib/` del proyecto todos los JAR de ejecución resultantes. De este modo, compilación, llenado y exportación PDF no dependen de una lista parcial.
+
+**Fuente portable:** como los JRXML del curso usan `DejaVu Sans`, añadir también `jasperreports-fonts-6.20.0.jar` (o la dependencia Maven equivalente). Esta corrección procede de la ejecución real: sin una fuente disponible para la JVM, el llenado falló con `JRFontNotFoundException`.
 
 Esta precisión no cambia el Working Directory, el JRXML ni el código Java del ejercicio; corrige únicamente la preparación del classpath.
