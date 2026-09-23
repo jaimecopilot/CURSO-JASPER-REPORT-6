@@ -78,7 +78,7 @@
     </columnHeader>
     <detail>
         <band height="20" splitType="Stretch">
-            <textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="245" height="20" uuid="77777777-7777-7777-7777-777777777777"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
+            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="245" height="20" uuid="77777777-7777-7777-7777-777777777777"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
             <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="245" y="0" width="80" height="20" uuid="88888888-8888-8888-8888-888888888888"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="325" y="0" width="55" height="20" uuid="99999999-9999-9999-9999-999999999999"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>
             <textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="380" y="0" width="50" height="20" uuid="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>

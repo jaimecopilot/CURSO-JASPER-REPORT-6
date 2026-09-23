@@ -89,7 +89,7 @@
     <detail>
         <band height="60" splitType="Prevent">
             <image onErrorType="Blank" scaleImage="RetainShape"><reportElement x="0" y="5" width="50" height="50" uuid="20202020-2020-2020-2020-202020202020"/><imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression></image>
-            <textField isStretchWithOverflow="true"><reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
+            <textField textAdjust="StretchHeight"><reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
             <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666" style="TextoPrecio"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323" style="TextoTabla"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>
             <textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424" style="TextoTabla"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>
