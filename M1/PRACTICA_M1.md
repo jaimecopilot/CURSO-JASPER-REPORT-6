@@ -5119,16 +5119,18 @@ necesario, no fuerza un salto de página.
 
 ## Alcance de la validación ejecutada
 
-- XML: comprobación de que los JRXML corregidos son documentos XML bien formados y cumplen el
-orden principal de secciones usado por el esquema de la rama 6.x.
-- Java: comprobación de sintaxis Java 8 con javac --release 8  sobre firmas API equivalentes a las
-clases utilizadas.
-- Compatibilidad de API: las clases y métodos usados se contrastaron con la documentación de
-JasperReports 6.x y con la publicación de JasperReports 6.20.0.
-- Limitación: este entorno no contiene el binario de JasperReports 6.20.0 ni permite descargarlo desde
-Maven/SourceForge, por lo que no se afirma una ejecución dinámica real del motor dentro de este
-sandbox. La práctica conserva la traza esperada para su comprobación en Jaspersoft Studio/
-JasperReports 6.20.0.
+La validación del Módulo 1 ya no se limita a revisión estática. Los seis checkpoints acumulativos **1.1-1.6** se ejecutaron realmente con **JasperReports Library 6.20.0** y **Temurin JDK 8** mediante GitHub Actions.
+
+- **Ejecución final validada:** workflow `M1 - Validacion end-to-end`, run **35905889756**.
+- **Resultado:** **6/6 checkpoints PASS**.
+- **Java:** compilación y ejecución reales con JDK 8.
+- **JRXML:** compilación real con `JasperCompileManager`, generando `reports/informe_concepto.jasper`.
+- **Llenado:** ejecución real con `JasperFillManager`, produciendo un `JasperPrint` sin excepción.
+- **Exportación:** ejecución real con `JasperExportManager`, generando `output/informe_concepto.pdf`.
+- **Comprobación automática:** el workflow verifica que el `.jasper` y el PDF existen, que el PDF no está vacío y que comienza por la firma `%PDF-`.
+- **Evidencia:** GitHub Actions conserva por checkpoint el `.jasper`, el PDF generado y `execution.log` como artefactos de la ejecución.
+
+La ejecución real permitió detectar y corregir tres problemas que una revisión estática no había cerrado: atributos inválidos de `<style>` (`default`, `bold`, etc.), una fuente no portable (`Sans Serif`) y la simulación incorrecta de `JREmptyDataSource()`. La versión final usa los atributos `isDefault`, `isBold`, `isItalic`, etc.; emplea **DejaVu Sans** con `jasperreports-fonts:6.20.0`; y refleja que `new JREmptyDataSource()` crea por defecto **un registro virtual**, por lo que en 1.5 y 1.6 la banda Detail se emite una vez y los fields `titulo` y `precio` se resuelven como `null`.
 
 
 ## Corrección técnica final - classpath de JasperReports 6.20.0
