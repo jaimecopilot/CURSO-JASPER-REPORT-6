@@ -1,6 +1,6 @@
 # Estilos del informe
 
-| Estilo | Parent | Uso |
+| Estilo | Estilo padre | Uso |
 |---|---|---|
 | DejaVu_Normal | (default) | Base portable |
 | TituloPrincipal | DejaVu_Normal | Título principal |

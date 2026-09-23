@@ -14,17 +14,17 @@
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
     <style name="DejaVu_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
-    <style name="TituloPrincipal" parent="DejaVu_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>
-    <style name="TituloSecundario" parent="DejaVu_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>
-    <style name="TextoTablaCabecera" parent="DejaVu_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>
-    <style name="TextoTabla" parent="DejaVu_Normal" fontSize="9"/>
-    <style name="TextoPrecio" parent="TextoTabla">
+    <style name="TituloPrincipal" style="DejaVu_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>
+    <style name="TituloSecundario" style="DejaVu_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>
+    <style name="TextoTablaCabecera" style="DejaVu_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>
+    <style name="TextoTabla" style="DejaVu_Normal" fontSize="9"/>
+    <style name="TextoPrecio" style="TextoTabla">
         <conditionalStyle>
             <conditionExpression><![CDATA[$F{precio}.doubleValue() > 20.0]]></conditionExpression>
             <style forecolor="#CC0000" isBold="true"/>
         </conditionalStyle>
     </style>
-    <style name="TextoPequeno" parent="DejaVu_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>
+    <style name="TextoPequeno" style="DejaVu_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <field name="paginas" class="java.lang.Integer"/>
