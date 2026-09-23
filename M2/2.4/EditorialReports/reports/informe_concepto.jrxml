@@ -13,7 +13,7 @@
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="DejaVu_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <field name="paginas" class="java.lang.Integer"/>
