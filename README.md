@@ -2,6 +2,15 @@
 
 Proyecto acumulativo **EditorialReports**. Autor: **Jaime Gallo**.
 
+## Empieza aquí
+
+Si partes de un equipo nuevo, **no abras directamente M1/1.1**. Primero lee:
+
+- `00_PREPARACION_ENTORNO.md` — qué instalar, por qué **no hace falta Eclipse separado**, cómo se relacionan A/B/C/D y cómo usar los checkpoints.
+- `00_INSTALAR_ENTORNO_WINDOWS.bat` — preparación automática de JDK 8, Maven, Git, Jaspersoft Studio 6.20.0, workspace y copia local del curso.
+
+Después comienza `M1/PRACTICA_M1.md` desde el punto 1.1 con el workspace vacío.
+
 Cada punto del curso es un checkpoint completo: el siguiente parte exactamente del estado final del anterior.
 
 ## Módulo 1 — Introducción a JasperReports

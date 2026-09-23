@@ -50,7 +50,7 @@ triángulo desplegable a su izquierda y sin marcas de error.
 Qué hace: crea el contenedor raíz del proyecto dentro del espacio de trabajo de Jaspersoft Studio. Por qué:
 todos los artefactos del curso (JRXML, recursos, adaptadores y salidas) deben quedar agrupados bajo una
 única raíz versionable. Error común: dejar marcada la casilla Use default location. El proyecto se crea dentro
-del workspace interno de Eclipse y localizar los archivos desde el explorador del sistema se vuelve incómodo.
+del workspace de la plataforma Eclipse integrada en Jaspersoft Studio y localizar los archivos desde el explorador del sistema se vuelve incómodo.
 
 Solución: borrar el proyecto y repetir el paso desmarcando la casilla. Analogía: es como abrir la carpeta
 maestra donde la editorial guardará todos los informes que se van a producir durante el curso.
@@ -631,8 +631,8 @@ contiene exactamente dos bloques de texto.
 ```text
 EditorialReports/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 │
 ├── reports/
 │   ├── informe_concepto.jrxml                    (plantilla de diseño)
@@ -787,7 +787,7 @@ directory  es obligatorio.
 5. Desmarcar Use default location, pulsar Browse... y seleccionar Documents\JasperProjects.
 6. Seleccionar Use default JRE en la sección JRE del asistente si esa sección se muestra.
 7. Pulsar Finish.
-8. Seleccionar Java y pulsar Open Perspective si Eclipse/Jaspersoft Studio solicita cambiar de perspectiva.
+8. Seleccionar Java y pulsar Open Perspective si Jaspersoft Studio solicita cambiar de perspectiva.
 
 Verificación visual: en el panel Project Explorer (superior izquierdo) aparece el nodo EditorialReportsJava con
 un icono de proyecto Java y una carpeta src en su interior.
@@ -1381,8 +1381,8 @@ contiene exactamente dos bloques de texto.
 ```text
 EditorialReports/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 ├── ECOSISTEMA.md                                 (documentación del ecosistema)
 │
 ├── reports/
@@ -1396,8 +1396,8 @@ EditorialReports/
     └── informe_concepto.pdf                      (documento generado)
 EditorialReportsJava/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
@@ -2132,8 +2132,8 @@ contiene exactamente dos bloques de texto.
 ```text
 EditorialReports/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 ├── ECOSISTEMA.md                                 (documentación del ecosistema)
 ├── ENTORNO.md                                    (documentación del entorno)
 │
@@ -2148,8 +2148,8 @@ EditorialReports/
     └── informe_concepto.pdf                      (documento generado)
 EditorialReportsJava/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
@@ -2995,8 +2995,8 @@ superior, el resumen debajo de ellos y el pie de página anclado en la parte inf
 ```text
 EditorialReports/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 ├── ECOSISTEMA.md                                 (documentación del ecosistema)
 ├── ENTORNO.md                                    (documentación del entorno)
 │
@@ -3011,8 +3011,8 @@ EditorialReports/
     └── informe_concepto.pdf                      (documento con expresiones resueltas)
 EditorialReportsJava/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
@@ -3994,8 +3994,8 @@ de Column Footer y el pie de página.
 ```text
 EditorialReports/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 ├── ECOSISTEMA.md                                 (documentación del ecosistema)
 ├── ENTORNO.md                                    (documentación del entorno)
 ├── BANDAS.md                                     (documentación de las bandas)
@@ -4946,8 +4946,8 @@ produjeron una página A4 y el mismo contenido visible.
 ```text
 EditorialReports/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 ├── ECOSISTEMA.md                                 (documentación del ecosistema)
 ├── ENTORNO.md                                    (documentación del entorno)
 ├── BANDAS.md                                     (documentación de las bandas)
@@ -4964,8 +4964,8 @@ EditorialReports/
     └── informe_concepto.pdf                      (documento generado)
 EditorialReportsJava/
 │
-├── .project                                      (archivo interno de Eclipse)
-├── .classpath                                    (archivo interno de Eclipse)
+├── .project                                      (metadatos Eclipse usados internamente por Jaspersoft Studio)
+├── .classpath                                    (metadatos Eclipse usados internamente por Jaspersoft Studio)
 │
 ├── lib/
 │   ├── jasperreports-6.20.0.jar                  (biblioteca principal)
