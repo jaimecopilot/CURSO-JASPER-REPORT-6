@@ -234,7 +234,54 @@ con el resultado de la preparación.
 
 ---
 
-## 7. Cómo empezar realmente la práctica 1.1
+## 7. Referencias y samples oficiales antes de empezar
+
+El curso incluye una carpeta de consulta:
+
+```text
+REFERENCIAS_OFICIALES/
+```
+
+Antes de 1.1 es recomendable abrir:
+
+```text
+REFERENCIAS_OFICIALES/README.md
+REFERENCIAS_OFICIALES/TRAZABILIDAD_OFICIAL.md
+```
+
+### Ejercicio 00.1 — abrir los samples oficiales
+
+La documentación oficial de Jaspersoft Studio describe el asistente:
+
+```text
+File
+  > New
+    > Other...
+      > Jaspersoft Studio
+        > JasperReports Samples
+```
+
+Si el asistente está disponible en la instalación 6.20.0, puede utilizarse para explorar ejemplos.
+
+Si no aparece o la descarga no funciona, **no actualizar Studio a 7.x ni cambiar el baseline del curso**. Usar:
+
+```text
+https://github.com/Jaspersoft/jasperreports/tree/6.20.0
+```
+
+o descargar:
+
+```text
+jasperreports-6.20.0-project.zip
+```
+
+desde la distribución oficial de SourceForge.
+
+Los samples sirven para consulta; **no son los ejercicios EditorialReports** y no deben copiarse como solución.
+
+---
+
+## 8. Cómo empezar realmente la práctica 1.1
 
 El alumno **no debe abrir la carpeta `M1/1.1` para empezar**.
 
@@ -291,7 +338,7 @@ Nunca se usa el checkpoint del mismo punto como punto de partida si se quiere re
 
 ---
 
-## 8. Qué significan las Partes A, B, C y D
+## 9. Qué significan las Partes A, B, C y D
 
 Todos los puntos siguen la misma cadena pedagógica:
 
@@ -362,7 +409,7 @@ De esta forma A, B y C están vinculadas, pero no son tres copias idénticas: **
 
 ---
 
-## 9. Qué NO debe instalar el alumno para M1
+## 10. Qué NO debe instalar el alumno para M1
 
 No instalar, salvo que un módulo posterior lo exija expresamente:
 
@@ -380,7 +427,7 @@ Mantener un entorno mínimo reduce diferencias entre equipos y facilita reproduc
 
 ---
 
-## 10. Validación ya realizada sobre el material del curso
+## 11. Validación ya realizada sobre el material del curso
 
 Los checkpoints de M1 se han ejecutado realmente mediante GitHub Actions con:
 

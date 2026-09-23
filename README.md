@@ -31,3 +31,15 @@ Estado M1: **1.1-1.6 PASS END-TO-END** con JasperReports 6.20.0 y Temurin JDK 8.
 La evidencia y los errores encontrados durante la ejecución están documentados en `M1/VALIDACION_M1.md`.
 
 Documentación: `M1/TEORIA_M1.md` y `M1/PRACTICA_M1.md`.
+
+
+## Referencias oficiales
+
+La carpeta `REFERENCIAS_OFICIALES/` separa claramente:
+
+- documentación oficial de Jaspersoft Studio;
+- tag/distribución oficial JasperReports 6.20.0;
+- samples oficiales;
+- trazabilidad entre el temario del curso y las fuentes.
+
+Las prácticas EditorialReports son material propio; no se presentan como laboratorios oficiales.
