@@ -17,7 +17,7 @@ Cada punto del curso es un checkpoint completo: el siguiente parte exactamente d
 
 Un checkpoint sólo se considera **validado end-to-end** cuando GitHub Actions compila Java, compila el JRXML con JasperReports Library 6.20.0, llena el informe y genera un PDF real.
 
-Estado M1: los checkpoints 1.1-1.6 ya han completado una primera ejecución E2E verde con JasperReports 6.20.0. La validación mínima se repite además con Java 8 para comprobar el baseline del curso.
+Estado M1: **1.1-1.6 PASS END-TO-END** con JasperReports 6.20.0 y Temurin JDK 8. Los seis checkpoints compilan, ejecutan el llenado y generan un PDF real.
 
 La evidencia y los errores encontrados durante la ejecución están documentados en `M1/VALIDACION_M1.md`.
 

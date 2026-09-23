@@ -57,11 +57,21 @@ precio = null
 
 Esto confirma que `new JREmptyDataSource()` crea un registro virtual por defecto. La práctica se corrigió para que la simulación coincida con el PDF real.
 
-## Criterio de cierre
+## Validación mínima Java 8
 
-M1 sólo se considera técnicamente cerrado cuando:
+Ejecución final del baseline mínimo del curso:
 
-1. los seis checkpoints siguen siendo acumulativos;
-2. la ejecución del workflow en Java 8 también queda verde;
-3. documentación y simulaciones reflejan los resultados observados;
-4. los `VALIDACION.md` individuales registran la evidencia final.
+- GitHub Actions run: **35905889756**
+- Commit: **4bf7ac8eb5552ae16eebc3309d6be6d3679d2168**
+- Java: **Temurin JDK 8**
+- Resultado: **6/6 checkpoints PASS**
+- Compilación Java: PASS
+- Compilación JRXML real: PASS
+- Llenado JasperPrint: PASS
+- Exportación PDF: PASS
+
+## Estado de cierre técnico de M1
+
+**M1 queda validado end-to-end para el baseline Java 8 + JasperReports 6.20.0.**
+
+La validación no se limita a comprobar sintaxis: los seis programas se ejecutaron realmente y produjeron sus respectivos `.jasper` y PDF. Las correcciones descubiertas durante las primeras ejecuciones se incorporaron a los fuentes y a la documentación.
