@@ -1,0 +1,6 @@
+**/target/
+**/bin/
+**/classpath.txt
+**/reports/*.jasper
+**/output/*.pdf
+.DS_Store
