@@ -1,0 +1,63 @@
+name: M2 - Validacion end-to-end
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'M2/**'
+      - '.github/workflows/m2-e2e.yml'
+      - '!M2/VALIDACION_M2.md'
+      - '!M2/*/VALIDACION.md'
+      - '!M2/*.pdf'
+  workflow_dispatch:
+
+jobs:
+  checkpoint:
+    name: Checkpoint ${{ matrix.checkpoint }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        checkpoint: ['2.1','2.2','2.3','2.4','2.5']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+          cache-dependency-path: M2/${{ matrix.checkpoint }}/EditorialReportsJava/pom.xml
+
+      - name: Compilar Java y resolver JasperReports 6.20.0
+        working-directory: M2/${{ matrix.checkpoint }}/EditorialReportsJava
+        run: |
+          mvn -B -ntp clean package
+          mvn -B -ntp dependency:build-classpath -Dmdep.outputFile=classpath.txt
+
+      - name: Ejecutar generador con Working Directory del proyecto de informes
+        working-directory: M2/${{ matrix.checkpoint }}/EditorialReports
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          CP="../EditorialReportsJava/target/classes:$(cat ../EditorialReportsJava/classpath.txt)"
+          java -cp "$CP" GeneradorInformeConcepto 2>&1 | tee execution.log
+          test -s reports/informe_concepto.jasper
+          test -s output/informe_concepto.pdf
+          test "$(head -c 5 output/informe_concepto.pdf)" = "%PDF-"
+          grep -q "Registros de ejemplo:" execution.log
+          echo "PASS checkpoint ${{ matrix.checkpoint }}"
+
+      - name: Publicar artefactos de ejecución
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: M2-${{ matrix.checkpoint }}-runtime
+          if-no-files-found: warn
+          path: |
+            M2/${{ matrix.checkpoint }}/EditorialReports/reports/informe_concepto.jasper
+            M2/${{ matrix.checkpoint }}/EditorialReports/output/informe_concepto.pdf
+            M2/${{ matrix.checkpoint }}/EditorialReports/execution.log
