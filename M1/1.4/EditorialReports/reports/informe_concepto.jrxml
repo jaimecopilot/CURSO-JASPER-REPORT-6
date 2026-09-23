@@ -13,7 +13,7 @@
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -21,17 +21,17 @@
         <band height="70">
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Sans Serif" size="18" isBold="true"/></textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="18" isBold="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <staticText>
                 <reportElement x="0" y="45" width="120" height="20" uuid="2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
                 <text><![CDATA[Fecha de emisión:]]></text>
             </staticText>
             <textField pattern="dd/MM/yyyy">
                 <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
         </band>
@@ -40,12 +40,12 @@
         <band height="30">
             <staticText>
                 <reportElement x="0" y="5" width="390" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
             <textField>
                 <reportElement x="400" y="5" width="155" height="20" uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
         </band>

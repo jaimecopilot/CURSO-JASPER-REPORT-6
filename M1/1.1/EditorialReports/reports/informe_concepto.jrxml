@@ -13,7 +13,7 @@
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -22,7 +22,7 @@
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="18" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
                 </textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
@@ -33,7 +33,7 @@
             <staticText>
                 <reportElement x="0" y="5" width="555" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="9"/>
+                    <font fontName="DejaVu Sans" size="9"/>
                 </textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>

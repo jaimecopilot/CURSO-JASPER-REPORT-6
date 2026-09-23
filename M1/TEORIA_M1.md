@@ -924,7 +924,7 @@ DISPOSICIÓN DE LA PERSPECTIVA JASPERREPORTS
   │                              │  │ [Properties] [Advanced] [Appear] │  │
   │                              │  │ Element: staticText              │  │
   │                              │  │ X: 0    Y: 15   Width: 555       │  │
-  │                              │  │ Font: Sans Serif   Size: 18      │  │
+  │                              │  │ Font: DejaVu Sans   Size: 18      │  │
   │                              │  └──────────────────────────────────┘  │
   │                              │                                        │
   │                              │  Problems (inferior)                   │
@@ -1378,7 +1378,7 @@ Las bandas pageHeader y pageFooter se emiten en cada página del informe. La ban
         <staticText>
             <reportElement x="0" y="5" width="555" height="15"/>
             <textElement verticalAlignment="Middle">
-                <font fontName="Sans Serif" size="9" isItalic="true"/>
+                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
             </textElement>
             <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
         </staticText>
@@ -1661,7 +1661,7 @@ Las secciones del JRXML aparecen en un orden específico dentro del elemento ra�
 ```xml
 <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
 <import value="java.util.Date"/>
-<style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"/>
+<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
 <parameter name="usuario" class="java.lang.String"/>
 <field name="titulo" class="java.lang.String"/>
 <variable name="TotalPrecio" class="java.lang.Double" calculation="Sum">
@@ -1683,7 +1683,7 @@ La sección de bandas es la que ocupa la mayor parte del archivo en informes com
         <staticText>
             <reportElement x="0" y="15" width="555" height="30" uuid="..."/>
             <textElement textAlignment="Center" verticalAlignment="Middle">
-                <font fontName="Sans Serif" size="18" isBold="true"/>
+                <font fontName="DejaVu Sans" size="18" isBold="true"/>
             </textElement>
             <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
         </staticText>
@@ -1695,7 +1695,7 @@ Línea 2: <band height="70"> → define la banda con 70 píxeles de altura.
 Línea 3: <staticText> → abre un elemento de texto estático.
 Línea 4: <reportElement x="0" y="15" width="555" height="30" uuid="..."/> → posición y tamaño del elemento dentro de la banda.
 Línea 5: <textElement textAlignment="Center" verticalAlignment="Middle"> → alineación del texto dentro del cuadro.
-Línea 6: <font fontName="Sans Serif" size="18" isBold="true"/> → tipografía del texto.
+Línea 6: <font fontName="DejaVu Sans" size="18" isBold="true"/> → tipografía del texto.
 Línea 7: <text><![CDATA[...]]></text> → contenido literal del texto.
 Línea 8: </staticText> → cierra el elemento.
 Línea 9: </band> → cierra la banda.

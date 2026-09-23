@@ -178,7 +178,7 @@ Acciones:
 
 1. Hacer clic sobre el Static Text de la banda Title para seleccionarlo.
 2. Hacer clic en la pestaña Properties dentro de el panel Properties (inferior derecho).
-3. Hacer clic sobre el campo Font name y escribir Sans Serif. Pulsar Enter.
+3. Hacer clic sobre el campo Font name y escribir DejaVu Sans. Pulsar Enter.
 4. Hacer clic sobre el campo Font size y escribir 18. Pulsar Enter.
 5. Marcar la casilla Bold situada junto a las opciones de fuente.
 6. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center en la sección Text Field.
@@ -319,7 +319,7 @@ en el formato cerrado que el impresor espera recibir.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -328,7 +328,7 @@ en el formato cerrado que el impresor espera recibir.
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="18" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
                 </textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
@@ -339,7 +339,7 @@ en el formato cerrado que el impresor espera recibir.
             <staticText>
                 <reportElement x="0" y="5" width="555" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="9"/>
+                    <font fontName="DejaVu Sans" size="9"/>
                 </textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
@@ -373,7 +373,7 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"
 bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
@@ -390,7 +390,7 @@ uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e ide
 elemento dentro de su banda.
 - Línea 24: <textElement textAlignment="Center" verticalAlignment="Middle">  - configura
 alineación y propiedades de presentación del texto.
-- Línea 25: <font fontName="Sans Serif" size="18" isBold="true"/>  - configura la tipografía del
+- Línea 25: <font fontName="DejaVu Sans" size="18" isBold="true"/>  - configura la tipografía del
 elemento.
 - Línea 26: </textElement>  - cierra el elemento XML correspondiente.
 
@@ -408,7 +408,7 @@ uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>  - define posición, tamaño e ide
 elemento dentro de su banda.
 - Línea 35: <textElement textAlignment="Center" verticalAlignment="Middle">  - configura
 alineación y propiedades de presentación del texto.
-- Línea 36: <font fontName="Sans Serif" size="9"/>  - configura la tipografía del elemento.
+- Línea 36: <font fontName="DejaVu Sans" size="9"/>  - configura la tipografía del elemento.
 - Línea 37: </textElement>  - cierra el elemento XML correspondiente.
 - Línea 38: <text><![CDATA[EditorialReports - Documento generado con JasperReports
 6.20.0]]></text>  - contenido literal del elemento staticText dentro de CDATA.
@@ -537,7 +537,7 @@ Informe generado en: <ruta-absoluta>/output/informe_concepto.pdf
 |  ────────       │  ────────────                                        |
 |  Elements       │  Element: staticText                                 |
 |  [ T ] Static   │  X: 0        Y: 15       Width: 555    Height: 30    |
-|  [ F ] TextF    │  Font: Sans Serif  Size: 18  Bold: [X]               |
+|  [ F ] TextF    │  Font: DejaVu Sans  Size: 18  Bold: [X]               |
 |  [ ▭ ] Image    │  Alignment: Center / Middle                          |
 |  [ ▦ ] Table    │                                                      |
 +-------------------------------------------------------------------------+
@@ -557,20 +557,20 @@ Page Footer, Background, sin bandas intermedias.
 informe_concepto
 │
 ├── Styles
-│   └── Sans_Normal  [default=true, fontName="Sans Serif", fontSize=10]
+│   └── Sans_Normal  [isDefault=true, fontName="DejaVu Sans", fontSize=10]
 │
 ├── Title  [band, height=60]
 │   │
 │   └── staticText  [x=0, y=15, w=555, h=30]
 │       │
-│       ├── font: Sans Serif, size=18, isBold=true
+│       ├── font: DejaVu Sans, size=18, isBold=true
 │       └── text: "Catálogo Editorial - Informe Conceptual"
 │
 ├── Page Footer  [band, height=30]
 │   │
 │   └── staticText  [x=0, y=5, w=555, h=20]
 │       │
-│       ├── font: Sans Serif, size=9, isBold=false
+│       ├── font: DejaVu Sans, size=9, isBold=false
 │       └── text: "EditorialReports - Documento generado con JasperReports 6.20.0"
 │
 └── Background  [band, height=0]
@@ -1071,7 +1071,7 @@ mismo módulo.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -1080,7 +1080,7 @@ mismo módulo.
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="18" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
                 </textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
@@ -1091,7 +1091,7 @@ mismo módulo.
             <staticText>
                 <reportElement x="0" y="5" width="555" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="9"/>
+                    <font fontName="DejaVu Sans" size="9"/>
                 </textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
@@ -1125,7 +1125,7 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"
 bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
@@ -1142,7 +1142,7 @@ uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e ide
 elemento dentro de su banda.
 - Línea 24: <textElement textAlignment="Center" verticalAlignment="Middle">  - configura
 alineación y propiedades de presentación del texto.
-- Línea 25: <font fontName="Sans Serif" size="18" isBold="true"/>  - configura la tipografía del
+- Línea 25: <font fontName="DejaVu Sans" size="18" isBold="true"/>  - configura la tipografía del
 elemento.
 - Línea 26: </textElement>  - cierra el elemento XML correspondiente.
 - Línea 27: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
@@ -1160,7 +1160,7 @@ uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>  - define posición, tamaño e ide
 elemento dentro de su banda.
 - Línea 35: <textElement textAlignment="Center" verticalAlignment="Middle">  - configura
 alineación y propiedades de presentación del texto.
-- Línea 36: <font fontName="Sans Serif" size="9"/>  - configura la tipografía del elemento.
+- Línea 36: <font fontName="DejaVu Sans" size="9"/>  - configura la tipografía del elemento.
 - Línea 37: </textElement>  - cierra el elemento XML correspondiente.
 - Línea 38: <text><![CDATA[EditorialReports - Documento generado con JasperReports
 6.20.0]]></text>  - contenido literal del elemento staticText dentro de CDATA.
@@ -1290,7 +1290,7 @@ Informe generado en: <ruta-absoluta>/output/informe_concepto.pdf
 |  ────────       │  ────────────                                        |
 |  Elements       │  Element: staticText                                 |
 |  [ T ] Static   │  X: 0        Y: 15       Width: 555    Height: 30    |
-|  [ F ] TextF    │  Font: Sans Serif  Size: 18  Bold: [X]               |
+|  [ F ] TextF    │  Font: DejaVu Sans  Size: 18  Bold: [X]               |
 |  [ ▭ ] Image    │  Alignment: Center / Middle                          |
 |  [ ▦ ] Table    │                                                      |
 +-------------------------------------------------------------------------+
@@ -1308,20 +1308,20 @@ indicado. Si aparece alguna banda adicional, repetir el paso 5 de la Parte A.
 informe_concepto
 │
 ├── Styles
-│   └── Sans_Normal  [default=true, fontName="Sans Serif", fontSize=10]
+│   └── Sans_Normal  [isDefault=true, fontName="DejaVu Sans", fontSize=10]
 │
 ├── Title  [band, height=60]
 │   │
 │   └── staticText  [x=0, y=15, w=555, h=30]
 │       │
-│       ├── font: Sans Serif, size=18, isBold=true
+│       ├── font: DejaVu Sans, size=18, isBold=true
 │       └── text: "Catálogo Editorial - Informe Conceptual"
 │
 ├── Page Footer  [band, height=30]
 │   │
 │   └── staticText  [x=0, y=5, w=555, h=20]
 │       │
-│       ├── font: Sans Serif, size=9, isBold=false
+│       ├── font: DejaVu Sans, size=9, isBold=false
 │       └── text: "EditorialReports - Documento generado con JasperReports 6.20.0"
 │
 └── Background  [band, height=0]
@@ -1811,7 +1811,7 @@ mismo módulo.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -1820,7 +1820,7 @@ mismo módulo.
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="18" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
                 </textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
@@ -1831,7 +1831,7 @@ mismo módulo.
             <staticText>
                 <reportElement x="0" y="5" width="555" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Sans Serif" size="9"/>
+                    <font fontName="DejaVu Sans" size="9"/>
                 </textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
@@ -1866,7 +1866,7 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"
 bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
@@ -1883,7 +1883,7 @@ uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e ide
 elemento dentro de su banda.
 - Línea 24: <textElement textAlignment="Center" verticalAlignment="Middle">  - configura
 alineación y propiedades de presentación del texto.
-- Línea 25: <font fontName="Sans Serif" size="18" isBold="true"/>  - configura la tipografía del
+- Línea 25: <font fontName="DejaVu Sans" size="18" isBold="true"/>  - configura la tipografía del
 elemento.
 - Línea 26: </textElement>  - cierra el elemento XML correspondiente.
 - Línea 27: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
@@ -1900,7 +1900,7 @@ uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>  - define posición, tamaño e ide
 elemento dentro de su banda.
 - Línea 35: <textElement textAlignment="Center" verticalAlignment="Middle">  - configura
 alineación y propiedades de presentación del texto.
-- Línea 36: <font fontName="Sans Serif" size="9"/>  - configura la tipografía del elemento.
+- Línea 36: <font fontName="DejaVu Sans" size="9"/>  - configura la tipografía del elemento.
 - Línea 37: </textElement>  - cierra el elemento XML correspondiente.
 - Línea 38: <text><![CDATA[EditorialReports - Documento generado con JasperReports
 6.20.0]]></text>  - contenido literal del elemento staticText dentro de CDATA.
@@ -2034,7 +2034,7 @@ Informe generado en: <ruta-absoluta>/output/informe_concepto.pdf
 |   └── Background          │  [T] Static      │  Element: staticText     │
 |                           │  [F] TextField   │  X: 0    Y: 15           │
 |  Repository Explorer      │  [▭] Image       │  Width: 555  Height: 30  │
-|  ──────────────────       │  [▦] Table       │  Font: Sans Serif 18     │
+|  ──────────────────       │  [▦] Table       │  Font: DejaVu Sans 18     │
 |  Data Adapters            │                  │  Bold: [X]               │
 |   └── EmptyDataSource     │                  │                          │
 |                           ├──────────────────┴──────────────────────────┤
@@ -2056,20 +2056,20 @@ adicionales.
 informe_concepto
 │
 ├── Styles
-│   └── Sans_Normal  [default=true, fontName="Sans Serif", fontSize=10]
+│   └── Sans_Normal  [isDefault=true, fontName="DejaVu Sans", fontSize=10]
 │
 ├── Title  [band, height=60]
 │   │
 │   └── staticText  [x=0, y=15, w=555, h=30]
 │       │
-│       ├── font: Sans Serif, size=18, isBold=true
+│       ├── font: DejaVu Sans, size=18, isBold=true
 │       └── text: "Catálogo Editorial - Informe Conceptual"
 │
 ├── Page Footer  [band, height=30]
 │   │
 │   └── staticText  [x=0, y=5, w=555, h=20]
 │       │
-│       ├── font: Sans Serif, size=9, isBold=false
+│       ├── font: DejaVu Sans, size=9, isBold=false
 │       └── text: "EditorialReports - Documento generado con JasperReports 6.20.0"
 │
 └── Background  [band, height=0]
@@ -2552,7 +2552,7 @@ informe. PAGE_COUNT  cuenta registros de la página actual.
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <background>
         <band height="0"/>
     </background>
@@ -2560,17 +2560,17 @@ informe. PAGE_COUNT  cuenta registros de la página actual.
         <band height="70">
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Sans Serif" size="18" isBold="true"/></textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="18" isBold="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <staticText>
                 <reportElement x="0" y="45" width="120" height="20" uuid="2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
                 <text><![CDATA[Fecha de emisión:]]></text>
             </staticText>
             <textField pattern="dd/MM/yyyy">
                 <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
         </band>
@@ -2579,12 +2579,12 @@ informe. PAGE_COUNT  cuenta registros de la página actual.
         <band height="30">
             <staticText>
                 <reportElement x="0" y="5" width="390" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
             <textField>
                 <reportElement x="400" y="5" width="155" height="20" uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
         </band>
@@ -2635,7 +2635,7 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"
 bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <background>  - abre la sección de fondo; el esquema la sitúa antes de title y se renderiza
@@ -2651,7 +2651,7 @@ división entre páginas.
 uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
 - Línea 24: <textElement textAlignment="Center" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="18" isBold="true"/></textElement>  - configura alineación y
+fontName="DejaVu Sans" size="18" isBold="true"/></textElement>  - configura alineación y
 propiedades de presentación del texto.
 - Línea 25: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
 literal del elemento staticText dentro de CDATA.
@@ -2663,7 +2663,7 @@ elemento dentro de su banda.
 - Línea 29:
 
 ```text
-<textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"/></
+<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></
 ```
 
 textElement>  - configura alineación y propiedades de presentación del texto.
@@ -2679,7 +2679,7 @@ elemento dentro de su banda.
 - Línea 34:
 
 ```text
-<textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"/></
+<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></
 ```
 
 textElement>  - configura alineación y propiedades de presentación del texto.
@@ -2695,7 +2695,7 @@ división entre páginas.
 - Línea 42: <reportElement x="0" y="5" width="390" height="20"
 uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
-- Línea 43: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/
+- Línea 43: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/
 ></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 44: <text><![CDATA[EditorialReports - Documento generado con JasperReports
 6.20.0]]></text>  - contenido literal del elemento staticText dentro de CDATA.
@@ -2705,7 +2705,7 @@ elemento dentro de su banda.
 uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
 - Línea 48: <textElement textAlignment="Right" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="9"/></textElement>  - configura alineación y propiedades de
+fontName="DejaVu Sans" size="9"/></textElement>  - configura alineación y propiedades de
 presentación del texto.
 - Línea 49: <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></
 textFieldExpression>  - abre un campo dinámico cuya expresión se evalúa durante el llenado.
@@ -2901,7 +2901,7 @@ vista de diseño.
 informe_concepto
 │
 ├── Styles
-│   └── Sans_Normal  [default=true, fontName="Sans Serif", fontSize=10]
+│   └── Sans_Normal  [isDefault=true, fontName="DejaVu Sans", fontSize=10]
 │
 ├── Title  [band, height=70]
 │   │
@@ -3459,7 +3459,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <background>
@@ -3469,7 +3469,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="70">
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Sans Serif" size="18" isBold="true"/></textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="18" isBold="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <staticText>
@@ -3486,7 +3486,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="555" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9" isItalic="true"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isItalic="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
         </band>
@@ -3495,12 +3495,12 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="300" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10" isBold="true"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
                 <text><![CDATA[Título]]></text>
             </staticText>
             <staticText>
                 <reportElement x="300" y="5" width="100" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10" isBold="true"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
                 <text><![CDATA[Precio]]></text>
             </staticText>
         </band>
@@ -3521,7 +3521,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="555" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Sans Serif" size="9" isItalic="true"/></textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isItalic="true"/></textElement>
                 <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
             </staticText>
         </band>
@@ -3530,12 +3530,12 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="30">
             <staticText>
                 <reportElement x="0" y="5" width="390" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
             <textField>
                 <reportElement x="400" y="5" width="155" height="20" uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
         </band>
@@ -3586,7 +3586,7 @@ utilizado por el entorno visual.
 - Línea 15: <property name="com.jaspersoft.studio.data.defaultdataadapter"
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
-- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"
 bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <field name="titulo" class="java.lang.String"/>  - declara un campo que puede ser
@@ -3606,7 +3606,7 @@ división entre páginas.
 uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
 - Línea 26: <textElement textAlignment="Center" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="18" isBold="true"/></textElement>  - configura alineación y
+fontName="DejaVu Sans" size="18" isBold="true"/></textElement>  - configura alineación y
 propiedades de presentación del texto.
 - Línea 27: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
 literal del elemento staticText dentro de CDATA.
@@ -3636,7 +3636,7 @@ división entre páginas.
 - Línea 42: <reportElement x="0" y="5" width="555" height="15" uuid="a1b2c3d4-
 e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
-- Línea 43: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"
+- Línea 43: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"
 isItalic="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 44: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
 literal del elemento staticText dentro de CDATA.
@@ -3650,7 +3650,7 @@ división entre páginas.
 - Línea 51: <reportElement x="0" y="5" width="300" height="15" uuid="b2c3d4e5-
 f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
-- Línea 52: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
+- Línea 52: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 53: <text><![CDATA[Título]]></text>  - contenido literal del elemento staticText dentro de
 CDATA.
 - Línea 54: </staticText>  - cierra el elemento XML correspondiente.
@@ -3658,7 +3658,7 @@ CDATA.
 - Línea 56: <reportElement x="300" y="5" width="100" height="15" uuid="c3d4e5f6-
 a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
-- Línea 57: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
+- Línea 57: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 58: <text><![CDATA[Precio]]></text>  - contenido literal del elemento staticText dentro de
 CDATA.
 - Línea 59: </staticText>  - cierra el elemento XML correspondiente.
@@ -3693,7 +3693,7 @@ división entre páginas.
 d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
 - Línea 78: <textElement textAlignment="Center" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="9" isItalic="true"/></textElement>  - configura alineación y
+fontName="DejaVu Sans" size="9" isItalic="true"/></textElement>  - configura alineación y
 propiedades de presentación del texto.
 - Línea 79: <text><![CDATA[--- Fin de la tabla de datos ---]]></text>  - contenido literal del
 elemento staticText dentro de CDATA.
@@ -3707,7 +3707,7 @@ división entre páginas.
 - Línea 86: <reportElement x="0" y="5" width="390" height="20"
 uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
-- Línea 87: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/
+- Línea 87: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/
 ></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 88: <text><![CDATA[EditorialReports - Documento generado con JasperReports
 6.20.0]]></text>  - contenido literal del elemento staticText dentro de CDATA.
@@ -3718,7 +3718,7 @@ elemento dentro de su banda.
 uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
 - Línea 92: <textElement textAlignment="Right" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="9"/></textElement>  - configura alineación y propiedades de
+fontName="DejaVu Sans" size="9"/></textElement>  - configura alineación y propiedades de
 presentación del texto.
 - Línea 93: <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></
 textFieldExpression>  - abre un campo dinámico cuya expresión se evalúa durante el llenado.
@@ -3912,7 +3912,7 @@ Page Header, Column Header, Detail 1, Column Footer, Page Footer, Summary, Backg
 informe_concepto
 │
 ├── Styles
-│   └── Sans_Normal  [default=true]
+│   └── Sans_Normal  [isDefault=true]
 │
 ├── Title  [band, height=70]
 │   ├── staticText  "Catálogo Editorial - Informe Conceptual"  (18, bold)
@@ -4414,7 +4414,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <background>
@@ -4424,7 +4424,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="70">
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Sans Serif" size="18" isBold="true"/></textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="18" isBold="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <staticText>
@@ -4441,7 +4441,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="555" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9" isItalic="true"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isItalic="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
         </band>
@@ -4450,12 +4450,12 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="300" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10" isBold="true"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
                 <text><![CDATA[Título]]></text>
             </staticText>
             <staticText>
                 <reportElement x="300" y="5" width="100" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10" isBold="true"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
                 <text><![CDATA[Precio]]></text>
             </staticText>
         </band>
@@ -4476,7 +4476,7 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="555" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="Sans Serif" size="9" isItalic="true"/></textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isItalic="true"/></textElement>
                 <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
             </staticText>
         </band>
@@ -4485,12 +4485,12 @@ background  se sitúa en la posición exigida por el esquema, antes de title .
         <band height="30">
             <staticText>
                 <reportElement x="0" y="5" width="390" height="20" uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>
-                <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
             <textField>
                 <reportElement x="400" y="5" width="155" height="20" uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/></textElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
         </band>
@@ -4541,7 +4541,7 @@ utilizado por el entorno visual.
 value="EmptyDataSource"/>  - propiedad de Jaspersoft Studio que recuerda el adaptador de datos
 usado en Preview.
 
-- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="Sans Serif" fontSize="10"
+- Línea 16: <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"
 bold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>  - declara el estilo
 por defecto del informe.
 - Línea 17: <field name="titulo" class="java.lang.String"/>  - declara un campo que puede ser
@@ -4561,7 +4561,7 @@ división entre páginas.
 uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
 - Línea 26: <textElement textAlignment="Center" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="18" isBold="true"/></textElement>  - configura alineación y
+fontName="DejaVu Sans" size="18" isBold="true"/></textElement>  - configura alineación y
 propiedades de presentación del texto.
 - Línea 27: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
 literal del elemento staticText dentro de CDATA.
@@ -4591,7 +4591,7 @@ división entre páginas.
 - Línea 42: <reportElement x="0" y="5" width="555" height="15" uuid="a1b2c3d4-
 e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
-- Línea 43: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"
+- Línea 43: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"
 isItalic="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 44: <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>  - contenido
 literal del elemento staticText dentro de CDATA.
@@ -4605,7 +4605,7 @@ división entre páginas.
 - Línea 51: <reportElement x="0" y="5" width="300" height="15" uuid="b2c3d4e5-
 f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
-- Línea 52: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
+- Línea 52: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 53: <text><![CDATA[Título]]></text>  - contenido literal del elemento staticText dentro de
 CDATA.
 - Línea 54: </staticText>  - cierra el elemento XML correspondiente.
@@ -4613,7 +4613,7 @@ CDATA.
 - Línea 56: <reportElement x="300" y="5" width="100" height="15" uuid="c3d4e5f6-
 a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
-- Línea 57: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
+- Línea 57: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"isBold="true"/></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 58: <text><![CDATA[Precio]]></text>  - contenido literal del elemento staticText dentro de
 CDATA.
 - Línea 59: </staticText>  - cierra el elemento XML correspondiente.
@@ -4648,7 +4648,7 @@ división entre páginas.
 d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>  - define posición, tamaño e identificador del elemento dentro de su
 banda.
 - Línea 78: <textElement textAlignment="Center" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="9" isItalic="true"/></textElement>  - configura alineación y
+fontName="DejaVu Sans" size="9" isItalic="true"/></textElement>  - configura alineación y
 propiedades de presentación del texto.
 - Línea 79: <text><![CDATA[--- Fin de la tabla de datos ---]]></text>  - contenido literal del
 elemento staticText dentro de CDATA.
@@ -4662,7 +4662,7 @@ división entre páginas.
 - Línea 86: <reportElement x="0" y="5" width="390" height="20"
 uuid="7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
-- Línea 87: <textElement verticalAlignment="Middle"><font fontName="Sans Serif" size="9"/
+- Línea 87: <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/
 ></textElement>  - configura alineación y propiedades de presentación del texto.
 - Línea 88: <text><![CDATA[EditorialReports - Documento generado con JasperReports
 6.20.0]]></text>  - contenido literal del elemento staticText dentro de CDATA.
@@ -4672,7 +4672,7 @@ elemento dentro de su banda.
 uuid="4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a"/>  - define posición, tamaño e identificador del
 elemento dentro de su banda.
 - Línea 92: <textElement textAlignment="Right" verticalAlignment="Middle"><font
-fontName="Sans Serif" size="9"/></textElement>  - configura alineación y propiedades de
+fontName="DejaVu Sans" size="9"/></textElement>  - configura alineación y propiedades de
 presentación del texto.
 - Línea 93: <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></
 textFieldExpression>  - abre un campo dinámico cuya expresión se evalúa durante el llenado.
@@ -4833,7 +4833,7 @@ Páginas del documento: 1
 |                uuid="8f2c1a4e-...">                                     |
 |      <property name="com.jaspersoft.studio.data.defaultdataadapter"     |
 |                value="EmptyDataSource"/>                                |
-|      <style name="Sans_Normal" isDefault="true" fontName="Sans Serif"     |
+|      <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"     |
 |             fontSize="10" isBold="false" isItalic="false" .../>             |
 |      <title>                                                            |
 |          <band height="70">                                             |
@@ -4876,7 +4876,7 @@ informe_concepto
 │   └── com.jaspersoft.studio.data.defaultdataadapter = EmptyDataSource
 │
 ├── Styles
-│   └── Sans_Normal  [default=true, fontName="Sans Serif", fontSize=10]
+│   └── Sans_Normal  [isDefault=true, fontName="DejaVu Sans", fontSize=10]
 │
 ├── Title  [band, height=70]
 │   ├── staticText  "Catálogo Editorial - Informe Conceptual"  (18, bold)
@@ -5071,7 +5071,7 @@ Simulación de la expresión modificada
 <textField pattern="dd/MM/yyyy">
     <reportElement x="125" y="45" width="150" height="20" uuid="..."/>
     <textElement verticalAlignment="Middle">
-        <font fontName="Sans Serif" size="10"/>
+        <font fontName="DejaVu Sans" size="10"/>
     </textElement>
     <textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
 </textField>
