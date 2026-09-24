@@ -16,6 +16,6 @@ Los documentos docentes son `TEORIA_M3.md` y `PRACTICA_M3.md`. La práctica mant
 La ejecución reproducible se realiza con Java 8 y Maven. Los seis checkpoints se validan mediante `.github/workflows/m3-e2e.yml`.
 
 Estado ejecutable: **3.1-3.6 PASS END-TO-END**.  
-Run final: **36027658743 - SUCCESS**.
+Estado documental: **TEORIA_M3.pdf y PRACTICA_M3.pdf regenerados y auditados visualmente con M2 como patrón**.
 
-La evidencia detallada se encuentra en `VALIDACION_M3.md`.
+Los IDs de los runs, hashes SHA-256, preflight y evidencia de cierre se mantienen en `VALIDACION_M3.md`.
