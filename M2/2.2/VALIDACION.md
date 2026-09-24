@@ -2,10 +2,10 @@
 
 **Punto:** 2.2 — Texto estático y campos de texto  
 **Estado:** **PASS END-TO-END**  
-**Run final común:** **36011315054 — SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36011315054
+**Run final común:** **36021472437 — SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36021472437
 
-Commit validado: `b5344858638e83a31dd6bbb7e7c6fb6f60762f88`.
+Commit validado: `2570e5eaa002c0991f7561150543cf948c38b82c`.
 
 Este checkpoint se ejecutó dentro de la matriz `M2 - Validacion end-to-end` con Temurin JDK 8 y JasperReports Library 6.20.0.
 
