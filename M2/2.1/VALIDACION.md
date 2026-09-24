@@ -3,7 +3,7 @@
 **Punto:** 2.1 — Bandas  
 **Estado:** **PASS END-TO-END**  
 **Run final común:** **36010694488 — SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36010694488
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36011315054
 
 Commit validado: `e1f1db6a49c31d7da4af41020fffbd806d415b2d`.
 
