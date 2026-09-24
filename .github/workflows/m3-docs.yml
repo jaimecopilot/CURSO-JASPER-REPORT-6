@@ -13,6 +13,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: m3-docs-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   render:
     name: Render y preflight PDFs M3
@@ -44,6 +48,8 @@ jobs:
       - name: Actualizar PDFs versionados en main
         if: github.ref == 'refs/heads/main'
         run: |
+          git fetch origin main
+          git rebase origin/main
           cp M3/_pdf_build/TEORIA_M3.pdf M3/TEORIA_M3.pdf
           cp M3/_pdf_build/PRACTICA_M3.pdf M3/PRACTICA_M3.pdf
           git config user.name "github-actions[bot]"
