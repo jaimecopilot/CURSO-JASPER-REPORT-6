@@ -7,8 +7,9 @@
 | 2.3 | Campos | `paginas`, `fechaPublicacion`, `disponible`, `CAMPOS.md` | `M2/2.3` | PASS |
 | 2.4 | Imágenes | logo, portadas, iconos, `IMAGENES.md` | `M2/2.4` | PASS |
 | 2.5 | Formato y estilos | estilos reutilizables/condicionales, `ESTILOS.md` | `M2/2.5` | PASS |
+| 2.6 | Expresiones | parámetro `usuario`, variable `PrecioConIVA`, expresiones con campos/parámetros/variables, `EXPRESIONES.md` | `M2/2.6` | PASS |
 
-Run común de cierre: **35924657747** — https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35924657747
+Run común de cierre de los seis checkpoints: **35966538785** — https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35966538785
 
 ## Relación con M1
 
