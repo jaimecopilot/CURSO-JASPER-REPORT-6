@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+ name="informe_catalogo_csv" language="java" pageWidth="595" pageHeight="842" columnWidth="555"
+ leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a3d2b5f-2e4c-5a6b-8d1f-3c7e9a0b2d44">
+ <property name="com.jaspersoft.studio.data.defaultdataadapter" value="CatalogoCSV"/>
+ <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+ <field name="titulo" class="java.lang.String"/><field name="autor" class="java.lang.String"/><field name="precio" class="java.lang.String"/><field name="paginas" class="java.lang.String"/><field name="fecha_publicacion" class="java.lang.String"/><field name="disponible" class="java.lang.String"/>
+ <background><band height="0"/></background>
+ <title><band height="60"><staticText><reportElement x="0" y="15" width="555" height="30"/><textElement textAlignment="Center"><font size="18" isBold="true"/></textElement><text><![CDATA[Catálogo Editorial - Datos desde CSV]]></text></staticText></band></title>
+ <columnHeader><band height="25"><staticText><reportElement x="0" y="5" width="245" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText><staticText><reportElement x="245" y="5" width="155" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Autor]]></text></staticText><staticText><reportElement x="400" y="5" width="80" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Precio]]></text></staticText><staticText><reportElement x="480" y="5" width="75" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Páginas]]></text></staticText></band></columnHeader>
+ <detail><band height="22"><textField textAdjust="StretchHeight"><reportElement x="0" y="1" width="245" height="20"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField><textField textAdjust="StretchHeight"><reportElement x="245" y="1" width="155" height="20"/><textFieldExpression><![CDATA[$F{autor}]]></textFieldExpression></textField><textField pattern="#0.00 €"><reportElement x="400" y="1" width="80" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[Double.valueOf($F{precio})]]></textFieldExpression></textField><textField><reportElement x="480" y="1" width="75" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[Integer.valueOf($F{paginas})]]></textFieldExpression></textField></band></detail>
+ <pageFooter><band height="25"><textField><reportElement x="0" y="5" width="555" height="15"/><textElement textAlignment="Center"><font size="8"/></textElement><textFieldExpression><![CDATA["Registros CSV: " + $V{REPORT_COUNT}]]></textFieldExpression></textField></band></pageFooter>
+</jasperReport>
