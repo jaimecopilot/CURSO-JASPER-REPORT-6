@@ -9,8 +9,11 @@
 
 **5/5 checkpoints PASS.**
 
-Run de cierre: **35924657747**  
+Run E2E de código: **35924657747**  
 https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35924657747
+
+Run de cierre documental sobre el HEAD final: **35959648002 — SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35959648002
 
 | Checkpoint | Contenido acumulativo | Resultado |
 |---|---|---|
@@ -36,7 +39,7 @@ Para cada checkpoint el workflow:
 
 ## Evidencia del run de cierre
 
-Los cinco jobs del run 35924657747 finalizaron con `conclusion=success`:
+Los cinco jobs del run de código 35924657747 finalizaron con `conclusion=success`:
 
 - Checkpoint 2.1 — success.
 - Checkpoint 2.2 — success.
