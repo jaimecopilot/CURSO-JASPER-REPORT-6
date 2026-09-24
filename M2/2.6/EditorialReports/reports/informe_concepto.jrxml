@@ -158,12 +158,12 @@
                 <textFieldExpression><![CDATA[$F{titulo}.length() > 30 ? "Título largo (" + $F{titulo}.length() + ")" : "Título corto"]]></textFieldExpression>
             </textField>
             <textField pattern="'IVA: ' #,##0.00 €" isBlankWhenNull="true">
-                <reportElement x="235" y="60" width="90" height="20" uuid="31313131-3131-3131-3131-313131313131" style="TextoPequeno"/>
+                <reportElement x="235" y="60" width="85" height="20" uuid="31313131-3131-3131-3131-313131313131" style="TextoPequeno"/>
                 <textElement textAlignment="Right"/>
                 <textFieldExpression><![CDATA[$V{PrecioConIVA}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="325" y="60" width="155" height="20" uuid="32323232-3232-3232-3232-323232323232" style="TextoPequeno"/>
+                <reportElement x="325" y="60" width="150" height="20" uuid="32323232-3232-3232-3232-323232323232" style="TextoPequeno"/>
                 <textFieldExpression><![CDATA[$F{fechaPublicacion}.after(new java.util.GregorianCalendar(2000, 0, 1).getTime()) ? "Después de 2000" : "Hasta 2000"]]></textFieldExpression>
             </textField>
             <textField>
