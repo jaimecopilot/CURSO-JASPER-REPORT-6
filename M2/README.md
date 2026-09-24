@@ -9,10 +9,11 @@ Proyecto acumulativo: **EditorialReports**.
 - 2.3 — Campos
 - 2.4 — Imágenes
 - 2.5 — Formato y estilos
+- 2.6 — Expresiones
 
 ## Empieza aquí
 
-Lee `LEEME_PRIMERO.md`. El alumno continúa con su propio estado final de M1.6; las carpetas `2.1` a `2.5` son soluciones/checkpoints acumulativos.
+Lee `LEEME_PRIMERO.md`. El alumno continúa con su propio estado final de M1.6; las carpetas `2.1` a `2.6` son soluciones/checkpoints acumulativos.
 
 Documentación del módulo:
 
@@ -23,13 +24,12 @@ Documentación del módulo:
 
 ## Regla acumulativa
 
-`M2/2.1` parte del estado final validado de `M1/1.6`. Cada checkpoint posterior contiene el estado completo del anterior más los cambios del nuevo punto.
+`M2/2.1` parte del estado final validado de `M1/1.6`. Cada checkpoint posterior contiene el estado completo del anterior más los cambios del nuevo punto. El punto `2.6` parte del estado validado de `2.5` y añade expresiones, parámetro y variable calculada.
 
 ## Validación real
 
 Workflow: `M2 - Validacion end-to-end`.
 
-Run E2E de código: **35924657747 — SUCCESS**.  
-Run de cierre documental sobre el HEAD final: **35959648002 — SUCCESS**.
+Run E2E final de los seis checkpoints: **35966538785 — SUCCESS**.
 
-Los cinco checkpoints compilan Java, compilan el JRXML, llenan un `JasperPrint` y generan un PDF real con JDK 8 y JasperReports Library 6.20.0.
+Los seis checkpoints compilan Java, compilan el JRXML, llenan un `JasperPrint` y generan un PDF real con JDK 8 y JasperReports Library 6.20.0.
