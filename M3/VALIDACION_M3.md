@@ -71,4 +71,4 @@ GitHub Actions valida compilación, llenado y exportación reales. Los clics de 
 
 ## Estado documental
 
-`TEORIA_M3.md` y `PRACTICA_M3.md` están subidos y forman parte del commit validado por el run indicado. Los PDF docentes de M3 se registrarán en este documento cuando finalice su generación y revisión visual.
+`TEORIA_M3.md`, `PRACTICA_M3.md`, `TEORIA_M3.pdf` y `PRACTICA_M3.pdf` están publicados en `M3/`. La documentación ejecutable mantiene el run E2E 36027658743 como evidencia 6/6 y los PDF finales mantienen el run documental 36043444475 como evidencia de render y preflight. M3 queda cerrado documental y ejecutablemente.
