@@ -180,6 +180,18 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
             cur.decompose()
             cur = nxt
 
+    # Remove trailing separators/empty blocks. A final Markdown horizontal rule can
+    # otherwise spill alone to a new page because headers/footers still occupy it.
+    while soup.contents:
+        last = soup.contents[-1]
+        if isinstance(last, NavigableString) and not str(last).strip():
+            last.extract(); continue
+        if isinstance(last, Tag) and last.name == "hr":
+            last.decompose(); continue
+        if isinstance(last, Tag) and last.name in {"p", "div"} and not last.get_text(" ", strip=True) and not last.find("img"):
+            last.decompose(); continue
+        break
+
     # Language labels for fenced code blocks.
     for code in soup.select("pre > code"):
         lang = None
@@ -269,7 +281,23 @@ def preflight(pdf_path: Path):
         if abs(r.width-a4[0])>2 or abs(r.height-a4[1])>2:
             issues.append(f"page {i+1}: non-A4 {r.width:.1f}x{r.height:.1f}")
         text=p.get_text("text")
-        if not text.strip(): issues.append(f"page {i+1}: empty text")
+        if not text.strip():
+            issues.append(f"page {i+1}: empty text")
+        # Detect pages that contain only the running header/footer.
+        body_lines=[]
+        for line in text.splitlines():
+            t=line.strip()
+            if not t:
+                continue
+            if t.startswith("CURSO: Curso Profesional de JasperReports 6.20.0 Community"):
+                continue
+            if t.startswith("EditorialReports · Módulo 3 ·"):
+                continue
+            if re.fullmatch(r"Página\s+\d+\s+de\s+\d+", t):
+                continue
+            body_lines.append(t)
+        if not body_lines:
+            issues.append(f"page {i+1}: no body content")
         if "�" in text: issues.append(f"page {i+1}: replacement glyph")
         for b in p.get_text("blocks"):
             x0,y0,x1,y1,*_=b
