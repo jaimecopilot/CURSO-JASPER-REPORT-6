@@ -5889,4 +5889,4 @@ El siguiente módulo deberá partir **exactamente del checkpoint `M2/2.6`**. No 
 
 ## Validación end-to-end del módulo
 
-La práctica no termina en una simulación documental. Los seis checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. Run de cierre: **35965175230 — SUCCESS**. Los seis checkpoints 2.1–2.6 finalizan correctamente en la matriz.
+La práctica no termina en una simulación documental. Los seis checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. Run de cierre: **35966538785 — SUCCESS**. Los seis checkpoints 2.1–2.6 finalizan correctamente en la matriz.
