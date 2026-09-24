@@ -408,7 +408,7 @@ El siguiente JRXML representa **el estado tras los doce pasos de la Parte A y an
                 <text><![CDATA[Fecha de emisión:]]></text>
             </staticText>
             <textField pattern="dd/MM/yyyy">
-                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f3a4b5c6d7e8f"/>
+                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
         </band>
@@ -581,7 +581,7 @@ Línea 32: `</staticText>` → cierra el elemento o sección abierto correspondi
 
 Línea 33: `<textField pattern="dd/MM/yyyy">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 34: `<reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+Línea 34: `<reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
 Línea 35: `<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
@@ -4984,25 +4984,20 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
         </image>
         <staticText>
             <reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee" style="TituloPrincipal"/>
+            <textElement verticalAlignment="Middle"/>
             <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
         </staticText>
         <staticText>
             <reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff" style="TextoTabla"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
             <text><![CDATA[Fecha de emisión:]]></text>
         </staticText>
         <textField pattern="dd/MM/yyyy">
             <reportElement x="215" y="60" width="150" height="20" uuid="12121212-1212-1212-1212-121212121212" style="TextoTabla"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
         </textField>
     </band>
 </title>
-<columnHeader>
-    <band height="25">
+<columnHeader>    <band height="25">
         <staticText><reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Port.]]></text></staticText>
         <staticText><reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/><text><![CDATA[Título]]></text></staticText>
         <staticText><reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[Precio]]></text></staticText>
@@ -5020,27 +5015,26 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
         </image>
         <textField textAdjust="StretchHeight">
             <reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/>
-            <textElement verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
         </textField>
         <textField pattern="#,##0.00 €" isBlankWhenNull="true">
             <reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666" style="TextoPrecio"/>
-            <textElement verticalAlignment="Middle"/>
+            <textElement textAlignment="Right"/>
             <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
         </textField>
         <textField isBlankWhenNull="true">
             <reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323" style="TextoTabla"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle"/>
+            <textElement textAlignment="Right"/>
             <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
         </textField>
         <textField pattern="yyyy" isBlankWhenNull="true">
             <reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424" style="TextoTabla"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle"/>
+            <textElement textAlignment="Center"/>
             <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
         </textField>
         <textField>
             <reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525" style="TextoTabla"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle"/>
+            <textElement textAlignment="Center"/>
             <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
         </textField>
         <image onErrorType="Blank" scaleImage="RetainShape">
@@ -5049,7 +5043,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
         </image>
         <textField>
             <reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727" style="TextoPequeno"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle"/>
+            <textElement textAlignment="Right"/>
             <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
         </textField>
     </band>
@@ -5082,7 +5076,6 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 **Línea 13:** `<style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>` → estilo para textos pequeños. Hereda la tipografía de `Sans_Normal` y sobrescribe el tamaño (9), la cursiva y el color gris.
 
-**Líne**
 **Línea 14-35:** banda `title` con el logotipo, el título principal con el estilo `TituloPrincipal` y el rótulo de fecha con el campo de fecha.
 
 **Línea 23:** `<reportElement x="90" y="25" width="465" height="30" uuid="..." style="TituloPrincipal"/>` → el título principal referencia el estilo `TituloPrincipal`. El elemento hereda la tipografía, el tamaño 18, la negrita y el color azul oscuro.
