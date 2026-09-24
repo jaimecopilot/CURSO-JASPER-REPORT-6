@@ -7,13 +7,10 @@
 
 ## Resultado
 
-**5/5 checkpoints PASS.**
+**6/6 checkpoints PASS.**
 
-Run E2E de código: **35924657747**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35924657747
-
-Run de cierre documental sobre el HEAD final: **35959648002 — SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35959648002
+Run E2E final: **35966538785 — SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35966538785
 
 | Checkpoint | Contenido acumulativo | Resultado |
 |---|---|---|
@@ -22,6 +19,7 @@ https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35959648002
 | 2.3 | Campos ampliados | PASS |
 | 2.4 | Imágenes y recursos | PASS |
 | 2.5 | Formato y estilos | PASS |
+| 2.6 | Expresiones, parámetro y variable calculada | PASS |
 
 ## Qué valida realmente el workflow
 
@@ -39,13 +37,14 @@ Para cada checkpoint el workflow:
 
 ## Evidencia del run de cierre
 
-Los cinco jobs del run de código 35924657747 finalizaron con `conclusion=success`:
+Los seis jobs del run 35966538785 finalizaron con `conclusion=success`:
 
 - Checkpoint 2.1 — success.
 - Checkpoint 2.2 — success.
 - Checkpoint 2.3 — success.
 - Checkpoint 2.4 — success.
 - Checkpoint 2.5 — success.
+- Checkpoint 2.6 — success.
 
 Artefactos producidos por Actions:
 
@@ -54,6 +53,7 @@ Artefactos producidos por Actions:
 - `M2-2.3-runtime`
 - `M2-2.4-runtime`
 - `M2-2.5-runtime`
+- `M2-2.6-runtime`
 
 ## Correcciones técnicas consolidadas
 
@@ -65,7 +65,9 @@ Durante la validación documental y de código se mantuvieron las correcciones y
 - `textAdjust="StretchHeight"` en lugar de presentar `isStretchWithOverflow` como opción principal;
 - marcado mediante `textElement markup="styled"`;
 - total de páginas mediante `PAGE_NUMBER` con `evaluationTime="Report"`, no mediante `PAGE_COUNT`;
-- columnas de 2.3–2.5 compactadas dentro de `columnWidth="555"`;
+- columnas de 2.3–2.6 compactadas dentro de `columnWidth="555"`;
+- parámetro `usuario` enviado desde Java en 2.6;
+- patrón DecimalFormat del IVA validado como `'IVA: ' #,##0.00 €`;
 - Java devuelve código de salida distinto de cero ante excepción mediante `System.exit(1)`.
 
 ## Límite de la validación
