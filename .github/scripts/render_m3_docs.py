@@ -96,9 +96,9 @@ hr { border:none; border-top:.3mm solid #dbe4ea; margin:4mm 0; }
 .closing-block.analogy-final { background:#fff9ed; border-color:#d0a244; }
 .closing-block.result-final { background:#eef6ff; border-color:#2f78a7; }
 .closing-block.conclusion-final { background:#f2f8f4; border-color:#4a9468; }
-.closing-block.analogy-final h3, .closing-block.analogy-final h4 { color:#7b5a19; border-left:none; padding-left:0; }
-.closing-block.result-final h3, .closing-block.result-final h4 { color:#1d5d88; border-left:none; padding-left:0; }
-.closing-block.conclusion-final h3, .closing-block.conclusion-final h4 { color:#276343; border-left:none; padding-left:0; }
+.closing-block.analogy-final h2, .closing-block.analogy-final h3, .closing-block.analogy-final h4 { color:#7b5a19; border-left:none; padding-left:0; }
+.closing-block.result-final h2, .closing-block.result-final h3, .closing-block.result-final h4 { color:#1d5d88; border-left:none; padding-left:0; }
+.closing-block.conclusion-final h2, .closing-block.conclusion-final h3, .closing-block.conclusion-final h4 { color:#276343; border-left:none; padding-left:0; }
 h1,h2,h3,h4 { break-after:avoid-page; }
 img { max-width:100%; height:auto; }
 '''
@@ -190,7 +190,7 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
             cur = nxt
 
     # Wrap final pedagogical sections to match the established M1/M2 visual language.
-    for h in list(soup.find_all(["h3","h4"])):
+    for h in list(soup.find_all(["h2","h3","h4"])):
         if h.parent is None:
             continue
         txt = h.get_text(" ", strip=True).lower()

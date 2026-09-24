@@ -845,7 +845,7 @@ EditorialReportsJava/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                             |                                                                            |                                                                                        |
+| Error | Causa | Solución |
 | ------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `No suitable driver found for jdbc:sqlite:...`                     | El driver JDBC no está en el classpath                                     | Copiar `sqlite-jdbc-3.44.0.0.jar` a la carpeta `lib` y añadirlo al Build Path            |
 | `SQLException: path to 'data/editorial.db': 'data' does not exist` | El programa se ejecuta desde un directorio distinto a la raíz del proyecto | Configurar el Working Directory en Run Configurations                                  |
@@ -2028,7 +2028,7 @@ EditorialReportsJava/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                                    |                                                                                       |                                                                                 |
+| Error | Causa | Solución |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | `FileNotFoundException: data/catalogo.csv`                                | El programa se ejecuta desde un directorio distinto a la raíz del proyecto            | Configurar el Working Directory en Run Configurations                           |
 | `ClassCastException: java.lang.String cannot be cast to java.lang.Double` | El campo `precio` está declarado como `java.lang.Double` pero el CSV devuelve cadenas | Declarar el campo como `java.lang.String` y convertir en la expresión           |
@@ -3249,7 +3249,7 @@ EditorialReportsJava/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                              |                                                                            |                                                                                    |
+| Error | Causa | Solución |
 | --------------------------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `FileNotFoundException: data/distribucion.xml`      | El programa se ejecuta desde un directorio distinto a la raíz del proyecto | Configurar el Working Directory en Run Configurations                              |
 | `JRException: XPath expression failed`              | La expresión XPath de selección es incorrecta                              | Verificar que la expresión comienza por `/` y que los nombres coinciden con el XML |
@@ -4505,7 +4505,7 @@ EditorialReportsJava/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                              |                                                                               |                                                                       |
+| Error | Causa | Solución |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `NoClassDefFoundError: com/fasterxml/jackson/databind/ObjectMapper` | Los JAR de Jackson no están en el classpath                                   | Copiar los tres JAR a la carpeta `lib` y añadirlos al Build Path      |
 | `FileNotFoundException: data/autores.json`                          | El programa se ejecuta desde un directorio distinto a la raíz del proyecto    | Configurar el Working Directory en Run Configurations                 |
@@ -5724,7 +5724,7 @@ EditorialReportsJava/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                               |                                                                              |                                                                     |
+| Error | Causa | Solución |
 | ---------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `SQLException: no such table: ventas`                | La tabla `ventas` no existe en la base de datos                              | Ejecutar de nuevo el `InicializadorBD`                              |
 | `SQLException: no such column: v.cantidad`           | El alias de tabla es incorrecto                                              | Verificar que el alias `v` esté declarado en `FROM ventas v`        |
@@ -6629,7 +6629,7 @@ EditorialReportsJava/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                        |                                                                                    |                                                                                                                            |
+| Error | Causa | Solución |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `Field not found: primera_venta`                              | El campo no está declarado o el alias de la consulta no coincide                   | Añadir `<field name="primera_venta" class="java.lang.String"/>` y verificar el alias `MIN(v.fecha_venta) AS primera_venta` |
 | `ClassCastException` al resolver `primera_venta`              | El campo está declarado como `java.util.Date` pero la consulta devuelve una cadena | Declarar el campo como `java.lang.String`                                                                                  |
