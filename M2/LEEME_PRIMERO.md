@@ -16,7 +16,7 @@ No uses `M2/2.1` para empezar 2.1: esa carpeta contiene la **solución final del
 
 ## Flujo de checkpoints
 
-`M1/1.6 → M2/2.1 → 2.2 → 2.3 → 2.4 → 2.5`
+`M1/1.6 → M2/2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 2.6`
 
 Cada carpeta contiene un estado completo, no un parche.
 
