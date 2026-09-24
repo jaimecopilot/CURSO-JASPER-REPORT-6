@@ -29,6 +29,7 @@ Documentación del módulo:
 
 Workflow: `M2 - Validacion end-to-end`.
 
-Run de cierre: **35924657747 — SUCCESS**.
+Run E2E de código: **35924657747 — SUCCESS**.  
+Run de cierre documental sobre el HEAD final: **35959648002 — SUCCESS**.
 
 Los cinco checkpoints compilan Java, compilan el JRXML, llenan un `JasperPrint` y generan un PDF real con JDK 8 y JasperReports Library 6.20.0.
