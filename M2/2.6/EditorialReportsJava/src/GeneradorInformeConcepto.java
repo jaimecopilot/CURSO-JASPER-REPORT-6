@@ -17,6 +17,7 @@ public class GeneradorInformeConcepto {
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
 
             Map<String, Object> parametros = new HashMap<String, Object>();
+            parametros.put("usuario", "Ana Martínez");
 
             JasperPrint documento = JasperFillManager.fillReport(
                     rutaJasper,
