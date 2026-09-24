@@ -390,7 +390,7 @@ El siguiente JRXML representa **el estado tras los doce pasos de la Parte A y an
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="DejaVu_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <background>
@@ -426,7 +426,7 @@ El siguiente JRXML representa **el estado tras los doce pasos de la Parte A y an
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
             </textField>
             <textField evaluationTime="Report">
-                <reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>
+                <reportElement x="500" y="5" width="55" height="15" uuid="f9ab1a6c-59d2-5c71-a85f-72cee0efbcfb"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
@@ -545,7 +545,7 @@ Línea 14: `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → continúa la confi
 
 Línea 15: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>` → declara una propiedad de Jaspersoft Studio usada por el diseño.
 
-Línea 16: `<style name="DejaVu_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → declara o aplica una definición de estilo del informe.
+Línea 16: `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → declara o aplica una definición de estilo del informe.
 
 Línea 17: `<field name="titulo" class="java.lang.String"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
@@ -617,7 +617,7 @@ Línea 50: `</textField>` → cierra el elemento o sección abierto correspondie
 
 Línea 51: `<textField evaluationTime="Report">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 52: `<reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+Línea 52: `<reportElement x="500" y="5" width="55" height="15" uuid="f9ab1a6c-59d2-5c71-a85f-72cee0efbcfb"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
 Línea 53: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
@@ -1805,7 +1805,7 @@ Se reproducen las tres secciones modificadas por 2.2 **exactamente como quedan e
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
             </textField>
             <textField evaluationTime="Report">
-                <reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>
+                <reportElement x="500" y="5" width="55" height="15" uuid="f9ab1a6c-59d2-5c71-a85f-72cee0efbcfb"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
@@ -1889,7 +1889,7 @@ Línea 12: `</textField>` → cierra el elemento o sección abierto correspondie
 
 Línea 13: `<textField evaluationTime="Report">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 14: `<reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+Línea 14: `<reportElement x="500" y="5" width="55" height="15" uuid="f9ab1a6c-59d2-5c71-a85f-72cee0efbcfb"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
 Línea 15: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
@@ -3057,16 +3057,16 @@ public class Libro {
         libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));
         libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));
         libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));
-        libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));
+        libros.add(new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE));
         libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));
         libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));
         libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));
         libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));
         libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));
-        libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));
-        libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));
-        libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));
-        libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));
+        libros.add(new Libro("Martín Fierro", 14.50, 288, 1872, Boolean.FALSE));
+        libros.add(new Libro("Comala", 19.20, 148, 1955, Boolean.TRUE));
+        libros.add(new Libro("Paradiso", 25.00, 576, 1966, Boolean.TRUE));
+        libros.add(new Libro("La invención de Morel", 18.30, 128, 1940, Boolean.TRUE));
         libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));
         return libros;
     }
@@ -3145,7 +3145,7 @@ Línea 39: `libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));` �
 
 Línea 40: `libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
 Línea 42: `libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
@@ -3157,13 +3157,13 @@ Línea 45: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, 
 
 Línea 46: `libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 288, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 48: `libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 48: `libros.add(new Libro("Comala", 19.20, 148, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 49: `libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 49: `libros.add(new Libro("Paradiso", 25.00, 576, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 128, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
 Línea 51: `libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
@@ -3420,75 +3420,66 @@ informe_concepto
 │   └── disponible  [java.lang.Boolean]
 │
 ├── Column Header  [band, height=25]
-│   ├── staticText  "Título"  (bold)
-│   ├── staticText  "Precio"  (bold)
-│   ├── staticText  "Páginas"  (bold, right)
-│   └── staticText  "Año"  (bold, center)
+│   ├── staticText  "Título"   [x=0,   width=245, bold]
+│   ├── staticText  "Precio"   [x=245, width=80,  bold, right]
+│   ├── staticText  "Páginas"  [x=325, width=55,  bold, right]
+│   ├── staticText  "Año"      [x=380, width=50,  bold, center]
+│   ├── staticText  "Disp."    [x=430, width=65,  bold, center]
+│   └── staticText  "#"        [x=495, width=60,  bold, right]
 │
 ├── Detail 1  [band, height=20, splitType=Stretch]
-│   ├── textField   [textAdjust=StretchHeight]  $F{titulo}
-│   ├── textField   [pattern=#,##0.00 €]  $F{precio}
-│   ├── textField   [isBlankWhenNull=true, right]  $F{paginas}
-│   ├── textField   [pattern=yyyy, center]  $F{fechaPublicacion}
-│   ├── textField   [center]  $F{disponible}.booleanValue() ? "Sí" : "No"
-│   ├── staticText  [right]  "# "
-│   └── textField   [right]  $V{REPORT_COUNT}
+│   ├── textField  [x=0,   width=245, textAdjust=StretchHeight]  $F{titulo}
+│   ├── textField  [x=245, width=80, pattern=#,##0.00 €]         $F{precio}
+│   ├── textField  [x=325, width=55, right]                      $F{paginas}
+│   ├── textField  [x=380, width=50, pattern=yyyy, center]       $F{fechaPublicacion}
+│   ├── textField  [x=430, width=65, center]                     $F{disponible} ? "Sí" : "No"
+│   └── textField  [x=495, width=60, right]                      $V{REPORT_COUNT}
 ```
 
-**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline. La novedad respecto al punto anterior es la ampliación de la sección Fields con tres nuevos campos y la ampliación de la banda Detail con tres nuevos textField.
+**Qué representa:** el árbol de nodos del checkpoint 2.3. El rótulo `#` está en `Column Header`; en `Detail` sólo se imprime el valor de `$V{REPORT_COUNT}`. Las seis columnas terminan exactamente en `x + width = 555`.
 
-**Cómo verificarlo:** expandir el nodo informe_concepto en el panel Outline y comparar la estructura. Cada campo debe mostrar su tipo entre corchetes.
+**Cómo verificarlo:** expandir `Fields`, `Column Header` y `Detail 1` en Outline y comprobar después X y Width en Properties para cada elemento.
 
 #### D.3 — Documento PDF resultante, página por página
 
 ```text
 INFORME: informe_concepto.pdf
 PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4 vertical)
 REGISTROS PROCESADOS: 14
-CAMPOS RESUELTOS POR REGISTRO: 5 (titulo, precio, paginas,
-                                  fechaPublicacion, disponible)
+CAMPOS RESUELTOS POR REGISTRO: 5
 
 ──────────────────── Página 1 de 1 ────────────────────
 ╔══════════════════════════════════════════════════════════╗
-║         Catálogo Editorial - Informe Conceptual          ║
-║                                                          ║
-║  Fecha de emisión:  22/09/2026                           ║
-║                                                          ║
-║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
-║  Precio en euros con IVA incluido  (euros en negrita)   ║
-║                                                          ║
 ║  Título             │Precio    │Páginas│ Año │ Disp. │#  ║
 ║  ─────────────────────────────────────────────────────   ║
-║  Cien años de sol.  │ 19,95 € │   0   │2026 │ Sí    │1  ║
-║  Rayuela            │ 22,50 € │   0   │2026 │ Sí    │2  ║
-║  La ciudad y los..  │ 18,75 € │   0   │2026 │ Sí    │3  ║
-║  Pedro Páramo       │ 15,90 € │   0   │2026 │ Sí    │4  ║
-║  Ficciones          │ 21,00 € │   0   │2026 │ Sí    │5  ║
-║  La casa de los...  │ 23,40 € │   0   │2026 │ Sí    │6  ║
-║  El amor en los...  │ 20,80 € │   0   │2026 │ Sí    │7  ║
-║  La muerte de Ar... │ 17,60 € │   0   │2026 │ Sí    │8  ║
-║  Doña Bárbara       │ 16,95 € │   0   │2026 │ Sí    │9  ║
-║  Martín Fierro      │ 14,50 € │   0   │2026 │ Sí    │10 ║
-║  Comala             │ 19,20 € │   0   │2026 │ Sí    │11 ║
-║  Paradiso           │ 25,00 € │   0   │2026 │ Sí    │12 ║
-║  La invención de... │ 18,30 € │   0   │2026 │ Sí    │13 ║
-║  El túnel           │ 16,20 € │   0   │2026 │ Sí    │14 ║
+║  Cien años de sol.  │ 19,95 € │  471  │1967 │ Sí    │1  ║
+║  Rayuela            │ 22,50 € │  736  │1963 │ Sí    │2  ║
+║  La ciudad y los..  │ 18,75 € │  432  │1963 │ Sí    │3  ║
+║  Pedro Páramo       │ 15,90 € │  132  │1955 │ Sí    │4  ║
+║  Ficciones          │ 21,00 € │  224  │1944 │ Sí    │5  ║
+║  La casa de los...  │ 23,40 € │  448  │1982 │ Sí    │6  ║
+║  El amor en los...  │ 20,80 € │  496  │1985 │ Sí    │7  ║
+║  La muerte de Ar... │ 17,60 € │  320  │1962 │ Sí    │8  ║
+║  Doña Bárbara       │ 16,95 € │  400  │1929 │ No    │9  ║
+║  Martín Fierro      │ 14,50 € │  288  │1872 │ No    │10 ║
+║  Comala             │ 19,20 € │  148  │1955 │ Sí    │11 ║
+║  Paradiso           │ 25,00 € │  576  │1966 │ Sí    │12 ║
+║  La invención de... │ 18,30 € │  128  │1940 │ Sí    │13 ║
+║  El túnel           │ 16,20 € │  160  │1948 │ No    │14 ║
 ║  ─────────────────────────────────────────────────────   ║
 ║           --- Fin de la tabla de datos ---               ║
 ║  Registros procesados: 14                                ║
-║                                                          ║
 ║         Documento generado en la última página           ║
-║                                                          ║
 ║  Total de páginas: 1                                     ║
 ║           Fin del informe. EditorialReports.             ║
 ║  Total de libros: 14                                     ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
-**Qué representa:** la página única del PDF resultante con los catorce libros y las seis columnas de la tabla. Los valores de paginas son 0 porque el constructor asigna ese valor por defecto. Los valores de fechaPublicacion son la fecha actual del sistema porque el constructor la asigna así. Los valores de disponible son Sí porque el constructor asigna Boolean.TRUE.
+**Qué representa:** el resultado del checkpoint 2.3 con los valores realmente definidos en `Libro.listaEjemplo()`. Páginas, año y disponibilidad cambian por libro; `Doña Bárbara`, `Martín Fierro` y `El túnel` usan `Boolean.FALSE` y se muestran como `No`.
 
-**Cómo verificarlo:** abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que aparecen las seis columnas y los catorce registros. Si falta alguna columna, revisar la declaración del campo correspondiente.
+**Cómo verificarlo:** abrir `output/informe_concepto.pdf` o el artefacto `M2-2.3-runtime`. El run E2E final confirma `Paginas del documento: 1` y `Registros de ejemplo: 14`.
 
 #### D.4 — Árbol de carpetas del proyecto tras completar el punto
 
@@ -3544,87 +3535,47 @@ EditorialReportsJava/
 
 ### Reto resuelto paso a paso
 
-**Enunciado:** modificar el constructor de la clase Libro para recibir el número de páginas, la fecha de publicación y la disponibilidad como parámetros. Actualizar el método listaEjemplo() con valores realistas para cada libro y verificar que el PDF muestra los valores correctos.
+**Enunciado:** demostrar que un cambio en el modelo Java llega realmente al PDF y, después, restaurar el checkpoint. Cambiaremos temporalmente las páginas de `Pedro Páramo` de 132 a 133 y la disponibilidad de `El túnel` de `FALSE` a `TRUE`, verificaremos el resultado y dejaremos de nuevo los valores canónicos.
 
-Paso 1. Hacer doble clic sobre el archivo Libro.java en el panel Project Explorer.
+Paso 1. Hacer doble clic sobre `EditorialReportsJava/src/Libro.java` en Project Explorer.
 
-Paso 2. Hacer clic sobre la línea public Libro(String titulo, Double precio) { y seleccionarla completa con Mayús+Inicio.
+Paso 2. Localizar la llamada `new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE)`.
 
-Paso 3. Escribir exactamente public Libro(String titulo, Double precio, Integer paginas, java.util.Date fechaPublicacion, Boolean disponible) {.
+Paso 3. Sustituir temporalmente `132` por `133` y pulsar `Ctrl+S`.
 
-Paso 4. Hacer clic sobre la línea this.paginas = 0; y seleccionarla completa.
+Paso 4. Localizar `new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE)`.
 
-Paso 5. Escribir exactamente this.paginas = paginas;.
+Paso 5. Sustituir temporalmente `Boolean.FALSE` por `Boolean.TRUE` y pulsar `Ctrl+S`.
 
-Paso 6. Hacer clic sobre la línea this.fechaPublicacion = new java.util.Date(); y seleccionarla completa.
+Paso 6. Ejecutar `GeneradorInformeConcepto.java` como **Java Application** con `EditorialReports` como Working Directory.
 
-Paso 7. Escribir exactamente this.fechaPublicacion = fechaPublicacion;.
+Paso 7. Abrir `output/informe_concepto.pdf` y comprobar que `Pedro Páramo` muestra `133` páginas y `El túnel` muestra `Sí`.
 
-Paso 8. Hacer clic sobre la línea this.disponible = Boolean.TRUE; y seleccionarla completa.
+Paso 8. Volver a `Libro.java` y restaurar `Pedro Páramo` a `132` páginas.
 
-Paso 9. Escribir exactamente this.disponible = disponible;.
+Paso 9. Restaurar `El túnel` a `Boolean.FALSE` y pulsar `Ctrl+S`.
 
-Paso 10. Hacer clic sobre la línea libros.add(new Libro("Cien años de soledad", 19.95)); y seleccionarla completa.
+Paso 10. Ejecutar de nuevo `GeneradorInformeConcepto.java`.
 
-Paso 11. Escribir exactamente libros.add(new Libro("Cien años de soledad", 19.95, 471, new java.util.GregorianCalendar(1967, 5, 5).getTime(), Boolean.TRUE));.
+Paso 11. Abrir el PDF regenerado y comprobar que `Pedro Páramo` vuelve a `132` y `El túnel` vuelve a `No`.
 
-Paso 12. Repetir las acciones 10 y 11 para cada uno de los catorce libros con valores realistas. Los valores recomendados son los siguientes:
+Paso 12. Comprobar en Console `Paginas del documento: 1` y `Registros de ejemplo: 14`.
 
-Rayuela: 736 páginas, 1963, TRUE
-
-La ciudad y los perros: 432 páginas, 1963, TRUE
-
-Pedro Páramo: 132 páginas, 1955, TRUE
-
-Ficciones: 224 páginas, 1944, TRUE
-
-La casa de los espíritus: 448 páginas, 1982, TRUE
-
-El amor en los tiempos del cólera: 496 páginas, 1985, TRUE
-
-La muerte de Artemio Cruz: 320 páginas, 1962, TRUE
-
-Doña Bárbara: 400 páginas, 1929, FALSE
-
-Martín Fierro: 288 páginas, 1872, FALSE
-
-Comala: 148 páginas, 1955, TRUE
-
-Paradiso: 576 páginas, 1966, TRUE
-
-La invención de Morel: 128 páginas, 1940, TRUE
-
-El túnel: 160 páginas, 1948, FALSE
-
-Paso 13. Pulsar Ctrl+S para guardar el archivo.
-
-Paso 14. Hacer clic con el botón derecho sobre GeneradorInformeConcepto.java y seleccionar Run As > Java Application.
-
-Paso 15. Abrir el archivo output/informe_concepto.pdf y verificar que cada libro muestra su número de páginas, su año de publicación y su disponibilidad.
-
-#### Simulación ASCII del PDF tras el reto
+#### Simulación ASCII del PDF durante la prueba temporal
 
 ```text
-╔══════════════════════════════════════════════════════════╗
-║  Título             │Precio    │Páginas│ Año │ Disp. │#  ║
-║  ─────────────────────────────────────────────────────   ║
-║  Cien años de sol.  │ 19,95 € │  471  │1967 │ Sí    │1  ║
-║  Rayuela            │ 22,50 € │  736  │1963 │ Sí    │2  ║
-║  La ciudad y los..  │ 18,75 € │  432  │1963 │ Sí    │3  ║
-║  Pedro Páramo       │ 15,90 € │  132  │1955 │ Sí    │4  ║
-║  Ficciones          │ 21,00 € │  224  │1944 │ Sí    │5  ║
-║  La casa de los...  │ 23,40 € │  448  │1982 │ Sí    │6  ║
-║  El amor en los...  │ 20,80 € │  496  │1985 │ Sí    │7  ║
-║  La muerte de Ar... │ 17,60 € │  320  │1962 │ Sí    │8  ║
-║  Doña Bárbara       │ 16,95 € │  400  │1929 │ No    │9  ║
-║  Martín Fierro      │ 14,50 € │  288  │1872 │ No    │10 ║
-║  Comala             │ 19,20 € │  148  │1955 │ Sí    │11 ║
-║  Paradiso           │ 25,00 € │  576  │1966 │ Sí    │12 ║
-║  La invención de... │ 18,30 € │  128  │1940 │ Sí    │13 ║
-║  El túnel           │ 16,20 € │  160  │1948 │ No    │14 ║
-╚══════════════════════════════════════════════════════════╝
-Resultado del reto: los tres campos nuevos muestran valores distintos para cada libro. La columna de disponibilidad muestra No en los tres libros con Boolean.FALSE: Doña Bárbara, Martín Fierro y El túnel. La columna del año muestra el año de publicación de cada libro. La columna de páginas muestra el número de páginas.
+║  Pedro Páramo       │ 15,90 € │  133  │1955 │ Sí │4  ║
+║  El túnel           │ 16,20 € │  160  │1948 │ Sí │14 ║
 ```
+
+#### Simulación ASCII tras restaurar el checkpoint
+
+```text
+║  Pedro Páramo       │ 15,90 € │  132  │1955 │ Sí │4  ║
+║  El túnel           │ 16,20 € │  160  │1948 │ No │14 ║
+```
+
+**Resultado del reto:** se comprueba de forma controlada que `CatalogoDataSource` entrega al JRXML los valores del objeto `Libro` actual y que el PDF refleja esos cambios. Al terminar el reto, el código queda exactamente con los valores del checkpoint 2.3.
 
 ### Analogía final con el contexto de la editorial
 
@@ -4195,16 +4146,16 @@ public class Libro {
         libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));
         libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));
         libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));
-        libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));
+        libros.add(new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE));
         libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));
         libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));
         libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));
         libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));
         libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));
-        libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));
-        libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));
-        libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));
-        libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));
+        libros.add(new Libro("Martín Fierro", 14.50, 288, 1872, Boolean.FALSE));
+        libros.add(new Libro("Comala", 19.20, 148, 1955, Boolean.TRUE));
+        libros.add(new Libro("Paradiso", 25.00, 576, 1966, Boolean.TRUE));
+        libros.add(new Libro("La invención de Morel", 18.30, 128, 1940, Boolean.TRUE));
         libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));
         return libros;
     }
@@ -4283,7 +4234,7 @@ Línea 39: `libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));` �
 
 Línea 40: `libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
 Línea 42: `libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
@@ -4295,13 +4246,13 @@ Línea 45: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, 
 
 Línea 46: `libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 288, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 48: `libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 48: `libros.add(new Libro("Comala", 19.20, 148, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 49: `libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 49: `libros.add(new Libro("Paradiso", 25.00, 576, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 128, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
 Línea 51: `libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
@@ -4519,45 +4470,25 @@ La ruta depende del equipo. Los valores anteriores están comprobados en el run 
 +-------------------------------------------------------------------------+
 |  informe_concepto.jrxml                          [Design] [Source]      |
 +-------------------------------------------------------------------------+
-|  Ruler:  0   100  200  300  400  500  555  600  650  700                 |
-+-------------------------------------------------------------------------+
-|                                                                         |
-|  ┌─── Title ──────────────────────────────────────────── h = 100 ────┐  |
-|  │  ┌────────┐                                                       │  |
-|  │  │        │  Catálogo Editorial - Informe Conceptual              │  |
-|  │  │ LOGO   │                                                       │  |
-|  │  │ 80×80  │  Fecha de emisión:  [ new java.util.Date() ]          │  |
-|  │  └────────┘                                                       │  |
+|  ┌── Title [height=100] ─────────────────────────────────────────────┐  |
+|  │ [logo 0,10,80,80]  Título [90,25,465,30]                         │  |
+|  │                     Fecha [90,60,120,20] [215,60,150,20]         │  |
 |  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
-|  │  Portada │ Título              │ Precio │ Páginas │ Año            │  |
+|  ┌── Column Header [height=25] ─────────────────────────────────────┐  |
+|  │ Port. 0/50 │ Título 55/180 │ Precio 235/80 │ Págs. 315/50       │  |
+|  │ Año 365/50 │ Disp. 415/80 │ # 500/55                           │  |
 |  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  ┌─── Detail 1 ──────────────────────────────────────── h = 60 ─────┐  |
-|  │ [IMG] [ $F{titulo} ] [ $F{precio} ] [ $F{pag} ] [ $F{fech} ]     │  |
-|  │ 50×50                                [ $F{disp} ] [icono] [# ]    │  |
+|  ┌── Detail 1 [height=60, splitType=Prevent] ───────────────────────┐  |
+|  │ portada 0/50 │ título 55/180 │ precio 235/80 │ páginas 315/50   │  |
+|  │ año 365/50 │ disp. 415/55 │ icono 475/20 │ contador 500/55     │  |
 |  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  Panel Outline muestra:                                                 |
-|  Fields                                                                 |
-|   ├── titulo, precio, paginas, fechaPublicacion, disponible             |
-|  Detail 1                                                               |
-|   ├── image      [0,5,50,50]  onErrorType=Blank  scaleImage=RetainShape│
-|   ├── textField  [60,20,240,20]  $F{titulo}                             │
-|   ├── textField  [300,20,100,20]  $F{precio}                            │
-|   ├── textField  [400,20,50,20]  $F{paginas}                            │
-|   ├── textField  [500,20,55,20]  $F{fechaPublicacion}                   │
-|   ├── textField  [620,20,60,20]  $F{disponible} ? "Sí" : "No"           │
-|   ├── image      [680,20,20,20]  icono condicional                      │
-|   ├── staticText [560,20,30,20]  "# "                                   │
-|   └── textField  [590,20,30,20]  $V{REPORT_COUNT}                       │
+|  ancho útil: 0 -------------------------------------------------- 555  |
 +-------------------------------------------------------------------------+
 ```
 
-**Qué representa:** la disposición de las bandas en el editor central tras completar los doce pasos. La banda Title contiene el logotipo y el título a su derecha. La banda Detail contiene la portada dinámica, los campos de texto y el icono de disponibilidad.
+**Qué representa:** la geometría real del checkpoint 2.4. Ningún elemento de `Column Header` o `Detail` supera `columnWidth="555"`; el icono condicional ocupa 475–495 y el contador 500–555.
 
-**Cómo verificarlo:** comparar la vista del editor con este esquema. La banda Title debe tener 100 unidades de informe de altura y la banda Detail 60 unidades de informe.
+**Cómo verificarlo:** seleccionar los elementos en Design y comprobar X/Width en Properties. `Detail 1` debe tener Height=`60` y Split Type=`Prevent`.
 
 #### D.2 — Jerarquía del Outline
 
@@ -4565,61 +4496,40 @@ La ruta depende del equipo. Los valores anteriores están comprobados en el run 
 informe_concepto
 │
 ├── Fields
-│   ├── titulo  [java.lang.String]
-│   ├── precio  [java.lang.Double]
-│   ├── paginas  [java.lang.Integer]
-│   ├── fechaPublicacion  [java.util.Date]
-│   └── disponible  [java.lang.Boolean]
+│   ├── titulo, precio, paginas, fechaPublicacion, disponible
 │
-├── Title  [band, height=100]
-│   ├── image       [0,10,80,80]  "resources/logo.png"
-│   ├── staticText  [90,25,465,30]  "Catálogo Editorial - Informe Conceptual"
+├── Title [height=100]
+│   ├── image       [0,10,80,80]    "resources/logo.png"
+│   ├── staticText  [90,25,465,30]  título
 │   ├── staticText  [90,60,120,20]  "Fecha de emisión:"
-│   └── textField   [215,60,150,20]  new java.util.Date()  [pattern=dd/MM/yyyy]
+│   └── textField   [215,60,150,20] new java.util.Date()
 │
-├── Column Header  [band, height=25]
-│   ├── staticText  [0,5,50,15]    "Portada"  (bold, center)
-│   ├── staticText  [60,5,240,15]  "Título"  (bold)
-│   ├── staticText  [300,5,100,15] "Precio"  (bold)
-│   ├── staticText  [400,5,50,15]  "Páginas"  (bold, right)
-│   └── staticText  [500,5,55,15]  "Año"  (bold, center)
+├── Column Header [height=25]
+│   ├── Port.  [0,5,50,15]
+│   ├── Título [55,5,180,15]
+│   ├── Precio [235,5,80,15]
+│   ├── Págs.  [315,5,50,15]
+│   ├── Año    [365,5,50,15]
+│   ├── Disp.  [415,5,80,15]
+│   └── #      [500,5,55,15]
 │
-├── Detail 1  [band, height=60, splitType=Stretch]
-│   ├── image       [0,5,50,50]  "resources/portadas/"+$F{titulo}+".png"
-│   │                             [onErrorType=Blank, scaleImage=RetainShape]
-│   ├── textField   [60,20,240,20]  $F{titulo}  [textAdjust=StretchHeight]
-│   ├── textField   [300,20,100,20] $F{precio}  [pattern=#,##0.00 €]
-│   ├── textField   [400,20,50,20]  $F{paginas}  [right]
-│   ├── textField   [500,20,55,20]  $F{fechaPublicacion}  [pattern=yyyy]
-│   ├── textField   [620,20,60,20]  $F{disponible}?"Sí":"No"
-│   ├── image       [680,20,20,20]  icono condicional
-│   ├── staticText  [560,20,30,20]  "# "
-│   └── textField   [590,20,30,20]  $V{REPORT_COUNT}
+├── Detail 1 [height=60, splitType=Prevent]
+│   ├── image      [0,5,50,50]     portada dinámica
+│   ├── textField  [55,20,180,20]  $F{titulo}
+│   ├── textField  [235,20,80,20]  $F{precio}
+│   ├── textField  [315,20,50,20]  $F{paginas}
+│   ├── textField  [365,20,50,20]  $F{fechaPublicacion}
+│   ├── textField  [415,20,55,20]  disponibilidad
+│   ├── image      [475,20,20,20]  icono condicional
+│   └── textField  [500,20,55,20]  $V{REPORT_COUNT}
 │
-├── Column Footer  [band, height=40]
-│   ├── staticText  "--- Fin de la tabla de datos ---"
-│   ├── staticText  "Registros procesados: "
-│   └── textField   $V{REPORT_COUNT}
-│
-├── Page Footer  [band, height=30]
-│   └── staticText  "EditorialReports - Documento..."
-│
-├── Last Page Footer  [band, height=30]
-│   └── staticText  "Documento generado en la última página"
-│
-├── Summary  [band, height=70]
-│   ├── staticText  "Total de páginas:"
-│   ├── textField   $V{PAGE_NUMBER} [evaluationTime="Report"]
-│   ├── staticText  "Fin del informe. EditorialReports."
-│   ├── staticText  "Total de libros:"
-│   └── textField   $V{REPORT_COUNT}
-│
-└── Background  [band, height=0]
+├── Column Footer, Page Footer, Last Page Footer, Summary
+└── Background [height=0]
 ```
 
-**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline tras completar los doce pasos. La novedad respecto al punto 2.3 es la imagen del logotipo en la banda Title y las dos imágenes en la banda Detail.
+**Qué representa:** el árbol del checkpoint 2.4 con el logotipo de Title, la portada dinámica y el icono condicional. No existe un `Static Text #` dentro de `Detail`; el rótulo `#` pertenece a `Column Header`.
 
-**Cómo verificarlo:** expandir el nodo informe_concepto en el panel Outline y comparar la estructura.
+**Cómo verificarlo:** expandir `Title`, `Column Header` y `Detail 1` en Outline y contrastar cada elemento con Properties.
 
 #### D.3 — Documento PDF resultante, página por página
 
@@ -4708,7 +4618,7 @@ EditorialReportsJava/
 
 ### Reto resuelto paso a paso
 
-**Enunciado:** añadir un logotipo secundario en la banda Page Footer que aparezca a la derecha, junto al número de página. El logotipo debe ser el mismo archivo resources/logo.png pero con un tamaño de 20 × 20 unidades de informe.
+**Enunciado:** añadir un logotipo secundario en el extremo derecho de `Page Footer`, sin superar el ancho útil de 555. El logotipo será `resources/logo.png`, con tamaño 20 × 20; antes reduciremos el ancho del texto existente para evitar solapamientos.
 
 Paso 1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
 
@@ -4722,38 +4632,38 @@ Paso 5. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del e
 
 Paso 6. Hacer clic sobre el icono Image (un cuadrado con un paisaje).
 
-Paso 7. Arrastrar el icono Image y soltarlo dentro de la banda Page Footer, en la coordenada aproximada x=560, y=5.
+Paso 7. Seleccionar el `Static Text` existente de `Page Footer` y cambiar Width a `525`, manteniendo X=`0`, Y=`5` y Height=`20`.
 
-Paso 8. Hacer clic sobre el campo X en el panel Properties, escribir 560 y pulsar Enter.
+Paso 8. Arrastrar el icono Image y soltarlo dentro de `Page Footer` cerca del extremo derecho.
 
-Paso 9. Hacer clic sobre el campo Y, escribir 5 y pulsar Enter.
+Paso 9. Fijar X=`535` y Y=`5` en Properties.
 
-Paso 10. Hacer clic sobre el campo Width, escribir 20 y pulsar Enter.
+Paso 10. Fijar Width=`20` y Height=`20`; comprobar que `535 + 20 = 555`.
 
-Paso 11. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+Paso 11. Seleccionar `RetainShape` en Scale Image.
 
-Paso 12. Hacer clic sobre el desplegable Scale Image y seleccionar RetainShape.
+Paso 12. Seleccionar `Blank` en On Error Type.
 
-Paso 13. Hacer clic sobre el desplegable On Error Type y seleccionar Blank.
+Paso 13. Escribir exactamente `"resources/logo.png"` en Image Expression.
 
-Paso 14. Hacer clic sobre el campo Image Expression y escribir exactamente "resources/logo.png" y pulsar Enter.
+Paso 14. Pulsar `Ctrl+S` para guardar.
 
-Paso 15. Pulsar Ctrl+S para guardar el archivo.
+Paso 15. Pulsar `Ctrl+Mayús+B` para compilar el informe.
 
-Paso 16. Pulsar Ctrl+Mayús+B para compilar el informe.
+Paso 16. Ejecutar `GeneradorInformeConcepto.java` como **Java Application** con `EditorialReports` como Working Directory.
 
-Paso 17. Hacer clic con el botón derecho sobre GeneradorInformeConcepto.java y seleccionar Run As > Java Application.
+Paso 17. Abrir `output/informe_concepto.pdf` y verificar que el logotipo aparece en el extremo derecho de `Page Footer`, sin solaparse con el texto.
 
-Paso 18. Abrir el archivo output/informe_concepto.pdf y verificar que el logotipo aparece en el pie de página a la derecha del número de página.
+Paso 18. Volver a Design y comprobar en Properties que ningún elemento del pie termina más allá de X=`555`.
 
 #### Simulación ASCII del PDF tras el reto
 
 ```text
 ──────────────────── Pie de página ────────────────────
-║  EditorialReports - Documento...      Página 1 de 1  ┌──┐║
+║  EditorialReports - Documento...                     ┌──┐║
 ║                                                       │LG│║
 ║                                                       └──┘║
-Resultado del reto: el logotipo aparece en la banda Page Footer a la derecha del número de página. La imagen se carga desde el mismo archivo que el logotipo de la banda Title pero se muestra a un tamaño reducido de 20 × 20 unidades de informe. La propiedad onErrorType="Blank" garantiza que el informe no falla si el archivo no se encuentra.
+Resultado del reto: el logotipo aparece en el extremo derecho de Page Footer, dentro del ancho útil. El texto se reduce a 525 unidades y el icono ocupa X=535..555, por lo que no existe desbordamiento.
 ```
 
 ### Analogía final con el contexto de la editorial
@@ -5069,26 +4979,25 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 <title>
     <band height="100">
         <image scaleImage="RetainShape" onErrorType="Error">
-            <reportElement x="0" y="10" width="80" height="80" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+            <reportElement x="0" y="10" width="80" height="80" uuid="dddddddd-dddd-dddd-dddd-dddddddddddd"/>
             <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
         </image>
         <staticText>
-            <reportElement x="90" y="25" width="465" height="30" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e" style="TituloPrincipal"/>
+            <reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee" style="TituloPrincipal"/>
             <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
         </staticText>
         <staticText>
-            <reportElement x="90" y="60" width="120" height="20" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+            <reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff" style="TextoTabla"/>
             <textElement verticalAlignment="Middle">
                 <font fontName="DejaVu Sans" size="10"/>
             </textElement>
             <text><![CDATA[Fecha de emisión:]]></text>
         </staticText>
         <textField pattern="dd/MM/yyyy">
-            <reportElement x="215" y="60" width="150" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+            <reportElement x="215" y="60" width="150" height="20" uuid="12121212-1212-1212-1212-121212121212" style="TextoTabla"/>
             <textElement verticalAlignment="Middle">
                 <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textElement>            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
         </textField>
     </band>
 </title>
@@ -5106,40 +5015,40 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 <detail>
     <band height="60" splitType="Prevent">
         <image onErrorType="Blank" scaleImage="RetainShape">
-            <reportElement x="0" y="5" width="50" height="50" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+            <reportElement x="0" y="5" width="50" height="50" uuid="20202020-2020-2020-2020-202020202020"/>
             <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>
         </image>
         <textField textAdjust="StretchHeight">
-            <reportElement x="55" y="20" width="180" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b" style="TextoTabla"/>
+            <reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/>
             <textElement verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
         </textField>
         <textField pattern="#,##0.00 €" isBlankWhenNull="true">
-            <reportElement x="235" y="20" width="80" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c" style="TextoPrecio"/>
+            <reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666" style="TextoPrecio"/>
             <textElement verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
         </textField>
         <textField isBlankWhenNull="true">
-            <reportElement x="315" y="20" width="50" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d" style="TextoTabla"/>
+            <reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323" style="TextoTabla"/>
             <textElement textAlignment="Right" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
         </textField>
         <textField pattern="yyyy" isBlankWhenNull="true">
-            <reportElement x="365" y="20" width="50" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e" style="TextoTabla"/>
+            <reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424" style="TextoTabla"/>
             <textElement textAlignment="Center" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
         </textField>
         <textField>
-            <reportElement x="415" y="20" width="55" height="20" uuid="c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f" style="TextoTabla"/>
+            <reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525" style="TextoTabla"/>
             <textElement textAlignment="Center" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
         </textField>
         <image onErrorType="Blank" scaleImage="RetainShape">
-            <reportElement x="475" y="20" width="20" height="20" uuid="d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a"/>
+            <reportElement x="475" y="20" width="20" height="20" uuid="26262626-2626-2626-2626-262626262626"/>
             <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression>
         </image>
         <textField>
-            <reportElement x="500" y="20" width="55" height="20" uuid="f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c" style="TextoPequeno"/>
+            <reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727" style="TextoPequeno"/>
             <textElement textAlignment="Right" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
         </textField>
@@ -5157,7 +5066,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 **Línea 5:** `<style name="TextoTablaCabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>` → estilo para las cabeceras de tabla. Hereda la tipografía de `Sans_Normal` y sobrescribe el color del texto (blanco), el color de fondo (azul) y el modo opaco.
 
-**Línea 6:** `<style name="TextoTabla" style="Sans_Normal" fontSize="9"/>` → estilo para las celdas de tabla. Hereda la tipografía de `Sans_Normal` y mantiene el tamaño 10.
+**Línea 6:** `<style name="TextoTabla" style="Sans_Normal" fontSize="9"/>` → estilo para las celdas de tabla. Hereda la tipografía de `Sans_Normal` y sobrescribe el tamaño con 9.
 
 **Línea 7:** `<style name="TextoPrecio" style="TextoTabla">` → estilo para los precios. Hereda las propiedades de `TextoTabla` y añade un estilo condicional.
 
@@ -5241,16 +5150,16 @@ public class Libro {
         libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));
         libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));
         libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));
-        libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));
+        libros.add(new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE));
         libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));
         libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));
         libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));
         libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));
         libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));
-        libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));
-        libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));
-        libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));
-        libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));
+        libros.add(new Libro("Martín Fierro", 14.50, 288, 1872, Boolean.FALSE));
+        libros.add(new Libro("Comala", 19.20, 148, 1955, Boolean.TRUE));
+        libros.add(new Libro("Paradiso", 25.00, 576, 1966, Boolean.TRUE));
+        libros.add(new Libro("La invención de Morel", 18.30, 128, 1940, Boolean.TRUE));
         libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));
         return libros;
     }
@@ -5329,7 +5238,7 @@ Línea 39: `libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));` �
 
 Línea 40: `libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 132, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
 Línea 42: `libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
@@ -5341,13 +5250,13 @@ Línea 45: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, 
 
 Línea 46: `libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 288, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 48: `libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 48: `libros.add(new Libro("Comala", 19.20, 148, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 49: `libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 49: `libros.add(new Libro("Paradiso", 25.00, 576, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
-Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 128, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
 Línea 51: `libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
 
@@ -5565,42 +5474,29 @@ La ruta depende del equipo. Los valores anteriores están comprobados en el run 
 +-------------------------------------------------------------------------+
 |  informe_concepto.jrxml                          [Design] [Source]      |
 +-------------------------------------------------------------------------+
-|  Ruler:  0   100  200  300  400  500  555  600  650  700                 |
-+-------------------------------------------------------------------------+
-|                                                                         |
-|  ┌─── Title ──────────────────────────────────────────── h = 100 ────┐  |
-|  │  ┌────────┐                                                       │  |
-|  │  │        │  Catálogo Editorial - Informe Conceptual              │  |
-|  │  │ LOGO   │  (estilo TituloPrincipal: 18, negrita, azul oscuro)  │  |
-|  │  │ 80×80  │                                                       │  |
-|  │  └────────┘  Fecha de emisión:  [ new java.util.Date() ]          │  |
-|  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
-|  │  Portada │ Título              │ Precio │ Páginas │ Año            │  |
-|  │  (todos con estilo TextoTablaCabecera: fondo azul, texto blanco)   │  |
-|  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  ┌─── Detail 1 ──────────────────────────────────────── h = 60 ─────┐  |
-|  │ [IMG] [ $F{titulo} ] [ $F{precio} ] [ $F{pag} ] [ $F{fech} ]     │  |
-|  │ 50×50    TextoTabla   TextoPrecio     TextoTabla   TextoTabla      │  |
-|  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  Panel Outline muestra:                                                 |
-|  Styles                                                                 |
-|   ├── Sans_Normal              [isDefault=true]                           │
-|   ├── TituloPrincipal          [style=Sans_Normal]                     │
-|   ├── TituloSecundario         [style=Sans_Normal]                     │
-|   ├── TextoTablaCabecera       [style=Sans_Normal]                     │
-|   ├── TextoTabla               [style=Sans_Normal]                     │
-|   ├── TextoPrecio              [style=TextoTabla, conditional]         │
-|   └── TextoPequeno             [style=Sans_Normal]                     │
+|  Title [height=100]                                                    |
+|    logo [0,10,80,80]                                                   |
+|    título [90,25,465,30] style=TituloPrincipal                        |
+|    fecha [90,60,120,20] + [215,60,150,20] style=TextoTabla            |
+|                                                                        |
+|  Column Header [height=25]                                             |
+|    Port. 0/50 · Título 55/180 · Precio 235/80 · Págs. 315/50          |
+|    Año 365/50 · Disp. 415/80 · # 500/55                               |
+|    todos con style=TextoTablaCabecera                                  |
+|                                                                        |
+|  Detail 1 [height=60, splitType=Prevent]                               |
+|    portada 0/50 · título 55/180 · precio 235/80 · páginas 315/50      |
+|    año 365/50 · disp. 415/55 · icono 475/20 · contador 500/55         |
+|    TextoPrecio aplica la condición precio > 20                         |
+|                                                                        |
+|  Styles: Sans_Normal, TituloPrincipal, TituloSecundario,               |
+|          TextoTablaCabecera, TextoTabla, TextoPrecio, TextoPequeno     |
 +-------------------------------------------------------------------------+
 ```
 
-**Qué representa:** la disposición de las bandas en el editor central tras completar los trece pasos. El título principal aparece con el estilo `TituloPrincipal`. Los encabezados de la tabla aparecen con el estilo `TextoTablaCabecera`. Los campos de la banda Detail aparecen con el estilo `TextoTabla`.
+**Qué representa:** la disposición real del checkpoint 2.5 tras completar los doce pasos. La geometría es la de 2.4 y se añaden estilos reutilizables y el estilo condicional `TextoPrecio`.
 
-**Cómo verificarlo:** comparar la vista del editor con este esquema. El panel Outline debe mostrar los siete estilos en la sección Styles.
+**Cómo verificarlo:** expandir `Styles` en Outline y seleccionar título, cabeceras y campos de Detail para comprobar el atributo Style en Properties.
 
 #### D.2 — Jerarquía del Outline
 
@@ -5608,52 +5504,46 @@ La ruta depende del equipo. Los valores anteriores están comprobados en el run 
 informe_concepto
 │
 ├── Styles
-│   ├── Sans_Normal  [isDefault=true]
-│   ├── TituloPrincipal  [style=Sans_Normal, fontSize=18, isBold=true]
-│   ├── TituloSecundario  [style=Sans_Normal, fontSize=14, isBold=true]
-│   ├── TextoTablaCabecera  [style=Sans_Normal, backcolor=#4A6B8A, mode=Opaque]
-│   ├── TextoTabla  [style=Sans_Normal, fontSize=10]
-│   ├── TextoPrecio  [style=TextoTabla, conditional: precio > 20]
-│   └── TextoPequeno  [style=Sans_Normal, fontSize=9, isItalic=true]
+│   ├── Sans_Normal [isDefault=true, fontSize=10]
+│   ├── TituloPrincipal [style=Sans_Normal, fontSize=18, bold]
+│   ├── TituloSecundario [style=Sans_Normal, fontSize=14, bold]
+│   ├── TextoTablaCabecera [style=Sans_Normal, fontSize=9, opaque]
+│   ├── TextoTabla [style=Sans_Normal, fontSize=9]
+│   ├── TextoPrecio [style=TextoTabla, conditional: precio > 20]
+│   └── TextoPequeno [style=Sans_Normal, fontSize=9, italic]
 │
-├── Fields
-│   ├── titulo, precio, paginas, fechaPublicacion, disponible
+├── Title [height=100]
+│   ├── image [0,10,80,80]
+│   ├── staticText [90,25,465,30] style=TituloPrincipal
+│   ├── staticText [90,60,120,20] style=TextoTabla
+│   └── textField [215,60,150,20] style=TextoTabla
 │
-├── Title  [band, height=100]
-│   ├── image       [0,10,80,80]  "resources/logo.png"
-│   ├── staticText  [90,25,465,30]  style="TituloPrincipal"
-│   ├── staticText  [90,60,120,20]  "Fecha de emisión:"
-│   └── textField   [215,60,150,20]  new java.util.Date()
+├── Column Header [height=25]
+│   ├── Port.  [0,5,50,15]   style=TextoTablaCabecera
+│   ├── Título [55,5,180,15] style=TextoTablaCabecera
+│   ├── Precio [235,5,80,15] style=TextoTablaCabecera
+│   ├── Págs.  [315,5,50,15] style=TextoTablaCabecera
+│   ├── Año    [365,5,50,15] style=TextoTablaCabecera
+│   ├── Disp.  [415,5,80,15] style=TextoTablaCabecera
+│   └── #      [500,5,55,15] style=TextoTablaCabecera
 │
-├── Column Header  [band, height=25]
-│   ├── staticText  [0,5,50,15]    style="TextoTablaCabecera"  "Portada"
-│   ├── staticText  [55,5,180,15]  style="TextoTablaCabecera"  "Título"
-│   ├── staticText  [235,5,80,15] style="TextoTablaCabecera"  "Precio"
-│   ├── staticText  [315,5,50,15]  style="TextoTablaCabecera"  "Páginas"
-│   └── staticText  [365,5,50,15]  style="TextoTablaCabecera"  "Año"
+├── Detail 1 [height=60, splitType=Prevent]
+│   ├── image [0,5,50,50] portada
+│   ├── textField [55,20,180,20] style=TextoTabla
+│   ├── textField [235,20,80,20] style=TextoPrecio
+│   ├── textField [315,20,50,20] style=TextoTabla
+│   ├── textField [365,20,50,20] style=TextoTabla
+│   ├── textField [415,20,55,20] style=TextoTabla
+│   ├── image [475,20,20,20] icono condicional
+│   └── textField [500,20,55,20] style=TextoPequeno
 │
-├── Detail 1  [band, height=60, splitType=Stretch]
-│   ├── image       [0,5,50,50]  "resources/portadas/"+$F{titulo}+".png"
-│   ├── textField   [55,20,180,20]  style="TextoTabla"  $F{titulo}
-│   ├── textField   [235,20,80,20] style="TextoPrecio"  $F{precio}
-│   ├── textField   [315,20,50,20]  style="TextoTabla"  $F{paginas}
-│   ├── textField   [365,20,50,20]  style="TextoTabla"  $F{fechaPublicacion}
-│   ├── textField   [415,20,55,20]  style="TextoTabla"  $F{disponible}
-│   ├── image       [475,20,20,20]  icono condicional
-│   ├── staticText  [560,20,30,20]  style="TextoPequeno"  "# "
-│   └── textField   [500,20,55,20]  style="TextoPequeno"  $V{REPORT_COUNT}
-│
-├── Column Footer, Page Footer, Last Page Footer
-│
-├── Summary  [band, height=70]
-│   └── ...
-│
-└── Background  [band, height=0]
+├── Column Footer, Page Footer, Last Page Footer, Summary
+└── Background [height=0]
 ```
 
-**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline tras completar los trece pasos. La novedad respecto al punto 2.4 es la sección Styles con los siete estilos declarados y las referencias a estilos en los elementos.
+**Qué representa:** el árbol real del checkpoint 2.5. Los siete estilos están declarados antes de las bandas y los elementos reutilizan esos estilos mediante el atributo `style`.
 
-**Cómo verificarlo:** expandir el nodo `informe_concepto` en el panel Outline y expandir el nodo Styles. Cada estilo debe mostrar su estilo padre y sus propiedades entre corchetes.
+**Cómo verificarlo:** expandir `Styles`, `Column Header` y `Detail 1` en Outline. El campo de precio debe referenciar `TextoPrecio`; el contador debe terminar exactamente en X=555.
 
 #### D.3 — Documento PDF resultante, página por página
 
@@ -5722,7 +5612,7 @@ EditorialReportsJava/
     └── CatalogoDataSource.java
 ```
 
-**Qué representa:** el estado de los dos proyectos tras completar los trece pasos. La novedad respecto al punto anterior es el archivo `ESTILOS.md` en la raíz del proyecto `EditorialReports`.
+**Qué representa:** el estado de los dos proyectos tras completar los doce pasos. La novedad respecto al punto anterior es el archivo `ESTILOS.md` en la raíz del proyecto `EditorialReports`.
 
 **Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si el archivo `ESTILOS.md` no aparece, repetir el paso 13.
 
@@ -6124,7 +6014,7 @@ Las secciones nuevas o modificadas respecto a 2.5 son el parámetro `usuario`, l
 
 <!-- En Title -->
 <textField>
-    <reportElement x="335" y="60" width="220" height="20" style="TextoPequeno"/>
+    <reportElement x="335" y="60" width="220" height="20" uuid="28282828-2828-2828-2828-282828282828" style="TextoPequeno"/>
     <textElement textAlignment="Right"/>
     <textFieldExpression><![CDATA["Usuario: " + $P{usuario}]]></textFieldExpression>
 </textField>
@@ -6134,7 +6024,7 @@ Las secciones nuevas o modificadas respecto a 2.5 son el parámetro `usuario`, l
     <!-- ... fila principal heredada de 2.5 ... -->
 
     <textField>
-        <reportElement x="0" y="60" width="100" height="20" style="TextoPequeno"/>
+        <reportElement x="0" y="60" width="100" height="20" uuid="29292929-2929-2929-2929-292929292929" style="TextoPequeno"/>
         <textFieldExpression><![CDATA[
             $F{precio}.doubleValue() > 20.0d
                 ? "Premium"
@@ -6143,7 +6033,7 @@ Las secciones nuevas o modificadas respecto a 2.5 son el parámetro `usuario`, l
     </textField>
 
     <textField>
-        <reportElement x="100" y="60" width="135" height="20" style="TextoPequeno"/>
+        <reportElement x="100" y="60" width="135" height="20" uuid="30303030-3030-3030-3030-303030303030" style="TextoPequeno"/>
         <textFieldExpression><![CDATA[
             $F{titulo}.length() > 30
                 ? "Título largo (" + $F{titulo}.length() + ")"
@@ -6152,13 +6042,13 @@ Las secciones nuevas o modificadas respecto a 2.5 son el parámetro `usuario`, l
     </textField>
 
     <textField pattern="'IVA: ' #,##0.00 €" isBlankWhenNull="true">
-        <reportElement x="235" y="60" width="85" height="20" style="TextoPequeno"/>
+        <reportElement x="235" y="60" width="85" height="20" uuid="31313131-3131-3131-3131-313131313131" style="TextoPequeno"/>
         <textElement textAlignment="Right"/>
         <textFieldExpression><![CDATA[$V{PrecioConIVA}]]></textFieldExpression>
     </textField>
 
     <textField>
-        <reportElement x="325" y="60" width="150" height="20" style="TextoPequeno"/>
+        <reportElement x="325" y="60" width="150" height="20" uuid="32323232-3232-3232-3232-323232323232" style="TextoPequeno"/>
         <textFieldExpression><![CDATA[
             $F{fechaPublicacion}.after(new java.util.GregorianCalendar(2000, 0, 1).getTime())
                 ? "Después de 2000"
@@ -6167,7 +6057,7 @@ Las secciones nuevas o modificadas respecto a 2.5 son el parámetro `usuario`, l
     </textField>
 
     <textField>
-        <reportElement x="480" y="60" width="75" height="20" style="TextoPequeno"/>
+        <reportElement x="480" y="60" width="75" height="20" uuid="33333333-3333-3333-3333-333333333333" style="TextoPequeno"/>
         <textElement textAlignment="Right"/>
         <textFieldExpression><![CDATA[
             "R" + $V{REPORT_COUNT}
