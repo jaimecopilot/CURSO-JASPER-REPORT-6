@@ -5,12 +5,14 @@
 **Proyecto:** EditorialReports  
 **Baseline:** Temurin JDK 8 + JasperReports Library 6.20.0 + jasperreports-fonts 6.20.0
 
-## Resultado
+## Resultado final
 
-**6/6 checkpoints PASS.**
+**6/6 checkpoints PASS END-TO-END.**
 
-Run E2E final: **35966538785 — SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35966538785
+Run E2E final: **36010694488 — SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36010694488
+
+Commit documental y ejecutable validado: `e1f1db6a49c31d7da4af41020fffbd806d415b2d`.
 
 | Checkpoint | Contenido acumulativo | Resultado |
 |---|---|---|
@@ -30,14 +32,15 @@ Para cada checkpoint el workflow:
 3. compila las clases Java;
 4. ejecuta `GeneradorInformeConcepto`;
 5. compila `reports/informe_concepto.jrxml` a `.jasper`;
-6. llena un `JasperPrint` con el `CatalogoDataSource`;
+6. llena un `JasperPrint` con `CatalogoDataSource`;
 7. exporta `output/informe_concepto.pdf`;
 8. comprueba que el PDF existe, no está vacío y comienza por `%PDF-`;
-9. publica `.jasper`, PDF y `execution.log` como artefactos.
+9. exige la traza `Registros de ejemplo:` en `execution.log`;
+10. publica `.jasper`, PDF y `execution.log` como artefactos.
 
 ## Evidencia del run de cierre
 
-Los seis jobs del run 35966538785 finalizaron con `conclusion=success`:
+Los seis jobs del run 36010694488 finalizaron con `conclusion=success`:
 
 - Checkpoint 2.1 — success.
 - Checkpoint 2.2 — success.
@@ -55,21 +58,22 @@ Artefactos producidos por Actions:
 - `M2-2.5-runtime`
 - `M2-2.6-runtime`
 
-## Correcciones técnicas consolidadas
+## Auditoría documental final
 
-Durante la validación documental y de código se mantuvieron las correcciones ya establecidas en M1:
+La revisión final de `TEORIA_M2.md` y `PRACTICA_M2.md` se ha contrastado con los checkpoints acumulativos 2.1–2.6. Se han consolidado, entre otras, estas correcciones:
 
-- fuente portable **DejaVu Sans**;
-- dependencia `jasperreports-fonts:6.20.0`;
-- estilos JRXML con `isDefault` y atributo `style` para la herencia;
-- `textAdjust="StretchHeight"` en lugar de presentar `isStretchWithOverflow` como opción principal;
-- marcado mediante `textElement markup="styled"`;
-- total de páginas mediante `PAGE_NUMBER` con `evaluationTime="Report"`, no mediante `PAGE_COUNT`;
-- columnas de 2.3–2.6 compactadas dentro de `columnWidth="555"`;
-- parámetro `usuario` enviado desde Java en 2.6;
-- patrón DecimalFormat del IVA validado como `'IVA: ' #,##0.00 €`;
-- Java devuelve código de salida distinto de cero ante excepción mediante `System.exit(1)`.
+- orden JRXML compatible con JasperReports 6.20.0, incluyendo `background` en su posición estructural válida;
+- paginación `Página N de M` con un campo para la página actual y otro `PAGE_NUMBER` con `evaluationTime="Report"`;
+- `PAGE_COUNT` documentado como contador de registros de la página, no como total de páginas;
+- semántica de `splitType` corregida para `Stretch`, `Prevent` e `Immediate`;
+- `textAdjust="StretchHeight"` como sintaxis validada;
+- herencia de estilos mediante el atributo `style` e `isDefault`;
+- geometría de campos contenida en `columnWidth="555"`;
+- modelos y datos de 2.3 alineados con `Libro.java` y `CatalogoDataSource.java`;
+- recursos y posiciones de 2.4–2.5 alineados con los JRXML ejecutables;
+- parámetro `usuario`, variable `PrecioConIVA` y expresiones de 2.6 alineados con el checkpoint final;
+- `System.exit(1)` en el bloque `catch` del generador, para que un fallo Java produzca error detectable por CI.
 
 ## Límite de la validación
 
-GitHub Actions valida el motor JasperReports y los artefactos ejecutables. No automatiza los clics de la GUI de Jaspersoft Studio. Los pasos visuales de Parte A se documentan y se contrastan con el JRXML final, pero la evidencia automatizada corresponde a compilación, llenado y exportación.
+GitHub Actions valida el motor JasperReports y los artefactos ejecutables. No automatiza los clics de la GUI de Jaspersoft Studio. Los pasos visuales de la Parte A se han revisado documentalmente contra el estado final de cada checkpoint; la evidencia automatizada corresponde a compilación, llenado y exportación.
