@@ -51,13 +51,13 @@ Una banda es una franja horizontal del informe con una altura definida y un mome
 </detail>
 ```
 
-Línea 1: <detail> → declara la banda de detalle. Se emite una vez por cada registro de la fuente de datos.
+Línea 1: &lt;detail&gt; → declara la banda de detalle. Se emite una vez por cada registro de la fuente de datos.
 
-Línea 2: <band height="20"> → define la banda con 20 unidades de informe de altura. Cada registro producirá una fila de esa altura.
+Línea 2: &lt;band height="20"&gt; → define la banda con 20 unidades de informe de altura. Cada registro producirá una fila de esa altura.
 
 Línea 3-6: textField con la expresión $F{titulo}. El campo se resuelve con el valor del registro actual en cada emisión.
 
-Las bandas se clasifican según su momento de emisión en cuatro grupos. El primer grupo son las bandas que se emiten una sola vez por informe: title y summary. El segundo grupo son las bandas que se emiten una vez por página: pageHeader, pageFooter, lastPageFooter y background. El tercer grupo son las bandas que se emiten una vez por columna: columnHeader y columnFooter. El cuarto grupo es la banda detail, que se emite una vez por registro de la fuente de datos. Esta clasificación determina el uso de cada banda y el tipo de contenido que se coloca en ella.
+Las secciones del informe pueden clasificarse por su comportamiento durante el llenado. `title` y `summary` se generan una sola vez por informe. `pageHeader` aparece al comienzo de cada página y `pageFooter` ocupa el pie normal de cada página. `background` es una sección especial que se renderiza en todas las páginas por debajo del resto del contenido. `columnHeader` y `columnFooter` se generan por columna. `detail` se intenta generar una vez por cada registro. `lastPageFooter` es condicional: si existe, sustituye al `pageFooter` normal en la última ocurrencia del pie de página; no debe describirse como una banda que se emite una vez en todas las páginas.
 
 ```text
 CLASIFICACIÓN DE BANDAS POR MOMENTO DE EMISIÓN
@@ -66,11 +66,11 @@ CLASIFICACIÓN DE BANDAS POR MOMENTO DE EMISIÓN
     - title
     - summary
 
-  Una vez por página:
-    - pageHeader
-    - pageFooter
-    - lastPageFooter
-    - background
+  Asociadas a la página:
+    - pageHeader → al comienzo de cada página
+    - pageFooter → pie normal de página
+    - background → en todas las páginas, detrás del contenido
+    - lastPageFooter → sustituye al pageFooter en su última ocurrencia
 
   Una vez por columna:
     - columnHeader
@@ -84,7 +84,7 @@ Qué representa el diagrama: los cuatro grupos de bandas según su momento de em
 
 **Por qué es relevante:** permite decidir con precisión dónde colocar cada elemento sin recurrir a la prueba y error.
 
-No todas las bandas son obligatorias. Un informe puede contener solo algunas y el motor emite las que existan en la plantilla. La ausencia de una banda significa que el motor no emite contenido en ese momento del ciclo. Un informe mínimo puede contener solo la banda detail. Un informe completo contiene las nueve bandas. La decisión de qué bandas incluir depende del comportamiento deseado y del tipo de documento. Los informes empresariales del proyecto EditorialReports utilizan ocho bandas: title, pageHeader, columnHeader, detail, columnFooter, pageFooter, summary y background.
+No todas las secciones son obligatorias. Un informe puede contener solo algunas y el motor genera las que existan cuando corresponda. El modelo admite además cabeceras y pies de grupo y la sección `noData`, por lo que no existe una categoría universal llamada «informe completo de nueve bandas». En el estado de `EditorialReports` construido en este punto se trabajan explícitamente `background`, `title`, `pageHeader`, `columnHeader`, `detail`, `columnFooter`, `pageFooter`, `lastPageFooter` y `summary`. La selección depende del comportamiento que deba tener el documento.
 
 #### Bloque 2 — Bandas de cabecera: Title, Page Header y Column Header
 
@@ -104,9 +104,9 @@ Las tres bandas de cabecera comparten la función de presentar información al l
 </pageHeader>
 ```
 
-Línea 1: <pageHeader> → declara la banda de cabecera de página. Se emite al inicio de cada página.
+Línea 1: &lt;pageHeader&gt; → declara la banda de cabecera de página. Se emite al inicio de cada página.
 
-Línea 2: <band height="25"> → define la banda con 25 unidades de informe de altura.
+Línea 2: &lt;band height="25"&gt; → define la banda con 25 unidades de informe de altura.
 
 Línea 3-9: staticText con el título abreviado del informe en cursiva y tamaño reducido.
 
@@ -157,15 +157,15 @@ La banda detail es la única banda que se emite una vez por cada registro de la 
 </detail>
 ```
 
-Línea 1: <detail> → declara la banda de detalle.
+Línea 1: &lt;detail&gt; → declara la banda de detalle.
 
-Línea 2: <band height="20"> → banda con 20 unidades de informe de altura. Cada registro producirá una fila.
+Línea 2: &lt;band height="20"&gt; → banda con 20 unidades de informe de altura. Cada registro producirá una fila.
 
 Línea 3-10: primer textField con el campo titulo. Ancho 300, alineación vertical centrada, fuente DejaVu Sans 10.
 
 Línea 11-18: segundo textField con el campo precio. Ancho 100, patrón #,##0.00, alineación vertical centrada.
 
-El motor emite la banda detail tantas veces como registros haya y, cuando no caben más en la página, emite el columnFooter, el pageFooter, abre una nueva página, emite el pageHeader, el columnHeader y continúa con el siguiente registro. Este comportamiento se produce de forma automática sin intervención del diseñador. La altura de la banda detail multiplicada por el número de registros determina el número de páginas del informe. Si la banda tiene 20 unidades de informe de altura y hay 100 registros, la banda ocupará 2000 unidades de informe. El área disponible en una página A4 es de 802 unidades de informe (842 menos los márgenes), por lo que el informe tendrá al menos tres páginas.
+El motor intenta generar la banda `detail` para cada registro y crea nuevas páginas cuando el espacio disponible se agota. La altura declarada de `detail` multiplicada por el número de registros permite estimar el volumen vertical del contenido repetido, pero **no determina por sí sola** el número final de páginas: también consumen espacio las cabeceras, los pies, `title`, `summary`, los elementos que se estiran y las reglas de división de bandas. En una página A4 de 842 unidades con márgenes superior e inferior de 20 quedan 802 unidades antes de descontar esas bandas fijas y variables. Por eso cualquier cálculo previo debe tratarse como una estimación y confirmarse con el `JasperPrint` real.
 
 ```text
 REPETICIÓN DE LA BANDA DETAIL
@@ -213,15 +213,15 @@ Las cuatro bandas de cierre se emiten al final de distintas secciones del inform
 </pageFooter>
 ```
 
-Línea 1: <pageFooter> → declara la banda de pie de página. Se emite al final de cada página.
+Línea 1: &lt;pageFooter&gt; → declara la banda de pie de página. Se emite al final de cada página.
 
-Línea 2: <band height="30"> → banda con 30 unidades de informe de altura.
+Línea 2: &lt;band height="30"&gt; → banda con 30 unidades de informe de altura.
 
 Línea 3-9: primer staticText con el texto EditorialReports - Documento generado con JasperReports 6.20.0.
 
 Línea 10-16: segundo textField con la expresión "Página " + $V{PAGE_NUMBER} alineado a la derecha.
 
-La banda lastPageFooter se comporta de forma condicional. Si la plantilla define únicamente pageFooter, el motor la emite en todas las páginas. Si define únicamente lastPageFooter, el motor la emite solo en la última página. Si define ambas, el motor emite pageFooter en todas las páginas excepto la última y lastPageFooter en la última. Esta banda resulta útil cuando la última página debe contener información adicional, como un total general, un aviso legal o una firma. La emisión condicional depende de la presencia de la banda en la plantilla y no requiere ninguna configuración adicional.
+La banda `lastPageFooter` se comporta de forma condicional. Cuando existe, sustituye al `pageFooter` normal **en la última ocurrencia del pie de página**. En un informe sencillo, sin un `summary` que genere páginas adicionales, esto coincide con la última página visible. Sin embargo, si `summary` se imprime en una página propia o se desborda a varias páginas, la última ocurrencia del pie normal puede no coincidir con la última página física del documento. Esta precisión es importante para no confundir «último page footer» con «pie de la última página en cualquier circunstancia».
 
 ```text
 COMPORTAMIENTO DE pageFooter Y lastPageFooter
@@ -246,7 +246,7 @@ Qué representa el diagrama: los tres casos posibles de configuración de los pi
 
 **Por qué es relevante:** permite decidir cuándo usar pageFooter, cuándo lastPageFooter y cuándo ambos. La elección afecta a la apariencia de la última página.
 
-La banda summary se emite después de la banda lastPageFooter o de la banda pageFooter de la última página, según cuál esté definida. En ella se colocan los valores que dependen del conjunto completo del informe: el recuento total de páginas, el recuento de registros, la suma de un campo numérico. La banda summary puede ocupar una página propia si el contenido es extenso, pero habitualmente se emite al final de la última página. Su altura debe ser suficiente para alojar el contenido, y la propiedad splitType controla si se divide entre páginas.
+La banda `summary` se genera una sola vez por informe y aparece al final del contenido principal, pero **no necesariamente es la última sección que se genera**: el `columnFooter` y/o el `pageFooter` de la página final pueden procesarse después. `summary` puede comenzar en una página nueva mediante la configuración del informe y también saltará a otra página si no cabe en el espacio restante. En ella se colocan valores del conjunto completo, como recuentos o sumas. El total de páginas de este curso se muestra con `PAGE_NUMBER` evaluado con `evaluationTime="Report"`.
 
 #### Bloque 5 — Background, orden de emisión y saltos de página
 
@@ -258,11 +258,11 @@ La banda background se emite en cada página, detrás del contenido de las demá
 </background>
 ```
 
-Línea 1: <background> → declara la banda de fondo. Se emite en cada página.
+Línea 1: &lt;background&gt; → declara la banda de fondo. Se emite en cada página.
 
-Línea 2: <band height="0"/> → banda con altura cero. No emite contenido visible pero mantiene la estructura del informe.
+Línea 2: &lt;band height="0"/&gt; → banda con altura cero. No emite contenido visible pero mantiene la estructura del informe.
 
-La propiedad splitType controla el comportamiento de una banda cuando no cabe completa en el espacio disponible de la página. Los valores posibles son Stretch, Prevent e Immediate. El valor Stretch permite que la banda se divida y continúe en la página siguiente. El valor Prevent obliga al motor a desplazar la banda completa a la página siguiente si no cabe. El valor Immediate fuerza un salto de página antes de la banda. El valor por defecto es Stretch. La elección del valor depende del contenido de la banda y del efecto deseado.
+La propiedad `splitType` controla **cuándo se permite dividir una banda** al agotarse el espacio disponible. En JasperReports 6.20.0 los valores son `Stretch`, `Prevent` e `Immediate`. `Stretch` evita que la división ocurra dentro de la altura declarada de la banda, pero permite partir la parte que se haya estirado por encima de esa altura. `Prevent` intenta impedir la primera división y desplazar la banda a la página o columna siguiente; si allí vuelve a no caber, el motor puede permitir la división para evitar un ciclo infinito. `Immediate` permite dividir la banda tan pronto como resulte necesario, después de que se haya impreso al menos un elemento. **Immediate no significa «forzar un salto de página antes de la banda».**
 
 ```xml
 <band height="20" splitType="Prevent">
@@ -270,34 +270,32 @@ La propiedad splitType controla el comportamiento de una banda cuando no cabe co
 </band>
 ```
 
-Línea 1: <band height="20" splitType="Prevent"> → define una banda que no se divide entre páginas. Si no cabe al final de una página, el motor la desplaza completa a la siguiente.
+Línea 1: `<band height="20" splitType="Prevent">` → el motor intenta evitar la primera división de la banda y desplazarla completa. Si el mismo contenido vuelve a no caber en el nuevo espacio, puede permitir la división para no quedar atrapado en un ciclo.
 
 ```text
 VALORES DE splitType
 
-  Stretch    →  La banda se divide y continúa en la página siguiente.
-                Valor por defecto.
-                Adecuado para bandas de detalle con contenido variable.
+  Stretch    →  No divide dentro de la altura declarada de la banda.
+                Si el contenido estira la banda, la parte estirada sí puede dividirse.
 
-  Prevent    →  Si la banda no cabe completa, se desplaza entera a la
-                página siguiente. No se divide.
-                Adecuado para bandas de resumen o bloques compactos.
+  Prevent    →  Intenta impedir la primera división y mover la banda completa.
+                En un intento posterior puede dividir para evitar un ciclo infinito.
 
-  Immediate  →  Fuerza un salto de página antes de la banda.
-                Adecuado para bandas que deben comenzar en página nueva.
+  Immediate  →  Permite dividir tan pronto como sea necesario después de
+                que se haya impreso al menos un elemento. No fuerza un salto previo.
 ```
 
 Qué representa el diagrama: los tres valores de splitType y su comportamiento. El valor por defecto es Stretch.
 
 **Por qué es relevante:** permite controlar el comportamiento de las bandas al final de cada página y evitar saltos inesperados o bandas cortadas.
 
-El orden de emisión de las bandas determina la estructura del documento. El motor emite las bandas en el siguiente orden: background, title, pageHeader, columnHeader, detail, columnFooter, pageFooter, lastPageFooter y summary. Las bandas title y summary se emiten una sola vez. Las bandas pageHeader, pageFooter, lastPageFooter y background se emiten en cada página. Las bandas columnHeader y columnFooter se emiten en cada columna. La banda detail se emite por cada registro. Este orden es fijo y no puede alterarse. La única flexibilidad consiste en definir o no cada banda y en decidir su contenido.
+Conviene distinguir **el orden estructural del JRXML** del **momento real de renderizado**. La plantilla declara sus secciones en el orden admitido por el esquema; durante el llenado, el motor genera cada sección cuando corresponde: `title` una vez al inicio, `pageHeader` por página, `columnHeader` por columna, `detail` por registro, pies cuando se cierra la columna o la página y `summary` una vez al final del contenido. `background` es especial: se dibuja en todas las páginas por debajo del resto. `lastPageFooter` solo sustituye al pie normal en su última ocurrencia. Los grupos y `noData`, si existen, añaden sus propias reglas. Por eso no debe memorizarse una lista lineal como si todas las secciones se emitiesen siempre una detrás de otra.
 
 ### Resumen rápido de la teoría
 
 - Una banda es una franja horizontal con una altura y un momento de emisión propios.
 
-- Las bandas se clasifican en cuatro grupos: por informe, por página, por columna y por registro.
+- Las secciones se distinguen por su momento de generación: una vez por informe, por página, por columna, por registro y casos especiales como `background` o `lastPageFooter`.
 
 - Las bandas de cabecera son title, pageHeader y columnHeader.
 
@@ -305,7 +303,7 @@ El orden de emisión de las bandas determina la estructura del documento. El mot
 
 - Las bandas de cierre son columnFooter, pageFooter, lastPageFooter y summary.
 
-- La banda lastPageFooter sustituye a pageFooter en la última página cuando ambas están definidas.
+- `lastPageFooter` sustituye al `pageFooter` normal en la última ocurrencia del pie de página; con `summary` multipágina esa ocurrencia no tiene por qué coincidir con la última página física.
 
 - La banda background se emite en cada página detrás del contenido.
 
@@ -343,11 +341,11 @@ Los elementos staticText y textField comparten un conjunto de propiedades que de
 </staticText>
 ```
 
-Línea 2: <reportElement x="0" y="5" width="200" height="20" forecolor="#000000" backcolor="#FFFFFF" mode="Opaque"/> → define la posición (0, 5), el tamaño (200 × 20), el color del texto (forecolor), el color de fondo (backcolor) y el modo de opacidad (mode="Opaque"). El modo Opaque hace que el fondo se rellene con backcolor; el modo Transparent lo deja transparente.
+Línea 2: &lt;reportElement x="0" y="5" width="200" height="20" forecolor="#000000" backcolor="#FFFFFF" mode="Opaque"/&gt; → define la posición (0, 5), el tamaño (200 × 20), el color del texto (forecolor), el color de fondo (backcolor) y el modo de opacidad (mode="Opaque"). El modo Opaque hace que el fondo se rellene con backcolor; el modo Transparent lo deja transparente.
 
-Línea 3: <textElement textAlignment="Center" verticalAlignment="Middle" rotation="None"> → configura la alineación horizontal centrada, la alineación vertical centrada y la rotación nula. Los valores de rotation son None, Left, Right y UpsideDown.
+Línea 3: &lt;textElement textAlignment="Center" verticalAlignment="Middle" rotation="None"&gt; → configura la alineación horizontal centrada, la alineación vertical centrada y la rotación nula. Los valores de rotation son None, Left, Right y UpsideDown.
 
-Línea 4: <font fontName="DejaVu Sans" size="12" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/> → define la tipografía, el tamaño, la negrita y la cursiva. El atributo pdfFontName es específico para la exportación a PDF y permite mapear la fuente lógica a una fuente PDF estándar.
+Línea 4: &lt;font fontName="DejaVu Sans" size="12" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/&gt; → define la tipografía, el tamaño, la negrita y la cursiva. El atributo pdfFontName es específico para la exportación a PDF y permite mapear la fuente lógica a una fuente PDF estándar.
 
 La alineación horizontal del texto dentro del cuadro se controla con el atributo textAlignment. Los valores son Left, Center, Right y Justified. La alineación vertical se controla con el atributo verticalAlignment y los valores son Top, Middle y Bottom. La combinación de ambos atributos determina la posición del texto dentro del rectángulo definido por reportElement. Si el texto es más ancho que el cuadro, se recorta por la derecha o se ajusta en varias líneas según la configuración `textAdjust`. Si el texto es más alto que el cuadro, se recorta por abajo o se expande la banda según la configuración de ajuste de texto. La coherencia entre el tamaño del cuadro y el contenido es responsabilidad del diseñador.
 
@@ -465,9 +463,9 @@ El atributo pattern del textField aplica un formato al valor devuelto por la exp
 </textField>
 ```
 
-Línea 1: <textField pattern="#,##0.00 €"> → declara el campo con un patrón que incluye el símbolo del euro. El patrón #,##0.00 € produce valores como 19,95 €.
+Línea 1: &lt;textField pattern="#,##0.00 €"&gt; → declara el campo con un patrón que incluye el símbolo del euro. El patrón #,##0.00 € produce valores como 19,95 €.
 
-Línea 4: <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression> → la expresión devuelve un valor numérico. El patrón se aplica al valor y produce la cadena formateada.
+Línea 4: &lt;textFieldExpression&gt;&lt;![CDATA[$F{precio}]]&gt;&lt;/textFieldExpression&gt; → la expresión devuelve un valor numérico. El patrón se aplica al valor y produce la cadena formateada.
 
 Además del patrón, el elemento textElement permite aplicar estilos tipográficos al contenido. Los atributos más utilizados son forecolor para el color del texto, backcolor para el color de fondo del texto, markup para interpretar etiquetas HTML o RTF en el contenido y font para la tipografía. El atributo markup admite los valores none, styled, html y rtf. El valor none imprime el contenido como texto literal. El valor styled interpreta las etiquetas simples de JasperReports. El valor html interpreta un subconjunto de etiquetas HTML. El valor rtf interpreta etiquetas RTF. La elección del valor depende del tipo de contenido que se quiera interpretar.
 
@@ -481,9 +479,9 @@ Además del patrón, el elemento textElement permite aplicar estilos tipográfic
 </textField>
 ```
 
-Línea 3: <textElement markup="html"> → activa la interpretación de etiquetas HTML en el contenido del campo.
+Línea 3: &lt;textElement markup="html"&gt; → activa la interpretación de etiquetas HTML en el contenido del campo.
 
-Línea 6: <textFieldExpression><![CDATA["<b>" + $F{titulo} + "</b>"]]></textFieldExpression> → la expresión construye una cadena que envuelve el título con las etiquetas <b> y </b>. El motor interpreta las etiquetas y muestra el título en negrita.
+Línea 6: `<textFieldExpression><![CDATA["<b>" + $F{titulo} + "</b>"]]></textFieldExpression>` → la expresión construye una cadena que envuelve el título con las etiquetas &lt;b&gt; y &lt;/b&gt;. El motor interpreta las etiquetas y muestra el título en negrita.
 
 #### Bloque 5 — Combinación de textos estáticos y campos de texto
 
@@ -577,11 +575,11 @@ Un campo en JasperReports representa un valor que cambia con cada registro de la
 <field name="fechaPublicacion" class="java.util.Date"/>
 ```
 
-Línea 1: <field name="titulo" class="java.lang.String"/> → declara un campo llamado titulo de tipo cadena. El nombre debe coincidir con el que la fuente de datos utiliza en getFieldValue.
+Línea 1: &lt;field name="titulo" class="java.lang.String"/&gt; → declara un campo llamado titulo de tipo cadena. El nombre debe coincidir con el que la fuente de datos utiliza en getFieldValue.
 
-Línea 2: <field name="precio" class="java.lang.Double"/> → declara un campo llamado precio de tipo numérico. El tipo java.lang.Double permite aplicar patrones numéricos.
+Línea 2: &lt;field name="precio" class="java.lang.Double"/&gt; → declara un campo llamado precio de tipo numérico. El tipo java.lang.Double permite aplicar patrones numéricos.
 
-Línea 3: <field name="fechaPublicacion" class="java.util.Date"/> → declara un campo llamado fechaPublicacion de tipo fecha. El tipo java.util.Date permite aplicar patrones de fecha.
+Línea 3: &lt;field name="fechaPublicacion" class="java.util.Date"/&gt; → declara un campo llamado fechaPublicacion de tipo fecha. El tipo java.util.Date permite aplicar patrones de fecha.
 
 El nombre del campo es sensible a mayúsculas y minúsculas. Un campo declarado como titulo y solicitado como Titulo no se resuelve y el motor lanza JRException: Field not found: Titulo. La convención en el proyecto EditorialReports es usar nombres en minúscula inicial y notación camelCase para nombres compuestos (fechaPublicacion, precioConIva, nombreAutor). Esta convención coincide con la de las propiedades de las clases Java que alimentan la fuente de datos y evita conversiones innecesarias. La coherencia entre el nombre del campo en el JRXML y el nombre solicitado en getFieldValue es condición necesaria para que la resolución funcione.
 
@@ -625,15 +623,15 @@ La declaración de un campo consta de dos atributos obligatorios: name y class. 
 <field name="fechaPublicacion" class="java.util.Date"/>
 ```
 
-Línea 1: <field name="titulo" class="java.lang.String"/> → campo de tipo cadena. Adecuado para textos cortos o largos.
+Línea 1: &lt;field name="titulo" class="java.lang.String"/&gt; → campo de tipo cadena. Adecuado para textos cortos o largos.
 
-Línea 2: <field name="paginas" class="java.lang.Integer"/> → campo de tipo entero. Adecuado para contadores y números sin decimales.
+Línea 2: &lt;field name="paginas" class="java.lang.Integer"/&gt; → campo de tipo entero. Adecuado para contadores y números sin decimales.
 
-Línea 3: <field name="precio" class="java.lang.Double"/> → campo de tipo doble. Adecuado para importes con decimales.
+Línea 3: &lt;field name="precio" class="java.lang.Double"/&gt; → campo de tipo doble. Adecuado para importes con decimales.
 
-Línea 4: <field name="disponible" class="java.lang.Boolean"/> → campo de tipo booleano. Adecuado para indicadores de sí/no.
+Línea 4: &lt;field name="disponible" class="java.lang.Boolean"/&gt; → campo de tipo booleano. Adecuado para indicadores de sí/no.
 
-Línea 5: <field name="fechaPublicacion" class="java.util.Date"/> → campo de tipo fecha. Adecuado para fechas y horas.
+Línea 5: &lt;field name="fechaPublicacion" class="java.util.Date"/&gt; → campo de tipo fecha. Adecuado para fechas y horas.
 
 La elección del tipo afecta al comportamiento del motor en dos aspectos. El primero es la conversión automática de tipos: si un campo declarado como java.lang.String devuelve un número, el motor lo convierte a cadena antes de imprimirlo. El segundo es la aplicación de patrones: los patrones numéricos solo se aplican a campos de tipo numérico y los patrones de fecha solo a campos de tipo fecha. Un patrón numérico aplicado a un campo de tipo cadena produce un error de formato. La declaración coherente del tipo evita conversiones implícitas y errores difíciles de diagnosticar.
 
@@ -669,11 +667,11 @@ Los tres elementos comparten la sintaxis $X{} y se diferencian por la letra inic
 </variable>
 ```
 
-Línea 1: <parameter name="usuario" class="java.lang.String"/> → declara un parámetro de tipo cadena. Se resuelve una sola vez al inicio del llenado.
+Línea 1: &lt;parameter name="usuario" class="java.lang.String"/&gt; → declara un parámetro de tipo cadena. Se resuelve una sola vez al inicio del llenado.
 
-Línea 2: <field name="titulo" class="java.lang.String"/> → declara un campo de tipo cadena. Se resuelve una vez por cada registro de la fuente de datos.
+Línea 2: &lt;field name="titulo" class="java.lang.String"/&gt; → declara un campo de tipo cadena. Se resuelve una vez por cada registro de la fuente de datos.
 
-Línea 3-5: <variable name="ContadorLibros" ...> → declara una variable de tipo entero que se calcula mediante Count sobre el campo titulo. Se recalcula a lo largo del llenado.
+Línea 3-5: &lt;variable name="ContadorLibros" ...&gt; → declara una variable de tipo entero que se calcula mediante Count sobre el campo titulo. Se recalcula a lo largo del llenado.
 
 La diferencia entre los tres elementos determina qué tipo de valor puede representar cada uno. Un campo representa un valor que viene de la fuente de datos y que cambia con cada registro. Un parámetro representa un valor que se pasa desde el programa Java al inicio del llenado. Una variable representa un valor que el motor calcula a lo largo del llenado. Un contador de registros es una variable. Una suma de importes es una variable. Un nombre de usuario es un parámetro. Un título de libro es un campo. La asignación correcta de cada valor al tipo de elemento adecuado es una de las decisiones de diseño que más afecta a la claridad de la plantilla.
 
@@ -737,7 +735,7 @@ List<Libro> libros = Libro.listaEjemplo();
 JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(libros);
 ```
 
-Línea 1: List<Libro> libros = Libro.listaEjemplo(); → obtiene la lista de libros.
+Línea 1: List&lt;Libro&gt; libros = Libro.listaEjemplo(); → obtiene la lista de libros.
 
 Línea 2: JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(libros); → construye una fuente de datos que recorre la lista y resuelve los campos titulo y precio a través de los métodos getTitulo() y getPrecio() de la clase Libro.
 
@@ -835,11 +833,11 @@ El elemento image de JasperReports permite insertar una imagen en cualquier band
 </image>
 ```
 
-Línea 1: <image> → declara un elemento de imagen. Puede colocarse en cualquier banda del informe.
+Línea 1: &lt;image&gt; → declara un elemento de imagen. Puede colocarse en cualquier banda del informe.
 
-Línea 2: <reportElement x="0" y="10" width="80" height="80" uuid="..."/> → define la posición (0, 10) y el tamaño (80 × 80) del elemento. La posición es relativa al borde superior izquierdo de la banda.
+Línea 2: &lt;reportElement x="0" y="10" width="80" height="80" uuid="..."/&gt; → define la posición (0, 10) y el tamaño (80 × 80) del elemento. La posición es relativa al borde superior izquierdo de la banda.
 
-Línea 3: <imageExpression><![CDATA["resources/logo.png"]]></imageExpression> → expresión que devuelve la ruta del archivo de imagen. Las comillas dobles son obligatorias porque la expresión debe devolver una cadena. Sin las comillas, el motor interpreta la expresión como una variable o un campo y lanza un error de compilación.
+Línea 3: &lt;imageExpression&gt;&lt;![CDATA["resources/logo.png"]]&gt;&lt;/imageExpression&gt; → expresión que devuelve la ruta del archivo de imagen. Las comillas dobles son obligatorias porque la expresión debe devolver una cadena. Sin las comillas, el motor interpreta la expresión como una variable o un campo y lanza un error de compilación.
 
 La expresión de un elemento image puede devolver la imagen de cuatro formas distintas. La primera es una ruta de archivo como cadena. El motor abre el archivo en la ruta indicada y lo carga. La segunda es un objeto java.io.InputStream que el motor lee y cierra. La tercera es un arreglo de bytes que el motor decodifica. La cuarta es un objeto java.awt.Image ya construido. La elección entre una forma y otra depende de dónde se encuentre la imagen y de cómo se obtenga. Para imágenes estáticas que residen en el classpath, la forma habitual es la ruta como cadena. Para imágenes almacenadas en la base de datos como BLOB, la forma habitual es el arreglo de bytes.
 
@@ -871,7 +869,7 @@ La carga de una imagen desde un archivo en disco se realiza con una expresión q
 </image>
 ```
 
-Línea 3: <imageExpression><![CDATA["resources/logo.png"]]></imageExpression> → expresión que devuelve la ruta relativa del archivo. El motor busca el archivo en el directorio de ejecución del programa.
+Línea 3: &lt;imageExpression&gt;&lt;![CDATA["resources/logo.png"]]&gt;&lt;/imageExpression&gt; → expresión que devuelve la ruta relativa del archivo. El motor busca el archivo en el directorio de ejecución del programa.
 
 La carga desde el classpath se realiza con una expresión que utiliza el método getResourceAsStream de la clase Class. Este método devuelve un InputStream que el motor lee para construir la imagen. La carga desde el classpath es la más portable porque no depende del directorio de ejecución del programa: los archivos del classpath se incluyen en el JAR de la aplicación y se localizan automáticamente. El método se invoca sobre la clase actual o sobre cualquier clase del proyecto, y la ruta comienza por una barra inclinada para indicar la raíz del classpath.
 
@@ -882,7 +880,7 @@ La carga desde el classpath se realiza con una expresión que utiliza el método
 </image>
 ```
 
-Línea 3: <imageExpression><![CDATA[getClass().getResourceAsStream("/resources/logo.png")]]></imageExpression> → expresión que invoca al método getResourceAsStream sobre la clase actual. La ruta comienza por una barra inclinada para indicar la raíz del classpath. El método devuelve un InputStream que el motor lee.
+Línea 3: &lt;imageExpression&gt;&lt;![CDATA[getClass().getResourceAsStream("/resources/logo.png")]]&gt;&lt;/imageExpression&gt; → expresión que invoca al método getResourceAsStream sobre la clase actual. La ruta comienza por una barra inclinada para indicar la raíz del classpath. El método devuelve un InputStream que el motor lee.
 
 La carga desde una URL se realiza con una expresión que construye un objeto java.net.URL o que devuelve la URL como cadena. El motor abre la conexión y descarga la imagen. Este uso es menos frecuente porque introduce una dependencia de red y un tiempo de espera adicional. Resulta útil cuando el informe debe mostrar el logotipo alojado en un servidor corporativo y no se quiere distribuir el archivo con la aplicación. La expresión puede incluir la URL como cadena literal o como expresión que resuelve la URL a partir de un parámetro.
 
@@ -893,7 +891,7 @@ La carga desde una URL se realiza con una expresión que construye un objeto jav
 </image>
 ```
 
-Línea 3: <imageExpression><![CDATA["https://editorial.example.com/logo.png"]]></imageExpression> → expresión que devuelve la URL de la imagen. El motor abre la conexión y descarga la imagen en el momento de la emisión.
+Línea 3: &lt;imageExpression&gt;&lt;![CDATA["https://editorial.example.com/logo.png"]]&gt;&lt;/imageExpression&gt; → expresión que devuelve la URL de la imagen. El motor abre la conexión y descarga la imagen en el momento de la emisión.
 
 #### Bloque 3 — Modos de escala
 
@@ -906,7 +904,7 @@ El modo de escala determina cómo se ajusta la imagen al rectángulo definido po
 </image>
 ```
 
-Línea 1: <image scaleImage="RetainShape"> → declara la imagen con el modo de escala RetainShape. La imagen se escala proporcionalmente para caber completa dentro del rectángulo de 80 × 80 unidades de informe sin deformarse. El espacio sobrante queda vacío.
+Línea 1: &lt;image scaleImage="RetainShape"&gt; → declara la imagen con el modo de escala RetainShape. La imagen se escala proporcionalmente para caber completa dentro del rectángulo de 80 × 80 unidades de informe sin deformarse. El espacio sobrante queda vacío.
 
 ```text
 MODOS DE ESCALA
@@ -939,7 +937,7 @@ Una imagen dinámica es una imagen cuya expresión depende del registro actual o
 </image>
 ```
 
-Línea 3: <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression> → expresión que construye la ruta de la imagen a partir del título del libro. Para cada registro, el motor busca el archivo correspondiente. Si el archivo no existe, la imagen no se muestra.
+Línea 3: &lt;imageExpression&gt;&lt;![CDATA["resources/portadas/" + $F{titulo} + ".png"]]&gt;&lt;/imageExpression&gt; → expresión que construye la ruta de la imagen a partir del título del libro. Para cada registro, el motor busca el archivo correspondiente. Si el archivo no existe, la imagen no se muestra.
 
 La propiedad onErrorType controla el comportamiento del elemento cuando la imagen no se puede cargar. Los valores posibles son Error, Blank e Icon. El valor Error lanza una excepción y detiene el llenado. El valor Blank deja el espacio vacío y continúa el llenado. El valor Icon muestra un icono genérico de error. El valor por defecto es Error. Para informes con imágenes dinámicas cuya existencia no está garantizada, el valor Blank resulta más robusto porque evita que el informe falle por una imagen ausente.
 
@@ -950,7 +948,7 @@ La propiedad onErrorType controla el comportamiento del elemento cuando la image
 </image>
 ```
 
-Línea 1: <image onErrorType="Blank"> → declara la imagen con el modo de error Blank. Si la imagen no se puede cargar, el motor deja el espacio vacío y continúa el llenado sin lanzar excepción.
+Línea 1: &lt;image onErrorType="Blank"&gt; → declara la imagen con el modo de error Blank. Si la imagen no se puede cargar, el motor deja el espacio vacío y continúa el llenado sin lanzar excepción.
 
 #### Bloque 5 — Combinación de imágenes y datos en el informe
 
@@ -974,11 +972,11 @@ Las imágenes se combinan con los demás elementos del informe para construir do
 </title>
 ```
 
-Línea 3: <image hAlign="Left" vAlign="Middle"> → declara la imagen con alineación horizontal izquierda y vertical centrada dentro de su rectángulo.
+Línea 3: &lt;image hAlign="Left" vAlign="Middle"&gt; → declara la imagen con alineación horizontal izquierda y vertical centrada dentro de su rectángulo.
 
-Línea 4: <reportElement x="0" y="10" width="80" height="80" uuid="..."/> → posición y tamaño del elemento. El logotipo ocupa la esquina superior izquierda de la banda.
+Línea 4: &lt;reportElement x="0" y="10" width="80" height="80" uuid="..."/&gt; → posición y tamaño del elemento. El logotipo ocupa la esquina superior izquierda de la banda.
 
-Línea 5: <imageExpression><![CDATA["resources/logo.png"]]></imageExpression> → expresión que devuelve la ruta del archivo del logotipo.
+Línea 5: &lt;imageExpression&gt;&lt;![CDATA["resources/logo.png"]]&gt;&lt;/imageExpression&gt; → expresión que devuelve la ruta del archivo del logotipo.
 
 Línea 7-13: staticText con el título del informe. La posición x="90" lo sitúa a la derecha del logotipo.
 
@@ -997,12 +995,9 @@ ALINEACIÓN DE IMAGEN Y TEXTO
   │  x=0,y=10  x=90,y=35                                │
   │  80×80     texto de 30 px centrado verticalmente    │
   └──────────────────────────────────────────────────────┘
-```
-
-Qué representa el diagrama: la alineación del logotipo y del título en la banda Title. La imagen ocupa la esquina izquierda y el texto se coloca a su derecha, centrado verticalmente.
+```Qué representa el diagrama: la alineación del logotipo y del título en la banda Title. La imagen ocupa la esquina izquierda y el texto se coloca a su derecha, centrado verticalmente.
 
 **Por qué es relevante:** permite construir encabezados visualmente equilibrados con imágenes y textos alineados.
-
 ### Resumen rápido de la teoría
 
 - El elemento image permite insertar imágenes en cualquier banda del informe.
@@ -1431,4 +1426,4 @@ El checkpoint `M2/2.6` se valida además en GitHub Actions. La ejecución real p
 
 ## Validación técnica final del módulo
 
-Los checkpoints `2.1` a `2.6` se compilan y ejecutan con Temurin JDK 8 y JasperReports Library 6.20.0. La validación genera el `.jasper`, llena un `JasperPrint` con la fuente de datos del checkpoint y exporta un PDF real. El run de cierre **35966538785** finaliza con resultado **SUCCESS** para la matriz completa 2.1–2.6. En 2.6 la ejecución real informa 14 registros y un `JasperPrint` de 3 páginas.
+Los checkpoints `2.1` a `2.6` se compilan y ejecutan con Temurin JDK 8 y JasperReports Library 6.20.0. La validación genera el `.jasper`, llena un `JasperPrint` con la fuente de datos del checkpoint y exporta un PDF real. La matriz `M2 - Validacion end-to-end` ejecuta los seis checkpoints 2.1–2.6. El identificador del run de cierre se registra en `VALIDACION_M2.md` después de la ejecución final sobre la revisión documental vigente. En 2.6 la ejecución real informa 14 registros y un `JasperPrint` de 3 páginas.

@@ -175,9 +175,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 3. Hacer clic al final de la línea que contiene <style name="Sans_Normal" ... y pulsar Enter.
 
-4. Escribir exactamente <field name="titulo" class="java.lang.String"/> y pulsar Enter.
+4. Escribir exactamente &lt;field name="titulo" class="java.lang.String"/&gt; y pulsar Enter.
 
-5. Escribir exactamente <field name="precio" class="java.lang.Double"/> y pulsar Enter.
+5. Escribir exactamente &lt;field name="precio" class="java.lang.Double"/&gt; y pulsar Enter.
 
 6. Pulsar Ctrl+S para guardar el archivo.
 
@@ -285,37 +285,30 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Analogía:** es como contar los libros que se han maquetado y escribir el total en el colofón.
 
-#### Paso 10: Añadir un Page Header con contenido variable [VALIDADO]
+#### Paso 10: Completar el Page Header con «Página N de M» [VALIDADO]
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Page Header en el panel Outline (inferior izquierdo).
+1. Hacer clic sobre el nodo `Page Header` en el panel Outline (inferior izquierdo).
+2. Hacer clic sobre el `Static Text` que contiene `Catálogo Editorial - Informe Conceptual` y, en Properties, escribir `0` en X y `330` en Width. Mantener Y=`5` y Height=`15`.
+3. Hacer clic sobre la pestaña Elements del panel Palette y seleccionar `Text Field`.
+4. Arrastrar el `Text Field` a `Page Header`; en Properties escribir X=`330`, Y=`5`, Width=`170`, Height=`15`.
+5. Hacer clic sobre `Text Field Expression`, escribir exactamente `"Página " + $V{PAGE_NUMBER} + " de"` y pulsar Enter. Seleccionar alineación horizontal `Right`.
+6. Volver a Palette > Elements y seleccionar otro `Text Field`.
+7. Arrastrar el segundo campo a `Page Header`; escribir X=`500`, Y=`5`, Width=`55`, Height=`15`.
+8. En `Text Field Expression` escribir exactamente `$V{PAGE_NUMBER}` y pulsar Enter.
+9. En las propiedades del segundo campo localizar `Evaluation Time` y seleccionar `Report`; seleccionar también alineación horizontal `Right`.
+10. Pulsar Ctrl+S y comprobar en Source que el segundo campo aparece como `<textField evaluationTime="Report">` y que su expresión contiene únicamente `$V{PAGE_NUMBER}`.
 
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor).
+**Verificación visual:** el Page Header contiene tres elementos en la primera fila: el título abreviado, el campo `"Página " + $V{PAGE_NUMBER} + " de"` y, a su derecha, el campo `$V{PAGE_NUMBER}` evaluado al final del informe. En el PDF se obtiene `Página N de M`.
 
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+**Qué hace:** separa el número de página actual del total final de páginas.
 
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Page Header, en la coordenada aproximada x=400, y=5.
+**Por qué:** el primer `PAGE_NUMBER` se evalúa en el momento normal y muestra N; el segundo se evalúa con `evaluationTime="Report"` y muestra el valor final M.
 
-5. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+**Error común:** escribir `evaluationTime="Report"` dentro de `textFieldExpression` o dejar el segundo campo con evaluación normal. **Solución:** `evaluationTime` es un atributo de `<textField>`, no parte de la expresión; seleccionar `Report` en la propiedad Evaluation Time.
 
-6. Escribir exactamente "Página " + $V{PAGE_NUMBER} + " de" y pulsar Enter.
-
-7. Hacer clic sobre el campo Width, escribir 155 y pulsar Enter.
-
-8. Hacer clic sobre el campo Height, escribir 15 y pulsar Enter.
-
-9. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
-
-**Verificación visual:** la banda Page Header muestra el texto existente a la izquierda y un nuevo campo alineado a la derecha con la expresión de paginación.
-
-**Qué hace:** inserta un campo que muestra la página actual y el total de páginas en el encabezado.
-
-**Por qué:** el lector puede situarse en el documento desde la primera página.
-
-**Error común:** colocar el campo en la banda Page Header cuando PAGE_NUMBER evaluado al final del informe aún no tiene su valor definitivo. En las primeras páginas el total aparece como 0 o incorrecto. Solución: aceptar que el valor de PAGE_NUMBER evaluado al final del informe en la banda Page Header se resuelve al final del llenado y el motor reescribe el valor retroactivamente en todas las páginas. Este comportamiento es correcto en JasperReports 6.20.0.
-
-**Analogía:** es como indicar en cada página del catálogo el número de página y el total de páginas de la edición.
+**Analogía:** es como imprimir el número de la página que se está leyendo y, en una segunda casilla, el total definitivo de páginas de la edición.
 
 #### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
 
@@ -363,7 +356,7 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 6. Escribir exactamente - La banda Page Header muestra "Página N de M". y pulsar Enter.
 
-7. Escribir exactamente - La banda Last Page Footer sustituye a Page Footer en la última página. y pulsar Enter.
+7. Escribir exactamente - La banda Last Page Footer sustituye a Page Footer en la última ocurrencia del pie de página; en este informe coincide con la página final. y pulsar Enter.
 
 8. Pulsar Ctrl+S para guardar el archivo.
 
@@ -378,6 +371,8 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 **Analogía:** es como anotar en el manual del catálogo cómo se comporta cada sección cuando el manuscrito contiene varios capítulos.
 
 ### Parte B — JRXML explicado y contrastado [COMPLETADO]
+
+El siguiente JRXML representa **el estado tras los doce pasos de la Parte A y antes del reto resuelto**. Se ha contrastado con el checkpoint 2.1: mantiene el orden XSD correcto (`background` antes de `title`) y la paginación usa un segundo `textField` con `evaluationTime="Report"`. El reto posterior añade `TotalPrecios`, amplía Summary y queda incorporado al checkpoint final.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -395,30 +390,25 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
               bottomMargin="20"
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <style name="DejaVu_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
+    <background>
+        <band height="0"/>
+    </background>
     <title>
         <band height="70">
             <staticText>
                 <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
-                </textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <staticText>
                 <reportElement x="0" y="45" width="120" height="20" uuid="2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
                 <text><![CDATA[Fecha de emisión:]]></text>
             </staticText>
             <textField pattern="dd/MM/yyyy">
-                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
+                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f3a4b5c6d7e8f"/>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
         </band>
@@ -426,35 +416,32 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
     <pageHeader>
         <band height="25">
             <staticText>
-                <reportElement x="0" y="5" width="400" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-                </textElement>
+                <reportElement x="0" y="5" width="330" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <textField>
-                <reportElement x="400" y="5" width="155" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-                </textElement>
+                <reportElement x="330" y="5" width="170" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
         </band>
     </pageHeader>
     <columnHeader>
         <band height="25">
             <staticText>
-                <reportElement x="0" y="5" width="300" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
+                <reportElement x="0" y="5" width="330" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement verticalAlignment="Middle"><font size="10" isBold="true"/></textElement>
                 <text><![CDATA[Título]]></text>
             </staticText>
             <staticText>
-                <reportElement x="300" y="5" width="100" height="15" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
+                <reportElement x="330" y="5" width="100" height="15" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement verticalAlignment="Middle"><font size="10" isBold="true"/></textElement>
                 <text><![CDATA[Precio]]></text>
             </staticText>
         </band>
@@ -462,17 +449,11 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
     <detail>
         <band height="20" splitType="Stretch">
             <textField>
-                <reportElement x="0" y="0" width="300" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
+                <reportElement x="0" y="0" width="330" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
                 <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
             </textField>
             <textField pattern="#,##0.00">
-                <reportElement x="300" y="0" width="100" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
+                <reportElement x="330" y="0" width="100" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
                 <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
             </textField>
         </band>
@@ -481,9 +462,7 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
         <band height="25">
             <staticText>
                 <reportElement x="0" y="5" width="555" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-                </textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
             </staticText>
         </band>
@@ -491,10 +470,8 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
     <pageFooter>
         <band height="30">
             <staticText>
-                <reportElement x="0" y="5" width="400" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9"/>
-                </textElement>
+                <reportElement x="0" y="5" width="555" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+                <textElement verticalAlignment="Middle"><font size="9"/></textElement>
                 <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
         </band>
@@ -503,9 +480,7 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
         <band height="30">
             <staticText>
                 <reportElement x="0" y="5" width="555" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-                </textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <text><![CDATA[Documento generado en la última página]]></text>
             </staticText>
         </band>
@@ -514,184 +489,309 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
         <band height="70">
             <staticText>
                 <reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
                 <text><![CDATA[Total de páginas:]]></text>
             </staticText>
-            <textField>
+            <textField evaluationTime="Report">
                 <reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}` con `evaluationTime="Report"]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isItalic="true"/>
-                </textElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
                 <text><![CDATA[Fin del informe. EditorialReports.]]></text>
             </staticText>
             <staticText>
                 <reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
                 <text><![CDATA[Total de libros:]]></text>
             </staticText>
             <textField>
-                <reportElement x="155" y="45" width="50" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
+                <reportElement x="155" y="45" width="80" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
                 <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
             </textField>
         </band>
     </summary>
-    <background>
-        <band height="0"/>
-    </background>
 </jasperReport>
 ```
 
-Línea 1: <?xml version="1.0" encoding="UTF-8"?> → declaración XML obligatoria.
+### Explicación línea por línea
 
-Línea 2: <jasperReport xmlns="..." → elemento raíz con espacio de nombres.
+Línea 1: `<?xml version="1.0" encoding="UTF-8"?>` → declara la versión XML y la codificación UTF-8.
 
-Línea 3: xmlns:xsi="..." → prefijo xsi para el espacio de nombres de XML Schema.
+Línea 2: `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → abre el elemento raíz del informe; los atributos siguientes fijan el espacio de nombres y la geometría.
 
-Línea 4: xsi:schemaLocation="..." → ubicación del esquema XSD.
+Línea 3: `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → continúa la configuración del elemento raíz.
 
-Línea 5: name="informe_concepto" → nombre lógico del informe.
+Línea 4: `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → continúa la configuración del elemento raíz.
 
-Línea 6: language="java" → lenguaje de las expresiones.
+Línea 5: `name="informe_concepto"` → continúa la configuración del elemento raíz.
 
-Línea 7: pageWidth="595" → ancho de página.
+Línea 6: `language="java"` → continúa la configuración del elemento raíz.
 
-Línea 8: pageHeight="842" → alto de página.
+Línea 7: `pageWidth="595"` → continúa la configuración del elemento raíz.
 
-Línea 9: columnWidth="555" → ancho de columna.
+Línea 8: `pageHeight="842"` → continúa la configuración del elemento raíz.
 
-Línea 10-13: márgenes de la página.
+Línea 9: `columnWidth="555"` → continúa la configuración del elemento raíz.
 
-Línea 14: uuid="..." → identificador único del informe.
+Línea 10: `leftMargin="20"` → continúa la configuración del elemento raíz.
 
-Línea 15: <property .../> → propiedad de Jaspersoft Studio.
+Línea 11: `rightMargin="20"` → continúa la configuración del elemento raíz.
 
-Línea 16: <style .../> → estilo por defecto.
+Línea 12: `topMargin="20"` → continúa la configuración del elemento raíz.
 
-Línea 17: <field name="titulo" class="java.lang.String"/> → declara el campo titulo de tipo cadena. El campo se resuelve por cada registro de la fuente de datos.
+Línea 13: `bottomMargin="20"` → continúa la configuración del elemento raíz.
 
-Línea 18: <field name="precio" class="java.lang.Double"/> → declara el campo precio de tipo numérico. El tipo java.lang.Double permite aplicar el patrón #,##0.00.
+Línea 14: `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → continúa la configuración del elemento raíz.
 
-Línea 19: <title> → banda de título. Se emite una sola vez.
+Línea 15: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>` → declara una propiedad de Jaspersoft Studio usada por el diseño.
 
-Línea 20: <band height="70"> → banda con 70 unidades de informe.
+Línea 16: `<style name="DejaVu_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → declara o aplica una definición de estilo del informe.
 
-Línea 21-27: título principal.
+Línea 17: `<field name="titulo" class="java.lang.String"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 28-35: rótulo de fecha.
+Línea 18: `<field name="precio" class="java.lang.Double"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 36-42: campo con la fecha actual.
+Línea 19: `<background>` → abre la sección de fondo; en el XSD se declara antes de las secciones de contenido.
 
-Línea 43: </band> → cierra la banda.
+Línea 20: `<band height="0"/>` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 44: </title> → cierra la sección.
+Línea 21: `</background>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 45: <pageHeader> → banda de cabecera de página.
+Línea 22: `<title>` → abre la sección Title, generada una vez al comienzo del informe.
 
-Línea 46: <band height="25"> → banda con 25 unidades de informe.
+Línea 23: `<band height="70">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 47-53: título abreviado en cursiva.
+Línea 24: `<staticText>` → abre un texto estático.
 
-Línea 54-60: campo con "Página " + $V{PAGE_NUMBER} + " de". La variable PAGE_NUMBER evaluado al final del informe se resuelve al final del llenado y el motor reescribe el valor en todas las páginas.
+Línea 25: `<reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 61: </band> → cierra la banda.
+Línea 26: `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → configura alineación y/o marcado del texto.
 
-Línea 62: </pageHeader> → cierra la sección.
+Línea 27: `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → define el contenido literal del elemento estático.
 
-Línea 63: <columnHeader> → banda de cabecera de columna.
+Línea 28: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 64: <band height="25"> → banda con 25 unidades de informe.
+Línea 29: `<staticText>` → abre un texto estático.
 
-Línea 65-71: encabezado Título en negrita.
+Línea 30: `<reportElement x="0" y="45" width="120" height="20" uuid="2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 72-78: encabezado Precio en negrita.
+Línea 31: `<text><![CDATA[Fecha de emisión:]]></text>` → define el contenido literal del elemento estático.
 
-Línea 79: </band> → cierra la banda.
+Línea 32: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 80: </columnHeader> → cierra la sección.
+Línea 33: `<textField pattern="dd/MM/yyyy">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 81: <detail> → banda de detalle. Se emite una vez por registro.
+Línea 34: `<reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 82: <band height="20" splitType="Stretch"> → banda con 20 unidades de informe y splitType Stretch. Permite que la banda se divida entre páginas si es necesario.
+Línea 35: `<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 83-89: campo $F{titulo} con ancho 300.
+Línea 36: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 90-96: campo $F{precio} con ancho 100 y patrón #,##0.00.
+Línea 37: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 97: </band> → cierra la banda.
+Línea 38: `</title>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 98: </detail> → cierra la sección.
+Línea 39: `<pageHeader>` → abre Page Header, generado al comienzo de cada página.
 
-Línea 99: <columnFooter> → banda de pie de columna.
+Línea 40: `<band height="25">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 100: <band height="25"> → banda con 25 unidades de informe.
+Línea 41: `<staticText>` → abre un texto estático.
 
-Línea 101-107: texto separador --- Fin de la tabla de datos ---.
+Línea 42: `<reportElement x="0" y="5" width="330" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 108: </band> → cierra la banda.
+Línea 43: `<textElement verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 109: </columnFooter> → cierra la sección.
+Línea 44: `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → define el contenido literal del elemento estático.
 
-Línea 110: <pageFooter> → banda de pie de página.
+Línea 45: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 111: <band height="30"> → banda con 30 unidades de informe.
+Línea 46: `<textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 112-118: texto del pie.
+Línea 47: `<reportElement x="330" y="5" width="170" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 119: </band> → cierra la banda.
+Línea 48: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 120: </pageFooter> → cierra la sección.
+Línea 49: `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 121: <lastPageFooter> → banda de pie de última página.
+Línea 50: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 122: <band height="30"> → banda con 30 unidades de informe.
+Línea 51: `<textField evaluationTime="Report">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 123-129: texto Documento generado en la última página centrado.
+Línea 52: `<reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 130: </band> → cierra la banda.
+Línea 53: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 131: </lastPageFooter> → cierra la sección.
+Línea 54: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 132: <summary> → banda de resumen.
+Línea 55: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 133: <band height="70"> → banda con 70 unidades de informe. La altura se ha ampliado para alojar los nuevos elementos.
+Línea 56: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 134-140: rótulo Total de páginas:.
+Línea 57: `</pageHeader>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 141-148: campo $V{PAGE_NUMBER}` con `evaluationTime="Report".
+Línea 58: `<columnHeader>` → abre Column Header, generado al comienzo de cada columna.
 
-Línea 149-155: mensaje de cierre Fin del informe. EditorialReports..
+Línea 59: `<band height="25">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 156-162: rótulo Total de libros: en negrita.
+Línea 60: `<staticText>` → abre un texto estático.
 
-Línea 163-170: campo $V{REPORT_COUNT} en negrita.
+Línea 61: `<reportElement x="0" y="5" width="330" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 171: </band> → cierra la banda.
+Línea 62: `<textElement verticalAlignment="Middle"><font size="10" isBold="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 172: </summary> → cierra la sección.
+Línea 63: `<text><![CDATA[Título]]></text>` → define el contenido literal del elemento estático.
 
-Línea 173: <background> → banda de fondo.
+Línea 64: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 174: <band height="0"/> → banda con altura cero.
+Línea 65: `<staticText>` → abre un texto estático.
 
-Línea 175: </background> → cierra la sección.
+Línea 66: `<reportElement x="330" y="5" width="100" height="15" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 176: </jasperReport> → cierra el elemento raíz.
+Línea 67: `<textElement verticalAlignment="Middle"><font size="10" isBold="true"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 68: `<text><![CDATA[Precio]]></text>` → define el contenido literal del elemento estático.
+
+Línea 69: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 70: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 71: `</columnHeader>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 72: `<detail>` → abre Detail, que el motor intenta generar por cada registro.
+
+Línea 73: `<band height="20" splitType="Stretch">` → define la banda y su altura; si aparece splitType, establece la política de división.
+
+Línea 74: `<textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 75: `<reportElement x="0" y="0" width="330" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 76: `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 77: `</textField>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 78: `<textField pattern="#,##0.00">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 79: `<reportElement x="330" y="0" width="100" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 80: `<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 81: `</textField>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 82: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 83: `</detail>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 84: `<columnFooter>` → abre Column Footer.
+
+Línea 85: `<band height="25">` → define la banda y su altura; si aparece splitType, establece la política de división.
+
+Línea 86: `<staticText>` → abre un texto estático.
+
+Línea 87: `<reportElement x="0" y="5" width="555" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 88: `<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 89: `<text><![CDATA[--- Fin de la tabla de datos ---]]></text>` → define el contenido literal del elemento estático.
+
+Línea 90: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 91: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 92: `</columnFooter>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 93: `<pageFooter>` → abre el pie normal de página.
+
+Línea 94: `<band height="30">` → define la banda y su altura; si aparece splitType, establece la política de división.
+
+Línea 95: `<staticText>` → abre un texto estático.
+
+Línea 96: `<reportElement x="0" y="5" width="555" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 97: `<textElement verticalAlignment="Middle"><font size="9"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 98: `<text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>` → define el contenido literal del elemento estático.
+
+Línea 99: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 100: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 101: `</pageFooter>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 102: `<lastPageFooter>` → abre el pie que sustituye al pageFooter en su última ocurrencia.
+
+Línea 103: `<band height="30">` → define la banda y su altura; si aparece splitType, establece la política de división.
+
+Línea 104: `<staticText>` → abre un texto estático.
+
+Línea 105: `<reportElement x="0" y="5" width="555" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 106: `<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 107: `<text><![CDATA[Documento generado en la última página]]></text>` → define el contenido literal del elemento estático.
+
+Línea 108: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 109: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 110: `</lastPageFooter>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 111: `<summary>` → abre Summary, generado una vez al final del contenido del informe.
+
+Línea 112: `<band height="70">` → define la banda y su altura; si aparece splitType, establece la política de división.
+
+Línea 113: `<staticText>` → abre un texto estático.
+
+Línea 114: `<reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 115: `<text><![CDATA[Total de páginas:]]></text>` → define el contenido literal del elemento estático.
+
+Línea 116: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 117: `<textField evaluationTime="Report">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 118: `<reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 119: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 120: `</textField>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 121: `<staticText>` → abre un texto estático.
+
+Línea 122: `<reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 123: `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → configura alineación y/o marcado del texto.
+
+Línea 124: `<text><![CDATA[Fin del informe. EditorialReports.]]></text>` → define el contenido literal del elemento estático.
+
+Línea 125: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 126: `<staticText>` → abre un texto estático.
+
+Línea 127: `<reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 128: `<text><![CDATA[Total de libros:]]></text>` → define el contenido literal del elemento estático.
+
+Línea 129: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 130: `<textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 131: `<reportElement x="155" y="45" width="80" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 132: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 133: `</textField>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 134: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 135: `</summary>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 136: `</jasperReport>` → cierra el elemento o sección abierto correspondiente.
 
 ### Parte C — Código Java explicado línea por línea [COMPLETADO]
+
+2.1 introduce el modelo `Libro`, la implementación `CatalogoDataSource` y sustituye la fuente vacía por datos reales.
+
+Los tres archivos siguientes se reproducen **literalmente desde el checkpoint ejecutable `M2/2.1`**. De este modo, la Parte C coincide con el código que compila y se ejecuta en la validación end-to-end.
 
 #### Clase Libro.java
 
@@ -700,9 +800,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Libro {
-
-    private String titulo;
-    private Double precio;
+    private final String titulo;
+    private final Double precio;
 
     public Libro(String titulo, Double precio) {
         this.titulo = titulo;
@@ -718,7 +817,7 @@ public class Libro {
     }
 
     public static List<Libro> listaEjemplo() {
-        List<Libro> libros = new ArrayList<>();
+        List<Libro> libros = new ArrayList<Libro>();
         libros.add(new Libro("Cien años de soledad", 19.95));
         libros.add(new Libro("Rayuela", 22.50));
         libros.add(new Libro("La ciudad y los perros", 18.75));
@@ -736,34 +835,81 @@ public class Libro {
 }
 ```
 
-Línea 1: import java.util.ArrayList; → importa la clase ArrayList para construir la lista de libros.
+### Explicación línea por línea
 
-Línea 2: import java.util.List; → importa la interfaz List para declarar la lista.
+Línea 1: `import java.util.ArrayList;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 4: public class Libro { → declara la clase Libro.
+Línea 2: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: private String titulo; → campo que almacena el título del libro.
+Línea 4: `public class Libro {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 7: private Double precio; → campo que almacena el precio del libro.
+Línea 5: `private final String titulo;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 9-12: constructor que recibe el título y el precio y los asigna a los campos.
+Línea 6: `private final Double precio;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 14-16: método getTitulo() que devuelve el título. El método es necesario para que CatalogoDataSource acceda al valor.
+Línea 8: `public Libro(String titulo, Double precio) {` → declara el constructor completo del modelo `Libro` con los valores que necesita el informe.
 
-Línea 18-20: método getPrecio() que devuelve el precio.
+Línea 9: `this.titulo = titulo;` → asigna al campo del objeto el valor recibido o calculado.
 
-Línea 22-35: método estático listaEjemplo() que construye y devuelve una lista de doce libros. Los títulos y precios son datos de ejemplo para el proyecto.
+Línea 10: `this.precio = precio;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 11: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 13: `public String getTitulo() {` → devuelve el título del libro.
+
+Línea 14: `return titulo;` → forma parte del bloque Java reproducido literalmente desde el checkpoint ejecutable.
+
+Línea 15: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 17: `public Double getPrecio() {` → devuelve el precio del libro.
+
+Línea 18: `return precio;` → forma parte del bloque Java reproducido literalmente desde el checkpoint ejecutable.
+
+Línea 19: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 21: `public static List<Libro> listaEjemplo() {` → abre el método que construye los datos de ejemplo del curso.
+
+Línea 22: `List<Libro> libros = new ArrayList<Libro>();` → crea una lista tipada compatible con Java 8 y con la baseline del proyecto.
+
+Línea 23: `libros.add(new Libro("Cien años de soledad", 19.95));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 24: `libros.add(new Libro("Rayuela", 22.50));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 25: `libros.add(new Libro("La ciudad y los perros", 18.75));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 26: `libros.add(new Libro("Pedro Páramo", 15.90));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 27: `libros.add(new Libro("Ficciones", 21.00));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 28: `libros.add(new Libro("La casa de los espíritus", 23.40));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 29: `libros.add(new Libro("El amor en los tiempos del cólera", 20.80));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 30: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 31: `libros.add(new Libro("Doña Bárbara", 16.95));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 32: `libros.add(new Libro("Martín Fierro", 14.50));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 33: `libros.add(new Libro("Comala", 19.20));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 34: `libros.add(new Libro("Paradiso", 25.00));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 35: `return libros;` → devuelve la lista completa que alimentará la fuente de datos.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 37: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Clase CatalogoDataSource.java
 
 ```java
 import java.util.List;
-
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
 public class CatalogoDataSource implements JRDataSource {
-
     private final List<Libro> libros;
     private int indice = -1;
 
@@ -772,48 +918,86 @@ public class CatalogoDataSource implements JRDataSource {
     }
 
     @Override
-    public boolean next() {
+    public boolean next() throws JRException {
         indice++;
         return indice < libros.size();
     }
 
     @Override
-    public Object getFieldValue(JRField campo) {
+    public Object getFieldValue(JRField campo) throws JRException {
         Libro actual = libros.get(indice);
         if ("titulo".equals(campo.getName())) {
             return actual.getTitulo();
-        } else if ("precio".equals(campo.getName())) {
+        }
+        if ("precio".equals(campo.getName())) {
             return actual.getPrecio();
         }
-        return null;
+        throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());
     }
 }
 ```
 
-Línea 1: import java.util.List; → importa la interfaz List.
+### Explicación línea por línea
 
-Línea 3: import net.sf.jasperreports.engine.JRDataSource; → importa la interfaz que define el contrato de las fuentes de datos.
+Línea 1: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 4: import net.sf.jasperreports.engine.JRField; → importa la clase que representa un campo solicitado por el motor.
+Línea 2: `import net.sf.jasperreports.engine.JRDataSource;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: public class CatalogoDataSource implements JRDataSource { → declara la clase y la obliga a implementar la interfaz.
+Línea 3: `import net.sf.jasperreports.engine.JRException;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: private final List<Libro> libros; → almacena la lista de libros que se va a recorrer.
+Línea 4: `import net.sf.jasperreports.engine.JRField;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 9: private int indice = -1; → contador interno. Comienza en −1 porque el motor invoca next() antes de leer el primer registro.
+Línea 6: `public class CatalogoDataSource implements JRDataSource {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 11-13: constructor que recibe la lista y la asigna al campo.
+Línea 7: `private final List<Libro> libros;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 15-19: método next() que incrementa el índice y devuelve verdadero mientras queden registros.
+Línea 8: `private int indice = -1;` → declara el índice interno de la fuente de datos; empieza en -1 porque `next()` se invoca antes de leer el primer registro.
 
-Línea 21-30: método getFieldValue(JRField campo) que recibe el campo solicitado por el motor y devuelve el valor correspondiente del registro actual. El método compara el nombre del campo con los nombres declarados en el JRXML y devuelve el valor adecuado.
+Línea 10: `public CatalogoDataSource(List<Libro> libros) {` → declara el constructor de la fuente de datos y recibe la lista de libros.
+
+Línea 11: `this.libros = libros;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 12: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 14: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 15: `public boolean next() throws JRException {` → implementa `JRDataSource.next()` y declara `JRException` según el contrato de JasperReports.
+
+Línea 16: `indice++;` → avanza al siguiente registro.
+
+Línea 17: `return indice < libros.size();` → indica al motor si todavía existe un registro válido.
+
+Línea 18: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 20: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 21: `public Object getFieldValue(JRField campo) throws JRException {` → implementa la resolución de un campo JRXML para el registro actual.
+
+Línea 22: `Libro actual = libros.get(indice);` → obtiene el libro correspondiente al índice actual.
+
+Línea 23: `if ("titulo".equals(campo.getName())) {` → resuelve el campo `titulo`.
+
+Línea 24: `return actual.getTitulo();` → devuelve el valor del campo solicitado para el libro actual.
+
+Línea 25: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 26: `if ("precio".equals(campo.getName())) {` → resuelve el campo `precio`.
+
+Línea 27: `return actual.getPrecio();` → devuelve el valor del campo solicitado para el libro actual.
+
+Línea 28: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 29: `throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());` → falla explícitamente si el JRXML solicita un campo que la fuente no soporta, evitando devolver silenciosamente un valor incorrecto.
+
+Línea 30: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 31: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Clase GeneradorInformeConcepto.java
 
 ```java
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashMap;import java.util.Map;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -821,7 +1005,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 public class GeneradorInformeConcepto {
-
     public static void main(String[] args) {
         try {
             String rutaJrxml = "reports/informe_concepto.jrxml";
@@ -830,7 +1013,7 @@ public class GeneradorInformeConcepto {
 
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
 
-            Map<String, Object> parametros = new HashMap<>();
+            Map<String, Object> parametros = new HashMap<String, Object>();
 
             JasperPrint documento = JasperFillManager.fillReport(
                     rutaJasper,
@@ -840,127 +1023,85 @@ public class GeneradorInformeConcepto {
             JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
 
             System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
-            System.out.println("Páginas del documento: " + documento.getPages().size());
-
+            System.out.println("Paginas del documento: " + documento.getPages().size());
+            System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }
 ```
 
-Línea 1: import java.io.File; → importa la clase File para obtener la ruta absoluta del PDF.
+### Explicación línea por línea
 
-Línea 2: import java.util.HashMap; → importa la implementación de mapa.
+Línea 1: `import java.io.File;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 3: import java.util.Map; → importa la interfaz Map.
+Línea 2: `import java.util.HashMap;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 5: import net.sf.jasperreports.engine.JasperCompileManager; → importa el gestor de compilación.
+Línea 3: `import java.util.Map;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: import net.sf.jasperreports.engine.JasperExportManager; → importa el gestor de exportación.
+Línea 5: `import net.sf.jasperreports.engine.JasperCompileManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 7: import net.sf.jasperreports.engine.JasperFillManager; → importa el gestor de llenado.
+Línea 6: `import net.sf.jasperreports.engine.JasperExportManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: import net.sf.jasperreports.engine.JasperPrint; → importa la clase del documento en memoria.
+Línea 7: `import net.sf.jasperreports.engine.JasperFillManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 10: public class GeneradorInformeConcepto { → declara la clase principal.
+Línea 8: `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 12: public static void main(String[] args) { → punto de entrada.
+Línea 10: `public class GeneradorInformeConcepto {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 13: try { → abre el bloque protegido.
+Línea 11: `public static void main(String[] args) {` → declara el punto de entrada de la aplicación.
 
-Línea 14: String rutaJrxml = "reports/informe_concepto.jrxml"; → ruta del archivo de diseño.
+Línea 12: `try {` → abre el bloque protegido de ejecución.
 
-Línea 15: String rutaJasper = "reports/informe_concepto.jasper"; → ruta del artefacto compilado.
+Línea 13: `String rutaJrxml = "reports/informe_concepto.jrxml";` → define la ruta relativa de la plantilla JRXML.
 
-Línea 16: String rutaPdf = "output/informe_concepto.pdf"; → ruta del PDF de salida.
+Línea 14: `String rutaJasper = "reports/informe_concepto.jasper";` → define la ruta del artefacto compilado `.jasper`.
 
-Línea 18: JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper); → compila el JRXML.
+Línea 15: `String rutaPdf = "output/informe_concepto.pdf";` → define la ruta del PDF de salida.
 
-Línea 20: Map<String, Object> parametros = new HashMap<>(); → declara el mapa de parámetros vacío.
+Línea 17: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML con JasperReports Library.
 
-Línea 22: JasperPrint documento = → declara la variable del documento.
+Línea 19: `Map<String, Object> parametros = new HashMap<String, Object>();` → crea el mapa tipado de parámetros.
 
-Línea 22 (continuación): JasperFillManager.fillReport( → invoca el motor de llenado.
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(` → declara el `JasperPrint` resultante del llenado.
 
-Línea 23: rutaJasper, → ruta del artefacto compilado.
+Línea 22: `rutaJasper,` → pasa al llenado el informe compilado.
 
-Línea 24: parametros, → mapa de parámetros.
+Línea 23: `parametros,` → pasa el mapa de parámetros.
 
-Línea 25: new CatalogoDataSource(Libro.listaEjemplo())); → construye la fuente de datos con la lista de doce libros. La banda Detail se emitirá doce veces.
+Línea 24: `new CatalogoDataSource(Libro.listaEjemplo()));` → pasa la fuente de datos construida con los libros de ejemplo.
 
-Línea 27: JasperExportManager.exportReportToPdfFile(documento, rutaPdf); → exporta a PDF.
+Línea 26: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta el `JasperPrint` a un PDF real.
 
-Línea 29: System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath()); → imprime la ruta del PDF.
+Línea 28: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → escribe en consola la ruta absoluta del PDF generado.
 
-Línea 30: System.out.println("Páginas del documento: " + documento.getPages().size()); → imprime el número de páginas.
+Línea 29: `System.out.println("Paginas del documento: " + documento.getPages().size());` → escribe en consola el número real de páginas del `JasperPrint`.
 
-Línea 32: } catch (Exception e) { → captura excepciones.
+Línea 30: `System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());` → escribe en consola el número de registros de ejemplo; el workflow usa esta salida como evidencia de ejecución.
 
-Línea 33: e.printStackTrace(); → imprime la traza.
+Línea 31: `} catch (Exception e) {` → captura cualquier fallo de compilación, llenado o exportación.
 
-Línea 34: } → cierra el bloque catch.
+Línea 32: `e.printStackTrace();` → imprime la traza del error para diagnóstico.
 
-Línea 35: } → cierra el método main.
+Línea 33: `System.exit(1);` → termina con código distinto de cero para que GitHub Actions detecte el fallo.
 
-Línea 36: } → cierra la clase.
+Línea 34: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 35: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Traza de consola esperada tras la ejecución
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 1
+Paginas del documento: <valor real del checkpoint>
+Registros de ejemplo: <12 o 14 según el checkpoint>
 ```
 
-#### Estado del objeto JasperPrint en cada fase
-
-```text
-FASE 1 — COMPILACIÓN
-─────────────────────
-  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
-  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~14 KB)
-  Salida:           reports/informe_concepto.jasper      (binario serializado, ~28 KB)
-  Expresiones compiladas:
-    - new java.util.Date()
-    - "Página " + $V{PAGE_NUMBER} + " de"
-    - $V{PAGE_NUMBER}` con `evaluationTime="Report"
-    - $V{REPORT_COUNT}
-    - $F{titulo}
-    - $F{precio}
-  Campos declarados:
-    - titulo (java.lang.String)
-    - precio (java.lang.Double)
-
-FASE 2 — LLENADO
-─────────────────
-  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
-  Entrada:          reports/informe_concepto.jasper + HashMap vacío
-                    + CatalogoDataSource con 12 libros
-  Salida:           objeto JasperPrint en memoria
-  Páginas:          1
-  Bandas emitidas:
-    - Title (1 vez)
-    - Page Header (1 vez)
-    - Column Header (1 vez)
-    - Detail (12 veces, una por libro)
-    - Column Footer (1 vez)
-    - Page Footer (0 veces, porque solo hay una página y existe lastPageFooter)
-    - Last Page Footer (1 vez)
-    - Summary (1 vez)
-    - Background (1 vez)
-  Valores resueltos:
-    - Fecha de emisión:     22/09/2026
-    - Número de página:     1
-    - Total de páginas:     1
-    - Total de libros:      12
-
-FASE 3 — EXPORTACIÓN
-─────────────────────
-  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
-  Entrada:          objeto JasperPrint en memoria
-  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~12 KB en disco)
-  Páginas en el PDF: 1
-```
+La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -997,14 +1138,13 @@ FASE 3 — EXPORTACIÓN
 |                                                                         |
 |  ┌─── Page Footer ───────────────────────────────────── h = 30 ─────┐  |
 |  │  EditorialReports - Documento...                                   │  |
-|  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
+|  └───────────────────────────────────────────────────────────────────┘  ||                                                                         |
 |  ┌─── Last Page Footer ──────────────────────────────── h = 30 ─────┐  |
 |  │           Documento generado en la última página                   │  |
 |  └───────────────────────────────────────────────────────────────────┘  |
 |                                                                         |
 |  ┌─── Summary ───────────────────────────────────────── h = 70 ──────┐  |
-|  │  Total de páginas: [ $V{PAGE_NUMBER}` con `evaluationTime="Report" ]                             │  |
+|  │  Total de páginas: [ $V{PAGE_NUMBER} [evaluationTime="Report"] ]                             │  |
 |  │              Fin del informe. EditorialReports.                    │  |
 |  │  Total de libros: [ $V{REPORT_COUNT} ]                            │  |
 |  └───────────────────────────────────────────────────────────────────┘  |
@@ -1016,7 +1156,7 @@ FASE 3 — EXPORTACIÓN
 
 **Qué representa:** la disposición de las bandas en el editor central tras completar los doce pasos de la Parte A. La banda Detail se emite doce veces, una por cada libro.
 
-**Cómo verificarlo:** comparar la vista del editor con este esquema. Las bandas deben aparecer en el orden Title, Page Header, Column Header, Detail 1, Column Footer, Page Footer, Last Page Footer, Summary, Background.
+**Cómo verificarlo:** comparar la presencia y la geometría de las secciones con este esquema. Para el orden XML válido, usar la Parte B: `background` se declara antes de las secciones de contenido aunque visualmente el diseñador pueda presentarlo en otra posición.
 
 #### D.2 — Jerarquía del Outline
 
@@ -1061,7 +1201,7 @@ informe_concepto
 │
 ├── Summary  [band, height=70]
 │   ├── staticText  "Total de páginas:"
-│   ├── textField   $V{PAGE_NUMBER}` con `evaluationTime="Report"
+│   ├── textField   $V{PAGE_NUMBER} [evaluationTime="Report"]
 │   ├── staticText  "Fin del informe. EditorialReports."
 │   ├── staticText  "Total de libros:"  (bold)
 │   └── textField   $V{REPORT_COUNT}  (bold)
@@ -1170,15 +1310,15 @@ EditorialReportsJava/
 
 | Error | Causa | Solución |
 | --- | --- | --- |
-| Field not found: titulo al compilar | El campo no está declarado en el JRXML | Añadir <field name="titulo" class="java.lang.String"/> antes de las bandas |
+| Field not found: titulo al compilar | El campo no está declarado en el JRXML | Añadir &lt;field name="titulo" class="java.lang.String"/&gt; antes de las bandas |
 | La banda Detail no emite ningún registro | La fuente de datos devuelve una lista vacía | Comprobar que Libro.listaEjemplo() devuelve la lista de doce libros |
 | ClassCastException en getFieldValue | El tipo devuelto por el campo no coincide con el declarado | Verificar que precio devuelve un Double y no un String |
 | El campo precio no se formatea con dos decimales | El campo no tiene el atributo pattern | Añadir pattern="#,##0.00" al elemento textField de precio |
 | La banda Last Page Footer no aparece | La banda no se ha añadido al JRXML o está fuera del elemento raíz | Verificar en el panel Outline que el nodo Last Page Footer existe |
-| El Page Footer sigue apareciendo en la última página | La banda Last Page Footer no está correctamente definida | Verificar que la banda Last Page Footer está declarada después de Page Footer en el JRXML |
+| El pie normal aparece donde se esperaba Last Page Footer | La banda Last Page Footer no está correctamente definida | Verificar el orden XSD del JRXML y que `lastPageFooter` esté definido antes de `summary` |
 | El contador REPORT_COUNT muestra 0 | Se usó $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT} | Cambiar el prefijo a $V{ |
 | El informe tiene más páginas de las esperadas | La banda Detail tiene una altura excesiva | Reducir el campo Band height de la banda Detail a 20 unidades de informe |
-| El campo de paginación del Page Header muestra Página 1 de 0 | La variable PAGE_NUMBER evaluado al final del informe no tiene su valor definitivo hasta el final | Este comportamiento es normal en las primeras páginas; el motor reescribe el valor retroactivamente |
+| El campo de paginación del Page Header muestra Página N de N incorrecto | El campo del total no está configurado con Evaluation Time = Report | Configurar el segundo Text Field con `$V{PAGE_NUMBER}` y Evaluation Time = Report |
 | Los acentos de los títulos de los libros aparecen corruptos | El archivo JRXML no está guardado en UTF-8 | Guardar el archivo como UTF-8 y recompilar |
 
 ### Reto resuelto paso a paso
@@ -1189,13 +1329,13 @@ Paso 1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Pro
 
 Paso 2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
 
-Paso 3. Hacer clic al final de la línea que contiene <field name="precio" class="java.lang.Double"/> y pulsar Enter.
+Paso 3. Hacer clic al final de la línea que contiene &lt;field name="precio" class="java.lang.Double"/&gt; y pulsar Enter.
 
-Paso 4. Escribir exactamente <variable name="TotalPrecios" class="java.lang.Double" calculation="Sum"> y pulsar Enter.
+Paso 4. Escribir exactamente &lt;variable name="TotalPrecios" class="java.lang.Double" calculation="Sum"&gt; y pulsar Enter.
 
-Paso 5. Escribir exactamente <variableExpression><![CDATA[$F{precio}]]></variableExpression> y pulsar Enter.
+Paso 5. Escribir exactamente &lt;variableExpression&gt;&lt;![CDATA[$F{precio}]]&gt;&lt;/variableExpression&gt; y pulsar Enter.
 
-Paso 6. Escribir exactamente </variable> y pulsar Enter.
+Paso 6. Escribir exactamente &lt;/variable&gt; y pulsar Enter.
 
 Paso 7. Pulsar Ctrl+S para guardar el archivo.
 
@@ -1361,9 +1501,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 5. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
 
-6. Hacer clic sobre la etiqueta <textField> del campo precio y verificar que contiene el atributo isBlankWhenNull="true".
+6. Hacer clic sobre la etiqueta &lt;textField&gt; del campo precio y verificar que contiene el atributo isBlankWhenNull="true".
 
-**Verificación visual:** el editor central muestra el campo con la propiedad activada. En la vista Source, la etiqueta <textField> incluye el atributo isBlankWhenNull="true".
+**Verificación visual:** el editor central muestra el campo con la propiedad activada. En la vista Source, la etiqueta &lt;textField&gt; incluye el atributo isBlankWhenNull="true".
 
 **Qué hace:** activa la propiedad que hace que el campo se muestre vacío cuando la expresión devuelve null.
 
@@ -1385,7 +1525,7 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 4. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
 
-5. Hacer clic sobre la etiqueta <textField> del campo título y verificar que contiene el atributo textAdjust="StretchHeight".
+5. Hacer clic sobre la etiqueta &lt;textField&gt; del campo título y verificar que contiene el atributo textAdjust="StretchHeight".
 
 **Verificación visual:** el editor central muestra el campo con la propiedad activada. En la vista Source, la etiqueta `<textField>` incluye `textAdjust="StretchHeight"`.
 
@@ -1397,75 +1537,48 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Analogía:** es como permitir que el título de un libro ocupe varias líneas en la tabla del catálogo cuando es largo.
 
-#### Paso 5: Añadir un rótulo estático para el número de registro [VALIDADO]
+#### Paso 5: Compactar Título/Precio y añadir el rótulo del número de registro [VALIDADO]
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+1. Hacer clic sobre el campo `$F{titulo}` de Detail y escribir X=`0`, Y=`0`, Width=`330`, Height=`20`.
+2. Hacer clic sobre el campo `$F{precio}` y escribir X=`330`, Y=`0`, Width=`100`, Height=`20`.
+3. Hacer clic sobre Palette > Elements > `Static Text`.
+4. Arrastrar el `Static Text` a Detail y escribir exactamente `#`.
+5. En Properties escribir X=`440`, Y=`0`, Width=`20`, Height=`20`.
+6. Seleccionar alineación horizontal `Right`.
+7. Pulsar Ctrl+S.
 
-2. Hacer clic sobre el icono Static Text (una letra T mayúscula).
+**Verificación visual:** título ocupa 0-330, precio 330-430 y el rótulo `#` ocupa 440-460, dejando espacio a la derecha para el contador.
 
-3. Arrastrar el icono Static Text y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=400, y=0.
+**Qué hace:** compacta la fila para reservar una zona estable al número de registro.
 
-4. Hacer doble clic sobre el Static Text creado en la acción anterior.
+**Por qué:** el checkpoint 2.2 debe permanecer dentro de `columnWidth="555"` y servir de base geométrica para 2.3.
 
-5. Escribir exactamente # (almohadilla y espacio).
+**Error común:** conservar Título con 300 y colocar `#` en X=400, solapándolo con Precio. **Solución:** usar exactamente las posiciones 0/330, 330/100 y 440/20.
 
-6. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-
-7. Hacer clic sobre el campo Width en el panel Properties, pestaña Properties, escribir 30 y pulsar Enter.
-
-8. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
-
-9. Hacer clic sobre el campo X, escribir 400 y pulsar Enter.
-
-10. Hacer clic sobre el campo Y, escribir 0 y pulsar Enter.
-
-11. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
-
-**Verificación visual:** la banda Detail 1 muestra un rótulo # en la coordenada 400 alineado a la derecha.
-
-**Qué hace:** inserta un rótulo estático que precede al número de registro.
-
-**Por qué:** el rótulo identifica el número de fila de la tabla de datos.
-
-**Error común:** escribir el rótulo sin el espacio después de la almohadilla. El número quedará pegado al símbolo. Solución: incluir el espacio en el texto del rótulo.
-
-**Analogía:** es como numerar las filas del catálogo para que el lector pueda referenciar una entrada concreta.
+**Analogía:** es como redistribuir las columnas de una tabla antes de añadir una columna final de numeración.
 
 #### Paso 6: Añadir el campo con el número de registro [VALIDADO]
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+1. Hacer clic sobre Palette > Elements > `Text Field`.
+2. Arrastrar el campo a Detail, a la derecha del rótulo `#`.
+3. En Properties escribir X=`465`, Y=`0`, Width=`40`, Height=`20`.
+4. En `Text Field Expression` escribir exactamente `$V{REPORT_COUNT}`.
+5. Seleccionar alineación horizontal `Right`.
+6. Pulsar Ctrl+S.
 
-2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+**Verificación visual:** el contador ocupa la franja 465-505 y no se solapa con el precio ni con el rótulo `#`.
 
-3. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=430, y=0.
+**Qué hace:** muestra el número correlativo del registro actual.
 
-4. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+**Por qué:** `REPORT_COUNT` se incrementa a medida que el motor procesa los registros.
 
-5. Escribir exactamente $V{REPORT_COUNT} y pulsar Enter.
+**Error común:** usar X=`430`, Width=`30` heredados de un borrador anterior. **Solución:** usar X=`465`, Width=`40`, que son las coordenadas del checkpoint validado.
 
-6. Hacer clic sobre el campo Width, escribir 30 y pulsar Enter.
-
-7. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
-
-8. Hacer clic sobre el campo X, escribir 430 y pulsar Enter.
-
-9. Hacer clic sobre el campo Y, escribir 0 y pulsar Enter.
-
-10. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
-
-**Verificación visual:** la banda Detail 1 muestra un campo alineado a la derecha con la expresión $V{REPORT_COUNT}.
-
-**Qué hace:** inserta un campo que muestra el número del registro actual.
-
-**Por qué:** la variable REPORT_COUNT cuenta los registros procesados y devuelve el número del registro actual en cada emisión de la banda Detail.
-
-**Error común:** usar $V{PAGE_NUMBER} en lugar de $V{REPORT_COUNT}. La variable PAGE_NUMBER devuelve el número de página, no el número de registro. Solución: cambiar el prefijo a REPORT_COUNT.
-
-**Analogía:** es como numerar cada fila de la tabla del catálogo con un número correlativo.
+**Analogía:** es como numerar las filas del catálogo en una columna reservada al margen derecho.
 
 #### Paso 7: Añadir un rótulo estático con estilo en el Page Header [VALIDADO]
 
@@ -1481,7 +1594,7 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 5. Hacer doble clic sobre el Static Text creado en la acción anterior.
 
-6. Escribir exactamente Precio en <b>euros</b> con IVA incluido.
+6. Escribir exactamente Precio en &lt;b&gt;euros&lt;/b&gt; con IVA incluido.
 
 7. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
 
@@ -1503,7 +1616,7 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** el estilo permite destacar una palabra dentro de un texto más largo.
 
-**Error común:** olvidar marcar la casilla Styled Text y provocar que las etiquetas <b> se impriman como texto literal. Solución: marcar la casilla Styled Text en el panel Properties.
+**Error común:** olvidar marcar la casilla Styled Text y provocar que las etiquetas &lt;b&gt; se impriman como texto literal. Solución: marcar la casilla Styled Text en el panel Properties.
 
 **Analogía:** es como usar la negrita en una nota del catálogo para destacar una palabra importante.
 
@@ -1521,7 +1634,7 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Verificación visual:** la banda Page Header aparece con 40 unidades de informe de altura y la propiedad Split Type ajustada a Prevent.
 
-**Qué hace:** amplía la altura de la banda de cabecera para alojar el nuevo rótulo y evita que se divida entre páginas.
+**Qué hace:** amplía la altura de la banda de cabecera y configura `Prevent`, que intenta evitar el primer corte de la banda cuando no cabe en el espacio restante.
 
 **Por qué:** el rótulo adicional ocupa espacio y la banda debe crecer para alojarlo sin recortar el contenido existente.
 
@@ -1675,197 +1788,215 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 ### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
-Se reproduce únicamente la sección del JRXML modificada en este punto, ya que el resto del archivo permanece igual que en el punto 2.1. Las secciones modificadas son: la banda pageHeader, la banda detail y la banda columnFooter.
+Se reproducen las tres secciones modificadas por 2.2 **exactamente como quedan en el checkpoint ejecutable**. El resto del JRXML se hereda de 2.1.
 
 ```xml
 <pageHeader>
-    <band height="40" splitType="Prevent">
-        <staticText>
-            <reportElement x="0" y="5" width="400" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
-            <textElement verticalAlignment="Middle" markup="styled">
-                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-            </textElement>
-            <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
-        </staticText>
-        <textField>
-            <reportElement x="400" y="5" width="155" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle" markup="styled">
-                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-            </textElement>
-            <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
-        </textField>
-        <staticText>
-            <reportElement x="0" y="20" width="555" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f" />
-            <textElement verticalAlignment="Middle" markup="styled">
-                <font fontName="DejaVu Sans" size="8"/>
-            </textElement>
-            <text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text>
-        </staticText>
-    </band>
-</pageHeader>
+        <band height="40" splitType="Prevent">
+            <staticText>
+                <reportElement x="0" y="5" width="330" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="330" y="5" width="170" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="20" width="555" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement verticalAlignment="Middle" markup="styled"><font size="8"/></textElement>
+                <text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+
 <detail>
-    <band height="20" splitType="Stretch">
-        <textField textAdjust="StretchHeight">
-            <reportElement x="0" y="0" width="300" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
-            <textElement verticalAlignment="Middle" markup="styled">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
-        </textField>
-        <textField pattern="#,##0.00 €" isBlankWhenNull="true">
-            <reportElement x="300" y="0" width="100" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
-        </textField>
-        <staticText>
-            <reportElement x="400" y="0" width="30" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="9"/>
-            </textElement>
-            <text><![CDATA[# ]]></text>
-        </staticText>
-        <textField>
-            <reportElement x="430" y="0" width="30" height="20" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="9"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-        </textField>
-    </band>
-</detail>
+        <band height="20" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="0" width="330" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="330" y="0" width="100" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="440" y="0" width="20" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+                <text><![CDATA[#]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="465" y="0" width="40" height="20" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
 <columnFooter>
-    <band height="40">
-        <staticText>
-            <reportElement x="0" y="5" width="555" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
-            </textElement>
-            <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="0" y="20" width="150" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="9"/>
-            </textElement>
-            <text><![CDATA[Registros procesados: ]]></text>
-        </staticText>
-        <textField>
-            <reportElement x="150" y="20" width="100" height="15" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="9" isBold="true"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-        </textField>
-    </band>
-</columnFooter>
+        <band height="40">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="20" width="150" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+                <textElement verticalAlignment="Middle"><font size="9"/></textElement>
+                <text><![CDATA[Registros procesados:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="20" width="100" height="15" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+                <textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnFooter>
 ```
 
-Línea 1: <pageHeader> → abre la banda de cabecera de página.
+### Explicación línea por línea
 
-Línea 2: <band height="40" splitType="Prevent"> → la banda crece de 25 a 40 unidades de informe para alojar el nuevo rótulo. La propiedad splitType="Prevent" evita que la banda se divida entre páginas.
+Línea 1: `<pageHeader>` → abre Page Header, generado al comienzo de cada página.
 
-Línea 3-10: primer staticText con el título abreviado. Se ha reducido el ancho de 555 a 400 para dejar espacio al campo de paginación en la misma fila.
+Línea 2: `<band height="40" splitType="Prevent">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 11-17: textField con la expresión "Página " + $V{PAGE_NUMBER} + " de". El campo combina la variable PAGE_NUMBER con la variable PAGE_NUMBER evaluado al final del informe para mostrar la posición relativa del lector.
+Línea 3: `<staticText>` → abre un texto estático.
 
-Línea 18: <staticText> → abre el nuevo staticText para el aviso sobre el IVA.
+Línea 4: `<reportElement x="0" y="5" width="330" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 19: <reportElement x="0" y="20" width="555" height="15" uuid="..." /> → posición x="0" y="20", ancho 555 y alto 15. El atributo  activa la interpretación de etiquetas de estilo en el contenido.
+Línea 5: `<textElement verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 20-22: <textElement verticalAlignment="Middle"> → alineación vertical centrada. La fuente es DejaVu Sans 8.
+Línea 6: `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → define el contenido literal del elemento estático.
 
-Línea 23: <text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text> → contenido con la etiqueta <b> que se interpreta como negrita. El resultado es Precio en euros con IVA incluido con la palabra euros en negrita.
+Línea 7: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 24: </staticText> → cierra el nuevo elemento.
+Línea 8: `<textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 25: </band> → cierra la banda de cabecera.
+Línea 9: `<reportElement x="330" y="5" width="170" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 26: </pageHeader> → cierra la sección de cabecera.
+Línea 10: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 27: <detail> → abre la banda de detalle.
+Línea 11: `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 28: <band height="20" splitType="Stretch"> → banda con 20 unidades de informe de altura y splitType Stretch.
+Línea 12: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 29: <textField textAdjust="StretchHeight"> → campo del título con la propiedad de ajuste de texto `textAdjust="StretchHeight"` activada. Permite que el título se ajuste en varias líneas si es largo.
+Línea 13: `<textField evaluationTime="Report">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 30: <reportElement x="0" y="0" width="300" height="20" uuid="..."/> → posición y tamaño del campo del título.
+Línea 14: `<reportElement x="500" y="5" width="55" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e8a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 31-33: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 10.
+Línea 15: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 34: <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression> → expresión que devuelve el título del libro.
+Línea 16: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 35: </textField> → cierra el campo del título.
+Línea 17: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 36: <textField pattern="#,##0.00 €" isBlankWhenNull="true"> → campo del precio con patrón que incluye el símbolo del euro y la propiedad isBlankWhenNull activada.
+Línea 18: `<staticText>` → abre un texto estático.
 
-Línea 37: <reportElement x="300" y="0" width="100" height="20" uuid="..."/> → posición y tamaño del campo del precio.
+Línea 19: `<reportElement x="0" y="20" width="555" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 38-40: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 10.
+Línea 20: `<textElement verticalAlignment="Middle" markup="styled"><font size="8"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 41: <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression> → expresión que devuelve el precio del libro.
+Línea 21: `<text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text>` → define el contenido literal del elemento estático.
 
-Línea 42: </textField> → cierra el campo del precio.
+Línea 22: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 43: <staticText> → abre el staticText con el rótulo #.
+Línea 23: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 44: <reportElement x="400" y="0" width="30" height="20" uuid="..."/> → posición x="400", ancho 30.
+Línea 24: `</pageHeader>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 45-47: <textElement textAlignment="Right" verticalAlignment="Middle"> → alineación derecha y centrado vertical. Fuente DejaVu Sans 9.
+Línea 26: `<detail>` → abre Detail, que el motor intenta generar por cada registro.
 
-Línea 48: <text><![CDATA[# ]]></text> → contenido literal # con el espacio al final.
+Línea 27: `<band height="20" splitType="Stretch">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 49: </staticText> → cierra el elemento.
+Línea 28: `<textField textAdjust="StretchHeight">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 50: <textField> → abre el campo del número de registro.
+Línea 29: `<reportElement x="0" y="0" width="330" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 51: <reportElement x="430" y="0" width="30" height="20" uuid="..."/> → posición x="430", ancho 30.
+Línea 30: `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 52-54: <textElement textAlignment="Right" verticalAlignment="Middle"> → alineación derecha y centrado vertical. Fuente DejaVu Sans 9.
+Línea 31: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 55: <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression> → expresión que devuelve el número del registro actual.
+Línea 32: `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 56: </textField> → cierra el campo.
+Línea 33: `<reportElement x="330" y="0" width="100" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 57: </band> → cierra la banda de detalle.
+Línea 34: `<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 58: </detail> → cierra la sección de detalle.
+Línea 35: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 59: <columnFooter> → abre la banda de pie de columna.
+Línea 36: `<staticText>` → abre un texto estático.
 
-Línea 60: <band height="40"> → la banda crece de 25 a 40 unidades de informe para alojar los nuevos elementos.
+Línea 37: `<reportElement x="440" y="0" width="20" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 61-67: primer staticText con el texto separador --- Fin de la tabla de datos ---.
+Línea 38: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 68: <staticText> → abre el nuevo staticText con el rótulo Registros procesados:.
+Línea 39: `<text><![CDATA[#]]></text>` → define el contenido literal del elemento estático.
 
-Línea 69: <reportElement x="0" y="20" width="150" height="15" uuid="..."/> → posición x="0" y="20", ancho 150.
+Línea 40: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 70-72: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 9.
+Línea 41: `<textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 73: <text><![CDATA[Registros procesados: ]]></text> → contenido literal con el espacio al final.
+Línea 42: `<reportElement x="465" y="0" width="40" height="20" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 74: </staticText> → cierra el elemento.
+Línea 43: `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 75: <textField> → abre el campo del recuento total.
+Línea 44: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 76: <reportElement x="150" y="20" width="100" height="15" uuid="..."/> → posición x="150" y="20", ancho 100.
+Línea 45: `</textField>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 77-79: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 9 en negrita.
+Línea 46: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 80: <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression> → expresión que devuelve el número total de registros procesados.
+Línea 47: `</detail>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 81: </textField> → cierra el campo.
+Línea 49: `<columnFooter>` → abre Column Footer.
 
-Línea 82: </band> → cierra la banda de pie de columna.
+Línea 50: `<band height="40">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 83: </columnFooter> → cierra la sección de pie de columna.
+Línea 51: `<staticText>` → abre un texto estático.
+
+Línea 52: `<reportElement x="0" y="5" width="555" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 53: `<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 54: `<text><![CDATA[--- Fin de la tabla de datos ---]]></text>` → define el contenido literal del elemento estático.
+
+Línea 55: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 56: `<staticText>` → abre un texto estático.
+
+Línea 57: `<reportElement x="0" y="20" width="150" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 58: `<textElement verticalAlignment="Middle"><font size="9"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 59: `<text><![CDATA[Registros procesados:]]></text>` → define el contenido literal del elemento estático.
+
+Línea 60: `</staticText>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 61: `<textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 62: `<reportElement x="150" y="20" width="100" height="15" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+
+Línea 63: `<textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>` → configura alineación y/o marcado del texto.
+
+Línea 64: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 65: `</textField>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 66: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 67: `</columnFooter>` → cierra el elemento o sección abierto correspondiente.
 
 ### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
-En este punto no se modifica el código Java del programa. Las clases Libro, CatalogoDataSource y GeneradorInformeConcepto permanecen tal como se construyeron en el punto 2.1. Se reproducen a continuación las tres clases para referencia.
+2.2 modifica el JRXML, no la lógica Java. Se reproduce la misma versión Java validada que hereda del checkpoint 2.1.
 
+Los tres archivos siguientes se reproducen **literalmente desde el checkpoint ejecutable `M2/2.2`**. De este modo, la Parte C coincide con el código que compila y se ejecuta en la validación end-to-end.
 #### Clase Libro.java
 
 ```java
@@ -1873,9 +2004,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Libro {
-
-    private String titulo;
-    private Double precio;
+    private final String titulo;
+    private final Double precio;
 
     public Libro(String titulo, Double precio) {
         this.titulo = titulo;
@@ -1891,7 +2021,7 @@ public class Libro {
     }
 
     public static List<Libro> listaEjemplo() {
-        List<Libro> libros = new ArrayList<>();
+        List<Libro> libros = new ArrayList<Libro>();
         libros.add(new Libro("Cien años de soledad", 19.95));
         libros.add(new Libro("Rayuela", 22.50));
         libros.add(new Libro("La ciudad y los perros", 18.75));
@@ -1909,34 +2039,81 @@ public class Libro {
 }
 ```
 
-Línea 1: import java.util.ArrayList; → importa la clase ArrayList para construir la lista de libros.
+### Explicación línea por línea
 
-Línea 2: import java.util.List; → importa la interfaz List para declarar la lista.
+Línea 1: `import java.util.ArrayList;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 4: public class Libro { → declara la clase Libro.
+Línea 2: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: private String titulo; → campo que almacena el título del libro.
+Línea 4: `public class Libro {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 7: private Double precio; → campo que almacena el precio del libro.
+Línea 5: `private final String titulo;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 9-12: constructor que recibe el título y el precio y los asigna a los campos.
+Línea 6: `private final Double precio;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 14-16: método getTitulo() que devuelve el título.
+Línea 8: `public Libro(String titulo, Double precio) {` → declara el constructor completo del modelo `Libro` con los valores que necesita el informe.
 
-Línea 18-20: método getPrecio() que devuelve el precio.
+Línea 9: `this.titulo = titulo;` → asigna al campo del objeto el valor recibido o calculado.
 
-Línea 22-35: método estático listaEjemplo() que construye y devuelve una lista de doce libros.
+Línea 10: `this.precio = precio;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 11: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 13: `public String getTitulo() {` → devuelve el título del libro.
+
+Línea 14: `return titulo;` → forma parte del bloque Java reproducido literalmente desde el checkpoint ejecutable.
+
+Línea 15: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 17: `public Double getPrecio() {` → devuelve el precio del libro.
+
+Línea 18: `return precio;` → forma parte del bloque Java reproducido literalmente desde el checkpoint ejecutable.
+
+Línea 19: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 21: `public static List<Libro> listaEjemplo() {` → abre el método que construye los datos de ejemplo del curso.
+
+Línea 22: `List<Libro> libros = new ArrayList<Libro>();` → crea una lista tipada compatible con Java 8 y con la baseline del proyecto.
+
+Línea 23: `libros.add(new Libro("Cien años de soledad", 19.95));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 24: `libros.add(new Libro("Rayuela", 22.50));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 25: `libros.add(new Libro("La ciudad y los perros", 18.75));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 26: `libros.add(new Libro("Pedro Páramo", 15.90));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 27: `libros.add(new Libro("Ficciones", 21.00));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 28: `libros.add(new Libro("La casa de los espíritus", 23.40));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 29: `libros.add(new Libro("El amor en los tiempos del cólera", 20.80));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 30: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 31: `libros.add(new Libro("Doña Bárbara", 16.95));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 32: `libros.add(new Libro("Martín Fierro", 14.50));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 33: `libros.add(new Libro("Comala", 19.20));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 34: `libros.add(new Libro("Paradiso", 25.00));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 35: `return libros;` → devuelve la lista completa que alimentará la fuente de datos.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 37: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Clase CatalogoDataSource.java
 
 ```java
 import java.util.List;
-
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
 public class CatalogoDataSource implements JRDataSource {
-
     private final List<Libro> libros;
     private int indice = -1;
 
@@ -1945,41 +2122,80 @@ public class CatalogoDataSource implements JRDataSource {
     }
 
     @Override
-    public boolean next() {
+    public boolean next() throws JRException {
         indice++;
         return indice < libros.size();
     }
 
     @Override
-    public Object getFieldValue(JRField campo) {
+    public Object getFieldValue(JRField campo) throws JRException {
         Libro actual = libros.get(indice);
         if ("titulo".equals(campo.getName())) {
             return actual.getTitulo();
-        } else if ("precio".equals(campo.getName())) {
+        }
+        if ("precio".equals(campo.getName())) {
             return actual.getPrecio();
         }
-        return null;
+        throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());
     }
 }
 ```
 
-Línea 1: import java.util.List; → importa la interfaz List.
+### Explicación línea por línea
 
-Línea 3: import net.sf.jasperreports.engine.JRDataSource; → importa la interfaz que define el contrato de las fuentes de datos.
+Línea 1: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 4: import net.sf.jasperreports.engine.JRField; → importa la clase que representa un campo solicitado por el motor.
+Línea 2: `import net.sf.jasperreports.engine.JRDataSource;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: public class CatalogoDataSource implements JRDataSource { → declara la clase y la obliga a implementar la interfaz.
+Línea 3: `import net.sf.jasperreports.engine.JRException;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: private final List<Libro> libros; → almacena la lista de libros que se va a recorrer.
+Línea 4: `import net.sf.jasperreports.engine.JRField;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 9: private int indice = -1; → contador interno. Comienza en −1 porque el motor invoca next() antes de leer el primer registro.
+Línea 6: `public class CatalogoDataSource implements JRDataSource {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 11-13: constructor que recibe la lista y la asigna al campo.
+Línea 7: `private final List<Libro> libros;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 15-19: método next() que incrementa el índice y devuelve verdadero mientras queden registros.
+Línea 8: `private int indice = -1;` → declara el índice interno de la fuente de datos; empieza en -1 porque `next()` se invoca antes de leer el primer registro.
 
-Línea 21-30: método getFieldValue(JRField campo) que recibe el campo solicitado por el motor y devuelve el valor correspondiente del registro actual.
+Línea 10: `public CatalogoDataSource(List<Libro> libros) {` → declara el constructor de la fuente de datos y recibe la lista de libros.
+
+Línea 11: `this.libros = libros;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 12: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 14: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 15: `public boolean next() throws JRException {` → implementa `JRDataSource.next()` y declara `JRException` según el contrato de JasperReports.
+
+Línea 16: `indice++;` → avanza al siguiente registro.
+
+Línea 17: `return indice < libros.size();` → indica al motor si todavía existe un registro válido.
+
+Línea 18: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 20: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 21: `public Object getFieldValue(JRField campo) throws JRException {` → implementa la resolución de un campo JRXML para el registro actual.
+
+Línea 22: `Libro actual = libros.get(indice);` → obtiene el libro correspondiente al índice actual.
+
+Línea 23: `if ("titulo".equals(campo.getName())) {` → resuelve el campo `titulo`.
+
+Línea 24: `return actual.getTitulo();` → devuelve el valor del campo solicitado para el libro actual.
+
+Línea 25: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 26: `if ("precio".equals(campo.getName())) {` → resuelve el campo `precio`.
+
+Línea 27: `return actual.getPrecio();` → devuelve el valor del campo solicitado para el libro actual.
+
+Línea 28: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 29: `throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());` → falla explícitamente si el JRXML solicita un campo que la fuente no soporta, evitando devolver silenciosamente un valor incorrecto.
+
+Línea 30: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 31: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Clase GeneradorInformeConcepto.java
 
@@ -1994,7 +2210,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 public class GeneradorInformeConcepto {
-
     public static void main(String[] args) {
         try {
             String rutaJrxml = "reports/informe_concepto.jrxml";
@@ -2003,7 +2218,7 @@ public class GeneradorInformeConcepto {
 
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
 
-            Map<String, Object> parametros = new HashMap<>();
+            Map<String, Object> parametros = new HashMap<String, Object>();
 
             JasperPrint documento = JasperFillManager.fillReport(
                     rutaJasper,
@@ -2013,122 +2228,85 @@ public class GeneradorInformeConcepto {
             JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
 
             System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
-            System.out.println("Páginas del documento: " + documento.getPages().size());
-
+            System.out.println("Paginas del documento: " + documento.getPages().size());
+            System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }
 ```
 
-Línea 1: import java.io.File; → importa la clase File para obtener la ruta absoluta del PDF.
+### Explicación línea por línea
 
-Línea 2: import java.util.HashMap; → importa la implementación de mapa.
+Línea 1: `import java.io.File;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 3: import java.util.Map; → importa la interfaz Map.
+Línea 2: `import java.util.HashMap;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 5: import net.sf.jasperreports.engine.JasperCompileManager; → importa el gestor de compilación.
+Línea 3: `import java.util.Map;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: import net.sf.jasperreports.engine.JasperExportManager; → importa el gestor de exportación.
+Línea 5: `import net.sf.jasperreports.engine.JasperCompileManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 7: import net.sf.jasperreports.engine.JasperFillManager; → importa el gestor de llenado.
+Línea 6: `import net.sf.jasperreports.engine.JasperExportManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: import net.sf.jasperreports.engine.JasperPrint; → importa la clase del documento en memoria.
+Línea 7: `import net.sf.jasperreports.engine.JasperFillManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 10: public class GeneradorInformeConcepto { → declara la clase principal.
+Línea 8: `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 12: public static void main(String[] args) { → punto de entrada.
+Línea 10: `public class GeneradorInformeConcepto {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 13: try { → abre el bloque protegido.
+Línea 11: `public static void main(String[] args) {` → declara el punto de entrada de la aplicación.
 
-Línea 14: String rutaJrxml = "reports/informe_concepto.jrxml"; → ruta del archivo de diseño.
+Línea 12: `try {` → abre el bloque protegido de ejecución.
 
-Línea 15: String rutaJasper = "reports/informe_concepto.jasper"; → ruta del artefacto compilado.
+Línea 13: `String rutaJrxml = "reports/informe_concepto.jrxml";` → define la ruta relativa de la plantilla JRXML.
 
-Línea 16: String rutaPdf = "output/informe_concepto.pdf"; → ruta del PDF de salida.
+Línea 14: `String rutaJasper = "reports/informe_concepto.jasper";` → define la ruta del artefacto compilado `.jasper`.
 
-Línea 18: JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper); → compila el JRXML.
+Línea 15: `String rutaPdf = "output/informe_concepto.pdf";` → define la ruta del PDF de salida.
 
-Línea 20: Map<String, Object> parametros = new HashMap<>(); → declara el mapa de parámetros vacío.
+Línea 17: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML con JasperReports Library.
 
-Línea 22: JasperPrint documento = → declara la variable del documento.
+Línea 19: `Map<String, Object> parametros = new HashMap<String, Object>();` → crea el mapa tipado de parámetros.
 
-Línea 22 (continuación): JasperFillManager.fillReport( → invoca el motor de llenado.
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(` → declara el `JasperPrint` resultante del llenado.
 
-Línea 23: rutaJasper, → ruta del artefacto compilado.
+Línea 22: `rutaJasper,` → pasa al llenado el informe compilado.
 
-Línea 24: parametros, → mapa de parámetros.
+Línea 23: `parametros,` → pasa el mapa de parámetros.
 
-Línea 25: new CatalogoDataSource(Libro.listaEjemplo())); → construye la fuente de datos con la lista de doce libros.
+Línea 24: `new CatalogoDataSource(Libro.listaEjemplo()));` → pasa la fuente de datos construida con los libros de ejemplo.
 
-Línea 27: JasperExportManager.exportReportToPdfFile(documento, rutaPdf); → exporta a PDF.
+Línea 26: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta el `JasperPrint` a un PDF real.
 
-Línea 29: System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath()); → imprime la ruta del PDF.
+Línea 28: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → escribe en consola la ruta absoluta del PDF generado.
 
-Línea 30: System.out.println("Páginas del documento: " + documento.getPages().size()); → imprime el número de páginas.
+Línea 29: `System.out.println("Paginas del documento: " + documento.getPages().size());` → escribe en consola el número real de páginas del `JasperPrint`.
 
-Línea 32: } catch (Exception e) { → captura excepciones.
+Línea 30: `System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());` → escribe en consola el número de registros de ejemplo; el workflow usa esta salida como evidencia de ejecución.
 
-Línea 33: e.printStackTrace(); → imprime la traza.
+Línea 31: `} catch (Exception e) {` → captura cualquier fallo de compilación, llenado o exportación.
 
-Línea 34: } → cierra el bloque catch.
+Línea 32: `e.printStackTrace();` → imprime la traza del error para diagnóstico.
 
-Línea 35: } → cierra el método main.
+Línea 33: `System.exit(1);` → termina con código distinto de cero para que GitHub Actions detecte el fallo.
 
-Línea 36: } → cierra la clase.
+Línea 34: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 35: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Traza de consola esperada tras la ejecución
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 1
+Paginas del documento: <valor real del checkpoint>
+Registros de ejemplo: <12 o 14 según el checkpoint>
 ```
 
-#### Estado del objeto JasperPrint en cada fase
-
-```text
-FASE 1 — COMPILACIÓN
-─────────────────────
-  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
-  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~16 KB)
-  Salida:           reports/informe_concepto.jasper      (binario serializado, ~32 KB)
-  Propiedades compiladas:
-    - Page Header:  en el rótulo del IVA
-    - Detail: textAdjust="StretchHeight" en el campo título
-    - Detail: isBlankWhenNull="true" en el campo precio
-    - Detail: pattern="#,##0.00 €" en el campo precio
-
-FASE 2 — LLENADO
-─────────────────
-  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
-  Entrada:          reports/informe_concepto.jasper + HashMap vacío
-                    + CatalogoDataSource con 12 libros
-  Salida:           objeto JasperPrint en memoria
-  Páginas:          1
-  Bandas emitidas:
-    - Title (1 vez)
-    - Page Header (1 vez)
-    - Column Header (1 vez)
-    - Detail (12 veces)
-    - Column Footer (1 vez)
-    - Last Page Footer (1 vez)
-    - Summary (1 vez)
-    - Background (1 vez)
-  Valores resueltos:
-    - Fecha de emisión:     22/09/2026
-    - Número de página:     1
-    - Total de páginas:     1
-    - Total de libros:      12
-    - Precios formateados:  19,95 € / 22,50 € / 18,75 € / ...
-
-FASE 3 — EXPORTACIÓN
-─────────────────────
-  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
-  Entrada:          objeto JasperPrint en memoria
-  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~14 KB en disco)
-  Páginas en el PDF: 1
-```
+La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -2174,7 +2352,7 @@ FASE 3 — EXPORTACIÓN
 |  └───────────────────────────────────────────────────────────────────┘  |
 |                                                                         |
 |  ┌─── Summary ───────────────────────────────────────── h = 70 ──────┐  |
-|  │  Total de páginas: [ $V{PAGE_NUMBER}` con `evaluationTime="Report" ]                             │  |
+|  │  Total de páginas: [ $V{PAGE_NUMBER} [evaluationTime="Report"] ]                             │  |
 |  │              Fin del informe. EditorialReports.                    │  |
 |  │  Total de libros: [ $V{REPORT_COUNT} ]                            │  |
 |  └───────────────────────────────────────────────────────────────────┘  |
@@ -2194,7 +2372,7 @@ FASE 3 — EXPORTACIÓN
 
 **Qué representa:** la disposición de las bandas en el editor central tras completar los doce pasos de la Parte A. La banda Page Header ha crecido a 40 unidades de informe y la banda Column Footer también. La banda Detail contiene cuatro elementos distribuidos horizontalmente.
 
-**Cómo verificarlo:** comparar la vista del editor con este esquema. Las bandas deben aparecer en el orden Title, Page Header, Column Header, Detail 1, Column Footer, Page Footer, Last Page Footer, Summary, Background.
+**Cómo verificarlo:** comparar la presencia y la geometría de las secciones con este esquema. Para el orden XML válido, usar la Parte B: `background` se declara antes de las secciones de contenido aunque visualmente el diseñador pueda presentarlo en otra posición.
 
 #### D.2 — Jerarquía del Outline
 
@@ -2247,7 +2425,7 @@ informe_concepto
 │
 ├── Summary  [band, height=70]
 │   ├── staticText  "Total de páginas:"
-│   ├── textField   $V{PAGE_NUMBER}` con `evaluationTime="Report"
+│   ├── textField   $V{PAGE_NUMBER} [evaluationTime="Report"]
 │   ├── staticText  "Fin del informe. EditorialReports."
 │   ├── staticText  "Total de libros:"  (bold)
 │   └── textField   $V{REPORT_COUNT}  (bold)
@@ -2352,8 +2530,8 @@ EditorialReportsJava/
 | --- | --- | --- |
 | El patrón #,##0.00 € muestra el símbolo del euro como ? | La fuente del campo no soporta el carácter € | Utilizar DejaVu Sans mediante la extensión de fuentes validada del curso |
 | El campo con isBlankWhenNull no se muestra vacío | La expresión devuelve una cadena vacía en lugar de null | Verificar que la fuente de datos devuelve null para los registros sin precio |
-| El texto con markup="styled" imprime las etiquetas <b> como texto literal | La propiedad markup="styled" no está activada en textElement | Seleccionar Styled Text/Styled en las propiedades de marcado del elemento de texto |
-| El texto con etiquetas HTML produce un error de análisis XML | El contenido no está encerrado en un bloque CDATA | Encerrar el contenido en <![CDATA[...]]> |
+| El texto con markup="styled" imprime las etiquetas &lt;b&gt; como texto literal | La propiedad markup="styled" no está activada en textElement | Seleccionar Styled Text/Styled en las propiedades de marcado del elemento de texto |
+| El texto con etiquetas HTML produce un error de análisis XML | El contenido no está encerrado en un bloque CDATA | Encerrar el contenido en &lt;![CDATA[...]]&gt; |
 | El campo con textAdjust="StretchHeight" no muestra todo el texto | El elemento o la banda no dispone de espacio suficiente para crecer | Revisar la altura inicial, la posición de los elementos vecinos y permitir espacio vertical suficiente |
 | La banda Page Header se divide entre páginas | La propiedad splitType está en Stretch | Cambiar a splitType="Prevent" en el panel Properties de la banda |
 | El número de registro aparece siempre como 12 | Se usó $V{REPORT_COUNT} en la banda Summary en lugar de en la banda Detail | Verificar que el campo está en la banda Detail 1 y no en la Summary |
@@ -2377,7 +2555,7 @@ Paso 5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en
 
 Paso 6. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
 
-Paso 7. Escribir exactamente $F{precio}.doubleValue() > 20.0 ? "<b>Disponible</b>" : "" y pulsar Enter.
+Paso 7. Escribir exactamente $F{precio}.doubleValue() > 20.0 ? "&lt;b&gt;Disponible&lt;/b&gt;" : "" y pulsar Enter.
 
 Paso 8. Hacer clic sobre el campo Width, escribir 80 y pulsar Enter.
 
@@ -2456,73 +2634,48 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 ### Parte A — Práctica visual
 
-#### Paso 1: Ampliar la clase Libro con nuevos campos [VALIDADO]
+#### Paso 1: Ampliar la clase Libro con los nuevos campos y el constructor completo [VALIDADO]
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo Libro.java en el panel Project Explorer (superior izquierdo).
+1. Hacer doble clic sobre `EditorialReportsJava/src/Libro.java` en Project Explorer.
+2. Añadir, junto a los imports existentes, `import java.util.Calendar;` e `import java.util.GregorianCalendar;`.
+3. Declarar, además de `titulo` y `precio`, los campos `private final Integer paginas;`, `private final java.util.Date fechaPublicacion;` y `private final Boolean disponible;`.
+4. Sustituir el constructor anterior por `public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible)`.
+5. Dentro del constructor asignar `this.titulo = titulo;`, `this.precio = precio;`, `this.paginas = paginas;`, `this.fechaPublicacion = fecha(anioPublicacion);` y `this.disponible = disponible;`.
+6. Añadir el método auxiliar `private static java.util.Date fecha(int anio)` exactamente como aparece en la Parte C: crea un `GregorianCalendar`, fija el 1 de enero, normaliza hora/minuto/segundo/milisegundo y devuelve `c.getTime()`.
+7. Añadir o conservar los getters `getTitulo()`, `getPrecio()`, `getPaginas()`, `getFechaPublicacion()` y `getDisponible()`.
+8. Pulsar Ctrl+S y verificar que Problems no muestra errores.
 
-2. Hacer clic al final de la línea private Double precio; y pulsar Enter.
+**Verificación visual:** `Libro.java` contiene cinco campos `final`, un constructor de cinco argumentos, el método auxiliar `fecha(int)` y cinco getters.
 
-3. Escribir exactamente private Integer paginas; y pulsar Enter.
+**Qué hace:** convierte `Libro` en el modelo completo que realmente usa el checkpoint 2.3.
 
-4. Escribir exactamente private java.util.Date fechaPublicacion; y pulsar Enter.
+**Por qué:** páginas, año y disponibilidad deben contener valores reales por libro; no sirven valores por defecto idénticos para todos los registros.
 
-5. Escribir exactamente private Boolean disponible; y pulsar Enter.
+**Error común:** mantener el constructor de dos argumentos y asignar `0`, la fecha actual y `true` a todos los libros. **Solución:** usar el constructor de cinco argumentos y los datos concretos reproducidos en la Parte C.
 
-6. Hacer clic al final del constructor public Libro(String titulo, Double precio) { y pulsar Enter.
+**Analogía:** es como completar la ficha bibliográfica real de cada título en lugar de rellenar todas las fichas con valores provisionales.
 
-7. Escribir exactamente this.paginas = 0; y pulsar Enter.
-
-8. Escribir exactamente this.fechaPublicacion = new java.util.Date(); y pulsar Enter.
-
-9. Escribir exactamente this.disponible = Boolean.TRUE; y pulsar Enter.
-
-10. Hacer clic al final del método getPrecio() y pulsar Enter dos veces.
-
-11. Escribir exactamente public Integer getPaginas() { return paginas; } y pulsar Enter.
-
-12. Escribir exactamente public java.util.Date getFechaPublicacion() { return fechaPublicacion; } y pulsar Enter.
-
-13. Escribir exactamente public Boolean getDisponible() { return disponible; } y pulsar Enter.
-
-14. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el editor central muestra la clase Libro con los tres campos nuevos, sus asignaciones en el constructor y sus tres métodos getter. El panel Problems permanece vacío.
-
-**Qué hace:** amplía la clase Libro con tres propiedades adicionales y sus métodos getter.
-
-**Por qué:** los nuevos campos permiten ampliar el informe con información de páginas, fecha de publicación y disponibilidad.
-
-**Error común:** escribir los métodos getter sin el tipo de retorno correspondiente. El compilador informa The method must return a result of type Integer. Solución: comprobar que cada método declara el tipo de retorno correcto.
-
-**Analogía:** es como ampliar la ficha técnica de cada libro del catálogo con nuevos datos descriptivos.
-
-#### Paso 2: Ampliar el método listaEjemplo con los nuevos datos [VALIDADO]
+#### Paso 2: Sustituir listaEjemplo por los catorce registros completos [VALIDADO]
 
 **Acciones:**
 
-1. En el editor central, hacer clic al final del método listaEjemplo() y desplazarse hasta la última línea que contiene return libros;.
+1. En `Libro.java`, localizar el método `listaEjemplo()`.
+2. Sustituir su contenido por el método completo reproducido en la Parte C de este punto.
+3. Comprobar que cada llamada usa cinco valores: título, precio, páginas, año y `Boolean.TRUE`/`Boolean.FALSE`.
+4. Verificar que la lista contiene exactamente catorce libros y que termina con `La invención de Morel` y `El túnel`.
+5. Pulsar Ctrl+S y comprobar que Problems queda vacío.
 
-2. Hacer clic sobre la última línea libros.add(new Libro("Paradiso", 25.00)); y pulsar Enter.
+**Verificación visual:** las catorce llamadas `new Libro(...)` contienen páginas, año y disponibilidad reales de ejemplo; no quedan llamadas al antiguo constructor de dos argumentos.
 
-3. Escribir exactamente libros.add(new Libro("La invención de Morel", 18.30)); y pulsar Enter.
+**Qué hace:** alimenta el nuevo modelo con datos heterogéneos que permiten comprobar números, fechas y booleanos.
 
-4. Escribir exactamente libros.add(new Libro("El túnel", 16.20)); y pulsar Enter.
+**Por qué:** 2.3 pretende validar tipos de campos reales; una lista con valores por defecto no demostraría que el mapeo funciona.
 
-5. Pulsar Ctrl+S para guardar el archivo.
+**Error común:** añadir los dos libros nuevos pero dejar los doce anteriores con el constructor antiguo. **Solución:** reemplazar las catorce llamadas por las de la Parte C.
 
-6. Observar el panel Problems y verificar que no hay errores.
-
-**Verificación visual:** la lista listaEjemplo() contiene catorce libros tras la ampliación.
-
-**Qué hace:** añade dos libros más a la lista de ejemplo para que el informe tenga más registros.
-
-**Por qué:** el informe con catorce registros permite comprobar el comportamiento de la banda Detail con un volumen mayor.
-
-**Error común:** olvidar la coma al final del constructor. El compilador informa ';' expected. Solución: revisar cada línea del método.
-
-**Analogía:** es como añadir dos libros más al catálogo para la nueva edición.
+**Analogía:** es como rehacer el fichero maestro del catálogo con la ficha completa de cada libro.
 
 #### Paso 3: Declarar los nuevos campos en el JRXML [VALIDADO]
 
@@ -2532,13 +2685,13 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
 
-3. Hacer clic al final de la línea que contiene <field name="precio" class="java.lang.Double"/> y pulsar Enter.
+3. Hacer clic al final de la línea que contiene &lt;field name="precio" class="java.lang.Double"/&gt; y pulsar Enter.
 
-4. Escribir exactamente <field name="paginas" class="java.lang.Integer"/> y pulsar Enter.
+4. Escribir exactamente &lt;field name="paginas" class="java.lang.Integer"/&gt; y pulsar Enter.
 
-5. Escribir exactamente <field name="fechaPublicacion" class="java.util.Date"/> y pulsar Enter.
+5. Escribir exactamente &lt;field name="fechaPublicacion" class="java.util.Date"/&gt; y pulsar Enter.
 
-6. Escribir exactamente <field name="disponible" class="java.lang.Boolean"/> y pulsar Enter.
+6. Escribir exactamente &lt;field name="disponible" class="java.lang.Boolean"/&gt; y pulsar Enter.
 
 7. Pulsar Ctrl+S para guardar el archivo.
 
@@ -2556,26 +2709,26 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 **Analogía:** es como declarar en el pliego los nuevos datos que se van a extraer del manuscrito.
 
-#### Paso 4: Ampliar la banda Detail con la columna de páginas [VALIDADO]
+#### Paso 4: Compactar Título/Precio y añadir la columna de páginas [VALIDADO]
 
 **Acciones:**
 
-1. Seleccionar `Detail 1` en el panel Outline.
-2. Arrastrar un `Text Field` a la banda Detail.
-3. Escribir `$F{paginas}` como expresión.
-4. En Properties fijar X=`325`, Y=`0`, Width=`55`, Height=`20`.
-5. Seleccionar alineación horizontal `Right`.
-6. Guardar con Ctrl+S.
+1. Seleccionar `$F{titulo}` en Detail y escribir X=`0`, Y=`0`, Width=`245`, Height=`20`.
+2. Seleccionar `$F{precio}` y escribir X=`245`, Y=`0`, Width=`80`, Height=`20`; mantener alineación `Right`.
+3. Arrastrar un `Text Field` a Detail y escribir `$F{paginas}` como expresión.
+4. En Properties escribir X=`325`, Y=`0`, Width=`55`, Height=`20`.
+5. Activar `Blank When Null` y seleccionar alineación `Right`.
+6. Pulsar Ctrl+S.
 
-**Verificación visual:** el campo de páginas ocupa la franja 325-380 y no invade el ancho útil de 555 unidades.
+**Verificación visual:** título ocupa 0-245, precio 245-325 y páginas 325-380; las tres zonas son contiguas y permanecen dentro de 555 unidades.
 
-**Qué hace:** añade la columna numérica de páginas usando el campo `paginas`.
+**Qué hace:** compacta las columnas existentes y añade el nuevo dato de páginas.
 
-**Por qué:** el diseño queda preparado para añadir después año, disponibilidad y contador dentro de la misma página A4.
+**Por qué:** la geometría debe reservar espacio para año, disponibilidad y contador sin superar `columnWidth="555"`.
 
-**Error común:** usar las coordenadas antiguas 400/500/620 del borrador original. Esas posiciones terminaban excediendo el ancho útil del informe. La edición validada compacta todas las columnas dentro de `columnWidth="555"`.
+**Error común:** añadir páginas sin reducir antes título y precio, lo que produce solapamientos. **Solución:** aplicar primero 245/80 y después colocar páginas en 325/55.
 
-**Analogía:** es como abrir una nueva columna numérica en la ficha del catálogo sin ensanchar el papel.
+**Analogía:** es como estrechar dos columnas de una tabla para abrir una tercera sin aumentar el ancho del papel.
 
 #### Paso 5: Reubicar el contador de registro [VALIDADO]
 
@@ -2596,24 +2749,26 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 **Analogía:** es como desplazar el número de línea al margen derecho para hacer sitio a nuevas columnas.
 
-#### Paso 6: Añadir el encabezado de la columna de páginas [VALIDADO]
+#### Paso 6: Compactar Column Header y añadir Páginas [VALIDADO]
 
 **Acciones:**
 
-1. Seleccionar `Column Header`.
-2. Arrastrar `Static Text` y escribir `Páginas`.
-3. Fijar X=`325`, Y=`5`, Width=`55`, Height=`15`.
-4. Seleccionar alineación `Right` y negrita.
+1. Seleccionar `Column Header` en Outline.
+2. Seleccionar el encabezado `Título` y escribir X=`0`, Y=`5`, Width=`245`, Height=`15`.
+3. Seleccionar `Precio` y escribir X=`245`, Y=`5`, Width=`80`, Height=`15`; alinearlo a la derecha.
+4. Arrastrar un `Static Text`, escribir `Páginas` y colocarlo en X=`325`, Y=`5`, Width=`55`, Height=`15`.
+5. Seleccionar alineación `Right` y negrita para `Páginas`.
+6. Pulsar Ctrl+S.
 
-**Verificación visual:** `Páginas` queda alineado con `$F{paginas}`.
+**Verificación visual:** las cabeceras Título, Precio y Páginas coinciden horizontalmente con sus campos de Detail.
 
-**Qué hace:** añade el rótulo de la nueva columna numérica de páginas.
+**Qué hace:** reproduce en Column Header la geometría compactada de Detail.
 
-**Por qué:** cada dato de Detail necesita una cabecera que permita interpretarlo.
+**Por qué:** una cabecera desalineada hace que el lector atribuya un dato a la columna incorrecta.
 
-**Error común:** desalinear la cabecera respecto a `$F{paginas}`. **Solución:** usar la misma X y el mismo Width que la columna de Detail.
+**Error común:** conservar Título/Precio en sus anchos de 2.2. **Solución:** usar 245 y 80 antes de añadir `Páginas`.
 
-**Analogía:** es como rotular en la tabla del catálogo la columna donde se imprime el número de páginas.
+**Analogía:** es como alinear con regla los rótulos superiores y las celdas de una tabla editorial.
 
 #### Paso 7: Añadir la columna de fecha de publicación [VALIDADO]
 
@@ -2767,253 +2922,263 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 ### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
-Se reproduce únicamente la sección modificada del JRXML. Las secciones modificadas son la declaración de campos, la banda columnHeader, la banda detail y el cierre del elemento raíz.
+Se reproducen las declaraciones de campos y las bandas Column Header y Detail del checkpoint 2.3. Las coordenadas suman como máximo 555 unidades y el contador ocupa X=`495`, Width=`60`; no queda ningún elemento de Detail fuera del ancho útil.
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="informe_concepto"
-              language="java"
-              pageWidth="595"
-              pageHeight="842"
-              columnWidth="555"
-              leftMargin="20"
-              rightMargin="20"
-              topMargin="20"
-              bottomMargin="20"
-              uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
-    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
-    <field name="titulo" class="java.lang.String"/>
-    <field name="precio" class="java.lang.Double"/>
-    <field name="paginas" class="java.lang.Integer"/>
-    <field name="fechaPublicacion" class="java.util.Date"/>
-    <field name="disponible" class="java.lang.Boolean"/>
-    ...
-    <columnHeader>
+<field name="titulo" class="java.lang.String"/>
+<field name="precio" class="java.lang.Double"/>
+<field name="paginas" class="java.lang.Integer"/>
+<field name="fechaPublicacion" class="java.util.Date"/>
+<field name="disponible" class="java.lang.Boolean"/>
+
+<columnHeader>
         <band height="25">
-            <staticText>
-                <reportElement x="0" y="5" width="245" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Título]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="245" y="5" width="80" height="15" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Precio]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="325" y="5" width="55" height="15" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Páginas]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="380" y="5" width="50" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Año]]></text>
-            </staticText>
+            <staticText><reportElement x="0" y="5" width="245" height="15" uuid="11111111-1111-1111-1111-111111111111"/><textElement><font size="10" isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText>
+            <staticText><reportElement x="245" y="5" width="80" height="15" uuid="22222222-2222-2222-2222-222222222222"/><textElement textAlignment="Right"><font size="10" isBold="true"/></textElement><text><![CDATA[Precio]]></text></staticText>
+            <staticText><reportElement x="325" y="5" width="55" height="15" uuid="33333333-3333-3333-3333-333333333333"/><textElement textAlignment="Right"><font size="10" isBold="true"/></textElement><text><![CDATA[Páginas]]></text></staticText>
+            <staticText><reportElement x="380" y="5" width="50" height="15" uuid="44444444-4444-4444-4444-444444444444"/><textElement textAlignment="Center"><font size="10" isBold="true"/></textElement><text><![CDATA[Año]]></text></staticText>
+            <staticText><reportElement x="430" y="5" width="65" height="15" uuid="55555555-5555-5555-5555-555555555555"/><textElement textAlignment="Center"><font size="10" isBold="true"/></textElement><text><![CDATA[Disp.]]></text></staticText>
+            <staticText><reportElement x="495" y="5" width="60" height="15" uuid="66666666-6666-6666-6666-666666666666"/><textElement textAlignment="Right"><font size="10" isBold="true"/></textElement><text><![CDATA[#]]></text></staticText>
         </band>
     </columnHeader>
-    <detail>
+
+<detail>
         <band height="20" splitType="Stretch">
-            <textField textAdjust="StretchHeight">
-                <reportElement x="0" y="0" width="245" height="20" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
-            </textField>
-            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
-                <reportElement x="245" y="0" width="80" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
-            </textField>
-            <textField isBlankWhenNull="true">
-                <reportElement x="325" y="0" width="55" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
-            </textField>
-            <textField pattern="yyyy" isBlankWhenNull="true">
-                <reportElement x="380" y="0" width="50" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="430" y="0" width="65" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="10"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
-            </textField>
-            <staticText>
-                <reportElement x="560" y="0" width="30" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9"/>
-                </textElement>
-                <text><![CDATA[# ]]></text>
-            </staticText>
-            <textField>
-                <reportElement x="495" y="0" width="60" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font fontName="DejaVu Sans" size="9"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-            </textField>
+            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="245" height="20" uuid="77777777-7777-7777-7777-777777777777"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="245" y="0" width="80" height="20" uuid="88888888-8888-8888-8888-888888888888"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="325" y="0" width="55" height="20" uuid="99999999-9999-9999-9999-999999999999"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>
+            <textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="380" y="0" width="50" height="20" uuid="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="430" y="0" width="65" height="20" uuid="bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression></textField>
+            <textField><reportElement x="495" y="0" width="60" height="20" uuid="cccccccc-cccc-cccc-cccc-cccccccccccc"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
         </band>
     </detail>
-    ...
-</jasperReport>
 ```
 
-Línea 17: <field name="titulo" class="java.lang.String"/> → declara el campo titulo de tipo cadena. El nombre coincide con el método getTitulo() de la clase Libro.
+### Explicación línea por línea
 
-Línea 18: <field name="precio" class="java.lang.Double"/> → declara el campo precio de tipo doble. El nombre coincide con el método getPrecio().
+Línea 1: `<field name="titulo" class="java.lang.String"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 19: <field name="paginas" class="java.lang.Integer"/> → declara el campo paginas de tipo entero. El nombre coincide con el método getPaginas().
+Línea 2: `<field name="precio" class="java.lang.Double"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 20: <field name="fechaPublicacion" class="java.util.Date"/> → declara el campo fechaPublicacion de tipo fecha. El nombre coincide con el método getFechaPublicacion().
+Línea 3: `<field name="paginas" class="java.lang.Integer"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 21: <field name="disponible" class="java.lang.Boolean"/> → declara el campo disponible de tipo booleano. El nombre coincide con el método getDisponible().
+Línea 4: `<field name="fechaPublicacion" class="java.util.Date"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 23-66: banda columnHeader. Se han añadido dos nuevos staticText con los encabezados Páginas y Año. Los encabezados existentes Título y Precio conservan sus posiciones.
+Línea 5: `<field name="disponible" class="java.lang.Boolean"/>` → declara un campo JRXML y su tipo Java para que pueda resolverse desde la fuente de datos.
 
-Línea 40-46: staticText con el encabezado Páginas alineado a la derecha en la coordenada 325, ancho 50.
+Línea 7: `<columnHeader>` → abre Column Header, generado al comienzo de cada columna.
 
-Línea 47-53: staticText con el encabezado Año centrado en la coordenada 380, ancho 55.
+Línea 8: `<band height="25">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 67-128: banda detail. Se han añadido tres nuevos textField con las expresiones $F{paginas}, $F{fechaPublicacion} y $F{disponible}.booleanValue() ? "Sí" : "No". Los campos existentes se han desplazado para dejar espacio.
+Línea 9: `<staticText><reportElement x="0" y="5" width="245" height="15" uuid="11111111-1111-1111-1111-111111111111"/><textElement><font size="10" isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText>` → abre un texto estático.
 
-Línea 68-75: textField del título con textAdjust="StretchHeight". Se mantiene en la coordenada 0.
+Línea 10: `<staticText><reportElement x="245" y="5" width="80" height="15" uuid="22222222-2222-2222-2222-222222222222"/><textElement textAlignment="Right"><font size="10" isBold="true"/></textElement><text><![CDATA[Precio]]></text></staticText>` → abre un texto estático.
 
-Línea 76-83: textField del precio con patrón #,##0.00 € y isBlankWhenNull="true". Se mantiene en la coordenada 300.
+Línea 11: `<staticText><reportElement x="325" y="5" width="55" height="15" uuid="33333333-3333-3333-3333-333333333333"/><textElement textAlignment="Right"><font size="10" isBold="true"/></textElement><text><![CDATA[Páginas]]></text></staticText>` → abre un texto estático.
 
-Línea 84-91: textField de las páginas con isBlankWhenNull="true". Se coloca en la coordenada 325 con alineación derecha.
+Línea 12: `<staticText><reportElement x="380" y="5" width="50" height="15" uuid="44444444-4444-4444-4444-444444444444"/><textElement textAlignment="Center"><font size="10" isBold="true"/></textElement><text><![CDATA[Año]]></text></staticText>` → abre un texto estático.
 
-Línea 92-99: textField de la fecha con patrón yyyy y isBlankWhenNull="true". Se coloca en la coordenada 380 con alineación centrada.
+Línea 13: `<staticText><reportElement x="430" y="5" width="65" height="15" uuid="55555555-5555-5555-5555-555555555555"/><textElement textAlignment="Center"><font size="10" isBold="true"/></textElement><text><![CDATA[Disp.]]></text></staticText>` → abre un texto estático.
 
-Línea 100-107: textField de la disponibilidad con la expresión del operador ternario. Se coloca en la coordenada 620 con alineación centrada.
+Línea 14: `<staticText><reportElement x="495" y="5" width="60" height="15" uuid="66666666-6666-6666-6666-666666666666"/><textElement textAlignment="Right"><font size="10" isBold="true"/></textElement><text><![CDATA[#]]></text></staticText>` → abre un texto estático.
 
-Línea 108-114: staticText con el rótulo # desplazado a la coordenada 560.
+Línea 15: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 115-122: textField del número de registro $V{REPORT_COUNT} desplazado a la coordenada 590.
+Línea 16: `</columnHeader>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 123: </band> → cierra la banda de detalle.
+Línea 18: `<detail>` → abre Detail, que el motor intenta generar por cada registro.
 
-Línea 124: </detail> → cierra la sección de detalle.
+Línea 19: `<band height="20" splitType="Stretch">` → define la banda y su altura; si aparece splitType, establece la política de división.
+
+Línea 20: `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="245" height="20" uuid="77777777-7777-7777-7777-777777777777"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 21: `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="245" y="0" width="80" height="20" uuid="88888888-8888-8888-8888-888888888888"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 22: `<textField isBlankWhenNull="true"><reportElement x="325" y="0" width="55" height="20" uuid="99999999-9999-9999-9999-999999999999"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+Línea 23: `<textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="380" y="0" width="50" height="20" uuid="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 24: `<textField isBlankWhenNull="true"><reportElement x="430" y="0" width="65" height="20" uuid="bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 25: `<textField><reportElement x="495" y="0" width="60" height="20" uuid="cccccccc-cccc-cccc-cccc-cccccccccccc"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
+Línea 26: `</band>` → cierra el elemento o sección abierto correspondiente.
+
+Línea 27: `</detail>` → cierra el elemento o sección abierto correspondiente.
 
 ### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
-Clase Libro.java ampliada
+2.3 amplía realmente el modelo Java con páginas, fecha de publicación y disponibilidad, y hace que la fuente resuelva esos cinco campos.
+
+Los tres archivos siguientes se reproducen **literalmente desde el checkpoint ejecutable `M2/2.3`**. De este modo, la Parte C coincide con el código que compila y se ejecuta en la validación end-to-end.
+
+#### Clase Libro.java
 
 ```java
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Libro {
+    private final String titulo;
+    private final Double precio;
+    private final Integer paginas;
+    private final java.util.Date fechaPublicacion;
+    private final Boolean disponible;
 
-    private String titulo;
-    private Double precio;
-    private Integer paginas;
-    private java.util.Date fechaPublicacion;
-    private Boolean disponible;
-
-    public Libro(String titulo, Double precio) {
+    public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible) {
         this.titulo = titulo;
         this.precio = precio;
-        this.paginas = 0;
-        this.fechaPublicacion = new java.util.Date();
-        this.disponible = Boolean.TRUE;
+        this.paginas = paginas;
+        this.fechaPublicacion = fecha(anioPublicacion);
+        this.disponible = disponible;
     }
 
-    public String getTitulo() {
-        return titulo;
+    private static java.util.Date fecha(int anio) {
+        Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
+    public String getTitulo() { return titulo; }
+    public Double getPrecio() { return precio; }
     public Integer getPaginas() { return paginas; }
     public java.util.Date getFechaPublicacion() { return fechaPublicacion; }
     public Boolean getDisponible() { return disponible; }
 
     public static List<Libro> listaEjemplo() {
-        List<Libro> libros = new ArrayList<>();
-        libros.add(new Libro("Cien años de soledad", 19.95));
-        libros.add(new Libro("Rayuela", 22.50));
-        libros.add(new Libro("La ciudad y los perros", 18.75));
-        libros.add(new Libro("Pedro Páramo", 15.90));
-        libros.add(new Libro("Ficciones", 21.00));
-        libros.add(new Libro("La casa de los espíritus", 23.40));
-        libros.add(new Libro("El amor en los tiempos del cólera", 20.80));
-        libros.add(new Libro("La muerte de Artemio Cruz", 17.60));
-        libros.add(new Libro("Doña Bárbara", 16.95));
-        libros.add(new Libro("Martín Fierro", 14.50));
-        libros.add(new Libro("Comala", 19.20));
-        libros.add(new Libro("Paradiso", 25.00));
-        libros.add(new Libro("La invención de Morel", 18.30));
-        libros.add(new Libro("El túnel", 16.20));
+        List<Libro> libros = new ArrayList<Libro>();
+        libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));
+        libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));
+        libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));
+        libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));
+        libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));
+        libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));
+        libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));
+        libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));
+        libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));
+        libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));
+        libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));
+        libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));
+        libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));
+        libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));
         return libros;
     }
 }
 ```
 
-Línea 1: import java.util.ArrayList; → importa la clase ArrayList.
+### Explicación línea por línea
 
-Línea 2: import java.util.List; → importa la interfaz List.
+Línea 1: `import java.util.ArrayList;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 4: public class Libro { → declara la clase Libro.
+Línea 2: `import java.util.Calendar;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: private String titulo; → campo del título.
+Línea 3: `import java.util.GregorianCalendar;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 7: private Double precio; → campo del precio.
+Línea 4: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: private Integer paginas; → campo del número de páginas.
+Línea 6: `public class Libro {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 9: private java.util.Date fechaPublicacion; → campo de la fecha de publicación.
+Línea 7: `private final String titulo;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 10: private Boolean disponible; → campo de disponibilidad.
+Línea 8: `private final Double precio;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 12-18: constructor que recibe el título y el precio y asigna valores por defecto a los tres campos nuevos.
+Línea 9: `private final Integer paginas;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 20-22: método getTitulo().
+Línea 10: `private final java.util.Date fechaPublicacion;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 24-26: método getPrecio().
+Línea 11: `private final Boolean disponible;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 28: public Integer getPaginas() { return paginas; } → método getter del número de páginas. Este método es el que permite a CatalogoDataSource resolver el campo paginas.
+Línea 13: `public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible) {` → declara el constructor completo del modelo `Libro` con los valores que necesita el informe.
 
-Línea 29: public java.util.Date getFechaPublicacion() { return fechaPublicacion; } → método getter de la fecha de publicación.
+Línea 14: `this.titulo = titulo;` → asigna al campo del objeto el valor recibido o calculado.
 
-Línea 30: public Boolean getDisponible() { return disponible; } → método getter de la disponibilidad.
+Línea 15: `this.precio = precio;` → asigna al campo del objeto el valor recibido o calculado.
 
-Línea 32-48: método listaEjemplo() que construye la lista de catorce libros.
+Línea 16: `this.paginas = paginas;` → asigna al campo del objeto el valor recibido o calculado.
 
-Clase CatalogoDataSource.java ampliada
+Línea 17: `this.fechaPublicacion = fecha(anioPublicacion);` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 18: `this.disponible = disponible;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 19: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 21: `private static java.util.Date fecha(int anio) {` → abre el método auxiliar que convierte un año en una fecha Java reproducible.
+
+Línea 22: `Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);` → crea un calendario situado el 1 de enero del año indicado.
+
+Línea 23: `c.set(Calendar.HOUR_OF_DAY, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 24: `c.set(Calendar.MINUTE, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 25: `c.set(Calendar.SECOND, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 26: `c.set(Calendar.MILLISECOND, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 27: `return c.getTime();` → devuelve la fecha construida por el calendario.
+
+Línea 28: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 30: `public String getTitulo() { return titulo; }` → devuelve el título del libro.
+
+Línea 31: `public Double getPrecio() { return precio; }` → devuelve el precio del libro.
+
+Línea 32: `public Integer getPaginas() { return paginas; }` → devuelve el número de páginas.
+
+Línea 33: `public java.util.Date getFechaPublicacion() { return fechaPublicacion; }` → devuelve la fecha de publicación.
+
+Línea 34: `public Boolean getDisponible() { return disponible; }` → devuelve el estado de disponibilidad.
+
+Línea 36: `public static List<Libro> listaEjemplo() {` → abre el método que construye los datos de ejemplo del curso.
+
+Línea 37: `List<Libro> libros = new ArrayList<Libro>();` → crea una lista tipada compatible con Java 8 y con la baseline del proyecto.
+
+Línea 38: `libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 39: `libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 40: `libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 42: `libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 43: `libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 44: `libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 45: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 46: `libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 48: `libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 49: `libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 51: `libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 52: `return libros;` → devuelve la lista completa que alimentará la fuente de datos.
+
+Línea 53: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 54: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+#### Clase CatalogoDataSource.java
 
 ```java
 import java.util.List;
-
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
 public class CatalogoDataSource implements JRDataSource {
-
     private final List<Libro> libros;
     private int indice = -1;
 
@@ -3022,123 +3187,188 @@ public class CatalogoDataSource implements JRDataSource {
     }
 
     @Override
-    public boolean next() {
+    public boolean next() throws JRException {
         indice++;
         return indice < libros.size();
     }
 
     @Override
-    public Object getFieldValue(JRField campo) {
+    public Object getFieldValue(JRField campo) throws JRException {
         Libro actual = libros.get(indice);
-        if ("titulo".equals(campo.getName())) {
-            return actual.getTitulo();
-        } else if ("precio".equals(campo.getName())) {
-            return actual.getPrecio();
-        } else if ("paginas".equals(campo.getName())) {
-            return actual.getPaginas();
-        } else if ("fechaPublicacion".equals(campo.getName())) {
-            return actual.getFechaPublicacion();
-        } else if ("disponible".equals(campo.getName())) {
-            return actual.getDisponible();
-        }
-        return null;
+        if ("titulo".equals(campo.getName())) return actual.getTitulo();
+        if ("precio".equals(campo.getName())) return actual.getPrecio();
+        if ("paginas".equals(campo.getName())) return actual.getPaginas();
+        if ("fechaPublicacion".equals(campo.getName())) return actual.getFechaPublicacion();
+        if ("disponible".equals(campo.getName())) return actual.getDisponible();
+        throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());
     }
 }
 ```
 
-Línea 1: import java.util.List; → importa la interfaz List.
+### Explicación línea por línea
 
-Línea 3-4: importaciones de la interfaz JRDataSource y la clase JRField.
+Línea 1: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: public class CatalogoDataSource implements JRDataSource { → declara la clase.
+Línea 2: `import net.sf.jasperreports.engine.JRDataSource;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: private final List<Libro> libros; → lista de libros.
+Línea 3: `import net.sf.jasperreports.engine.JRException;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 9: private int indice = -1; → contador interno.
+Línea 4: `import net.sf.jasperreports.engine.JRField;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 11-13: constructor.
+Línea 6: `public class CatalogoDataSource implements JRDataSource {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 15-19: método next().
+Línea 7: `private final List<Libro> libros;` → declara un campo de instancia inmutable después de la construcción del objeto.
 
-Línea 21-35: método getFieldValue(JRField campo) ampliado con los tres nuevos casos. Cada caso compara el nombre del campo con una cadena literal y devuelve el valor correspondiente del libro actual.
+Línea 8: `private int indice = -1;` → declara el índice interno de la fuente de datos; empieza en -1 porque `next()` se invoca antes de leer el primer registro.
 
-Línea 24-25: primer caso para titulo.
+Línea 10: `public CatalogoDataSource(List<Libro> libros) {` → declara el constructor de la fuente de datos y recibe la lista de libros.
 
-Línea 26-27: segundo caso para precio.
+Línea 11: `this.libros = libros;` → asigna al campo del objeto el valor recibido o calculado.
 
-Línea 28-29: tercer caso para paginas.
+Línea 12: `}` → abre o cierra el bloque sintáctico correspondiente.
 
-Línea 30-31: cuarto caso para fechaPublicacion.
+Línea 14: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
 
-Línea 32-33: quinto caso para disponible.
+Línea 15: `public boolean next() throws JRException {` → implementa `JRDataSource.next()` y declara `JRException` según el contrato de JasperReports.
 
-Línea 34: return null; → devuelve null si el nombre no coincide con ningún caso.
+Línea 16: `indice++;` → avanza al siguiente registro.
+
+Línea 17: `return indice < libros.size();` → indica al motor si todavía existe un registro válido.
+
+Línea 18: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 20: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 21: `public Object getFieldValue(JRField campo) throws JRException {` → implementa la resolución de un campo JRXML para el registro actual.
+
+Línea 22: `Libro actual = libros.get(indice);` → obtiene el libro correspondiente al índice actual.
+
+Línea 23: `if ("titulo".equals(campo.getName())) return actual.getTitulo();` → resuelve el campo `titulo`.
+
+Línea 24: `if ("precio".equals(campo.getName())) return actual.getPrecio();` → resuelve el campo `precio`.
+
+Línea 25: `if ("paginas".equals(campo.getName())) return actual.getPaginas();` → resuelve el campo `paginas`.
+
+Línea 26: `if ("fechaPublicacion".equals(campo.getName())) return actual.getFechaPublicacion();` → resuelve el campo `fechaPublicacion`.
+
+Línea 27: `if ("disponible".equals(campo.getName())) return actual.getDisponible();` → resuelve el campo `disponible`.
+
+Línea 28: `throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());` → falla explícitamente si el JRXML solicita un campo que la fuente no soporta, evitando devolver silenciosamente un valor incorrecto.
+
+Línea 29: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 30: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Clase GeneradorInformeConcepto.java
 
-El programa principal no se modifica en este punto. Sigue usando CatalogoDataSource con la lista de libros ampliada.
+```java
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeConcepto {
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_concepto.jrxml";
+            String rutaJasper = "reports/informe_concepto.jasper";
+            String rutaPdf = "output/informe_concepto.pdf";
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<String, Object>();
+
+            JasperPrint documento = JasperFillManager.fillReport(
+                    rutaJasper,
+                    parametros,
+                    new CatalogoDataSource(Libro.listaEjemplo()));
+
+            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
+            System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+            System.out.println("Paginas del documento: " + documento.getPages().size());
+            System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+}
+```
+
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 2: `import java.util.HashMap;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 3: `import java.util.Map;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 5: `import net.sf.jasperreports.engine.JasperCompileManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 6: `import net.sf.jasperreports.engine.JasperExportManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 7: `import net.sf.jasperreports.engine.JasperFillManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 8: `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 10: `public class GeneradorInformeConcepto {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
+
+Línea 11: `public static void main(String[] args) {` → declara el punto de entrada de la aplicación.
+
+Línea 12: `try {` → abre el bloque protegido de ejecución.
+
+Línea 13: `String rutaJrxml = "reports/informe_concepto.jrxml";` → define la ruta relativa de la plantilla JRXML.
+
+Línea 14: `String rutaJasper = "reports/informe_concepto.jasper";` → define la ruta del artefacto compilado `.jasper`.
+
+Línea 15: `String rutaPdf = "output/informe_concepto.pdf";` → define la ruta del PDF de salida.
+
+Línea 17: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML con JasperReports Library.
+
+Línea 19: `Map<String, Object> parametros = new HashMap<String, Object>();` → crea el mapa tipado de parámetros.
+
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(` → declara el `JasperPrint` resultante del llenado.
+
+Línea 22: `rutaJasper,` → pasa al llenado el informe compilado.
+
+Línea 23: `parametros,` → pasa el mapa de parámetros.
+
+Línea 24: `new CatalogoDataSource(Libro.listaEjemplo()));` → pasa la fuente de datos construida con los libros de ejemplo.
+
+Línea 26: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta el `JasperPrint` a un PDF real.
+
+Línea 28: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → escribe en consola la ruta absoluta del PDF generado.
+
+Línea 29: `System.out.println("Paginas del documento: " + documento.getPages().size());` → escribe en consola el número real de páginas del `JasperPrint`.
+
+Línea 30: `System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());` → escribe en consola el número de registros de ejemplo; el workflow usa esta salida como evidencia de ejecución.
+
+Línea 31: `} catch (Exception e) {` → captura cualquier fallo de compilación, llenado o exportación.
+
+Línea 32: `e.printStackTrace();` → imprime la traza del error para diagnóstico.
+
+Línea 33: `System.exit(1);` → termina con código distinto de cero para que GitHub Actions detecte el fallo.
+
+Línea 34: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 35: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Traza de consola esperada tras la ejecución
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 1
+Paginas del documento: <valor real del checkpoint>
+Registros de ejemplo: <12 o 14 según el checkpoint>
 ```
 
-#### Estado del objeto JasperPrint en cada fase
-
-```text
-FASE 1 — COMPILACIÓN
-─────────────────────
-  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
-  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~20 KB)
-  Salida:           reports/informe_concepto.jasper      (binario serializado, ~40 KB)
-  Campos declarados:
-    - titulo (java.lang.String)
-    - precio (java.lang.Double)
-    - paginas (java.lang.Integer)
-    - fechaPublicacion (java.util.Date)
-    - disponible (java.lang.Boolean)
-  Expresiones compiladas:
-    - $F{titulo}
-    - $F{precio}
-    - $F{paginas}
-    - $F{fechaPublicacion}
-    - $F{disponible}.booleanValue() ? "Sí" : "No"
-    - $V{REPORT_COUNT}
-    - $V{PAGE_NUMBER}
-    - $V{PAGE_NUMBER}` con `evaluationTime="Report"
-
-FASE 2 — LLENADO
-─────────────────
-  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
-  Entrada:          reports/informe_concepto.jasper + HashMap vacío
-                    + CatalogoDataSource con 14 libros
-  Salida:           objeto JasperPrint en memoria
-  Páginas:          1
-  Bandas emitidas:
-    - Title (1 vez)
-    - Page Header (1 vez)
-    - Column Header (1 vez)
-    - Detail (14 veces)
-    - Column Footer (1 vez)
-    - Last Page Footer (1 vez)
-    - Summary (1 vez)
-    - Background (1 vez)
-  Campos resueltos por registro:
-    - titulo: cadena con el título del libro
-    - precio: valor numérico con dos decimales
-    - paginas: entero (0 para todos los registros en este punto)
-    - fechaPublicacion: fecha actual del sistema
-    - disponible: TRUE para todos los registros
-
-FASE 3 — EXPORTACIÓN
-─────────────────────
-  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
-  Entrada:          objeto JasperPrint en memoria
-  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~18 KB en disco)
-  Páginas en el PDF: 1
-```
+La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -3298,7 +3528,7 @@ EditorialReportsJava/
 
 | Error | Causa | Solución |
 | --- | --- | --- |
-| Field not found: paginas al compilar | El campo no está declarado en el JRXML | Añadir <field name="paginas" class="java.lang.Integer"/> antes de las bandas |
+| Field not found: paginas al compilar | El campo no está declarado en el JRXML | Añadir &lt;field name="paginas" class="java.lang.Integer"/&gt; antes de las bandas |
 | ClassCastException: java.lang.Double cannot be cast to java.lang.Integer | El tipo declarado no coincide con el valor devuelto | Cambiar el tipo del campo al tipo del valor devuelto por la fuente |
 | El campo disponible se muestra siempre como Sí | El constructor asigna Boolean.TRUE a todos los registros | Modificar el constructor o el método listaEjemplo para asignar valores distintos según el libro |
 | La expresión del operador ternario no compila | Se usó $F{disponible} sin invocar booleanValue() | Escribir $F{disponible}.booleanValue() ? "Sí" : "No" |
@@ -3602,36 +3832,37 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir 60 y pulsar Enter.
 
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+3. Hacer clic sobre el desplegable Split Type y seleccionar Prevent.
 
-4. Hacer clic sobre el icono Image (un cuadrado con un paisaje).
+4. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
 
-5. Arrastrar el icono Image y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=5.
+5. Hacer clic sobre el icono Image (un cuadrado con un paisaje).
 
-6. Hacer clic sobre el campo X en el panel Properties, escribir 0 y pulsar Enter.
+6. Arrastrar el icono Image y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=5.
 
-7. Hacer clic sobre el campo Y, escribir 5 y pulsar Enter.
+7. Hacer clic sobre el campo X en el panel Properties, escribir 0 y pulsar Enter.
 
-8. Hacer clic sobre el campo Width, escribir 50 y pulsar Enter.
+8. Hacer clic sobre el campo Y, escribir 5 y pulsar Enter.
 
-9. Hacer clic sobre el campo Height, escribir 50 y pulsar Enter.
+9. Hacer clic sobre el campo Width, escribir 50 y pulsar Enter.
 
-10. Hacer clic sobre el desplegable Scale Image y seleccionar RetainShape.
+10. Hacer clic sobre el campo Height, escribir 50 y pulsar Enter.
 
-11. Hacer clic sobre el desplegable On Error Type y seleccionar Blank.
+11. Hacer clic sobre el desplegable Scale Image y seleccionar RetainShape.
 
-12. Hacer clic sobre el campo Image Expression y escribir exactamente "resources/portadas/" + $F{titulo} + ".png" y pulsar Enter.
+12. Hacer clic sobre el desplegable On Error Type y seleccionar Blank.
 
-**Verificación visual:** la banda Detail 1 muestra un elemento de imagen con la expresión dinámica. Si el archivo no existe, el espacio queda vacío.
+13. Hacer clic sobre el campo Image Expression y escribir exactamente "resources/portadas/" + $F{titulo} + ".png" y pulsar Enter.
 
-**Qué hace:** inserta una imagen dinámica que muestra la portada de cada libro.
+**Verificación visual:** la banda Detail 1 tiene Height=`60`, Split Type=`Prevent` y muestra un elemento de imagen con la expresión dinámica. Si el archivo no existe, el espacio queda vacío.
+
+**Qué hace:** amplía Detail, configura `Prevent` para intentar mantener cada ficha unida en el primer intento de paginación e inserta una imagen dinámica que muestra la portada de cada libro.
 
 **Por qué:** la portada identifica visualmente cada libro del catálogo.
 
 **Error común:** olvidar configurar onErrorType="Blank" y provocar que el informe falle cuando algún libro no tiene portada. Solución: seleccionar Blank en el desplegable On Error Type del panel Properties.
 
 **Analogía:** es como mostrar la cubierta de cada libro junto a sus datos en el catálogo.
-
 #### Paso 7: Compactar los campos de Detail para dejar espacio a la portada [VALIDADO]
 
 **Acciones:**
@@ -3764,7 +3995,6 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 8. Escribir exactamente - Logotipo: resources/logo.png y pulsar Enter.
 
 9. Escribir exactamente - Portadas de libros: resources/portadas/{titulo}.png y pulsar Enter.
-
 10. Escribir exactamente - Iconos de estado: resources/icono_disponible.png, resources/icono_no_disponible.png y pulsar Enter dos veces.
 
 11. Escribir exactamente ## Modos de escala utilizados y pulsar Enter dos veces.
@@ -3789,214 +4019,384 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 ### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
-Se reproduce únicamente la sección modificada del JRXML. Las secciones modificadas son la banda title, la banda columnHeader y la banda detail.
+Se reproducen las secciones modificadas por las imágenes en 2.4 desde el checkpoint ejecutable. Obsérvese que Detail usa `splitType="Prevent"`, la fecha de Title ocupa Width=`150` y todos los elementos de la fila caben dentro de `columnWidth="555"`.
 
 ```xml
 <title>
-    <band height="100">
-        <image hAlign="Left" vAlign="Middle">
-            <reportElement x="0" y="10" width="80" height="80" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
-            <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
-        </image>
-        <staticText>
-            <reportElement x="90" y="25" width="465" height="30" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
-            <textElement textAlignment="Left" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="18" isBold="true"/>
-            </textElement>
-            <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="90" y="60" width="120" height="20" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <text><![CDATA[Fecha de emisión:]]></text>
-        </staticText>
-        <textField pattern="dd/MM/yyyy">
-            <reportElement x="215" y="60" width="150" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-        </textField>
-    </band>
-</title>
+        <band height="100">
+            <image scaleImage="RetainShape" onErrorType="Error">
+                <reportElement x="0" y="10" width="80" height="80" uuid="dddddddd-dddd-dddd-dddd-dddddddddddd"/>
+                <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"/>
+                <textElement verticalAlignment="Middle"><font size="18" isBold="true"/></textElement>
+                <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+            </staticText>
+            <staticText><reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff"/><text><![CDATA[Fecha de emisión:]]></text></staticText>
+            <textField pattern="dd/MM/yyyy"><reportElement x="215" y="60" width="150" height="20" uuid="12121212-1212-1212-1212-121212121212"/><textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression></textField>
+        </band>
+    </title>
+
 <columnHeader>
-    <band height="25">
-        <staticText>
-            <reportElement x="0" y="5" width="50" height="15" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10" isBold="true"/>
-            </textElement>
-            <text><![CDATA[Portada]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="55" y="5" width="180" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10" isBold="true"/>
-            </textElement>
-            <text><![CDATA[Título]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="235" y="5" width="80" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10" isBold="true"/>
-            </textElement>
-            <text><![CDATA[Precio]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="315" y="5" width="50" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10" isBold="true"/>
-            </textElement>
-            <text><![CDATA[Páginas]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="365" y="5" width="50" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10" isBold="true"/>
-            </textElement>
-            <text><![CDATA[Año]]></text>
-        </staticText>
-    </band>
-</columnHeader>
+        <band height="25">
+            <staticText><reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313"/><textElement textAlignment="Center"><font size="9" isBold="true"/></textElement><text><![CDATA[Port.]]></text></staticText>
+            <staticText><reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText>
+            <staticText><reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515"/><textElement textAlignment="Right"><font size="9" isBold="true"/></textElement><text><![CDATA[Precio]]></text></staticText>
+            <staticText><reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616"/><textElement textAlignment="Right"><font size="9" isBold="true"/></textElement><text><![CDATA[Págs.]]></text></staticText>
+            <staticText><reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717"/><textElement textAlignment="Center"><font size="9" isBold="true"/></textElement><text><![CDATA[Año]]></text></staticText>
+            <staticText><reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818"/><textElement textAlignment="Center"><font size="9" isBold="true"/></textElement><text><![CDATA[Disp.]]></text></staticText>
+            <staticText><reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919"/><textElement textAlignment="Right"><font size="9" isBold="true"/></textElement><text><![CDATA[#]]></text></staticText>
+        </band>
+    </columnHeader>
+
 <detail>
-    <band height="60" splitType="Stretch">
-        <image onErrorType="Blank" scaleImage="RetainShape">
-            <reportElement x="0" y="5" width="50" height="50" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
-            <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>
-        </image>
-        <textField textAdjust="StretchHeight">
-            <reportElement x="55" y="20" width="180" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
-        </textField>
-        <textField pattern="#,##0.00 €" isBlankWhenNull="true">
-            <reportElement x="235" y="20" width="80" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
-            <textElement verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
-        </textField>
-        <textField isBlankWhenNull="true">
-            <reportElement x="315" y="20" width="50" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
-        </textField>
-        <textField pattern="yyyy" isBlankWhenNull="true">
-            <reportElement x="365" y="20" width="50" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
-        </textField>
-        <textField>
-            <reportElement x="415" y="20" width="55" height="20" uuid="c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="10"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
-        </textField>
-        <image onErrorType="Blank" scaleImage="RetainShape">
-            <reportElement x="475" y="20" width="20" height="20" uuid="d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a"/>
-            <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression>
-        </image>
-        <textField>
-            <reportElement x="500" y="20" width="55" height="20" uuid="f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle">
-                <font fontName="DejaVu Sans" size="9"/>
-            </textElement>
-            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
-        </textField>
-    </band>
-</detail>
+        <band height="60" splitType="Prevent">
+            <image onErrorType="Blank" scaleImage="RetainShape"><reportElement x="0" y="5" width="50" height="50" uuid="20202020-2020-2020-2020-202020202020"/><imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression></image>
+            <textField textAdjust="StretchHeight"><reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>
+            <textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>
+            <textField><reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression></textField>
+            <image onErrorType="Blank" scaleImage="RetainShape"><reportElement x="475" y="20" width="20" height="20" uuid="26262626-2626-2626-2626-262626262626"/><imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression></image>
+            <textField><reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+        </band>
+    </detail>
 ```
 
-Línea 1: <title> → abre la banda de título.
+### Explicación línea por línea
 
-Línea 2: <band height="100"> → la banda crece de 70 a 100 unidades de informe para alojar el logotipo de 80 unidades de informe.
+Línea 1: `<title>` → abre la sección Title, generada una vez al comienzo del informe.
 
-Línea 3: <image hAlign="Left" vAlign="Middle"> → declara el elemento de imagen del logotipo con alineación horizontal izquierda y vertical centrada.
+Línea 2: `<band height="100">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 4: <reportElement x="0" y="10" width="80" height="80" uuid="..."/> → posición (0, 10) y tamaño (80 × 80). El logotipo ocupa la esquina superior izquierda de la banda.
+Línea 3: `<image scaleImage="RetainShape" onErrorType="Error">` → abre un elemento de imagen y define su comportamiento ante escala o errores.
 
-Línea 5: <imageExpression><![CDATA["resources/logo.png"]]></imageExpression> → expresión que devuelve la ruta relativa del archivo del logotipo. Las comillas dobles son obligatorias.
+Línea 4: `<reportElement x="0" y="10" width="80" height="80" uuid="dddddddd-dddd-dddd-dddd-dddddddddddd"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 6: </image> → cierra el elemento de imagen.
+Línea 5: `<imageExpression><![CDATA["resources/logo.png"]]></imageExpression>` → define la expresión que resuelve el recurso de imagen.
 
-Línea 7-13: staticText con el título principal. La posición x="90" lo sitúa a la derecha del logotipo. La posición y="25" lo alinea con la parte alta del logotipo.
+Línea 6: `</image>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 14-20: staticText con el rótulo Fecha de emisión:. Posición x="90" y="60".
+Línea 7: `<staticText>` → abre un texto estático.
 
-Línea 21-27: textField con la fecha actual. Posición x="215" y="60".
+Línea 8: `<reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
-Línea 28: </band> → cierra la banda de título.
+Línea 9: `<textElement verticalAlignment="Middle"><font size="18" isBold="true"/></textElement>` → configura alineación y/o marcado del texto.
 
-Línea 29: </title> → cierra la sección de título.
+Línea 10: `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → define el contenido literal del elemento estático.
 
-Línea 30: <columnHeader> → abre la banda de cabecera de columna.
+Línea 11: `</staticText>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 31: <band height="25"> → banda con 25 unidades de informe de altura.
+Línea 12: `<staticText><reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff"/><text><![CDATA[Fecha de emisión:]]></text></staticText>` → abre un texto estático.
 
-Línea 32-38: staticText con el encabezado Portada centrado en la coordenada 0, ancho 50.
+Línea 13: `<textField pattern="dd/MM/yyyy"><reportElement x="215" y="60" width="150" height="20" uuid="12121212-1212-1212-1212-121212121212"/><textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 39-45: staticText con el encabezado Título en la coordenada 60, ancho 240. El ancho se ha ampliado de 300 a 240 porque la coordenada X ha cambiado.
+Línea 14: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 46-52: staticText con el encabezado Precio en la coordenada 300.
+Línea 15: `</title>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 53-59: staticText con el encabezado Páginas en la coordenada 400, alineado a la derecha.
+Línea 17: `<columnHeader>` → abre Column Header, generado al comienzo de cada columna.
 
-Línea 60-66: staticText con el encabezado Año en la coordenada 500, alineado al centro.
+Línea 18: `<band height="25">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 67: </band> → cierra la banda de cabecera de columna.
+Línea 19: `<staticText><reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313"/><textElement textAlignment="Center"><font size="9" isBold="true"/></textElement><text><![CDATA[Port.]]></text></staticText>` → abre un texto estático.
 
-Línea 68: </columnHeader> → cierra la sección de cabecera de columna.
+Línea 20: `<staticText><reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414"/><textElement><font size="9" isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText>` → abre un texto estático.
 
-Línea 69: <detail> → abre la banda de detalle.
+Línea 21: `<staticText><reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515"/><textElement textAlignment="Right"><font size="9" isBold="true"/></textElement><text><![CDATA[Precio]]></text></staticText>` → abre un texto estático.
 
-Línea 70: <band height="60" splitType="Stretch"> → la banda crece de 20 a 60 unidades de informe para alojar la imagen de portada de 50 unidades de informe.
+Línea 22: `<staticText><reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616"/><textElement textAlignment="Right"><font size="9" isBold="true"/></textElement><text><![CDATA[Págs.]]></text></staticText>` → abre un texto estático.
 
-Línea 71: <image onErrorType="Blank" scaleImage="RetainShape"> → declara la imagen dinámica de portada. La propiedad onErrorType="Blank" hace que el espacio quede vacío si el archivo no existe. La propiedad scaleImage="RetainShape" escala la imagen proporcionalmente.
+Línea 23: `<staticText><reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717"/><textElement textAlignment="Center"><font size="9" isBold="true"/></textElement><text><![CDATA[Año]]></text></staticText>` → abre un texto estático.
 
-Línea 72: <reportElement x="0" y="5" width="50" height="50" uuid="..."/> → posición (0, 5) y tamaño (50 × 50).
+Línea 24: `<staticText><reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818"/><textElement textAlignment="Center"><font size="9" isBold="true"/></textElement><text><![CDATA[Disp.]]></text></staticText>` → abre un texto estático.
 
-Línea 73: <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression> → expresión que construye la ruta de la imagen a partir del título del libro.
+Línea 25: `<staticText><reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919"/><textElement textAlignment="Right"><font size="9" isBold="true"/></textElement><text><![CDATA[#]]></text></staticText>` → abre un texto estático.
 
-Línea 74: </image> → cierra el elemento de imagen.
+Línea 26: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 75-81: textField con el título del libro. Posición x="60" y="20", ancho 240. La coordenada Y se ha ajustado a 20 para centrar el texto en la banda de 60 unidades de informe.
+Línea 27: `</columnHeader>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 82-88: textField con el precio. Posición x="300" y="20".
+Línea 29: `<detail>` → abre Detail, que el motor intenta generar por cada registro.
 
-Línea 89-95: textField con el número de páginas. Posición x="400" y="20".
+Línea 30: `<band height="60" splitType="Prevent">` → define la banda y su altura; si aparece splitType, establece la política de división.
 
-Línea 96-102: textField con el año de publicación. Posición x="500" y="20".
+Línea 31: `<image onErrorType="Blank" scaleImage="RetainShape"><reportElement x="0" y="5" width="50" height="50" uuid="20202020-2020-2020-2020-202020202020"/><imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression></image>` → abre un elemento de imagen y define su comportamiento ante escala o errores.
 
-Línea 103-109: textField con la disponibilidad. Posición X=415, Y=20.
+Línea 32: `<textField textAdjust="StretchHeight"><reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 110: <image onErrorType="Blank" scaleImage="RetainShape"> → declara el icono de disponibilidad. La expresión devuelve una ruta u otra según el valor del campo.
+Línea 33: `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 111: <reportElement x="475" y="20" width="20" height="20" uuid="..."/> → posición (680, 20) y tamaño (20 × 20).
+Línea 34: `<textField isBlankWhenNull="true"><reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 112: <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression> → expresión condicional que devuelve la ruta del icono correspondiente al estado del libro.
+Línea 35: `<textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 113: </image> → cierra el elemento de imagen.
+Línea 36: `<textField><reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 114-120: staticText con el rótulo #. El rótulo # se mantiene en la cabecera de columna.
+Línea 37: `<image onErrorType="Blank" scaleImage="RetainShape"><reportElement x="475" y="20" width="20" height="20" uuid="26262626-2626-2626-2626-262626262626"/><imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression></image>` → abre un elemento de imagen y define su comportamiento ante escala o errores.
 
-Línea 121-127: textField con el número de registro. Posición X=500, Y=20, ancho 55.
+Línea 38: `<textField><reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 128: </band> → cierra la banda de detalle.
+Línea 39: `</band>` → cierra el elemento o sección abierto correspondiente.
 
-Línea 129: </detail> → cierra la sección de detalle.
+Línea 40: `</detail>` → cierra el elemento o sección abierto correspondiente.
 
 ### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
-En este punto no se modifica el código Java del programa. Las clases Libro, CatalogoDataSource y GeneradorInformeConcepto permanecen tal como se construyeron en el punto 2.3. Se reproduce a continuación la clase GeneradorInformeConcepto para referencia.
+2.4 incorpora recursos gráficos en el JRXML; el modelo y la fuente Java permanecen iguales a 2.3. Se reproduce la versión exacta del checkpoint para mantener trazabilidad.
+
+Los tres archivos siguientes se reproducen **literalmente desde el checkpoint ejecutable `M2/2.4`**. De este modo, la Parte C coincide con el código que compila y se ejecuta en la validación end-to-end.
+
+#### Clase Libro.java
+
+```java
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+public class Libro {
+    private final String titulo;
+    private final Double precio;
+    private final Integer paginas;
+    private final java.util.Date fechaPublicacion;
+    private final Boolean disponible;
+
+    public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible) {
+        this.titulo = titulo;
+        this.precio = precio;
+        this.paginas = paginas;
+        this.fechaPublicacion = fecha(anioPublicacion);
+        this.disponible = disponible;
+    }
+
+    private static java.util.Date fecha(int anio) {
+        Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
+    }
+
+    public String getTitulo() { return titulo; }
+    public Double getPrecio() { return precio; }
+    public Integer getPaginas() { return paginas; }
+    public java.util.Date getFechaPublicacion() { return fechaPublicacion; }
+    public Boolean getDisponible() { return disponible; }
+
+    public static List<Libro> listaEjemplo() {
+        List<Libro> libros = new ArrayList<Libro>();
+        libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));
+        libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));
+        libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));
+        libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));
+        libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));
+        libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));
+        libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));
+        libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));
+        libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));
+        libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));
+        libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));
+        libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));
+        libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));
+        libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));
+        return libros;
+    }
+}
+```
+
+### Explicación línea por línea
+
+Línea 1: `import java.util.ArrayList;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 2: `import java.util.Calendar;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 3: `import java.util.GregorianCalendar;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 4: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 6: `public class Libro {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
+
+Línea 7: `private final String titulo;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 8: `private final Double precio;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 9: `private final Integer paginas;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 10: `private final java.util.Date fechaPublicacion;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 11: `private final Boolean disponible;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 13: `public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible) {` → declara el constructor completo del modelo `Libro` con los valores que necesita el informe.
+
+Línea 14: `this.titulo = titulo;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 15: `this.precio = precio;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 16: `this.paginas = paginas;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 17: `this.fechaPublicacion = fecha(anioPublicacion);` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 18: `this.disponible = disponible;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 19: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 21: `private static java.util.Date fecha(int anio) {` → abre el método auxiliar que convierte un año en una fecha Java reproducible.
+
+Línea 22: `Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);` → crea un calendario situado el 1 de enero del año indicado.
+
+Línea 23: `c.set(Calendar.HOUR_OF_DAY, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 24: `c.set(Calendar.MINUTE, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 25: `c.set(Calendar.SECOND, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 26: `c.set(Calendar.MILLISECOND, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 27: `return c.getTime();` → devuelve la fecha construida por el calendario.
+
+Línea 28: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 30: `public String getTitulo() { return titulo; }` → devuelve el título del libro.
+
+Línea 31: `public Double getPrecio() { return precio; }` → devuelve el precio del libro.
+
+Línea 32: `public Integer getPaginas() { return paginas; }` → devuelve el número de páginas.
+
+Línea 33: `public java.util.Date getFechaPublicacion() { return fechaPublicacion; }` → devuelve la fecha de publicación.
+
+Línea 34: `public Boolean getDisponible() { return disponible; }` → devuelve el estado de disponibilidad.
+
+Línea 36: `public static List<Libro> listaEjemplo() {` → abre el método que construye los datos de ejemplo del curso.
+
+Línea 37: `List<Libro> libros = new ArrayList<Libro>();` → crea una lista tipada compatible con Java 8 y con la baseline del proyecto.
+
+Línea 38: `libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 39: `libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 40: `libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 42: `libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 43: `libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 44: `libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 45: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 46: `libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 48: `libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 49: `libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 51: `libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 52: `return libros;` → devuelve la lista completa que alimentará la fuente de datos.
+
+Línea 53: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 54: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+#### Clase CatalogoDataSource.java
+
+```java
+import java.util.List;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+
+public class CatalogoDataSource implements JRDataSource {
+    private final List<Libro> libros;
+    private int indice = -1;
+
+    public CatalogoDataSource(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    @Override
+    public boolean next() throws JRException {
+        indice++;
+        return indice < libros.size();
+    }
+
+    @Override
+    public Object getFieldValue(JRField campo) throws JRException {
+        Libro actual = libros.get(indice);
+        if ("titulo".equals(campo.getName())) return actual.getTitulo();
+        if ("precio".equals(campo.getName())) return actual.getPrecio();
+        if ("paginas".equals(campo.getName())) return actual.getPaginas();
+        if ("fechaPublicacion".equals(campo.getName())) return actual.getFechaPublicacion();
+        if ("disponible".equals(campo.getName())) return actual.getDisponible();
+        throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());
+    }
+}
+```
+
+### Explicación línea por línea
+
+Línea 1: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 2: `import net.sf.jasperreports.engine.JRDataSource;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 3: `import net.sf.jasperreports.engine.JRException;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 4: `import net.sf.jasperreports.engine.JRField;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 6: `public class CatalogoDataSource implements JRDataSource {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
+
+Línea 7: `private final List<Libro> libros;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 8: `private int indice = -1;` → declara el índice interno de la fuente de datos; empieza en -1 porque `next()` se invoca antes de leer el primer registro.
+
+Línea 10: `public CatalogoDataSource(List<Libro> libros) {` → declara el constructor de la fuente de datos y recibe la lista de libros.
+
+Línea 11: `this.libros = libros;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 12: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 14: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 15: `public boolean next() throws JRException {` → implementa `JRDataSource.next()` y declara `JRException` según el contrato de JasperReports.
+
+Línea 16: `indice++;` → avanza al siguiente registro.
+
+Línea 17: `return indice < libros.size();` → indica al motor si todavía existe un registro válido.
+
+Línea 18: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 20: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 21: `public Object getFieldValue(JRField campo) throws JRException {` → implementa la resolución de un campo JRXML para el registro actual.
+
+Línea 22: `Libro actual = libros.get(indice);` → obtiene el libro correspondiente al índice actual.
+
+Línea 23: `if ("titulo".equals(campo.getName())) return actual.getTitulo();` → resuelve el campo `titulo`.
+
+Línea 24: `if ("precio".equals(campo.getName())) return actual.getPrecio();` → resuelve el campo `precio`.
+
+Línea 25: `if ("paginas".equals(campo.getName())) return actual.getPaginas();` → resuelve el campo `paginas`.
+
+Línea 26: `if ("fechaPublicacion".equals(campo.getName())) return actual.getFechaPublicacion();` → resuelve el campo `fechaPublicacion`.
+
+Línea 27: `if ("disponible".equals(campo.getName())) return actual.getDisponible();` → resuelve el campo `disponible`.
+
+Línea 28: `throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());` → falla explícitamente si el JRXML solicita un campo que la fuente no soporta, evitando devolver silenciosamente un valor incorrecto.
+
+Línea 29: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 30: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+#### Clase GeneradorInformeConcepto.java
 
 ```java
 import java.io.File;
@@ -4009,7 +4409,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 public class GeneradorInformeConcepto {
-
     public static void main(String[] args) {
         try {
             String rutaJrxml = "reports/informe_concepto.jrxml";
@@ -4018,7 +4417,7 @@ public class GeneradorInformeConcepto {
 
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
 
-            Map<String, Object> parametros = new HashMap<>();
+            Map<String, Object> parametros = new HashMap<String, Object>();
 
             JasperPrint documento = JasperFillManager.fillReport(
                     rutaJasper,
@@ -4028,123 +4427,85 @@ public class GeneradorInformeConcepto {
             JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
 
             System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
-            System.out.println("Páginas del documento: " + documento.getPages().size());
-
+            System.out.println("Paginas del documento: " + documento.getPages().size());
+            System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }
 ```
 
-Línea 1: import java.io.File; → importa la clase File para obtener la ruta absoluta del PDF.
+### Explicación línea por línea
 
-Línea 2: import java.util.HashMap; → importa la implementación de mapa.
+Línea 1: `import java.io.File;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 3: import java.util.Map; → importa la interfaz Map.
+Línea 2: `import java.util.HashMap;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 5: import net.sf.jasperreports.engine.JasperCompileManager; → importa el gestor de compilación.
+Línea 3: `import java.util.Map;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 6: import net.sf.jasperreports.engine.JasperExportManager; → importa el gestor de exportación.
+Línea 5: `import net.sf.jasperreports.engine.JasperCompileManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 7: import net.sf.jasperreports.engine.JasperFillManager; → importa el gestor de llenado.
+Línea 6: `import net.sf.jasperreports.engine.JasperExportManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 8: import net.sf.jasperreports.engine.JasperPrint; → importa la clase del documento en memoria.
+Línea 7: `import net.sf.jasperreports.engine.JasperFillManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 10: public class GeneradorInformeConcepto { → declara la clase principal.
+Línea 8: `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-Línea 12: public static void main(String[] args) { → punto de entrada.
+Línea 10: `public class GeneradorInformeConcepto {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-Línea 13: try { → abre el bloque protegido.
+Línea 11: `public static void main(String[] args) {` → declara el punto de entrada de la aplicación.
 
-Línea 14: String rutaJrxml = "reports/informe_concepto.jrxml"; → ruta del archivo de diseño.
+Línea 12: `try {` → abre el bloque protegido de ejecución.
 
-Línea 15: String rutaJasper = "reports/informe_concepto.jasper"; → ruta del artefacto compilado.
+Línea 13: `String rutaJrxml = "reports/informe_concepto.jrxml";` → define la ruta relativa de la plantilla JRXML.
 
-Línea 16: String rutaPdf = "output/informe_concepto.pdf"; → ruta del PDF de salida.
+Línea 14: `String rutaJasper = "reports/informe_concepto.jasper";` → define la ruta del artefacto compilado `.jasper`.
 
-Línea 18: JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper); → compila el JRXML.
+Línea 15: `String rutaPdf = "output/informe_concepto.pdf";` → define la ruta del PDF de salida.
 
-Línea 20: Map<String, Object> parametros = new HashMap<>(); → declara el mapa de parámetros vacío.
+Línea 17: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML con JasperReports Library.
 
-Línea 22: JasperPrint documento = → declara la variable del documento.
+Línea 19: `Map<String, Object> parametros = new HashMap<String, Object>();` → crea el mapa tipado de parámetros.
 
-Línea 22 (continuación): JasperFillManager.fillReport( → invoca el motor de llenado.
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(` → declara el `JasperPrint` resultante del llenado.
 
-Línea 23: rutaJasper, → ruta del artefacto compilado.
+Línea 22: `rutaJasper,` → pasa al llenado el informe compilado.
 
-Línea 24: parametros, → mapa de parámetros.
+Línea 23: `parametros,` → pasa el mapa de parámetros.
 
-Línea 25: new CatalogoDataSource(Libro.listaEjemplo())); → construye la fuente de datos con la lista de catorce libros.
+Línea 24: `new CatalogoDataSource(Libro.listaEjemplo()));` → pasa la fuente de datos construida con los libros de ejemplo.
 
-Línea 27: JasperExportManager.exportReportToPdfFile(documento, rutaPdf); → exporta a PDF.
+Línea 26: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta el `JasperPrint` a un PDF real.
 
-Línea 29: System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath()); → imprime la ruta del PDF.
+Línea 28: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → escribe en consola la ruta absoluta del PDF generado.
 
-Línea 30: System.out.println("Páginas del documento: " + documento.getPages().size()); → imprime el número de páginas.
+Línea 29: `System.out.println("Paginas del documento: " + documento.getPages().size());` → escribe en consola el número real de páginas del `JasperPrint`.
 
-Línea 32: } catch (Exception e) { → captura excepciones.
+Línea 30: `System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());` → escribe en consola el número de registros de ejemplo; el workflow usa esta salida como evidencia de ejecución.
 
-Línea 33: e.printStackTrace(); → imprime la traza.
+Línea 31: `} catch (Exception e) {` → captura cualquier fallo de compilación, llenado o exportación.
 
-Línea 34: } → cierra el bloque catch.
+Línea 32: `e.printStackTrace();` → imprime la traza del error para diagnóstico.
 
-Línea 35: } → cierra el método main.
+Línea 33: `System.exit(1);` → termina con código distinto de cero para que GitHub Actions detecte el fallo.
 
-Línea 36: } → cierra la clase.
+Línea 34: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 35: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 #### Traza de consola esperada tras la ejecución
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 2
+Paginas del documento: <valor real del checkpoint>
+Registros de ejemplo: <12 o 14 según el checkpoint>
 ```
 
-#### Estado del objeto JasperPrint en cada fase
-
-```text
-FASE 1 — COMPILACIÓN
-─────────────────────
-  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
-  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~24 KB)
-  Salida:           reports/informe_concepto.jasper      (binario serializado, ~48 KB)
-  Expresiones de imagen compiladas:
-    - "resources/logo.png"
-    - "resources/portadas/" + $F{titulo} + ".png"
-    - $F{disponible}.booleanValue() ?
-        "resources/icono_disponible.png" :
-        "resources/icono_no_disponible.png"
-
-FASE 2 — LLENADO
-─────────────────
-  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
-  Entrada:          reports/informe_concepto.jasper + HashMap vacío
-                    + CatalogoDataSource con 14 libros
-  Salida:           objeto JasperPrint en memoria
-  Páginas:          1
-  Bandas emitidas:
-    - Title (1 vez)
-    - Page Header (1 vez)
-    - Column Header (1 vez)
-    - Detail (14 veces)
-    - Column Footer (1 vez)
-    - Last Page Footer (1 vez)
-    - Summary (1 vez)
-    - Background (1 vez)
-  Imágenes resueltas:
-    - Logo: cargado desde resources/logo.png
-    - Portadas: cargadas desde resources/portadas/{titulo}.png
-      si existen; el espacio queda vacío en caso contrario
-    - Iconos: cargados desde resources/icono_disponible.png
-      o resources/icono_no_disponible.png según el campo
-
-FASE 3 — EXPORTACIÓN
-─────────────────────
-  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
-  Entrada:          objeto JasperPrint en memoria
-  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~120 KB en disco)
-  Páginas en el PDF: 1
-```
+La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -4244,7 +4605,7 @@ informe_concepto
 │
 ├── Summary  [band, height=70]
 │   ├── staticText  "Total de páginas:"
-│   ├── textField   $V{PAGE_NUMBER}` con `evaluationTime="Report"
+│   ├── textField   $V{PAGE_NUMBER} [evaluationTime="Report"]
 │   ├── staticText  "Fin del informe. EditorialReports."
 │   ├── staticText  "Total de libros:"
 │   └── textField   $V{REPORT_COUNT}
@@ -4632,7 +4993,6 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 ---
 
 #### Paso 11: Aplicar los estilos de tabla a los campos de Detail [VALIDADO]
-
 **Acciones:**
 
 1. Seleccionar `$F{titulo}` y elegir `TextoTabla` en Style.
@@ -4703,7 +5063,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 <style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>
 <title>
     <band height="100">
-        <image hAlign="Left" vAlign="Middle">
+        <image scaleImage="RetainShape" onErrorType="Error">
             <reportElement x="0" y="10" width="80" height="80" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
             <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
         </image>
@@ -4729,35 +5089,17 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 </title>
 <columnHeader>
     <band height="25">
-        <staticText>
-            <reportElement x="0" y="5" width="50" height="15" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b" style="TextoTablaCabecera"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle"/>
-            <text><![CDATA[Portada]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="55" y="5" width="180" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c" style="TextoTablaCabecera"/>
-            <textElement verticalAlignment="Middle"/>
-            <text><![CDATA[Título]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="235" y="5" width="80" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d" style="TextoTablaCabecera"/>
-            <textElement verticalAlignment="Middle"/>
-            <text><![CDATA[Precio]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="315" y="5" width="50" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e" style="TextoTablaCabecera"/>
-            <textElement textAlignment="Right" verticalAlignment="Middle"/>
-            <text><![CDATA[Páginas]]></text>
-        </staticText>
-        <staticText>
-            <reportElement x="365" y="5" width="50" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f" style="TextoTablaCabecera"/>
-            <textElement textAlignment="Center" verticalAlignment="Middle"/>
-            <text><![CDATA[Año]]></text>
-        </staticText>
+        <staticText><reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Port.]]></text></staticText>
+        <staticText><reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/><text><![CDATA[Título]]></text></staticText>
+        <staticText><reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[Precio]]></text></staticText>
+        <staticText><reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[Págs.]]></text></staticText>
+        <staticText><reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Año]]></text></staticText>
+        <staticText><reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Disp.]]></text></staticText>
+        <staticText><reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[#]]></text></staticText>
     </band>
 </columnHeader>
 <detail>
-    <band height="60" splitType="Stretch">
+    <band height="60" splitType="Prevent">
         <image onErrorType="Blank" scaleImage="RetainShape">
             <reportElement x="0" y="5" width="50" height="50" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
             <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>
@@ -4831,7 +5173,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 **Línea 23:** `<reportElement x="90" y="25" width="465" height="30" uuid="..." style="TituloPrincipal"/>` → el título principal referencia el estilo `TituloPrincipal`. El elemento hereda la tipografía, el tamaño 18, la negrita y el color azul oscuro.
 
-**Línea 36-70:** banda `columnHeader` con los cinco encabezados. Cada uno referencia el estilo `TextoTablaCabecera`.
+**Línea 36-70:** banda `columnHeader` con los siete encabezados `Port.`, `Título`, `Precio`, `Págs.`, `Año`, `Disp.` y `#`. Todos referencian el estilo `TextoTablaCabecera`.
 
 **Línea 38:** `<reportElement x="0" y="5" width="50" height="15" uuid="..." style="TextoTablaCabecera"/>` → el encabezado `Port.` referencia el estilo de cabecera. El elemento hereda el fondo azul, el texto blanco y la negrita.
 
@@ -4841,15 +5183,265 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 **Línea 83:** `<reportElement x="235" y="20" width="80" height="20" uuid="..." style="TextoPrecio"/>` → el campo del precio referencia el estilo `TextoPrecio`. Hereda la tipografía de `TextoTabla` y el estilo condicional que resalta en rojo los precios superiores a 20.
 
-**Línea 103:** `<reportElement x="500" y="20" width="0" height="20" uuid="..." style="TextoPequeno"/>` → el rótulo `#` referencia el estilo `TextoPequeno`. Hereda el tamaño 9, la cursiva y el color gris.
-
 **Línea 108:** `<reportElement x="500" y="20" width="55" height="20" uuid="..." style="TextoPequeno"/>` → el campo del número de registro referencia el mismo estilo.
 
 ---
 
 ### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
-En este punto no se modifica el código Java del programa. Las clases `Libro`, `CatalogoDataSource` y `GeneradorInformeConcepto` permanecen tal como se construyeron en el punto 2.4. Se reproduce a continuación la clase `GeneradorInformeConcepto` para referencia.
+2.5 cambia estilos del JRXML; Java permanece igual que en 2.4. Se reproduce literalmente el checkpoint ejecutable para evitar divergencias documentales.
+
+Los tres archivos siguientes se reproducen **literalmente desde el checkpoint ejecutable `M2/2.5`**. De este modo, la Parte C coincide con el código que compila y se ejecuta en la validación end-to-end.
+
+#### Clase Libro.java
+
+```java
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+public class Libro {
+    private final String titulo;
+    private final Double precio;
+    private final Integer paginas;
+    private final java.util.Date fechaPublicacion;
+    private final Boolean disponible;
+
+    public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible) {
+        this.titulo = titulo;
+        this.precio = precio;
+        this.paginas = paginas;
+        this.fechaPublicacion = fecha(anioPublicacion);
+        this.disponible = disponible;
+    }
+
+    private static java.util.Date fecha(int anio) {
+        Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
+    }
+
+    public String getTitulo() { return titulo; }
+    public Double getPrecio() { return precio; }
+    public Integer getPaginas() { return paginas; }
+    public java.util.Date getFechaPublicacion() { return fechaPublicacion; }
+    public Boolean getDisponible() { return disponible; }
+
+    public static List<Libro> listaEjemplo() {
+        List<Libro> libros = new ArrayList<Libro>();
+        libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));
+        libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));
+        libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));
+        libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));
+        libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));
+        libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));
+        libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));
+        libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));
+        libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));
+        libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));
+        libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));
+        libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));
+        libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));
+        libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));
+        return libros;
+    }
+}
+```
+
+### Explicación línea por línea
+
+Línea 1: `import java.util.ArrayList;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 2: `import java.util.Calendar;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 3: `import java.util.GregorianCalendar;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 4: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 6: `public class Libro {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
+
+Línea 7: `private final String titulo;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 8: `private final Double precio;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 9: `private final Integer paginas;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 10: `private final java.util.Date fechaPublicacion;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 11: `private final Boolean disponible;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 13: `public Libro(String titulo, Double precio, Integer paginas, int anioPublicacion, Boolean disponible) {` → declara el constructor completo del modelo `Libro` con los valores que necesita el informe.
+
+Línea 14: `this.titulo = titulo;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 15: `this.precio = precio;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 16: `this.paginas = paginas;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 17: `this.fechaPublicacion = fecha(anioPublicacion);` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 18: `this.disponible = disponible;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 19: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 21: `private static java.util.Date fecha(int anio) {` → abre el método auxiliar que convierte un año en una fecha Java reproducible.
+
+Línea 22: `Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);` → crea un calendario situado el 1 de enero del año indicado.
+
+Línea 23: `c.set(Calendar.HOUR_OF_DAY, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 24: `c.set(Calendar.MINUTE, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 25: `c.set(Calendar.SECOND, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 26: `c.set(Calendar.MILLISECOND, 0);` → normaliza un componente horario del calendario para obtener una fecha estable.
+
+Línea 27: `return c.getTime();` → devuelve la fecha construida por el calendario.
+
+Línea 28: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 30: `public String getTitulo() { return titulo; }` → devuelve el título del libro.
+
+Línea 31: `public Double getPrecio() { return precio; }` → devuelve el precio del libro.
+
+Línea 32: `public Integer getPaginas() { return paginas; }` → devuelve el número de páginas.
+
+Línea 33: `public java.util.Date getFechaPublicacion() { return fechaPublicacion; }` → devuelve la fecha de publicación.
+
+Línea 34: `public Boolean getDisponible() { return disponible; }` → devuelve el estado de disponibilidad.
+
+Línea 36: `public static List<Libro> listaEjemplo() {` → abre el método que construye los datos de ejemplo del curso.
+
+Línea 37: `List<Libro> libros = new ArrayList<Libro>();` → crea una lista tipada compatible con Java 8 y con la baseline del proyecto.
+
+Línea 38: `libros.add(new Libro("Cien años de soledad", 19.95, 471, 1967, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 39: `libros.add(new Libro("Rayuela", 22.50, 736, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 40: `libros.add(new Libro("La ciudad y los perros", 18.75, 432, 1963, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 41: `libros.add(new Libro("Pedro Páramo", 15.90, 136, 1955, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 42: `libros.add(new Libro("Ficciones", 21.00, 224, 1944, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 43: `libros.add(new Libro("La casa de los espíritus", 23.40, 448, 1982, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 44: `libros.add(new Libro("El amor en los tiempos del cólera", 20.80, 496, 1985, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 45: `libros.add(new Libro("La muerte de Artemio Cruz", 17.60, 320, 1962, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 46: `libros.add(new Libro("Doña Bárbara", 16.95, 400, 1929, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 47: `libros.add(new Libro("Martín Fierro", 14.50, 240, 1872, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 48: `libros.add(new Libro("Comala", 19.20, 288, 2024, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 49: `libros.add(new Libro("Paradiso", 25.00, 640, 1966, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 50: `libros.add(new Libro("La invención de Morel", 18.30, 160, 1940, Boolean.TRUE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 51: `libros.add(new Libro("El túnel", 16.20, 160, 1948, Boolean.FALSE));` → añade a la lista un libro con valores concretos de título, precio, páginas, año y disponibilidad.
+
+Línea 52: `return libros;` → devuelve la lista completa que alimentará la fuente de datos.
+
+Línea 53: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 54: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+#### Clase CatalogoDataSource.java
+
+```java
+import java.util.List;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+
+public class CatalogoDataSource implements JRDataSource {
+    private final List<Libro> libros;
+    private int indice = -1;
+
+    public CatalogoDataSource(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    @Override
+    public boolean next() throws JRException {
+        indice++;
+        return indice < libros.size();
+    }
+
+    @Override
+    public Object getFieldValue(JRField campo) throws JRException {
+        Libro actual = libros.get(indice);
+        if ("titulo".equals(campo.getName())) return actual.getTitulo();
+        if ("precio".equals(campo.getName())) return actual.getPrecio();
+        if ("paginas".equals(campo.getName())) return actual.getPaginas();
+        if ("fechaPublicacion".equals(campo.getName())) return actual.getFechaPublicacion();
+        if ("disponible".equals(campo.getName())) return actual.getDisponible();
+        throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());
+    }
+}
+```
+
+### Explicación línea por línea
+
+Línea 1: `import java.util.List;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 2: `import net.sf.jasperreports.engine.JRDataSource;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 3: `import net.sf.jasperreports.engine.JRException;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 4: `import net.sf.jasperreports.engine.JRField;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
+
+Línea 6: `public class CatalogoDataSource implements JRDataSource {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
+
+Línea 7: `private final List<Libro> libros;` → declara un campo de instancia inmutable después de la construcción del objeto.
+
+Línea 8: `private int indice = -1;` → declara el índice interno de la fuente de datos; empieza en -1 porque `next()` se invoca antes de leer el primer registro.
+
+Línea 10: `public CatalogoDataSource(List<Libro> libros) {` → declara el constructor de la fuente de datos y recibe la lista de libros.
+
+Línea 11: `this.libros = libros;` → asigna al campo del objeto el valor recibido o calculado.
+
+Línea 12: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 14: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 15: `public boolean next() throws JRException {` → implementa `JRDataSource.next()` y declara `JRException` según el contrato de JasperReports.
+
+Línea 16: `indice++;` → avanza al siguiente registro.
+
+Línea 17: `return indice < libros.size();` → indica al motor si todavía existe un registro válido.
+
+Línea 18: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 20: `@Override` → indica que el método implementa un método del contrato `JRDataSource`.
+
+Línea 21: `public Object getFieldValue(JRField campo) throws JRException {` → implementa la resolución de un campo JRXML para el registro actual.
+
+Línea 22: `Libro actual = libros.get(indice);` → obtiene el libro correspondiente al índice actual.
+
+Línea 23: `if ("titulo".equals(campo.getName())) return actual.getTitulo();` → resuelve el campo `titulo`.
+
+Línea 24: `if ("precio".equals(campo.getName())) return actual.getPrecio();` → resuelve el campo `precio`.
+
+Línea 25: `if ("paginas".equals(campo.getName())) return actual.getPaginas();` → resuelve el campo `paginas`.
+
+Línea 26: `if ("fechaPublicacion".equals(campo.getName())) return actual.getFechaPublicacion();` → resuelve el campo `fechaPublicacion`.
+
+Línea 27: `if ("disponible".equals(campo.getName())) return actual.getDisponible();` → resuelve el campo `disponible`.
+
+Línea 28: `throw new JRException("Campo no soportado por CatalogoDataSource: " + campo.getName());` → falla explícitamente si el JRXML solicita un campo que la fuente no soporta, evitando devolver silenciosamente un valor incorrecto.
+
+Línea 29: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 30: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+#### Clase GeneradorInformeConcepto.java
 
 ```java
 import java.io.File;
@@ -4862,7 +5454,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 public class GeneradorInformeConcepto {
-
     public static void main(String[] args) {
         try {
             String rutaJrxml = "reports/informe_concepto.jrxml";
@@ -4871,7 +5462,7 @@ public class GeneradorInformeConcepto {
 
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
 
-            Map<String, Object> parametros = new HashMap<>();
+            Map<String, Object> parametros = new HashMap<String, Object>();
 
             JasperPrint documento = JasperFillManager.fillReport(
                     rutaJasper,
@@ -4881,124 +5472,87 @@ public class GeneradorInformeConcepto {
             JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
 
             System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
-            System.out.println("Páginas del documento: " + documento.getPages().size());
-
+            System.out.println("Paginas del documento: " + documento.getPages().size());
+            System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 }
 ```
 
-**Línea 1:** `import java.io.File;` → importa la clase `File` para obtener la ruta absoluta del PDF.
+### Explicación línea por línea
 
-**Línea 2:** `import java.util.HashMap;` → importa la implementación de mapa.
+Línea 1: `import java.io.File;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 3:** `import java.util.Map;` → importa la interfaz `Map`.
+Línea 2: `import java.util.HashMap;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 5:** `import net.sf.jasperreports.engine.JasperCompileManager;` → importa el gestor de compilación.
+Línea 3: `import java.util.Map;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 6:** `import net.sf.jasperreports.engine.JasperExportManager;` → importa el gestor de exportación.
+Línea 5: `import net.sf.jasperreports.engine.JasperCompileManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperFillManager;` → importa el gestor de llenado.
+Línea 6: `import net.sf.jasperreports.engine.JasperExportManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase del documento en memoria.
+Línea 7: `import net.sf.jasperreports.engine.JasperFillManager;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 10:** `public class GeneradorInformeConcepto {` → declara la clase principal.
+Línea 8: `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase o interfaz indicada para que el código pueda referenciarla por su nombre simple.
 
-**Línea 12:** `public static void main(String[] args) {` → punto de entrada.
+Línea 10: `public class GeneradorInformeConcepto {` → declara la clase Java y, si aparece `implements`, establece el contrato que debe implementar.
 
-**Línea 13:** `try {` → abre el bloque protegido.
+Línea 11: `public static void main(String[] args) {` → declara el punto de entrada de la aplicación.
 
-**Línea 14:** `String rutaJrxml = "reports/informe_concepto.jrxml";` → ruta del archivo de diseño.
+Línea 12: `try {` → abre el bloque protegido de ejecución.
 
-**Línea 15:** `String rutaJasper = "reports/informe_concepto.jasper";` → ruta del artefacto compilado.
+Línea 13: `String rutaJrxml = "reports/informe_concepto.jrxml";` → define la ruta relativa de la plantilla JRXML.
 
-**Línea 16:** `String rutaPdf = "output/informe_concepto.pdf";` → ruta del PDF de salida.
+Línea 14: `String rutaJasper = "reports/informe_concepto.jasper";` → define la ruta del artefacto compilado `.jasper`.
 
-**Línea 18:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML.
+Línea 15: `String rutaPdf = "output/informe_concepto.pdf";` → define la ruta del PDF de salida.
 
-**Línea 20:** `Map<String, Object> parametros = new HashMap<>();` → declara el mapa de parámetros vacío.
+Línea 17: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML con JasperReports Library.
 
-**Línea 22:** `JasperPrint documento =` → declara la variable del documento.
+Línea 19: `Map<String, Object> parametros = new HashMap<String, Object>();` → crea el mapa tipado de parámetros.
 
-**Línea 22 (continuación):** `JasperFillManager.fillReport(` → invoca el motor de llenado.
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(` → declara el `JasperPrint` resultante del llenado.
 
-**Línea 23:** `rutaJasper,` → ruta del artefacto compilado.
+Línea 22: `rutaJasper,` → pasa al llenado el informe compilado.
 
-**Línea 24:** `parametros,` → mapa de parámetros.
+Línea 23: `parametros,` → pasa el mapa de parámetros.
 
-**Línea 25:** `new CatalogoDataSource(Libro.listaEjemplo()));` → construye la fuente de datos con la lista de catorce libros.
+Línea 24: `new CatalogoDataSource(Libro.listaEjemplo()));` → pasa la fuente de datos construida con los libros de ejemplo.
 
-**Línea 27:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta a PDF.
+Línea 26: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta el `JasperPrint` a un PDF real.
 
-**Línea 29:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → imprime la ruta del PDF.
+Línea 28: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → escribe en consola la ruta absoluta del PDF generado.
 
-**Línea 30:** `System.out.println("Páginas del documento: " + documento.getPages().size());` → imprime el número de páginas.
+Línea 29: `System.out.println("Paginas del documento: " + documento.getPages().size());` → escribe en consola el número real de páginas del `JasperPrint`.
 
-**Línea 32:** `} catch (Exception e) {` → captura excepciones.
+Línea 30: `System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());` → escribe en consola el número de registros de ejemplo; el workflow usa esta salida como evidencia de ejecución.
 
-**Línea 33:** `e.printStackTrace();` → imprime la traza.
+Línea 31: `} catch (Exception e) {` → captura cualquier fallo de compilación, llenado o exportación.
 
-**Línea 34:** `}` → cierra el bloque `catch`.
+Línea 32: `e.printStackTrace();` → imprime la traza del error para diagnóstico.
 
-**Línea 35:** `}` → cierra el método `main`.
+Línea 33: `System.exit(1);` → termina con código distinto de cero para que GitHub Actions detecte el fallo.
 
-**Línea 36:** `}` → cierra la clase.
+Línea 34: `}` → abre o cierra el bloque sintáctico correspondiente.
 
-**Traza de consola esperada tras la ejecución**
+Línea 35: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
+
+#### Traza de consola esperada tras la ejecución
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 2
+Paginas del documento: <valor real del checkpoint>
+Registros de ejemplo: <12 o 14 según el checkpoint>
 ```
 
-**Estado del objeto `JasperPrint` en cada fase**
+La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
 
-```text
-FASE 1 — COMPILACIÓN
-─────────────────────
-  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
-  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~28 KB)
-  Salida:           reports/informe_concepto.jasper      (binario serializado, ~56 KB)
-  Estilos compilados:
-    - Sans_Normal (default)
-    - TituloPrincipal (style=Sans_Normal)
-    - TituloSecundario (style=Sans_Normal)
-    - TextoTablaCabecera (style=Sans_Normal)
-    - TextoTabla (style=Sans_Normal)
-    - TextoPrecio (style=TextoTabla, con estilo condicional)
-    - TextoPequeno (style=Sans_Normal)
-
-
-FASE 2 — LLENADO
-─────────────────
-  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
-  Entrada:          reports/informe_concepto.jasper + HashMap vacío
-                    + CatalogoDataSource con 14 libros
-  Salida:           objeto JasperPrint en memoria
-  Páginas:          1
-  Estilos aplicados:
-    - Título principal: TituloPrincipal
-    - Encabezados de tabla: TextoTablaCabecera
-    - Campos de la tabla: TextoTabla
-    - Precios: TextoPrecio (condicional para > 20)
-    - Número de registro: TextoPequeno
-
-
-FASE 3 — EXPORTACIÓN
-─────────────────────
-  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
-  Entrada:          objeto JasperPrint en memoria
-  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~120 KB en disco)
-  Páginas en el PDF: 1
-```
-
----
-
-### Parte D — Validación del resultado y estructura del proyecto
-
-#### D.1 — Vista de diseño en Jaspersoft Studio
+### Parte D — Validación del resultado y estructura del proyecto#### D.1 — Vista de diseño en Jaspersoft Studio
 
 ```text
 +-------------------------------------------------------------------------+
@@ -5339,20 +5893,21 @@ El punto 2.6, «Expresiones», utiliza esa base para introducir cálculos, compa
 **Acciones:**
 
 1. En la pestaña **Design**, seleccionar la banda **Title**.
-2. Arrastrar un **Text Field** desde Palette > Elements hasta la zona derecha de la línea de fecha.
-3. En Properties escribir `335` en **X**, `60` en **Y**, `220` en **Width** y `20` en **Height**.
-4. Seleccionar el estilo `TextoPequeno`.
-5. Seleccionar **Right** en Horizontal Text Alignment.
-6. En **Text Field Expression** escribir exactamente `"Usuario: " + $P{usuario}`.
-7. Guardar con `Ctrl+S`.
+2. Seleccionar el `Text Field` de fecha (`new java.util.Date()`) y cambiar únicamente Width de `150` a `110`; mantener X=`215`, Y=`60`, Height=`20`.
+3. Arrastrar un **Text Field** desde Palette > Elements hasta la zona derecha de la línea de fecha.
+4. En Properties escribir `335` en **X**, `60` en **Y**, `220` en **Width** y `20` en **Height**.
+5. Seleccionar el estilo `TextoPequeno`.
+6. Seleccionar **Right** en Horizontal Text Alignment.
+7. En **Text Field Expression** escribir exactamente `"Usuario: " + $P{usuario}`.
+8. Guardar con `Ctrl+S`.
 
-**Verificación visual:** en Title aparece un campo de texto a la derecha de la fecha y la expresión utiliza `$P{usuario}`.
+**Verificación visual:** el campo de fecha termina en X=325 y el nuevo campo de usuario comienza en X=335, por lo que no se solapan; la expresión del nuevo campo utiliza `$P{usuario}`.
 
 **Qué hace:** combina un literal con un parámetro del informe.
 
 **Por qué:** demuestra que el informe puede recibir información que no forma parte del `JRDataSource`.
 
-**Error común:** escribir `$F{usuario}`. El compilador informa que el campo no existe. **Solución:** utilizar `$P{usuario}` porque se trata de un parámetro.
+**Error común:** añadir el usuario sin reducir primero el ancho de la fecha, provocando solapamiento entre X=335 y la fecha heredada. **Solución:** dejar la fecha en X=215, Width=110 y después usar `$P{usuario}` en el campo X=335.
 
 **Analogía:** es como añadir en la portada la firma del operador que ha generado el catálogo.
 
@@ -5421,7 +5976,7 @@ El punto 2.6, «Expresiones», utiliza esa base para introducir cálculos, compa
 **Acciones:**
 
 1. Arrastrar un **Text Field** a Detail.
-2. Escribir `235` en X, `60` en Y, `90` en Width y `20` en Height.
+2. Escribir `235` en X, `60` en Y, `85` en Width y `20` en Height.
 3. Seleccionar `TextoPequeno` y alineación **Right**.
 4. Escribir `$V{PrecioConIVA}` en Text Field Expression.
 5. Escribir exactamente `'IVA: ' #,##0.00 €` en **Pattern**.
@@ -5437,13 +5992,12 @@ El punto 2.6, «Expresiones», utiliza esa base para introducir cálculos, compa
 **Error común:** utilizar comillas dobles dentro del patrón (`"IVA: "`). El PDF puede imprimir esas comillas. **Solución:** utilizar comillas simples de patrón: `'IVA: ' #,##0.00 €`.
 
 **Analogía:** es como calcular el precio en una hoja de trabajo y aplicar después el formato de moneda de la editorial.
-
 #### Paso 8: Añadir una expresión de fecha [VALIDADO]
 
 **Acciones:**
 
 1. Arrastrar un **Text Field** a Detail.
-2. Escribir `325` en X, `60` en Y, `155` en Width y `20` en Height.
+2. Escribir `325` en X, `60` en Y, `150` en Width y `20` en Height.
 3. Seleccionar `TextoPequeno`.
 4. Escribir exactamente `$F{fechaPublicacion}.after(new java.util.GregorianCalendar(2000, 0, 1).getTime()) ? "Después de 2000" : "Hasta 2000"`.
 5. Guardar.
@@ -5630,7 +6184,7 @@ Línea 6-10: `<variableExpression>...</variableExpression>` → calcula el preci
 
 Línea 14-18: `textField` de Title → concatena el literal `Usuario:` con `$P{usuario}` y lo alinea a la derecha.
 
-Línea 21: `<band height="85" splitType="Prevent">` → amplía Detail a 85 unidades y mantiene cada ficha sin partirse entre páginas.
+Línea 21: `<band height="85" splitType="Prevent">` → amplía Detail a 85 unidades y hace que el motor intente evitar la primera división de cada ficha; si no cabe tras el desplazamiento, JasperReports puede permitir la división para evitar un ciclo.
 
 Línea 24-33: primer `textField` calculado → clasifica el precio con comparaciones y ternarios.
 
@@ -5889,4 +6443,4 @@ El siguiente módulo deberá partir **exactamente del checkpoint `M2/2.6`**. No 
 
 ## Validación end-to-end del módulo
 
-La práctica no termina en una simulación documental. Los seis checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. Run de cierre: **35966538785 — SUCCESS**. Los seis checkpoints 2.1–2.6 finalizan correctamente en la matriz.
+La práctica no termina en una simulación documental. Los seis checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. El identificador del run de cierre de esta revisión se registra en `VALIDACION_M2.md` después de ejecutar la matriz completa 2.1–2.6.

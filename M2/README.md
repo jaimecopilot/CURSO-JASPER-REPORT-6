@@ -30,6 +30,6 @@ Documentación del módulo:
 
 Workflow: `M2 - Validacion end-to-end`.
 
-Run E2E final de los seis checkpoints: **35966538785 — SUCCESS**.
+El identificador del run E2E de cierre se registra en `VALIDACION_M2.md` después de ejecutar la validación final sobre este estado documental.
 
 Los seis checkpoints compilan Java, compilan el JRXML, llenan un `JasperPrint` y generan un PDF real con JDK 8 y JasperReports Library 6.20.0.

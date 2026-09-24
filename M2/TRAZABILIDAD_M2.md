@@ -9,7 +9,7 @@
 | 2.5 | Formato y estilos | estilos reutilizables/condicionales, `ESTILOS.md` | `M2/2.5` | PASS |
 | 2.6 | Expresiones | parámetro `usuario`, variable `PrecioConIVA`, expresiones con campos/parámetros/variables, `EXPRESIONES.md` | `M2/2.6` | PASS |
 
-Run común de cierre de los seis checkpoints: **35966538785** — https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35966538785
+El run común de cierre de los seis checkpoints se registra en `VALIDACION_M2.md` después de la ejecución final sobre este estado documental.
 
 ## Relación con M1
 
