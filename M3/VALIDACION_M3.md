@@ -4,81 +4,60 @@
 **Módulo:** 3 - Conexión a datos  
 **Proyecto:** EditorialReports
 
-## Resultado final ejecutable
+## Estado final
 
-**6/6 checkpoints PASS END-TO-END.**
+**M3 cerrado con 6/6 checkpoints PASS END-TO-END y documentación rehecha.**
 
-Run E2E final: **36046402955 - SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36027658743
+### Validación ejecutable
 
-Commit documental y ejecutable validado: `fcf972479794fd0d42400cacb066122e1687d9a0`.
+Run E2E final: **36047208358 - SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36047208358
 
-| Checkpoint | Origen incorporado | Resultado |
-|---|---|---|
-| 3.1 | SQLite + JDBC | PASS |
-| 3.2 | CSV | PASS |
-| 3.3 | XML + XPath | PASS |
-| 3.4 | JSON | PASS |
-| 3.5 | SQL JOIN + agregaciones | PASS |
-| 3.6 | Fields + nulos + periodo de ventas | PASS |
+Commit fuente validado: `9b98d745d6ff6f4372614f742ad9cf5fa209e758`.
 
-## Evidencia del run
+| Checkpoint | Origen incorporado | Job | Resultado |
+|---|---|---:|---|
+| 3.1 | SQLite + JDBC | 107793585951 | PASS |
+| 3.2 | CSV | 107793585247 | PASS |
+| 3.3 | XML + XPath | 107793585554 | PASS |
+| 3.4 | JSON | 107793585602 | PASS |
+| 3.5 | SQL JOIN + agregaciones | 107793585595 | PASS |
+| 3.6 | Fields + nulos + periodo de ventas | 107793585638 | PASS |
 
-Los seis jobs finalizaron con `conclusion=success`:
+El workflow compila Java 8 con Maven, inicializa SQLite, compila JRXML, llena los informes con datos reales, exporta PDF, comprueba firma `%PDF-`, valida los contadores esperados y publica los artefactos de ejecución.
 
-- 3.1 - job 107728183597 - PASS.
-- 3.2 - job 107728183257 - PASS.
-- 3.3 - job 107728183814 - PASS.
-- 3.4 - job 107728183843 - PASS.
-- 3.5 - job 107728183583 - PASS.
-- 3.6 - job 107728183939 - PASS.
+Contadores validados: SQLite 14 libros, CSV 14 registros, XML 8 entregas, JSON 6 autores y 9 ventas.
 
-El workflow compila Java 8 con Maven, inicializa SQLite, compila los JRXML, llena los informes con datos reales, exporta PDF, valida la firma `%PDF-`, comprueba los contadores esperados y publica los artefactos de ejecución.
+## Corrección documental
 
-Contadores validados en el flujo acumulativo:
+Se detectó que una versión anterior de `PRACTICA_M3.md` contenía HTML de presentación (`<div class="line-explanations">...`) que el generador terminó imprimiendo literalmente en el PDF. Esa versión se considera defectuosa y queda sustituida.
 
-- SQLite: 14 libros.
-- CSV: 14 registros.
-- XML: 8 entregas.
-- JSON: 6 autores.
-- Ventas: 9 registros.
-
-En 3.6 se generaron correctamente los cinco informes acumulados: `informe_concepto.pdf`, `informe_catalogo_csv.pdf`, `informe_distribucion_xml.pdf`, `informe_autores_json.pdf` e `informe_ventas.pdf`.
-
-## Correcciones técnicas consolidadas
-
-- Runtime XML corregido con Xalan 2.7.2, requerido por `JRXmlDataSource` en este baseline.
-- JSON ejecutado con la API real de JasperReports 6.20.0 y selección `autores` en la fuente de datos.
-- Checkpoints 3.1-3.6 acumulativos desde `M2/2.6`.
-- JRXML de cada checkpoint alineado con la práctica visual correspondiente.
-- SQLite, CSV, XML, JSON y SQL se prueban con datos reales, no con mocks.
-
-
-## Corrección documental posterior
-
-Tras detectar HTML de maquetación incrustado como texto en la práctica, se rehizo la capa documental antes de volver a publicar los PDF:
+Estado final de las fuentes:
 
 - `PRACTICA_M3.md`: 0 etiquetas `<div>`, 0 `<span>` y 0 tablas HTML de presentación.
-- 830 explicaciones línea por línea convertidas a Markdown semántico y renderizadas de nuevo como tablas visuales.
-- Las seis tablas de errores comunes recuperan las columnas `Error | Causa | Solución`.
-- `TEORIA_M3.md`: sin HTML de presentación y corregido el ejemplo CSV que contenía una frase narrativa dentro de un bloque Java.
-- El PDF vuelve a usar la maquetación acordada en M1/M2: Noto Sans, Noto Sans Mono, paleta azul/blanco, bloques pedagógicos azul/rojo/verde/amarillo, código monoespaciado y bloques finales coloreados.
+- 830 explicaciones línea por línea expresadas como Markdown semántico.
+- Las seis tablas de errores comunes usan las columnas `Error | Causa | Solución`.
+- `TEORIA_M3.md`: 0 HTML de presentación, 0 escapes `\n` residuales y ejemplo CSV corregido.
+- Se mantienen código JRXML/Java en fences Markdown normales, no HTML de maquetación incrustado.
 
-## PDFs docentes finales
+## PDFs docentes definitivos
 
-Render documental final: **run 36046681342 - SUCCESS**.
+Run de render/preflight: **36047208471 - SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36047208471
 
-- `TEORIA_M3.pdf`: **30 páginas A4**, SHA-256 `9233bb32828964ea36a1e3aee48ff55e965ab5bba702155715c8caa13e57204e`.
-- `PRACTICA_M3.pdf`: **109 páginas A4**, SHA-256 `802e0185125cf9de03ff8b6c1a7523e9758d061b283ee16ad33f09307ee81db6`.
-- Preflight: 0 páginas sin contenido, 0 bloques fuera del MediaBox y 0 glifos de sustitución detectados.
-- No aparecen marcadores `svgsvg`, fences Markdown crudos ni el rótulo editorial `Patrón corregido`.
-- Revisión visual con render PDFium sobre portada, inicios de puntos, Parte B/JRXML, código, tablas, cierres, 3.5, 3.6 y última página.
-- Se eliminó una página final vacía detectada durante la primera pasada del render de teoría antes de publicar la versión definitiva.
+- `TEORIA_M3.pdf`: **30 páginas A4**, SHA-256 `6ebf7af0a45e3552c232a99f6dea17d45b4b9a1fd305f9c1eab51f2607e8e405`.
+- `PRACTICA_M3.pdf`: **109 páginas A4**, SHA-256 `8d194ca5177399dae6b75148d0ee55464326a66bb24f4f85c1111061181a6cb0`.
 
-## Límite de la evidencia automatizada
+Preflight final:
 
-GitHub Actions valida compilación, llenado y exportación reales. Los clics de la GUI de Jaspersoft Studio se revisan documentalmente; no se automatizan.
+- 0 páginas vacías.
+- 0 bloques fuera del MediaBox.
+- 0 glifos de sustitución.
+- 0 fugas de HTML de presentación en el texto extraído.
+- Fuentes embebidas: Noto Sans, Noto Sans Bold, Noto Sans Mono y Noto Sans Mono Bold.
+- Maquetación alineada con M1/M2: A4, márgenes acordados, cabecera y pie, paleta azul/blanco, bloques pedagógicos, código monoespaciado, tablas de explicación línea por línea y bloques finales amarillo/azul/verde.
+- Revisión visual de portada, Partes A/B/C/D, código, tablas, retos, cierres, puntos 3.5 y 3.6 y última página.
 
-## Estado documental
+## Límite de la automatización
 
-`TEORIA_M3.md`, `PRACTICA_M3.md`, `TEORIA_M3.pdf` y `PRACTICA_M3.pdf` están publicados en `M3/`. La documentación ejecutable mantiene el run E2E 36027658743 como evidencia 6/6 y los PDF finales mantienen el run documental 36043444475 como evidencia de render y preflight. M3 queda cerrado documental y ejecutablemente tras esta corrección de maquetación.
+GitHub Actions valida el resultado ejecutable real. Los clics manuales de Jaspersoft Studio de la Parte A se revisan documentalmente; no se automatizan.
