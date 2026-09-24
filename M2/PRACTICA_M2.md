@@ -1098,11 +1098,11 @@ Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Paginas del documento: <valor real del checkpoint>
-Registros de ejemplo: <12 o 14 según el checkpoint>
+Paginas del documento: 1
+Registros de ejemplo: 12
 ```
 
-La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
+La ruta depende del equipo. Los valores anteriores están comprobados en el run E2E `36011315054`: checkpoint 2.1 → 1 página y 12 registros.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -2304,11 +2304,11 @@ Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Paginas del documento: <valor real del checkpoint>
-Registros de ejemplo: <12 o 14 según el checkpoint>
+Paginas del documento: 1
+Registros de ejemplo: 12
 ```
 
-La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
+La ruta depende del equipo. Los valores anteriores están comprobados en el run E2E `36011315054`: checkpoint 2.2 → 1 página y 12 registros.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -3367,11 +3367,11 @@ Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Paginas del documento: <valor real del checkpoint>
-Registros de ejemplo: <12 o 14 según el checkpoint>
+Paginas del documento: 1
+Registros de ejemplo: 14
 ```
 
-La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
+La ruta depende del equipo. Los valores anteriores están comprobados en el run E2E `36011315054`: checkpoint 2.3 → 1 página y 14 registros.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -4505,11 +4505,11 @@ Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Paginas del documento: <valor real del checkpoint>
-Registros de ejemplo: <12 o 14 según el checkpoint>
+Paginas del documento: 2
+Registros de ejemplo: 14
 ```
 
-La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
+La ruta depende del equipo. Los valores anteriores están comprobados en el run E2E `36011315054`: checkpoint 2.4 → 2 páginas y 14 registros.
 
 ### Parte D — Validación del resultado y estructura del proyecto
 
@@ -5551,13 +5551,15 @@ Línea 36: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Paginas del documento: <valor real del checkpoint>
-Registros de ejemplo: <12 o 14 según el checkpoint>
+Paginas del documento: 2
+Registros de ejemplo: 14
 ```
 
-La ruta depende del equipo. Los valores de páginas y registros no deben inventarse: se comprueban en la ejecución del checkpoint y en el `execution.log` publicado por GitHub Actions.
+La ruta depende del equipo. Los valores anteriores están comprobados en el run E2E `36011315054`: checkpoint 2.5 → 2 páginas y 14 registros.
 
-### Parte D — Validación del resultado y estructura del proyecto#### D.1 — Vista de diseño en Jaspersoft Studio
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
 ```text
 +-------------------------------------------------------------------------+
