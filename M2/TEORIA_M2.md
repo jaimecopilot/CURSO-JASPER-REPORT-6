@@ -1431,4 +1431,4 @@ El checkpoint `M2/2.6` se valida además en GitHub Actions. La ejecución real p
 
 ## Validación técnica final del módulo
 
-Los checkpoints `2.1` a `2.6` se compilan y ejecutan con Temurin JDK 8 y JasperReports Library 6.20.0. La validación genera el `.jasper`, llena un `JasperPrint` con la fuente de datos del checkpoint y exporta un PDF real. El run de cierre **35965175230** finaliza con resultado **SUCCESS** para la matriz completa 2.1–2.6. En 2.6 la ejecución real informa 14 registros y un `JasperPrint` de 3 páginas.
+Los checkpoints `2.1` a `2.6` se compilan y ejecutan con Temurin JDK 8 y JasperReports Library 6.20.0. La validación genera el `.jasper`, llena un `JasperPrint` con la fuente de datos del checkpoint y exporta un PDF real. El run de cierre **35966538785** finaliza con resultado **SUCCESS** para la matriz completa 2.1–2.6. En 2.6 la ejecución real informa 14 registros y un `JasperPrint` de 3 páginas.
