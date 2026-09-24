@@ -381,7 +381,11 @@ dataSource.setUseFirstRowAsHeader(true);
 ```
 
 
-**Líneas 1-2:** `new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8")` → construye la fuente CSV y fija explícitamente la codificación UTF-8 en el constructor.\n**Línea 3:** `dataSource.setFieldDelimiter(\',\');` → configura la coma como delimitador.\n**Línea 4:** `dataSource.setUseFirstRowAsHeader(true);` → indica que la primera fila contiene los nombres de los campos.
+**Líneas 1-2:** `new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8")` → construye la fuente CSV y fija explícitamente la codificación UTF-8 en el constructor.
+
+**Línea 3:** `dataSource.setFieldDelimiter(',');` → configura la coma como delimitador.
+
+**Línea 4:** `dataSource.setUseFirstRowAsHeader(true);` → indica que la primera fila contiene los nombres de los campos.
 
 CSV no transporta un esquema de tipos. `JRCsvDataSource` parte de texto y puede convertir valores al tipo declarado si se configuran formatos numéricos/fecha. En este punto se adopta deliberadamente la estrategia más explícita: declarar los campos como `String` y convertir `precio` y `paginas` en las expresiones del JRXML. Una alternativa consiste en construir una fuente de datos personalizada que lea el CSV y devuelva los valores ya convertidos. La primera opción es más rápida de configurar. La segunda opción es más flexible y permite reutilizar la lógica de conversión en varios informes. En el proyecto EditorialReports se utiliza la primera opción para los informes que se alimentan directamente del CSV.
 
