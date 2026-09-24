@@ -9,10 +9,10 @@
 
 **6/6 checkpoints PASS END-TO-END.**
 
-Run E2E final: **36010694488 — SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36010694488
+Run E2E final: **36011315054 — SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36011315054
 
-Commit documental y ejecutable validado: `e1f1db6a49c31d7da4af41020fffbd806d415b2d`.
+Commit documental y ejecutable validado: `b5344858638e83a31dd6bbb7e7c6fb6f60762f88`.
 
 | Checkpoint | Contenido acumulativo | Resultado |
 |---|---|---|
@@ -40,7 +40,7 @@ Para cada checkpoint el workflow:
 
 ## Evidencia del run de cierre
 
-Los seis jobs del run 36010694488 finalizaron con `conclusion=success`:
+Los seis jobs del run 36011315054 finalizaron con `conclusion=success`:
 
 - Checkpoint 2.1 — success.
 - Checkpoint 2.2 — success.
@@ -73,6 +73,13 @@ La revisión final de `TEORIA_M2.md` y `PRACTICA_M2.md` se ha contrastado con lo
 - recursos y posiciones de 2.4–2.5 alineados con los JRXML ejecutables;
 - parámetro `usuario`, variable `PrecioConIVA` y expresiones de 2.6 alineados con el checkpoint final;
 - `System.exit(1)` en el bloque `catch` del generador, para que un fallo Java produzca error detectable por CI.
+
+## Verificación de los PDF docentes finales
+
+- `TEORIA_M2.pdf`: 37 páginas A4, sin páginas vacías, sin bloques de texto fuera del MediaBox y sin glifos de sustitución detectados. SHA-256: `66c7660589de8d0c123947ca4afc7d651917d32606050a7b113630b27d1c5ba4`.
+- `PRACTICA_M2.pdf`: 104 páginas A4, sin páginas vacías, sin bloques de texto fuera del MediaBox y sin glifos de sustitución detectados. SHA-256: `3ebb572cc4617937cfa85e53646f609e89139b262f1bdd83adb57e3d616ce3fc`.
+- La revisión visual incluye portada, inicios y cierres de puntos, bloques de código, tablas de explicación línea por línea, simulaciones y la última página.
+- En el job 2.6 del run 36011315054, la ejecución real registra `Paginas del documento: 3`, `Registros de ejemplo: 14` y `PASS checkpoint 2.6`.
 
 ## Límite de la validación
 

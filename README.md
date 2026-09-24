@@ -34,7 +34,7 @@ Documentación: `M1/TEORIA_M1.md`, `M1/PRACTICA_M1.md`, `M1/VALIDACION_M1.md`.
 
 Estado: **2.1–2.6 PASS END-TO-END**.
 
-Run E2E final M2: **36010694488 — SUCCESS**.  
+Run E2E final M2: **36011315054 — SUCCESS**.  
 
 Documentación: `M2/TEORIA_M2.md`, `M2/PRACTICA_M2.md`, `M2/TRAZABILIDAD_M2.md`, `M2/VALIDACION_M2.md`.
 

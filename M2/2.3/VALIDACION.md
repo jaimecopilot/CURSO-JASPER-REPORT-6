@@ -2,10 +2,10 @@
 
 **Punto:** 2.3 — Campos  
 **Estado:** **PASS END-TO-END**  
-**Run final común:** **36010694488 — SUCCESS**  
+**Run final común:** **36011315054 — SUCCESS**  
 https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36011315054
 
-Commit validado: `e1f1db6a49c31d7da4af41020fffbd806d415b2d`.
+Commit validado: `b5344858638e83a31dd6bbb7e7c6fb6f60762f88`.
 
 Este checkpoint se ejecutó dentro de la matriz `M2 - Validacion end-to-end` con Temurin JDK 8 y JasperReports Library 6.20.0.
 
