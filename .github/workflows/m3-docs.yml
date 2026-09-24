@@ -10,6 +10,9 @@ on:
       - 'M3/PRACTICA_M3.md'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   render:
     name: Render y preflight PDFs M3
@@ -37,6 +40,21 @@ jobs:
           pdfinfo M3/_pdf_build/TEORIA_M3.pdf | grep -E 'Pages|Page size'
           pdfinfo M3/_pdf_build/PRACTICA_M3.pdf | grep -E 'Pages|Page size'
           sha256sum M3/_pdf_build/TEORIA_M3.pdf M3/_pdf_build/PRACTICA_M3.pdf | tee M3/_pdf_build/SHA256SUMS.txt
+
+      - name: Actualizar PDFs versionados en main
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cp M3/_pdf_build/TEORIA_M3.pdf M3/TEORIA_M3.pdf
+          cp M3/_pdf_build/PRACTICA_M3.pdf M3/PRACTICA_M3.pdf
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add M3/TEORIA_M3.pdf M3/PRACTICA_M3.pdf
+          if git diff --cached --quiet; then
+            echo "Los PDFs versionados ya coinciden con el render validado."
+          else
+            git commit -m "Regenera PDFs M3 con patrón visual M2 [skip ci]"
+            git push
+          fi
 
       - name: Publicar PDFs y auditoría visual
         uses: actions/upload-artifact@v4

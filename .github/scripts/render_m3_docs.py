@@ -34,19 +34,21 @@ CSS = r'''
 @page:first {
   margin-top: 14mm;
   @top-center { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
 }
 html, body { font-family: "Noto Sans", "DejaVu Sans", sans-serif; color:#243746; font-size:8.2pt; line-height:1.33; }
 body { margin:0; }
 .coursehead { string-set: coursehead content(); height:0; overflow:hidden; font-size:0; }
 .footleft { string-set: footleft content(); height:0; overflow:hidden; font-size:0; }
 .cover { page-break-after: always; min-height: 240mm; position:relative; padding-top:20mm; box-sizing:border-box; }
-.cover:before { content:""; position:absolute; top:-14mm; left:-16mm; right:-16mm; height:6mm; background:#174d78; }
-.cover h1 { color:#174d78; font-size:23pt; line-height:1.04; margin:10mm 0 5mm 0; letter-spacing:.1pt; border:none; }
-.cover h2 { color:#2d658d; font-size:14pt; margin:0 0 8mm 0; border:none; padding:0; }
-.cover .badge { display:inline-block; background:#174d78; color:white; font-size:8pt; font-weight:700; letter-spacing:1.2pt; padding:2.2mm 5mm; border-radius:2mm; margin:1mm 0 8mm; }
+.cover:before { content:""; position:absolute; top:-14mm; left:-16mm; right:-16mm; height:6mm; background:#173f6b; }
+.cover h1 { color:#173f6b; font-size:23pt; line-height:1.04; margin:10mm 0 5mm 0; letter-spacing:.1pt; border:none; }
+.cover h2 { color:#255f92; font-size:14pt; margin:0 0 8mm 0; border:none; padding:0; }
+.cover .badge { display:inline-block; background:#173f6b; color:white; font-size:8pt; font-weight:700; letter-spacing:1.2pt; padding:2.2mm 5mm; border-radius:2mm; margin:1mm 0 8mm; }
 .cover .author { font-weight:700; color:#31506d; margin-top:2mm; }
 .cover .tech { font-size:7.2pt; color:#64798b; margin-top:3mm; max-width:150mm; }
-h1,h2,h3,h4,h5 { color:#174d78; font-weight:700; line-height:1.15; break-after:avoid; }
+h1,h2,h3,h4,h5 { color:#173f6b; font-weight:700; line-height:1.15; break-after:avoid; }
 h1 { font-size:17pt; margin:7mm 0 3mm; }
 h2 { font-size:13.8pt; margin:6mm 0 3mm; border-bottom:.35mm solid #c9d9e6; padding-bottom:1.2mm; }
 .point-title { page-break-before:always; font-size:13.8pt !important; margin:6mm 0 3mm !important; border-bottom:.35mm solid #c9d9e6 !important; padding-bottom:1.2mm !important; }
@@ -58,12 +60,12 @@ ul,ol { margin:1.5mm 0 2.5mm 5.5mm; padding-left:3.5mm; }
 li { margin:.7mm 0; }
 blockquote { margin:2.2mm 0; padding:2.4mm 3mm; background:#eef6fb; border-left:1mm solid #3a78a5; color:#294b63; break-inside:avoid; }
 .callout { padding:2.0mm 2.5mm; margin:1.3mm 0; border-left:1mm solid #5f8fb2; background:#eef5fa; break-inside:avoid; }
-.callout.verify { background:#eaf4fb; border-color:#2f78a7; }
+.callout.verify { background:#edf5fb; border-color:#2f78a7; }
 .callout.what { background:#f1f6fa; border-color:#7299b4; }
 .callout.why { background:#f5f7fa; border-color:#a1b4c2; }
-.callout.error { background:#fff0ee; border-color:#c65c4d; }
-.callout.solution { background:#eef8f0; border-color:#4a9468; }
-.callout.analogy { background:#fff8e8; border-color:#d0a244; }
+.callout.error { background:#fff5f3; border-color:#c65c4d; }
+.callout.solution { background:#f2f8f4; border-color:#4a9468; }
+.callout.analogy { background:#fff9ed; border-color:#d0a244; }
 .callout strong { color:#1d4f72; }
 .callout.error strong { color:#9d3429; }
 .callout.solution strong { color:#276343; }
@@ -76,17 +78,17 @@ pre code { color:#1f3647; }
 .line-row { display:grid; grid-template-columns:23mm 1fr; border-bottom:.2mm solid #dfe6eb; break-inside:avoid; }
 .line-row:last-child { border-bottom:none; }
 .line-row:nth-child(even) { background:#fafcfd; }
-.line-no { background:#eaf3f9; color:#1f5d87; font-weight:700; padding:1.6mm 1.8mm; }
+.line-no { background:#edf5fb; color:#1f5d87; font-weight:700; padding:1.6mm 1.8mm; }
 .line-body { padding:1.6mm 2mm; min-width:0; }
 .line-body code { display:inline; overflow-wrap:anywhere; }
 table { border-collapse:collapse; width:100%; margin:2mm 0 3mm; font-size:7.2pt; table-layout:auto; }
 thead { display:table-header-group; }
-th { background:#174d78; color:#fff; padding:1.6mm; border:.2mm solid #d3dee6; text-align:left; }
+th { background:#173f6b; color:#fff; padding:1.6mm; border:.2mm solid #d3dee6; text-align:left; }
 td { padding:1.45mm 1.6mm; border:.2mm solid #d3dee6; vertical-align:top; overflow-wrap:anywhere; }
 tr:nth-child(even) td { background:#f7fafc; }
 hr { border:none; border-top:.3mm solid #dbe4ea; margin:4mm 0; }
 .badge-inline { display:inline-block; font-size:5.7pt; color:#2b6b4f; background:#eaf5ef; border:.2mm solid #a8ccb7; border-radius:2.5mm; padding:.35mm 1.5mm; margin-left:1.5mm; vertical-align:middle; letter-spacing:.3pt; }
-.actions-label { color:#2d658d; font-weight:700; font-size:7.5pt; letter-spacing:.5pt; }
+.actions-label { color:#255f92; font-weight:700; font-size:7.5pt; letter-spacing:.5pt; }
 .result-heading, .conclusion-heading { border-left:1.2mm solid #4a9468; color:#276343; }
 .challenge-heading { border-left:1.2mm solid #4a9468; }
 .muted-note { color:#5e7383; font-size:7.2pt; }
@@ -107,9 +109,70 @@ POINT_RE = re.compile(r"\b(?:PUNTO|Punto)\s+3\.[1-6]\b", re.I)
 LINE_RE = re.compile(r"^(L[ií]nea(?:s)?\s+[^:]+):?$", re.I)
 
 
+CALLOUT_MD_RE = re.compile(
+    r"^\s*\*\*(Verificaci[oó]n visual|Qu[eé] hace|Por qu[eé]|Error com[uú]n|Soluci[oó]n|Analog[ií]a):\*\*",
+    re.I,
+)
+LINE_MD_RE = re.compile(r"^\s*\*\*(L[ií]nea(?:s)?\s+[^*]+?):\*\*", re.I)
+
+
+def normalize_markdown_for_render(md_text: str) -> str:
+    """Make semantic soft line breaks explicit only in the transient render input.
+
+    CommonMark collapses consecutive single newlines inside a paragraph. That made
+    multiple pedagogical labels and multiple line explanations render as one block.
+    The Markdown files remain semantic and free of presentation HTML.
+    """
+    lines = md_text.splitlines()
+    out = []
+    in_fence = False
+
+    for raw in lines:
+        stripped = raw.lstrip()
+        if stripped.startswith(chr(96) * 3):
+            in_fence = not in_fence
+            out.append(raw)
+            continue
+        if in_fence:
+            out.append(raw)
+            continue
+
+        line = raw
+
+        if re.match(r"^\s*\*\*Error com[uú]n:\*\*", line, re.I):
+            line = re.sub(
+                r"\s+Soluci[oó]n:\s*",
+                "\n\n**Solución:** ",
+                line,
+                count=1,
+                flags=re.I,
+            )
+
+        line = re.sub(
+            r"(?<!^)(?=\*\*(?:Verificaci[oó]n visual|Qu[eé] hace|Por qu[eé]|Error com[uú]n|Soluci[oó]n|Analog[ií]a):\*\*)",
+            "\n\n",
+            line,
+            flags=re.I,
+        )
+        line = re.sub(
+            r"(?<!^)(?=\*\*L[ií]nea(?:s)?\s+[^*]+?:\*\*)",
+            "\n\n",
+            line,
+            flags=re.I,
+        )
+
+        for chunk in line.split("\n"):
+            semantic = bool(CALLOUT_MD_RE.match(chunk) or LINE_MD_RE.match(chunk))
+            if semantic and out and out[-1].strip():
+                out.append("")
+            out.append(chunk)
+
+    return "\n".join(out)
+
 def markdown_to_soup(md_text: str) -> BeautifulSoup:
     # Strip known source-only placeholders/artifacts before conversion.
     md_text = re.sub(r"(?mi)^\s*svgsvg\s*$", "", md_text)
+    md_text = normalize_markdown_for_render(md_text)
     md = mistune.create_markdown(plugins=["table", "strikethrough", "task_lists", "url"])
     html = md(md_text)
     soup = BeautifulSoup(html, "html.parser")

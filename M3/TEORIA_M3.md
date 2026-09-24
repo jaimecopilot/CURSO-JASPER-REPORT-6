@@ -184,7 +184,8 @@ CORRESPONDENCIA ENTRE COLUMNAS Y CAMPOS
   titulo                    ────►    <field name="titulo" class="java.lang.String"/>
   precio                    ────►    <field name="precio" class="java.lang.Double"/>
   paginas                   ────►    <field name="paginas" class="java.lang.Integer"/>
-  fecha_publicacion         ────►      disponible                ────►    <field name="disponible" class="java.lang.Boolean"/>
+  fechaPublicacion          ────►    <field name="fechaPublicacion" class="java.lang.String"/>
+  disponible                ────►    <field name="disponible" class="java.lang.Boolean"/>
 ```
 
 
