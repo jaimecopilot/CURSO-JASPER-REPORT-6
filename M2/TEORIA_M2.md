@@ -9,12 +9,13 @@
 - 2.3 — Campos
 - 2.4 — Imágenes
 - 2.5 — Formato y estilos
+- 2.6 — Expresiones
 
 ## Estado del proyecto al inicio del módulo
 
 El Módulo 2 comienza **exactamente desde el estado final validado de `M1/1.6`**. Se conservan los proyectos `EditorialReports` y `EditorialReportsJava`, el JRXML básico y el ciclo Java compilación → llenado → exportación. A partir de esa base, el módulo introduce datos reales de catálogo, profundiza en bandas y texto, amplía el modelo con nuevos campos, incorpora imágenes y termina con estilos reutilizables y condicionales.
 
-> **Baseline técnico.** Esta edición permanece en JasperReports Library 6.20.0 Community, Jaspersoft Studio 6.20.0 Community Edition y Java 8 porque ésa es la baseline acordada para M1-M2. Las afirmaciones y fragmentos incompatibles con el XSD/API real de 6.20.0 se han corregido y los cinco checkpoints se validan mediante ejecución end-to-end.
+> **Baseline técnico.** Esta edición permanece en JasperReports Library 6.20.0 Community, Jaspersoft Studio 6.20.0 Community Edition y Java 8 porque ésa es la baseline acordada para M1-M2. Las afirmaciones y fragmentos incompatibles con el XSD/API real de 6.20.0 se han corregido y los seis checkpoints se validan mediante ejecución end-to-end.
 
 > **Correcciones técnicas consolidadas.** Los estilos usan `isDefault` y el atributo `style` para referenciar el estilo padre; las fuentes del proyecto usan DejaVu Sans con `jasperreports-fonts:6.20.0`; el ajuste de texto validado usa `textAdjust="StretchHeight"`; el texto con marcado usa `markup="styled"`; y el total de páginas se obtiene con `PAGE_NUMBER` evaluado con `evaluationTime="Report"`; `PAGE_COUNT` cuenta registros procesados en la página y no representa el total de páginas.
 
@@ -538,7 +539,7 @@ La combinación de textos estáticos y campos de texto requiere atención a la a
 
 - markup="styled" permite interpretar etiquetas de estilo simples en el contenido.
 
-- isStretchWithOverflow permite que el campo aumente de altura con contenido largo.
+- `textAdjust="StretchHeight"` es la opción validada para permitir que el campo aumente de altura con contenido largo. `isStretchWithOverflow` sigue existiendo en el XSD 6.20.0, pero está deprecado.
 
 - isBlankWhenNull hace que el campo se muestre vacío cuando la expresión devuelve null.
 
@@ -1248,6 +1249,186 @@ La combinación de estilos y propiedades específicas permite construir informes
 ---
 
 
+## Punto 2.6 — Expresiones
+
+**Módulo:** 2 — Diseño básico de informes (3 horas)  
+**Proyecto:** EditorialReports — sistema de informes empresariales para una editorial  
+**Punto:** 2.6 — Expresiones
+
+### Objetivos de aprendizaje
+
+- Escribir expresiones Java válidas dentro de las plantillas JRXML.
+- Utilizar operadores aritméticos, lógicos y de comparación en expresiones de informe.
+- Invocar métodos de `String`, `Date`, `Double` y otras clases Java cuando el cálculo lo requiera.
+- Combinar campos (`$F{}`), parámetros (`$P{}`) y variables (`$V{}`) en una misma plantilla.
+- Distinguir el momento de evaluación de campos, parámetros y variables incorporadas por JasperReports.
+- Depurar expresiones mediante Problems, Preview, Console y la ejecución Java del proyecto.
+- Documentar las expresiones del proyecto EditorialReports.
+
+### Parte teórica
+
+#### Bloque 1 — Qué es una expresión y qué contexto puede utilizar
+
+Una expresión de JasperReports es una expresión Java compilada como parte del informe. Puede aparecer en un `textFieldExpression`, en la expresión de una variable, en una condición de estilo, en un `printWhenExpression`, en una expresión de imagen y en muchos otros puntos del JRXML. La expresión devuelve un valor y ese valor debe ser compatible con el contexto que lo consume. Un `textField` puede mostrar un `String`, un número o una fecha; una condición debe devolver un `Boolean`; una variable declarada como `java.lang.Double` debe recibir un resultado compatible con `Double`.
+
+```xml
+<textFieldExpression><![CDATA[$F{precio}.doubleValue() * 1.21d]]></textFieldExpression>
+```
+
+Línea 1: `<textFieldExpression>` → abre la expresión de un campo de texto.
+Línea 1 (continuación): `$F{precio}.doubleValue() * 1.21d` → obtiene el precio del registro actual, lo convierte a `double` y lo multiplica por 1,21.
+Línea 1 (continuación): `</textFieldExpression>` → cierra la expresión.
+
+Los tres prefijos que más se utilizan en este módulo son `$F{}`, `$P{}` y `$V{}`. Un campo (`$F{}`) procede del registro actual de la fuente de datos. Un parámetro (`$P{}`) procede normalmente de la aplicación que ejecuta el informe, aunque puede tener un valor por defecto. Una variable (`$V{}`) pertenece al estado interno del informe y puede ser una variable definida por el usuario o una variable incorporada por el motor.
+
+```text
+CONTEXTO DE UNA EXPRESIÓN EN DETAIL
+
+  Registro actual (JRDataSource)
+    ├── $F{titulo}
+    ├── $F{precio}
+    ├── $F{paginas}
+    ├── $F{fechaPublicacion}
+    └── $F{disponible}
+
+  Parámetros
+    └── $P{usuario}
+
+  Variables
+    ├── $V{REPORT_COUNT}
+    ├── $V{PAGE_NUMBER}
+    ├── $V{PAGE_COUNT}
+    ├── $V{TotalPrecios}
+    └── $V{PrecioConIVA}
+```
+
+**Qué representa el diagrama:** las tres fuentes de valores disponibles para las expresiones del informe.
+
+**Por qué es relevante:** evita confundir datos del registro con valores enviados por la aplicación o con valores calculados por el motor.
+
+No debe suponerse que dos elementos visuales se comunican por el simple hecho de estar uno antes que otro en una banda. JasperReports sigue su ciclo de llenado y cada variable tiene además propiedades de cálculo, incremento, reinicio y evaluación. La práctica correcta consiste en expresar las dependencias de forma explícita mediante campos, parámetros y variables, no mediante efectos laterales entre elementos.
+
+#### Bloque 2 — Operadores aritméticos, lógicos, de comparación y ternarios
+
+Las expresiones usan la sintaxis de Java. Los operadores aritméticos `+`, `-`, `*`, `/` y `%` permiten calcular valores. Los operadores `<`, `>`, `<=`, `>=`, `==` y `!=` permiten comparar valores. Los operadores lógicos `&&`, `||` y `!` combinan condiciones. El operador ternario `condición ? valor1 : valor2` permite escoger un resultado sin escribir un bloque `if`.
+
+```xml
+<textFieldExpression><![CDATA[
+    $F{precio}.doubleValue() > 20.0d && $F{disponible}.booleanValue()
+        ? "Destacado"
+        : "Normal"
+]]></textFieldExpression>
+```
+
+Línea 1: `<textFieldExpression><![CDATA[` → abre la expresión y el bloque CDATA.
+Línea 2: `$F{precio}.doubleValue() > 20.0d` → compara el precio con 20.
+Línea 2 (continuación): `&&` → exige que la condición del precio y la disponibilidad sean verdaderas.
+Línea 2 (continuación): `$F{disponible}.booleanValue()` → obtiene el valor booleano del campo.
+Línea 3-4: `? "Destacado" : "Normal"` → devuelve una de las dos cadenas.
+
+Las expresiones de informes deben ser legibles y, en lo posible, sin efectos laterales. Java dispone de operadores de asignación e incremento, pero utilizarlos para modificar estado desde un elemento de informe dificulta el razonamiento sobre el llenado y no es el patrón que se enseña en este curso. Los cálculos acumulativos se representan con variables de JasperReports.
+
+#### Bloque 3 — Métodos Java y tratamiento de valores nulos
+
+Las expresiones pueden invocar métodos Java. En EditorialReports se utilizan `length()` y `substring()` sobre cadenas, `after()` sobre fechas y `doubleValue()` sobre números. La posibilidad de invocar métodos permite construir cálculos compactos, pero también introduce el riesgo de `NullPointerException`. Si una fuente puede devolver `null`, la expresión debe comprobarlo antes de invocar métodos.
+
+```xml
+<textFieldExpression><![CDATA[
+    $F{titulo} == null
+        ? "Sin título"
+        : ($F{titulo}.length() > 30 ? "Título largo" : "Título corto")
+]]></textFieldExpression>
+```
+
+Línea 1: `$F{titulo} == null` → comprueba primero si el valor existe.
+Línea 2: `? "Sin título"` → devuelve un texto seguro si el campo es nulo.
+Línea 3: `$F{titulo}.length() > 30` → solo invoca `length()` cuando el campo no es nulo.
+
+En el checkpoint 2.6 la fuente de datos del curso garantiza títulos, precios, fechas y disponibilidad no nulos, pero se mantiene la comprobación explícita en la variable `PrecioConIVA` para demostrar el patrón defensivo.
+
+#### Bloque 4 — Parámetros, variables y variables incorporadas
+
+El parámetro `usuario` representa un dato que llega desde la aplicación. El JRXML declara un valor por defecto para que el informe pueda previsualizarse desde Studio, mientras que el programa Java lo suministra explícitamente mediante el mapa de parámetros. Esta doble vía permite utilizar el mismo diseño tanto en Preview como en ejecución programática.
+
+```xml
+<parameter name="usuario" class="java.lang.String">
+    <defaultValueExpression><![CDATA["Ana Martínez"]]></defaultValueExpression>
+</parameter>
+```
+
+Línea 1: `<parameter ...>` → declara un parámetro de tipo `String`.
+Línea 2: `<defaultValueExpression>` → define el valor usado cuando la aplicación no envía el parámetro.
+Línea 3: `</parameter>` → cierra la declaración.
+
+La variable `PrecioConIVA` se recalcula para cada registro. No tiene `calculation="Sum"`; por tanto, actúa como una variable cuyo valor se obtiene de la expresión actual.
+
+```xml
+<variable name="PrecioConIVA" class="java.lang.Double">
+    <variableExpression><![CDATA[
+        $F{precio} == null ? null : Double.valueOf($F{precio}.doubleValue() * 1.21d)
+    ]]></variableExpression>
+</variable>
+```
+
+Línea 1: declara la variable de tipo `Double`.
+Línea 2-4: calcula el precio con IVA y preserva `null` si el precio es nulo.
+
+Las variables incorporadas deben interpretarse correctamente. `REPORT_COUNT` contiene el número de registros procesados en el informe. `PAGE_NUMBER` representa el número de página durante el llenado y, cuando un campo se evalúa con `evaluationTime="Report"`, puede utilizarse para imprimir el total final de páginas. `PAGE_COUNT`, en cambio, contiene el número de registros procesados en la página actual y se reinicia al cambiar de página; **no es el total de páginas**.
+
+```text
+VARIABLES INCORPORADAS UTILIZADAS EN ESTE MÓDULO
+
+  REPORT_COUNT  → registros procesados en el informe
+  PAGE_NUMBER   → número de página; evaluado a Report permite obtener el total final
+  PAGE_COUNT    → registros procesados en la página actual
+  COLUMN_NUMBER → número de columna actual
+```
+
+**Qué representa el diagrama:** el significado operativo de las variables incorporadas que aparecen en el curso.
+
+**Por qué es relevante:** usar `PAGE_COUNT` como si fuera el total de páginas produce resultados conceptualmente incorrectos aunque la plantilla compile.
+
+#### Bloque 5 — Depuración y validación de expresiones
+
+Una expresión puede fallar al compilar el JRXML o al llenar el informe. Un error de sintaxis o una referencia a un campo/variable inexistente suele detectarse durante la compilación. Una operación válida sintácticamente puede fallar en tiempo de llenado, por ejemplo al invocar un método sobre `null`. La depuración profesional combina cuatro evidencias: Problems, Preview, Console y una ejecución automatizada del runtime.
+
+```text
+CICLO DE DEPURACIÓN
+
+  1. Guardar JRXML
+  2. Compilar
+       ├── error → Problems
+       └── correcto
+  3. Preview con datos
+       ├── error → Console / stack trace
+       └── correcto
+  4. Ejecutar GeneradorInformeConcepto
+  5. Verificar .jasper + JasperPrint + PDF
+```
+
+**Qué representa el diagrama:** la secuencia usada para separar errores de diseño, compilación y llenado.
+
+**Por qué es relevante:** evita corregir a ciegas. Cada fase confirma una propiedad distinta del informe.
+
+El checkpoint `M2/2.6` se valida además en GitHub Actions. La ejecución real procesa 14 libros, genera un `JasperPrint` de **3 páginas** y exporta un PDF firmado correctamente. Esa evidencia permite distinguir la simulación didáctica de un resultado realmente ejecutado.
+
+---
+
+### Resumen rápido de la teoría
+
+- Las expresiones JRXML usan sintaxis Java y devuelven un valor.
+- `$F{}` accede al registro actual, `$P{}` a parámetros y `$V{}` a variables.
+- Los operadores aritméticos, lógicos, de comparación y ternarios pueden combinarse.
+- Los métodos Java pueden invocarse desde una expresión, pero deben controlarse los valores nulos.
+- Los parámetros conectan la aplicación con el informe.
+- Las variables encapsulan cálculos y agregaciones del motor.
+- `REPORT_COUNT` cuenta registros del informe.
+- `PAGE_COUNT` cuenta registros de la página actual; no es el total de páginas.
+- El total final de páginas se obtiene en este curso con `PAGE_NUMBER` y `evaluationTime="Report"`.
+- Problems, Preview, Console y la ejecución E2E forman el ciclo de depuración.
+
+---
+
 ## Validación técnica final del módulo
 
-Los checkpoints `2.1` a `2.5` se compilan y ejecutan con Temurin JDK 8 y JasperReports Library 6.20.0. La validación genera el `.jasper`, llena un `JasperPrint` con la fuente de datos del checkpoint y exporta un PDF real. El workflow más reciente registrado al cerrar esta edición es `M2 - Validacion end-to-end`, run **35924657747**, con resultado **SUCCESS** para la matriz completa.
+Los checkpoints `2.1` a `2.6` se compilan y ejecutan con Temurin JDK 8 y JasperReports Library 6.20.0. La validación genera el `.jasper`, llena un `JasperPrint` con la fuente de datos del checkpoint y exporta un PDF real. El run de cierre **35965175230** finaliza con resultado **SUCCESS** para la matriz completa 2.1–2.6. En 2.6 la ejecución real informa 14 registros y un `JasperPrint` de 3 páginas.
