@@ -997,7 +997,8 @@ Línea 31: `}` → abre o cierra el bloque sintáctico correspondiente.
 
 ```java
 import java.io.File;
-import java.util.HashMap;import java.util.Map;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -1997,6 +1998,7 @@ Línea 67: `</columnFooter>` → cierra el elemento o sección abierto correspon
 2.2 modifica el JRXML, no la lógica Java. Se reproduce la misma versión Java validada que hereda del checkpoint 2.1.
 
 Los tres archivos siguientes se reproducen **literalmente desde el checkpoint ejecutable `M2/2.2`**. De este modo, la Parte C coincide con el código que compila y se ejecuta en la validación end-to-end.
+
 #### Clase Libro.java
 
 ```java
@@ -2995,6 +2997,7 @@ Línea 20: `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" wid
 Línea 21: `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="245" y="0" width="80" height="20" uuid="88888888-8888-8888-8888-888888888888"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
 Línea 22: `<textField isBlankWhenNull="true"><reportElement x="325" y="0" width="55" height="20" uuid="99999999-9999-9999-9999-999999999999"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
+
 Línea 23: `<textField pattern="yyyy" isBlankWhenNull="true"><reportElement x="380" y="0" width="50" height="20" uuid="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
 Línea 24: `<textField isBlankWhenNull="true"><reportElement x="430" y="0" width="65" height="20" uuid="bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression></textField>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
@@ -3995,6 +3998,7 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 8. Escribir exactamente - Logotipo: resources/logo.png y pulsar Enter.
 
 9. Escribir exactamente - Portadas de libros: resources/portadas/{titulo}.png y pulsar Enter.
+
 10. Escribir exactamente - Iconos de estado: resources/icono_disponible.png, resources/icono_no_disponible.png y pulsar Enter dos veces.
 
 11. Escribir exactamente ## Modos de escala utilizados y pulsar Enter dos veces.
@@ -4993,6 +4997,7 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 ---
 
 #### Paso 11: Aplicar los estilos de tabla a los campos de Detail [VALIDADO]
+
 **Acciones:**
 
 1. Seleccionar `$F{titulo}` y elegir `TextoTabla` en Style.
@@ -5992,6 +5997,7 @@ El punto 2.6, «Expresiones», utiliza esa base para introducir cálculos, compa
 **Error común:** utilizar comillas dobles dentro del patrón (`"IVA: "`). El PDF puede imprimir esas comillas. **Solución:** utilizar comillas simples de patrón: `'IVA: ' #,##0.00 €`.
 
 **Analogía:** es como calcular el precio en una hoja de trabajo y aplicar después el formato de moneda de la editorial.
+
 #### Paso 8: Añadir una expresión de fecha [VALIDADO]
 
 **Acciones:**

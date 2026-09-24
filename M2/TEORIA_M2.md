@@ -998,6 +998,7 @@ ALINEACIÓN DE IMAGEN Y TEXTO
 ```Qué representa el diagrama: la alineación del logotipo y del título en la banda Title. La imagen ocupa la esquina izquierda y el texto se coloca a su derecha, centrado verticalmente.
 
 **Por qué es relevante:** permite construir encabezados visualmente equilibrados con imágenes y textos alineados.
+
 ### Resumen rápido de la teoría
 
 - El elemento image permite insertar imágenes en cualquier banda del informe.
