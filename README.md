@@ -38,6 +38,21 @@ Run E2E final M2: **36021472437 — SUCCESS**.
 
 Documentación: `M2/TEORIA_M2.md`, `M2/PRACTICA_M2.md`, `M2/TRAZABILIDAD_M2.md`, `M2/VALIDACION_M2.md`.
 
+## Módulo 3 - Conexión a datos
+
+- 3.1 - Bases de datos y JDBC
+- 3.2 - Ficheros CSV
+- 3.3 - Ficheros XML
+- 3.4 - Ficheros JSON
+- 3.5 - Consultas SQL
+- 3.6 - Fields
+
+Estado: **3.1-3.6 PASS END-TO-END**.
+
+Run E2E final M3: **36027658743 - SUCCESS**.  
+
+Documentación: `M3/TEORIA_M3.md`, `M3/PRACTICA_M3.md`, `M3/TRAZABILIDAD_M3.md`, `M3/VALIDACION_M3.md`.
+
 ## Criterio de validación
 
 Un checkpoint sólo se considera validado cuando GitHub Actions compila Java, compila el JRXML con JasperReports Library 6.20.0, llena el informe y genera un PDF real.
