@@ -8,7 +8,8 @@
 2.2 Texto estático y campos de texto  
 2.3 Campos  
 2.4 Imágenes  
-2.5 Formato y estilos
+2.5 Formato y estilos  
+2.6 Expresiones
 
 ## Estado del proyecto al inicio del módulo
 
@@ -376,7 +377,7 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Analogía:** es como anotar en el manual del catálogo cómo se comporta cada sección cuando el manuscrito contiene varios capítulos.
 
-### Parte B — JRXML explicado y contrastado
+### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -690,7 +691,7 @@ Línea 175: </background> → cierra la sección.
 
 Línea 176: </jasperReport> → cierra el elemento raíz.
 
-### Parte C — Código Java explicado línea por línea
+### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
 #### Clase Libro.java
 
@@ -1648,13 +1649,13 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 7. Escribir exactamente ## Propiedades comunes y pulsar Enter dos veces.
 
-8. Escribir exactamente - reportElement: x, y, width, height, forecolor, backcolor, mode, markup="styled", isRemoveLineWhenBlank. y pulsar Enter.
+8. Escribir exactamente - reportElement: x, y, width, height, forecolor, backcolor, mode e isRemoveLineWhenBlank. y pulsar Enter.
 
-9. Escribir exactamente - textElement: textAlignment, verticalAlignment, rotation, markup, font. y pulsar Enter dos veces.
+9. Escribir exactamente - textElement: textAlignment, verticalAlignment, rotation, markup y font. y pulsar Enter dos veces.
 
 10. Escribir exactamente ## Propiedades específicas de textField y pulsar Enter dos veces.
 
-11. Escribir exactamente - isStretchWithOverflow: permite al campo aumentar de altura. y pulsar Enter.
+11. Escribir exactamente - textAdjust="StretchHeight": permite que el campo aumente de altura para mostrar todo el contenido. y pulsar Enter.
 
 12. Escribir exactamente - isBlankWhenNull: muestra el campo vacío cuando la expresión devuelve null. y pulsar Enter.
 
@@ -1672,7 +1673,7 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Analogía:** es como dejar en la editorial una ficha técnica con las propiedades tipográficas del catálogo.
 
-### Parte B — JRXML explicado y contrastado
+### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
 Se reproduce únicamente la sección del JRXML modificada en este punto, ya que el resto del archivo permanece igual que en el punto 2.1. Las secciones modificadas son: la banda pageHeader, la banda detail y la banda columnFooter.
 
@@ -1861,7 +1862,7 @@ Línea 82: </band> → cierra la banda de pie de columna.
 
 Línea 83: </columnFooter> → cierra la sección de pie de columna.
 
-### Parte C — Código Java explicado línea por línea
+### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
 En este punto no se modifica el código Java del programa. Las clases Libro, CatalogoDataSource y GeneradorInformeConcepto permanecen tal como se construyeron en el punto 2.1. Se reproducen a continuación las tres clases para referencia.
 
@@ -2349,16 +2350,16 @@ EditorialReportsJava/
 
 | Error | Causa | Solución |
 | --- | --- | --- |
-| El patrón #,##0.00 € muestra el símbolo del euro como ? | La fuente del campo no soporta el carácter € | Cambiar la fuente del campo a una que soporte el símbolo, como DejaVu Sans o DejaVu Sans |
+| El patrón #,##0.00 € muestra el símbolo del euro como ? | La fuente del campo no soporta el carácter € | Utilizar DejaVu Sans mediante la extensión de fuentes validada del curso |
 | El campo con isBlankWhenNull no se muestra vacío | La expresión devuelve una cadena vacía en lugar de null | Verificar que la fuente de datos devuelve null para los registros sin precio |
-| El texto con markup="styled" imprime las etiquetas <b> como texto literal | La propiedad markup="styled" no está activada en el reportElement | Marcar la casilla Styled Text en el panel Properties |
+| El texto con markup="styled" imprime las etiquetas <b> como texto literal | La propiedad markup="styled" no está activada en textElement | Seleccionar Styled Text/Styled en las propiedades de marcado del elemento de texto |
 | El texto con etiquetas HTML produce un error de análisis XML | El contenido no está encerrado en un bloque CDATA | Encerrar el contenido en <![CDATA[...]]> |
-| El campo con isStretchWithOverflow no aumenta de altura | La banda contenedora tiene splitType="Prevent" | Cambiar la banda a splitType="Stretch" o aumentar la altura del campo |
+| El campo con textAdjust="StretchHeight" no muestra todo el texto | El elemento o la banda no dispone de espacio suficiente para crecer | Revisar la altura inicial, la posición de los elementos vecinos y permitir espacio vertical suficiente |
 | La banda Page Header se divide entre páginas | La propiedad splitType está en Stretch | Cambiar a splitType="Prevent" en el panel Properties de la banda |
 | El número de registro aparece siempre como 12 | Se usó $V{REPORT_COUNT} en la banda Summary en lugar de en la banda Detail | Verificar que el campo está en la banda Detail 1 y no en la Summary |
 | El rótulo # aparece sin espacio antes del número | El texto se escribió sin el espacio al final | Editar el texto del staticText y añadir el espacio: # |
 | El campo del número de registro se solapa con el campo del precio | El ancho de los elementos supera el ancho de la columna | Reducir el ancho del campo del título a 300 y ajustar las posiciones |
-| El informe produce StackOverflowError al llenar | El campo con isStretchWithOverflow se ha colocado en una banda con altura cero | Ampliar la altura de la banda Detail a 20 unidades de informe |
+| El texto sigue recortado aunque se configuró StretchHeight | El campo se evalúa tarde o el diseño no permite crecer sin colisionar | Verificar evaluationTime y la distribución vertical de la banda; probar de nuevo en Preview |
 
 ### Reto resuelto paso a paso
 
@@ -2442,6 +2443,12 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 - Comprensión operativa de las propiedades comunes y específicas de los elementos textuales.
 
+
+### Conclusión y enlace al siguiente punto
+
+El punto 2.2 ha diferenciado el texto estático de los campos de texto y ha incorporado formato dinámico, `textAdjust="StretchHeight"`, `isBlankWhenNull`, patrones numéricos y marcado `styled`. El informe ya no se limita a colocar datos: controla cómo se presentan y cómo se comportan cuando el contenido cambia.
+
+El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Java con campos JRXML. A partir de la base textual de este punto se incorporarán páginas, fecha de publicación y disponibilidad.
 
 ## Punto 2.3 — Campos
 
@@ -2568,6 +2575,8 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 **Error común:** usar las coordenadas antiguas 400/500/620 del borrador original. Esas posiciones terminaban excediendo el ancho útil del informe. La edición validada compacta todas las columnas dentro de `columnWidth="555"`.
 
+**Analogía:** es como abrir una nueva columna numérica en la ficha del catálogo sin ensanchar el papel.
+
 #### Paso 5: Reubicar el contador de registro [VALIDADO]
 
 **Acciones:**
@@ -2579,6 +2588,14 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 **Verificación visual:** el contador queda al extremo derecho y todo el Detail sigue dentro de 555 unidades.
 
+**Qué hace:** reserva el extremo derecho del Detail para el contador de registros.
+
+**Por qué:** el contador debe convivir con las nuevas columnas sin sobrepasar el ancho útil del informe.
+
+**Error común:** situar el contador en X=500 con Width=60 y superar 555. **Solución:** usar X=495 y Width=60.
+
+**Analogía:** es como desplazar el número de línea al margen derecho para hacer sitio a nuevas columnas.
+
 #### Paso 6: Añadir el encabezado de la columna de páginas [VALIDADO]
 
 **Acciones:**
@@ -2589,6 +2606,14 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 4. Seleccionar alineación `Right` y negrita.
 
 **Verificación visual:** `Páginas` queda alineado con `$F{paginas}`.
+
+**Qué hace:** añade el rótulo de la nueva columna numérica de páginas.
+
+**Por qué:** cada dato de Detail necesita una cabecera que permita interpretarlo.
+
+**Error común:** desalinear la cabecera respecto a `$F{paginas}`. **Solución:** usar la misma X y el mismo Width que la columna de Detail.
+
+**Analogía:** es como rotular en la tabla del catálogo la columna donde se imprime el número de páginas.
 
 #### Paso 7: Añadir la columna de fecha de publicación [VALIDADO]
 
@@ -2602,6 +2627,14 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 **Verificación visual:** el informe muestra el año de publicación en una columna compacta.
 
+**Qué hace:** muestra el año de publicación a partir del campo `fechaPublicacion`.
+
+**Por qué:** el patrón `yyyy` transforma la fecha completa en un año legible sin cambiar el dato original.
+
+**Error común:** declarar el campo como `String` y aplicar un patrón de fecha. **Solución:** mantener `java.util.Date` en JRXML y en la fuente de datos.
+
+**Analogía:** es como tomar de la ficha bibliográfica la fecha completa y mostrar solo el año en el catálogo.
+
 #### Paso 8: Añadir el encabezado de año y mantener el contador al final [VALIDADO]
 
 **Acciones:**
@@ -2613,6 +2646,14 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 **Verificación visual:** la columna de año ocupa 380-430 y el contador sigue reservado al extremo derecho.
 
+**Qué hace:** añade la cabecera del año y verifica el espacio reservado para el contador.
+
+**Por qué:** la cabecera debe reproducir exactamente la geometría de las columnas de Detail.
+
+**Error común:** mover el encabezado sin mover su campo correspondiente. **Solución:** comprobar X y Width en Column Header y Detail.
+
+**Analogía:** es como alinear con regla el título de una columna con todos los valores impresos debajo.
+
 #### Paso 9: Añadir el encabezado de disponibilidad [VALIDADO]
 
 **Acciones:**
@@ -2623,6 +2664,14 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 4. Añadir otro `Static Text` con el texto `#` en X=`495`, Y=`5`, Width=`60`, Height=`15`, alineado a la derecha.
 
 **Verificación visual:** la cabecera completa ocupa exactamente el ancho útil del informe.
+
+**Qué hace:** crea los rótulos de disponibilidad y número de registro.
+
+**Por qué:** completa la cabecera antes de insertar el último campo del modelo.
+
+**Error común:** hacer que `Disp.` invada el rótulo `#`. **Solución:** respetar X=430/Width=65 y X=495/Width=60.
+
+**Analogía:** es como repartir los últimos encabezados de una tabla hasta el borde derecho del pliego.
 
 #### Paso 10: Añadir el campo disponible [VALIDADO]
 
@@ -2640,6 +2689,9 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 **Por qué:** prepara el layout que en 2.4 reservará una franja izquierda para las imágenes sin salir del ancho A4.
 
+**Error común:** escribir directamente `$F{disponible}` y obtener `true/false` cuando se desea `Sí/No`. **Solución:** utilizar la expresión ternaria indicada.
+
+**Analogía:** es como traducir un indicador interno de la base de datos a una etiqueta comprensible para el lector.
 
 #### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
 
@@ -2713,7 +2765,7 @@ Los elementos textuales son los bloques con los que se compone el catálogo. El 
 
 **Analogía:** es como dejar en la editorial una tabla con los datos que se extraen de cada manuscrito para el catálogo.
 
-### Parte B — JRXML explicado y contrastado
+### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
 Se reproduce únicamente la sección modificada del JRXML. Las secciones modificadas son la declaración de campos, la banda columnHeader, la banda detail y el cierre del elemento raíz.
 
@@ -2865,7 +2917,7 @@ Línea 123: </band> → cierra la banda de detalle.
 
 Línea 124: </detail> → cierra la sección de detalle.
 
-### Parte C — Código Java explicado línea por línea
+### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
 Clase Libro.java ampliada
 
@@ -3362,6 +3414,12 @@ Los campos son los datos que se extraen de la ficha de cada libro del catálogo.
 - Comprensión operativa de la declaración de campos, de la resolución desde la fuente de datos y de las diferencias entre campo, parámetro y variable.
 
 
+### Conclusión y enlace al siguiente punto
+
+El punto 2.3 ha conectado cinco campos JRXML con una fuente de datos Java real y ha mostrado cómo el tipo declarado en el informe debe corresponder con el objeto devuelto por `JRDataSource`. El catálogo dispone ya de título, precio, páginas, fecha de publicación y disponibilidad.
+
+El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el documento con logotipo, portadas e iconos condicionales sin romper el flujo de llenado.
+
 ## Punto 2.4 — Imágenes
 
 > **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu propio proyecto del punto anterior. Si te incorporas directamente aquí, usa `M2/2.3` como estado inicial. El checkpoint `M2/2.4` contiene la solución completa de este punto y no debe consultarse antes del ejercicio si quieres evitar spoilers.
@@ -3592,6 +3650,10 @@ Los campos son los datos que se extraen de la ficha de cada libro del catálogo.
 
 **Error común:** conservar las coordenadas 560/590/620/680 del borrador. Esas coordenadas quedan fuera del `columnWidth` y no representan el checkpoint ejecutado.
 
+**Por qué:** la imagen ocupa una franja nueva de 50 unidades y obliga a redistribuir el resto de campos.
+
+**Analogía:** es como reservar en cada ficha del catálogo una columna fija para la miniatura de la portada.
+
 #### Paso 8: Añadir el encabezado de portada y compactar Column Header [VALIDADO]
 
 **Acciones:**
@@ -3606,6 +3668,14 @@ Los campos son los datos que se extraen de la ficha de cada libro del catálogo.
 
 **Verificación visual:** la cabecera replica exactamente las columnas del Detail.
 
+**Qué hace:** adapta la cabecera a la misma geometría usada por Detail después de incorporar la portada.
+
+**Por qué:** cabecera y datos deben compartir exactamente los mismos límites de columna.
+
+**Error común:** mantener las coordenadas del punto 2.3 y desalinear títulos y datos. **Solución:** aplicar las coordenadas indicadas a todos los encabezados.
+
+**Analogía:** es como volver a trazar con regla la cabecera de la tabla después de añadir una columna de imágenes.
+
 #### Paso 9: Verificar la alineación título-portada [VALIDADO]
 
 **Acciones:**
@@ -3615,6 +3685,14 @@ Los campos son los datos que se extraen de la ficha de cada libro del catálogo.
 3. Confirmar que la portada ocupa X=`0` a `50` y queda un margen de 5 unidades antes del título.
 
 **Verificación visual:** cabecera y datos del título quedan alineados verticalmente.
+
+**Qué hace:** realiza una comprobación geométrica explícita de la columna de título.
+
+**Por qué:** una diferencia de pocos píxeles entre cabecera y Detail se percibe como un defecto de maquetación.
+
+**Error común:** verificar solo visualmente y dejar valores X/Width distintos. **Solución:** comprobar ambos elementos en Properties.
+
+**Analogía:** es como superponer dos reglas para comprobar que la columna superior y la inferior coinciden.
 
 #### Paso 10: Añadir el icono de disponibilidad [VALIDADO]
 
@@ -3631,6 +3709,11 @@ Los campos son los datos que se extraen de la ficha de cada libro del catálogo.
 
 **Qué hace:** incorpora una representación visual del estado sin desplazar el resto de columnas fuera de página.
 
+**Por qué:** el icono comunica de un vistazo la disponibilidad y refuerza el texto `Sí/No`.
+
+**Error común:** usar `onErrorType="Error"` para un recurso opcional y detener el informe si falta el archivo. **Solución:** usar `Blank` para estos iconos.
+
+**Analogía:** es como colocar un pequeño semáforo visual junto al estado textual de cada libro.
 
 #### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
 
@@ -3704,7 +3787,7 @@ Los campos son los datos que se extraen de la ficha de cada libro del catálogo.
 
 **Analogía:** es como dejar en la editorial una ficha técnica con los materiales gráficos utilizados en el catálogo.
 
-### Parte B — JRXML explicado y contrastado
+### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
 Se reproduce únicamente la sección modificada del JRXML. Las secciones modificadas son la banda title, la banda columnHeader y la banda detail.
 
@@ -3911,7 +3994,7 @@ Línea 128: </band> → cierra la banda de detalle.
 
 Línea 129: </detail> → cierra la sección de detalle.
 
-### Parte C — Código Java explicado línea por línea
+### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
 En este punto no se modifica el código Java del programa. Las clases Libro, CatalogoDataSource y GeneradorInformeConcepto permanecen tal como se construyeron en el punto 2.3. Se reproduce a continuación la clase GeneradorInformeConcepto para referencia.
 
@@ -4014,7 +4097,7 @@ Línea 36: } → cierra la clase.
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 1
+Páginas del documento: 2
 ```
 
 #### Estado del objeto JasperPrint en cada fase
@@ -4177,47 +4260,27 @@ informe_concepto
 
 ```text
 INFORME: informe_concepto.pdf
-PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+PÁGINAS TOTALES: 2
 REGISTROS PROCESADOS: 14
-IMÁGENES INSERTADAS: 16 (1 logotipo + 14 portadas + 1 icono por fila)
-IMÁGENES CARGADAS: 1 logotipo + 3 portadas + 14 iconos = 18
-IMÁGENES AUSENTES: 11 portadas (el espacio queda vacío)
 
-──────────────────── Página 1 de 1 ────────────────────
-╔══════════════════════════════════════════════════════════╗
-║  ┌──────┐                                                ║
-║  │ LOGO │  Catálogo Editorial - Informe Conceptual       ║
-║  └──────┘                                                ║
-║           Fecha de emisión:  22/09/2026                  ║
-║                                                          ║
-║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
-║  Precio en euros con IVA incluido                       ║
-║                                                          ║
-║  Portada│Título            │Precio  │Páginas│ Año │Disp│#║
-║  ─────────────────────────────────────────────────────   ║
-║  ┌────┐ │Cien años de sol. │ 19,95 €│  471  │1967 │ Sí │1║
-║  │IMG │ │                  │        │       │     │[✓] │ ║
-║  └────┘ │                  │        │       │     │    │ ║
-║  ┌────┐ │Rayuela           │ 22,50 €│  736  │1963 │ Sí │2║
-║  │IMG │ │                  │        │       │     │[✓] │ ║
-║  └────┘ │                  │        │       │     │    │ ║
-║   ...                                                    ║
-║  ─────────────────────────────────────────────────────   ║
-║           --- Fin de la tabla de datos ---               ║
-║  Registros procesados: 14                                ║
-║                                                          ║
-║         Documento generado en la última página           ║
-║                                                          ║
-║  Total de páginas: 1                                     ║
-║           Fin del informe. EditorialReports.             ║
-║  Total de libros: 14                                     ║
-╚══════════════════════════════════════════════════════════╝
+Página 1 de 2
+- Title con logotipo, título y fecha.
+- Page Header y Column Header.
+- Registros 1 a 9 del catálogo con portada opcional, datos e icono de disponibilidad.
+- Column Footer: Registros procesados: 9.
+- Page Footer estándar.
+
+Página 2 de 2
+- Page Header y Column Header repetidos.
+- Registros 10 a 14.
+- Summary: Total de páginas: 2; Total de libros: 14; Subtotal precios: 270.05 €.
+- Column Footer: Registros procesados: 14.
+- Last Page Footer: Documento generado en la última página.
 ```
 
-**Qué representa:** la página única del PDF resultante con el logotipo en la portada, las portadas de los libros en la banda Detail y el icono de disponibilidad por fila. Las portadas que no existen se muestran como espacio vacío porque la propiedad onErrorType está configurada como Blank.
+**Qué representa:** el resultado real del checkpoint 2.4 ejecutado en CI con 14 registros. La incorporación de imágenes aumenta la altura de Detail y el informe pasa a dos páginas.
 
-**Cómo verificarlo:** abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que el logotipo aparece en la banda Title y que las portadas de los libros aparecen junto a los títulos correspondientes. Si la imagen del logotipo no aparece, revisar que el archivo resources/logo.png existe en el proyecto.
+**Cómo verificarlo:** abrir el PDF de `M2-2.4-runtime` y comprobar la distribución 9 + 5 registros, el Summary en la segunda página y el Last Page Footer.
 
 #### D.4 — Árbol de carpetas del proyecto tras completar el punto
 
@@ -4347,6 +4410,12 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 - Comprensión operativa de los elementos de imagen, de los modos de escala y de la propiedad onErrorType.
 
 
+### Conclusión y enlace al siguiente punto
+
+El punto 2.4 ha incorporado recursos gráficos estáticos y dinámicos al mismo informe acumulativo. El alumno ha comprobado que una imagen también se resuelve mediante una expresión y que `onErrorType="Blank"` permite tolerar recursos opcionales sin detener la generación.
+
+El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo con estilos reutilizables y condicionales para evitar duplicación y mantener una identidad visual coherente.
+
 ## Punto 2.5 — Formato y estilos
 
 > **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu proyecto resultante del punto 2.4. Si te incorporas directamente aquí, usa `M2/2.4` como estado inicial. `M2/2.5` contiene la solución completa del punto.
@@ -4355,7 +4424,7 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 ---
 
-**Paso 1: Abrir el informe y localizar la sección de estilos**
+#### Paso 1: Abrir el informe y localizar la sección de estilos [VALIDADO]
 
 **Acciones:**
 
@@ -4366,14 +4435,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra la línea del estilo `Sans_Normal` seguida de una línea vacía.
 
-**Qué hace:** abre el archivo JRXML en la vista de código fuente y posiciona el cursor después del estilo por defecto.\
-**Por qué:** los nuevos estilos deben declararse después del estilo por defecto y antes de las bandas.\
-**Error común:** declarar los nuevos estilos después de las bandas. El esquema XSD rechaza la estructura y el editor muestra un subrayado amarillo. Solución: mover las declaraciones de estilo a la posición correcta.\
+**Qué hace:** abre el archivo JRXML en la vista de código fuente y posiciona el cursor después del estilo por defecto.
+
+**Por qué:** los nuevos estilos deben declararse después del estilo por defecto y antes de las bandas.
+
+**Error común:** declarar los nuevos estilos después de las bandas. El esquema XSD rechaza la estructura y el editor muestra un subrayado amarillo. Solución: mover las declaraciones de estilo a la posición correcta.
+
 **Analogía:** es como preparar la hoja de estilo tipográfico del catálogo antes de empezar a componer las páginas.
 
 ---
 
-**Paso 2: Declarar el estilo TituloPrincipal**
+#### Paso 2: Declarar el estilo TituloPrincipal [VALIDADO]
 
 **Acciones:**
 
@@ -4381,14 +4453,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra la nueva línea con el estilo `TituloPrincipal` declarado.
 
-**Qué hace:** declara un estilo para los títulos principales del informe.\
-**Por qué:** el estilo agrupa las propiedades tipográficas del título y permite reutilizarlas en varios elementos.\
-**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía del estilo por defecto. Solución: añadir `style="Sans_Normal"`.\
+**Qué hace:** declara un estilo para los títulos principales del informe.
+
+**Por qué:** el estilo agrupa las propiedades tipográficas del título y permite reutilizarlas en varios elementos.
+
+**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía del estilo por defecto. Solución: añadir `style="Sans_Normal"`.
+
 **Analogía:** es como definir el estilo tipográfico de los títulos principales del catálogo.
 
 ---
 
-**Paso 3: Declarar el estilo TituloSecundario**
+#### Paso 3: Declarar el estilo TituloSecundario [VALIDADO]
 
 **Acciones:**
 
@@ -4396,14 +4471,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra la nueva línea con el estilo `TituloSecundario` declarado.
 
-**Qué hace:** declara un estilo para los títulos secundarios del informe.\
-**Por qué:** el estilo permite diferenciar visualmente los títulos secundarios de los principales.\
-**Error común:** usar el mismo color que el título principal. Los títulos secundarios deben tener un contraste menor. Solución: usar un color más claro.\
+**Qué hace:** declara un estilo para los títulos secundarios del informe.
+
+**Por qué:** el estilo permite diferenciar visualmente los títulos secundarios de los principales.
+
+**Error común:** usar el mismo color que el título principal. Los títulos secundarios deben tener un contraste menor. Solución: usar un color más claro.
+
 **Analogía:** es como definir el estilo de los subtítulos del catálogo.
 
 ---
 
-**Paso 4: Declarar el estilo TextoTablaCabecera**
+#### Paso 4: Declarar el estilo TextoTablaCabecera [VALIDADO]
 
 **Acciones:**
 
@@ -4411,14 +4489,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra la nueva línea con el estilo `TextoTablaCabecera` declarado.
 
-**Qué hace:** declara un estilo para las cabeceras de la tabla de datos.\
-**Por qué:** las cabeceras se destacan visualmente con un fondo de color y texto en blanco.\
-**Error común:** olvidar el atributo `mode="Opaque"`. El fondo no se rellena con el color indicado y el texto blanco queda invisible. Solución: añadir `mode="Opaque"` al estilo.\
+**Qué hace:** declara un estilo para las cabeceras de la tabla de datos.
+
+**Por qué:** las cabeceras se destacan visualmente con un fondo de color y texto en blanco.
+
+**Error común:** olvidar el atributo `mode="Opaque"`. El fondo no se rellena con el color indicado y el texto blanco queda invisible. Solución: añadir `mode="Opaque"` al estilo.
+
 **Analogía:** es como definir el estilo de los títulos de las columnas del catálogo con fondo destacado.
 
 ---
 
-**Paso 5: Declarar el estilo TextoTabla**
+#### Paso 5: Declarar el estilo TextoTabla [VALIDADO]
 
 **Acciones:**
 
@@ -4426,14 +4507,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra la nueva línea con el estilo `TextoTabla` declarado.
 
-**Qué hace:** declara un estilo para las celdas de la tabla de datos.\
-**Por qué:** el estilo garantiza la coherencia tipográfica de todas las celdas.\
-**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía. Solución: añadir `style="Sans_Normal"`.\
+**Qué hace:** declara un estilo para las celdas de la tabla de datos.
+
+**Por qué:** el estilo garantiza la coherencia tipográfica de todas las celdas.
+
+**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía. Solución: añadir `style="Sans_Normal"`.
+
 **Analogía:** es como definir el estilo del cuerpo de texto de las filas del catálogo.
 
 ---
 
-**Paso 6: Declarar el estilo TextoPrecio con estilo condicional**
+#### Paso 6: Declarar el estilo TextoPrecio con estilo condicional [VALIDADO]
 
 **Acciones:**
 
@@ -4446,14 +4530,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra el bloque completo del estilo `TextoPrecio` con su estilo condicional.
 
-**Qué hace:** declara un estilo para los precios que resalta en rojo los precios superiores a 20 euros.\
-**Por qué:** el estilo condicional permite cambiar el formato de un elemento según el valor del campo.\
-**Error común:** escribir la condición con comillas simples en lugar de dobles o con el operador incorrecto. Solución: revisar la expresión y asegurarse de que usa `$F{precio}.doubleValue() > 20.0` con comillas dobles en las cadenas si las hubiera.\
+**Qué hace:** declara un estilo para los precios que resalta en rojo los precios superiores a 20 euros.
+
+**Por qué:** el estilo condicional permite cambiar el formato de un elemento según el valor del campo.
+
+**Error común:** escribir la condición con comillas simples en lugar de dobles o con el operador incorrecto. Solución: revisar la expresión y asegurarse de que usa `$F{precio}.doubleValue() > 20.0` con comillas dobles en las cadenas si las hubiera.
+
 **Analogía:** es como destacar en rojo los precios altos del catálogo para llamar la atención del lector.
 
 ---
 
-**Paso 7: Declarar el estilo TextoPequeno**
+#### Paso 7: Declarar el estilo TextoPequeno [VALIDADO]
 
 **Acciones:**
 
@@ -4461,14 +4548,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el editor central muestra la nueva línea con el estilo `TextoPequeno` declarado.
 
-**Qué hace:** declara un estilo para los textos pequeños y secundarios del informe.\
-**Por qué:** el estilo permite diferenciar las notas y aclaraciones del cuerpo principal.\
-**Error común:** usar un tamaño muy pequeño que resulte ilegible. Solución: mantener el tamaño en 9 unidades de informe como mínimo.\
+**Qué hace:** declara un estilo para los textos pequeños y secundarios del informe.
+
+**Por qué:** el estilo permite diferenciar las notas y aclaraciones del cuerpo principal.
+
+**Error común:** usar un tamaño muy pequeño que resulte ilegible. Solución: mantener el tamaño en 9 unidades de informe como mínimo.
+
 **Analogía:** es como definir el estilo de las notas al pie del catálogo.
 
 ---
 
-**Paso 8: Guardar y verificar la compilación de los estilos**
+#### Paso 8: Guardar y verificar la compilación de los estilos [VALIDADO]
 
 **Acciones:**
 
@@ -4480,14 +4570,17 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el panel Outline muestra el nodo Styles con los siete estilos declarados: `Sans_Normal`, `TituloPrincipal`, `TituloSecundario`, `TextoTablaCabecera`, `TextoTabla`, `TextoPrecio` y `TextoPequeno`.
 
-**Qué hace:** compila el informe y verifica que los estilos se han declarado correctamente.\
-**Por qué:** la compilación detecta errores de sintaxis en las declaraciones de estilo antes de aplicar los estilos a los elementos.\
-**Error común:** olvidar el cierre `</style>` en uno de los estilos con bloques hijos. El compilador informa `The element type "style" must be terminated`. Solución: revisar cada bloque y asegurarse de que tiene su cierre.\
+**Qué hace:** compila el informe y verifica que los estilos se han declarado correctamente.
+
+**Por qué:** la compilación detecta errores de sintaxis en las declaraciones de estilo antes de aplicar los estilos a los elementos.
+
+**Error común:** olvidar el cierre `</style>` en uno de los estilos con bloques hijos. El compilador informa `The element type "style" must be terminated`. Solución: revisar cada bloque y asegurarse de que tiene su cierre.
+
 **Analogía:** es como revisar la hoja de estilo del catálogo antes de aplicarla a los elementos.
 
 ---
 
-**Paso 9: Aplicar el estilo TituloPrincipal al título de la banda Title**
+#### Paso 9: Aplicar el estilo TituloPrincipal al título de la banda Title [VALIDADO]
 
 **Acciones:**
 
@@ -4500,39 +4593,45 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Verificación visual:** el título aparece con el tamaño 18, en negrita y con el color azul oscuro del estilo.
 
-**Qué hace:** aplica el estilo `TituloPrincipal` al título del informe.\
-**Por qué:** el título hereda las propiedades del estilo y mantiene la coherencia con el resto del documento.\
-**Error común:** olvidar seleccionar el estilo en el desplegable. El título conserva las propiedades anteriores. Solución: seleccionar `TituloPrincipal` en el desplegable Style del panel Properties.\
+**Qué hace:** aplica el estilo `TituloPrincipal` al título del informe.
+
+**Por qué:** el título hereda las propiedades del estilo y mantiene la coherencia con el resto del documento.
+
+**Error común:** olvidar seleccionar el estilo en el desplegable. El título conserva las propiedades anteriores. Solución: seleccionar `TituloPrincipal` en el desplegable Style del panel Properties.
+
 **Analogía:** es como aplicar el estilo tipográfico de los títulos principales al rótulo de la portada.
 
 ---
 
-**Paso 10: Aplicar el estilo TextoTablaCabecera a los encabezados de la banda Column Header**
+#### Paso 10: Aplicar el estilo TextoTablaCabecera a los encabezados de la banda Column Header [VALIDADO]
 
 **Acciones:**
 
 1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Static Text que contiene el texto `Portada` en el editor central.
+2. Hacer clic sobre el Static Text que contiene el texto `Port.` en el editor central.
 3. Hacer clic sobre el desplegable Style en el panel Properties y seleccionar `TextoTablaCabecera`.
 4. Hacer clic sobre el Static Text que contiene el texto `Título`.
 5. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
 6. Hacer clic sobre el Static Text que contiene el texto `Precio`.
 7. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
-8. Hacer clic sobre el Static Text que contiene el texto `Páginas`.
+8. Hacer clic sobre el Static Text que contiene el texto `Págs.`.
 9. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
 10. Hacer clic sobre el Static Text que contiene el texto `Año`.
 11. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
 
 **Verificación visual:** todos los encabezados de la banda Column Header aparecen con fondo azul y texto blanco en negrita.
 
-**Qué hace:** aplica el estilo de cabecera de tabla a todos los encabezados de la banda Column Header.\
-**Por qué:** la coherencia visual de la cabecera refuerza la legibilidad de la tabla de datos.\
-**Error común:** olvidar aplicar el estilo a alguno de los encabezados y provocar que uno de ellos aparezca con el estilo por defecto. Solución: revisar todos los encabezados y aplicar el estilo a cada uno.\
+**Qué hace:** aplica el estilo de cabecera de tabla a todos los encabezados de la banda Column Header.
+
+**Por qué:** la coherencia visual de la cabecera refuerza la legibilidad de la tabla de datos.
+
+**Error común:** olvidar aplicar el estilo a alguno de los encabezados y provocar que uno de ellos aparezca con el estilo por defecto. Solución: revisar todos los encabezados y aplicar el estilo a cada uno.
+
 **Analogía:** es como aplicar el mismo estilo a todos los títulos de columna de la tabla del catálogo.
 
 ---
 
-**Paso 11: Aplicar los estilos de tabla a los campos de Detail**
+#### Paso 11: Aplicar los estilos de tabla a los campos de Detail [VALIDADO]
 
 **Acciones:**
 
@@ -4547,64 +4646,44 @@ Las imágenes son los elementos visuales del catálogo. El logotipo de la editor
 
 **Qué hace:** aplica estilos reutilizables a los elementos reales presentes en el checkpoint 2.5.
 
-**Por qué:** el rótulo `#` está en `Column Header`; no existe un `Static Text #` adicional en Detail en la versión validada.
+**Por qué:** separar la presentación en estilos evita repetir propiedades tipográficas en cada elemento y facilita cambios globales. El rótulo `#` permanece únicamente en `Column Header`; Detail contiene el valor de `$V{REPORT_COUNT}`.
+
+**Error común:** intentar aplicar un estilo a un elemento distinto del seleccionado o dejar un campo con propiedades locales que contradicen al estilo. **Solución:** comprobar el atributo `style` del `reportElement` en Source y eliminar sobrescrituras innecesarias.
+
+**Analogía:** es como aplicar a todas las celdas de una tabla la misma plantilla tipográfica en lugar de formatearlas una por una.
 
 ---
 
-**Paso 12: Aplicar el estilo TextoPrecio al campo de precio**
+#### Paso 12: Aplicar TextoPrecio, ejecutar y documentar los estilos [VALIDADO]
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Text Field que contiene la expresión `$F{precio}` en el editor central.
-3. Hacer clic sobre el desplegable Style en el panel Properties y seleccionar `TextoPrecio`.
-4. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-5. Localizar el `<reportElement>` del Text Field del precio y verificar que contiene el atributo `style="TextoPrecio"`.
-6. Pulsar Ctrl+S para guardar el archivo.
-7. Pulsar Ctrl+Mayús+B para compilar el informe.
-8. Hacer clic con el botón derecho sobre `GeneradorInformeConcepto.java` y seleccionar Run As > Java Application.
-9. Abrir el archivo `output/informe_concepto.pdf` y verificar que los precios superiores a 20 euros aparecen en rojo y en negrita.
+1. Hacer clic sobre el nodo Detail 1 en el panel Outline.
+2. Seleccionar el `Text Field` cuya expresión es `$F{precio}`.
+3. En Properties > Style, seleccionar `TextoPrecio`.
+4. Abrir Source y verificar que su `reportElement` contiene `style="TextoPrecio"`.
+5. Pulsar Ctrl+S y después Ctrl+Mayús+B; comprobar que Problems no muestra errores.
+6. Ejecutar `GeneradorInformeConcepto.java` mediante Run As > Java Application.
+7. Abrir `output/informe_concepto.pdf` y comprobar que los precios superiores a 20 euros aparecen en rojo y negrita.
+8. Hacer clic con el botón derecho sobre `EditorialReports` > New > File.
+9. Escribir `ESTILOS.md` y pulsar Finish.
+10. Documentar en una tabla Markdown los estilos `Sans_Normal`, `TituloPrincipal`, `TituloSecundario`, `TextoTablaCabecera`, `TextoTabla`, `TextoPrecio` y `TextoPequeno`, indicando su estilo padre y uso.
+11. Verificar que `TextoPrecio` hereda de `TextoTabla` y que los demás estilos reutilizables heredan de `Sans_Normal`.
+12. Guardar `ESTILOS.md` con Ctrl+S y refrescar Project Explorer si el archivo no aparece inmediatamente.
 
-**Verificación visual:** los precios superiores a 20 euros aparecen en rojo y en negrita. Los precios inferiores aparecen con el estilo normal.
+**Verificación visual:** el PDF presenta los precios superiores a 20 euros en rojo y negrita, y Project Explorer muestra `ESTILOS.md` en la raíz de `EditorialReports`.
 
-**Qué hace:** aplica el estilo condicional al campo del precio.\
-**Por qué:** el estilo condicional resalta los precios altos sin necesidad de duplicar el elemento.\
-**Error común:** olvidar el atributo `style="TextoPrecio"` y provocar que el precio no se resalte. Solución: seleccionar `TextoPrecio` en el desplegable Style.\
-**Analogía:** es como destacar en rojo los precios altos del catálogo para llamar la atención del lector.
+**Qué hace:** aplica el estilo condicional al precio, valida el resultado real y deja documentada la jerarquía de estilos del informe.
 
----
+**Por qué:** cierra el punto demostrando que los estilos no son solo declaraciones JRXML, sino reglas reutilizables que afectan al PDF generado y quedan mantenibles para el equipo.
 
-**Paso 13: Documentar los estilos del proyecto**
+**Error común:** documentar un estilo padre distinto del usado realmente en el JRXML. **Solución:** contrastar `ESTILOS.md` con los atributos `style="..."` de las declaraciones antes de guardar.
 
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `ESTILOS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Estilos del informe` y pulsar Enter dos veces.
-7. Escribir exactamente `| Estilo | Estilo padre | Uso |` y pulsar Enter.
-8. Escribir exactamente `|---|---|---|` y pulsar Enter.
-9. Escribir exactamente `| Sans_Normal | (default) | Estilo por defecto |` y pulsar Enter.
-10. Escribir exactamente `| TituloPrincipal | Sans_Normal | Título principal |` y pulsar Enter.
-11. Escribir exactamente `| TituloSecundario | Sans_Normal | Títulos secundarios |` y pulsar Enter.
-12. Escribir exactamente `| TextoTablaCabecera | Sans_Normal | Encabezados de tabla |` y pulsar Enter.
-13. Escribir exactamente `| TextoTabla | Sans_Normal | Celdas de tabla |` y pulsar Enter.
-14. Escribir exactamente `| TextoPrecio | TextoTabla | Precios con condicional |` y pulsar Enter.
-15. Escribir exactamente `| TextoPequeno | Sans_Normal | Notas y textos pequeños |` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `ESTILOS.md` en la raíz del proyecto `EditorialReports` con la tabla de estilos documentada.
-
-**Qué hace:** incorpora al proyecto un documento que registra los estilos del informe y su jerarquía.\
-**Por qué:** la documentación de los estilos facilita el mantenimiento y la incorporación de nuevos desarrolladores.\
-**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown. Solución: revisar cada línea y asegurarse de que comienza y termina con `|`.\
-**Analogía:** es como dejar en la editorial una ficha técnica con los estilos tipográficos utilizados en el catálogo.
+**Analogía:** es como aplicar la hoja de estilo definitiva al catálogo, imprimir una prueba y archivar la guía tipográfica para futuras ediciones.
 
 ---
 
-### Parte B — JRXML explicado y contrastado
+### Parte B — JRXML explicado y contrastado [COMPLETADO]
 
 Se reproduce únicamente la sección de estilos del JRXML y las bandas modificadas. Las secciones modificadas son la declaración de estilos, la banda `title`, la banda `columnHeader` y la banda `detail`.
 
@@ -4754,7 +4833,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 **Línea 36-70:** banda `columnHeader` con los cinco encabezados. Cada uno referencia el estilo `TextoTablaCabecera`.
 
-**Línea 38:** `<reportElement x="0" y="5" width="50" height="15" uuid="..." style="TextoTablaCabecera"/>` → el encabezado `Portada` referencia el estilo de cabecera. El elemento hereda el fondo azul, el texto blanco y la negrita.
+**Línea 38:** `<reportElement x="0" y="5" width="50" height="15" uuid="..." style="TextoTablaCabecera"/>` → el encabezado `Port.` referencia el estilo de cabecera. El elemento hereda el fondo azul, el texto blanco y la negrita.
 
 **Línea 71-136:** banda `detail` con la portada dinámica, los campos de texto y el icono de disponibilidad.
 
@@ -4768,7 +4847,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 ---
 
-### Parte C — Código Java explicado línea por línea
+### Parte C — Código Java explicado línea por línea [COMPLETADO]
 
 En este punto no se modifica el código Java del programa. Las clases `Libro`, `CatalogoDataSource` y `GeneradorInformeConcepto` permanecen tal como se construyeron en el punto 2.4. Se reproduce a continuación la clase `GeneradorInformeConcepto` para referencia.
 
@@ -4871,7 +4950,7 @@ public class GeneradorInformeConcepto {
 
 ```text
 Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
-Páginas del documento: 1
+Páginas del documento: 2
 ```
 
 **Estado del objeto `JasperPrint` en cada fase**
@@ -5019,52 +5098,26 @@ informe_concepto
 
 ```text
 INFORME: informe_concepto.pdf
-PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+PÁGINAS TOTALES: 2
 REGISTROS PROCESADOS: 14
-ESTILOS APLICADOS: 7 (Sans_Normal, TituloPrincipal, TituloSecundario,
-                     TextoTablaCabecera, TextoTabla, TextoPrecio,
-                     TextoPequeno)
 
+Página 1 de 2
+- Cabecera del catálogo con estilos reutilizables.
+- Registros 1 a 9.
+- Los precios > 20 € usan TextoPrecio: rojo + negrita.
+- Column Footer: Registros procesados: 9.
 
-──────────────────── Página 1 de 1 ────────────────────
-╔══════════════════════════════════════════════════════════╗
-║  ┌──────┐                                                ║
-║  │ LOGO │  Catálogo Editorial - Informe Conceptual       ║
-║  └──────┘  (18, negrita, azul oscuro)                    ║
-║           Fecha de emisión:  22/09/2026                  ║
-║                                                          ║
-║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
-║  Precio en euros con IVA incluido                       ║
-║                                                          ║
-║  ┏━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━┓ ║
-║  ┃Portada┃Título            ┃Precio   ┃Páginas ┃ Año ┃ ║  ← fondo azul
-║  ┗━━━━━━━┻━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━┻━━━━━┛ ║
-║  ┌────┐ │Cien años de sol. │ 19,95 € │  471   │1967 │ ║
-║  │IMG │ │                  │         │        │     │ ║
-║  └────┘ │                  │         │        │     │ ║
-║  ┌────┐ │Rayuela           │ 22,50 € │  736   │1963 │ ║  ← rojo negrita
-║  │IMG │ │                  │ (rojo)  │        │     │ ║
-║  └────┘ │                  │         │        │     │ ║
-║  ┌────┐ │La ciudad y los.. │ 18,75 € │  432   │1963 │ ║
-║  │IMG │ │                  │         │        │     │ ║
-║  └────┘ │                  │         │        │     │ ║
-║   ...                                                    ║
-║  ─────────────────────────────────────────────────────   ║
-║           --- Fin de la tabla de datos ---               ║
-║  Registros procesados: 14                                ║
-║                                                          ║
-║         Documento generado en la última página           ║
-║                                                          ║
-║  Total de páginas: 1                                     ║
-║           Fin del informe. EditorialReports.             ║
-║  Total de libros: 14                                     ║
-╚══════════════════════════════════════════════════════════╝
+Página 2 de 2
+- Registros 10 a 14.
+- Se mantienen los mismos estilos de tabla y el estilo condicional.
+- Summary: Total de páginas: 2; Total de libros: 14; Subtotal precios: 270.05 €.
+- Column Footer: Registros procesados: 14.
+- Last Page Footer en la última página.
 ```
 
-**Qué representa:** la página única del PDF resultante con los estilos aplicados. El título principal aparece con el estilo `TituloPrincipal`. Los encabezados de la tabla aparecen con fondo azul y texto blanco. Los precios superiores a 20 euros aparecen en rojo y negrita gracias al estilo condicional.
+**Qué representa:** el PDF real del checkpoint 2.5. El estilo condicional no cambia la estructura de datos, pero sí la presentación de los precios superiores a 20 euros.
 
-**Cómo verificarlo:** abrir el archivo `output/informe_concepto.pdf` con un lector de PDF y comprobar que los encabezados de la tabla tienen fondo azul, que el título principal aparece en azul oscuro y que los precios superiores a 20 euros aparecen en rojo.
+**Cómo verificarlo:** abrir el artefacto `M2-2.5-runtime`, localizar precios como 22.50 €, 21.00 €, 23.40 €, 20.80 € y 25.00 € y comprobar cuáles superan estrictamente el umbral de 20.00 € y aparecen destacados.
 
 #### D.4 — Árbol de carpetas del proyecto tras completar el punto
 
@@ -5222,6 +5275,618 @@ Al finalizar este punto, el alumno dispone de:
 - Comprensión operativa de los estilos, de la herencia y de los estilos condicionales.
 
 
+### Conclusión y enlace al siguiente punto
+
+El punto 2.5 ha sustituido formato repetido por una jerarquía de estilos locales y ha añadido comportamiento condicional al precio. El resultado es un informe más mantenible, en el que tipografía, color y jerarquía visual pueden modificarse desde definiciones centralizadas.
+
+El punto 2.6, «Expresiones», utiliza esa base para introducir cálculos, comparaciones, métodos Java, parámetros y variables dentro del JRXML. El objetivo ya no será solo presentar datos, sino derivar información nueva a partir de ellos.
+
+## Punto 2.6 — Expresiones
+
+> **PUNTO DE PARTIDA.** Continúa con tu propio resultado de 2.5. Si te incorporas directamente en este punto, usa `M2/2.5` como estado inicial. `M2/2.6` contiene la solución completa y no debe utilizarse como punto de partida si quieres realizar la práctica sin ver la respuesta.
+
+### Parte A — Práctica visual
+
+#### Paso 1: Crear el parámetro usuario [VALIDADO]
+
+**Acciones:**
+
+1. Abrir `reports/informe_concepto.jrxml` y seleccionar la pestaña **Design**.
+2. En el panel **Outline**, localizar el nodo **Parameters**.
+3. Hacer clic con el botón derecho sobre **Parameters** y seleccionar **Create Parameter**.
+4. Seleccionar el nuevo parámetro y abrir la pestaña **Object** del panel **Properties**.
+5. Escribir exactamente `usuario` en **Name**.
+6. Seleccionar `java.lang.String` en **Class**.
+7. Escribir exactamente `"Ana Martínez"` en **Default Value Expression**.
+8. Desmarcar **Is For Prompting** si estuviera activado.
+9. Pulsar `Ctrl+S`.
+
+**Verificación visual:** el nodo Parameters del Outline muestra `usuario` y Properties indica la clase `java.lang.String` y el valor por defecto `"Ana Martínez"`.
+
+**Qué hace:** crea un dato externo al registro actual que puede enviarse desde la aplicación Java o resolverse con su valor por defecto.
+
+**Por qué:** permite demostrar la diferencia entre `$P{usuario}` y los campos `$F{...}` obtenidos desde `CatalogoDataSource`.
+
+**Error común:** escribir `Ana Martínez` sin comillas en Default Value Expression. El compilador intenta interpretarlo como código Java. **Solución:** escribir una expresión Java de cadena: `"Ana Martínez"`.
+
+**Analogía:** es como imprimir en el catálogo el nombre del operador que ha lanzado la tirada.
+
+#### Paso 2: Crear la variable PrecioConIVA [VALIDADO]
+
+**Acciones:**
+
+1. En el panel **Outline**, hacer clic con el botón derecho sobre **Variables**.
+2. Seleccionar **Create Variable**.
+3. Seleccionar la nueva variable y abrir **Properties > Object**.
+4. Escribir `PrecioConIVA` en **Name**.
+5. Seleccionar `java.lang.Double` como tipo de la variable.
+6. En **Variable Expression**, abrir el editor de expresiones.
+7. Escribir exactamente `$F{precio} == null ? null : Double.valueOf($F{precio}.doubleValue() * 1.21d)`.
+8. Confirmar el editor y pulsar `Ctrl+S`.
+
+**Verificación visual:** Variables contiene `PrecioConIVA` y la expresión aparece en Properties sin error.
+
+**Qué hace:** calcula un valor derivado del precio para cada registro.
+
+**Por qué:** centraliza el cálculo del IVA y permite reutilizarlo desde un `textField` mediante `$V{PrecioConIVA}`.
+
+**Error común:** declarar la variable como `java.lang.String` y devolver un `Double`. **Solución:** mantener `java.lang.Double` para que el tipo coincida con el resultado.
+
+**Analogía:** es como añadir a cada ficha del catálogo una casilla calculada automáticamente a partir del precio base.
+
+#### Paso 3: Mostrar el usuario en la banda Title [VALIDADO]
+
+**Acciones:**
+
+1. En la pestaña **Design**, seleccionar la banda **Title**.
+2. Arrastrar un **Text Field** desde Palette > Elements hasta la zona derecha de la línea de fecha.
+3. En Properties escribir `335` en **X**, `60` en **Y**, `220` en **Width** y `20` en **Height**.
+4. Seleccionar el estilo `TextoPequeno`.
+5. Seleccionar **Right** en Horizontal Text Alignment.
+6. En **Text Field Expression** escribir exactamente `"Usuario: " + $P{usuario}`.
+7. Guardar con `Ctrl+S`.
+
+**Verificación visual:** en Title aparece un campo de texto a la derecha de la fecha y la expresión utiliza `$P{usuario}`.
+
+**Qué hace:** combina un literal con un parámetro del informe.
+
+**Por qué:** demuestra que el informe puede recibir información que no forma parte del `JRDataSource`.
+
+**Error común:** escribir `$F{usuario}`. El compilador informa que el campo no existe. **Solución:** utilizar `$P{usuario}` porque se trata de un parámetro.
+
+**Analogía:** es como añadir en la portada la firma del operador que ha generado el catálogo.
+
+#### Paso 4: Ampliar la banda Detail para una segunda fila [VALIDADO]
+
+**Acciones:**
+
+1. Seleccionar **Detail 1** en Outline.
+2. En Properties escribir `85` en **Band height**.
+3. Mantener **Split Type = Prevent**.
+4. Comprobar que los elementos existentes permanecen entre `y=5` y `y=40`.
+5. Reservar la franja `y=60..80` para los campos calculados.
+
+**Verificación visual:** la banda Detail mide 85 unidades y deja una segunda línea libre debajo de la fila principal.
+
+**Qué hace:** añade espacio vertical para las nuevas expresiones sin mover la estructura principal del punto 2.5.
+
+**Por qué:** cinco resultados calculados no caben en la misma fila sin reducir en exceso las columnas existentes.
+
+**Error común:** mantener la altura en 60 y colocar campos en `y=60`. Los elementos quedan fuera de la banda. **Solución:** ampliar primero la banda a 85.
+
+**Analogía:** es como añadir una segunda línea de anotaciones debajo de cada ficha del catálogo.
+
+#### Paso 5: Añadir la categoría calculada del precio [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un **Text Field** a Detail.
+2. Escribir `0` en X, `60` en Y, `100` en Width y `20` en Height.
+3. Seleccionar el estilo `TextoPequeno`.
+4. En **Text Field Expression** escribir exactamente `$F{precio}.doubleValue() > 20.0d ? "Premium" : ($F{precio}.doubleValue() > 15.0d ? "Estándar" : "Económico")`.
+5. Guardar el informe.
+
+**Verificación visual:** el campo ocupa la primera columna de la segunda fila y su expresión contiene dos operadores ternarios.
+
+**Qué hace:** clasifica cada libro en tres categorías de precio.
+
+**Por qué:** demuestra operadores de comparación y un ternario anidado.
+
+**Error común:** omitir los paréntesis del ternario interno. **Solución:** conservar la agrupación `(... ? ... : ...)`.
+
+**Analogía:** es como asignar automáticamente una banda comercial a cada título según su precio.
+
+#### Paso 6: Añadir una expresión con métodos de String [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar otro **Text Field** a Detail.
+2. Escribir `100` en X, `60` en Y, `135` en Width y `20` en Height.
+3. Seleccionar `TextoPequeno`.
+4. Escribir exactamente `$F{titulo}.length() > 30 ? "Título largo (" + $F{titulo}.length() + ")" : "Título corto"` en Text Field Expression.
+5. Guardar.
+
+**Verificación visual:** la expresión usa dos llamadas a `length()` y devuelve una cadena.
+
+**Qué hace:** evalúa la longitud del título y construye un texto descriptivo.
+
+**Por qué:** demuestra la invocación de métodos Java sobre un campo `String`.
+
+**Error común:** escribir `length` sin paréntesis. **Solución:** usar `length()` porque se trata de un método.
+
+**Analogía:** es como etiquetar automáticamente los títulos que pueden necesitar más espacio tipográfico.
+
+#### Paso 7: Mostrar la variable PrecioConIVA con patrón numérico [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un **Text Field** a Detail.
+2. Escribir `235` en X, `60` en Y, `90` en Width y `20` en Height.
+3. Seleccionar `TextoPequeno` y alineación **Right**.
+4. Escribir `$V{PrecioConIVA}` en Text Field Expression.
+5. Escribir exactamente `'IVA: ' #,##0.00 €` en **Pattern**.
+6. Activar **Blank When Null**.
+7. Guardar.
+
+**Verificación visual:** el campo referencia `$V{PrecioConIVA}` y el patrón contiene el literal `IVA:` sin imprimir comillas.
+
+**Qué hace:** presenta el resultado de una variable con un formato numérico.
+
+**Por qué:** separa el cálculo del formato visual del resultado.
+
+**Error común:** utilizar comillas dobles dentro del patrón (`"IVA: "`). El PDF puede imprimir esas comillas. **Solución:** utilizar comillas simples de patrón: `'IVA: ' #,##0.00 €`.
+
+**Analogía:** es como calcular el precio en una hoja de trabajo y aplicar después el formato de moneda de la editorial.
+
+#### Paso 8: Añadir una expresión de fecha [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un **Text Field** a Detail.
+2. Escribir `325` en X, `60` en Y, `155` en Width y `20` en Height.
+3. Seleccionar `TextoPequeno`.
+4. Escribir exactamente `$F{fechaPublicacion}.after(new java.util.GregorianCalendar(2000, 0, 1).getTime()) ? "Después de 2000" : "Hasta 2000"`.
+5. Guardar.
+
+**Verificación visual:** el campo ocupa la cuarta zona de la segunda fila y la expresión contiene `after(...)`.
+
+**Qué hace:** compara la fecha del libro con el 1 de enero de 2000.
+
+**Por qué:** demuestra una llamada a un método de `Date` y la creación de una fecha de referencia.
+
+**Error común:** usar mes `1` pensando que es enero. **Solución:** en `GregorianCalendar`, enero es `0`.
+
+**Analogía:** es como separar automáticamente fondo histórico y novedades editoriales.
+
+#### Paso 9: Combinar campo, parámetro y variable en una expresión [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un último **Text Field** a Detail.
+2. Escribir `480` en X, `60` en Y, `75` en Width y `20` en Height.
+3. Seleccionar `TextoPequeno` y alineación **Right**.
+4. En Text Field Expression escribir exactamente `"R" + $V{REPORT_COUNT} + " · " + $P{usuario}.substring(0, Math.min(3, $P{usuario}.length())) + " · " + $F{titulo}.substring(0, 1)`.
+5. Guardar.
+
+**Verificación visual:** la expresión contiene simultáneamente `$V{REPORT_COUNT}`, `$P{usuario}` y `$F{titulo}`.
+
+**Qué hace:** construye un identificador contextual para cada registro, por ejemplo `R1 · Ana · C`.
+
+**Por qué:** demuestra en una sola expresión la combinación de variable, parámetro, campo y métodos Java.
+
+**Error común:** asignar un ancho que termine más allá de `columnWidth=555`. **Solución:** mantener `x=480`, `width=75`; 480 + 75 = 555.
+
+**Analogía:** es como imprimir una marca de control con el número de ficha, el operador y la inicial del libro.
+
+#### Paso 10: Pasar el parámetro usuario desde Java [VALIDADO]
+
+**Acciones:**
+
+1. Abrir `EditorialReportsJava/src/GeneradorInformeConcepto.java`.
+2. Localizar la línea `Map<String, Object> parametros = new HashMap<String, Object>();`.
+3. En la línea siguiente escribir exactamente `parametros.put("usuario", "Ana Martínez");`.
+4. Guardar con `Ctrl+S`.
+5. Comprobar que Problems no muestra errores Java.
+
+**Verificación visual:** el programa Java contiene el `put` inmediatamente después de crear el mapa de parámetros.
+
+**Qué hace:** envía el valor `Ana Martínez` desde la aplicación al parámetro `$P{usuario}`.
+
+**Por qué:** demuestra la comunicación real aplicación → informe; el valor por defecto queda como fallback para Preview.
+
+**Error común:** usar la clave `Usuario` con mayúscula. **Solución:** la clave del mapa debe coincidir exactamente con el nombre `usuario` declarado en el JRXML.
+
+**Analogía:** es como entregar a la imprenta una orden de trabajo con el nombre del operador que debe aparecer en el documento.
+
+#### Paso 11: Compilar, ejecutar y verificar las tres páginas [VALIDADO]
+
+**Acciones:**
+
+1. Guardar el JRXML con `Ctrl+S`.
+2. Compilar el informe y comprobar Problems.
+3. Ejecutar `GeneradorInformeConcepto.java` como **Java Application** con el working directory del proyecto `EditorialReports`.
+4. Observar Console.
+5. Abrir `output/informe_concepto.pdf`.
+6. Comprobar que Console informa `Registros de ejemplo: 14`.
+7. Comprobar que Console informa `Paginas del documento: 3`.
+8. Verificar que las páginas muestran `Página 1 de 3`, `Página 2 de 3` y `Página 3 de 3`.
+9. Verificar que cada registro contiene la segunda línea calculada.
+
+**Verificación visual:** el PDF tiene tres páginas; la última muestra el registro 14, los totales y el Last Page Footer.
+
+**Qué hace:** valida el conjunto completo de expresiones sobre datos reales.
+
+**Por qué:** una expresión puede compilar y fallar durante el llenado; la ejecución completa confirma ambas fases.
+
+**Error común:** esperar una sola página como en una simulación anterior. **Solución:** con Detail de 85 unidades y 14 registros, el checkpoint validado genera tres páginas.
+
+**Analogía:** es como revisar la tirada completa y no solo la maqueta de una ficha.
+
+#### Paso 12: Documentar las expresiones [VALIDADO]
+
+**Acciones:**
+
+1. Crear `EXPRESIONES.md` en la raíz de `EditorialReports`.
+2. Añadir un apartado para el parámetro `usuario`.
+3. Añadir un apartado para la variable `PrecioConIVA`.
+4. Documentar categoría, longitud, IVA, antigüedad y contexto de registro.
+5. Añadir una nota: `PAGE_COUNT` cuenta registros de la página actual y no el total de páginas.
+6. Guardar el archivo.
+
+**Verificación visual:** Project Explorer muestra `EXPRESIONES.md` junto a `ESTILOS.md` e `IMAGENES.md`.
+
+**Qué hace:** deja una referencia de mantenimiento de las expresiones incorporadas en 2.6.
+
+**Por qué:** las expresiones son código embebido en la plantilla y deben documentarse igual que el código Java.
+
+**Error común:** documentar `PAGE_COUNT` como total de páginas. **Solución:** registrar que el total final se obtiene en este proyecto con `PAGE_NUMBER` evaluado a `Report`.
+
+**Analogía:** es como conservar una ficha técnica de todas las fórmulas usadas en la maquetación.
+
+### Parte B — JRXML explicado y contrastado [COMPLETADO]
+
+Las secciones nuevas o modificadas respecto a 2.5 son el parámetro `usuario`, la variable `PrecioConIVA`, el campo de usuario en Title y la segunda fila de la banda Detail. El resto del JRXML permanece acumulado desde el checkpoint 2.5.
+
+```xml
+<parameter name="usuario" class="java.lang.String">
+    <defaultValueExpression><![CDATA["Ana Martínez"]]></defaultValueExpression>
+</parameter>
+
+<variable name="PrecioConIVA" class="java.lang.Double">
+    <variableExpression><![CDATA[
+        $F{precio} == null
+            ? null
+            : Double.valueOf($F{precio}.doubleValue() * 1.21d)
+    ]]></variableExpression>
+</variable>
+
+<!-- En Title -->
+<textField>
+    <reportElement x="335" y="60" width="220" height="20" style="TextoPequeno"/>
+    <textElement textAlignment="Right"/>
+    <textFieldExpression><![CDATA["Usuario: " + $P{usuario}]]></textFieldExpression>
+</textField>
+
+<!-- En Detail: la banda pasa a 85 -->
+<band height="85" splitType="Prevent">
+    <!-- ... fila principal heredada de 2.5 ... -->
+
+    <textField>
+        <reportElement x="0" y="60" width="100" height="20" style="TextoPequeno"/>
+        <textFieldExpression><![CDATA[
+            $F{precio}.doubleValue() > 20.0d
+                ? "Premium"
+                : ($F{precio}.doubleValue() > 15.0d ? "Estándar" : "Económico")
+        ]]></textFieldExpression>
+    </textField>
+
+    <textField>
+        <reportElement x="100" y="60" width="135" height="20" style="TextoPequeno"/>
+        <textFieldExpression><![CDATA[
+            $F{titulo}.length() > 30
+                ? "Título largo (" + $F{titulo}.length() + ")"
+                : "Título corto"
+        ]]></textFieldExpression>
+    </textField>
+
+    <textField pattern="'IVA: ' #,##0.00 €" isBlankWhenNull="true">
+        <reportElement x="235" y="60" width="85" height="20" style="TextoPequeno"/>
+        <textElement textAlignment="Right"/>
+        <textFieldExpression><![CDATA[$V{PrecioConIVA}]]></textFieldExpression>
+    </textField>
+
+    <textField>
+        <reportElement x="325" y="60" width="150" height="20" style="TextoPequeno"/>
+        <textFieldExpression><![CDATA[
+            $F{fechaPublicacion}.after(new java.util.GregorianCalendar(2000, 0, 1).getTime())
+                ? "Después de 2000"
+                : "Hasta 2000"
+        ]]></textFieldExpression>
+    </textField>
+
+    <textField>
+        <reportElement x="480" y="60" width="75" height="20" style="TextoPequeno"/>
+        <textElement textAlignment="Right"/>
+        <textFieldExpression><![CDATA[
+            "R" + $V{REPORT_COUNT}
+            + " · " + $P{usuario}.substring(0, Math.min(3, $P{usuario}.length()))
+            + " · " + $F{titulo}.substring(0, 1)
+        ]]></textFieldExpression>
+    </textField>
+</band>
+```
+
+### Explicación línea por línea
+
+Línea 1: `<parameter name="usuario" class="java.lang.String">` → declara el parámetro `usuario`.
+
+Línea 2: `<defaultValueExpression><![CDATA["Ana Martínez"]]></defaultValueExpression>` → define el valor usado cuando la aplicación no envía el parámetro.
+
+Línea 3: `</parameter>` → cierra la declaración del parámetro.
+
+Línea 5: `<variable name="PrecioConIVA" class="java.lang.Double">` → declara una variable de tipo `Double`.
+
+Línea 6-10: `<variableExpression>...</variableExpression>` → calcula el precio con IVA y conserva `null` si el campo precio fuera nulo.
+
+Línea 14-18: `textField` de Title → concatena el literal `Usuario:` con `$P{usuario}` y lo alinea a la derecha.
+
+Línea 21: `<band height="85" splitType="Prevent">` → amplía Detail a 85 unidades y mantiene cada ficha sin partirse entre páginas.
+
+Línea 24-33: primer `textField` calculado → clasifica el precio con comparaciones y ternarios.
+
+Línea 35-44: segundo `textField` calculado → usa `String.length()` para etiquetar la longitud del título.
+
+Línea 46-50: campo de IVA → muestra `$V{PrecioConIVA}` y aplica el patrón `'IVA: ' #,##0.00 €`.
+
+Línea 52-60: campo de antigüedad → compara una fecha mediante `Date.after(...)`.
+
+Línea 62-71: campo contextual → combina `$V{REPORT_COUNT}`, `$P{usuario}` y `$F{titulo}` en una misma expresión.
+
+Línea 72: `</band>` → cierra la banda Detail modificada.
+
+### Parte C — Código Java explicado línea por línea [COMPLETADO]
+
+El cambio Java del punto 2.6 es pequeño pero importante: el mapa de parámetros deja de estar vacío y pasa el valor `usuario` al informe.
+
+```java
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeConcepto {
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_concepto.jrxml";
+            String rutaJasper = "reports/informe_concepto.jasper";
+            String rutaPdf = "output/informe_concepto.pdf";
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            parametros.put("usuario", "Ana Martínez");
+
+            JasperPrint documento = JasperFillManager.fillReport(
+                    rutaJasper,
+                    parametros,
+                    new CatalogoDataSource(Libro.listaEjemplo()));
+
+            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
+            System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+            System.out.println("Paginas del documento: " + documento.getPages().size());
+            System.out.println("Registros de ejemplo: " + Libro.listaEjemplo().size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+}
+```
+
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → importa `File` para mostrar la ruta absoluta del PDF.
+
+Línea 2: `import java.util.HashMap;` → importa la implementación del mapa de parámetros.
+
+Línea 3: `import java.util.Map;` → importa la interfaz `Map`.
+
+Línea 5-8: imports JasperReports → cargan compilación, llenado, exportación y `JasperPrint`.
+
+Línea 10: `public class GeneradorInformeConcepto` → declara la clase ejecutable.
+
+Línea 11: `public static void main(String[] args)` → declara el punto de entrada.
+
+Línea 13-15: rutas JRXML, Jasper y PDF → fijan las rutas relativas al working directory `EditorialReports`.
+
+Línea 17: `JasperCompileManager.compileReportToFile(...)` → compila la plantilla.
+
+Línea 19: `new HashMap<String, Object>()` → crea el mapa de parámetros.
+
+Línea 20: `parametros.put("usuario", "Ana Martínez")` → envía el parámetro utilizado por `$P{usuario}`.
+
+Línea 22-25: `JasperFillManager.fillReport(...)` → llena el informe con el mapa y `CatalogoDataSource`.
+
+Línea 27: `JasperExportManager.exportReportToPdfFile(...)` → exporta el `JasperPrint` a PDF.
+
+Línea 29-31: `System.out.println(...)` → registra ruta, páginas y número de registros para la validación.
+
+Línea 32-35: `catch` + `System.exit(1)` → imprime la traza y devuelve error al sistema si falla alguna fase.
+
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño esperada
+
+```text
+Detail 1 [height=85]
+┌────────────────────────────────────────────────────────────────────┐
+│ Port. │ Título │ Precio │ Págs. │ Año │ Disp. │ #                │
+│                                                                    │
+│ Categoría │ Longitud │ IVA │ Antigüedad │ Rn · usuario · inicial  │
+└────────────────────────────────────────────────────────────────────┘
+0                                                                  555
+```
+
+**Qué representa:** las dos filas de la banda Detail. Todos los elementos terminan como máximo en `x + width = 555`, por lo que permanecen dentro del ancho útil del informe.
+
+**Cómo verificarlo:** seleccionar cada uno de los cinco campos nuevos y comprobar X, Y, Width y Height en Properties.
+
+#### D.2 — Jerarquía del Outline
+
+```text
+informe_concepto
+├── Parameters
+│   └── usuario [java.lang.String]
+├── Variables
+│   ├── TotalPrecios [java.lang.Double, Sum]
+│   └── PrecioConIVA [java.lang.Double]
+├── Title [height=100]
+│   └── textField → "Usuario: " + $P{usuario}
+├── Detail 1 [height=85, splitType=Prevent]
+│   ├── (elementos acumulados de 2.5)
+│   ├── textField → categoría
+│   ├── textField → longitud del título
+│   ├── textField → $V{PrecioConIVA}
+│   ├── textField → comparación de fecha
+│   └── textField → $V{} + $P{} + $F{}
+└── ...
+```
+
+**Qué representa:** las novedades estructurales introducidas por 2.6.
+
+**Cómo verificarlo:** expandir Parameters, Variables, Title y Detail 1 en Outline.
+
+#### D.3 — PDF real validado por GitHub Actions
+
+```text
+INFORME: informe_concepto.pdf
+PÁGINAS TOTALES: 3
+REGISTROS PROCESADOS: 14
+
+Página 1 de 3
+  registros 1-6
+  segunda fila de expresiones en cada ficha
+
+Página 2 de 3
+  registros 7-13
+  segunda fila de expresiones en cada ficha
+
+Página 3 de 3
+  registro 14
+  Total de páginas: 3
+  Total de libros: 14
+  Subtotal precios: 270.05 €
+  Last Page Footer
+```
+
+**Qué representa:** el resultado real del checkpoint 2.6, no una estimación. El workflow E2E informó `Paginas del documento: 3` y `Registros de ejemplo: 14`.
+
+**Cómo verificarlo:** abrir el artefacto `M2-2.6-runtime` o ejecutar localmente el mismo generador.
+
+#### D.4 — Árbol de carpetas al finalizar 2.6
+
+```text
+EditorialReports/
+├── BANDAS.md
+├── CAMPOS.md
+├── ECOSISTEMA.md
+├── ENTORNO.md
+├── ESTILOS.md
+├── EXPRESIONES.md
+├── IMAGENES.md
+├── JRXML.md
+├── TEXTO.md
+├── reports/
+│   └── informe_concepto.jrxml
+├── resources/
+│   ├── logo.png
+│   ├── icono_disponible.png
+│   ├── icono_no_disponible.png
+│   └── portadas/
+└── output/
+    └── informe_concepto.pdf
+
+EditorialReportsJava/
+├── pom.xml
+└── src/
+    ├── Libro.java
+    ├── CatalogoDataSource.java
+    └── GeneradorInformeConcepto.java
+```
+
+**Qué representa:** el estado final acumulativo del Módulo 2.
+
+**Cómo verificarlo:** comparar Project Explorer con el checkpoint `M2/2.6` después de completar la práctica.
+
+### Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `Variable not found: PrecioConIVA` | La variable no está declarada o está después de un punto inválido del JRXML | Crear la variable desde Outline o colocarla en la zona de variables antes de las bandas |
+| `Parameter not found: usuario` | Se escribió `$P{usuario}` sin declarar el parámetro | Crear el parámetro `usuario` de tipo `java.lang.String` |
+| El usuario aparece con el valor por defecto aunque se esperaba otro | La aplicación no ha añadido la clave al mapa | Ejecutar `parametros.put("usuario", valor)` antes de `fillReport` |
+| El PDF imprime comillas alrededor de `IVA:` | El patrón usa comillas dobles como literal | Utilizar el patrón `'IVA: ' #,##0.00 €` |
+| `NullPointerException` en `length()` o `after()` | El campo es nulo | Comprobar `null` antes de invocar métodos si la fuente puede devolver valores nulos |
+| El último campo sale fuera de la página | `x + width` supera 555 | Ajustar posiciones; en la solución `480 + 75 = 555` |
+| Se utiliza `PAGE_COUNT` como total de páginas | Se ha confundido con `PAGE_NUMBER` | Recordar que `PAGE_COUNT` cuenta registros de la página actual |
+| El PDF conserva una versión anterior | Se ejecuta un `.jasper` desactualizado | Recompilar el JRXML antes de llenar |
+| El informe compila pero falla al llenar | La expresión es sintácticamente válida pero falla con un dato concreto | Revisar Console y la traza de la excepción |
+| Actions no detecta el error Java | El programa captura la excepción y termina con código 0 | Mantener `System.exit(1)` en el bloque catch |
+
+### Reto resuelto paso a paso
+
+**Enunciado:** añadir una variable `Descuento` que calcule el 5 % del precio y mostrar, en el Summary, el descuento acumulado teórico de todos los libros sin alterar la fila principal del catálogo.
+
+Paso 1. Crear una variable `Descuento` de tipo `java.lang.Double` con la expresión `$F{precio} == null ? null : Double.valueOf($F{precio}.doubleValue() * 0.05d)`.
+
+Paso 2. Crear una segunda variable `TotalDescuento` de tipo `java.lang.Double`, `calculation="Sum"`, con expresión `$V{Descuento}`.
+
+Paso 3. Guardar y compilar el JRXML.
+
+Paso 4. Aumentar la banda Summary de 95 a 120 unidades.
+
+Paso 5. Arrastrar un Static Text al Summary y escribir `Descuento teórico total:`.
+
+Paso 6. Arrastrar un Text Field junto al rótulo y usar `$V{TotalDescuento}`.
+
+Paso 7. Aplicar el patrón `#,##0.00 €`.
+
+Paso 8. Guardar, compilar y ejecutar `GeneradorInformeConcepto`.
+
+Paso 9. Abrir el PDF y verificar que el valor del descuento total aparece después del subtotal de precios.
+
+Paso 10. Confirmar que el informe continúa generándose en tres páginas y que los 14 registros siguen presentes.
+
+**Resultado del reto:** el alumno diferencia una variable de cálculo por registro (`Descuento`) de una variable agregada (`TotalDescuento`) y comprueba que una variable puede depender de otra variable del informe.
+
+### Analogía final con el contexto de la editorial
+
+Las expresiones son las fórmulas de la mesa de producción. Los campos traen los datos de la ficha del libro, los parámetros traen instrucciones de la orden de trabajo y las variables conservan resultados calculados por el informe. La expresión de categoría clasifica el producto, `length()` analiza el título, `after()` compara fechas y `PrecioConIVA` encapsula un cálculo repetible. El informe deja de ser una maqueta pasiva y empieza a interpretar los datos que recibe.
+
+### Resultado esperado
+
+Al finalizar este punto, el alumno dispone de:
+
+- El checkpoint acumulativo `M2/2.6` basado en `M2/2.5`.
+- El parámetro `usuario` declarado en el JRXML y enviado desde Java.
+- La variable `PrecioConIVA` de tipo `Double`.
+- Cinco expresiones calculadas en la segunda fila de Detail.
+- Una expresión que combina simultáneamente `$F{}`, `$P{}` y `$V{}`.
+- El archivo `EXPRESIONES.md` con la documentación del punto.
+- Un PDF real de 3 páginas con 14 registros, validado end-to-end.
+- Comprensión operativa de operadores, métodos Java, parámetros, variables y depuración de expresiones.
+
+### Conclusión y enlace al siguiente punto
+
+El punto 2.6 cierra el Módulo 2 incorporando lógica de cálculo al informe acumulativo. El proyecto ya combina estructura de bandas, texto, campos tipados, imágenes, estilos y expresiones, y demuestra el ciclo completo desde Jaspersoft Studio hasta un PDF real generado por Java.
+
+El siguiente módulo deberá partir **exactamente del checkpoint `M2/2.6`**. No se reiniciará EditorialReports ni se volverá a una versión anterior del informe.
+
 ## Validación end-to-end del módulo
 
-La práctica no termina en una simulación documental. Los cinco checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. Run de cierre: **35924657747 — SUCCESS**.
+La práctica no termina en una simulación documental. Los seis checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. Run de cierre: **35965175230 — SUCCESS**. Los seis checkpoints 2.1–2.6 finalizan correctamente en la matriz.
