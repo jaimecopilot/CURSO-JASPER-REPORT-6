@@ -45,7 +45,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** permite diferenciar el pie de la última página del resto de páginas.
 
-**Error común:** añadir la banda Last Page Footer después de la banda Summary. El entorno la coloca automáticamente antes. Si se edita el XML manualmente y se coloca en el orden incorrecto, el editor muestra un subrayado amarillo. Solución: eliminar la banda y volver a añadirla desde el panel Outline.
+**Error común:** añadir la banda Last Page Footer después de la banda Summary. El entorno la coloca automáticamente antes. Si se edita el XML manualmente y se coloca en el orden incorrecto, el editor muestra un subrayado amarillo.
+
+**Solución:** eliminar la banda y volver a añadirla desde el panel Outline.
 
 **Analogía:** es como reservar en el catálogo un pie de página distinto para la última página, con el colofón en lugar del número de página.
 
@@ -79,7 +81,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** permite diferenciar el cierre del documento en la última página.
 
-**Error común:** dejar el texto alineado a la izquierda cuando se desea centrado. Solución: hacer clic sobre el desplegable Horizontal Text Alignment en el panel Properties y seleccionar Center.
+**Error común:** dejar el texto alineado a la izquierda cuando se desea centrado.
+
+**Solución:** hacer clic sobre el desplegable Horizontal Text Alignment en el panel Properties y seleccionar Center.
 
 **Analogía:** es como escribir un mensaje de cierre en la última página del catálogo, distinto del pie de las páginas intermedias.
 
@@ -107,7 +111,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** la clase es el tipo de dato que alimentará la fuente de datos del informe.
 
-**Error común:** escribir el nombre de la clase con minúscula inicial (libro). El compilador informa The public type libro must be defined in its own file. Solución: renombrar la clase a Libro con mayúscula inicial.
+**Error común:** escribir el nombre de la clase con minúscula inicial (libro). El compilador informa The public type libro must be defined in its own file.
+
+**Solución:** renombrar la clase a Libro con mayúscula inicial.
 
 **Analogía:** es como definir la ficha técnica que describe cada libro del catálogo.
 
@@ -135,7 +141,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** la clase permite que la banda Detail del informe se emita una vez por cada libro.
 
-**Error común:** olvidar implementar los métodos next() y getFieldValue() de la interfaz JRDataSource. El compilador informa CatalogoDataSource is not abstract and does not override abstract method next(). Solución: añadir los dos métodos con la anotación @Override.
+**Error común:** olvidar implementar los métodos next() y getFieldValue() de la interfaz JRDataSource. El compilador informa CatalogoDataSource is not abstract and does not override abstract method next().
+
+**Solución:** añadir los dos métodos con la anotación @Override.
 
 **Analogía:** es como preparar la bandeja con las fichas de todos los libros que se van a maquetar en el catálogo.
 
@@ -161,7 +169,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** la banda Detail se emitirá una vez por cada libro de la lista.
 
-**Error común:** olvidar comentar la importación de JREmptyDataSource y obtener un aviso de importación no utilizada. Solución: comentar la línea o eliminarla.
+**Error común:** olvidar comentar la importación de JREmptyDataSource y obtener un aviso de importación no utilizada.
+
+**Solución:** comentar la línea o eliminarla.
 
 **Analogía:** es como cambiar la bandeja vacía por la bandeja con las fichas de los libros.
 
@@ -191,7 +201,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** las expresiones $F{titulo} y $F{precio} de la banda Detail necesitan que los campos estén declarados en el JRXML.
 
-**Error común:** escribir el nombre del campo con mayúscula inicial (Titulo). El motor busca el campo en la fuente de datos por el nombre exacto y lanza Field not found: Titulo. Solución: usar el nombre exacto en minúsculas que coincide con el campo de la clase Libro.
+**Error común:** escribir el nombre del campo con mayúscula inicial (Titulo). El motor busca el campo en la fuente de datos por el nombre exacto y lanza Field not found: Titulo.
+
+**Solución:** usar el nombre exacto en minúsculas que coincide con el campo de la clase Libro.
 
 **Analogía:** es como declarar en el pliego qué datos del manuscrito se van a extraer para el catálogo.
 
@@ -219,7 +231,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** la banda Detail es la que repite el contenido variable del informe.
 
-**Error común:** dejar la banda Detail sin campos. La banda se emite vacía y el informe no muestra ningún dato. Solución: comprobar que los dos textField están dentro de la banda Detail 1.
+**Error común:** dejar la banda Detail sin campos. La banda se emite vacía y el informe no muestra ningún dato.
+
+**Solución:** comprobar que los dos textField están dentro de la banda Detail 1.
 
 **Analogía:** es como ajustar la altura de cada fila de la tabla del catálogo para que todos los libros quepan con claridad.
 
@@ -253,7 +267,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** el recuento total de registros es un valor agregado que solo está disponible al final del llenado.
 
-**Error común:** colocar el rótulo en la banda Page Footer. El rótulo aparecería repetido en cada página. Solución: colocar el rótulo en la banda Summary.
+**Error común:** colocar el rótulo en la banda Page Footer. El rótulo aparecería repetido en cada página.
+
+**Solución:** colocar el rótulo en la banda Summary.
 
 **Analogía:** es como escribir en el colofón del catálogo el número total de libros que contiene.
 
@@ -281,7 +297,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** la variable REPORT_COUNT es una variable incorporada que cuenta los registros procesados.
 
-**Error común:** usar $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT}. El compilador informa que el parámetro no existe. Solución: cambiar el prefijo $P{ por $V{ porque REPORT_COUNT es una variable, no un parámetro.
+**Error común:** usar $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT}. El compilador informa que el parámetro no existe.
+
+**Solución:** cambiar el prefijo $P{ por $V{ porque REPORT_COUNT es una variable, no un parámetro.
 
 **Analogía:** es como contar los libros que se han maquetado y escribir el total en el colofón.
 
@@ -336,7 +354,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** el programa genera el PDF con la banda Detail emitida una vez por cada libro de la lista.
 
-**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior.
+
+**Solución:** pulsar Ctrl+Mayús+B antes de ejecutar el programa.
 
 **Analogía:** es como imprimir la tirada del catálogo con todos los libros de la lista.
 
@@ -366,7 +386,9 @@ El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado 
 
 **Por qué:** la documentación facilita el mantenimiento y la incorporación de nuevos desarrolladores.
 
-**Error común:** olvidar guardar el archivo y perder los cambios al cerrar el editor. Solución: pulsar Ctrl+S antes de cerrar el archivo.
+**Error común:** olvidar guardar el archivo y perder los cambios al cerrar el editor.
+
+**Solución:** pulsar Ctrl+S antes de cerrar el archivo.
 
 **Analogía:** es como anotar en el manual del catálogo cómo se comporta cada sección cuando el manuscrito contiene varios capítulos.
 
@@ -408,7 +430,7 @@ El siguiente JRXML representa **el estado tras los doce pasos de la Parte A y an
                 <text><![CDATA[Fecha de emisión:]]></text>
             </staticText>
             <textField pattern="dd/MM/yyyy">
-                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f3a4b5c6d7e8f"/>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
         </band>
@@ -581,7 +603,7 @@ Línea 32: `</staticText>` → cierra el elemento o sección abierto correspondi
 
 Línea 33: `<textField pattern="dd/MM/yyyy">` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
-Línea 34: `<reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
+Línea 34: `<reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f3a4b5c6d7e8f"/>` → fija coordenadas, tamaño, UUID y, cuando existe, el estilo del elemento.
 
 Línea 35: `<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>` → abre un campo de texto dinámico; sus atributos controlan evaluación, formato o nulos.
 
@@ -1458,7 +1480,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** la banda Detail es la que contiene los campos variables del informe y es donde se aplican las propiedades específicas del campo de texto.
 
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design en la parte inferior del editor central.
+**Error común:** abrir el archivo en la vista Source en lugar de Design.
+
+**Solución:** hacer clic sobre la pestaña Design en la parte inferior del editor central.
 
 **Analogía:** es como abrir el pliego del catálogo en la sección de la tabla de datos para ajustar la presentación de cada fila.
 
@@ -1484,7 +1508,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** el formato del precio es más legible cuando incluye el símbolo de la moneda.
 
-**Error común:** escribir el patrón sin el espacio entre 0.00 y €. El resultado es 19,95€ sin espacio. Solución: escribir el patrón con el espacio incluido: #,##0.00 €.
+**Error común:** escribir el patrón sin el espacio entre 0.00 y €. El resultado es 19,95€ sin espacio.
+
+**Solución:** escribir el patrón con el espacio incluido: #,##0.00 €.
 
 **Analogía:** es como añadir el símbolo de la moneda a los precios del catálogo para que el lector los identifique de inmediato.
 
@@ -1510,7 +1536,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** si un libro no tiene precio asignado, el campo debe aparecer vacío en lugar de mostrar el texto null o producir un error de formato.
 
-**Error común:** dejar la propiedad desactivada y obtener una representación no deseada de un valor nulo, según el tipo y el formateador. Solución: marcar la casilla Blank When Null.
+**Error común:** dejar la propiedad desactivada y obtener una representación no deseada de un valor nulo, según el tipo y el formateador.
+
+**Solución:** marcar la casilla Blank When Null.
 
 **Analogía:** es como dejar en blanco la casilla del precio de un libro sin precio asignado en lugar de imprimir un guion o un error.
 
@@ -1534,7 +1562,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** los títulos de los libros pueden ser largos y es necesario que se ajusten en varias líneas sin recortarse.
 
-**Error común:** dejar la propiedad desactivada y provocar que los títulos largos se recorten. Solución: marcar la casilla Stretch With Overflow.
+**Error común:** dejar la propiedad desactivada y provocar que los títulos largos se recorten.
+
+**Solución:** marcar la casilla Stretch With Overflow.
 
 **Analogía:** es como permitir que el título de un libro ocupe varias líneas en la tabla del catálogo cuando es largo.
 
@@ -1617,7 +1647,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** el estilo permite destacar una palabra dentro de un texto más largo.
 
-**Error común:** olvidar marcar la casilla Styled Text y provocar que las etiquetas &lt;b&gt; se impriman como texto literal. Solución: marcar la casilla Styled Text en el panel Properties.
+**Error común:** olvidar marcar la casilla Styled Text y provocar que las etiquetas &lt;b&gt; se impriman como texto literal.
+
+**Solución:** marcar la casilla Styled Text en el panel Properties.
 
 **Analogía:** es como usar la negrita en una nota del catálogo para destacar una palabra importante.
 
@@ -1639,7 +1671,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** el rótulo adicional ocupa espacio y la banda debe crecer para alojarlo sin recortar el contenido existente.
 
-**Error común:** olvidar ajustar la altura y provocar que el rótulo se solape con la banda Column Header. Solución: ampliar la altura a 40 unidades de informe.
+**Error común:** olvidar ajustar la altura y provocar que el rótulo se solape con la banda Column Header.
+
+**Solución:** ampliar la altura a 40 unidades de informe.
 
 **Analogía:** es como ampliar la franja del encabezado del catálogo para que quepan la nota y el título abreviado.
 
@@ -1677,7 +1711,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** el recuento total de registros es un dato agregado que se muestra al final de la tabla.
 
-**Error común:** dejar el rótulo sin el espacio al final y provocar que el número quede pegado. Solución: incluir el espacio en el texto del rótulo.
+**Error común:** dejar el rótulo sin el espacio al final y provocar que el número quede pegado.
+
+**Solución:** incluir el espacio en el texto del rótulo.
 
 **Analogía:** es como anotar en la tabla del catálogo cuántos libros se han maquetado.
 
@@ -1713,7 +1749,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** el recuento total es un valor agregado que se calcula al final del llenado.
 
-**Error común:** usar $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT}. El compilador informa Parameter not found: REPORT_COUNT. Solución: cambiar el prefijo a $V{.
+**Error común:** usar $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT}. El compilador informa Parameter not found: REPORT_COUNT.
+
+**Solución:** cambiar el prefijo a $V{.
 
 **Analogía:** es como escribir el número total de libros en el pie de la tabla del catálogo.
 
@@ -1741,7 +1779,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** la ejecución confirma que las propiedades de los elementos textuales funcionan correctamente.
 
-**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior.
+
+**Solución:** pulsar Ctrl+Mayús+B antes de ejecutar el programa.
 
 **Analogía:** es como imprimir la tirada del catálogo con los ajustes tipográficos aplicados.
 
@@ -1783,7 +1823,9 @@ El punto 2.2, «Texto estático y campos de texto», profundiza en los dos eleme
 
 **Por qué:** la documentación de las propiedades facilita el mantenimiento y la consulta rápida.
 
-**Error común:** escribir el nombre del archivo con extensión distinta a .md. Solución: usar exactamente TEXTO.md.
+**Error común:** escribir el nombre del archivo con extensión distinta a .md.
+
+**Solución:** usar exactamente TEXTO.md.
 
 **Analogía:** es como dejar en la editorial una ficha técnica con las propiedades tipográficas del catálogo.
 
@@ -2707,7 +2749,9 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 **Por qué:** las nuevas expresiones $F{paginas}, $F{fechaPublicacion} y $F{disponible} necesitan que los campos estén declarados.
 
-**Error común:** escribir el nombre del campo con mayúscula inicial (Paginas). El motor busca el campo por el nombre exacto y lanza Field not found: Paginas. Solución: usar el nombre exacto en minúsculas que coincide con el método getter de la clase Libro.
+**Error común:** escribir el nombre del campo con mayúscula inicial (Paginas). El motor busca el campo por el nombre exacto y lanza Field not found: Paginas.
+
+**Solución:** usar el nombre exacto en minúsculas que coincide con el método getter de la clase Libro.
 
 **Analogía:** es como declarar en el pliego los nuevos datos que se van a extraer del manuscrito.
 
@@ -2876,7 +2920,9 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 **Por qué:** la ejecución confirma que los tres campos nuevos se resuelven correctamente desde la fuente de datos.
 
-**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior.
+
+**Solución:** pulsar Ctrl+Mayús+B antes de ejecutar el programa.
 
 **Analogía:** es como imprimir la tirada del catálogo con los nuevos datos incluidos en la tabla.
 
@@ -2918,7 +2964,9 @@ El punto 2.3, «Campos», amplía el modelo del libro y conecta nuevos tipos Jav
 
 **Por qué:** la documentación de los campos facilita el mantenimiento y la incorporación de nuevos desarrolladores.
 
-**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown. Solución: revisar cada línea y asegurarse de que comienza y termina con |.
+**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown.
+
+**Solución:** revisar cada línea y asegurarse de que comienza y termina con |.
 
 **Analogía:** es como dejar en la editorial una tabla con los datos que se extraen de cada manuscrito para el catálogo.
 
@@ -3640,7 +3688,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** la carpeta resources es la ubicación convencional para los recursos auxiliares del proyecto.
 
-**Error común:** copiar el archivo con un nombre distinto a logo.png. La expresión del JRXML busca el archivo por el nombre exacto. Solución: renombrar el archivo a logo.png.
+**Error común:** copiar el archivo con un nombre distinto a logo.png. La expresión del JRXML busca el archivo por el nombre exacto.
+
+**Solución:** renombrar el archivo a logo.png.
 
 **Analogía:** es como colocar el logotipo de la editorial en la carpeta de materiales gráficos del catálogo.
 
@@ -3680,7 +3730,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** el logotipo identifica la editorial en la portada del catálogo.
 
-**Error común:** escribir la ruta sin comillas dobles y provocar que JasperReports la interprete como una expresión en lugar de una cadena. Solución: escribir la ruta entre comillas dobles: "resources/logo.png".
+**Error común:** escribir la ruta sin comillas dobles y provocar que JasperReports la interprete como una expresión en lugar de una cadena.
+
+**Solución:** escribir la ruta entre comillas dobles: "resources/logo.png".
 
 **Analogía:** es como poner el sello de la editorial en la portada del catálogo.
 
@@ -3708,7 +3760,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** el logotipo ocupa la esquina izquierda de la banda y el título debe colocarse a su derecha.
 
-**Error común:** dejar el título en su posición original y provocar el solapamiento con el logotipo. Solución: ajustar la coordenada X del título a 90.
+**Error común:** dejar el título en su posición original y provocar el solapamiento con el logotipo.
+
+**Solución:** ajustar la coordenada X del título a 90.
 
 **Analogía:** es como reorganizar la portada del catálogo para que el sello y el título convivan sin solaparse.
 
@@ -3742,7 +3796,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** el logotipo ocupa la franja izquierda de la banda y el resto de elementos deben desplazarse a la derecha.
 
-**Error común:** dejar el rótulo y el campo en sus posiciones originales y provocar el solapamiento con el logotipo. Solución: ajustar las coordenadas X de ambos elementos a 90 y 215 respectivamente.
+**Error común:** dejar el rótulo y el campo en sus posiciones originales y provocar el solapamiento con el logotipo.
+
+**Solución:** ajustar las coordenadas X de ambos elementos a 90 y 215 respectivamente.
 
 **Analogía:** es como reorganizar la portada del catálogo para que todos los datos queden alineados tras el sello.
 
@@ -3774,7 +3830,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** el informe mostrará la portada de cada libro en la banda Detail si el archivo existe.
 
-**Error común:** copiar los archivos con nombres que no coincidan con los títulos de los libros. Solución: nombrar cada archivo con el título del libro seguido de .png.
+**Error común:** copiar los archivos con nombres que no coincidan con los títulos de los libros.
+
+**Solución:** nombrar cada archivo con el título del libro seguido de .png.
 
 **Analogía:** es como preparar las portadas de los libros en la carpeta de materiales gráficos del catálogo.
 
@@ -3814,7 +3872,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** la portada identifica visualmente cada libro del catálogo.
 
-**Error común:** olvidar configurar onErrorType="Blank" y provocar que el informe falle cuando algún libro no tiene portada. Solución: seleccionar Blank en el desplegable On Error Type del panel Properties.
+**Error común:** olvidar configurar onErrorType="Blank" y provocar que el informe falle cuando algún libro no tiene portada.
+
+**Solución:** seleccionar Blank en el desplegable On Error Type del panel Properties.
 
 **Analogía:** es como mostrar la cubierta de cada libro junto a sus datos en el catálogo.
 #### Paso 7: Compactar los campos de Detail para dejar espacio a la portada [VALIDADO]
@@ -3833,9 +3893,11 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Qué hace:** recompone la tabla para incorporar la portada sin cambiar el tamaño A4 del informe.
 
+**Por qué:** la imagen ocupa una franja nueva de 50 unidades y obliga a redistribuir el resto de campos.
+
 **Error común:** conservar las coordenadas 560/590/620/680 del borrador. Esas coordenadas quedan fuera del `columnWidth` y no representan el checkpoint ejecutado.
 
-**Por qué:** la imagen ocupa una franja nueva de 50 unidades y obliga a redistribuir el resto de campos.
+**Solución:** usar las coordenadas validadas del checkpoint: disponibilidad X=`415`/Width=`55`, icono X=`475`/Width=`20` y contador X=`500`/Width=`55`.
 
 **Analogía:** es como reservar en cada ficha del catálogo una columna fija para la miniatura de la portada.
 
@@ -3924,7 +3986,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** la ejecución confirma que las expresiones de imagen se resuelven correctamente.
 
-**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior.
+
+**Solución:** pulsar Ctrl+Mayús+B antes de ejecutar el programa.
 
 **Analogía:** es como imprimir la tirada del catálogo con las imágenes ya incorporadas.
 
@@ -3968,7 +4032,9 @@ El punto 2.4, «Imágenes», utiliza esos datos para enriquecer visualmente el d
 
 **Por qué:** la documentación de los recursos gráficos facilita el mantenimiento y la sustitución de imágenes.
 
-**Error común:** olvidar documentar los iconos de estado. Solución: incluir las cuatro rutas en el documento.
+**Error común:** olvidar documentar los iconos de estado.
+
+**Solución:** incluir las cuatro rutas en el documento.
 
 **Analogía:** es como dejar en la editorial una ficha técnica con los materiales gráficos utilizados en el catálogo.
 
@@ -4714,7 +4780,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** los nuevos estilos deben declararse después del estilo por defecto y antes de las bandas.
 
-**Error común:** declarar los nuevos estilos después de las bandas. El esquema XSD rechaza la estructura y el editor muestra un subrayado amarillo. Solución: mover las declaraciones de estilo a la posición correcta.
+**Error común:** declarar los nuevos estilos después de las bandas. El esquema XSD rechaza la estructura y el editor muestra un subrayado amarillo.
+
+**Solución:** mover las declaraciones de estilo a la posición correcta.
 
 **Analogía:** es como preparar la hoja de estilo tipográfico del catálogo antes de empezar a componer las páginas.
 
@@ -4732,7 +4800,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** el estilo agrupa las propiedades tipográficas del título y permite reutilizarlas en varios elementos.
 
-**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía del estilo por defecto. Solución: añadir `style="Sans_Normal"`.
+**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía del estilo por defecto.
+
+**Solución:** añadir `style="Sans_Normal"`.
 
 **Analogía:** es como definir el estilo tipográfico de los títulos principales del catálogo.
 
@@ -4750,7 +4820,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** el estilo permite diferenciar visualmente los títulos secundarios de los principales.
 
-**Error común:** usar el mismo color que el título principal. Los títulos secundarios deben tener un contraste menor. Solución: usar un color más claro.
+**Error común:** usar el mismo color que el título principal. Los títulos secundarios deben tener un contraste menor.
+
+**Solución:** usar un color más claro.
 
 **Analogía:** es como definir el estilo de los subtítulos del catálogo.
 
@@ -4768,7 +4840,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** las cabeceras se destacan visualmente con un fondo de color y texto en blanco.
 
-**Error común:** olvidar el atributo `mode="Opaque"`. El fondo no se rellena con el color indicado y el texto blanco queda invisible. Solución: añadir `mode="Opaque"` al estilo.
+**Error común:** olvidar el atributo `mode="Opaque"`. El fondo no se rellena con el color indicado y el texto blanco queda invisible.
+
+**Solución:** añadir `mode="Opaque"` al estilo.
 
 **Analogía:** es como definir el estilo de los títulos de las columnas del catálogo con fondo destacado.
 
@@ -4786,7 +4860,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** el estilo garantiza la coherencia tipográfica de todas las celdas.
 
-**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía. Solución: añadir `style="Sans_Normal"`.
+**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía.
+
+**Solución:** añadir `style="Sans_Normal"`.
 
 **Analogía:** es como definir el estilo del cuerpo de texto de las filas del catálogo.
 
@@ -4809,7 +4885,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** el estilo condicional permite cambiar el formato de un elemento según el valor del campo.
 
-**Error común:** escribir la condición con comillas simples en lugar de dobles o con el operador incorrecto. Solución: revisar la expresión y asegurarse de que usa `$F{precio}.doubleValue() > 20.0` con comillas dobles en las cadenas si las hubiera.
+**Error común:** escribir la condición con comillas simples en lugar de dobles o con el operador incorrecto.
+
+**Solución:** revisar la expresión y asegurarse de que usa `$F{precio}.doubleValue() > 20.0` con comillas dobles en las cadenas si las hubiera.
 
 **Analogía:** es como destacar en rojo los precios altos del catálogo para llamar la atención del lector.
 
@@ -4827,7 +4905,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** el estilo permite diferenciar las notas y aclaraciones del cuerpo principal.
 
-**Error común:** usar un tamaño muy pequeño que resulte ilegible. Solución: mantener el tamaño en 9 unidades de informe como mínimo.
+**Error común:** usar un tamaño muy pequeño que resulte ilegible.
+
+**Solución:** mantener el tamaño en 9 unidades de informe como mínimo.
 
 **Analogía:** es como definir el estilo de las notas al pie del catálogo.
 
@@ -4849,7 +4929,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** la compilación detecta errores de sintaxis en las declaraciones de estilo antes de aplicar los estilos a los elementos.
 
-**Error común:** olvidar el cierre `</style>` en uno de los estilos con bloques hijos. El compilador informa `The element type "style" must be terminated`. Solución: revisar cada bloque y asegurarse de que tiene su cierre.
+**Error común:** olvidar el cierre `</style>` en uno de los estilos con bloques hijos. El compilador informa `The element type "style" must be terminated`.
+
+**Solución:** revisar cada bloque y asegurarse de que tiene su cierre.
 
 **Analogía:** es como revisar la hoja de estilo del catálogo antes de aplicarla a los elementos.
 
@@ -4872,7 +4954,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** el título hereda las propiedades del estilo y mantiene la coherencia con el resto del documento.
 
-**Error común:** olvidar seleccionar el estilo en el desplegable. El título conserva las propiedades anteriores. Solución: seleccionar `TituloPrincipal` en el desplegable Style del panel Properties.
+**Error común:** olvidar seleccionar el estilo en el desplegable. El título conserva las propiedades anteriores.
+
+**Solución:** seleccionar `TituloPrincipal` en el desplegable Style del panel Properties.
 
 **Analogía:** es como aplicar el estilo tipográfico de los títulos principales al rótulo de la portada.
 
@@ -4900,7 +4984,9 @@ El punto 2.5, «Formato y estilos», reorganiza la presentación del catálogo c
 
 **Por qué:** la coherencia visual de la cabecera refuerza la legibilidad de la tabla de datos.
 
-**Error común:** olvidar aplicar el estilo a alguno de los encabezados y provocar que uno de ellos aparezca con el estilo por defecto. Solución: revisar todos los encabezados y aplicar el estilo a cada uno.
+**Error común:** olvidar aplicar el estilo a alguno de los encabezados y provocar que uno de ellos aparezca con el estilo por defecto.
+
+**Solución:** revisar todos los encabezados y aplicar el estilo a cada uno.
 
 **Analogía:** es como aplicar el mismo estilo a todos los títulos de columna de la tabla del catálogo.
 
@@ -4984,20 +5070,26 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
         </image>
         <staticText>
             <reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee" style="TituloPrincipal"/>
-            <textElement verticalAlignment="Middle"/>
             <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
         </staticText>
         <staticText>
             <reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff" style="TextoTabla"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
             <text><![CDATA[Fecha de emisión:]]></text>
         </staticText>
         <textField pattern="dd/MM/yyyy">
             <reportElement x="215" y="60" width="150" height="20" uuid="12121212-1212-1212-1212-121212121212" style="TextoTabla"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
             <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
         </textField>
     </band>
 </title>
-<columnHeader>    <band height="25">
+<columnHeader>
+    <band height="25">
         <staticText><reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Port.]]></text></staticText>
         <staticText><reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/><text><![CDATA[Título]]></text></staticText>
         <staticText><reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[Precio]]></text></staticText>
@@ -5015,26 +5107,27 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
         </image>
         <textField textAdjust="StretchHeight">
             <reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/>
+            <textElement verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
         </textField>
         <textField pattern="#,##0.00 €" isBlankWhenNull="true">
             <reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666" style="TextoPrecio"/>
-            <textElement textAlignment="Right"/>
+            <textElement verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
         </textField>
         <textField isBlankWhenNull="true">
             <reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323" style="TextoTabla"/>
-            <textElement textAlignment="Right"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
         </textField>
         <textField pattern="yyyy" isBlankWhenNull="true">
             <reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424" style="TextoTabla"/>
-            <textElement textAlignment="Center"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
         </textField>
         <textField>
             <reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525" style="TextoTabla"/>
-            <textElement textAlignment="Center"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
         </textField>
         <image onErrorType="Blank" scaleImage="RetainShape">
@@ -5043,7 +5136,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
         </image>
         <textField>
             <reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727" style="TextoPequeno"/>
-            <textElement textAlignment="Right"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle"/>
             <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
         </textField>
     </band>
@@ -5076,6 +5169,7 @@ Se reproduce únicamente la sección de estilos del JRXML y las bandas modificad
 
 **Línea 13:** `<style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>` → estilo para textos pequeños. Hereda la tipografía de `Sans_Normal` y sobrescribe el tamaño (9), la cursiva y el color gris.
 
+**Líne**
 **Línea 14-35:** banda `title` con el logotipo, el título principal con el estilo `TituloPrincipal` y el rótulo de fecha con el campo de fecha.
 
 **Línea 23:** `<reportElement x="90" y="25" width="465" height="30" uuid="..." style="TituloPrincipal"/>` → el título principal referencia el estilo `TituloPrincipal`. El elemento hereda la tipografía, el tamaño 18, la negrita y el color azul oscuro.
