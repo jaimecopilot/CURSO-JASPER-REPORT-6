@@ -1,0 +1,51 @@
+name: M3 - Generar PDFs docentes
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/m3-docs.yml'
+      - '.github/scripts/render_m3_docs.py'
+      - 'M3/TEORIA_M3.md'
+      - 'M3/PRACTICA_M3.md'
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: Render y preflight PDFs M3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dependencias del render
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-core fonts-noto-mono poppler-utils
+          python -m pip install --upgrade pip
+          python -m pip install mistune beautifulsoup4 weasyprint pymupdf pillow
+
+      - name: Generar y prevalidar PDFs
+        run: |
+          mkdir -p M3/_pdf_build
+          python .github/scripts/render_m3_docs.py             --theory M3/TEORIA_M3.md             --practice M3/PRACTICA_M3.md             --out-dir M3/_pdf_build
+          pdfinfo M3/_pdf_build/TEORIA_M3.pdf | grep -E 'Pages|Page size'
+          pdfinfo M3/_pdf_build/PRACTICA_M3.pdf | grep -E 'Pages|Page size'
+          sha256sum M3/_pdf_build/TEORIA_M3.pdf M3/_pdf_build/PRACTICA_M3.pdf | tee M3/_pdf_build/SHA256SUMS.txt
+
+      - name: Publicar PDFs y auditoría visual
+        uses: actions/upload-artifact@v4
+        with:
+          name: M3-documentacion-final
+          if-no-files-found: error
+          path: |
+            M3/_pdf_build/TEORIA_M3.pdf
+            M3/_pdf_build/PRACTICA_M3.pdf
+            M3/_pdf_build/PRECHECK_M3.json
+            M3/_pdf_build/SHA256SUMS.txt
+            M3/_pdf_build/contact_*.jpg
