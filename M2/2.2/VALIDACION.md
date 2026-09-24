@@ -1,15 +1,21 @@
 # Validación M2 / 2.2
 
-Estado inicial: **PENDIENTE DE EJECUCIÓN E2E EN GITHUB ACTIONS**.
+**Punto:** 2.2 — Texto estático y campos de texto  
+**Estado:** **PASS END-TO-END**  
+**Run:** 35924657747  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/35924657747
 
-La validación de este checkpoint debe comprobar:
+El checkpoint se ejecutó dentro de la matriz `M2 - Validacion end-to-end` con Temurin JDK 8 y JasperReports Library 6.20.0.
 
-1. compilación Java con JDK 8;
-2. resolución de JasperReports 6.20.0 y dependencias;
-3. compilación del JRXML a `.jasper`;
-4. llenado con la fuente de datos del checkpoint;
-5. creación de `JasperPrint`;
-6. exportación de un PDF real;
-7. existencia y firma `%PDF-` del archivo de salida.
+Validaciones superadas:
 
-Este archivo se actualizará con el identificador exacto del run cuando el checkpoint haya pasado la ejecución real.
+- compilación Java mediante Maven;
+- resolución completa de dependencias JasperReports;
+- compilación del JRXML a `.jasper`;
+- llenado con la fuente de datos del checkpoint;
+- creación de `JasperPrint`;
+- exportación de un PDF real;
+- comprobación de archivo no vacío y firma `%PDF-`;
+- publicación del runtime como artefacto `M2-2.2-runtime`.
+
+Este checkpoint es acumulativo: contiene el estado completo del punto anterior más los cambios de 2.2.

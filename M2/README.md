@@ -1,21 +1,34 @@
-# Módulo 2 - Diseño básico de informes
+# Módulo 2 — Diseño básico de informes
 
 Proyecto acumulativo: **EditorialReports**.
 
 ## Puntos
 
-- 2.1 - Bandas
-- 2.2 - Texto estático y campos de texto
-- 2.3 - Campos
-- 2.4 - Imágenes
-- 2.5 - Formato y estilos
+- 2.1 — Bandas
+- 2.2 — Texto estático y campos de texto
+- 2.3 — Campos
+- 2.4 — Imágenes
+- 2.5 — Formato y estilos
+
+## Empieza aquí
+
+Lee `LEEME_PRIMERO.md`. El alumno continúa con su propio estado final de M1.6; las carpetas `2.1` a `2.5` son soluciones/checkpoints acumulativos.
+
+Documentación del módulo:
+
+- `TEORIA_M2.md`
+- `PRACTICA_M2.md`
+- `TRAZABILIDAD_M2.md`
+- `VALIDACION_M2.md`
 
 ## Regla acumulativa
 
-`M2/2.1` parte exactamente del estado final validado de `M1/1.6` y lo amplía. Cada checkpoint posterior contiene el estado completo del anterior más los cambios del nuevo punto.
+`M2/2.1` parte del estado final validado de `M1/1.6`. Cada checkpoint posterior contiene el estado completo del anterior más los cambios del nuevo punto.
 
-Las carpetas `2.1` a `2.5` son **soluciones de referencia**, no el punto de partida normal del alumno. El alumno realiza las instrucciones de `PRACTICA_M2` sobre su propio proyecto y usa el checkpoint anterior sólo para recuperación o incorporación a mitad del módulo.
+## Validación real
 
-## Validación
+Workflow: `M2 - Validacion end-to-end`.
 
-El workflow `M2 - Validacion end-to-end` compila y ejecuta los cinco checkpoints con JDK 8 y JasperReports Library 6.20.0.
+Run de cierre: **35924657747 — SUCCESS**.
+
+Los cinco checkpoints compilan Java, compilan el JRXML, llenan un `JasperPrint` y generan un PDF real con JDK 8 y JasperReports Library 6.20.0.

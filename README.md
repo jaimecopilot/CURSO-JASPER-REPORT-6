@@ -4,14 +4,11 @@ Proyecto acumulativo **EditorialReports**. Autor: **Jaime Gallo**.
 
 ## Empieza aquí
 
-Si partes de un equipo nuevo, **no abras directamente M1/1.1**. Primero lee:
+Si partes de un equipo nuevo, lee `00_PREPARACION_ENTORNO.md` y usa `00_INSTALAR_ENTORNO_WINDOWS.bat`. No hace falta instalar Eclipse IDE por separado: Jaspersoft Studio está basado en Eclipse y puede habilitar la perspectiva Java.
 
-- `00_PREPARACION_ENTORNO.md` — qué instalar, por qué **no hace falta Eclipse separado**, cómo se relacionan A/B/C/D y cómo usar los checkpoints.
-- `00_INSTALAR_ENTORNO_WINDOWS.bat` — preparación automática de JDK 8, Maven, Git, Jaspersoft Studio 6.20.0, workspace y copia local del curso.
+Después comienza `M1/PRACTICA_M1.md` desde un workspace vacío.
 
-Después comienza `M1/PRACTICA_M1.md` desde el punto 1.1 con el workspace vacío.
-
-Cada punto del curso es un checkpoint completo: el siguiente parte exactamente del estado final del anterior.
+Cada punto es un checkpoint completo: el siguiente parte exactamente del estado final del anterior.
 
 ## Módulo 1 — Introducción a JasperReports
 
@@ -22,24 +19,28 @@ Cada punto del curso es un checkpoint completo: el siguiente parte exactamente d
 - 1.5 — Estructura básica de un informe
 - 1.6 — El formato JRXML
 
-## Validación real
+Estado: **1.1–1.6 PASS END-TO-END**.
 
-Un checkpoint sólo se considera **validado end-to-end** cuando GitHub Actions compila Java, compila el JRXML con JasperReports Library 6.20.0, llena el informe y genera un PDF real.
+Documentación: `M1/TEORIA_M1.md`, `M1/PRACTICA_M1.md`, `M1/VALIDACION_M1.md`.
 
-Estado M1: **1.1-1.6 PASS END-TO-END** con JasperReports 6.20.0 y Temurin JDK 8. Los seis checkpoints compilan, ejecutan el llenado y generan un PDF real.
+## Módulo 2 — Diseño básico de informes
 
-La evidencia y los errores encontrados durante la ejecución están documentados en `M1/VALIDACION_M1.md`.
+- 2.1 — Bandas
+- 2.2 — Texto estático y campos de texto
+- 2.3 — Campos
+- 2.4 — Imágenes
+- 2.5 — Formato y estilos
 
-Documentación: `M1/TEORIA_M1.md` y `M1/PRACTICA_M1.md`.
+Estado: **2.1–2.5 PASS END-TO-END**.
 
+Run de cierre M2: **35924657747 — SUCCESS**.
+
+Documentación: `M2/TEORIA_M2.md`, `M2/PRACTICA_M2.md`, `M2/TRAZABILIDAD_M2.md`, `M2/VALIDACION_M2.md`.
+
+## Criterio de validación
+
+Un checkpoint sólo se considera validado cuando GitHub Actions compila Java, compila el JRXML con JasperReports Library 6.20.0, llena el informe y genera un PDF real.
 
 ## Referencias oficiales
 
-La carpeta `REFERENCIAS_OFICIALES/` separa claramente:
-
-- documentación oficial de Jaspersoft Studio;
-- tag/distribución oficial JasperReports 6.20.0;
-- samples oficiales;
-- trazabilidad entre el temario del curso y las fuentes.
-
-Las prácticas EditorialReports son material propio; no se presentan como laboratorios oficiales.
+La carpeta `REFERENCIAS_OFICIALES/` separa documentación oficial, samples oficiales y trazabilidad. Las prácticas EditorialReports son material docente propio.
