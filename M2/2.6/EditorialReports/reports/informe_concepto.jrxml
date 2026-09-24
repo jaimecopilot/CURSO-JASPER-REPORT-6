@@ -157,7 +157,7 @@
                 <reportElement x="100" y="60" width="135" height="20" uuid="30303030-3030-3030-3030-303030303030" style="TextoPequeno"/>
                 <textFieldExpression><![CDATA[$F{titulo}.length() > 30 ? "Título largo (" + $F{titulo}.length() + ")" : "Título corto"]]></textFieldExpression>
             </textField>
-            <textField pattern="\u0027IVA: \u0027 #,##0.00 €" isBlankWhenNull="true">
+            <textField pattern="'IVA: ' #,##0.00 €" isBlankWhenNull="true">
                 <reportElement x="235" y="60" width="90" height="20" uuid="31313131-3131-3131-3131-313131313131" style="TextoPequeno"/>
                 <textElement textAlignment="Right"/>
                 <textFieldExpression><![CDATA[$V{PrecioConIVA}]]></textFieldExpression>
