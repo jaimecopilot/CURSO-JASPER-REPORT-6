@@ -90,6 +90,15 @@ hr { border:none; border-top:.3mm solid #dbe4ea; margin:4mm 0; }
 .result-heading, .conclusion-heading { border-left:1.2mm solid #4a9468; color:#276343; }
 .challenge-heading { border-left:1.2mm solid #4a9468; }
 .muted-note { color:#5e7383; font-size:7.2pt; }
+.closing-block { margin:3mm 0; padding:3mm 3.2mm; border-left:1.2mm solid #5f8fb2; break-inside:avoid; border-radius:.8mm; }
+.closing-block > :first-child { margin-top:0; }
+.closing-block > :last-child { margin-bottom:0; }
+.closing-block.analogy-final { background:#fff9ed; border-color:#d0a244; }
+.closing-block.result-final { background:#eef6ff; border-color:#2f78a7; }
+.closing-block.conclusion-final { background:#f2f8f4; border-color:#4a9468; }
+.closing-block.analogy-final h3, .closing-block.analogy-final h4 { color:#7b5a19; border-left:none; padding-left:0; }
+.closing-block.result-final h3, .closing-block.result-final h4 { color:#1d5d88; border-left:none; padding-left:0; }
+.closing-block.conclusion-final h3, .closing-block.conclusion-final h4 { color:#276343; border-left:none; padding-left:0; }
 h1,h2,h3,h4 { break-after:avoid-page; }
 img { max-width:100%; height:auto; }
 '''
@@ -178,6 +187,31 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
             for child in list(cur.contents): body.append(child.extract())
             row.append(no); row.append(body); group.append(row)
             cur.decompose()
+            cur = nxt
+
+    # Wrap final pedagogical sections to match the established M1/M2 visual language.
+    for h in list(soup.find_all(["h3","h4"])):
+        if h.parent is None:
+            continue
+        txt = h.get_text(" ", strip=True).lower()
+        cls = None
+        if "analogía final" in txt or "analogia final" in txt:
+            cls = "analogy-final"
+        elif "resultado esperado" in txt:
+            cls = "result-final"
+        elif txt.startswith("conclusión") or txt.startswith("conclusion"):
+            cls = "conclusion-final"
+        if not cls:
+            continue
+        wrapper = soup.new_tag("div")
+        wrapper["class"] = ["closing-block", cls]
+        h.insert_before(wrapper)
+        cur = h
+        while isinstance(cur, Tag):
+            nxt = cur.find_next_sibling()
+            if cur is not h and cur.name in {"h2","h3","h4"}:
+                break
+            wrapper.append(cur.extract())
             cur = nxt
 
     # Remove trailing separators/empty blocks. A final Markdown horizontal rule can
