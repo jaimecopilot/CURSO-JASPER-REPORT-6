@@ -209,7 +209,7 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
         cur = h
         while isinstance(cur, Tag):
             nxt = cur.find_next_sibling()
-            if cur is not h and cur.name in {"h2","h3","h4"}:
+            if cur is not h and cur.name in {"h1","h2","h3","h4"}:
                 break
             wrapper.append(cur.extract())
             cur = nxt
