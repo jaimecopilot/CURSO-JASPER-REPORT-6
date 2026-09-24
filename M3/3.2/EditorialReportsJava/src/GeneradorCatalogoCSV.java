@@ -11,11 +11,11 @@ public class GeneradorCatalogoCSV {
     public static void main(String[] args) {
         JRCsvDataSource dataSource = null;
         try {
-            String rutaJrxml = "../EditorialReports/reports/informe_catalogo_csv.jrxml";
-            String rutaJasper = "../EditorialReports/reports/informe_catalogo_csv.jasper";
-            String rutaPdf = "../EditorialReports/output/informe_catalogo_csv.pdf";
-            String rutaCsv = "../EditorialReports/data/catalogo.csv";
-            new File("../EditorialReports/output").mkdirs();
+            String rutaJrxml = "reports/informe_catalogo_csv.jrxml";
+            String rutaJasper = "reports/informe_catalogo_csv.jasper";
+            String rutaPdf = "output/informe_catalogo_csv.pdf";
+            String rutaCsv = "data/catalogo.csv";
+            new File("output").mkdirs();
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
             dataSource = new JRCsvDataSource(new File(rutaCsv), "UTF-8");
             dataSource.setFieldDelimiter(',');

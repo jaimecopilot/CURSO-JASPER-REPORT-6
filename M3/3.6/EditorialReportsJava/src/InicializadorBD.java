@@ -5,9 +5,9 @@ import java.sql.Statement;
 
 public class InicializadorBD {
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:data/editorial.db";
+        String url = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
         try {
-            new File("data").mkdirs();
+            new File("../EditorialReportsJava/data").mkdirs();
             Class.forName("org.sqlite.JDBC");
             try (Connection conexion = DriverManager.getConnection(url);
                  Statement sentencia = conexion.createStatement()) {

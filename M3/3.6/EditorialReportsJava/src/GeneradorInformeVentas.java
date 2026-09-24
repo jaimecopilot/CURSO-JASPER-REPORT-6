@@ -11,11 +11,11 @@ import net.sf.jasperreports.engine.JasperPrint;
 public class GeneradorInformeVentas {
     public static void main(String[] args) {
         try {
-            String rutaJrxml = "../EditorialReports/reports/informe_ventas.jrxml";
-            String rutaJasper = "../EditorialReports/reports/informe_ventas.jasper";
-            String rutaPdf = "../EditorialReports/output/informe_ventas.pdf";
-            String urlBD = "jdbc:sqlite:data/editorial.db";
-            new File("../EditorialReports/output").mkdirs();
+            String rutaJrxml = "reports/informe_ventas.jrxml";
+            String rutaJasper = "reports/informe_ventas.jasper";
+            String rutaPdf = "output/informe_ventas.pdf";
+            String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
+            new File("output").mkdirs();
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
             Map<String, Object> parametros = new HashMap<String, Object>();
             try (Connection conexion = DriverManager.getConnection(urlBD)) {

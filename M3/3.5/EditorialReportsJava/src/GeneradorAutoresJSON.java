@@ -10,11 +10,11 @@ import net.sf.jasperreports.engine.data.JsonDataSource;
 public class GeneradorAutoresJSON {
     public static void main(String[] args) {
         try {
-            String rutaJrxml = "../EditorialReports/reports/informe_autores_json.jrxml";
-            String rutaJasper = "../EditorialReports/reports/informe_autores_json.jasper";
-            String rutaPdf = "../EditorialReports/output/informe_autores_json.pdf";
-            String rutaJson = "../EditorialReports/data/autores.json";
-            new File("../EditorialReports/output").mkdirs();
+            String rutaJrxml = "reports/informe_autores_json.jrxml";
+            String rutaJasper = "reports/informe_autores_json.jasper";
+            String rutaPdf = "output/informe_autores_json.pdf";
+            String rutaJson = "data/autores.json";
+            new File("output").mkdirs();
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
             JsonDataSource dataSource = new JsonDataSource(new File(rutaJson), "autores");
             Map<String,Object> parametros = new HashMap<String,Object>();

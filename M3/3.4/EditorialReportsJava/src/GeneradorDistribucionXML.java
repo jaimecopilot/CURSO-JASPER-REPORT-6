@@ -10,11 +10,11 @@ import net.sf.jasperreports.engine.data.JRXmlDataSource;
 public class GeneradorDistribucionXML {
     public static void main(String[] args) {
         try {
-            String rutaJrxml = "../EditorialReports/reports/informe_distribucion_xml.jrxml";
-            String rutaJasper = "../EditorialReports/reports/informe_distribucion_xml.jasper";
-            String rutaPdf = "../EditorialReports/output/informe_distribucion_xml.pdf";
-            String rutaXml = "../EditorialReports/data/distribucion.xml";
-            new File("../EditorialReports/output").mkdirs();
+            String rutaJrxml = "reports/informe_distribucion_xml.jrxml";
+            String rutaJasper = "reports/informe_distribucion_xml.jasper";
+            String rutaPdf = "output/informe_distribucion_xml.pdf";
+            String rutaXml = "data/distribucion.xml";
+            new File("output").mkdirs();
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
             JRXmlDataSource dataSource = new JRXmlDataSource(rutaXml, "/distribucion/entrega");
             Map<String,Object> parametros = new HashMap<String,Object>();
