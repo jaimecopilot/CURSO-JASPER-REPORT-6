@@ -1,0 +1,5227 @@
+# Curso Profesional de JasperReports 6.20.0 Community
+
+# Módulo 2 — Práctica
+
+## Puntos incluidos
+
+2.1 Bandas  
+2.2 Texto estático y campos de texto  
+2.3 Campos  
+2.4 Imágenes  
+2.5 Formato y estilos
+
+## Estado del proyecto al inicio del módulo
+
+El alumno **no crea un proyecto nuevo**. Debe continuar con su propio resultado de M1.6. Para recuperación o incorporación directa puede copiar el checkpoint `M1/1.6`. El checkpoint `M2/2.1` es la solución del primer punto, no su punto de partida.
+
+> **Cadena pedagógica del módulo:** A = construcción y modificación visual en Jaspersoft Studio; B = JRXML que representa y verifica lo construido; C = Java que compila, llena y exporta el mismo informe; D = comprobación del PDF y del estado del proyecto.
+
+> **Ejecución reproducible.** Las dependencias Java se resuelven mediante Maven. No se mantiene una lista manual de unos pocos JAR como sustituto del runtime completo.
+
+## Punto 2.1 — Bandas
+
+> **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu propio proyecto del punto anterior. Si te incorporas directamente aquí, usa `M1/1.6` como estado inicial. El checkpoint `M2/2.1` contiene la solución completa de este punto y no debe consultarse antes del ejercicio si quieres evitar spoilers.
+
+### Parte A — Práctica visual
+
+#### Paso 1: Añadir la banda Last Page Footer [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo informe_concepto en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre la opción Add Band en el menú contextual.
+
+3. Hacer clic sobre la opción Last Page Footer en el submenú.
+
+4. Hacer clic sobre el borde inferior de la banda Last Page Footer en el editor central y arrastrarlo hasta que la altura sea de 30 unidades de informe.
+
+5. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir 30 y pulsar Enter.
+
+**Verificación visual:** el panel Outline muestra un nuevo nodo Last Page Footer entre Page Footer y Summary. El editor central muestra la banda con 30 unidades de informe de altura.
+
+**Qué hace:** añade la banda que sustituirá a Page Footer en la última página del informe.
+
+**Por qué:** permite diferenciar el pie de la última página del resto de páginas.
+
+**Error común:** añadir la banda Last Page Footer después de la banda Summary. El entorno la coloca automáticamente antes. Si se edita el XML manualmente y se coloca en el orden incorrecto, el editor muestra un subrayado amarillo. Solución: eliminar la banda y volver a añadirla desde el panel Outline.
+
+**Analogía:** es como reservar en el catálogo un pie de página distinto para la última página, con el colofón en lugar del número de página.
+
+#### Paso 2: Añadir un mensaje en la banda Last Page Footer [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor).
+
+2. Hacer clic sobre el icono Static Text (una letra T mayúscula).
+
+3. Arrastrar el icono Static Text y soltarlo dentro de la banda Last Page Footer, en la coordenada aproximada x=0, y=5.
+
+4. Hacer doble clic sobre el Static Text creado en la acción anterior.
+
+5. Escribir exactamente Documento generado en la última página.
+
+6. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
+
+7. Hacer clic sobre el campo Width en el panel Properties, pestaña Properties, escribir 555 y pulsar Enter.
+
+8. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+9. Hacer clic sobre el campo X, escribir 0 y pulsar Enter.
+
+10. Hacer clic sobre el campo Y, escribir 5 y pulsar Enter.
+
+**Verificación visual:** la banda Last Page Footer muestra el texto Documento generado en la última página alineado a la izquierda.
+
+**Qué hace:** inserta un texto que aparecerá únicamente en la última página del informe.
+
+**Por qué:** permite diferenciar el cierre del documento en la última página.
+
+**Error común:** dejar el texto alineado a la izquierda cuando se desea centrado. Solución: hacer clic sobre el desplegable Horizontal Text Alignment en el panel Properties y seleccionar Center.
+
+**Analogía:** es como escribir un mensaje de cierre en la última página del catálogo, distinto del pie de las páginas intermedias.
+
+#### Paso 3: Crear la clase Libro en el proyecto Java [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre la carpeta src en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la opción New en el menú contextual.
+
+3. Hacer clic sobre la opción Class en el submenú.
+
+4. Escribir exactamente Libro en el campo Name del diálogo New Java Class.
+
+5. Hacer clic sobre el botón Finish.
+
+6. En el editor central, escribir el código completo de la clase Libro que se muestra en la Parte C de este punto.
+
+7. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el panel Project Explorer muestra el archivo Libro.java dentro de la carpeta src. El editor central muestra el código de la clase sin subrayados rojos.
+
+**Qué hace:** crea la clase que representa un libro del catálogo con sus propiedades.
+
+**Por qué:** la clase es el tipo de dato que alimentará la fuente de datos del informe.
+
+**Error común:** escribir el nombre de la clase con minúscula inicial (libro). El compilador informa The public type libro must be defined in its own file. Solución: renombrar la clase a Libro con mayúscula inicial.
+
+**Analogía:** es como definir la ficha técnica que describe cada libro del catálogo.
+
+#### Paso 4: Crear la clase CatalogoDataSource en el proyecto Java [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre la carpeta src en el panel Project Explorer.
+
+2. Hacer clic sobre la opción New en el menú contextual.
+
+3. Hacer clic sobre la opción Class en el submenú.
+
+4. Escribir exactamente CatalogoDataSource en el campo Name del diálogo New Java Class.
+
+5. Hacer clic sobre el botón Finish.
+
+6. En el editor central, escribir el código completo de la clase CatalogoDataSource que se muestra en la Parte C de este punto.
+
+7. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el panel Project Explorer muestra el archivo CatalogoDataSource.java dentro de la carpeta src.
+
+**Qué hace:** crea la clase que implementa la interfaz JRDataSource y alimenta al motor con la lista de libros.
+
+**Por qué:** la clase permite que la banda Detail del informe se emita una vez por cada libro.
+
+**Error común:** olvidar implementar los métodos next() y getFieldValue() de la interfaz JRDataSource. El compilador informa CatalogoDataSource is not abstract and does not override abstract method next(). Solución: añadir los dos métodos con la anotación @Override.
+
+**Analogía:** es como preparar la bandeja con las fichas de todos los libros que se van a maquetar en el catálogo.
+
+#### Paso 5: Modificar el programa Java para usar la nueva fuente de datos [VALIDADO]
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo GeneradorInformeConcepto.java en el panel Project Explorer.
+
+2. Hacer clic sobre la línea que contiene new JREmptyDataSource()); y seleccionarla completa.
+
+3. Escribir exactamente new CatalogoDataSource(Libro.listaEjemplo())); en su lugar.
+
+4. Hacer clic sobre la línea que contiene import net.sf.jasperreports.engine.JREmptyDataSource; y pulsar Ctrl+Mayús+/ para comentarla.
+
+5. Pulsar Ctrl+S para guardar el archivo.
+
+6. Observar el panel Problems (inferior) y verificar que no hay errores.
+
+**Verificación visual:** el editor central muestra la llamada a new CatalogoDataSource(Libro.listaEjemplo()) en lugar de new JREmptyDataSource(). El panel Problems permanece vacío.
+
+**Qué hace:** sustituye la fuente de datos vacía por una fuente que devuelve una lista de libros.
+
+**Por qué:** la banda Detail se emitirá una vez por cada libro de la lista.
+
+**Error común:** olvidar comentar la importación de JREmptyDataSource y obtener un aviso de importación no utilizada. Solución: comentar la línea o eliminarla.
+
+**Analogía:** es como cambiar la bandeja vacía por la bandeja con las fichas de los libros.
+
+#### Paso 6: Declarar los campos en el JRXML [VALIDADO]
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
+
+2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+3. Hacer clic al final de la línea que contiene <style name="Sans_Normal" ... y pulsar Enter.
+
+4. Escribir exactamente <field name="titulo" class="java.lang.String"/> y pulsar Enter.
+
+5. Escribir exactamente <field name="precio" class="java.lang.Double"/> y pulsar Enter.
+
+6. Pulsar Ctrl+S para guardar el archivo.
+
+7. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+8. Expandir el nodo informe_concepto en el panel Outline y verificar que aparece un nodo Fields con los dos campos declarados.
+
+**Verificación visual:** el panel Outline muestra un nodo Fields con dos entradas: titulo de tipo String y precio de tipo Double.
+
+**Qué hace:** declara los campos que el motor resolverá para cada registro de la fuente de datos.
+
+**Por qué:** las expresiones $F{titulo} y $F{precio} de la banda Detail necesitan que los campos estén declarados en el JRXML.
+
+**Error común:** escribir el nombre del campo con mayúscula inicial (Titulo). El motor busca el campo en la fuente de datos por el nombre exacto y lanza Field not found: Titulo. Solución: usar el nombre exacto en minúsculas que coincide con el campo de la clase Libro.
+
+**Analogía:** es como declarar en el pliego qué datos del manuscrito se van a extraer para el catálogo.
+
+#### Paso 7: Ajustar la banda Detail [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir 20 y pulsar Enter.
+
+3. Hacer clic sobre el desplegable Split Type en el panel Properties y seleccionar Stretch.
+
+4. Hacer clic sobre el primer textField de la banda Detail 1 en el editor central.
+
+5. Verificar en el panel Properties que el campo Text Field Expression contiene $F{titulo}.
+
+6. Hacer clic sobre el segundo textField de la banda Detail 1 en el editor central.
+
+7. Verificar en el panel Properties que el campo Text Field Expression contiene $F{precio}.
+
+**Verificación visual:** la banda Detail 1 aparece con 20 unidades de informe de altura y la propiedad Split Type ajustada a Stretch. Los dos campos tienen las expresiones correctas.
+
+**Qué hace:** ajusta la banda Detail para que se emita una vez por cada registro con la altura adecuada.
+
+**Por qué:** la banda Detail es la que repite el contenido variable del informe.
+
+**Error común:** dejar la banda Detail sin campos. La banda se emite vacía y el informe no muestra ningún dato. Solución: comprobar que los dos textField están dentro de la banda Detail 1.
+
+**Analogía:** es como ajustar la altura de cada fila de la tabla del catálogo para que todos los libros quepan con claridad.
+
+#### Paso 8: Añadir un contador de registros en la banda Summary [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir 70 y pulsar Enter.
+
+3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor).
+
+4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
+
+5. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=45.
+
+6. Hacer doble clic sobre el Static Text creado en la acción anterior.
+
+7. Escribir exactamente Total de libros:.
+
+8. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
+
+9. Hacer clic sobre el campo Width en el panel Properties, escribir 150 y pulsar Enter.
+
+10. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+**Verificación visual:** la banda Summary muestra el rótulo Total de libros: debajo de los elementos existentes.
+
+**Qué hace:** añade un rótulo que precede al recuento total de libros.
+
+**Por qué:** el recuento total de registros es un valor agregado que solo está disponible al final del llenado.
+
+**Error común:** colocar el rótulo en la banda Page Footer. El rótulo aparecería repetido en cada página. Solución: colocar el rótulo en la banda Summary.
+
+**Analogía:** es como escribir en el colofón del catálogo el número total de libros que contiene.
+
+#### Paso 9: Añadir el campo con el contador de registros [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor).
+
+2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+
+3. Arrastrar el icono Text Field y soltarlo dentro de la banda Summary, a la derecha del rótulo, en la coordenada aproximada x=155, y=45.
+
+4. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+
+5. Escribir exactamente $V{REPORT_COUNT} y pulsar Enter.
+
+6. Hacer clic sobre el campo Width, escribir 50 y pulsar Enter.
+
+7. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+**Verificación visual:** la banda Summary muestra el rótulo Total de libros: seguido de un campo con la expresión $V{REPORT_COUNT}.
+
+**Qué hace:** inserta un campo que muestra el número total de registros procesados por el motor.
+
+**Por qué:** la variable REPORT_COUNT es una variable incorporada que cuenta los registros procesados.
+
+**Error común:** usar $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT}. El compilador informa que el parámetro no existe. Solución: cambiar el prefijo $P{ por $V{ porque REPORT_COUNT es una variable, no un parámetro.
+
+**Analogía:** es como contar los libros que se han maquetado y escribir el total en el colofón.
+
+#### Paso 10: Añadir un Page Header con contenido variable [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Page Header en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor).
+
+3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+
+4. Arrastrar el icono Text Field y soltarlo dentro de la banda Page Header, en la coordenada aproximada x=400, y=5.
+
+5. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+
+6. Escribir exactamente "Página " + $V{PAGE_NUMBER} + " de" y pulsar Enter.
+
+7. Hacer clic sobre el campo Width, escribir 155 y pulsar Enter.
+
+8. Hacer clic sobre el campo Height, escribir 15 y pulsar Enter.
+
+9. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+
+**Verificación visual:** la banda Page Header muestra el texto existente a la izquierda y un nuevo campo alineado a la derecha con la expresión de paginación.
+
+**Qué hace:** inserta un campo que muestra la página actual y el total de páginas en el encabezado.
+
+**Por qué:** el lector puede situarse en el documento desde la primera página.
+
+**Error común:** colocar el campo en la banda Page Header cuando PAGE_NUMBER evaluado al final del informe aún no tiene su valor definitivo. En las primeras páginas el total aparece como 0 o incorrecto. Solución: aceptar que el valor de PAGE_NUMBER evaluado al final del informe en la banda Page Header se resuelve al final del llenado y el motor reescribe el valor retroactivamente en todas las páginas. Este comportamiento es correcto en JasperReports 6.20.0.
+
+**Analogía:** es como indicar en cada página del catálogo el número de página y el total de páginas de la edición.
+
+#### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
+
+2. Pulsar Ctrl+S para guardar el archivo.
+
+3. Pulsar Ctrl+Mayús+B para compilar el informe.
+
+4. Hacer clic sobre el panel Problems y verificar que no hay errores.
+
+5. Hacer clic con el botón derecho sobre el archivo GeneradorInformeConcepto.java en el panel Project Explorer.
+
+6. Hacer clic sobre la opción Run As en el menú contextual.
+
+7. Hacer clic sobre la opción Java Application en el submenú.
+
+8. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
+
+**Verificación visual:** la vista Console muestra la línea Informe generado en: ... con la ruta absoluta del archivo PDF. El panel Problems permanece vacío.
+
+**Qué hace:** compila el informe y ejecuta el programa Java con la nueva fuente de datos.
+
+**Por qué:** el programa genera el PDF con la banda Detail emitida una vez por cada libro de la lista.
+
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+
+**Analogía:** es como imprimir la tirada del catálogo con todos los libros de la lista.
+
+#### Paso 12: Documentar las bandas del informe en BANDAS.md [VALIDADO]
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo BANDAS.md en el panel Project Explorer.
+
+2. Hacer clic al final del archivo en el editor central.
+
+3. Pulsar Enter y escribir exactamente ## Comportamiento con datos y pulsar Enter dos veces.
+
+4. Escribir exactamente - La banda Detail se emite una vez por cada libro de la lista. y pulsar Enter.
+
+5. Escribir exactamente - La banda Summary muestra el recuento total con $V{REPORT_COUNT}. y pulsar Enter.
+
+6. Escribir exactamente - La banda Page Header muestra "Página N de M". y pulsar Enter.
+
+7. Escribir exactamente - La banda Last Page Footer sustituye a Page Footer en la última página. y pulsar Enter.
+
+8. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el archivo BANDAS.md contiene la nueva sección con las cuatro anotaciones.
+
+**Qué hace:** incorpora al proyecto la documentación del comportamiento de las bandas con datos.
+
+**Por qué:** la documentación facilita el mantenimiento y la incorporación de nuevos desarrolladores.
+
+**Error común:** olvidar guardar el archivo y perder los cambios al cerrar el editor. Solución: pulsar Ctrl+S antes de cerrar el archivo.
+
+**Analogía:** es como anotar en el manual del catálogo cómo se comporta cada sección cuando el manuscrito contiene varios capítulos.
+
+### Parte B — JRXML explicado y contrastado
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="informe_concepto"
+              language="java"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <field name="titulo" class="java.lang.String"/>
+    <field name="precio" class="java.lang.Double"/>
+    <title>
+        <band height="70">
+            <staticText>
+                <reportElement x="0" y="15" width="555" height="30" uuid="1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="45" width="120" height="20" uuid="2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <text><![CDATA[Fecha de emisión:]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="125" y="45" width="150" height="20" uuid="3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="5" width="400" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="400" y="5" width="155" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="5" width="300" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="5" width="100" height="15" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="20" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="300" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement x="300" y="0" width="100" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
+            </staticText>
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="5" width="400" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+    <lastPageFooter>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Documento generado en la última página]]></text>
+            </staticText>
+        </band>
+    </lastPageFooter>
+    <summary>
+        <band height="70">
+            <staticText>
+                <reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <text><![CDATA[Total de páginas:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}` con `evaluationTime="Report"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Fin del informe. EditorialReports.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total de libros:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="155" y="45" width="50" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+    <background>
+        <band height="0"/>
+    </background>
+</jasperReport>
+```
+
+Línea 1: <?xml version="1.0" encoding="UTF-8"?> → declaración XML obligatoria.
+
+Línea 2: <jasperReport xmlns="..." → elemento raíz con espacio de nombres.
+
+Línea 3: xmlns:xsi="..." → prefijo xsi para el espacio de nombres de XML Schema.
+
+Línea 4: xsi:schemaLocation="..." → ubicación del esquema XSD.
+
+Línea 5: name="informe_concepto" → nombre lógico del informe.
+
+Línea 6: language="java" → lenguaje de las expresiones.
+
+Línea 7: pageWidth="595" → ancho de página.
+
+Línea 8: pageHeight="842" → alto de página.
+
+Línea 9: columnWidth="555" → ancho de columna.
+
+Línea 10-13: márgenes de la página.
+
+Línea 14: uuid="..." → identificador único del informe.
+
+Línea 15: <property .../> → propiedad de Jaspersoft Studio.
+
+Línea 16: <style .../> → estilo por defecto.
+
+Línea 17: <field name="titulo" class="java.lang.String"/> → declara el campo titulo de tipo cadena. El campo se resuelve por cada registro de la fuente de datos.
+
+Línea 18: <field name="precio" class="java.lang.Double"/> → declara el campo precio de tipo numérico. El tipo java.lang.Double permite aplicar el patrón #,##0.00.
+
+Línea 19: <title> → banda de título. Se emite una sola vez.
+
+Línea 20: <band height="70"> → banda con 70 unidades de informe.
+
+Línea 21-27: título principal.
+
+Línea 28-35: rótulo de fecha.
+
+Línea 36-42: campo con la fecha actual.
+
+Línea 43: </band> → cierra la banda.
+
+Línea 44: </title> → cierra la sección.
+
+Línea 45: <pageHeader> → banda de cabecera de página.
+
+Línea 46: <band height="25"> → banda con 25 unidades de informe.
+
+Línea 47-53: título abreviado en cursiva.
+
+Línea 54-60: campo con "Página " + $V{PAGE_NUMBER} + " de". La variable PAGE_NUMBER evaluado al final del informe se resuelve al final del llenado y el motor reescribe el valor en todas las páginas.
+
+Línea 61: </band> → cierra la banda.
+
+Línea 62: </pageHeader> → cierra la sección.
+
+Línea 63: <columnHeader> → banda de cabecera de columna.
+
+Línea 64: <band height="25"> → banda con 25 unidades de informe.
+
+Línea 65-71: encabezado Título en negrita.
+
+Línea 72-78: encabezado Precio en negrita.
+
+Línea 79: </band> → cierra la banda.
+
+Línea 80: </columnHeader> → cierra la sección.
+
+Línea 81: <detail> → banda de detalle. Se emite una vez por registro.
+
+Línea 82: <band height="20" splitType="Stretch"> → banda con 20 unidades de informe y splitType Stretch. Permite que la banda se divida entre páginas si es necesario.
+
+Línea 83-89: campo $F{titulo} con ancho 300.
+
+Línea 90-96: campo $F{precio} con ancho 100 y patrón #,##0.00.
+
+Línea 97: </band> → cierra la banda.
+
+Línea 98: </detail> → cierra la sección.
+
+Línea 99: <columnFooter> → banda de pie de columna.
+
+Línea 100: <band height="25"> → banda con 25 unidades de informe.
+
+Línea 101-107: texto separador --- Fin de la tabla de datos ---.
+
+Línea 108: </band> → cierra la banda.
+
+Línea 109: </columnFooter> → cierra la sección.
+
+Línea 110: <pageFooter> → banda de pie de página.
+
+Línea 111: <band height="30"> → banda con 30 unidades de informe.
+
+Línea 112-118: texto del pie.
+
+Línea 119: </band> → cierra la banda.
+
+Línea 120: </pageFooter> → cierra la sección.
+
+Línea 121: <lastPageFooter> → banda de pie de última página.
+
+Línea 122: <band height="30"> → banda con 30 unidades de informe.
+
+Línea 123-129: texto Documento generado en la última página centrado.
+
+Línea 130: </band> → cierra la banda.
+
+Línea 131: </lastPageFooter> → cierra la sección.
+
+Línea 132: <summary> → banda de resumen.
+
+Línea 133: <band height="70"> → banda con 70 unidades de informe. La altura se ha ampliado para alojar los nuevos elementos.
+
+Línea 134-140: rótulo Total de páginas:.
+
+Línea 141-148: campo $V{PAGE_NUMBER}` con `evaluationTime="Report".
+
+Línea 149-155: mensaje de cierre Fin del informe. EditorialReports..
+
+Línea 156-162: rótulo Total de libros: en negrita.
+
+Línea 163-170: campo $V{REPORT_COUNT} en negrita.
+
+Línea 171: </band> → cierra la banda.
+
+Línea 172: </summary> → cierra la sección.
+
+Línea 173: <background> → banda de fondo.
+
+Línea 174: <band height="0"/> → banda con altura cero.
+
+Línea 175: </background> → cierra la sección.
+
+Línea 176: </jasperReport> → cierra el elemento raíz.
+
+### Parte C — Código Java explicado línea por línea
+
+#### Clase Libro.java
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Libro {
+
+    private String titulo;
+    private Double precio;
+
+    public Libro(String titulo, Double precio) {
+        this.titulo = titulo;
+        this.precio = precio;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public static List<Libro> listaEjemplo() {
+        List<Libro> libros = new ArrayList<>();
+        libros.add(new Libro("Cien años de soledad", 19.95));
+        libros.add(new Libro("Rayuela", 22.50));
+        libros.add(new Libro("La ciudad y los perros", 18.75));
+        libros.add(new Libro("Pedro Páramo", 15.90));
+        libros.add(new Libro("Ficciones", 21.00));
+        libros.add(new Libro("La casa de los espíritus", 23.40));
+        libros.add(new Libro("El amor en los tiempos del cólera", 20.80));
+        libros.add(new Libro("La muerte de Artemio Cruz", 17.60));
+        libros.add(new Libro("Doña Bárbara", 16.95));
+        libros.add(new Libro("Martín Fierro", 14.50));
+        libros.add(new Libro("Comala", 19.20));
+        libros.add(new Libro("Paradiso", 25.00));
+        return libros;
+    }
+}
+```
+
+Línea 1: import java.util.ArrayList; → importa la clase ArrayList para construir la lista de libros.
+
+Línea 2: import java.util.List; → importa la interfaz List para declarar la lista.
+
+Línea 4: public class Libro { → declara la clase Libro.
+
+Línea 6: private String titulo; → campo que almacena el título del libro.
+
+Línea 7: private Double precio; → campo que almacena el precio del libro.
+
+Línea 9-12: constructor que recibe el título y el precio y los asigna a los campos.
+
+Línea 14-16: método getTitulo() que devuelve el título. El método es necesario para que CatalogoDataSource acceda al valor.
+
+Línea 18-20: método getPrecio() que devuelve el precio.
+
+Línea 22-35: método estático listaEjemplo() que construye y devuelve una lista de doce libros. Los títulos y precios son datos de ejemplo para el proyecto.
+
+#### Clase CatalogoDataSource.java
+
+```java
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRField;
+
+public class CatalogoDataSource implements JRDataSource {
+
+    private final List<Libro> libros;
+    private int indice = -1;
+
+    public CatalogoDataSource(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    @Override
+    public boolean next() {
+        indice++;
+        return indice < libros.size();
+    }
+
+    @Override
+    public Object getFieldValue(JRField campo) {
+        Libro actual = libros.get(indice);
+        if ("titulo".equals(campo.getName())) {
+            return actual.getTitulo();
+        } else if ("precio".equals(campo.getName())) {
+            return actual.getPrecio();
+        }
+        return null;
+    }
+}
+```
+
+Línea 1: import java.util.List; → importa la interfaz List.
+
+Línea 3: import net.sf.jasperreports.engine.JRDataSource; → importa la interfaz que define el contrato de las fuentes de datos.
+
+Línea 4: import net.sf.jasperreports.engine.JRField; → importa la clase que representa un campo solicitado por el motor.
+
+Línea 6: public class CatalogoDataSource implements JRDataSource { → declara la clase y la obliga a implementar la interfaz.
+
+Línea 8: private final List<Libro> libros; → almacena la lista de libros que se va a recorrer.
+
+Línea 9: private int indice = -1; → contador interno. Comienza en −1 porque el motor invoca next() antes de leer el primer registro.
+
+Línea 11-13: constructor que recibe la lista y la asigna al campo.
+
+Línea 15-19: método next() que incrementa el índice y devuelve verdadero mientras queden registros.
+
+Línea 21-30: método getFieldValue(JRField campo) que recibe el campo solicitado por el motor y devuelve el valor correspondiente del registro actual. El método compara el nombre del campo con los nombres declarados en el JRXML y devuelve el valor adecuado.
+
+#### Clase GeneradorInformeConcepto.java
+
+```java
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeConcepto {
+
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_concepto.jrxml";
+            String rutaJasper = "reports/informe_concepto.jasper";
+            String rutaPdf = "output/informe_concepto.pdf";
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<>();
+
+            JasperPrint documento = JasperFillManager.fillReport(
+                    rutaJasper,
+                    parametros,
+                    new CatalogoDataSource(Libro.listaEjemplo()));
+
+            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
+            System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+            System.out.println("Páginas del documento: " + documento.getPages().size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Línea 1: import java.io.File; → importa la clase File para obtener la ruta absoluta del PDF.
+
+Línea 2: import java.util.HashMap; → importa la implementación de mapa.
+
+Línea 3: import java.util.Map; → importa la interfaz Map.
+
+Línea 5: import net.sf.jasperreports.engine.JasperCompileManager; → importa el gestor de compilación.
+
+Línea 6: import net.sf.jasperreports.engine.JasperExportManager; → importa el gestor de exportación.
+
+Línea 7: import net.sf.jasperreports.engine.JasperFillManager; → importa el gestor de llenado.
+
+Línea 8: import net.sf.jasperreports.engine.JasperPrint; → importa la clase del documento en memoria.
+
+Línea 10: public class GeneradorInformeConcepto { → declara la clase principal.
+
+Línea 12: public static void main(String[] args) { → punto de entrada.
+
+Línea 13: try { → abre el bloque protegido.
+
+Línea 14: String rutaJrxml = "reports/informe_concepto.jrxml"; → ruta del archivo de diseño.
+
+Línea 15: String rutaJasper = "reports/informe_concepto.jasper"; → ruta del artefacto compilado.
+
+Línea 16: String rutaPdf = "output/informe_concepto.pdf"; → ruta del PDF de salida.
+
+Línea 18: JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper); → compila el JRXML.
+
+Línea 20: Map<String, Object> parametros = new HashMap<>(); → declara el mapa de parámetros vacío.
+
+Línea 22: JasperPrint documento = → declara la variable del documento.
+
+Línea 22 (continuación): JasperFillManager.fillReport( → invoca el motor de llenado.
+
+Línea 23: rutaJasper, → ruta del artefacto compilado.
+
+Línea 24: parametros, → mapa de parámetros.
+
+Línea 25: new CatalogoDataSource(Libro.listaEjemplo())); → construye la fuente de datos con la lista de doce libros. La banda Detail se emitirá doce veces.
+
+Línea 27: JasperExportManager.exportReportToPdfFile(documento, rutaPdf); → exporta a PDF.
+
+Línea 29: System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath()); → imprime la ruta del PDF.
+
+Línea 30: System.out.println("Páginas del documento: " + documento.getPages().size()); → imprime el número de páginas.
+
+Línea 32: } catch (Exception e) { → captura excepciones.
+
+Línea 33: e.printStackTrace(); → imprime la traza.
+
+Línea 34: } → cierra el bloque catch.
+
+Línea 35: } → cierra el método main.
+
+Línea 36: } → cierra la clase.
+
+#### Traza de consola esperada tras la ejecución
+
+```text
+Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
+Páginas del documento: 1
+```
+
+#### Estado del objeto JasperPrint en cada fase
+
+```text
+FASE 1 — COMPILACIÓN
+─────────────────────
+  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
+  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~14 KB)
+  Salida:           reports/informe_concepto.jasper      (binario serializado, ~28 KB)
+  Expresiones compiladas:
+    - new java.util.Date()
+    - "Página " + $V{PAGE_NUMBER} + " de"
+    - $V{PAGE_NUMBER}` con `evaluationTime="Report"
+    - $V{REPORT_COUNT}
+    - $F{titulo}
+    - $F{precio}
+  Campos declarados:
+    - titulo (java.lang.String)
+    - precio (java.lang.Double)
+
+FASE 2 — LLENADO
+─────────────────
+  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
+  Entrada:          reports/informe_concepto.jasper + HashMap vacío
+                    + CatalogoDataSource con 12 libros
+  Salida:           objeto JasperPrint en memoria
+  Páginas:          1
+  Bandas emitidas:
+    - Title (1 vez)
+    - Page Header (1 vez)
+    - Column Header (1 vez)
+    - Detail (12 veces, una por libro)
+    - Column Footer (1 vez)
+    - Page Footer (0 veces, porque solo hay una página y existe lastPageFooter)
+    - Last Page Footer (1 vez)
+    - Summary (1 vez)
+    - Background (1 vez)
+  Valores resueltos:
+    - Fecha de emisión:     22/09/2026
+    - Número de página:     1
+    - Total de páginas:     1
+    - Total de libros:      12
+
+FASE 3 — EXPORTACIÓN
+─────────────────────
+  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
+  Entrada:          objeto JasperPrint en memoria
+  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~12 KB en disco)
+  Páginas en el PDF: 1
+```
+
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño en Jaspersoft Studio
+
+```text
++-------------------------------------------------------------------------+
+|  informe_concepto.jrxml                          [Design] [Source]      |
++-------------------------------------------------------------------------+
+|  Ruler:  0    100   200   300   400   500   555                         |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  ┌─── Title ──────────────────────────────────────────── h = 70 ─────┐  |
+|  │            Catálogo Editorial - Informe Conceptual                │  |
+|  │  Fecha de emisión:  [ new java.util.Date() ]                       │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Page Header ───────────────────────────────────── h = 25 ─────┐  |
+|  │  Catálogo Editorial (cursiva)    [ "Página "+$V{PAGE_NUM...} ]    │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
+|  │  Título                              │  Precio                    │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Detail 1 ──────────────────────────────────────── h = 20 ─────┐  |
+|  │  [ $F{titulo} ]                      │  [ $F{precio} ]            │  |
+|  │  (se emite 12 veces con los 12 libros)                            │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Column Footer ─────────────────────────────────── h = 25 ─────┐  |
+|  │           --- Fin de la tabla de datos ---                         │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Page Footer ───────────────────────────────────── h = 30 ─────┐  |
+|  │  EditorialReports - Documento...                                   │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Last Page Footer ──────────────────────────────── h = 30 ─────┐  |
+|  │           Documento generado en la última página                   │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Summary ───────────────────────────────────────── h = 70 ──────┐  |
+|  │  Total de páginas: [ $V{PAGE_NUMBER}` con `evaluationTime="Report" ]                             │  |
+|  │              Fin del informe. EditorialReports.                    │  |
+|  │  Total de libros: [ $V{REPORT_COUNT} ]                            │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Background ────────────────────────────────────── h = 0 ──────┐  |
+|  └───────────────────────────────────────────────────────────────────┘  |
++-------------------------------------------------------------------------+
+```
+
+**Qué representa:** la disposición de las bandas en el editor central tras completar los doce pasos de la Parte A. La banda Detail se emite doce veces, una por cada libro.
+
+**Cómo verificarlo:** comparar la vista del editor con este esquema. Las bandas deben aparecer en el orden Title, Page Header, Column Header, Detail 1, Column Footer, Page Footer, Last Page Footer, Summary, Background.
+
+#### D.2 — Jerarquía del Outline
+
+```text
+informe_concepto
+│
+├── Properties
+│   └── com.jaspersoft.studio.data.defaultdataadapter = EmptyDataSource
+│
+├── Styles
+│   └── Sans_Normal  [isDefault=true]
+│
+├── Fields
+│   ├── titulo  [java.lang.String]
+│   └── precio  [java.lang.Double]
+│
+├── Title  [band, height=70]
+│   ├── staticText  "Catálogo Editorial - Informe Conceptual"
+│   ├── staticText  "Fecha de emisión:"
+│   └── textField   [pattern=dd/MM/yyyy]  new java.util.Date()
+│
+├── Page Header  [band, height=25]
+│   ├── staticText  "Catálogo Editorial - Informe Conceptual"  (italic)
+│   └── textField   [right]  "Página " + $V{PAGE_NUMBER} + " de"
+│
+├── Column Header  [band, height=25]
+│   ├── staticText  "Título"  (bold)
+│   └── staticText  "Precio"  (bold)
+│
+├── Detail 1  [band, height=20, splitType=Stretch]
+│   ├── textField   $F{titulo}
+│   └── textField   [pattern=#,##0.00]  $F{precio}
+│
+├── Column Footer  [band, height=25]
+│   └── staticText  "--- Fin de la tabla de datos ---"
+│
+├── Page Footer  [band, height=30]
+│   └── staticText  "EditorialReports - Documento..."
+│
+├── Last Page Footer  [band, height=30]
+│   └── staticText  "Documento generado en la última página"
+│
+├── Summary  [band, height=70]
+│   ├── staticText  "Total de páginas:"
+│   ├── textField   $V{PAGE_NUMBER}` con `evaluationTime="Report"
+│   ├── staticText  "Fin del informe. EditorialReports."
+│   ├── staticText  "Total de libros:"  (bold)
+│   └── textField   $V{REPORT_COUNT}  (bold)
+│
+└── Background  [band, height=0]
+```
+
+**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline. La novedad respecto al punto anterior es la sección Fields con los dos campos declarados y la banda Last Page Footer.
+
+**Cómo verificarlo:** expandir el nodo informe_concepto en el panel Outline y comparar la estructura.
+
+#### D.3 — Documento PDF resultante, página por página
+
+```text
+INFORME: informe_concepto.pdf
+PÁGINAS TOTALES: 1
+TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+MÁRGENES: izquierdo 20, derecho 20, superior 20, inferior 20
+REGISTROS PROCESADOS: 12
+BANDAS EMITIDAS:
+  - Title (1 vez)
+  - Page Header (1 vez)
+  - Column Header (1 vez)
+  - Detail (12 veces)
+  - Column Footer (1 vez)
+  - Last Page Footer (1 vez, sustituye a Page Footer)
+  - Summary (1 vez)
+  - Background (1 vez)
+
+──────────────────── Página 1 de 1 ────────────────────
+╔══════════════════════════════════════════════════════════╗
+║         Catálogo Editorial - Informe Conceptual          ║
+║                                                          ║
+║  Fecha de emisión:  22/09/2026                           ║
+║                                                          ║
+║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
+║                                                          ║
+║  Título                              │  Precio           ║
+║  ─────────────────────────────────────────────────────   ║
+║  Cien años de soledad                │  19,95            ║
+║  Rayuela                             │  22,50            ║
+║  La ciudad y los perros              │  18,75            ║
+║  Pedro Páramo                        │  15,90            ║
+║  Ficciones                           │  21,00            ║
+║  La casa de los espíritus            │  23,40            ║
+║  El amor en los tiempos del cólera   │  20,80            ║
+║  La muerte de Artemio Cruz           │  17,60            ║
+║  Doña Bárbara                        │  16,95            ║
+║  Martín Fierro                       │  14,50            ║
+║  Comala                              │  19,20            ║
+║  Paradiso                            │  25,00            ║
+║  ─────────────────────────────────────────────────────   ║
+║           --- Fin de la tabla de datos ---               ║
+║                                                          ║
+║         Documento generado en la última página           ║
+║                                                          ║
+║  Total de páginas: 1                                     ║
+║                                                          ║
+║           Fin del informe. EditorialReports.             ║
+║                                                          ║
+║  Total de libros: 12                                     ║
+║                                                          ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+**Qué representa:** la página única del PDF resultante con los doce libros emitidos en la banda Detail. El informe cabe en una sola página porque los doce registros ocupan 240 unidades de informe (12 × 20) más las bandas fijas. La banda Last Page Footer sustituye a Page Footer porque la única página es también la última.
+
+**Cómo verificarlo:** abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que aparecen los doce libros en la tabla. Si solo aparece uno o ninguno, revisar la clase CatalogoDataSource y la declaración de los campos en el JRXML.
+
+#### D.4 — Árbol de carpetas del proyecto tras completar el punto
+
+```text
+EditorialReports/
+│
+├── ECOSISTEMA.md                                 (documentación del ecosistema)
+├── ENTORNO.md                                    (documentación del entorno)
+├── BANDAS.md                                     (documentación de las bandas, ampliada)
+├── JRXML.md                                      (documentación del formato JRXML)
+│
+├── reports/
+│   ├── informe_concepto.jrxml                    (plantilla con 9 bandas)
+│   └── informe_concepto.jasper                   (artefacto compilado)
+│
+├── resources/
+│   └── (vacía en este punto)
+│
+└── output/
+    └── informe_concepto.pdf                      (documento con 12 registros)
+
+EditorialReportsJava/
+│
+├── lib/
+│   └── README.md   (el runtime real se resuelve con Maven)
+│
+└── src/
+    ├── GeneradorInformeConcepto.java             (programa actualizado)
+    ├── Libro.java                                (nueva clase)
+    └── CatalogoDataSource.java                   (nueva clase)
+```
+
+**Qué representa:** el estado de los dos proyectos tras completar los doce pasos de la Parte A. La novedad respecto al punto anterior es la ampliación de la banda Summary y del Page Header en el JRXML, y la incorporación de las clases Libro y CatalogoDataSource en el proyecto Java.
+
+**Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si las clases Libro y CatalogoDataSource no aparecen, repetir los pasos 3 y 4.
+
+### Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+| --- | --- | --- |
+| Field not found: titulo al compilar | El campo no está declarado en el JRXML | Añadir <field name="titulo" class="java.lang.String"/> antes de las bandas |
+| La banda Detail no emite ningún registro | La fuente de datos devuelve una lista vacía | Comprobar que Libro.listaEjemplo() devuelve la lista de doce libros |
+| ClassCastException en getFieldValue | El tipo devuelto por el campo no coincide con el declarado | Verificar que precio devuelve un Double y no un String |
+| El campo precio no se formatea con dos decimales | El campo no tiene el atributo pattern | Añadir pattern="#,##0.00" al elemento textField de precio |
+| La banda Last Page Footer no aparece | La banda no se ha añadido al JRXML o está fuera del elemento raíz | Verificar en el panel Outline que el nodo Last Page Footer existe |
+| El Page Footer sigue apareciendo en la última página | La banda Last Page Footer no está correctamente definida | Verificar que la banda Last Page Footer está declarada después de Page Footer en el JRXML |
+| El contador REPORT_COUNT muestra 0 | Se usó $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT} | Cambiar el prefijo a $V{ |
+| El informe tiene más páginas de las esperadas | La banda Detail tiene una altura excesiva | Reducir el campo Band height de la banda Detail a 20 unidades de informe |
+| El campo de paginación del Page Header muestra Página 1 de 0 | La variable PAGE_NUMBER evaluado al final del informe no tiene su valor definitivo hasta el final | Este comportamiento es normal en las primeras páginas; el motor reescribe el valor retroactivamente |
+| Los acentos de los títulos de los libros aparecen corruptos | El archivo JRXML no está guardado en UTF-8 | Guardar el archivo como UTF-8 y recompilar |
+
+### Reto resuelto paso a paso
+
+**Enunciado:** añadir un subtotal de precios en la banda Summary que muestre la suma de los precios de todos los libros. Verificar que el valor aparece correctamente en el PDF.
+
+Paso 1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
+
+Paso 2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+Paso 3. Hacer clic al final de la línea que contiene <field name="precio" class="java.lang.Double"/> y pulsar Enter.
+
+Paso 4. Escribir exactamente <variable name="TotalPrecios" class="java.lang.Double" calculation="Sum"> y pulsar Enter.
+
+Paso 5. Escribir exactamente <variableExpression><![CDATA[$F{precio}]]></variableExpression> y pulsar Enter.
+
+Paso 6. Escribir exactamente </variable> y pulsar Enter.
+
+Paso 7. Pulsar Ctrl+S para guardar el archivo.
+
+Paso 8. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+Paso 9. Hacer clic sobre el nodo Summary en el panel Outline.
+
+Paso 10. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir 95 y pulsar Enter.
+
+Paso 11. Hacer clic sobre la pestaña Elements en el panel Palette.
+
+Paso 12. Hacer clic sobre el icono Static Text y arrastrarlo hasta la banda Summary, en la coordenada aproximada x=0, y=70.
+
+Paso 13. Hacer doble clic sobre el Static Text creado en la acción anterior y escribir exactamente Subtotal precios:.
+
+Paso 14. Hacer clic sobre el campo Width en el panel Properties, escribir 150 y pulsar Enter.
+
+Paso 15. Hacer clic sobre la pestaña Elements en el panel Palette y hacer clic sobre el icono Text Field.
+
+Paso 16. Arrastrar el icono Text Field hasta la banda Summary, a la derecha del rótulo, en la coordenada aproximada x=155, y=70.
+
+Paso 17. Hacer clic sobre el campo Text Field Expression en el panel Properties y escribir exactamente $V{TotalPrecios}.
+
+Paso 18. Hacer clic sobre el campo Pattern y escribir exactamente #,##0.00.
+
+Paso 19. Hacer clic sobre el campo Width y escribir 100. Pulsar Enter.
+
+Paso 20. Pulsar Ctrl+S, después Ctrl+Mayús+B para compilar.
+
+Paso 21. Hacer clic con el botón derecho sobre el archivo GeneradorInformeConcepto.java y seleccionar Run As > Java Application.
+
+Paso 22. Abrir el archivo output/informe_concepto.pdf y verificar que en la banda Summary aparece el texto Subtotal precios: seguido del valor 252,55.
+
+#### Simulación ASCII del PDF tras el reto
+
+```text
+╔══════════════════════════════════════════════════════════╗
+║         Catálogo Editorial - Informe Conceptual          ║
+║                                                          ║
+║  Fecha de emisión:  22/09/2026                           ║
+║                                                          ║
+║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
+║                                                          ║
+║  Título                              │  Precio           ║
+║  ─────────────────────────────────────────────────────   ║
+║  Cien años de soledad                │  19,95            ║
+║  Rayuela                             │  22,50            ║
+║  ...                                                     ║
+║  Paradiso                            │  25,00            ║
+║  ─────────────────────────────────────────────────────   ║
+║           --- Fin de la tabla de datos ---               ║
+║                                                          ║
+║         Documento generado en la última página           ║
+║                                                          ║
+║  Total de páginas: 1                                     ║
+║           Fin del informe. EditorialReports.             ║
+║  Total de libros: 12                                     ║
+║  Subtotal precios: 252,55                                ║
+╚══════════════════════════════════════════════════════════╝
+Resultado del reto: la variable TotalPrecios acumula los precios de los doce libros mediante la propiedad calculation="Sum". El valor se muestra en la banda Summary con formato numérico. La suma de los doce precios del ejemplo es 252,55.
+```
+
+### Analogía final con el contexto de la editorial
+
+Las bandas son las secciones del catálogo. La banda Title es la portada con el título y la fecha. La banda Page Header es el encabezado que se repite en cada página con el número de página. La banda Column Header son los títulos de las columnas de la tabla. La banda Detail es cada fila de la tabla, una por cada libro. La banda Column Footer es la línea que cierra la tabla. La banda Page Footer es el pie de las páginas intermedias. La banda Last Page Footer es el pie especial de la última página. La banda Summary es el colofón con los totales. La banda Background es el papel continuo sobre el que se imprime todo. Comprender el comportamiento de cada banda con datos reales es comprender cómo se compone el catálogo completo.
+
+### Resultado esperado
+
+- Al finalizar este punto, el alumno dispone de:
+
+- El archivo reports/informe_concepto.jrxml con nueve bandas, dos campos declarados y una variable de suma.
+
+- Las clases Libro.java y CatalogoDataSource.java en el proyecto Java.
+
+- El programa GeneradorInformeConcepto.java modificado para usar CatalogoDataSource con doce libros.
+
+- El archivo output/informe_concepto.pdf con doce registros emitidos y los totales calculados.
+
+- Comprensión operativa del comportamiento de cada banda con una fuente de datos real.
+
+- El archivo BANDAS.md ampliado con la documentación del comportamiento con datos.
+
+### Conclusión y enlace al siguiente punto
+
+El punto 2.1 ha profundizado en el modelo de bandas del motor y ha demostrado el comportamiento de cada una con una fuente de datos que devuelve doce registros. Han quedado añadidas la banda Last Page Footer y la variable de suma TotalPrecios. El informe conceptual contiene ahora nueve bandas y muestra los doce libros del catálogo con sus precios y los totales al final.
+
+El punto 2.2, «Texto estático y campos de texto», profundiza en los dos elementos textuales del informe, detalla sus propiedades avanzadas y explica cómo combinarlos para construir encabezados, etiquetas y valores dinámicos. El informe construido en este punto sirve como base para los nuevos elementos textuales.
+
+
+## Punto 2.2 — Texto estático y campos de texto
+
+> **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu propio proyecto del punto anterior. Si te incorporas directamente aquí, usa `M2/2.1` como estado inicial. El checkpoint `M2/2.2` contiene la solución completa de este punto y no debe consultarse antes del ejercicio si quieres evitar spoilers.
+
+### Parte A — Práctica visual
+
+#### Paso 1: Abrir el informe y la banda Detail [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo EditorialReports en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la opción Refresh en el menú contextual.
+
+3. Hacer clic con el botón derecho sobre la carpeta reports en el panel Project Explorer.
+
+4. Hacer clic sobre la opción Refresh en el menú contextual.
+
+5. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
+
+6. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+7. Expandir el nodo informe_concepto en el panel Outline (inferior izquierdo).
+
+8. Hacer clic sobre el nodo Detail 1 en el panel Outline.
+
+**Verificación visual:** el editor central muestra la banda Detail 1 seleccionada con sus dos textField. El panel Properties (inferior derecho) muestra las propiedades del nodo Detail 1.
+
+**Qué hace:** abre el informe y selecciona la banda Detail para trabajar sobre ella.
+
+**Por qué:** la banda Detail es la que contiene los campos variables del informe y es donde se aplican las propiedades específicas del campo de texto.
+
+**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+**Analogía:** es como abrir el pliego del catálogo en la sección de la tabla de datos para ajustar la presentación de cada fila.
+
+#### Paso 2: Aplicar formato numérico con símbolo de euro al campo precio [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el segundo textField de la banda Detail 1 en el editor central.
+
+2. Hacer clic sobre el campo Pattern en el panel Properties (inferior derecho), pestaña Properties.
+
+3. Seleccionar el contenido actual del campo y eliminarlo con la tecla Suprimir.
+
+4. Escribir exactamente #,##0.00 € y pulsar Enter.
+
+5. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+6. Hacer clic sobre el atributo pattern del textField del campo precio y verificar que contiene el valor #,##0.00 €.
+
+**Verificación visual:** el editor central muestra el campo con el patrón actualizado. En la vista Source, el atributo pattern contiene #,##0.00 €.
+
+**Qué hace:** aplica un patrón numérico que incluye el símbolo del euro al campo de precio.
+
+**Por qué:** el formato del precio es más legible cuando incluye el símbolo de la moneda.
+
+**Error común:** escribir el patrón sin el espacio entre 0.00 y €. El resultado es 19,95€ sin espacio. Solución: escribir el patrón con el espacio incluido: #,##0.00 €.
+
+**Analogía:** es como añadir el símbolo de la moneda a los precios del catálogo para que el lector los identifique de inmediato.
+
+#### Paso 3: Activar la propiedad isBlankWhenNull en el campo precio [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+2. Hacer clic sobre el segundo textField de la banda Detail 1 en el editor central.
+
+3. Expandir la sección Text Field en el panel Properties (inferior derecho), pestaña Properties.
+
+4. Marcar la casilla Blank When Null.
+
+5. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+6. Hacer clic sobre la etiqueta <textField> del campo precio y verificar que contiene el atributo isBlankWhenNull="true".
+
+**Verificación visual:** el editor central muestra el campo con la propiedad activada. En la vista Source, la etiqueta <textField> incluye el atributo isBlankWhenNull="true".
+
+**Qué hace:** activa la propiedad que hace que el campo se muestre vacío cuando la expresión devuelve null.
+
+**Por qué:** si un libro no tiene precio asignado, el campo debe aparecer vacío en lugar de mostrar el texto null o producir un error de formato.
+
+**Error común:** dejar la propiedad desactivada y obtener una representación no deseada de un valor nulo, según el tipo y el formateador. Solución: marcar la casilla Blank When Null.
+
+**Analogía:** es como dejar en blanco la casilla del precio de un libro sin precio asignado en lugar de imprimir un guion o un error.
+
+#### Paso 4: Configurar el ajuste de texto del campo título [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el primer textField de la banda Detail 1 en el editor central.
+
+2. Expandir la sección Text Field en el panel Properties (inferior derecho), pestaña Properties.
+
+3. Seleccionar `StretchHeight` en la propiedad de ajuste de texto. Si la interfaz 6.20.0 muestra la opción heredada `Stretch With Overflow`, activarla produce el mismo comportamiento; el JRXML validado usa `textAdjust="StretchHeight"`.
+
+4. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+5. Hacer clic sobre la etiqueta <textField> del campo título y verificar que contiene el atributo textAdjust="StretchHeight".
+
+**Verificación visual:** el editor central muestra el campo con la propiedad activada. En la vista Source, la etiqueta `<textField>` incluye `textAdjust="StretchHeight"`.
+
+**Qué hace:** configura el ajuste de texto para que el campo pueda aumentar de altura cuando el contenido no cabe.
+
+**Por qué:** los títulos de los libros pueden ser largos y es necesario que se ajusten en varias líneas sin recortarse.
+
+**Error común:** dejar la propiedad desactivada y provocar que los títulos largos se recorten. Solución: marcar la casilla Stretch With Overflow.
+
+**Analogía:** es como permitir que el título de un libro ocupe varias líneas en la tabla del catálogo cuando es largo.
+
+#### Paso 5: Añadir un rótulo estático para el número de registro [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+2. Hacer clic sobre el icono Static Text (una letra T mayúscula).
+
+3. Arrastrar el icono Static Text y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=400, y=0.
+
+4. Hacer doble clic sobre el Static Text creado en la acción anterior.
+
+5. Escribir exactamente # (almohadilla y espacio).
+
+6. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
+
+7. Hacer clic sobre el campo Width en el panel Properties, pestaña Properties, escribir 30 y pulsar Enter.
+
+8. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+9. Hacer clic sobre el campo X, escribir 400 y pulsar Enter.
+
+10. Hacer clic sobre el campo Y, escribir 0 y pulsar Enter.
+
+11. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+
+**Verificación visual:** la banda Detail 1 muestra un rótulo # en la coordenada 400 alineado a la derecha.
+
+**Qué hace:** inserta un rótulo estático que precede al número de registro.
+
+**Por qué:** el rótulo identifica el número de fila de la tabla de datos.
+
+**Error común:** escribir el rótulo sin el espacio después de la almohadilla. El número quedará pegado al símbolo. Solución: incluir el espacio en el texto del rótulo.
+
+**Analogía:** es como numerar las filas del catálogo para que el lector pueda referenciar una entrada concreta.
+
+#### Paso 6: Añadir el campo con el número de registro [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+
+3. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=430, y=0.
+
+4. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+
+5. Escribir exactamente $V{REPORT_COUNT} y pulsar Enter.
+
+6. Hacer clic sobre el campo Width, escribir 30 y pulsar Enter.
+
+7. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+8. Hacer clic sobre el campo X, escribir 430 y pulsar Enter.
+
+9. Hacer clic sobre el campo Y, escribir 0 y pulsar Enter.
+
+10. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+
+**Verificación visual:** la banda Detail 1 muestra un campo alineado a la derecha con la expresión $V{REPORT_COUNT}.
+
+**Qué hace:** inserta un campo que muestra el número del registro actual.
+
+**Por qué:** la variable REPORT_COUNT cuenta los registros procesados y devuelve el número del registro actual en cada emisión de la banda Detail.
+
+**Error común:** usar $V{PAGE_NUMBER} en lugar de $V{REPORT_COUNT}. La variable PAGE_NUMBER devuelve el número de página, no el número de registro. Solución: cambiar el prefijo a REPORT_COUNT.
+
+**Analogía:** es como numerar cada fila de la tabla del catálogo con un número correlativo.
+
+#### Paso 7: Añadir un rótulo estático con estilo en el Page Header [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Page Header en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
+
+4. Arrastrar el icono Static Text y soltarlo dentro de la banda Page Header, en la coordenada aproximada x=0, y=20.
+
+5. Hacer doble clic sobre el Static Text creado en la acción anterior.
+
+6. Escribir exactamente Precio en <b>euros</b> con IVA incluido.
+
+7. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
+
+8. Hacer clic sobre el campo Width en el panel Properties, pestaña Properties, escribir 555 y pulsar Enter.
+
+9. Hacer clic sobre el campo Height, escribir 15 y pulsar Enter.
+
+10. Hacer clic sobre el campo X, escribir 0 y pulsar Enter.
+
+11. Hacer clic sobre el campo Y, escribir 20 y pulsar Enter.
+
+12. Hacer clic sobre la pestaña Properties y marcar la casilla Styled Text.
+
+13. Hacer clic sobre el campo Font size y escribir 8. Pulsar Enter.
+
+**Verificación visual:** la banda Page Header muestra un segundo rótulo con el texto Precio en euros con IVA incluido con la palabra euros en negrita.
+
+**Qué hace:** inserta un texto con etiquetas de estilo interpretadas por el motor.
+
+**Por qué:** el estilo permite destacar una palabra dentro de un texto más largo.
+
+**Error común:** olvidar marcar la casilla Styled Text y provocar que las etiquetas <b> se impriman como texto literal. Solución: marcar la casilla Styled Text en el panel Properties.
+
+**Analogía:** es como usar la negrita en una nota del catálogo para destacar una palabra importante.
+
+#### Paso 8: Ajustar la altura de la banda Page Header [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Page Header en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties.
+
+3. Escribir 40 y pulsar Enter.
+
+4. Hacer clic sobre el campo Split Type en el panel Properties y seleccionar Prevent.
+
+**Verificación visual:** la banda Page Header aparece con 40 unidades de informe de altura y la propiedad Split Type ajustada a Prevent.
+
+**Qué hace:** amplía la altura de la banda de cabecera para alojar el nuevo rótulo y evita que se divida entre páginas.
+
+**Por qué:** el rótulo adicional ocupa espacio y la banda debe crecer para alojarlo sin recortar el contenido existente.
+
+**Error común:** olvidar ajustar la altura y provocar que el rótulo se solape con la banda Column Header. Solución: ampliar la altura a 40 unidades de informe.
+
+**Analogía:** es como ampliar la franja del encabezado del catálogo para que quepan la nota y el título abreviado.
+
+#### Paso 9: Añadir un pie de tabla con el número total de registros [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Column Footer en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir 40 y pulsar Enter.
+
+3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
+
+5. Arrastrar el icono Static Text y soltarlo dentro de la banda Column Footer, en la coordenada aproximada x=0, y=20.
+
+6. Hacer doble clic sobre el Static Text creado en la acción anterior.
+
+7. Escribir exactamente Registros procesados: (con espacio al final).
+
+8. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
+
+9. Hacer clic sobre el campo Width en el panel Properties, pestaña Properties, escribir 150 y pulsar Enter.
+
+10. Hacer clic sobre el campo Height, escribir 15 y pulsar Enter.
+
+11. Hacer clic sobre el campo X, escribir 0 y pulsar Enter.
+
+12. Hacer clic sobre el campo Y, escribir 20 y pulsar Enter.
+
+**Verificación visual:** la banda Column Footer muestra un segundo rótulo Registros procesados: debajo del texto separador.
+
+**Qué hace:** inserta un rótulo que precede al número total de registros procesados.
+
+**Por qué:** el recuento total de registros es un dato agregado que se muestra al final de la tabla.
+
+**Error común:** dejar el rótulo sin el espacio al final y provocar que el número quede pegado. Solución: incluir el espacio en el texto del rótulo.
+
+**Analogía:** es como anotar en la tabla del catálogo cuántos libros se han maquetado.
+
+#### Paso 10: Añadir el campo con el recuento total de registros [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+
+3. Arrastrar el icono Text Field y soltarlo dentro de la banda Column Footer, en la coordenada aproximada x=150, y=20.
+
+4. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+
+5. Escribir exactamente $V{REPORT_COUNT} y pulsar Enter.
+
+6. Hacer clic sobre el campo Width, escribir 100 y pulsar Enter.
+
+7. Hacer clic sobre el campo Height, escribir 15 y pulsar Enter.
+
+8. Hacer clic sobre el campo X, escribir 150 y pulsar Enter.
+
+9. Hacer clic sobre el campo Y, escribir 20 y pulsar Enter.
+
+10. Hacer clic sobre el campo Font size y escribir 9. Pulsar Enter.
+
+11. Marcar la casilla Bold.
+
+**Verificación visual:** la banda Column Footer muestra el rótulo Registros procesados: seguido de un campo con la expresión $V{REPORT_COUNT} en negrita.
+
+**Qué hace:** inserta un campo que muestra el número total de registros procesados.
+
+**Por qué:** el recuento total es un valor agregado que se calcula al final del llenado.
+
+**Error común:** usar $P{REPORT_COUNT} en lugar de $V{REPORT_COUNT}. El compilador informa Parameter not found: REPORT_COUNT. Solución: cambiar el prefijo a $V{.
+
+**Analogía:** es como escribir el número total de libros en el pie de la tabla del catálogo.
+
+#### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
+
+**Acciones:**
+
+1. Pulsar Ctrl+S para guardar el archivo JRXML.
+
+2. Pulsar Ctrl+Mayús+B para compilar el informe.
+
+3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
+
+4. Hacer clic con el botón derecho sobre el archivo GeneradorInformeConcepto.java en el panel Project Explorer.
+
+5. Hacer clic sobre la opción Run As en el menú contextual.
+
+6. Hacer clic sobre la opción Java Application en el submenú.
+
+7. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
+
+**Verificación visual:** la vista Console muestra la línea Informe generado en: ... con la ruta absoluta del archivo PDF. El panel Problems permanece vacío.
+
+**Qué hace:** compila el informe y ejecuta el programa Java con la fuente de datos de los doce libros.
+
+**Por qué:** la ejecución confirma que las propiedades de los elementos textuales funcionan correctamente.
+
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+
+**Analogía:** es como imprimir la tirada del catálogo con los ajustes tipográficos aplicados.
+
+#### Paso 12: Documentar las propiedades de los elementos textuales [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo EditorialReports en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la opción New en el menú contextual.
+
+3. Hacer clic sobre la opción File en el submenú.
+
+4. Escribir exactamente TEXTO.md en el campo File name del diálogo.
+
+5. Hacer clic sobre el botón Finish.
+
+6. En el editor central, escribir exactamente # Propiedades de elementos textuales y pulsar Enter dos veces.
+
+7. Escribir exactamente ## Propiedades comunes y pulsar Enter dos veces.
+
+8. Escribir exactamente - reportElement: x, y, width, height, forecolor, backcolor, mode, markup="styled", isRemoveLineWhenBlank. y pulsar Enter.
+
+9. Escribir exactamente - textElement: textAlignment, verticalAlignment, rotation, markup, font. y pulsar Enter dos veces.
+
+10. Escribir exactamente ## Propiedades específicas de textField y pulsar Enter dos veces.
+
+11. Escribir exactamente - isStretchWithOverflow: permite al campo aumentar de altura. y pulsar Enter.
+
+12. Escribir exactamente - isBlankWhenNull: muestra el campo vacío cuando la expresión devuelve null. y pulsar Enter.
+
+13. Escribir exactamente - pattern: aplica formato a fechas y números. y pulsar Enter.
+
+14. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el panel Project Explorer muestra el archivo TEXTO.md en la raíz del proyecto EditorialReports con las propiedades documentadas.
+
+**Qué hace:** incorpora al proyecto un documento que registra las propiedades de los elementos textuales.
+
+**Por qué:** la documentación de las propiedades facilita el mantenimiento y la consulta rápida.
+
+**Error común:** escribir el nombre del archivo con extensión distinta a .md. Solución: usar exactamente TEXTO.md.
+
+**Analogía:** es como dejar en la editorial una ficha técnica con las propiedades tipográficas del catálogo.
+
+### Parte B — JRXML explicado y contrastado
+
+Se reproduce únicamente la sección del JRXML modificada en este punto, ya que el resto del archivo permanece igual que en el punto 2.1. Las secciones modificadas son: la banda pageHeader, la banda detail y la banda columnFooter.
+
+```xml
+<pageHeader>
+    <band height="40" splitType="Prevent">
+        <staticText>
+            <reportElement x="0" y="5" width="400" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+            <textElement verticalAlignment="Middle" markup="styled">
+                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+            </textElement>
+            <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+        </staticText>
+        <textField>
+            <reportElement x="400" y="5" width="155" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle" markup="styled">
+                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+            </textElement>
+            <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+        </textField>
+        <staticText>
+            <reportElement x="0" y="20" width="555" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f" />
+            <textElement verticalAlignment="Middle" markup="styled">
+                <font fontName="DejaVu Sans" size="8"/>
+            </textElement>
+            <text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text>
+        </staticText>
+    </band>
+</pageHeader>
+<detail>
+    <band height="20" splitType="Stretch">
+        <textField textAdjust="StretchHeight">
+            <reportElement x="0" y="0" width="300" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+            <textElement verticalAlignment="Middle" markup="styled">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+        </textField>
+        <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+            <reportElement x="300" y="0" width="100" height="20" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+        </textField>
+        <staticText>
+            <reportElement x="400" y="0" width="30" height="20" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="9"/>
+            </textElement>
+            <text><![CDATA[# ]]></text>
+        </staticText>
+        <textField>
+            <reportElement x="430" y="0" width="30" height="20" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="9"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+        </textField>
+    </band>
+</detail>
+<columnFooter>
+    <band height="40">
+        <staticText>
+            <reportElement x="0" y="5" width="555" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+            </textElement>
+            <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="0" y="20" width="150" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="9"/>
+            </textElement>
+            <text><![CDATA[Registros procesados: ]]></text>
+        </staticText>
+        <textField>
+            <reportElement x="150" y="20" width="100" height="15" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="9" isBold="true"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+        </textField>
+    </band>
+</columnFooter>
+```
+
+Línea 1: <pageHeader> → abre la banda de cabecera de página.
+
+Línea 2: <band height="40" splitType="Prevent"> → la banda crece de 25 a 40 unidades de informe para alojar el nuevo rótulo. La propiedad splitType="Prevent" evita que la banda se divida entre páginas.
+
+Línea 3-10: primer staticText con el título abreviado. Se ha reducido el ancho de 555 a 400 para dejar espacio al campo de paginación en la misma fila.
+
+Línea 11-17: textField con la expresión "Página " + $V{PAGE_NUMBER} + " de". El campo combina la variable PAGE_NUMBER con la variable PAGE_NUMBER evaluado al final del informe para mostrar la posición relativa del lector.
+
+Línea 18: <staticText> → abre el nuevo staticText para el aviso sobre el IVA.
+
+Línea 19: <reportElement x="0" y="20" width="555" height="15" uuid="..." /> → posición x="0" y="20", ancho 555 y alto 15. El atributo  activa la interpretación de etiquetas de estilo en el contenido.
+
+Línea 20-22: <textElement verticalAlignment="Middle"> → alineación vertical centrada. La fuente es DejaVu Sans 8.
+
+Línea 23: <text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text> → contenido con la etiqueta <b> que se interpreta como negrita. El resultado es Precio en euros con IVA incluido con la palabra euros en negrita.
+
+Línea 24: </staticText> → cierra el nuevo elemento.
+
+Línea 25: </band> → cierra la banda de cabecera.
+
+Línea 26: </pageHeader> → cierra la sección de cabecera.
+
+Línea 27: <detail> → abre la banda de detalle.
+
+Línea 28: <band height="20" splitType="Stretch"> → banda con 20 unidades de informe de altura y splitType Stretch.
+
+Línea 29: <textField textAdjust="StretchHeight"> → campo del título con la propiedad de ajuste de texto `textAdjust="StretchHeight"` activada. Permite que el título se ajuste en varias líneas si es largo.
+
+Línea 30: <reportElement x="0" y="0" width="300" height="20" uuid="..."/> → posición y tamaño del campo del título.
+
+Línea 31-33: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 10.
+
+Línea 34: <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression> → expresión que devuelve el título del libro.
+
+Línea 35: </textField> → cierra el campo del título.
+
+Línea 36: <textField pattern="#,##0.00 €" isBlankWhenNull="true"> → campo del precio con patrón que incluye el símbolo del euro y la propiedad isBlankWhenNull activada.
+
+Línea 37: <reportElement x="300" y="0" width="100" height="20" uuid="..."/> → posición y tamaño del campo del precio.
+
+Línea 38-40: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 10.
+
+Línea 41: <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression> → expresión que devuelve el precio del libro.
+
+Línea 42: </textField> → cierra el campo del precio.
+
+Línea 43: <staticText> → abre el staticText con el rótulo #.
+
+Línea 44: <reportElement x="400" y="0" width="30" height="20" uuid="..."/> → posición x="400", ancho 30.
+
+Línea 45-47: <textElement textAlignment="Right" verticalAlignment="Middle"> → alineación derecha y centrado vertical. Fuente DejaVu Sans 9.
+
+Línea 48: <text><![CDATA[# ]]></text> → contenido literal # con el espacio al final.
+
+Línea 49: </staticText> → cierra el elemento.
+
+Línea 50: <textField> → abre el campo del número de registro.
+
+Línea 51: <reportElement x="430" y="0" width="30" height="20" uuid="..."/> → posición x="430", ancho 30.
+
+Línea 52-54: <textElement textAlignment="Right" verticalAlignment="Middle"> → alineación derecha y centrado vertical. Fuente DejaVu Sans 9.
+
+Línea 55: <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression> → expresión que devuelve el número del registro actual.
+
+Línea 56: </textField> → cierra el campo.
+
+Línea 57: </band> → cierra la banda de detalle.
+
+Línea 58: </detail> → cierra la sección de detalle.
+
+Línea 59: <columnFooter> → abre la banda de pie de columna.
+
+Línea 60: <band height="40"> → la banda crece de 25 a 40 unidades de informe para alojar los nuevos elementos.
+
+Línea 61-67: primer staticText con el texto separador --- Fin de la tabla de datos ---.
+
+Línea 68: <staticText> → abre el nuevo staticText con el rótulo Registros procesados:.
+
+Línea 69: <reportElement x="0" y="20" width="150" height="15" uuid="..."/> → posición x="0" y="20", ancho 150.
+
+Línea 70-72: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 9.
+
+Línea 73: <text><![CDATA[Registros procesados: ]]></text> → contenido literal con el espacio al final.
+
+Línea 74: </staticText> → cierra el elemento.
+
+Línea 75: <textField> → abre el campo del recuento total.
+
+Línea 76: <reportElement x="150" y="20" width="100" height="15" uuid="..."/> → posición x="150" y="20", ancho 100.
+
+Línea 77-79: <textElement verticalAlignment="Middle"> → alineación vertical centrada. Fuente DejaVu Sans 9 en negrita.
+
+Línea 80: <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression> → expresión que devuelve el número total de registros procesados.
+
+Línea 81: </textField> → cierra el campo.
+
+Línea 82: </band> → cierra la banda de pie de columna.
+
+Línea 83: </columnFooter> → cierra la sección de pie de columna.
+
+### Parte C — Código Java explicado línea por línea
+
+En este punto no se modifica el código Java del programa. Las clases Libro, CatalogoDataSource y GeneradorInformeConcepto permanecen tal como se construyeron en el punto 2.1. Se reproducen a continuación las tres clases para referencia.
+
+#### Clase Libro.java
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Libro {
+
+    private String titulo;
+    private Double precio;
+
+    public Libro(String titulo, Double precio) {
+        this.titulo = titulo;
+        this.precio = precio;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public static List<Libro> listaEjemplo() {
+        List<Libro> libros = new ArrayList<>();
+        libros.add(new Libro("Cien años de soledad", 19.95));
+        libros.add(new Libro("Rayuela", 22.50));
+        libros.add(new Libro("La ciudad y los perros", 18.75));
+        libros.add(new Libro("Pedro Páramo", 15.90));
+        libros.add(new Libro("Ficciones", 21.00));
+        libros.add(new Libro("La casa de los espíritus", 23.40));
+        libros.add(new Libro("El amor en los tiempos del cólera", 20.80));
+        libros.add(new Libro("La muerte de Artemio Cruz", 17.60));
+        libros.add(new Libro("Doña Bárbara", 16.95));
+        libros.add(new Libro("Martín Fierro", 14.50));
+        libros.add(new Libro("Comala", 19.20));
+        libros.add(new Libro("Paradiso", 25.00));
+        return libros;
+    }
+}
+```
+
+Línea 1: import java.util.ArrayList; → importa la clase ArrayList para construir la lista de libros.
+
+Línea 2: import java.util.List; → importa la interfaz List para declarar la lista.
+
+Línea 4: public class Libro { → declara la clase Libro.
+
+Línea 6: private String titulo; → campo que almacena el título del libro.
+
+Línea 7: private Double precio; → campo que almacena el precio del libro.
+
+Línea 9-12: constructor que recibe el título y el precio y los asigna a los campos.
+
+Línea 14-16: método getTitulo() que devuelve el título.
+
+Línea 18-20: método getPrecio() que devuelve el precio.
+
+Línea 22-35: método estático listaEjemplo() que construye y devuelve una lista de doce libros.
+
+#### Clase CatalogoDataSource.java
+
+```java
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRField;
+
+public class CatalogoDataSource implements JRDataSource {
+
+    private final List<Libro> libros;
+    private int indice = -1;
+
+    public CatalogoDataSource(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    @Override
+    public boolean next() {
+        indice++;
+        return indice < libros.size();
+    }
+
+    @Override
+    public Object getFieldValue(JRField campo) {
+        Libro actual = libros.get(indice);
+        if ("titulo".equals(campo.getName())) {
+            return actual.getTitulo();
+        } else if ("precio".equals(campo.getName())) {
+            return actual.getPrecio();
+        }
+        return null;
+    }
+}
+```
+
+Línea 1: import java.util.List; → importa la interfaz List.
+
+Línea 3: import net.sf.jasperreports.engine.JRDataSource; → importa la interfaz que define el contrato de las fuentes de datos.
+
+Línea 4: import net.sf.jasperreports.engine.JRField; → importa la clase que representa un campo solicitado por el motor.
+
+Línea 6: public class CatalogoDataSource implements JRDataSource { → declara la clase y la obliga a implementar la interfaz.
+
+Línea 8: private final List<Libro> libros; → almacena la lista de libros que se va a recorrer.
+
+Línea 9: private int indice = -1; → contador interno. Comienza en −1 porque el motor invoca next() antes de leer el primer registro.
+
+Línea 11-13: constructor que recibe la lista y la asigna al campo.
+
+Línea 15-19: método next() que incrementa el índice y devuelve verdadero mientras queden registros.
+
+Línea 21-30: método getFieldValue(JRField campo) que recibe el campo solicitado por el motor y devuelve el valor correspondiente del registro actual.
+
+#### Clase GeneradorInformeConcepto.java
+
+```java
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeConcepto {
+
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_concepto.jrxml";
+            String rutaJasper = "reports/informe_concepto.jasper";
+            String rutaPdf = "output/informe_concepto.pdf";
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<>();
+
+            JasperPrint documento = JasperFillManager.fillReport(
+                    rutaJasper,
+                    parametros,
+                    new CatalogoDataSource(Libro.listaEjemplo()));
+
+            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
+            System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+            System.out.println("Páginas del documento: " + documento.getPages().size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Línea 1: import java.io.File; → importa la clase File para obtener la ruta absoluta del PDF.
+
+Línea 2: import java.util.HashMap; → importa la implementación de mapa.
+
+Línea 3: import java.util.Map; → importa la interfaz Map.
+
+Línea 5: import net.sf.jasperreports.engine.JasperCompileManager; → importa el gestor de compilación.
+
+Línea 6: import net.sf.jasperreports.engine.JasperExportManager; → importa el gestor de exportación.
+
+Línea 7: import net.sf.jasperreports.engine.JasperFillManager; → importa el gestor de llenado.
+
+Línea 8: import net.sf.jasperreports.engine.JasperPrint; → importa la clase del documento en memoria.
+
+Línea 10: public class GeneradorInformeConcepto { → declara la clase principal.
+
+Línea 12: public static void main(String[] args) { → punto de entrada.
+
+Línea 13: try { → abre el bloque protegido.
+
+Línea 14: String rutaJrxml = "reports/informe_concepto.jrxml"; → ruta del archivo de diseño.
+
+Línea 15: String rutaJasper = "reports/informe_concepto.jasper"; → ruta del artefacto compilado.
+
+Línea 16: String rutaPdf = "output/informe_concepto.pdf"; → ruta del PDF de salida.
+
+Línea 18: JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper); → compila el JRXML.
+
+Línea 20: Map<String, Object> parametros = new HashMap<>(); → declara el mapa de parámetros vacío.
+
+Línea 22: JasperPrint documento = → declara la variable del documento.
+
+Línea 22 (continuación): JasperFillManager.fillReport( → invoca el motor de llenado.
+
+Línea 23: rutaJasper, → ruta del artefacto compilado.
+
+Línea 24: parametros, → mapa de parámetros.
+
+Línea 25: new CatalogoDataSource(Libro.listaEjemplo())); → construye la fuente de datos con la lista de doce libros.
+
+Línea 27: JasperExportManager.exportReportToPdfFile(documento, rutaPdf); → exporta a PDF.
+
+Línea 29: System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath()); → imprime la ruta del PDF.
+
+Línea 30: System.out.println("Páginas del documento: " + documento.getPages().size()); → imprime el número de páginas.
+
+Línea 32: } catch (Exception e) { → captura excepciones.
+
+Línea 33: e.printStackTrace(); → imprime la traza.
+
+Línea 34: } → cierra el bloque catch.
+
+Línea 35: } → cierra el método main.
+
+Línea 36: } → cierra la clase.
+
+#### Traza de consola esperada tras la ejecución
+
+```text
+Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
+Páginas del documento: 1
+```
+
+#### Estado del objeto JasperPrint en cada fase
+
+```text
+FASE 1 — COMPILACIÓN
+─────────────────────
+  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
+  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~16 KB)
+  Salida:           reports/informe_concepto.jasper      (binario serializado, ~32 KB)
+  Propiedades compiladas:
+    - Page Header:  en el rótulo del IVA
+    - Detail: textAdjust="StretchHeight" en el campo título
+    - Detail: isBlankWhenNull="true" en el campo precio
+    - Detail: pattern="#,##0.00 €" en el campo precio
+
+FASE 2 — LLENADO
+─────────────────
+  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
+  Entrada:          reports/informe_concepto.jasper + HashMap vacío
+                    + CatalogoDataSource con 12 libros
+  Salida:           objeto JasperPrint en memoria
+  Páginas:          1
+  Bandas emitidas:
+    - Title (1 vez)
+    - Page Header (1 vez)
+    - Column Header (1 vez)
+    - Detail (12 veces)
+    - Column Footer (1 vez)
+    - Last Page Footer (1 vez)
+    - Summary (1 vez)
+    - Background (1 vez)
+  Valores resueltos:
+    - Fecha de emisión:     22/09/2026
+    - Número de página:     1
+    - Total de páginas:     1
+    - Total de libros:      12
+    - Precios formateados:  19,95 € / 22,50 € / 18,75 € / ...
+
+FASE 3 — EXPORTACIÓN
+─────────────────────
+  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
+  Entrada:          objeto JasperPrint en memoria
+  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~14 KB en disco)
+  Páginas en el PDF: 1
+```
+
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño en Jaspersoft Studio
+
+```text
++-------------------------------------------------------------------------+
+|  informe_concepto.jrxml                          [Design] [Source]      |
++-------------------------------------------------------------------------+
+|  Ruler:  0    100   200   300   400   500   555                         |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  ┌─── Title ──────────────────────────────────────────── h = 70 ─────┐  |
+|  │            Catálogo Editorial - Informe Conceptual                │  |
+|  │  Fecha de emisión:  [ new java.util.Date() ]                       │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Page Header ───────────────────────────────────── h = 40 ─────┐  |
+|  │  Catálogo Editorial (cursiva)    [ "Página "+$V{PAGE_NUM...} ]    │  |
+|  │  Precio en euros con IVA incluido  (Styled Text, "euros" negrita)  │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
+|  │  Título                              │  Precio                    │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Detail 1 ──────────────────────────────────────── h = 20 ─────┐  |
+|  │  [ $F{titulo} ]  │ [ $F{precio} ]  │ [ # ] │ [ $V{REPORT_...} ]  │  |
+|  │  (se emite 12 veces con los 12 libros)                            │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Column Footer ─────────────────────────────────── h = 40 ─────┐  |
+|  │           --- Fin de la tabla de datos ---                         │  |
+|  │  Registros procesados: [ $V{REPORT_COUNT} ]                        │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Page Footer ───────────────────────────────────── h = 30 ─────┐  |
+|  │  EditorialReports - Documento...                                   │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Last Page Footer ──────────────────────────────── h = 30 ─────┐  |
+|  │           Documento generado en la última página                   │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Summary ───────────────────────────────────────── h = 70 ──────┐  |
+|  │  Total de páginas: [ $V{PAGE_NUMBER}` con `evaluationTime="Report" ]                             │  |
+|  │              Fin del informe. EditorialReports.                    │  |
+|  │  Total de libros: [ $V{REPORT_COUNT} ]                            │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Background ────────────────────────────────────── h = 0 ──────┐  |
+|  └───────────────────────────────────────────────────────────────────┘  |
++-------------------------------------------------------------------------+
+|  Palette        │  Properties                                          |
+|  ────────       │  ────────────                                        |
+|  Elements       │  Element: textField                                  |
+|  [ T ] Static   │  Pattern: #,##0.00 €                                 |
+|  [ F ] TextF    │  Blank When Null: [X]                                |
+|  [ ▭ ] Image    │  Stretch With Overflow: [ ]                          |
+|  [ ▦ ] Table    │  Expression: $F{precio}                              |
++-------------------------------------------------------------------------+
+```
+
+**Qué representa:** la disposición de las bandas en el editor central tras completar los doce pasos de la Parte A. La banda Page Header ha crecido a 40 unidades de informe y la banda Column Footer también. La banda Detail contiene cuatro elementos distribuidos horizontalmente.
+
+**Cómo verificarlo:** comparar la vista del editor con este esquema. Las bandas deben aparecer en el orden Title, Page Header, Column Header, Detail 1, Column Footer, Page Footer, Last Page Footer, Summary, Background.
+
+#### D.2 — Jerarquía del Outline
+
+```text
+informe_concepto
+│
+├── Properties
+│   └── com.jaspersoft.studio.data.defaultdataadapter = EmptyDataSource
+│
+├── Styles
+│   └── Sans_Normal  [isDefault=true]
+│
+├── Fields
+│   ├── titulo  [java.lang.String]
+│   └── precio  [java.lang.Double]
+│
+├── Variables
+│   └── TotalPrecios  [java.lang.Double, calculation=Sum]
+│
+├── Title  [band, height=70]
+│   ├── staticText  "Catálogo Editorial - Informe Conceptual"
+│   ├── staticText  "Fecha de emisión:"
+│   └── textField   [pattern=dd/MM/yyyy]  new java.util.Date()
+│
+├── Page Header  [band, height=40, splitType=Prevent]
+│   ├── staticText  "Catálogo Editorial - Informe Conceptual"  (italic)
+│   ├── textField   [right]  "Página " + $V{PAGE_NUMBER} + " de"
+│   └── staticText  [markup=styled]  "Precio en <b>euros</b> con IVA incluido"
+│
+├── Column Header  [band, height=25]
+│   ├── staticText  "Título"  (bold)
+│   └── staticText  "Precio"  (bold)
+│
+├── Detail 1  [band, height=20, splitType=Stretch]
+│   ├── textField   [textAdjust=StretchHeight]  $F{titulo}
+│   ├── textField   [pattern=#,##0.00 €, isBlankWhenNull=true]  $F{precio}
+│   ├── staticText  [right]  "# "
+│   └── textField   [right]  $V{REPORT_COUNT}
+│
+├── Column Footer  [band, height=40]
+│   ├── staticText  "--- Fin de la tabla de datos ---"
+│   ├── staticText  "Registros procesados: "
+│   └── textField   [bold]  $V{REPORT_COUNT}
+│
+├── Page Footer  [band, height=30]
+│   └── staticText  "EditorialReports - Documento..."
+│
+├── Last Page Footer  [band, height=30]
+│   └── staticText  "Documento generado en la última página"
+│
+├── Summary  [band, height=70]
+│   ├── staticText  "Total de páginas:"
+│   ├── textField   $V{PAGE_NUMBER}` con `evaluationTime="Report"
+│   ├── staticText  "Fin del informe. EditorialReports."
+│   ├── staticText  "Total de libros:"  (bold)
+│   └── textField   $V{REPORT_COUNT}  (bold)
+│
+└── Background  [band, height=0]
+```
+
+**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline tras completar los doce pasos. La novedad respecto al punto 2.1 es la ampliación de las bandas Page Header y Column Footer, y los nuevos elementos en la banda Detail.
+
+**Cómo verificarlo:** expandir el nodo informe_concepto en el panel Outline y comparar la estructura. Cada textField debe mostrar sus propiedades específicas entre corchetes.
+
+#### D.3 — Documento PDF resultante, página por página
+
+```text
+INFORME: informe_concepto.pdf
+PÁGINAS TOTALES: 1
+TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+MÁRGENES: izquierdo 20, derecho 20, superior 20, inferior 20
+REGISTROS PROCESADOS: 12
+BANDAS EMITIDAS:
+  - Title, Page Header, Column Header, Detail (12 veces),
+    Column Footer, Last Page Footer, Summary, Background
+
+──────────────────── Página 1 de 1 ────────────────────
+╔══════════════════════════════════════════════════════════╗
+║         Catálogo Editorial - Informe Conceptual          ║
+║                                                          ║
+║  Fecha de emisión:  22/09/2026                           ║
+║                                                          ║
+║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
+║  Precio en euros con IVA incluido  (euros en negrita)   ║
+║                                                          ║
+║  Título                              │  Precio           ║
+║  ─────────────────────────────────────────────────────   ║
+║  Cien años de soledad        19,95 € │  # 1             ║
+║  Rayuela                     22,50 € │  # 2             ║
+║  La ciudad y los perros      18,75 € │  # 3             ║
+║  Pedro Páramo                15,90 € │  # 4             ║
+║  Ficciones                   21,00 € │  # 5             ║
+║  La casa de los espíritus    23,40 € │  # 6             ║
+║  El amor en los tiempos...   20,80 € │  # 7             ║
+║  La muerte de Artemio Cruz   17,60 € │  # 8             ║
+║  Doña Bárbara                16,95 € │  # 9             ║
+║  Martín Fierro               14,50 € │  # 10            ║
+║  Comala                      19,20 € │  # 11            ║
+║  Paradiso                    25,00 € │  # 12            ║
+║  ─────────────────────────────────────────────────────   ║
+║           --- Fin de la tabla de datos ---               ║
+║  Registros procesados: 12                                ║
+║                                                          ║
+║         Documento generado en la última página           ║
+║                                                          ║
+║  Total de páginas: 1                                     ║
+║           Fin del informe. EditorialReports.             ║
+║  Total de libros: 12                                     ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+**Qué representa:** la página única del PDF resultante. Los precios aparecen con el símbolo del euro, el título largo El amor en los tiempos del cólera se ajusta en varias líneas y la columna de la derecha muestra el número correlativo del registro.
+
+**Cómo verificarlo:** abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que los precios muestran el símbolo del euro, que el rótulo Precio en euros con IVA incluido aparece en el Page Header con la palabra euros en negrita y que la columna del número de registro muestra valores del 1 al 12.
+
+#### D.4 — Árbol de carpetas del proyecto tras completar el punto
+
+```text
+EditorialReports/
+│
+├── ECOSISTEMA.md                                 (documentación del ecosistema)
+├── ENTORNO.md                                    (documentación del entorno)
+├── BANDAS.md                                     (documentación de las bandas)
+├── JRXML.md                                      (documentación del formato JRXML)
+├── TEXTO.md                                      (documentación de elementos textuales)
+│
+├── reports/
+│   ├── informe_concepto.jrxml                    (plantilla ampliada)
+│   └── informe_concepto.jasper                   (artefacto compilado)
+│
+├── resources/
+│   └── (vacía en este punto)
+│
+└── output/
+    └── informe_concepto.pdf                      (documento con formato aplicado)
+
+EditorialReportsJava/
+│
+├── lib/
+│   └── README.md   (el runtime real se resuelve con Maven)
+│
+└── src/
+    ├── GeneradorInformeConcepto.java
+    ├── Libro.java
+    └── CatalogoDataSource.java
+```
+
+**Qué representa:** el estado de los dos proyectos tras completar los doce pasos. La novedad respecto al punto anterior es el archivo TEXTO.md en la raíz del proyecto EditorialReports.
+
+**Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si el archivo TEXTO.md no aparece, repetir el paso 12.
+
+### Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+| --- | --- | --- |
+| El patrón #,##0.00 € muestra el símbolo del euro como ? | La fuente del campo no soporta el carácter € | Cambiar la fuente del campo a una que soporte el símbolo, como DejaVu Sans o DejaVu Sans |
+| El campo con isBlankWhenNull no se muestra vacío | La expresión devuelve una cadena vacía en lugar de null | Verificar que la fuente de datos devuelve null para los registros sin precio |
+| El texto con markup="styled" imprime las etiquetas <b> como texto literal | La propiedad markup="styled" no está activada en el reportElement | Marcar la casilla Styled Text en el panel Properties |
+| El texto con etiquetas HTML produce un error de análisis XML | El contenido no está encerrado en un bloque CDATA | Encerrar el contenido en <![CDATA[...]]> |
+| El campo con isStretchWithOverflow no aumenta de altura | La banda contenedora tiene splitType="Prevent" | Cambiar la banda a splitType="Stretch" o aumentar la altura del campo |
+| La banda Page Header se divide entre páginas | La propiedad splitType está en Stretch | Cambiar a splitType="Prevent" en el panel Properties de la banda |
+| El número de registro aparece siempre como 12 | Se usó $V{REPORT_COUNT} en la banda Summary en lugar de en la banda Detail | Verificar que el campo está en la banda Detail 1 y no en la Summary |
+| El rótulo # aparece sin espacio antes del número | El texto se escribió sin el espacio al final | Editar el texto del staticText y añadir el espacio: # |
+| El campo del número de registro se solapa con el campo del precio | El ancho de los elementos supera el ancho de la columna | Reducir el ancho del campo del título a 300 y ajustar las posiciones |
+| El informe produce StackOverflowError al llenar | El campo con isStretchWithOverflow se ha colocado en una banda con altura cero | Ampliar la altura de la banda Detail a 20 unidades de informe |
+
+### Reto resuelto paso a paso
+
+**Enunciado:** añadir un rótulo estático en la banda Detail que muestre la palabra Disponible cuando el precio sea superior a 20 euros. Utilizar la configuración `markup="styled"` para aplicar negrita al texto.
+
+Paso 1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
+
+Paso 2. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+Paso 3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+Paso 4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
+
+Paso 5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=460, y=0.
+
+Paso 6. Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
+
+Paso 7. Escribir exactamente $F{precio}.doubleValue() > 20.0 ? "<b>Disponible</b>" : "" y pulsar Enter.
+
+Paso 8. Hacer clic sobre el campo Width, escribir 80 y pulsar Enter.
+
+Paso 9. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+Paso 10. Hacer clic sobre el campo X, escribir 460 y pulsar Enter.
+
+Paso 11. Hacer clic sobre el campo Y, escribir 0 y pulsar Enter.
+
+Paso 12. Hacer clic sobre la pestaña Properties y marcar la casilla Styled Text.
+
+Paso 13. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
+
+Paso 14. Pulsar Ctrl+S para guardar el archivo.
+
+Paso 15. Pulsar Ctrl+Mayús+B para compilar el informe.
+
+Paso 16. Hacer clic con el botón derecho sobre GeneradorInformeConcepto.java y seleccionar Run As > Java Application.
+
+Paso 17. Abrir el archivo output/informe_concepto.pdf y verificar que los libros con precio superior a 20 euros muestran la palabra Disponible en negrita.
+
+#### Simulación ASCII del PDF tras el reto
+
+```text
+╔══════════════════════════════════════════════════════════╗
+║         Catálogo Editorial - Informe Conceptual          ║
+║                                                          ║
+║  Título                              │  Precio    │ Av.  ║
+║  ───────────────────────────────────────────────────     ║
+║  Cien años de soledad        19,95 € │  # 1       │      ║
+║  Rayuela                     22,50 € │  # 2       │Dispon║
+║  La ciudad y los perros      18,75 € │  # 3       │      ║
+║  Pedro Páramo                15,90 € │  # 4       │      ║
+║  Ficciones                   21,00 € │  # 5       │Dispon║
+║  La casa de los espíritus    23,40 € │  # 6       │Dispon║
+║  El amor en los tiempos...   20,80 € │  # 7       │Dispon║
+║  La muerte de Artemio Cruz   17,60 € │  # 8       │      ║
+║  Doña Bárbara                16,95 € │  # 9       │      ║
+║  Martín Fierro               14,50 € │  # 10      │      ║
+║  Comala                      19,20 € │  # 11      │      ║
+║  Paradiso                    25,00 € │  # 12      │Dispon║
+╚══════════════════════════════════════════════════════════╝
+Resultado del reto: el campo de la derecha muestra la palabra Disponible en negrita cuando el precio supera 20 euros y queda vacío en caso contrario. La expresión utiliza el operador ternario de Java y la configuración `markup="styled"` interpreta las etiquetas <b>. Los libros con precio superior a 20 euros son Rayuela, Ficciones, La casa de los espíritus, El amor en los tiempos del cólera y Paradiso.
+```
+
+### Analogía final con el contexto de la editorial
+
+Los elementos textuales son los bloques con los que se compone el catálogo. El texto estático es el rótulo impreso que el diseñador coloca a mano: Precio:, Título, Precio en euros con IVA incluido. El campo de texto es el espacio reservado para el dato que se estampa en el momento de la tirada: 19,95 €, Cien años de soledad, el número de registro. Las propiedades de formato son las decisiones tipográficas: negrita, cursiva, alineación, color. La combinación de rótulos y campos construye la tabla del catálogo fila a fila. Cada decisión de formato afecta a la legibilidad del documento y a la impresión que el lector se lleva de la editorial.
+
+### Resultado esperado
+
+- Al finalizar este punto, el alumno dispone de:
+
+- El archivo reports/informe_concepto.jrxml con las bandas Page Header y Column Footer ampliadas y con los nuevos elementos de la banda Detail.
+
+- Los campos con las propiedades textAdjust="StretchHeight", isBlankWhenNull y pattern aplicadas.
+
+- El rótulo del Page Header con la configuración `markup="styled"` activada.
+
+- El archivo output/informe_concepto.pdf con los precios formateados con el símbolo del euro, el número de registro por fila y el aviso sobre el IVA en el encabezado.
+
+- El archivo TEXTO.md en la raíz del proyecto con la documentación de las propiedades.
+
+- Comprensión operativa de las propiedades comunes y específicas de los elementos textuales.
+
+
+## Punto 2.3 — Campos
+
+> **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu propio proyecto del punto anterior. Si te incorporas directamente aquí, usa `M2/2.2` como estado inicial. El checkpoint `M2/2.3` contiene la solución completa de este punto y no debe consultarse antes del ejercicio si quieres evitar spoilers.
+
+### Parte A — Práctica visual
+
+#### Paso 1: Ampliar la clase Libro con nuevos campos [VALIDADO]
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo Libro.java en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic al final de la línea private Double precio; y pulsar Enter.
+
+3. Escribir exactamente private Integer paginas; y pulsar Enter.
+
+4. Escribir exactamente private java.util.Date fechaPublicacion; y pulsar Enter.
+
+5. Escribir exactamente private Boolean disponible; y pulsar Enter.
+
+6. Hacer clic al final del constructor public Libro(String titulo, Double precio) { y pulsar Enter.
+
+7. Escribir exactamente this.paginas = 0; y pulsar Enter.
+
+8. Escribir exactamente this.fechaPublicacion = new java.util.Date(); y pulsar Enter.
+
+9. Escribir exactamente this.disponible = Boolean.TRUE; y pulsar Enter.
+
+10. Hacer clic al final del método getPrecio() y pulsar Enter dos veces.
+
+11. Escribir exactamente public Integer getPaginas() { return paginas; } y pulsar Enter.
+
+12. Escribir exactamente public java.util.Date getFechaPublicacion() { return fechaPublicacion; } y pulsar Enter.
+
+13. Escribir exactamente public Boolean getDisponible() { return disponible; } y pulsar Enter.
+
+14. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el editor central muestra la clase Libro con los tres campos nuevos, sus asignaciones en el constructor y sus tres métodos getter. El panel Problems permanece vacío.
+
+**Qué hace:** amplía la clase Libro con tres propiedades adicionales y sus métodos getter.
+
+**Por qué:** los nuevos campos permiten ampliar el informe con información de páginas, fecha de publicación y disponibilidad.
+
+**Error común:** escribir los métodos getter sin el tipo de retorno correspondiente. El compilador informa The method must return a result of type Integer. Solución: comprobar que cada método declara el tipo de retorno correcto.
+
+**Analogía:** es como ampliar la ficha técnica de cada libro del catálogo con nuevos datos descriptivos.
+
+#### Paso 2: Ampliar el método listaEjemplo con los nuevos datos [VALIDADO]
+
+**Acciones:**
+
+1. En el editor central, hacer clic al final del método listaEjemplo() y desplazarse hasta la última línea que contiene return libros;.
+
+2. Hacer clic sobre la última línea libros.add(new Libro("Paradiso", 25.00)); y pulsar Enter.
+
+3. Escribir exactamente libros.add(new Libro("La invención de Morel", 18.30)); y pulsar Enter.
+
+4. Escribir exactamente libros.add(new Libro("El túnel", 16.20)); y pulsar Enter.
+
+5. Pulsar Ctrl+S para guardar el archivo.
+
+6. Observar el panel Problems y verificar que no hay errores.
+
+**Verificación visual:** la lista listaEjemplo() contiene catorce libros tras la ampliación.
+
+**Qué hace:** añade dos libros más a la lista de ejemplo para que el informe tenga más registros.
+
+**Por qué:** el informe con catorce registros permite comprobar el comportamiento de la banda Detail con un volumen mayor.
+
+**Error común:** olvidar la coma al final del constructor. El compilador informa ';' expected. Solución: revisar cada línea del método.
+
+**Analogía:** es como añadir dos libros más al catálogo para la nueva edición.
+
+#### Paso 3: Declarar los nuevos campos en el JRXML [VALIDADO]
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+3. Hacer clic al final de la línea que contiene <field name="precio" class="java.lang.Double"/> y pulsar Enter.
+
+4. Escribir exactamente <field name="paginas" class="java.lang.Integer"/> y pulsar Enter.
+
+5. Escribir exactamente <field name="fechaPublicacion" class="java.util.Date"/> y pulsar Enter.
+
+6. Escribir exactamente <field name="disponible" class="java.lang.Boolean"/> y pulsar Enter.
+
+7. Pulsar Ctrl+S para guardar el archivo.
+
+8. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+9. Expandir el nodo Fields en el panel Outline (inferior izquierdo) y verificar que aparecen los cinco campos.
+
+**Verificación visual:** el panel Outline muestra el nodo Fields con cinco entradas: titulo, precio, paginas, fechaPublicacion y disponible.
+
+**Qué hace:** declara los tres nuevos campos en el JRXML con sus tipos correspondientes.
+
+**Por qué:** las nuevas expresiones $F{paginas}, $F{fechaPublicacion} y $F{disponible} necesitan que los campos estén declarados.
+
+**Error común:** escribir el nombre del campo con mayúscula inicial (Paginas). El motor busca el campo por el nombre exacto y lanza Field not found: Paginas. Solución: usar el nombre exacto en minúsculas que coincide con el método getter de la clase Libro.
+
+**Analogía:** es como declarar en el pliego los nuevos datos que se van a extraer del manuscrito.
+
+#### Paso 4: Ampliar la banda Detail con la columna de páginas [VALIDADO]
+
+**Acciones:**
+
+1. Seleccionar `Detail 1` en el panel Outline.
+2. Arrastrar un `Text Field` a la banda Detail.
+3. Escribir `$F{paginas}` como expresión.
+4. En Properties fijar X=`325`, Y=`0`, Width=`55`, Height=`20`.
+5. Seleccionar alineación horizontal `Right`.
+6. Guardar con Ctrl+S.
+
+**Verificación visual:** el campo de páginas ocupa la franja 325-380 y no invade el ancho útil de 555 unidades.
+
+**Qué hace:** añade la columna numérica de páginas usando el campo `paginas`.
+
+**Por qué:** el diseño queda preparado para añadir después año, disponibilidad y contador dentro de la misma página A4.
+
+**Error común:** usar las coordenadas antiguas 400/500/620 del borrador original. Esas posiciones terminaban excediendo el ancho útil del informe. La edición validada compacta todas las columnas dentro de `columnWidth="555"`.
+
+#### Paso 5: Reubicar el contador de registro [VALIDADO]
+
+**Acciones:**
+
+1. Seleccionar el `Text Field` cuya expresión es `$V{REPORT_COUNT}`.
+2. Fijar X=`495`, Y=`0`, Width=`60`, Height=`20`.
+3. Seleccionar alineación horizontal `Right`.
+4. Si todavía existe un `Static Text` independiente con `#` procedente del punto 2.2, eliminarlo: a partir de este punto el rótulo `#` se mantiene en `Column Header` y Detail contiene solo el valor del contador.
+
+**Verificación visual:** el contador queda al extremo derecho y todo el Detail sigue dentro de 555 unidades.
+
+#### Paso 6: Añadir el encabezado de la columna de páginas [VALIDADO]
+
+**Acciones:**
+
+1. Seleccionar `Column Header`.
+2. Arrastrar `Static Text` y escribir `Páginas`.
+3. Fijar X=`325`, Y=`5`, Width=`55`, Height=`15`.
+4. Seleccionar alineación `Right` y negrita.
+
+**Verificación visual:** `Páginas` queda alineado con `$F{paginas}`.
+
+#### Paso 7: Añadir la columna de fecha de publicación [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un `Text Field` a `Detail 1`.
+2. Escribir `$F{fechaPublicacion}`.
+3. Fijar X=`380`, Y=`0`, Width=`50`, Height=`20`.
+4. Configurar Pattern=`yyyy`.
+5. Seleccionar alineación horizontal `Center`.
+
+**Verificación visual:** el informe muestra el año de publicación en una columna compacta.
+
+#### Paso 8: Añadir el encabezado de año y mantener el contador al final [VALIDADO]
+
+**Acciones:**
+
+1. En `Column Header`, añadir un `Static Text` con el texto `Año`.
+2. Fijar X=`380`, Y=`5`, Width=`50`, Height=`15`.
+3. Seleccionar alineación `Center` y negrita.
+4. Verificar que el contador de Detail permanece en X=`495`, Width=`60`.
+
+**Verificación visual:** la columna de año ocupa 380-430 y el contador sigue reservado al extremo derecho.
+
+#### Paso 9: Añadir el encabezado de disponibilidad [VALIDADO]
+
+**Acciones:**
+
+1. En `Column Header`, añadir un `Static Text` con el texto `Disp.`.
+2. Fijar X=`430`, Y=`5`, Width=`65`, Height=`15`.
+3. Seleccionar alineación `Center` y negrita.
+4. Añadir otro `Static Text` con el texto `#` en X=`495`, Y=`5`, Width=`60`, Height=`15`, alineado a la derecha.
+
+**Verificación visual:** la cabecera completa ocupa exactamente el ancho útil del informe.
+
+#### Paso 10: Añadir el campo disponible [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un `Text Field` a `Detail 1`.
+2. Fijar X=`430`, Y=`0`, Width=`65`, Height=`20`.
+3. Escribir la expresión `$F{disponible}.booleanValue() ? "Sí" : "No"`.
+4. Seleccionar alineación `Center`.
+5. Guardar el JRXML y comprobar que no hay errores en Problems.
+
+**Verificación visual:** aparecen seis columnas dentro de 555 unidades: título, precio, páginas, año, disponibilidad y número de registro.
+
+**Qué hace:** completa el modelo visual de los cinco campos de negocio más el contador de registro.
+
+**Por qué:** prepara el layout que en 2.4 reservará una franja izquierda para las imágenes sin salir del ancho A4.
+
+
+#### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre la pestaña Design del editor central.
+
+2. Pulsar Ctrl+S para guardar el archivo JRXML.
+
+3. Pulsar Ctrl+Mayús+B para compilar el informe.
+
+4. Hacer clic sobre el panel Problems y verificar que no hay errores.
+
+5. Hacer clic con el botón derecho sobre el archivo GeneradorInformeConcepto.java en el panel Project Explorer.
+
+6. Hacer clic sobre la opción Run As en el menú contextual.
+
+7. Hacer clic sobre la opción Java Application en el submenú.
+
+8. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
+
+**Verificación visual:** la vista Console muestra la línea Informe generado en: ... con la ruta absoluta del archivo PDF. El panel Problems permanece vacío.
+
+**Qué hace:** compila el informe y ejecuta el programa Java con los nuevos campos declarados.
+
+**Por qué:** la ejecución confirma que los tres campos nuevos se resuelven correctamente desde la fuente de datos.
+
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+
+**Analogía:** es como imprimir la tirada del catálogo con los nuevos datos incluidos en la tabla.
+
+#### Paso 12: Documentar los campos del proyecto [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo EditorialReports en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la opción New en el menú contextual.
+
+3. Hacer clic sobre la opción File en el submenú.
+
+4. Escribir exactamente CAMPOS.md en el campo File name del diálogo.
+
+5. Hacer clic sobre el botón Finish.
+
+6. En el editor central, escribir exactamente # Campos del informe y pulsar Enter dos veces.
+
+7. Escribir exactamente | Nombre | Tipo Java | Origen | y pulsar Enter.
+
+8. Escribir exactamente |---|---|---| y pulsar Enter.
+
+9. Escribir exactamente | titulo | java.lang.String | Libro.getTitulo() | y pulsar Enter.
+
+10. Escribir exactamente | precio | java.lang.Double | Libro.getPrecio() | y pulsar Enter.
+
+11. Escribir exactamente | paginas | java.lang.Integer | Libro.getPaginas() | y pulsar Enter.
+
+12. Escribir exactamente | fechaPublicacion | java.util.Date | Libro.getFechaPublicacion() | y pulsar Enter.
+
+13. Escribir exactamente | disponible | java.lang.Boolean | Libro.getDisponible() | y pulsar Enter.
+
+14. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el panel Project Explorer muestra el archivo CAMPOS.md en la raíz del proyecto EditorialReports con la tabla de campos documentada.
+
+**Qué hace:** incorpora al proyecto un documento que registra los campos del informe y su origen.
+
+**Por qué:** la documentación de los campos facilita el mantenimiento y la incorporación de nuevos desarrolladores.
+
+**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown. Solución: revisar cada línea y asegurarse de que comienza y termina con |.
+
+**Analogía:** es como dejar en la editorial una tabla con los datos que se extraen de cada manuscrito para el catálogo.
+
+### Parte B — JRXML explicado y contrastado
+
+Se reproduce únicamente la sección modificada del JRXML. Las secciones modificadas son la declaración de campos, la banda columnHeader, la banda detail y el cierre del elemento raíz.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="informe_concepto"
+              language="java"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <field name="titulo" class="java.lang.String"/>
+    <field name="precio" class="java.lang.Double"/>
+    <field name="paginas" class="java.lang.Integer"/>
+    <field name="fechaPublicacion" class="java.util.Date"/>
+    <field name="disponible" class="java.lang.Boolean"/>
+    ...
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="5" width="245" height="15" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="245" y="5" width="80" height="15" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="325" y="5" width="55" height="15" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Páginas]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="380" y="5" width="50" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Año]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="20" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="0" width="245" height="20" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="245" y="0" width="80" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="325" y="0" width="55" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="yyyy" isBlankWhenNull="true">
+                <reportElement x="380" y="0" width="50" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="430" y="0" width="65" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="560" y="0" width="30" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <text><![CDATA[# ]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="495" y="0" width="60" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    ...
+</jasperReport>
+```
+
+Línea 17: <field name="titulo" class="java.lang.String"/> → declara el campo titulo de tipo cadena. El nombre coincide con el método getTitulo() de la clase Libro.
+
+Línea 18: <field name="precio" class="java.lang.Double"/> → declara el campo precio de tipo doble. El nombre coincide con el método getPrecio().
+
+Línea 19: <field name="paginas" class="java.lang.Integer"/> → declara el campo paginas de tipo entero. El nombre coincide con el método getPaginas().
+
+Línea 20: <field name="fechaPublicacion" class="java.util.Date"/> → declara el campo fechaPublicacion de tipo fecha. El nombre coincide con el método getFechaPublicacion().
+
+Línea 21: <field name="disponible" class="java.lang.Boolean"/> → declara el campo disponible de tipo booleano. El nombre coincide con el método getDisponible().
+
+Línea 23-66: banda columnHeader. Se han añadido dos nuevos staticText con los encabezados Páginas y Año. Los encabezados existentes Título y Precio conservan sus posiciones.
+
+Línea 40-46: staticText con el encabezado Páginas alineado a la derecha en la coordenada 325, ancho 50.
+
+Línea 47-53: staticText con el encabezado Año centrado en la coordenada 380, ancho 55.
+
+Línea 67-128: banda detail. Se han añadido tres nuevos textField con las expresiones $F{paginas}, $F{fechaPublicacion} y $F{disponible}.booleanValue() ? "Sí" : "No". Los campos existentes se han desplazado para dejar espacio.
+
+Línea 68-75: textField del título con textAdjust="StretchHeight". Se mantiene en la coordenada 0.
+
+Línea 76-83: textField del precio con patrón #,##0.00 € y isBlankWhenNull="true". Se mantiene en la coordenada 300.
+
+Línea 84-91: textField de las páginas con isBlankWhenNull="true". Se coloca en la coordenada 325 con alineación derecha.
+
+Línea 92-99: textField de la fecha con patrón yyyy y isBlankWhenNull="true". Se coloca en la coordenada 380 con alineación centrada.
+
+Línea 100-107: textField de la disponibilidad con la expresión del operador ternario. Se coloca en la coordenada 620 con alineación centrada.
+
+Línea 108-114: staticText con el rótulo # desplazado a la coordenada 560.
+
+Línea 115-122: textField del número de registro $V{REPORT_COUNT} desplazado a la coordenada 590.
+
+Línea 123: </band> → cierra la banda de detalle.
+
+Línea 124: </detail> → cierra la sección de detalle.
+
+### Parte C — Código Java explicado línea por línea
+
+Clase Libro.java ampliada
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Libro {
+
+    private String titulo;
+    private Double precio;
+    private Integer paginas;
+    private java.util.Date fechaPublicacion;
+    private Boolean disponible;
+
+    public Libro(String titulo, Double precio) {
+        this.titulo = titulo;
+        this.precio = precio;
+        this.paginas = 0;
+        this.fechaPublicacion = new java.util.Date();
+        this.disponible = Boolean.TRUE;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public Integer getPaginas() { return paginas; }
+    public java.util.Date getFechaPublicacion() { return fechaPublicacion; }
+    public Boolean getDisponible() { return disponible; }
+
+    public static List<Libro> listaEjemplo() {
+        List<Libro> libros = new ArrayList<>();
+        libros.add(new Libro("Cien años de soledad", 19.95));
+        libros.add(new Libro("Rayuela", 22.50));
+        libros.add(new Libro("La ciudad y los perros", 18.75));
+        libros.add(new Libro("Pedro Páramo", 15.90));
+        libros.add(new Libro("Ficciones", 21.00));
+        libros.add(new Libro("La casa de los espíritus", 23.40));
+        libros.add(new Libro("El amor en los tiempos del cólera", 20.80));
+        libros.add(new Libro("La muerte de Artemio Cruz", 17.60));
+        libros.add(new Libro("Doña Bárbara", 16.95));
+        libros.add(new Libro("Martín Fierro", 14.50));
+        libros.add(new Libro("Comala", 19.20));
+        libros.add(new Libro("Paradiso", 25.00));
+        libros.add(new Libro("La invención de Morel", 18.30));
+        libros.add(new Libro("El túnel", 16.20));
+        return libros;
+    }
+}
+```
+
+Línea 1: import java.util.ArrayList; → importa la clase ArrayList.
+
+Línea 2: import java.util.List; → importa la interfaz List.
+
+Línea 4: public class Libro { → declara la clase Libro.
+
+Línea 6: private String titulo; → campo del título.
+
+Línea 7: private Double precio; → campo del precio.
+
+Línea 8: private Integer paginas; → campo del número de páginas.
+
+Línea 9: private java.util.Date fechaPublicacion; → campo de la fecha de publicación.
+
+Línea 10: private Boolean disponible; → campo de disponibilidad.
+
+Línea 12-18: constructor que recibe el título y el precio y asigna valores por defecto a los tres campos nuevos.
+
+Línea 20-22: método getTitulo().
+
+Línea 24-26: método getPrecio().
+
+Línea 28: public Integer getPaginas() { return paginas; } → método getter del número de páginas. Este método es el que permite a CatalogoDataSource resolver el campo paginas.
+
+Línea 29: public java.util.Date getFechaPublicacion() { return fechaPublicacion; } → método getter de la fecha de publicación.
+
+Línea 30: public Boolean getDisponible() { return disponible; } → método getter de la disponibilidad.
+
+Línea 32-48: método listaEjemplo() que construye la lista de catorce libros.
+
+Clase CatalogoDataSource.java ampliada
+
+```java
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRField;
+
+public class CatalogoDataSource implements JRDataSource {
+
+    private final List<Libro> libros;
+    private int indice = -1;
+
+    public CatalogoDataSource(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    @Override
+    public boolean next() {
+        indice++;
+        return indice < libros.size();
+    }
+
+    @Override
+    public Object getFieldValue(JRField campo) {
+        Libro actual = libros.get(indice);
+        if ("titulo".equals(campo.getName())) {
+            return actual.getTitulo();
+        } else if ("precio".equals(campo.getName())) {
+            return actual.getPrecio();
+        } else if ("paginas".equals(campo.getName())) {
+            return actual.getPaginas();
+        } else if ("fechaPublicacion".equals(campo.getName())) {
+            return actual.getFechaPublicacion();
+        } else if ("disponible".equals(campo.getName())) {
+            return actual.getDisponible();
+        }
+        return null;
+    }
+}
+```
+
+Línea 1: import java.util.List; → importa la interfaz List.
+
+Línea 3-4: importaciones de la interfaz JRDataSource y la clase JRField.
+
+Línea 6: public class CatalogoDataSource implements JRDataSource { → declara la clase.
+
+Línea 8: private final List<Libro> libros; → lista de libros.
+
+Línea 9: private int indice = -1; → contador interno.
+
+Línea 11-13: constructor.
+
+Línea 15-19: método next().
+
+Línea 21-35: método getFieldValue(JRField campo) ampliado con los tres nuevos casos. Cada caso compara el nombre del campo con una cadena literal y devuelve el valor correspondiente del libro actual.
+
+Línea 24-25: primer caso para titulo.
+
+Línea 26-27: segundo caso para precio.
+
+Línea 28-29: tercer caso para paginas.
+
+Línea 30-31: cuarto caso para fechaPublicacion.
+
+Línea 32-33: quinto caso para disponible.
+
+Línea 34: return null; → devuelve null si el nombre no coincide con ningún caso.
+
+#### Clase GeneradorInformeConcepto.java
+
+El programa principal no se modifica en este punto. Sigue usando CatalogoDataSource con la lista de libros ampliada.
+
+#### Traza de consola esperada tras la ejecución
+
+```text
+Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
+Páginas del documento: 1
+```
+
+#### Estado del objeto JasperPrint en cada fase
+
+```text
+FASE 1 — COMPILACIÓN
+─────────────────────
+  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
+  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~20 KB)
+  Salida:           reports/informe_concepto.jasper      (binario serializado, ~40 KB)
+  Campos declarados:
+    - titulo (java.lang.String)
+    - precio (java.lang.Double)
+    - paginas (java.lang.Integer)
+    - fechaPublicacion (java.util.Date)
+    - disponible (java.lang.Boolean)
+  Expresiones compiladas:
+    - $F{titulo}
+    - $F{precio}
+    - $F{paginas}
+    - $F{fechaPublicacion}
+    - $F{disponible}.booleanValue() ? "Sí" : "No"
+    - $V{REPORT_COUNT}
+    - $V{PAGE_NUMBER}
+    - $V{PAGE_NUMBER}` con `evaluationTime="Report"
+
+FASE 2 — LLENADO
+─────────────────
+  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
+  Entrada:          reports/informe_concepto.jasper + HashMap vacío
+                    + CatalogoDataSource con 14 libros
+  Salida:           objeto JasperPrint en memoria
+  Páginas:          1
+  Bandas emitidas:
+    - Title (1 vez)
+    - Page Header (1 vez)
+    - Column Header (1 vez)
+    - Detail (14 veces)
+    - Column Footer (1 vez)
+    - Last Page Footer (1 vez)
+    - Summary (1 vez)
+    - Background (1 vez)
+  Campos resueltos por registro:
+    - titulo: cadena con el título del libro
+    - precio: valor numérico con dos decimales
+    - paginas: entero (0 para todos los registros en este punto)
+    - fechaPublicacion: fecha actual del sistema
+    - disponible: TRUE para todos los registros
+
+FASE 3 — EXPORTACIÓN
+─────────────────────
+  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
+  Entrada:          objeto JasperPrint en memoria
+  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~18 KB en disco)
+  Páginas en el PDF: 1
+```
+
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño en Jaspersoft Studio
+
+```text
++-------------------------------------------------------------------------+
+|  informe_concepto.jrxml                          [Design] [Source]      |
++-------------------------------------------------------------------------+
+|  Ruler:  0   100  200  300  400  500  555  600  650                     |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
+|  │  Título              │ Precio  │ Páginas │ Año  │  Disp.         │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Detail 1 ──────────────────────────────────────── h = 20 ─────┐  |
+|  │ [ $F{titulo} ] [ $F{precio} ] [ $F{pag} ] [ $F{fech} ] [ $F{disp} ]│ │
+|  │                [ $V{REPORT_COUNT} ]                                │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  Panel Outline muestra:                                                 |
+|  Fields                                                                 |
+|   ├── titulo               [java.lang.String]                           |
+|   ├── precio               [java.lang.Double]                           |
+|   ├── paginas              [java.lang.Integer]                          |
+|   ├── fechaPublicacion     [java.util.Date]                             |
+|   └── disponible           [java.lang.Boolean]                          |
++-------------------------------------------------------------------------+
+```
+
+**Qué representa:** la disposición de la banda Column Header y de la banda Detail con los nuevos campos. La tabla de datos tiene ahora seis columnas: Título, Precio, Páginas, Año, Disponible y Número de registro.
+
+**Cómo verificarlo:** comparar la vista del editor con este esquema. Los encabezados deben aparecer en el orden indicado y los campos de la banda Detail deben estar alineados con sus encabezados.
+
+#### D.2 — Jerarquía del Outline
+
+```text
+informe_concepto
+│
+├── Fields
+│   ├── titulo  [java.lang.String]
+│   ├── precio  [java.lang.Double]
+│   ├── paginas  [java.lang.Integer]
+│   ├── fechaPublicacion  [java.util.Date]
+│   └── disponible  [java.lang.Boolean]
+│
+├── Column Header  [band, height=25]
+│   ├── staticText  "Título"  (bold)
+│   ├── staticText  "Precio"  (bold)
+│   ├── staticText  "Páginas"  (bold, right)
+│   └── staticText  "Año"  (bold, center)
+│
+├── Detail 1  [band, height=20, splitType=Stretch]
+│   ├── textField   [textAdjust=StretchHeight]  $F{titulo}
+│   ├── textField   [pattern=#,##0.00 €]  $F{precio}
+│   ├── textField   [isBlankWhenNull=true, right]  $F{paginas}
+│   ├── textField   [pattern=yyyy, center]  $F{fechaPublicacion}
+│   ├── textField   [center]  $F{disponible}.booleanValue() ? "Sí" : "No"
+│   ├── staticText  [right]  "# "
+│   └── textField   [right]  $V{REPORT_COUNT}
+```
+
+**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline. La novedad respecto al punto anterior es la ampliación de la sección Fields con tres nuevos campos y la ampliación de la banda Detail con tres nuevos textField.
+
+**Cómo verificarlo:** expandir el nodo informe_concepto en el panel Outline y comparar la estructura. Cada campo debe mostrar su tipo entre corchetes.
+
+#### D.3 — Documento PDF resultante, página por página
+
+```text
+INFORME: informe_concepto.pdf
+PÁGINAS TOTALES: 1
+TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+REGISTROS PROCESADOS: 14
+CAMPOS RESUELTOS POR REGISTRO: 5 (titulo, precio, paginas,
+                                  fechaPublicacion, disponible)
+
+──────────────────── Página 1 de 1 ────────────────────
+╔══════════════════════════════════════════════════════════╗
+║         Catálogo Editorial - Informe Conceptual          ║
+║                                                          ║
+║  Fecha de emisión:  22/09/2026                           ║
+║                                                          ║
+║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
+║  Precio en euros con IVA incluido  (euros en negrita)   ║
+║                                                          ║
+║  Título             │Precio    │Páginas│ Año │ Disp. │#  ║
+║  ─────────────────────────────────────────────────────   ║
+║  Cien años de sol.  │ 19,95 € │   0   │2026 │ Sí    │1  ║
+║  Rayuela            │ 22,50 € │   0   │2026 │ Sí    │2  ║
+║  La ciudad y los..  │ 18,75 € │   0   │2026 │ Sí    │3  ║
+║  Pedro Páramo       │ 15,90 € │   0   │2026 │ Sí    │4  ║
+║  Ficciones          │ 21,00 € │   0   │2026 │ Sí    │5  ║
+║  La casa de los...  │ 23,40 € │   0   │2026 │ Sí    │6  ║
+║  El amor en los...  │ 20,80 € │   0   │2026 │ Sí    │7  ║
+║  La muerte de Ar... │ 17,60 € │   0   │2026 │ Sí    │8  ║
+║  Doña Bárbara       │ 16,95 € │   0   │2026 │ Sí    │9  ║
+║  Martín Fierro      │ 14,50 € │   0   │2026 │ Sí    │10 ║
+║  Comala             │ 19,20 € │   0   │2026 │ Sí    │11 ║
+║  Paradiso           │ 25,00 € │   0   │2026 │ Sí    │12 ║
+║  La invención de... │ 18,30 € │   0   │2026 │ Sí    │13 ║
+║  El túnel           │ 16,20 € │   0   │2026 │ Sí    │14 ║
+║  ─────────────────────────────────────────────────────   ║
+║           --- Fin de la tabla de datos ---               ║
+║  Registros procesados: 14                                ║
+║                                                          ║
+║         Documento generado en la última página           ║
+║                                                          ║
+║  Total de páginas: 1                                     ║
+║           Fin del informe. EditorialReports.             ║
+║  Total de libros: 14                                     ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+**Qué representa:** la página única del PDF resultante con los catorce libros y las seis columnas de la tabla. Los valores de paginas son 0 porque el constructor asigna ese valor por defecto. Los valores de fechaPublicacion son la fecha actual del sistema porque el constructor la asigna así. Los valores de disponible son Sí porque el constructor asigna Boolean.TRUE.
+
+**Cómo verificarlo:** abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que aparecen las seis columnas y los catorce registros. Si falta alguna columna, revisar la declaración del campo correspondiente.
+
+#### D.4 — Árbol de carpetas del proyecto tras completar el punto
+
+```text
+EditorialReports/
+│
+├── ECOSISTEMA.md                                 (documentación del ecosistema)
+├── ENTORNO.md                                    (documentación del entorno)
+├── BANDAS.md                                     (documentación de las bandas)
+├── JRXML.md                                      (documentación del formato JRXML)
+├── TEXTO.md                                      (documentación de elementos textuales)
+├── CAMPOS.md                                     (documentación de campos)
+│
+├── reports/
+│   ├── informe_concepto.jrxml                    (plantilla con 5 campos)
+│   └── informe_concepto.jasper                   (artefacto compilado)
+│
+├── resources/
+│   └── (vacía en este punto)
+│
+└── output/
+    └── informe_concepto.pdf                      (documento con 14 registros)
+
+EditorialReportsJava/
+│
+├── lib/
+│   └── README.md   (el runtime real se resuelve con Maven)
+│
+└── src/
+    ├── GeneradorInformeConcepto.java
+    ├── Libro.java                                (ampliada con 3 campos)
+    └── CatalogoDataSource.java                   (ampliada con 3 casos)
+```
+
+**Qué representa:** el estado de los dos proyectos tras completar los doce pasos. La novedad respecto al punto anterior es el archivo CAMPOS.md en la raíz del proyecto EditorialReports y la ampliación de las clases Libro y CatalogoDataSource.
+
+**Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si el archivo CAMPOS.md no aparece, repetir el paso 12.
+
+### Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+| --- | --- | --- |
+| Field not found: paginas al compilar | El campo no está declarado en el JRXML | Añadir <field name="paginas" class="java.lang.Integer"/> antes de las bandas |
+| ClassCastException: java.lang.Double cannot be cast to java.lang.Integer | El tipo declarado no coincide con el valor devuelto | Cambiar el tipo del campo al tipo del valor devuelto por la fuente |
+| El campo disponible se muestra siempre como Sí | El constructor asigna Boolean.TRUE a todos los registros | Modificar el constructor o el método listaEjemplo para asignar valores distintos según el libro |
+| La expresión del operador ternario no compila | Se usó $F{disponible} sin invocar booleanValue() | Escribir $F{disponible}.booleanValue() ? "Sí" : "No" |
+| La columna de páginas aparece vacía | El método getter devuelve null o el campo no está resuelto | Verificar que Libro.getPaginas() devuelve un valor no nulo |
+| La columna de fecha muestra 2026 en todos los registros | El constructor asigna new java.util.Date() a todos los libros | Modificar el constructor para recibir la fecha como parámetro o asignar fechas distintas |
+| Los encabezados de la banda Column Header no se alinean con los datos | Las coordenadas X de los encabezados no coinciden con las de los campos | Igualar las coordenadas X de cada par encabezado-campo |
+| El campo paginas muestra 0 en todos los registros | El constructor asigna 0 por defecto | Modificar el constructor o el método listaEjemplo para asignar valores distintos |
+| El informe produce StackOverflowError al llenar | Un campo se resuelve a sí mismo en el getFieldValue | Revisar el método getFieldValue y asegurarse de que devuelve valores del objeto actual |
+| El campo disponible no muestra No en ningún registro | El constructor asigna Boolean.TRUE a todos | Modificar el constructor para asignar Boolean.FALSE a algunos libros |
+
+### Reto resuelto paso a paso
+
+**Enunciado:** modificar el constructor de la clase Libro para recibir el número de páginas, la fecha de publicación y la disponibilidad como parámetros. Actualizar el método listaEjemplo() con valores realistas para cada libro y verificar que el PDF muestra los valores correctos.
+
+Paso 1. Hacer doble clic sobre el archivo Libro.java en el panel Project Explorer.
+
+Paso 2. Hacer clic sobre la línea public Libro(String titulo, Double precio) { y seleccionarla completa con Mayús+Inicio.
+
+Paso 3. Escribir exactamente public Libro(String titulo, Double precio, Integer paginas, java.util.Date fechaPublicacion, Boolean disponible) {.
+
+Paso 4. Hacer clic sobre la línea this.paginas = 0; y seleccionarla completa.
+
+Paso 5. Escribir exactamente this.paginas = paginas;.
+
+Paso 6. Hacer clic sobre la línea this.fechaPublicacion = new java.util.Date(); y seleccionarla completa.
+
+Paso 7. Escribir exactamente this.fechaPublicacion = fechaPublicacion;.
+
+Paso 8. Hacer clic sobre la línea this.disponible = Boolean.TRUE; y seleccionarla completa.
+
+Paso 9. Escribir exactamente this.disponible = disponible;.
+
+Paso 10. Hacer clic sobre la línea libros.add(new Libro("Cien años de soledad", 19.95)); y seleccionarla completa.
+
+Paso 11. Escribir exactamente libros.add(new Libro("Cien años de soledad", 19.95, 471, new java.util.GregorianCalendar(1967, 5, 5).getTime(), Boolean.TRUE));.
+
+Paso 12. Repetir las acciones 10 y 11 para cada uno de los catorce libros con valores realistas. Los valores recomendados son los siguientes:
+
+Rayuela: 736 páginas, 1963, TRUE
+
+La ciudad y los perros: 432 páginas, 1963, TRUE
+
+Pedro Páramo: 132 páginas, 1955, TRUE
+
+Ficciones: 224 páginas, 1944, TRUE
+
+La casa de los espíritus: 448 páginas, 1982, TRUE
+
+El amor en los tiempos del cólera: 496 páginas, 1985, TRUE
+
+La muerte de Artemio Cruz: 320 páginas, 1962, TRUE
+
+Doña Bárbara: 400 páginas, 1929, FALSE
+
+Martín Fierro: 288 páginas, 1872, FALSE
+
+Comala: 148 páginas, 1955, TRUE
+
+Paradiso: 576 páginas, 1966, TRUE
+
+La invención de Morel: 128 páginas, 1940, TRUE
+
+El túnel: 160 páginas, 1948, FALSE
+
+Paso 13. Pulsar Ctrl+S para guardar el archivo.
+
+Paso 14. Hacer clic con el botón derecho sobre GeneradorInformeConcepto.java y seleccionar Run As > Java Application.
+
+Paso 15. Abrir el archivo output/informe_concepto.pdf y verificar que cada libro muestra su número de páginas, su año de publicación y su disponibilidad.
+
+#### Simulación ASCII del PDF tras el reto
+
+```text
+╔══════════════════════════════════════════════════════════╗
+║  Título             │Precio    │Páginas│ Año │ Disp. │#  ║
+║  ─────────────────────────────────────────────────────   ║
+║  Cien años de sol.  │ 19,95 € │  471  │1967 │ Sí    │1  ║
+║  Rayuela            │ 22,50 € │  736  │1963 │ Sí    │2  ║
+║  La ciudad y los..  │ 18,75 € │  432  │1963 │ Sí    │3  ║
+║  Pedro Páramo       │ 15,90 € │  132  │1955 │ Sí    │4  ║
+║  Ficciones          │ 21,00 € │  224  │1944 │ Sí    │5  ║
+║  La casa de los...  │ 23,40 € │  448  │1982 │ Sí    │6  ║
+║  El amor en los...  │ 20,80 € │  496  │1985 │ Sí    │7  ║
+║  La muerte de Ar... │ 17,60 € │  320  │1962 │ Sí    │8  ║
+║  Doña Bárbara       │ 16,95 € │  400  │1929 │ No    │9  ║
+║  Martín Fierro      │ 14,50 € │  288  │1872 │ No    │10 ║
+║  Comala             │ 19,20 € │  148  │1955 │ Sí    │11 ║
+║  Paradiso           │ 25,00 € │  576  │1966 │ Sí    │12 ║
+║  La invención de... │ 18,30 € │  128  │1940 │ Sí    │13 ║
+║  El túnel           │ 16,20 € │  160  │1948 │ No    │14 ║
+╚══════════════════════════════════════════════════════════╝
+Resultado del reto: los tres campos nuevos muestran valores distintos para cada libro. La columna de disponibilidad muestra No en los tres libros con Boolean.FALSE: Doña Bárbara, Martín Fierro y El túnel. La columna del año muestra el año de publicación de cada libro. La columna de páginas muestra el número de páginas.
+```
+
+### Analogía final con el contexto de la editorial
+
+Los campos son los datos que se extraen de la ficha de cada libro del catálogo. El título es un campo de texto. El precio es un campo numérico. El número de páginas es un campo entero. La fecha de publicación es un campo de fecha. La disponibilidad es un campo booleano. Cada campo tiene un tipo distinto y el motor lo resuelve de forma diferente según el tipo. La declaración del campo en el JRXML es como la etiqueta que el editor coloca en la ficha del manuscrito para indicar qué dato debe extraerse. La resolución del campo en la fuente de datos es como el trabajo del asistente que busca el dato en el manuscrito y lo transcribe en la ficha. La combinación de campos y expresiones construye la tabla del catálogo, fila a fila, con toda la información descriptiva de cada libro.
+
+### Resultado esperado
+
+- Al finalizar este punto, el alumno dispone de:
+
+- La clase Libro ampliada con tres campos nuevos (paginas, fechaPublicacion, disponible) y sus métodos getter.
+
+- El método listaEjemplo() ampliado con catorce libros y datos realistas para cada uno.
+
+- El archivo reports/informe_concepto.jrxml con cinco campos declarados y cinco expresiones $F{} en la banda Detail.
+
+- El archivo output/informe_concepto.pdf con las seis columnas de la tabla y los catorce registros.
+
+- El archivo CAMPOS.md en la raíz del proyecto con la tabla de campos documentada.
+
+- Comprensión operativa de la declaración de campos, de la resolución desde la fuente de datos y de las diferencias entre campo, parámetro y variable.
+
+
+## Punto 2.4 — Imágenes
+
+> **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu propio proyecto del punto anterior. Si te incorporas directamente aquí, usa `M2/2.3` como estado inicial. El checkpoint `M2/2.4` contiene la solución completa de este punto y no debe consultarse antes del ejercicio si quieres evitar spoilers.
+
+### Parte A — Práctica visual
+
+#### Paso 1: Crear la carpeta resources y añadir el logotipo [VALIDADO]
+
+**Acciones:**
+
+1. Abrir el explorador de archivos del sistema operativo.
+
+2. Navegar hasta la carpeta Documents\JasperProjects\EditorialReports.
+
+3. Hacer clic con el botón derecho sobre una zona vacía de la carpeta y seleccionar Nuevo > Carpeta.
+
+4. Escribir exactamente resources en el campo de nombre.
+
+5. Pulsar Enter para confirmar.
+
+6. Copiar el archivo logo.png desde la carpeta de recursos del curso a la nueva carpeta resources.
+
+7. Volver a Jaspersoft Studio.
+
+8. Hacer clic con el botón derecho sobre el nodo EditorialReports en el panel Project Explorer (superior izquierdo).
+
+9. Hacer clic sobre la opción Refresh en el menú contextual.
+
+10. Expandir el nodo EditorialReports y verificar que aparece la carpeta resources con el archivo logo.png.
+
+**Verificación visual:** el panel Project Explorer muestra la carpeta resources con el archivo logo.png en su interior.
+
+**Qué hace:** crea la carpeta de recursos y coloca el logotipo que se va a utilizar en el informe.
+
+**Por qué:** la carpeta resources es la ubicación convencional para los recursos auxiliares del proyecto.
+
+**Error común:** copiar el archivo con un nombre distinto a logo.png. La expresión del JRXML busca el archivo por el nombre exacto. Solución: renombrar el archivo a logo.png.
+
+**Analogía:** es como colocar el logotipo de la editorial en la carpeta de materiales gráficos del catálogo.
+
+#### Paso 2: Añadir el logotipo en la banda Title [VALIDADO]
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+3. Hacer clic sobre el nodo Title en el panel Outline (inferior izquierdo).
+
+4. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir 100 y pulsar Enter.
+
+5. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+6. Hacer clic sobre el icono Image (un cuadrado con un paisaje).
+
+7. Arrastrar el icono Image y soltarlo dentro de la banda Title, en la coordenada aproximada x=0, y=10.
+
+8. Hacer clic sobre el campo X en el panel Properties, escribir 0 y pulsar Enter.
+
+9. Hacer clic sobre el campo Y, escribir 10 y pulsar Enter.
+
+10. Hacer clic sobre el campo Width, escribir 80 y pulsar Enter.
+
+11. Hacer clic sobre el campo Height, escribir 80 y pulsar Enter.
+
+12. Hacer clic sobre el desplegable Scale Image y seleccionar RetainShape.
+
+13. Hacer clic sobre el campo Image Expression y escribir exactamente "resources/logo.png" (con comillas dobles) y pulsar Enter.
+
+**Verificación visual:** la banda Title muestra el logotipo en la esquina superior izquierda. Si aparece un icono de imagen rota, la ruta es incorrecta.
+
+**Qué hace:** inserta el logotipo de la editorial en la banda de título.
+
+**Por qué:** el logotipo identifica la editorial en la portada del catálogo.
+
+**Error común:** escribir la ruta sin comillas dobles y provocar que JasperReports la interprete como una expresión en lugar de una cadena. Solución: escribir la ruta entre comillas dobles: "resources/logo.png".
+
+**Analogía:** es como poner el sello de la editorial en la portada del catálogo.
+
+#### Paso 3: Mover el título a la derecha del logotipo [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el primer Static Text de la banda Title en el editor central (el que contiene el texto Catálogo Editorial - Informe Conceptual).
+
+2. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir 90 y pulsar Enter.
+
+3. Hacer clic sobre el campo Y, escribir 25 y pulsar Enter.
+
+4. Hacer clic sobre el campo Width, escribir 465 y pulsar Enter.
+
+5. Hacer clic sobre el campo Height, escribir 30 y pulsar Enter.
+
+6. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Left.
+
+7. Hacer clic sobre el campo Font size y escribir 18. Pulsar Enter.
+
+**Verificación visual:** el título aparece a la derecha del logotipo, alineado a la izquierda.
+
+**Qué hace:** desplaza el título principal para dejar espacio al logotipo.
+
+**Por qué:** el logotipo ocupa la esquina izquierda de la banda y el título debe colocarse a su derecha.
+
+**Error común:** dejar el título en su posición original y provocar el solapamiento con el logotipo. Solución: ajustar la coordenada X del título a 90.
+
+**Analogía:** es como reorganizar la portada del catálogo para que el sello y el título convivan sin solaparse.
+
+#### Paso 4: Ajustar el rótulo de fecha y el campo de fecha [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el Static Text que contiene el texto Fecha de emisión: en la banda Title.
+
+2. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir 90 y pulsar Enter.
+
+3. Hacer clic sobre el campo Y, escribir 60 y pulsar Enter.
+
+4. Hacer clic sobre el campo Width, escribir 120 y pulsar Enter.
+
+5. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+6. Hacer clic sobre el Text Field que contiene la expresión new java.util.Date() en la banda Title.
+
+7. Hacer clic sobre el campo X, escribir 215 y pulsar Enter.
+
+8. Hacer clic sobre el campo Y, escribir 60 y pulsar Enter.
+
+9. Hacer clic sobre el campo Width, escribir 150 y pulsar Enter.
+
+10. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+**Verificación visual:** el rótulo de fecha y el campo con la fecha aparecen debajo del título, alineados a la derecha del logotipo.
+
+**Qué hace:** desplaza el rótulo de fecha y el campo de fecha para alinearlos con el título.
+
+**Por qué:** el logotipo ocupa la franja izquierda de la banda y el resto de elementos deben desplazarse a la derecha.
+
+**Error común:** dejar el rótulo y el campo en sus posiciones originales y provocar el solapamiento con el logotipo. Solución: ajustar las coordenadas X de ambos elementos a 90 y 215 respectivamente.
+
+**Analogía:** es como reorganizar la portada del catálogo para que todos los datos queden alineados tras el sello.
+
+#### Paso 5: Añadir una carpeta para las portadas de los libros [VALIDADO]
+
+**Acciones:**
+
+1. Abrir el explorador de archivos del sistema operativo.
+
+2. Navegar hasta la carpeta Documents\JasperProjects\EditorialReports\resources.
+
+3. Hacer clic con el botón derecho sobre una zona vacía de la carpeta y seleccionar Nuevo > Carpeta.
+
+4. Escribir exactamente portadas en el campo de nombre.
+
+5. Pulsar Enter para confirmar.
+
+6. Copiar tres archivos PNG de ejemplo a la carpeta portadas con los nombres Cien años de soledad.png, Rayuela.png y Pedro Páramo.png.
+
+7. Volver a Jaspersoft Studio.
+
+8. Hacer clic con el botón derecho sobre el nodo EditorialReports en el panel Project Explorer y seleccionar Refresh.
+
+9. Expandir la carpeta resources y verificar que aparece la subcarpeta portadas con los tres archivos.
+
+**Verificación visual:** el panel Project Explorer muestra la carpeta resources/portadas con los tres archivos PNG.
+
+**Qué hace:** crea la carpeta para las portadas de los libros y coloca tres imágenes de ejemplo.
+
+**Por qué:** el informe mostrará la portada de cada libro en la banda Detail si el archivo existe.
+
+**Error común:** copiar los archivos con nombres que no coincidan con los títulos de los libros. Solución: nombrar cada archivo con el título del libro seguido de .png.
+
+**Analogía:** es como preparar las portadas de los libros en la carpeta de materiales gráficos del catálogo.
+
+#### Paso 6: Añadir la imagen dinámica de portada en la banda Detail [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
+
+2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir 60 y pulsar Enter.
+
+3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+4. Hacer clic sobre el icono Image (un cuadrado con un paisaje).
+
+5. Arrastrar el icono Image y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=5.
+
+6. Hacer clic sobre el campo X en el panel Properties, escribir 0 y pulsar Enter.
+
+7. Hacer clic sobre el campo Y, escribir 5 y pulsar Enter.
+
+8. Hacer clic sobre el campo Width, escribir 50 y pulsar Enter.
+
+9. Hacer clic sobre el campo Height, escribir 50 y pulsar Enter.
+
+10. Hacer clic sobre el desplegable Scale Image y seleccionar RetainShape.
+
+11. Hacer clic sobre el desplegable On Error Type y seleccionar Blank.
+
+12. Hacer clic sobre el campo Image Expression y escribir exactamente "resources/portadas/" + $F{titulo} + ".png" y pulsar Enter.
+
+**Verificación visual:** la banda Detail 1 muestra un elemento de imagen con la expresión dinámica. Si el archivo no existe, el espacio queda vacío.
+
+**Qué hace:** inserta una imagen dinámica que muestra la portada de cada libro.
+
+**Por qué:** la portada identifica visualmente cada libro del catálogo.
+
+**Error común:** olvidar configurar onErrorType="Blank" y provocar que el informe falle cuando algún libro no tiene portada. Solución: seleccionar Blank en el desplegable On Error Type del panel Properties.
+
+**Analogía:** es como mostrar la cubierta de cada libro junto a sus datos en el catálogo.
+
+#### Paso 7: Compactar los campos de Detail para dejar espacio a la portada [VALIDADO]
+
+**Acciones:**
+
+1. Seleccionar el `Text Field` `$F{titulo}` y fijar X=`55`, Y=`20`, Width=`180`, Height=`20`.
+2. Seleccionar `$F{precio}` y fijar X=`235`, Y=`20`, Width=`80`, Height=`20`.
+3. Seleccionar `$F{paginas}` y fijar X=`315`, Y=`20`, Width=`50`, Height=`20`.
+4. Seleccionar `$F{fechaPublicacion}` y fijar X=`365`, Y=`20`, Width=`50`, Height=`20`.
+5. Seleccionar el campo de disponibilidad y fijar X=`415`, Y=`20`, Width=`55`, Height=`20`.
+6. Seleccionar `$V{REPORT_COUNT}` y fijar X=`500`, Y=`20`, Width=`55`, Height=`20`.
+7. Mantener la imagen de portada en X=`0`, Y=`5`, Width=`50`, Height=`50`.
+
+**Verificación visual:** ninguna caja supera `x + width = 555`.
+
+**Qué hace:** recompone la tabla para incorporar la portada sin cambiar el tamaño A4 del informe.
+
+**Error común:** conservar las coordenadas 560/590/620/680 del borrador. Esas coordenadas quedan fuera del `columnWidth` y no representan el checkpoint ejecutado.
+
+#### Paso 8: Añadir el encabezado de portada y compactar Column Header [VALIDADO]
+
+**Acciones:**
+
+1. En `Column Header`, crear `Port.` en X=`0`, Y=`5`, Width=`50`, Height=`15`, centrado y en negrita.
+2. Mover `Título` a X=`55`, Width=`180`.
+3. Mover `Precio` a X=`235`, Width=`80`, alineado a la derecha.
+4. Mover `Págs.` a X=`315`, Width=`50`, alineado a la derecha.
+5. Mover `Año` a X=`365`, Width=`50`, centrado.
+6. Mover `Disp.` a X=`415`, Width=`80`, centrado.
+7. Mover `#` a X=`500`, Width=`55`, alineado a la derecha.
+
+**Verificación visual:** la cabecera replica exactamente las columnas del Detail.
+
+#### Paso 9: Verificar la alineación título-portada [VALIDADO]
+
+**Acciones:**
+
+1. Seleccionar el encabezado `Título` y confirmar X=`55`, Width=`180`.
+2. Seleccionar el campo `$F{titulo}` y confirmar X=`55`, Width=`180`.
+3. Confirmar que la portada ocupa X=`0` a `50` y queda un margen de 5 unidades antes del título.
+
+**Verificación visual:** cabecera y datos del título quedan alineados verticalmente.
+
+#### Paso 10: Añadir el icono de disponibilidad [VALIDADO]
+
+**Acciones:**
+
+1. Arrastrar un elemento `Image` a `Detail 1`.
+2. Fijar X=`475`, Y=`20`, Width=`20`, Height=`20`.
+3. Seleccionar `RetainShape` en Scale Image.
+4. Seleccionar `Blank` en On Error Type.
+5. Escribir `$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"` como Image Expression.
+6. Confirmar que el contador comienza en X=`500`.
+
+**Verificación visual:** el icono queda entre el texto de disponibilidad y el contador, sin salir del ancho útil.
+
+**Qué hace:** incorpora una representación visual del estado sin desplazar el resto de columnas fuera de página.
+
+
+#### Paso 11: Compilar y ejecutar el programa Java [VALIDADO]
+
+**Acciones:**
+
+1. Pulsar Ctrl+S para guardar el archivo JRXML.
+
+2. Pulsar Ctrl+Mayús+B para compilar el informe.
+
+3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
+
+4. Hacer clic con el botón derecho sobre el archivo GeneradorInformeConcepto.java en el panel Project Explorer.
+
+5. Hacer clic sobre la opción Run As en el menú contextual.
+
+6. Hacer clic sobre la opción Java Application en el submenú.
+
+7. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
+
+**Verificación visual:** la vista Console muestra la línea Informe generado en: ... con la ruta absoluta del archivo PDF. El panel Problems permanece vacío.
+
+**Qué hace:** compila el informe y ejecuta el programa Java con las imágenes configuradas.
+
+**Por qué:** la ejecución confirma que las expresiones de imagen se resuelven correctamente.
+
+**Error común:** olvidar compilar el informe después de modificar el JRXML y obtener un PDF con la versión anterior. Solución: pulsar Ctrl+Mayús+B antes de ejecutar el programa.
+
+**Analogía:** es como imprimir la tirada del catálogo con las imágenes ya incorporadas.
+
+#### Paso 12: Documentar el uso de imágenes [VALIDADO]
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo EditorialReports en el panel Project Explorer (superior izquierdo).
+
+2. Hacer clic sobre la opción New en el menú contextual.
+
+3. Hacer clic sobre la opción File en el submenú.
+
+4. Escribir exactamente IMAGENES.md en el campo File name del diálogo.
+
+5. Hacer clic sobre el botón Finish.
+
+6. En el editor central, escribir exactamente # Imágenes del informe y pulsar Enter dos veces.
+
+7. Escribir exactamente ## Rutas de recursos y pulsar Enter dos veces.
+
+8. Escribir exactamente - Logotipo: resources/logo.png y pulsar Enter.
+
+9. Escribir exactamente - Portadas de libros: resources/portadas/{titulo}.png y pulsar Enter.
+
+10. Escribir exactamente - Iconos de estado: resources/icono_disponible.png, resources/icono_no_disponible.png y pulsar Enter dos veces.
+
+11. Escribir exactamente ## Modos de escala utilizados y pulsar Enter dos veces.
+
+12. Escribir exactamente - Logotipo: RetainShape y pulsar Enter.
+
+13. Escribir exactamente - Portadas: RetainShape y pulsar Enter.
+
+14. Escribir exactamente - Iconos: RetainShape y pulsar Enter.
+
+15. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el panel Project Explorer muestra el archivo IMAGENES.md en la raíz del proyecto EditorialReports.
+
+**Qué hace:** incorpora al proyecto un documento que registra el uso de las imágenes.
+
+**Por qué:** la documentación de los recursos gráficos facilita el mantenimiento y la sustitución de imágenes.
+
+**Error común:** olvidar documentar los iconos de estado. Solución: incluir las cuatro rutas en el documento.
+
+**Analogía:** es como dejar en la editorial una ficha técnica con los materiales gráficos utilizados en el catálogo.
+
+### Parte B — JRXML explicado y contrastado
+
+Se reproduce únicamente la sección modificada del JRXML. Las secciones modificadas son la banda title, la banda columnHeader y la banda detail.
+
+```xml
+<title>
+    <band height="100">
+        <image hAlign="Left" vAlign="Middle">
+            <reportElement x="0" y="10" width="80" height="80" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+            <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
+        </image>
+        <staticText>
+            <reportElement x="90" y="25" width="465" height="30" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+            <textElement textAlignment="Left" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="18" isBold="true"/>
+            </textElement>
+            <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="90" y="60" width="120" height="20" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <text><![CDATA[Fecha de emisión:]]></text>
+        </staticText>
+        <textField pattern="dd/MM/yyyy">
+            <reportElement x="215" y="60" width="150" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+        </textField>
+    </band>
+</title>
+<columnHeader>
+    <band height="25">
+        <staticText>
+            <reportElement x="0" y="5" width="50" height="15" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10" isBold="true"/>
+            </textElement>
+            <text><![CDATA[Portada]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="55" y="5" width="180" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10" isBold="true"/>
+            </textElement>
+            <text><![CDATA[Título]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="235" y="5" width="80" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10" isBold="true"/>
+            </textElement>
+            <text><![CDATA[Precio]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="315" y="5" width="50" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10" isBold="true"/>
+            </textElement>
+            <text><![CDATA[Páginas]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="365" y="5" width="50" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10" isBold="true"/>
+            </textElement>
+            <text><![CDATA[Año]]></text>
+        </staticText>
+    </band>
+</columnHeader>
+<detail>
+    <band height="60" splitType="Stretch">
+        <image onErrorType="Blank" scaleImage="RetainShape">
+            <reportElement x="0" y="5" width="50" height="50" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+            <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>
+        </image>
+        <textField textAdjust="StretchHeight">
+            <reportElement x="55" y="20" width="180" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+        </textField>
+        <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+            <reportElement x="235" y="20" width="80" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+        </textField>
+        <textField isBlankWhenNull="true">
+            <reportElement x="315" y="20" width="50" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
+        </textField>
+        <textField pattern="yyyy" isBlankWhenNull="true">
+            <reportElement x="365" y="20" width="50" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
+        </textField>
+        <textField>
+            <reportElement x="415" y="20" width="55" height="20" uuid="c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
+        </textField>
+        <image onErrorType="Blank" scaleImage="RetainShape">
+            <reportElement x="475" y="20" width="20" height="20" uuid="d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a"/>
+            <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression>
+        </image>
+        <textField>
+            <reportElement x="500" y="20" width="55" height="20" uuid="f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="9"/>
+            </textElement>
+            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+        </textField>
+    </band>
+</detail>
+```
+
+Línea 1: <title> → abre la banda de título.
+
+Línea 2: <band height="100"> → la banda crece de 70 a 100 unidades de informe para alojar el logotipo de 80 unidades de informe.
+
+Línea 3: <image hAlign="Left" vAlign="Middle"> → declara el elemento de imagen del logotipo con alineación horizontal izquierda y vertical centrada.
+
+Línea 4: <reportElement x="0" y="10" width="80" height="80" uuid="..."/> → posición (0, 10) y tamaño (80 × 80). El logotipo ocupa la esquina superior izquierda de la banda.
+
+Línea 5: <imageExpression><![CDATA["resources/logo.png"]]></imageExpression> → expresión que devuelve la ruta relativa del archivo del logotipo. Las comillas dobles son obligatorias.
+
+Línea 6: </image> → cierra el elemento de imagen.
+
+Línea 7-13: staticText con el título principal. La posición x="90" lo sitúa a la derecha del logotipo. La posición y="25" lo alinea con la parte alta del logotipo.
+
+Línea 14-20: staticText con el rótulo Fecha de emisión:. Posición x="90" y="60".
+
+Línea 21-27: textField con la fecha actual. Posición x="215" y="60".
+
+Línea 28: </band> → cierra la banda de título.
+
+Línea 29: </title> → cierra la sección de título.
+
+Línea 30: <columnHeader> → abre la banda de cabecera de columna.
+
+Línea 31: <band height="25"> → banda con 25 unidades de informe de altura.
+
+Línea 32-38: staticText con el encabezado Portada centrado en la coordenada 0, ancho 50.
+
+Línea 39-45: staticText con el encabezado Título en la coordenada 60, ancho 240. El ancho se ha ampliado de 300 a 240 porque la coordenada X ha cambiado.
+
+Línea 46-52: staticText con el encabezado Precio en la coordenada 300.
+
+Línea 53-59: staticText con el encabezado Páginas en la coordenada 400, alineado a la derecha.
+
+Línea 60-66: staticText con el encabezado Año en la coordenada 500, alineado al centro.
+
+Línea 67: </band> → cierra la banda de cabecera de columna.
+
+Línea 68: </columnHeader> → cierra la sección de cabecera de columna.
+
+Línea 69: <detail> → abre la banda de detalle.
+
+Línea 70: <band height="60" splitType="Stretch"> → la banda crece de 20 a 60 unidades de informe para alojar la imagen de portada de 50 unidades de informe.
+
+Línea 71: <image onErrorType="Blank" scaleImage="RetainShape"> → declara la imagen dinámica de portada. La propiedad onErrorType="Blank" hace que el espacio quede vacío si el archivo no existe. La propiedad scaleImage="RetainShape" escala la imagen proporcionalmente.
+
+Línea 72: <reportElement x="0" y="5" width="50" height="50" uuid="..."/> → posición (0, 5) y tamaño (50 × 50).
+
+Línea 73: <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression> → expresión que construye la ruta de la imagen a partir del título del libro.
+
+Línea 74: </image> → cierra el elemento de imagen.
+
+Línea 75-81: textField con el título del libro. Posición x="60" y="20", ancho 240. La coordenada Y se ha ajustado a 20 para centrar el texto en la banda de 60 unidades de informe.
+
+Línea 82-88: textField con el precio. Posición x="300" y="20".
+
+Línea 89-95: textField con el número de páginas. Posición x="400" y="20".
+
+Línea 96-102: textField con el año de publicación. Posición x="500" y="20".
+
+Línea 103-109: textField con la disponibilidad. Posición X=415, Y=20.
+
+Línea 110: <image onErrorType="Blank" scaleImage="RetainShape"> → declara el icono de disponibilidad. La expresión devuelve una ruta u otra según el valor del campo.
+
+Línea 111: <reportElement x="475" y="20" width="20" height="20" uuid="..."/> → posición (680, 20) y tamaño (20 × 20).
+
+Línea 112: <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression> → expresión condicional que devuelve la ruta del icono correspondiente al estado del libro.
+
+Línea 113: </image> → cierra el elemento de imagen.
+
+Línea 114-120: staticText con el rótulo #. El rótulo # se mantiene en la cabecera de columna.
+
+Línea 121-127: textField con el número de registro. Posición X=500, Y=20, ancho 55.
+
+Línea 128: </band> → cierra la banda de detalle.
+
+Línea 129: </detail> → cierra la sección de detalle.
+
+### Parte C — Código Java explicado línea por línea
+
+En este punto no se modifica el código Java del programa. Las clases Libro, CatalogoDataSource y GeneradorInformeConcepto permanecen tal como se construyeron en el punto 2.3. Se reproduce a continuación la clase GeneradorInformeConcepto para referencia.
+
+```java
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeConcepto {
+
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_concepto.jrxml";
+            String rutaJasper = "reports/informe_concepto.jasper";
+            String rutaPdf = "output/informe_concepto.pdf";
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<>();
+
+            JasperPrint documento = JasperFillManager.fillReport(
+                    rutaJasper,
+                    parametros,
+                    new CatalogoDataSource(Libro.listaEjemplo()));
+
+            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
+            System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+            System.out.println("Páginas del documento: " + documento.getPages().size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Línea 1: import java.io.File; → importa la clase File para obtener la ruta absoluta del PDF.
+
+Línea 2: import java.util.HashMap; → importa la implementación de mapa.
+
+Línea 3: import java.util.Map; → importa la interfaz Map.
+
+Línea 5: import net.sf.jasperreports.engine.JasperCompileManager; → importa el gestor de compilación.
+
+Línea 6: import net.sf.jasperreports.engine.JasperExportManager; → importa el gestor de exportación.
+
+Línea 7: import net.sf.jasperreports.engine.JasperFillManager; → importa el gestor de llenado.
+
+Línea 8: import net.sf.jasperreports.engine.JasperPrint; → importa la clase del documento en memoria.
+
+Línea 10: public class GeneradorInformeConcepto { → declara la clase principal.
+
+Línea 12: public static void main(String[] args) { → punto de entrada.
+
+Línea 13: try { → abre el bloque protegido.
+
+Línea 14: String rutaJrxml = "reports/informe_concepto.jrxml"; → ruta del archivo de diseño.
+
+Línea 15: String rutaJasper = "reports/informe_concepto.jasper"; → ruta del artefacto compilado.
+
+Línea 16: String rutaPdf = "output/informe_concepto.pdf"; → ruta del PDF de salida.
+
+Línea 18: JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper); → compila el JRXML.
+
+Línea 20: Map<String, Object> parametros = new HashMap<>(); → declara el mapa de parámetros vacío.
+
+Línea 22: JasperPrint documento = → declara la variable del documento.
+
+Línea 22 (continuación): JasperFillManager.fillReport( → invoca el motor de llenado.
+
+Línea 23: rutaJasper, → ruta del artefacto compilado.
+
+Línea 24: parametros, → mapa de parámetros.
+
+Línea 25: new CatalogoDataSource(Libro.listaEjemplo())); → construye la fuente de datos con la lista de catorce libros.
+
+Línea 27: JasperExportManager.exportReportToPdfFile(documento, rutaPdf); → exporta a PDF.
+
+Línea 29: System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath()); → imprime la ruta del PDF.
+
+Línea 30: System.out.println("Páginas del documento: " + documento.getPages().size()); → imprime el número de páginas.
+
+Línea 32: } catch (Exception e) { → captura excepciones.
+
+Línea 33: e.printStackTrace(); → imprime la traza.
+
+Línea 34: } → cierra el bloque catch.
+
+Línea 35: } → cierra el método main.
+
+Línea 36: } → cierra la clase.
+
+#### Traza de consola esperada tras la ejecución
+
+```text
+Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
+Páginas del documento: 1
+```
+
+#### Estado del objeto JasperPrint en cada fase
+
+```text
+FASE 1 — COMPILACIÓN
+─────────────────────
+  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
+  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~24 KB)
+  Salida:           reports/informe_concepto.jasper      (binario serializado, ~48 KB)
+  Expresiones de imagen compiladas:
+    - "resources/logo.png"
+    - "resources/portadas/" + $F{titulo} + ".png"
+    - $F{disponible}.booleanValue() ?
+        "resources/icono_disponible.png" :
+        "resources/icono_no_disponible.png"
+
+FASE 2 — LLENADO
+─────────────────
+  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
+  Entrada:          reports/informe_concepto.jasper + HashMap vacío
+                    + CatalogoDataSource con 14 libros
+  Salida:           objeto JasperPrint en memoria
+  Páginas:          1
+  Bandas emitidas:
+    - Title (1 vez)
+    - Page Header (1 vez)
+    - Column Header (1 vez)
+    - Detail (14 veces)
+    - Column Footer (1 vez)
+    - Last Page Footer (1 vez)
+    - Summary (1 vez)
+    - Background (1 vez)
+  Imágenes resueltas:
+    - Logo: cargado desde resources/logo.png
+    - Portadas: cargadas desde resources/portadas/{titulo}.png
+      si existen; el espacio queda vacío en caso contrario
+    - Iconos: cargados desde resources/icono_disponible.png
+      o resources/icono_no_disponible.png según el campo
+
+FASE 3 — EXPORTACIÓN
+─────────────────────
+  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
+  Entrada:          objeto JasperPrint en memoria
+  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~120 KB en disco)
+  Páginas en el PDF: 1
+```
+
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño en Jaspersoft Studio
+
+```text
++-------------------------------------------------------------------------+
+|  informe_concepto.jrxml                          [Design] [Source]      |
++-------------------------------------------------------------------------+
+|  Ruler:  0   100  200  300  400  500  555  600  650  700                 |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  ┌─── Title ──────────────────────────────────────────── h = 100 ────┐  |
+|  │  ┌────────┐                                                       │  |
+|  │  │        │  Catálogo Editorial - Informe Conceptual              │  |
+|  │  │ LOGO   │                                                       │  |
+|  │  │ 80×80  │  Fecha de emisión:  [ new java.util.Date() ]          │  |
+|  │  └────────┘                                                       │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
+|  │  Portada │ Título              │ Precio │ Páginas │ Año            │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Detail 1 ──────────────────────────────────────── h = 60 ─────┐  |
+|  │ [IMG] [ $F{titulo} ] [ $F{precio} ] [ $F{pag} ] [ $F{fech} ]     │  |
+|  │ 50×50                                [ $F{disp} ] [icono] [# ]    │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  Panel Outline muestra:                                                 |
+|  Fields                                                                 |
+|   ├── titulo, precio, paginas, fechaPublicacion, disponible             |
+|  Detail 1                                                               |
+|   ├── image      [0,5,50,50]  onErrorType=Blank  scaleImage=RetainShape│
+|   ├── textField  [60,20,240,20]  $F{titulo}                             │
+|   ├── textField  [300,20,100,20]  $F{precio}                            │
+|   ├── textField  [400,20,50,20]  $F{paginas}                            │
+|   ├── textField  [500,20,55,20]  $F{fechaPublicacion}                   │
+|   ├── textField  [620,20,60,20]  $F{disponible} ? "Sí" : "No"           │
+|   ├── image      [680,20,20,20]  icono condicional                      │
+|   ├── staticText [560,20,30,20]  "# "                                   │
+|   └── textField  [590,20,30,20]  $V{REPORT_COUNT}                       │
++-------------------------------------------------------------------------+
+```
+
+**Qué representa:** la disposición de las bandas en el editor central tras completar los doce pasos. La banda Title contiene el logotipo y el título a su derecha. La banda Detail contiene la portada dinámica, los campos de texto y el icono de disponibilidad.
+
+**Cómo verificarlo:** comparar la vista del editor con este esquema. La banda Title debe tener 100 unidades de informe de altura y la banda Detail 60 unidades de informe.
+
+#### D.2 — Jerarquía del Outline
+
+```text
+informe_concepto
+│
+├── Fields
+│   ├── titulo  [java.lang.String]
+│   ├── precio  [java.lang.Double]
+│   ├── paginas  [java.lang.Integer]
+│   ├── fechaPublicacion  [java.util.Date]
+│   └── disponible  [java.lang.Boolean]
+│
+├── Title  [band, height=100]
+│   ├── image       [0,10,80,80]  "resources/logo.png"
+│   ├── staticText  [90,25,465,30]  "Catálogo Editorial - Informe Conceptual"
+│   ├── staticText  [90,60,120,20]  "Fecha de emisión:"
+│   └── textField   [215,60,150,20]  new java.util.Date()  [pattern=dd/MM/yyyy]
+│
+├── Column Header  [band, height=25]
+│   ├── staticText  [0,5,50,15]    "Portada"  (bold, center)
+│   ├── staticText  [60,5,240,15]  "Título"  (bold)
+│   ├── staticText  [300,5,100,15] "Precio"  (bold)
+│   ├── staticText  [400,5,50,15]  "Páginas"  (bold, right)
+│   └── staticText  [500,5,55,15]  "Año"  (bold, center)
+│
+├── Detail 1  [band, height=60, splitType=Stretch]
+│   ├── image       [0,5,50,50]  "resources/portadas/"+$F{titulo}+".png"
+│   │                             [onErrorType=Blank, scaleImage=RetainShape]
+│   ├── textField   [60,20,240,20]  $F{titulo}  [textAdjust=StretchHeight]
+│   ├── textField   [300,20,100,20] $F{precio}  [pattern=#,##0.00 €]
+│   ├── textField   [400,20,50,20]  $F{paginas}  [right]
+│   ├── textField   [500,20,55,20]  $F{fechaPublicacion}  [pattern=yyyy]
+│   ├── textField   [620,20,60,20]  $F{disponible}?"Sí":"No"
+│   ├── image       [680,20,20,20]  icono condicional
+│   ├── staticText  [560,20,30,20]  "# "
+│   └── textField   [590,20,30,20]  $V{REPORT_COUNT}
+│
+├── Column Footer  [band, height=40]
+│   ├── staticText  "--- Fin de la tabla de datos ---"
+│   ├── staticText  "Registros procesados: "
+│   └── textField   $V{REPORT_COUNT}
+│
+├── Page Footer  [band, height=30]
+│   └── staticText  "EditorialReports - Documento..."
+│
+├── Last Page Footer  [band, height=30]
+│   └── staticText  "Documento generado en la última página"
+│
+├── Summary  [band, height=70]
+│   ├── staticText  "Total de páginas:"
+│   ├── textField   $V{PAGE_NUMBER}` con `evaluationTime="Report"
+│   ├── staticText  "Fin del informe. EditorialReports."
+│   ├── staticText  "Total de libros:"
+│   └── textField   $V{REPORT_COUNT}
+│
+└── Background  [band, height=0]
+```
+
+**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline tras completar los doce pasos. La novedad respecto al punto 2.3 es la imagen del logotipo en la banda Title y las dos imágenes en la banda Detail.
+
+**Cómo verificarlo:** expandir el nodo informe_concepto en el panel Outline y comparar la estructura.
+
+#### D.3 — Documento PDF resultante, página por página
+
+```text
+INFORME: informe_concepto.pdf
+PÁGINAS TOTALES: 1
+TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+REGISTROS PROCESADOS: 14
+IMÁGENES INSERTADAS: 16 (1 logotipo + 14 portadas + 1 icono por fila)
+IMÁGENES CARGADAS: 1 logotipo + 3 portadas + 14 iconos = 18
+IMÁGENES AUSENTES: 11 portadas (el espacio queda vacío)
+
+──────────────────── Página 1 de 1 ────────────────────
+╔══════════════════════════════════════════════════════════╗
+║  ┌──────┐                                                ║
+║  │ LOGO │  Catálogo Editorial - Informe Conceptual       ║
+║  └──────┘                                                ║
+║           Fecha de emisión:  22/09/2026                  ║
+║                                                          ║
+║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
+║  Precio en euros con IVA incluido                       ║
+║                                                          ║
+║  Portada│Título            │Precio  │Páginas│ Año │Disp│#║
+║  ─────────────────────────────────────────────────────   ║
+║  ┌────┐ │Cien años de sol. │ 19,95 €│  471  │1967 │ Sí │1║
+║  │IMG │ │                  │        │       │     │[✓] │ ║
+║  └────┘ │                  │        │       │     │    │ ║
+║  ┌────┐ │Rayuela           │ 22,50 €│  736  │1963 │ Sí │2║
+║  │IMG │ │                  │        │       │     │[✓] │ ║
+║  └────┘ │                  │        │       │     │    │ ║
+║   ...                                                    ║
+║  ─────────────────────────────────────────────────────   ║
+║           --- Fin de la tabla de datos ---               ║
+║  Registros procesados: 14                                ║
+║                                                          ║
+║         Documento generado en la última página           ║
+║                                                          ║
+║  Total de páginas: 1                                     ║
+║           Fin del informe. EditorialReports.             ║
+║  Total de libros: 14                                     ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+**Qué representa:** la página única del PDF resultante con el logotipo en la portada, las portadas de los libros en la banda Detail y el icono de disponibilidad por fila. Las portadas que no existen se muestran como espacio vacío porque la propiedad onErrorType está configurada como Blank.
+
+**Cómo verificarlo:** abrir el archivo output/informe_concepto.pdf con un lector de PDF y comprobar que el logotipo aparece en la banda Title y que las portadas de los libros aparecen junto a los títulos correspondientes. Si la imagen del logotipo no aparece, revisar que el archivo resources/logo.png existe en el proyecto.
+
+#### D.4 — Árbol de carpetas del proyecto tras completar el punto
+
+```text
+EditorialReports/
+│
+├── ECOSISTEMA.md                                 (documentación del ecosistema)
+├── ENTORNO.md                                    (documentación del entorno)
+├── BANDAS.md                                     (documentación de las bandas)
+├── JRXML.md                                      (documentación del formato JRXML)
+├── TEXTO.md                                      (documentación de elementos textuales)
+├── CAMPOS.md                                     (documentación de campos)
+├── IMAGENES.md                                   (documentación de imágenes)
+│
+├── reports/
+│   ├── informe_concepto.jrxml                    (plantilla con imágenes)
+│   └── informe_concepto.jasper                   (artefacto compilado)
+│
+├── resources/
+│   ├── logo.png                                  (logotipo de la editorial)
+│   ├── icono_disponible.png                      (icono de disponible)
+│   ├── icono_no_disponible.png                   (icono de no disponible)
+│   └── portadas/
+│       ├── Cien años de soledad.png
+│       ├── Rayuela.png
+│       └── Pedro Páramo.png
+│
+└── output/
+    └── informe_concepto.pdf                      (documento con imágenes)
+
+EditorialReportsJava/
+│
+├── lib/
+│   └── README.md   (el runtime real se resuelve con Maven)
+│
+└── src/
+    ├── GeneradorInformeConcepto.java
+    ├── Libro.java
+    └── CatalogoDataSource.java
+```
+
+**Qué representa:** el estado de los dos proyectos tras completar los doce pasos. La novedad respecto al punto anterior es la carpeta resources con el logotipo, los iconos y la subcarpeta portadas, además del archivo IMAGENES.md.
+
+**Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si los archivos de imagen no aparecen, hacer clic con el botón derecho sobre el nodo EditorialReports y seleccionar Refresh.
+
+### Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+| --- | --- | --- |
+| La imagen no aparece y se muestra un icono roto | La ruta de la imagen es incorrecta o el archivo no existe | Verificar que el archivo existe en la ruta indicada y que la ruta es correcta |
+| Could not load image al previsualizar | La imagen está en una ruta absoluta que no existe en el equipo actual | Usar rutas relativas al proyecto o cargar la imagen desde el classpath |
+| La imagen aparece deformada | El modo de escala es FillFrame o las dimensiones no coinciden con la proporción | Cambiar el modo de escala a RetainShape |
+| La imagen se recorta por los bordes | El modo de escala es Clip y las dimensiones del rectángulo son menores que la imagen | Ampliar el rectángulo o cambiar el modo a RetainShape |
+| El informe falla cuando falta una portada | La propiedad onErrorType está en Error | Cambiar la propiedad a Blank en el panel Properties |
+| La imagen del logotipo aparece estirada | El modo de escala no está configurado | Seleccionar RetainShape en el desplegable Scale Image |
+| La imagen se carga pero aparece en blanco | El archivo PNG tiene fondo transparente y se ha perdido la transparencia | Exportar la imagen con fondo blanco o cambiar el color de fondo de la banda |
+| La carpeta resources no aparece en el panel Project Explorer | El panel no se ha refrescado después de crear la carpeta | Hacer clic con el botón derecho sobre el nodo EditorialReports y seleccionar Refresh |
+| Las imágenes consumen demasiado espacio en el PDF | Las imágenes tienen resolución muy alta | Reducir la resolución de las imágenes originales antes de incluirlas en el proyecto |
+| La expresión de la imagen dinámica no compila | Se usan comillas simples en lugar de comillas dobles | Usar comillas dobles para las cadenas y el operador + para concatenar |
+
+### Reto resuelto paso a paso
+
+**Enunciado:** añadir un logotipo secundario en la banda Page Footer que aparezca a la derecha, junto al número de página. El logotipo debe ser el mismo archivo resources/logo.png pero con un tamaño de 20 × 20 unidades de informe.
+
+Paso 1. Hacer doble clic sobre el archivo informe_concepto.jrxml en el panel Project Explorer.
+
+Paso 2. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+Paso 3. Hacer clic sobre el nodo Page Footer en el panel Outline (inferior izquierdo).
+
+Paso 4. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir 30 y pulsar Enter.
+
+Paso 5. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
+
+Paso 6. Hacer clic sobre el icono Image (un cuadrado con un paisaje).
+
+Paso 7. Arrastrar el icono Image y soltarlo dentro de la banda Page Footer, en la coordenada aproximada x=560, y=5.
+
+Paso 8. Hacer clic sobre el campo X en el panel Properties, escribir 560 y pulsar Enter.
+
+Paso 9. Hacer clic sobre el campo Y, escribir 5 y pulsar Enter.
+
+Paso 10. Hacer clic sobre el campo Width, escribir 20 y pulsar Enter.
+
+Paso 11. Hacer clic sobre el campo Height, escribir 20 y pulsar Enter.
+
+Paso 12. Hacer clic sobre el desplegable Scale Image y seleccionar RetainShape.
+
+Paso 13. Hacer clic sobre el desplegable On Error Type y seleccionar Blank.
+
+Paso 14. Hacer clic sobre el campo Image Expression y escribir exactamente "resources/logo.png" y pulsar Enter.
+
+Paso 15. Pulsar Ctrl+S para guardar el archivo.
+
+Paso 16. Pulsar Ctrl+Mayús+B para compilar el informe.
+
+Paso 17. Hacer clic con el botón derecho sobre GeneradorInformeConcepto.java y seleccionar Run As > Java Application.
+
+Paso 18. Abrir el archivo output/informe_concepto.pdf y verificar que el logotipo aparece en el pie de página a la derecha del número de página.
+
+#### Simulación ASCII del PDF tras el reto
+
+```text
+──────────────────── Pie de página ────────────────────
+║  EditorialReports - Documento...      Página 1 de 1  ┌──┐║
+║                                                       │LG│║
+║                                                       └──┘║
+Resultado del reto: el logotipo aparece en la banda Page Footer a la derecha del número de página. La imagen se carga desde el mismo archivo que el logotipo de la banda Title pero se muestra a un tamaño reducido de 20 × 20 unidades de informe. La propiedad onErrorType="Blank" garantiza que el informe no falla si el archivo no se encuentra.
+```
+
+### Analogía final con el contexto de la editorial
+
+Las imágenes son los elementos visuales del catálogo. El logotipo de la editorial es el sello que aparece en la portada de cada edición. Las portadas de los libros son las cubiertas que acompañan a cada ficha en la tabla del catálogo. Los iconos de disponibilidad son los símbolos que indican de un vistazo si un libro está en stock. Los modos de escala son las decisiones de maquetación que determinan cómo se ajusta cada imagen a su espacio. La propiedad onErrorType es la previsión del editor ante la falta de material gráfico: si falta una portada, el espacio queda en blanco y el catálogo se imprime igual. Las imágenes convierten el catálogo en un documento visualmente rico que el lector puede recorrer con la vista además de con la lectura.
+
+### Resultado esperado
+
+- Al finalizar este punto, el alumno dispone de:
+
+- La carpeta resources con el logotipo, los iconos y la subcarpeta portadas.
+
+- El archivo reports/informe_concepto.jrxml con tres elementos de imagen: el logotipo en la banda Title, la portada dinámica en la banda Detail y el icono de disponibilidad en la banda Detail.
+
+- El archivo output/informe_concepto.pdf con el logotipo, las portadas que existan y los iconos de disponibilidad.
+
+- El archivo IMAGENES.md en la raíz del proyecto con la documentación de las imágenes.
+
+- Comprensión operativa de los elementos de imagen, de los modos de escala y de la propiedad onErrorType.
+
+
+## Punto 2.5 — Formato y estilos
+
+> **PUNTO DE PARTIDA.** Si vienes haciendo el curso, continúa con tu proyecto resultante del punto 2.4. Si te incorporas directamente aquí, usa `M2/2.4` como estado inicial. `M2/2.5` contiene la solución completa del punto.
+
+### Parte A — Práctica visual
+
+---
+
+**Paso 1: Abrir el informe y localizar la sección de estilos**
+
+**Acciones:**
+
+1. Hacer doble clic sobre el archivo `informe_concepto.jrxml` en el panel Project Explorer (superior izquierdo).
+2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+3. Localizar la línea que contiene `<style name="Sans_Normal" isDefault="true" .../>`.
+4. Hacer clic al final de esa línea y pulsar Enter.
+
+**Verificación visual:** el editor central muestra la línea del estilo `Sans_Normal` seguida de una línea vacía.
+
+**Qué hace:** abre el archivo JRXML en la vista de código fuente y posiciona el cursor después del estilo por defecto.\
+**Por qué:** los nuevos estilos deben declararse después del estilo por defecto y antes de las bandas.\
+**Error común:** declarar los nuevos estilos después de las bandas. El esquema XSD rechaza la estructura y el editor muestra un subrayado amarillo. Solución: mover las declaraciones de estilo a la posición correcta.\
+**Analogía:** es como preparar la hoja de estilo tipográfico del catálogo antes de empezar a componer las páginas.
+
+---
+
+**Paso 2: Declarar el estilo TituloPrincipal**
+
+**Acciones:**
+
+1. En la línea vacía después de `Sans_Normal`, escribir exactamente `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>` y pulsar Enter.
+
+**Verificación visual:** el editor central muestra la nueva línea con el estilo `TituloPrincipal` declarado.
+
+**Qué hace:** declara un estilo para los títulos principales del informe.\
+**Por qué:** el estilo agrupa las propiedades tipográficas del título y permite reutilizarlas en varios elementos.\
+**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía del estilo por defecto. Solución: añadir `style="Sans_Normal"`.\
+**Analogía:** es como definir el estilo tipográfico de los títulos principales del catálogo.
+
+---
+
+**Paso 3: Declarar el estilo TituloSecundario**
+
+**Acciones:**
+
+1. En la línea después de `TituloPrincipal`, escribir exactamente `<style name="TituloSecundario" style="Sans_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>` y pulsar Enter.
+
+**Verificación visual:** el editor central muestra la nueva línea con el estilo `TituloSecundario` declarado.
+
+**Qué hace:** declara un estilo para los títulos secundarios del informe.\
+**Por qué:** el estilo permite diferenciar visualmente los títulos secundarios de los principales.\
+**Error común:** usar el mismo color que el título principal. Los títulos secundarios deben tener un contraste menor. Solución: usar un color más claro.\
+**Analogía:** es como definir el estilo de los subtítulos del catálogo.
+
+---
+
+**Paso 4: Declarar el estilo TextoTablaCabecera**
+
+**Acciones:**
+
+1. En la línea después de `TituloSecundario`, escribir exactamente `<style name="TextoTablaCabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>` y pulsar Enter.
+
+**Verificación visual:** el editor central muestra la nueva línea con el estilo `TextoTablaCabecera` declarado.
+
+**Qué hace:** declara un estilo para las cabeceras de la tabla de datos.\
+**Por qué:** las cabeceras se destacan visualmente con un fondo de color y texto en blanco.\
+**Error común:** olvidar el atributo `mode="Opaque"`. El fondo no se rellena con el color indicado y el texto blanco queda invisible. Solución: añadir `mode="Opaque"` al estilo.\
+**Analogía:** es como definir el estilo de los títulos de las columnas del catálogo con fondo destacado.
+
+---
+
+**Paso 5: Declarar el estilo TextoTabla**
+
+**Acciones:**
+
+1. En la línea después de `TextoTablaCabecera`, escribir exactamente `<style name="TextoTabla" style="Sans_Normal" fontSize="9"/>` y pulsar Enter.
+
+**Verificación visual:** el editor central muestra la nueva línea con el estilo `TextoTabla` declarado.
+
+**Qué hace:** declara un estilo para las celdas de la tabla de datos.\
+**Por qué:** el estilo garantiza la coherencia tipográfica de todas las celdas.\
+**Error común:** olvidar el atributo `style`. El estilo no hereda la tipografía. Solución: añadir `style="Sans_Normal"`.\
+**Analogía:** es como definir el estilo del cuerpo de texto de las filas del catálogo.
+
+---
+
+**Paso 6: Declarar el estilo TextoPrecio con estilo condicional**
+
+**Acciones:**
+
+1. En la línea después de `TextoTabla`, escribir exactamente `<style name="TextoPrecio" style="TextoTabla">` y pulsar Enter.
+2. Escribir exactamente `<conditionalStyle>` y pulsar Enter.
+3. Escribir exactamente `<conditionExpression><![CDATA[$F{precio}.doubleValue() > 20.0]]></conditionExpression>` y pulsar Enter.
+4. Escribir exactamente `<style forecolor="#CC0000" isBold="true"/>` y pulsar Enter.
+5. Escribir exactamente `</conditionalStyle>` y pulsar Enter.
+6. Escribir exactamente `</style>` y pulsar Enter.
+
+**Verificación visual:** el editor central muestra el bloque completo del estilo `TextoPrecio` con su estilo condicional.
+
+**Qué hace:** declara un estilo para los precios que resalta en rojo los precios superiores a 20 euros.\
+**Por qué:** el estilo condicional permite cambiar el formato de un elemento según el valor del campo.\
+**Error común:** escribir la condición con comillas simples en lugar de dobles o con el operador incorrecto. Solución: revisar la expresión y asegurarse de que usa `$F{precio}.doubleValue() > 20.0` con comillas dobles en las cadenas si las hubiera.\
+**Analogía:** es como destacar en rojo los precios altos del catálogo para llamar la atención del lector.
+
+---
+
+**Paso 7: Declarar el estilo TextoPequeno**
+
+**Acciones:**
+
+1. En la línea después de `</style>` de `TextoPrecio`, escribir exactamente `<style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>` y pulsar Enter.
+
+**Verificación visual:** el editor central muestra la nueva línea con el estilo `TextoPequeno` declarado.
+
+**Qué hace:** declara un estilo para los textos pequeños y secundarios del informe.\
+**Por qué:** el estilo permite diferenciar las notas y aclaraciones del cuerpo principal.\
+**Error común:** usar un tamaño muy pequeño que resulte ilegible. Solución: mantener el tamaño en 9 unidades de informe como mínimo.\
+**Analogía:** es como definir el estilo de las notas al pie del catálogo.
+
+---
+
+**Paso 8: Guardar y verificar la compilación de los estilos**
+
+**Acciones:**
+
+1. Pulsar Ctrl+S para guardar el archivo.
+2. Pulsar Ctrl+Mayús+B para compilar el informe.
+3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
+4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+5. Expandir el nodo Styles en el panel Outline (inferior izquierdo).
+
+**Verificación visual:** el panel Outline muestra el nodo Styles con los siete estilos declarados: `Sans_Normal`, `TituloPrincipal`, `TituloSecundario`, `TextoTablaCabecera`, `TextoTabla`, `TextoPrecio` y `TextoPequeno`.
+
+**Qué hace:** compila el informe y verifica que los estilos se han declarado correctamente.\
+**Por qué:** la compilación detecta errores de sintaxis en las declaraciones de estilo antes de aplicar los estilos a los elementos.\
+**Error común:** olvidar el cierre `</style>` en uno de los estilos con bloques hijos. El compilador informa `The element type "style" must be terminated`. Solución: revisar cada bloque y asegurarse de que tiene su cierre.\
+**Analogía:** es como revisar la hoja de estilo del catálogo antes de aplicarla a los elementos.
+
+---
+
+**Paso 9: Aplicar el estilo TituloPrincipal al título de la banda Title**
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Title en el panel Outline (inferior izquierdo).
+2. Hacer clic sobre el Static Text que contiene el texto `Catálogo Editorial - Informe Conceptual` en el editor central.
+3. Hacer clic sobre la pestaña Properties en el panel Properties (inferior derecho).
+4. Hacer clic sobre el desplegable Style y seleccionar `TituloPrincipal`.
+5. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+6. Localizar el `<reportElement>` del Static Text del título y verificar que contiene el atributo `style="TituloPrincipal"`.
+
+**Verificación visual:** el título aparece con el tamaño 18, en negrita y con el color azul oscuro del estilo.
+
+**Qué hace:** aplica el estilo `TituloPrincipal` al título del informe.\
+**Por qué:** el título hereda las propiedades del estilo y mantiene la coherencia con el resto del documento.\
+**Error común:** olvidar seleccionar el estilo en el desplegable. El título conserva las propiedades anteriores. Solución: seleccionar `TituloPrincipal` en el desplegable Style del panel Properties.\
+**Analogía:** es como aplicar el estilo tipográfico de los títulos principales al rótulo de la portada.
+
+---
+
+**Paso 10: Aplicar el estilo TextoTablaCabecera a los encabezados de la banda Column Header**
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
+2. Hacer clic sobre el Static Text que contiene el texto `Portada` en el editor central.
+3. Hacer clic sobre el desplegable Style en el panel Properties y seleccionar `TextoTablaCabecera`.
+4. Hacer clic sobre el Static Text que contiene el texto `Título`.
+5. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
+6. Hacer clic sobre el Static Text que contiene el texto `Precio`.
+7. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
+8. Hacer clic sobre el Static Text que contiene el texto `Páginas`.
+9. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
+10. Hacer clic sobre el Static Text que contiene el texto `Año`.
+11. Hacer clic sobre el desplegable Style y seleccionar `TextoTablaCabecera`.
+
+**Verificación visual:** todos los encabezados de la banda Column Header aparecen con fondo azul y texto blanco en negrita.
+
+**Qué hace:** aplica el estilo de cabecera de tabla a todos los encabezados de la banda Column Header.\
+**Por qué:** la coherencia visual de la cabecera refuerza la legibilidad de la tabla de datos.\
+**Error común:** olvidar aplicar el estilo a alguno de los encabezados y provocar que uno de ellos aparezca con el estilo por defecto. Solución: revisar todos los encabezados y aplicar el estilo a cada uno.\
+**Analogía:** es como aplicar el mismo estilo a todos los títulos de columna de la tabla del catálogo.
+
+---
+
+**Paso 11: Aplicar los estilos de tabla a los campos de Detail**
+
+**Acciones:**
+
+1. Seleccionar `$F{titulo}` y elegir `TextoTabla` en Style.
+2. Seleccionar `$F{paginas}` y elegir `TextoTabla`.
+3. Seleccionar `$F{fechaPublicacion}` y elegir `TextoTabla`.
+4. Seleccionar el campo de disponibilidad y elegir `TextoTabla`.
+5. Seleccionar `$V{REPORT_COUNT}` y elegir `TextoPequeno`.
+6. Comprobar en Source que cada `reportElement` contiene el atributo `style` esperado.
+
+**Verificación visual:** los campos de datos comparten la misma tipografía y el contador utiliza el estilo de texto pequeño.
+
+**Qué hace:** aplica estilos reutilizables a los elementos reales presentes en el checkpoint 2.5.
+
+**Por qué:** el rótulo `#` está en `Column Header`; no existe un `Static Text #` adicional en Detail en la versión validada.
+
+---
+
+**Paso 12: Aplicar el estilo TextoPrecio al campo de precio**
+
+**Acciones:**
+
+1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
+2. Hacer clic sobre el Text Field que contiene la expresión `$F{precio}` en el editor central.
+3. Hacer clic sobre el desplegable Style en el panel Properties y seleccionar `TextoPrecio`.
+4. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+5. Localizar el `<reportElement>` del Text Field del precio y verificar que contiene el atributo `style="TextoPrecio"`.
+6. Pulsar Ctrl+S para guardar el archivo.
+7. Pulsar Ctrl+Mayús+B para compilar el informe.
+8. Hacer clic con el botón derecho sobre `GeneradorInformeConcepto.java` y seleccionar Run As > Java Application.
+9. Abrir el archivo `output/informe_concepto.pdf` y verificar que los precios superiores a 20 euros aparecen en rojo y en negrita.
+
+**Verificación visual:** los precios superiores a 20 euros aparecen en rojo y en negrita. Los precios inferiores aparecen con el estilo normal.
+
+**Qué hace:** aplica el estilo condicional al campo del precio.\
+**Por qué:** el estilo condicional resalta los precios altos sin necesidad de duplicar el elemento.\
+**Error común:** olvidar el atributo `style="TextoPrecio"` y provocar que el precio no se resalte. Solución: seleccionar `TextoPrecio` en el desplegable Style.\
+**Analogía:** es como destacar en rojo los precios altos del catálogo para llamar la atención del lector.
+
+---
+
+**Paso 13: Documentar los estilos del proyecto**
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
+2. Hacer clic sobre la opción New en el menú contextual.
+3. Hacer clic sobre la opción File en el submenú.
+4. Escribir exactamente `ESTILOS.md` en el campo File name del diálogo.
+5. Hacer clic sobre el botón Finish.
+6. En el editor central, escribir exactamente `# Estilos del informe` y pulsar Enter dos veces.
+7. Escribir exactamente `| Estilo | Estilo padre | Uso |` y pulsar Enter.
+8. Escribir exactamente `|---|---|---|` y pulsar Enter.
+9. Escribir exactamente `| Sans_Normal | (default) | Estilo por defecto |` y pulsar Enter.
+10. Escribir exactamente `| TituloPrincipal | Sans_Normal | Título principal |` y pulsar Enter.
+11. Escribir exactamente `| TituloSecundario | Sans_Normal | Títulos secundarios |` y pulsar Enter.
+12. Escribir exactamente `| TextoTablaCabecera | Sans_Normal | Encabezados de tabla |` y pulsar Enter.
+13. Escribir exactamente `| TextoTabla | Sans_Normal | Celdas de tabla |` y pulsar Enter.
+14. Escribir exactamente `| TextoPrecio | TextoTabla | Precios con condicional |` y pulsar Enter.
+15. Escribir exactamente `| TextoPequeno | Sans_Normal | Notas y textos pequeños |` y pulsar Enter.
+16. Pulsar Ctrl+S para guardar el archivo.
+
+**Verificación visual:** el panel Project Explorer muestra el archivo `ESTILOS.md` en la raíz del proyecto `EditorialReports` con la tabla de estilos documentada.
+
+**Qué hace:** incorpora al proyecto un documento que registra los estilos del informe y su jerarquía.\
+**Por qué:** la documentación de los estilos facilita el mantenimiento y la incorporación de nuevos desarrolladores.\
+**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown. Solución: revisar cada línea y asegurarse de que comienza y termina con `|`.\
+**Analogía:** es como dejar en la editorial una ficha técnica con los estilos tipográficos utilizados en el catálogo.
+
+---
+
+### Parte B — JRXML explicado y contrastado
+
+Se reproduce únicamente la sección de estilos del JRXML y las bandas modificadas. Las secciones modificadas son la declaración de estilos, la banda `title`, la banda `columnHeader` y la banda `detail`.
+
+```xml
+<property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>
+<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>
+<style name="TituloSecundario" style="Sans_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>
+<style name="TextoTablaCabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>
+<style name="TextoTabla" style="Sans_Normal" fontSize="9"/>
+<style name="TextoPrecio" style="TextoTabla">
+    <conditionalStyle>
+        <conditionExpression><![CDATA[$F{precio}.doubleValue() > 20.0]]></conditionExpression>
+        <style forecolor="#CC0000" isBold="true"/>
+    </conditionalStyle>
+</style>
+<style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>
+<title>
+    <band height="100">
+        <image hAlign="Left" vAlign="Middle">
+            <reportElement x="0" y="10" width="80" height="80" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+            <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
+        </image>
+        <staticText>
+            <reportElement x="90" y="25" width="465" height="30" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e" style="TituloPrincipal"/>
+            <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="90" y="60" width="120" height="20" uuid="c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <text><![CDATA[Fecha de emisión:]]></text>
+        </staticText>
+        <textField pattern="dd/MM/yyyy">
+            <reportElement x="215" y="60" width="150" height="20" uuid="d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+            <textElement verticalAlignment="Middle">
+                <font fontName="DejaVu Sans" size="10"/>
+            </textElement>
+            <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+        </textField>
+    </band>
+</title>
+<columnHeader>
+    <band height="25">
+        <staticText>
+            <reportElement x="0" y="5" width="50" height="15" uuid="e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b" style="TextoTablaCabecera"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle"/>
+            <text><![CDATA[Portada]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="55" y="5" width="180" height="15" uuid="f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c" style="TextoTablaCabecera"/>
+            <textElement verticalAlignment="Middle"/>
+            <text><![CDATA[Título]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="235" y="5" width="80" height="15" uuid="a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d" style="TextoTablaCabecera"/>
+            <textElement verticalAlignment="Middle"/>
+            <text><![CDATA[Precio]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="315" y="5" width="50" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e" style="TextoTablaCabecera"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle"/>
+            <text><![CDATA[Páginas]]></text>
+        </staticText>
+        <staticText>
+            <reportElement x="365" y="5" width="50" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f" style="TextoTablaCabecera"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle"/>
+            <text><![CDATA[Año]]></text>
+        </staticText>
+    </band>
+</columnHeader>
+<detail>
+    <band height="60" splitType="Stretch">
+        <image onErrorType="Blank" scaleImage="RetainShape">
+            <reportElement x="0" y="5" width="50" height="50" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+            <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>
+        </image>
+        <textField textAdjust="StretchHeight">
+            <reportElement x="55" y="20" width="180" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b" style="TextoTabla"/>
+            <textElement verticalAlignment="Middle"/>
+            <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+        </textField>
+        <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+            <reportElement x="235" y="20" width="80" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c" style="TextoPrecio"/>
+            <textElement verticalAlignment="Middle"/>
+            <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+        </textField>
+        <textField isBlankWhenNull="true">
+            <reportElement x="315" y="20" width="50" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d" style="TextoTabla"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle"/>
+            <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
+        </textField>
+        <textField pattern="yyyy" isBlankWhenNull="true">
+            <reportElement x="365" y="20" width="50" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e" style="TextoTabla"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle"/>
+            <textFieldExpression><![CDATA[$F{fechaPublicacion}]]></textFieldExpression>
+        </textField>
+        <textField>
+            <reportElement x="415" y="20" width="55" height="20" uuid="c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f" style="TextoTabla"/>
+            <textElement textAlignment="Center" verticalAlignment="Middle"/>
+            <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
+        </textField>
+        <image onErrorType="Blank" scaleImage="RetainShape">
+            <reportElement x="475" y="20" width="20" height="20" uuid="d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a"/>
+            <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression>
+        </image>
+        <textField>
+            <reportElement x="500" y="20" width="55" height="20" uuid="f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c" style="TextoPequeno"/>
+            <textElement textAlignment="Right" verticalAlignment="Middle"/>
+            <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+        </textField>
+    </band>
+</detail>
+```
+
+**Línea 1:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="EmptyDataSource"/>` → propiedad de Jaspersoft Studio que asocia el adaptador `EmptyDataSource` al informe.
+
+**Línea 2:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" .../>` → estilo por defecto del informe. Hereda la tipografía DejaVu Sans y el tamaño 10.
+
+**Línea 3:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>` → estilo para los títulos principales. Hereda la tipografía de `Sans_Normal` y sobrescribe el tamaño, la negrita y el color.
+
+**Línea 4:** `<style name="TituloSecundario" style="Sans_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>` → estilo para los títulos secundarios. Hereda la tipografía de `Sans_Normal` y sobrescribe el tamaño, la negrita y el color.
+
+**Línea 5:** `<style name="TextoTablaCabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>` → estilo para las cabeceras de tabla. Hereda la tipografía de `Sans_Normal` y sobrescribe el color del texto (blanco), el color de fondo (azul) y el modo opaco.
+
+**Línea 6:** `<style name="TextoTabla" style="Sans_Normal" fontSize="9"/>` → estilo para las celdas de tabla. Hereda la tipografía de `Sans_Normal` y mantiene el tamaño 10.
+
+**Línea 7:** `<style name="TextoPrecio" style="TextoTabla">` → estilo para los precios. Hereda las propiedades de `TextoTabla` y añade un estilo condicional.
+
+**Línea 8:** `<conditionalStyle>` → abre el bloque de estilo condicional.
+
+**Línea 9:** `<conditionExpression><![CDATA[$F{precio}.doubleValue() > 20.0]]></conditionExpression>` → condición que se evalúa en cada emisión. Si el precio es superior a 20, se aplica el estilo condicional.
+
+**Línea 10:** `<style forecolor="#CC0000" isBold="true"/>` → propiedades que se aplican cuando la condición es verdadera: color rojo y negrita.
+
+**Línea 11:** `</conditionalStyle>` → cierra el bloque condicional.
+
+**Línea 12:** `</style>` → cierra la declaración del estilo.
+
+**Línea 13:** `<style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>` → estilo para textos pequeños. Hereda la tipografía de `Sans_Normal` y sobrescribe el tamaño (9), la cursiva y el color gris.
+
+**Líne**
+**Línea 14-35:** banda `title` con el logotipo, el título principal con el estilo `TituloPrincipal` y el rótulo de fecha con el campo de fecha.
+
+**Línea 23:** `<reportElement x="90" y="25" width="465" height="30" uuid="..." style="TituloPrincipal"/>` → el título principal referencia el estilo `TituloPrincipal`. El elemento hereda la tipografía, el tamaño 18, la negrita y el color azul oscuro.
+
+**Línea 36-70:** banda `columnHeader` con los cinco encabezados. Cada uno referencia el estilo `TextoTablaCabecera`.
+
+**Línea 38:** `<reportElement x="0" y="5" width="50" height="15" uuid="..." style="TextoTablaCabecera"/>` → el encabezado `Portada` referencia el estilo de cabecera. El elemento hereda el fondo azul, el texto blanco y la negrita.
+
+**Línea 71-136:** banda `detail` con la portada dinámica, los campos de texto y el icono de disponibilidad.
+
+**Línea 78:** `<reportElement x="55" y="20" width="180" height="20" uuid="..." style="TextoTabla"/>` → el campo del título referencia el estilo `TextoTabla`. Hereda la tipografía y el tamaño del estilo.
+
+**Línea 83:** `<reportElement x="235" y="20" width="80" height="20" uuid="..." style="TextoPrecio"/>` → el campo del precio referencia el estilo `TextoPrecio`. Hereda la tipografía de `TextoTabla` y el estilo condicional que resalta en rojo los precios superiores a 20.
+
+**Línea 103:** `<reportElement x="500" y="20" width="0" height="20" uuid="..." style="TextoPequeno"/>` → el rótulo `#` referencia el estilo `TextoPequeno`. Hereda el tamaño 9, la cursiva y el color gris.
+
+**Línea 108:** `<reportElement x="500" y="20" width="55" height="20" uuid="..." style="TextoPequeno"/>` → el campo del número de registro referencia el mismo estilo.
+
+---
+
+### Parte C — Código Java explicado línea por línea
+
+En este punto no se modifica el código Java del programa. Las clases `Libro`, `CatalogoDataSource` y `GeneradorInformeConcepto` permanecen tal como se construyeron en el punto 2.4. Se reproduce a continuación la clase `GeneradorInformeConcepto` para referencia.
+
+```java
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeConcepto {
+
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_concepto.jrxml";
+            String rutaJasper = "reports/informe_concepto.jasper";
+            String rutaPdf = "output/informe_concepto.pdf";
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<>();
+
+            JasperPrint documento = JasperFillManager.fillReport(
+                    rutaJasper,
+                    parametros,
+                    new CatalogoDataSource(Libro.listaEjemplo()));
+
+            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
+            System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+            System.out.println("Páginas del documento: " + documento.getPages().size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**Línea 1:** `import java.io.File;` → importa la clase `File` para obtener la ruta absoluta del PDF.
+
+**Línea 2:** `import java.util.HashMap;` → importa la implementación de mapa.
+
+**Línea 3:** `import java.util.Map;` → importa la interfaz `Map`.
+
+**Línea 5:** `import net.sf.jasperreports.engine.JasperCompileManager;` → importa el gestor de compilación.
+
+**Línea 6:** `import net.sf.jasperreports.engine.JasperExportManager;` → importa el gestor de exportación.
+
+**Línea 7:** `import net.sf.jasperreports.engine.JasperFillManager;` → importa el gestor de llenado.
+
+**Línea 8:** `import net.sf.jasperreports.engine.JasperPrint;` → importa la clase del documento en memoria.
+
+**Línea 10:** `public class GeneradorInformeConcepto {` → declara la clase principal.
+
+**Línea 12:** `public static void main(String[] args) {` → punto de entrada.
+
+**Línea 13:** `try {` → abre el bloque protegido.
+
+**Línea 14:** `String rutaJrxml = "reports/informe_concepto.jrxml";` → ruta del archivo de diseño.
+
+**Línea 15:** `String rutaJasper = "reports/informe_concepto.jasper";` → ruta del artefacto compilado.
+
+**Línea 16:** `String rutaPdf = "output/informe_concepto.pdf";` → ruta del PDF de salida.
+
+**Línea 18:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → compila el JRXML.
+
+**Línea 20:** `Map<String, Object> parametros = new HashMap<>();` → declara el mapa de parámetros vacío.
+
+**Línea 22:** `JasperPrint documento =` → declara la variable del documento.
+
+**Línea 22 (continuación):** `JasperFillManager.fillReport(` → invoca el motor de llenado.
+
+**Línea 23:** `rutaJasper,` → ruta del artefacto compilado.
+
+**Línea 24:** `parametros,` → mapa de parámetros.
+
+**Línea 25:** `new CatalogoDataSource(Libro.listaEjemplo()));` → construye la fuente de datos con la lista de catorce libros.
+
+**Línea 27:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → exporta a PDF.
+
+**Línea 29:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → imprime la ruta del PDF.
+
+**Línea 30:** `System.out.println("Páginas del documento: " + documento.getPages().size());` → imprime el número de páginas.
+
+**Línea 32:** `} catch (Exception e) {` → captura excepciones.
+
+**Línea 33:** `e.printStackTrace();` → imprime la traza.
+
+**Línea 34:** `}` → cierra el bloque `catch`.
+
+**Línea 35:** `}` → cierra el método `main`.
+
+**Línea 36:** `}` → cierra la clase.
+
+**Traza de consola esperada tras la ejecución**
+
+```text
+Informe generado en: C:\Users\<usuario>\Documents\JasperProjects\EditorialReports\output\informe_concepto.pdf
+Páginas del documento: 1
+```
+
+**Estado del objeto `JasperPrint` en cada fase**
+
+```text
+FASE 1 — COMPILACIÓN
+─────────────────────
+  Método invocado:  JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper)
+  Entrada:          reports/informe_concepto.jrxml       (texto XML, ~28 KB)
+  Salida:           reports/informe_concepto.jasper      (binario serializado, ~56 KB)
+  Estilos compilados:
+    - Sans_Normal (default)
+    - TituloPrincipal (style=Sans_Normal)
+    - TituloSecundario (style=Sans_Normal)
+    - TextoTablaCabecera (style=Sans_Normal)
+    - TextoTabla (style=Sans_Normal)
+    - TextoPrecio (style=TextoTabla, con estilo condicional)
+    - TextoPequeno (style=Sans_Normal)
+
+
+FASE 2 — LLENADO
+─────────────────
+  Método invocado:  JasperFillManager.fillReport(rutaJasper, parametros, dataSource)
+  Entrada:          reports/informe_concepto.jasper + HashMap vacío
+                    + CatalogoDataSource con 14 libros
+  Salida:           objeto JasperPrint en memoria
+  Páginas:          1
+  Estilos aplicados:
+    - Título principal: TituloPrincipal
+    - Encabezados de tabla: TextoTablaCabecera
+    - Campos de la tabla: TextoTabla
+    - Precios: TextoPrecio (condicional para > 20)
+    - Número de registro: TextoPequeno
+
+
+FASE 3 — EXPORTACIÓN
+─────────────────────
+  Método invocado:  JasperExportManager.exportReportToPdfFile(documento, rutaPdf)
+  Entrada:          objeto JasperPrint en memoria
+  Salida:           output/informe_concepto.pdf (archivo PDF 1.4, ~120 KB en disco)
+  Páginas en el PDF: 1
+```
+
+---
+
+### Parte D — Validación del resultado y estructura del proyecto
+
+#### D.1 — Vista de diseño en Jaspersoft Studio
+
+```text
++-------------------------------------------------------------------------+
+|  informe_concepto.jrxml                          [Design] [Source]      |
++-------------------------------------------------------------------------+
+|  Ruler:  0   100  200  300  400  500  555  600  650  700                 |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  ┌─── Title ──────────────────────────────────────────── h = 100 ────┐  |
+|  │  ┌────────┐                                                       │  |
+|  │  │        │  Catálogo Editorial - Informe Conceptual              │  |
+|  │  │ LOGO   │  (estilo TituloPrincipal: 18, negrita, azul oscuro)  │  |
+|  │  │ 80×80  │                                                       │  |
+|  │  └────────┘  Fecha de emisión:  [ new java.util.Date() ]          │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
+|  │  Portada │ Título              │ Precio │ Páginas │ Año            │  |
+|  │  (todos con estilo TextoTablaCabecera: fondo azul, texto blanco)   │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  ┌─── Detail 1 ──────────────────────────────────────── h = 60 ─────┐  |
+|  │ [IMG] [ $F{titulo} ] [ $F{precio} ] [ $F{pag} ] [ $F{fech} ]     │  |
+|  │ 50×50    TextoTabla   TextoPrecio     TextoTabla   TextoTabla      │  |
+|  └───────────────────────────────────────────────────────────────────┘  |
+|                                                                         |
+|  Panel Outline muestra:                                                 |
+|  Styles                                                                 |
+|   ├── Sans_Normal              [isDefault=true]                           │
+|   ├── TituloPrincipal          [style=Sans_Normal]                     │
+|   ├── TituloSecundario         [style=Sans_Normal]                     │
+|   ├── TextoTablaCabecera       [style=Sans_Normal]                     │
+|   ├── TextoTabla               [style=Sans_Normal]                     │
+|   ├── TextoPrecio              [style=TextoTabla, conditional]         │
+|   └── TextoPequeno             [style=Sans_Normal]                     │
++-------------------------------------------------------------------------+
+```
+
+**Qué representa:** la disposición de las bandas en el editor central tras completar los trece pasos. El título principal aparece con el estilo `TituloPrincipal`. Los encabezados de la tabla aparecen con el estilo `TextoTablaCabecera`. Los campos de la banda Detail aparecen con el estilo `TextoTabla`.
+
+**Cómo verificarlo:** comparar la vista del editor con este esquema. El panel Outline debe mostrar los siete estilos en la sección Styles.
+
+#### D.2 — Jerarquía del Outline
+
+```text
+informe_concepto
+│
+├── Styles
+│   ├── Sans_Normal  [isDefault=true]
+│   ├── TituloPrincipal  [style=Sans_Normal, fontSize=18, isBold=true]
+│   ├── TituloSecundario  [style=Sans_Normal, fontSize=14, isBold=true]
+│   ├── TextoTablaCabecera  [style=Sans_Normal, backcolor=#4A6B8A, mode=Opaque]
+│   ├── TextoTabla  [style=Sans_Normal, fontSize=10]
+│   ├── TextoPrecio  [style=TextoTabla, conditional: precio > 20]
+│   └── TextoPequeno  [style=Sans_Normal, fontSize=9, isItalic=true]
+│
+├── Fields
+│   ├── titulo, precio, paginas, fechaPublicacion, disponible
+│
+├── Title  [band, height=100]
+│   ├── image       [0,10,80,80]  "resources/logo.png"
+│   ├── staticText  [90,25,465,30]  style="TituloPrincipal"
+│   ├── staticText  [90,60,120,20]  "Fecha de emisión:"
+│   └── textField   [215,60,150,20]  new java.util.Date()
+│
+├── Column Header  [band, height=25]
+│   ├── staticText  [0,5,50,15]    style="TextoTablaCabecera"  "Portada"
+│   ├── staticText  [55,5,180,15]  style="TextoTablaCabecera"  "Título"
+│   ├── staticText  [235,5,80,15] style="TextoTablaCabecera"  "Precio"
+│   ├── staticText  [315,5,50,15]  style="TextoTablaCabecera"  "Páginas"
+│   └── staticText  [365,5,50,15]  style="TextoTablaCabecera"  "Año"
+│
+├── Detail 1  [band, height=60, splitType=Stretch]
+│   ├── image       [0,5,50,50]  "resources/portadas/"+$F{titulo}+".png"
+│   ├── textField   [55,20,180,20]  style="TextoTabla"  $F{titulo}
+│   ├── textField   [235,20,80,20] style="TextoPrecio"  $F{precio}
+│   ├── textField   [315,20,50,20]  style="TextoTabla"  $F{paginas}
+│   ├── textField   [365,20,50,20]  style="TextoTabla"  $F{fechaPublicacion}
+│   ├── textField   [415,20,55,20]  style="TextoTabla"  $F{disponible}
+│   ├── image       [475,20,20,20]  icono condicional
+│   ├── staticText  [560,20,30,20]  style="TextoPequeno"  "# "
+│   └── textField   [500,20,55,20]  style="TextoPequeno"  $V{REPORT_COUNT}
+│
+├── Column Footer, Page Footer, Last Page Footer
+│
+├── Summary  [band, height=70]
+│   └── ...
+│
+└── Background  [band, height=0]
+```
+
+**Qué representa:** el árbol de nodos del informe tal como aparece en el panel Outline tras completar los trece pasos. La novedad respecto al punto 2.4 es la sección Styles con los siete estilos declarados y las referencias a estilos en los elementos.
+
+**Cómo verificarlo:** expandir el nodo `informe_concepto` en el panel Outline y expandir el nodo Styles. Cada estilo debe mostrar su estilo padre y sus propiedades entre corchetes.
+
+#### D.3 — Documento PDF resultante, página por página
+
+```text
+INFORME: informe_concepto.pdf
+PÁGINAS TOTALES: 1
+TAMAÑO DE PÁGINA: 595 × 842 unidades de informe (A4) (A4 vertical)
+REGISTROS PROCESADOS: 14
+ESTILOS APLICADOS: 7 (Sans_Normal, TituloPrincipal, TituloSecundario,
+                     TextoTablaCabecera, TextoTabla, TextoPrecio,
+                     TextoPequeno)
+
+
+──────────────────── Página 1 de 1 ────────────────────
+╔══════════════════════════════════════════════════════════╗
+║  ┌──────┐                                                ║
+║  │ LOGO │  Catálogo Editorial - Informe Conceptual       ║
+║  └──────┘  (18, negrita, azul oscuro)                    ║
+║           Fecha de emisión:  22/09/2026                  ║
+║                                                          ║
+║  Catálogo Editorial (cursiva)         Página 1 de 1     ║
+║  Precio en euros con IVA incluido                       ║
+║                                                          ║
+║  ┏━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━┓ ║
+║  ┃Portada┃Título            ┃Precio   ┃Páginas ┃ Año ┃ ║  ← fondo azul
+║  ┗━━━━━━━┻━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━┻━━━━━┛ ║
+║  ┌────┐ │Cien años de sol. │ 19,95 € │  471   │1967 │ ║
+║  │IMG │ │                  │         │        │     │ ║
+║  └────┘ │                  │         │        │     │ ║
+║  ┌────┐ │Rayuela           │ 22,50 € │  736   │1963 │ ║  ← rojo negrita
+║  │IMG │ │                  │ (rojo)  │        │     │ ║
+║  └────┘ │                  │         │        │     │ ║
+║  ┌────┐ │La ciudad y los.. │ 18,75 € │  432   │1963 │ ║
+║  │IMG │ │                  │         │        │     │ ║
+║  └────┘ │                  │         │        │     │ ║
+║   ...                                                    ║
+║  ─────────────────────────────────────────────────────   ║
+║           --- Fin de la tabla de datos ---               ║
+║  Registros procesados: 14                                ║
+║                                                          ║
+║         Documento generado en la última página           ║
+║                                                          ║
+║  Total de páginas: 1                                     ║
+║           Fin del informe. EditorialReports.             ║
+║  Total de libros: 14                                     ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+**Qué representa:** la página única del PDF resultante con los estilos aplicados. El título principal aparece con el estilo `TituloPrincipal`. Los encabezados de la tabla aparecen con fondo azul y texto blanco. Los precios superiores a 20 euros aparecen en rojo y negrita gracias al estilo condicional.
+
+**Cómo verificarlo:** abrir el archivo `output/informe_concepto.pdf` con un lector de PDF y comprobar que los encabezados de la tabla tienen fondo azul, que el título principal aparece en azul oscuro y que los precios superiores a 20 euros aparecen en rojo.
+
+#### D.4 — Árbol de carpetas del proyecto tras completar el punto
+
+```text
+EditorialReports/
+│
+├── ECOSISTEMA.md                                 (documentación del ecosistema)
+├── ENTORNO.md                                    (documentación del entorno)
+├── BANDAS.md                                     (documentación de las bandas)
+├── JRXML.md                                      (documentación del formato JRXML)
+├── TEXTO.md                                      (documentación de elementos textuales)
+├── CAMPOS.md                                     (documentación de campos)
+├── IMAGENES.md                                   (documentación de imágenes)
+├── ESTILOS.md                                    (documentación de estilos)
+│
+├── reports/
+│   ├── informe_concepto.jrxml                    (plantilla con 7 estilos)
+│   └── informe_concepto.jasper                   (artefacto compilado)
+│
+├── resources/
+│   ├── logo.png
+│   ├── icono_disponible.png
+│   ├── icono_no_disponible.png
+│   └── portadas/
+│       ├── Cien años de soledad.png
+│       ├── Rayuela.png
+│       └── Pedro Páramo.png
+│
+└── output/
+    └── informe_concepto.pdf                      (documento con estilos aplicados)
+
+
+EditorialReportsJava/
+│
+├── lib/
+│   └── README.md   (las dependencias reales se resuelven mediante Maven)
+│
+└── src/
+    ├── GeneradorInformeConcepto.java
+    ├── Libro.java
+    └── CatalogoDataSource.java
+```
+
+**Qué representa:** el estado de los dos proyectos tras completar los trece pasos. La novedad respecto al punto anterior es el archivo `ESTILOS.md` en la raíz del proyecto `EditorialReports`.
+
+**Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si el archivo `ESTILOS.md` no aparece, repetir el paso 13.
+
+---
+
+### Errores comunes del ejercicio completo
+
+| **Error**                                             | **Causa**                                                                       | **Solución**                                                           |
+| :---------------------------------------------------- | :------------------------------------------------------------------------------ | :--------------------------------------------------------------------- |
+| `Duplicate default style` al compilar                 | Existe más de un estilo con `isDefault="true"`                                    | Dejar `isDefault="true"` en un único estilo y quitarlo en los demás      |
+| El estilo no se aplica al elemento                    | El atributo `style` no está declarado en el `reportElement`                     | Añadir `style="NombreEstilo"` al bloque `reportElement`                |
+| El estilo condicional no se aplica                    | La expresión de la condición no devuelve un valor booleano                      | Revisar la expresión y asegurarse de que devuelve `true` o `false`     |
+| El texto blanco de la cabecera no se ve               | El estilo no tiene `mode="Opaque"` y el fondo no se rellena                     | Añadir `mode="Opaque"` al estilo de la cabecera                        |
+| El estilo no se encuentra al compilar                 | El nombre del estilo en el atributo `style` no coincide con el nombre declarado | Verificar que el nombre es idéntico y respeta mayúsculas y minúsculas  |
+| El estilo hereda propiedades incorrectas              | El atributo `style` apunta a un estilo inexistente                             | Verificar que el estilo padre está declarado antes del hijo            |
+| El color del estilo no se aplica al elemento          | El elemento sobrescribe el color con un `forecolor` propio                      | Eliminar el `forecolor` del elemento para que herede el del estilo     |
+| El estilo condicional se aplica a todos los registros | La condición siempre devuelve verdadero                                         | Revisar la expresión y asegurarse de que compara con el valor correcto |
+| El estilo no se aplica a los elementos de una banda   | El atributo `style` está declarado en el elemento pero no en la banda           | Los estilos se aplican elemento por elemento, no por banda             |
+| El panel Outline no muestra la sección Styles         | Los estilos no están declarados antes de las bandas                             | Mover las declaraciones de estilo a la posición correcta del JRXML     |
+
+---
+
+### Reto resuelto paso a paso
+
+**Enunciado:** añadir un estilo `TextoDisponible` que herede de `TextoTabla` y aplique un estilo condicional que muestre en verde el texto `Sí` y en gris el texto `No`. Aplicar el estilo al campo de disponibilidad y verificar el resultado en el PDF.
+
+**Paso 1.** Hacer doble clic sobre el archivo `informe_concepto.jrxml` en el panel Project Explorer.
+
+**Paso 2.** Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+
+**Paso 3.** Hacer clic al final de la línea que contiene `<style name="TextoPequeno" .../>` y pulsar Enter.
+
+**Paso 4.** Escribir exactamente `<style name="TextoDisponible" style="TextoTabla">` y pulsar Enter.
+
+**Paso 5.** Escribir exactamente `<conditionalStyle>` y pulsar Enter.
+
+**Paso 6.** Escribir exactamente `<conditionExpression><![CDATA[$F{disponible}.booleanValue()]]></conditionExpression>` y pulsar Enter.
+
+**Paso 7.** Escribir exactamente `<style forecolor="#006600" isBold="true"/>` y pulsar Enter.
+
+**Paso 8.** Escribir exactamente `</conditionalStyle>` y pulsar Enter.
+
+**Paso 9.** Escribir exactamente `<conditionalStyle>` y pulsar Enter.
+
+**Paso 10.** Escribir exactamente `<conditionExpression><![CDATA[!$F{disponible}.booleanValue()]]></conditionExpression>` y pulsar Enter.
+
+**Paso 11.** Escribir exactamente `<style forecolor="#888888" isItalic="true"/>` y pulsar Enter.
+
+**Paso 12.** Escribir exactamente `</conditionalStyle>` y pulsar Enter.
+
+**Paso 13.** Escribir exactamente `</style>` y pulsar Enter.
+
+**Paso 14.** Pulsar Ctrl+S para guardar el archivo.
+
+**Paso 15.** Pulsar Ctrl+Mayús+B para compilar el informe.
+
+**Paso 16.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+
+**Paso 17.** Hacer clic sobre el nodo Detail 1 en el panel Outline.
+
+**Paso 18.** Hacer clic sobre el Text Field que contiene la expresión `$F{disponible}.booleanValue() ? "Sí" : "No"` en el editor central.
+
+**Paso 19.** Hacer clic sobre el desplegable Style en el panel Properties y seleccionar `TextoDisponible`.
+
+**Paso 20.** Pulsar Ctrl+S para guardar el archivo.
+
+**Paso 21.** Pulsar Ctrl+Mayús+B para compilar el informe.
+
+**Paso 22.** Hacer clic con el botón derecho sobre `GeneradorInformeConcepto.java` y seleccionar Run As > Java Application.
+
+**Paso 23.** Abrir el archivo `output/informe_concepto.pdf` y verificar que los libros disponibles muestran `Sí` en verde y negrita, y que los libros no disponibles muestran `No` en gris y cursiva.
+
+**Simulación ASCII del PDF tras el reto**
+
+```text
+║  Portada│Título            │Precio  │Páginas│ Año │Disp. │#║
+║  ───────────────────────────────────────────────────────║
+║  ┌────┐ │Cien años de sol. │ 19,95 €│  471  │1967 │Sí    │1║
+║  │IMG │ │                  │        │       │     │(verde)│ ║
+║  └────┘ │                  │        │       │     │      │ ║
+║  ┌────┐ │Rayuela           │ 22,50 €│  736  │1963 │Sí    │2║
+║  │IMG │ │                  │(rojo)  │       │     │(verde)│ ║
+║  └────┘ │                  │        │       │     │      │ ║
+║  ┌────┐ │Doña Bárbara      │ 16,95 €│  400  │1929 │No    │9║
+║  │IMG │ │                  │        │       │     │(gris)│ ║
+║  └────┘ │                  │        │       │     │cursiva│ ║
+```
+
+**Resultado del reto:** el estilo `TextoDisponible` aplica dos estilos condicionales. El primero resalta en verde y negrita los libros disponibles. El segundo muestra en gris y cursiva los libros no disponibles. Los libros Doña Bárbara, Martín Fierro y El túnel aparecen con el texto `No` en gris y cursiva.
+
+---
+
+### Analogía final con el contexto de la editorial
+
+Los estilos son la hoja de estilo del catálogo. El estilo por defecto es la tipografía base que se aplica a todas las páginas. Los estilos derivados son las variantes para títulos, subtítulos, cabeceras de tabla y notas. Los estilos condicionales son las reglas de composición que el editor aplica según el contenido: los precios altos se resaltan en rojo, los libros agotados se muestran en gris. La jerarquía de estilos refleja la jerarquía visual del documento y permite que un cambio en la tipografía base se propague a todas las páginas sin tener que rehacerlas una por una. El catálogo se compone aplicando estilos coherentes a cada tipo de contenido.
+
+---
+
+### Resultado esperado
+
+Al finalizar este punto, el alumno dispone de:
+
+- El archivo `reports/informe_concepto.jrxml` con siete estilos declarados y aplicados a los elementos del informe.
+- El estilo `TituloPrincipal` aplicado al título de la banda Title.
+- El estilo `TextoTablaCabecera` aplicado a los encabezados de la banda Column Header.
+- El estilo `TextoTabla` aplicado a los campos de la banda Detail.
+- El estilo `TextoPrecio` con estilo condicional aplicado al campo del precio.
+- El estilo `TextoPequeno` aplicado a los elementos del número de registro.
+- El archivo `output/informe_concepto.pdf` con los estilos aplicados y los precios superiores a 20 euros resaltados en rojo.
+- El archivo `ESTILOS.md` en la raíz del proyecto con la documentación de los estilos.
+- Comprensión operativa de los estilos, de la herencia y de los estilos condicionales.
+
+
+## Validación end-to-end del módulo
+
+La práctica no termina en una simulación documental. Los cinco checkpoints se ejecutan en CI con JDK 8. Para cada uno se compila el proyecto Java, se resuelven las dependencias Maven, se compila el JRXML, se llena el informe, se genera un PDF y se comprueba la firma `%PDF-`. Run de cierre: **35924657747 — SUCCESS**.
