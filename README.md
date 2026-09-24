@@ -30,11 +30,11 @@ Documentación: `M1/TEORIA_M1.md`, `M1/PRACTICA_M1.md`, `M1/VALIDACION_M1.md`.
 - 2.3 — Campos
 - 2.4 — Imágenes
 - 2.5 — Formato y estilos
+- 2.6 — Expresiones
 
-Estado: **2.1–2.5 PASS END-TO-END**.
+Estado: **2.1–2.6 PASS END-TO-END**.
 
-Run E2E de código M2: **35924657747 — SUCCESS**.  
-Run de cierre documental del HEAD final M2: **35959648002 — SUCCESS**.
+Run E2E final M2: **35966538785 — SUCCESS**.  
 
 Documentación: `M2/TEORIA_M2.md`, `M2/PRACTICA_M2.md`, `M2/TRAZABILIDAD_M2.md`, `M2/VALIDACION_M2.md`.
 
