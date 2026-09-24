@@ -374,17 +374,14 @@ LECTURA DEL CSV POR EL ADAPTADOR
 La lectura de un archivo CSV desde código Java se realiza con la clase `net.sf.jasperreports.engine.data.JRCsvDataSource`. Esta clase lee el archivo, interpreta la cabecera y construye una fuente de datos que el motor puede recorrer. El constructor recibe la ruta del archivo o un `InputStream`, y los métodos `setFieldDelimiter`, `setUseFirstRowAsHeader` y `setCharset` configuran el comportamiento. La fuente de datos se pasa al motor de llenado como tercer argumento de `fillReport`. La clase `JRCsvDataSource` forma parte de la biblioteca JasperReports y no requiere dependencias adicionales.
 
 ```java
-JRCsvDataSource dataSource = new JRCsvDataSource("data/catalogo.csv");
+JRCsvDataSource dataSource =
+        new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");
 dataSource.setFieldDelimiter(',');
 dataSource.setUseFirstRowAsHeader(true);
-la codificación UTF-8 se fija en el constructor `JRCsvDataSource(new File(rutaCsv), "UTF-8")`;
 ```
 
 
-**Línea 1:** `JRCsvDataSource dataSource = new JRCsvDataSource("data/catalogo.csv");` → construye una fuente de datos CSV a partir del archivo indicado.
-**Línea 2:** `dataSource.setFieldDelimiter(',');` → configura el carácter delimitador. El valor por defecto es la coma.
-**Línea 3:** `dataSource.setUseFirstRowAsHeader(true);` → indica que la primera línea contiene los nombres de las columnas.
-**Línea 4:** `la codificación UTF-8 se fija en el constructor `JRCsvDataSource(new File(rutaCsv), "UTF-8")`;` → configura la codificación de caracteres del archivo.
+**Líneas 1-2:** `new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8")` → construye la fuente CSV y fija explícitamente la codificación UTF-8 en el constructor.\n**Línea 3:** `dataSource.setFieldDelimiter(\',\');` → configura la coma como delimitador.\n**Línea 4:** `dataSource.setUseFirstRowAsHeader(true);` → indica que la primera fila contiene los nombres de los campos.
 
 CSV no transporta un esquema de tipos. `JRCsvDataSource` parte de texto y puede convertir valores al tipo declarado si se configuran formatos numéricos/fecha. En este punto se adopta deliberadamente la estrategia más explícita: declarar los campos como `String` y convertir `precio` y `paginas` en las expresiones del JRXML. Una alternativa consiste en construir una fuente de datos personalizada que lea el CSV y devuelva los valores ya convertidos. La primera opción es más rápida de configurar. La segunda opción es más flexible y permite reutilizar la lógica de conversión en varios informes. En el proyecto EditorialReports se utiliza la primera opción para los informes que se alimentan directamente del CSV.
 

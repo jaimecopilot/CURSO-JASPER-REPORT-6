@@ -387,74 +387,20 @@ Se reproduce la sección de contrato de datos modificada respecto a M2/2.6. El r
 </variable>
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">&lt;property name=&quot;com.jaspersoft.studio.data.defaultdataadapter&quot; value=&quot;SQLiteEditorial&quot;/&gt;</div>
-<div class="line-desc">Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">&lt;style name=&quot;Sans_Normal&quot; isDefault=&quot;true&quot; fontName=&quot;DejaVu Sans&quot; fontSize=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Declara un estilo compatible con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">&lt;queryString language=&quot;sql&quot;&gt;&lt;![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible=1 THEN 1 ELSE 0 END AS disponible FROM libros ORDER BY titulo]]&gt;&lt;/queryString&gt;</div>
-<div class="line-desc">Abre la consulta del dataset e indica el lenguaje de consulta.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">&lt;field name=&quot;titulo&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">&lt;field name=&quot;precio&quot; class=&quot;java.lang.Double&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">&lt;field name=&quot;paginas&quot; class=&quot;java.lang.Integer&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">&lt;field name=&quot;fechaPublicacion&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">&lt;field name=&quot;disponible&quot; class=&quot;java.lang.Boolean&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">&lt;variable name=&quot;TotalPrecios&quot; class=&quot;java.lang.Double&quot; calculation=&quot;Sum&quot;&gt;</div>
-<div class="line-desc">Declara una variable calculada del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">    &lt;variableExpression&gt;&lt;![CDATA[$F{precio}]]&gt;&lt;/variableExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">&lt;/variable&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+Línea 2: `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+Línea 3: `<queryString language="sql"><![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible=1 THEN 1 ELSE 0 END AS disponible FROM libros ORDER BY titulo]]></queryString>` → Abre la consulta del dataset e indica el lenguaje de consulta.
+Línea 4: `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 5: `<field name="precio" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 6: `<field name="paginas" class="java.lang.Integer"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 7: `<field name="fechaPublicacion" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 8: `<field name="disponible" class="java.lang.Boolean"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 9: `<variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">` → Declara una variable calculada del informe.
+Línea 10: `<variableExpression><![CDATA[$F{precio}]]></variableExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 11: `</variable>` → Cierra el elemento XML abierto anteriormente.
+
 
 **Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
 
@@ -513,278 +459,54 @@ public class InicializadorBD {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.sql.Connection;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.sql.DriverManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import java.sql.Statement;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">public class InicializadorBD {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">        String url = &quot;jdbc:sqlite:../EditorialReportsJava/data/editorial.db&quot;;</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;../EditorialReportsJava/data&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">            Class.forName(&quot;org.sqlite.JDBC&quot;);</div>
-<div class="line-desc">Carga explícitamente el driver SQLite para que el ejemplo sea determinista.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">            try (Connection conexion = DriverManager.getConnection(url);</div>
-<div class="line-desc">Abre una conexión JDBC; el bloque try-with-resources garantiza su cierre.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">                 Statement sentencia = conexion.createStatement()) {</div>
-<div class="line-desc">Crea el Statement usado para inicializar el esquema y los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">                sentencia.executeUpdate(&quot;DROP TABLE IF EXISTS libros&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">                sentencia.executeUpdate(&quot;CREATE TABLE libros (&quot; +</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">                        &quot;titulo TEXT PRIMARY KEY, &quot; +</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">                        &quot;precio REAL NOT NULL, &quot; +</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">                        &quot;paginas INTEGER NOT NULL, &quot; +</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">                        &quot;fecha_publicacion TEXT NOT NULL, &quot; +</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">                        &quot;disponible INTEGER NOT NULL)&quot;);</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Cien años de soledad&#x27;, 19.95, 471, &#x27;1967-06-05&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Rayuela&#x27;, 22.50, 736, &#x27;1963-06-28&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;La ciudad y los perros&#x27;, 18.75, 432, &#x27;1963-10-15&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Pedro Páramo&#x27;, 15.90, 132, &#x27;1955-03-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Ficciones&#x27;, 21.00, 224, &#x27;1944-12-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;La casa de los espíritus&#x27;, 23.40, 448, &#x27;1982-01-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;El amor en los tiempos del cólera&#x27;, 20.80, 496, &#x27;1985-09-05&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;La muerte de Artemio Cruz&#x27;, 17.60, 320, &#x27;1962-05-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Doña Bárbara&#x27;, 16.95, 400, &#x27;1929-02-01&#x27;, 0)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Martín Fierro&#x27;, 14.50, 288, &#x27;1872-12-01&#x27;, 0)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Comala&#x27;, 19.20, 148, &#x27;1955-09-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;Paradiso&#x27;, 25.00, 576, &#x27;1966-01-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;La invención de Morel&#x27;, 18.30, 128, &#x27;1940-01-01&#x27;, 1)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">            sentencia.executeUpdate(&quot;INSERT INTO libros VALUES (&#x27;El túnel&#x27;, 16.20, 160, &#x27;1948-01-01&#x27;, 0)&quot;);</div>
-<div class="line-desc">Ejecuta una sentencia DDL/DML contra SQLite.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">35</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">36</div>
-<div class="line-body">
-<div class="line-code">            }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">37</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Base de datos inicializada correctamente en: &quot; + url);</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">38</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Libros insertados: 14&quot;);</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">39</div>
-<div class="line-body">
-<div class="line-code">            </div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">40</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">41</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">42</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">43</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">44</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">45</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.sql.Connection;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.sql.DriverManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import java.sql.Statement;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 6: `public class InicializadorBD {` → Declara la clase Java del checkpoint.
+Línea 7: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 8: `String url = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 9: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 10: `new File("../EditorialReportsJava/data").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 11: `Class.forName("org.sqlite.JDBC");` → Carga explícitamente el driver SQLite para que el ejemplo sea determinista.
+Línea 12: `try (Connection conexion = DriverManager.getConnection(url);` → Abre una conexión JDBC; el bloque try-with-resources garantiza su cierre.
+Línea 13: `Statement sentencia = conexion.createStatement()) {` → Crea el Statement usado para inicializar el esquema y los datos.
+Línea 14: `sentencia.executeUpdate("DROP TABLE IF EXISTS libros");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 15: `sentencia.executeUpdate("CREATE TABLE libros (" +` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 16: `"titulo TEXT PRIMARY KEY, " +` → Forma parte de la lógica acumulativa del programa.
+Línea 17: `"precio REAL NOT NULL, " +` → Forma parte de la lógica acumulativa del programa.
+Línea 18: `"paginas INTEGER NOT NULL, " +` → Forma parte de la lógica acumulativa del programa.
+Línea 19: `"fecha_publicacion TEXT NOT NULL, " +` → Forma parte de la lógica acumulativa del programa.
+Línea 20: `"disponible INTEGER NOT NULL)");` → Forma parte de la lógica acumulativa del programa.
+Línea 21: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Cien años de soledad', 19.95, 471, '1967-06-05', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 22: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Rayuela', 22.50, 736, '1963-06-28', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 23: `sentencia.executeUpdate("INSERT INTO libros VALUES ('La ciudad y los perros', 18.75, 432, '1963-10-15', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 24: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Pedro Páramo', 15.90, 132, '1955-03-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 25: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Ficciones', 21.00, 224, '1944-12-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 26: `sentencia.executeUpdate("INSERT INTO libros VALUES ('La casa de los espíritus', 23.40, 448, '1982-01-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 27: `sentencia.executeUpdate("INSERT INTO libros VALUES ('El amor en los tiempos del cólera', 20.80, 496, '1985-09-05', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 28: `sentencia.executeUpdate("INSERT INTO libros VALUES ('La muerte de Artemio Cruz', 17.60, 320, '1962-05-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 29: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Doña Bárbara', 16.95, 400, '1929-02-01', 0)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 30: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Martín Fierro', 14.50, 288, '1872-12-01', 0)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 31: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Comala', 19.20, 148, '1955-09-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 32: `sentencia.executeUpdate("INSERT INTO libros VALUES ('Paradiso', 25.00, 576, '1966-01-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 33: `sentencia.executeUpdate("INSERT INTO libros VALUES ('La invención de Morel', 18.30, 128, '1940-01-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 34: `sentencia.executeUpdate("INSERT INTO libros VALUES ('El túnel', 16.20, 160, '1948-01-01', 0)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+Línea 35: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 36: `}` → Cierra el bloque Java actual.
+Línea 37: `System.out.println("Base de datos inicializada correctamente en: " + url);` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 38: `System.out.println("Libros insertados: 14");` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 39: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 40: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 41: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 42: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 43: `}` → Cierra el bloque Java actual.
+Línea 44: `}` → Cierra el bloque Java actual.
+Línea 45: `}` → Cierra el bloque Java actual.
+
 
 **Clase `GeneradorInformeConcepto.java`**
 
@@ -823,200 +545,41 @@ public class GeneradorInformeConcepto {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.sql.Connection;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.sql.DriverManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import java.util.HashMap;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">import java.util.Map;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperCompileManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperExportManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperFillManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperPrint;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">public class GeneradorInformeConcepto {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">            String rutaJrxml = &quot;reports/informe_concepto.jrxml&quot;;</div>
-<div class="line-desc">Fija la ruta del JRXML desde el Working Directory `EditorialReports`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">            String rutaJasper = &quot;reports/informe_concepto.jasper&quot;;</div>
-<div class="line-desc">Fija la ruta del artefacto `.jasper` compilado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">            String rutaPdf = &quot;output/informe_concepto.pdf&quot;;</div>
-<div class="line-desc">Fija la ruta del PDF que se exportará.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">            String urlBD = &quot;jdbc:sqlite:../EditorialReportsJava/data/editorial.db&quot;;</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;output&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);</div>
-<div class="line-desc">Compila el JRXML a `.jasper` con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">            Map&lt;String, Object&gt; parametros = new HashMap&lt;String, Object&gt;();</div>
-<div class="line-desc">Crea el mapa de parámetros que se entrega al motor de llenado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            try (Connection conexion = DriverManager.getConnection(urlBD)) {</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">                JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);</div>
-<div class="line-desc">Llena el informe y obtiene un `JasperPrint` en memoria.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">                JasperExportManager.exportReportToPdfFile(documento, rutaPdf);</div>
-<div class="line-desc">Exporta el `JasperPrint` a PDF.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">                System.out.println(&quot;Informe generado en: &quot; + new File(rutaPdf).getAbsolutePath());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">                System.out.println(&quot;Paginas del documento: &quot; + documento.getPages().size());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">            }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.sql.Connection;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.sql.DriverManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 6: `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 7: `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 8: `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 9: `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 10: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 11: `public class GeneradorInformeConcepto {` → Declara la clase Java del checkpoint.
+Línea 12: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 13: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 14: `String rutaJrxml = "reports/informe_concepto.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+Línea 15: `String rutaJasper = "reports/informe_concepto.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+Línea 16: `String rutaPdf = "output/informe_concepto.pdf";` → Fija la ruta del PDF que se exportará.
+Línea 17: `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 18: `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 19: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+Línea 20: `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+Línea 21: `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 22: `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+Línea 23: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+Línea 24: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 25: `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 26: `}` → Cierra el bloque Java actual.
+Línea 27: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 28: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 29: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 30: `}` → Cierra el bloque Java actual.
+Línea 31: `}` → Cierra el bloque Java actual.
+Línea 32: `}` → Cierra el bloque Java actual.
+
 
 **Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
 
@@ -1815,764 +1378,135 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 </jasperReport>
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div>
-<div class="line-desc">Declara el documento XML y la codificación UTF-8.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">&lt;jasperReport xmlns=&quot;http://jasperreports.sourceforge.net/jasperreports&quot;</div>
-<div class="line-desc">Abre la plantilla JasperReports y define sus atributos principales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">              xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">              xsi:schemaLocation=&quot;http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd&quot;</div>
-<div class="line-desc">Declara el espacio de nombres/XSD usado para validar el JRXML.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">              name=&quot;informe_catalogo_csv&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">              language=&quot;java&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">              pageWidth=&quot;595&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">              pageHeight=&quot;842&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">              columnWidth=&quot;555&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">              leftMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">              rightMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">              topMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">              bottomMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">              uuid=&quot;9a3d2b5f-2e4c-5a6b-8d1f-3c7e9a0b2d44&quot;&gt;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">    &lt;property name=&quot;com.jaspersoft.studio.data.defaultdataadapter&quot; value=&quot;CatalogoCSV&quot;/&gt;</div>
-<div class="line-desc">Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">    &lt;style name=&quot;Sans_Normal&quot; isDefault=&quot;true&quot; fontName=&quot;DejaVu Sans&quot; fontSize=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Declara un estilo compatible con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;titulo&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;autor&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;precio&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;paginas&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;fecha_publicacion&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;disponible&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">    &lt;background&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;0&quot;/&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">    &lt;/background&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">    &lt;title&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;60&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;15&quot; width=&quot;555&quot; height=&quot;30&quot; uuid=&quot;1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;18&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Catálogo Editorial - Datos desde CSV]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">35</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">36</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">37</div>
-<div class="line-body">
-<div class="line-code">    &lt;/title&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">38</div>
-<div class="line-body">
-<div class="line-code">    &lt;columnHeader&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">39</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;25&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">40</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">41</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;5&quot; width=&quot;250&quot; height=&quot;15&quot; uuid=&quot;2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">42</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">43</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">44</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">45</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Título]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">46</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">47</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">48</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;250&quot; y=&quot;5&quot; width=&quot;150&quot; height=&quot;15&quot; uuid=&quot;3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">49</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">50</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">51</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">52</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Autor]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">53</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">54</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">55</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;400&quot; y=&quot;5&quot; width=&quot;80&quot; height=&quot;15&quot; uuid=&quot;4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">56</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">57</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">58</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">59</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Precio]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">60</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">61</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">62</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;480&quot; y=&quot;5&quot; width=&quot;75&quot; height=&quot;15&quot; uuid=&quot;5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">63</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">64</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">65</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">66</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Páginas]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">67</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">68</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">69</div>
-<div class="line-body">
-<div class="line-code">    &lt;/columnHeader&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">70</div>
-<div class="line-body">
-<div class="line-code">    &lt;detail&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">71</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;20&quot; splitType=&quot;Stretch&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">72</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField textAdjust=&quot;StretchHeight&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">73</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;0&quot; width=&quot;250&quot; height=&quot;20&quot; uuid=&quot;6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">74</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">75</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">76</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">77</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{titulo}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">78</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">79</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">80</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;250&quot; y=&quot;0&quot; width=&quot;150&quot; height=&quot;20&quot; uuid=&quot;7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">81</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">82</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">83</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">84</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{autor}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">85</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">86</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField pattern=&quot;#,##0.00 €&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">87</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;400&quot; y=&quot;0&quot; width=&quot;80&quot; height=&quot;20&quot; uuid=&quot;8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">88</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">89</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">90</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">91</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[Double.parseDouble($F{precio})]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">92</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">93</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">94</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;480&quot; y=&quot;0&quot; width=&quot;75&quot; height=&quot;20&quot; uuid=&quot;9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">95</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">96</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">97</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">98</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[Integer.valueOf($F{paginas})]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">99</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">100</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">101</div>
-<div class="line-body">
-<div class="line-code">    &lt;/detail&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">102</div>
-<div class="line-body">
-<div class="line-code">    &lt;pageFooter&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">103</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;45&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">104</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">105</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;3&quot; width=&quot;150&quot; height=&quot;15&quot; uuid=&quot;11111111-1111-4111-8111-111111111111&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">106</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">107</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Registros CSV:]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">108</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">109</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">110</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;150&quot; y=&quot;3&quot; width=&quot;70&quot; height=&quot;15&quot; uuid=&quot;11111111-1111-4111-8111-111111111112&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">111</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot; isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">112</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{REPORT_COUNT}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">113</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">114</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">115</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;170&quot; y=&quot;23&quot; width=&quot;190&quot; height=&quot;15&quot; uuid=&quot;11111111-1111-4111-8111-111111111113&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">116</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">117</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[&quot;Página &quot; + $V{PAGE_NUMBER} + &quot; de&quot;]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">118</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">119</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField evaluationTime=&quot;Report&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">120</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;365&quot; y=&quot;23&quot; width=&quot;30&quot; height=&quot;15&quot; uuid=&quot;11111111-1111-4111-8111-111111111114&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">121</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Left&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">122</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{PAGE_NUMBER}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">123</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">124</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">125</div>
-<div class="line-body">
-<div class="line-code">    &lt;/pageFooter&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">126</div>
-<div class="line-body">
-<div class="line-code">&lt;/jasperReport&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
+Línea 2: `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+Línea 3: `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+Línea 4: `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+Línea 5: `name="informe_catalogo_csv"` → Completa la definición declarativa del informe.
+Línea 6: `language="java"` → Completa la definición declarativa del informe.
+Línea 7: `pageWidth="595"` → Completa la definición declarativa del informe.
+Línea 8: `pageHeight="842"` → Completa la definición declarativa del informe.
+Línea 9: `columnWidth="555"` → Completa la definición declarativa del informe.
+Línea 10: `leftMargin="20"` → Completa la definición declarativa del informe.
+Línea 11: `rightMargin="20"` → Completa la definición declarativa del informe.
+Línea 12: `topMargin="20"` → Completa la definición declarativa del informe.
+Línea 13: `bottomMargin="20"` → Completa la definición declarativa del informe.
+Línea 14: `uuid="9a3d2b5f-2e4c-5a6b-8d1f-3c7e9a0b2d44">` → Completa la definición declarativa del informe.
+Línea 15: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CatalogoCSV"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+Línea 16: `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+Línea 17: `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 18: `<field name="autor" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 19: `<field name="precio" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 20: `<field name="paginas" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 21: `<field name="fecha_publicacion" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 22: `<field name="disponible" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 23: `<background>` → Abre una sección/banda estructural del informe.
+Línea 24: `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 25: `</background>` → Cierra el elemento XML abierto anteriormente.
+Línea 26: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 27: `<title>` → Abre una sección/banda estructural del informe.
+Línea 28: `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 29: `<staticText>` → Abre un elemento de texto estático.
+Línea 30: `<reportElement x="0" y="15" width="555" height="30" uuid="1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 31: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 32: `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 33: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 34: `<text><![CDATA[Catálogo Editorial - Datos desde CSV]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 35: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 36: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 37: `</title>` → Cierra el elemento XML abierto anteriormente.
+Línea 38: `<columnHeader>` → Abre una sección/banda estructural del informe.
+Línea 39: `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 40: `<staticText>` → Abre un elemento de texto estático.
+Línea 41: `<reportElement x="0" y="5" width="250" height="15" uuid="2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 42: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 43: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 44: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 45: `<text><![CDATA[Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 46: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 47: `<staticText>` → Abre un elemento de texto estático.
+Línea 48: `<reportElement x="250" y="5" width="150" height="15" uuid="3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 49: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 50: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 51: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 52: `<text><![CDATA[Autor]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 53: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 54: `<staticText>` → Abre un elemento de texto estático.
+Línea 55: `<reportElement x="400" y="5" width="80" height="15" uuid="4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 56: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 57: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 58: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 59: `<text><![CDATA[Precio]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 60: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 61: `<staticText>` → Abre un elemento de texto estático.
+Línea 62: `<reportElement x="480" y="5" width="75" height="15" uuid="5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 63: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 64: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 65: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 66: `<text><![CDATA[Páginas]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 67: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 68: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 69: `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+Línea 70: `<detail>` → Abre una sección/banda estructural del informe.
+Línea 71: `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 72: `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 73: `<reportElement x="0" y="0" width="250" height="20" uuid="6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 74: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 75: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 76: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 77: `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 78: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 79: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 80: `<reportElement x="250" y="0" width="150" height="20" uuid="7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 81: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 82: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 83: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 84: `<textFieldExpression><![CDATA[$F{autor}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 85: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 86: `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 87: `<reportElement x="400" y="0" width="80" height="20" uuid="8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 88: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 89: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 90: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 91: `<textFieldExpression><![CDATA[Double.parseDouble($F{precio})]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 92: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 93: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 94: `<reportElement x="480" y="0" width="75" height="20" uuid="9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 95: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 96: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 97: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 98: `<textFieldExpression><![CDATA[Integer.valueOf($F{paginas})]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 99: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 100: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 101: `</detail>` → Cierra el elemento XML abierto anteriormente.
+Línea 102: `<pageFooter>` → Abre una sección/banda estructural del informe.
+Línea 103: `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 104: `<staticText>` → Abre un elemento de texto estático.
+Línea 105: `<reportElement x="0" y="3" width="150" height="15" uuid="11111111-1111-4111-8111-111111111111"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 106: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 107: `<text><![CDATA[Registros CSV:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 108: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 109: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 110: `<reportElement x="150" y="3" width="70" height="15" uuid="11111111-1111-4111-8111-111111111112"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 111: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 112: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 113: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 114: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 115: `<reportElement x="170" y="23" width="190" height="15" uuid="11111111-1111-4111-8111-111111111113"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 116: `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 117: `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 118: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 119: `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 120: `<reportElement x="365" y="23" width="30" height="15" uuid="11111111-1111-4111-8111-111111111114"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 121: `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 122: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 123: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 124: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 125: `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+Línea 126: `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+
 
 **Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
 
@@ -2622,224 +1556,45 @@ public class GeneradorCatalogoCSV {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.util.HashMap;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.util.Map;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperCompileManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperExportManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperFillManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperPrint;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.data.JRCsvDataSource;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">public class GeneradorCatalogoCSV {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">        JRCsvDataSource dataSource = null;</div>
-<div class="line-desc">Construye la fuente CSV que alimentará el informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">            String rutaJrxml = &quot;reports/informe_catalogo_csv.jrxml&quot;;</div>
-<div class="line-desc">Fija la ruta del JRXML desde el Working Directory `EditorialReports`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">            String rutaJasper = &quot;reports/informe_catalogo_csv.jasper&quot;;</div>
-<div class="line-desc">Fija la ruta del artefacto `.jasper` compilado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">            String rutaPdf = &quot;output/informe_catalogo_csv.pdf&quot;;</div>
-<div class="line-desc">Fija la ruta del PDF que se exportará.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">            String rutaCsv = &quot;data/catalogo.csv&quot;;</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;output&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);</div>
-<div class="line-desc">Compila el JRXML a `.jasper` con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">            dataSource = new JRCsvDataSource(new File(rutaCsv), &quot;UTF-8&quot;);</div>
-<div class="line-desc">Construye la fuente CSV que alimentará el informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            dataSource.setFieldDelimiter(&#x27;,&#x27;);</div>
-<div class="line-desc">Configura la coma como delimitador del CSV.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">            dataSource.setUseFirstRowAsHeader(true);</div>
-<div class="line-desc">Usa la primera fila del CSV como nombres de columnas/campos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">            Map&lt;String,Object&gt; parametros = new HashMap&lt;String,Object&gt;();</div>
-<div class="line-desc">Crea el mapa de parámetros que se entrega al motor de llenado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">            JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, dataSource);</div>
-<div class="line-desc">Llena el informe y obtiene un `JasperPrint` en memoria.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);</div>
-<div class="line-desc">Exporta el `JasperPrint` a PDF.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Informe generado en: &quot; + new File(rutaPdf).getAbsolutePath());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Paginas del documento: &quot; + documento.getPages().size());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Registros CSV esperados: 14&quot;);</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">        } finally {</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">            if (dataSource != null) dataSource.close();</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">35</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">36</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 6: `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 7: `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 8: `import net.sf.jasperreports.engine.data.JRCsvDataSource;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 9: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 10: `public class GeneradorCatalogoCSV {` → Declara la clase Java del checkpoint.
+Línea 11: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 12: `JRCsvDataSource dataSource = null;` → Construye la fuente CSV que alimentará el informe.
+Línea 13: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 14: `String rutaJrxml = "reports/informe_catalogo_csv.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+Línea 15: `String rutaJasper = "reports/informe_catalogo_csv.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+Línea 16: `String rutaPdf = "output/informe_catalogo_csv.pdf";` → Fija la ruta del PDF que se exportará.
+Línea 17: `String rutaCsv = "data/catalogo.csv";` → Forma parte de la lógica acumulativa del programa.
+Línea 18: `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 19: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+Línea 20: `dataSource = new JRCsvDataSource(new File(rutaCsv), "UTF-8");` → Construye la fuente CSV que alimentará el informe.
+Línea 21: `dataSource.setFieldDelimiter(',');` → Configura la coma como delimitador del CSV.
+Línea 22: `dataSource.setUseFirstRowAsHeader(true);` → Usa la primera fila del CSV como nombres de columnas/campos.
+Línea 23: `Map<String,Object> parametros = new HashMap<String,Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+Línea 24: `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, dataSource);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+Línea 25: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+Línea 26: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 27: `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 28: `System.out.println("Registros CSV esperados: 14");` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 29: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 30: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 31: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 32: `} finally {` → Forma parte de la lógica acumulativa del programa.
+Línea 33: `if (dataSource != null) dataSource.close();` → Forma parte de la lógica acumulativa del programa.
+Línea 34: `}` → Cierra el bloque Java actual.
+Línea 35: `}` → Cierra el bloque Java actual.
+Línea 36: `}` → Cierra el bloque Java actual.
+
 
 **Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
 
@@ -3663,860 +2418,151 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 </jasperReport>
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div>
-<div class="line-desc">Declara el documento XML y la codificación UTF-8.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">&lt;jasperReport xmlns=&quot;http://jasperreports.sourceforge.net/jasperreports&quot;</div>
-<div class="line-desc">Abre la plantilla JasperReports y define sus atributos principales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">              xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">              xsi:schemaLocation=&quot;http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd&quot;</div>
-<div class="line-desc">Declara el espacio de nombres/XSD usado para validar el JRXML.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">              name=&quot;informe_distribucion_xml&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">              language=&quot;java&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">              pageWidth=&quot;595&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">              pageHeight=&quot;842&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">              columnWidth=&quot;555&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">              leftMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">              rightMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">              topMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">              bottomMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">              uuid=&quot;b4e5f6a7-c8d9-0e1f-2a3b-4c5d6e7f8a9b&quot;&gt;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">    &lt;property name=&quot;com.jaspersoft.studio.data.defaultdataadapter&quot; value=&quot;DistribucionXML&quot;/&gt;</div>
-<div class="line-desc">Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">    &lt;style name=&quot;Sans_Normal&quot; isDefault=&quot;true&quot; fontName=&quot;DejaVu Sans&quot; fontSize=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Declara un estilo compatible con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">    &lt;queryString language=&quot;xPath&quot;&gt;</div>
-<div class="line-desc">Abre la consulta del dataset e indica el lenguaje de consulta.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">        &lt;![CDATA[/distribucion/entrega]]&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">    &lt;/queryString&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;libreria&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.xpath.field.expression&quot; value=&quot;libreria&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;ciudad&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.xpath.field.expression&quot; value=&quot;ciudad&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;cantidad&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.xpath.field.expression&quot; value=&quot;cantidad&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;fecha_entrega&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.xpath.field.expression&quot; value=&quot;fecha_entrega&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;titulo&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.xpath.field.expression&quot; value=&quot;titulo&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">    &lt;background&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;0&quot;/&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">    &lt;/background&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">    &lt;title&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;60&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;15&quot; width=&quot;555&quot; height=&quot;30&quot; uuid=&quot;c5f6a7b8-d9e0-1f2a-3b4c-5d6e7f8a9b0c&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;18&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">35</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">36</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Distribución Editorial - Datos desde XML]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">37</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">38</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">39</div>
-<div class="line-body">
-<div class="line-code">    &lt;/title&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">40</div>
-<div class="line-body">
-<div class="line-code">    &lt;columnHeader&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">41</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;25&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">42</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">43</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;5&quot; width=&quot;180&quot; height=&quot;15&quot; uuid=&quot;d6a7b8c9-e0f1-2a3b-4c5d-6e7f8a9b0c1d&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">44</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">45</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">46</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">47</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Librería]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">48</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">49</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">50</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;180&quot; y=&quot;5&quot; width=&quot;120&quot; height=&quot;15&quot; uuid=&quot;e7b8c9d0-f1a2-3b4c-5d6e-7f8a9b0c1d2e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">51</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">52</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">53</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">54</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Ciudad]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">55</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">56</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">57</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;300&quot; y=&quot;5&quot; width=&quot;80&quot; height=&quot;15&quot; uuid=&quot;f8c9d0e1-a2b3-4c5d-6e7f-8a9b0c1d2e3f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">58</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">59</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">60</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">61</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Cantidad]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">62</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">63</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">64</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;380&quot; y=&quot;5&quot; width=&quot;90&quot; height=&quot;15&quot; uuid=&quot;a9d0e1f2-b3c4-5d6e-7f8a-9b0c1d2e3f4a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">65</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">66</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">67</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">68</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Fecha]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">69</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">70</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">71</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;470&quot; y=&quot;5&quot; width=&quot;85&quot; height=&quot;15&quot; uuid=&quot;b0e1f2a3-c4d5-6e7f-8a9b-0c1d2e3f4a5b&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">72</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">73</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">74</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">75</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Título]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">76</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">77</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">78</div>
-<div class="line-body">
-<div class="line-code">    &lt;/columnHeader&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">79</div>
-<div class="line-body">
-<div class="line-code">    &lt;detail&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">80</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;20&quot; splitType=&quot;Stretch&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">81</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField textAdjust=&quot;StretchHeight&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">82</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;0&quot; width=&quot;180&quot; height=&quot;20&quot; uuid=&quot;c1f2a3b4-d5e6-7f8a-9b0c-1d2e3f4a5b6c&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">83</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">84</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">85</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">86</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{libreria}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">87</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">88</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">89</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;180&quot; y=&quot;0&quot; width=&quot;120&quot; height=&quot;20&quot; uuid=&quot;d2a3b4c5-e6f7-8a9b-0c1d-2e3f4a5b6c7d&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">90</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">91</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">92</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">93</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{ciudad}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">94</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">95</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">96</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;300&quot; y=&quot;0&quot; width=&quot;80&quot; height=&quot;20&quot; uuid=&quot;e3b4c5d6-f7a8-9b0c-1d2e-3f4a5b6c7d8e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">97</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">98</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">99</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">100</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{cantidad}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">101</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">102</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">103</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;380&quot; y=&quot;0&quot; width=&quot;90&quot; height=&quot;20&quot; uuid=&quot;f4c5d6e7-a8b9-0c1d-2e3f-4a5b6c7d8e9f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">104</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">105</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">106</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">107</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{fecha_entrega}.substring(8,10) + &quot;/&quot; + $F{fecha_entrega}.substring(5,7) + &quot;/&quot; + $F{fecha_entrega}.substring(0,4)]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">108</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">109</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">110</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;470&quot; y=&quot;0&quot; width=&quot;85&quot; height=&quot;20&quot; uuid=&quot;a5d6e7f8-b9c0-1d2e-3f4a-5b6c7d8e9f0a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">111</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">112</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">113</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">114</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{titulo}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">115</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">116</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">117</div>
-<div class="line-body">
-<div class="line-code">    &lt;/detail&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">118</div>
-<div class="line-body">
-<div class="line-code">    &lt;pageFooter&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">119</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;45&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">120</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">121</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;3&quot; width=&quot;150&quot; height=&quot;15&quot; uuid=&quot;22222222-2222-4222-8222-222222222221&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">122</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">123</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Total de entregas:]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">124</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">125</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">126</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;150&quot; y=&quot;3&quot; width=&quot;70&quot; height=&quot;15&quot; uuid=&quot;22222222-2222-4222-8222-222222222222&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">127</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot; isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">128</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{REPORT_COUNT}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">129</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">130</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">131</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;170&quot; y=&quot;23&quot; width=&quot;190&quot; height=&quot;15&quot; uuid=&quot;22222222-2222-4222-8222-222222222223&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">132</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">133</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[&quot;Página &quot; + $V{PAGE_NUMBER} + &quot; de&quot;]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">134</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">135</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField evaluationTime=&quot;Report&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">136</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;365&quot; y=&quot;23&quot; width=&quot;30&quot; height=&quot;15&quot; uuid=&quot;22222222-2222-4222-8222-222222222224&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">137</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Left&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">138</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{PAGE_NUMBER}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">139</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">140</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">141</div>
-<div class="line-body">
-<div class="line-code">    &lt;/pageFooter&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">142</div>
-<div class="line-body">
-<div class="line-code">&lt;/jasperReport&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
+Línea 2: `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+Línea 3: `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+Línea 4: `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+Línea 5: `name="informe_distribucion_xml"` → Completa la definición declarativa del informe.
+Línea 6: `language="java"` → Completa la definición declarativa del informe.
+Línea 7: `pageWidth="595"` → Completa la definición declarativa del informe.
+Línea 8: `pageHeight="842"` → Completa la definición declarativa del informe.
+Línea 9: `columnWidth="555"` → Completa la definición declarativa del informe.
+Línea 10: `leftMargin="20"` → Completa la definición declarativa del informe.
+Línea 11: `rightMargin="20"` → Completa la definición declarativa del informe.
+Línea 12: `topMargin="20"` → Completa la definición declarativa del informe.
+Línea 13: `bottomMargin="20"` → Completa la definición declarativa del informe.
+Línea 14: `uuid="b4e5f6a7-c8d9-0e1f-2a3b-4c5d6e7f8a9b">` → Completa la definición declarativa del informe.
+Línea 15: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DistribucionXML"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+Línea 16: `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+Línea 17: `<queryString language="xPath">` → Abre la consulta del dataset e indica el lenguaje de consulta.
+Línea 18: `<![CDATA[/distribucion/entrega]]>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 19: `</queryString>` → Cierra el elemento XML abierto anteriormente.
+Línea 20: `<field name="libreria" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="libreria"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 21: `<field name="ciudad" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="ciudad"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 22: `<field name="cantidad" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="cantidad"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 23: `<field name="fecha_entrega" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="fecha_entrega"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 24: `<field name="titulo" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="titulo"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 25: `<background>` → Abre una sección/banda estructural del informe.
+Línea 26: `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 27: `</background>` → Cierra el elemento XML abierto anteriormente.
+Línea 28: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 29: `<title>` → Abre una sección/banda estructural del informe.
+Línea 30: `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 31: `<staticText>` → Abre un elemento de texto estático.
+Línea 32: `<reportElement x="0" y="15" width="555" height="30" uuid="c5f6a7b8-d9e0-1f2a-3b4c-5d6e7f8a9b0c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 33: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 34: `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 35: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 36: `<text><![CDATA[Distribución Editorial - Datos desde XML]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 37: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 38: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 39: `</title>` → Cierra el elemento XML abierto anteriormente.
+Línea 40: `<columnHeader>` → Abre una sección/banda estructural del informe.
+Línea 41: `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 42: `<staticText>` → Abre un elemento de texto estático.
+Línea 43: `<reportElement x="0" y="5" width="180" height="15" uuid="d6a7b8c9-e0f1-2a3b-4c5d-6e7f8a9b0c1d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 44: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 45: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 46: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 47: `<text><![CDATA[Librería]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 48: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 49: `<staticText>` → Abre un elemento de texto estático.
+Línea 50: `<reportElement x="180" y="5" width="120" height="15" uuid="e7b8c9d0-f1a2-3b4c-5d6e-7f8a9b0c1d2e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 51: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 52: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 53: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 54: `<text><![CDATA[Ciudad]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 55: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 56: `<staticText>` → Abre un elemento de texto estático.
+Línea 57: `<reportElement x="300" y="5" width="80" height="15" uuid="f8c9d0e1-a2b3-4c5d-6e7f-8a9b0c1d2e3f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 58: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 59: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 60: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 61: `<text><![CDATA[Cantidad]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 62: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 63: `<staticText>` → Abre un elemento de texto estático.
+Línea 64: `<reportElement x="380" y="5" width="90" height="15" uuid="a9d0e1f2-b3c4-5d6e-7f8a-9b0c1d2e3f4a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 65: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 66: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 67: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 68: `<text><![CDATA[Fecha]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 69: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 70: `<staticText>` → Abre un elemento de texto estático.
+Línea 71: `<reportElement x="470" y="5" width="85" height="15" uuid="b0e1f2a3-c4d5-6e7f-8a9b-0c1d2e3f4a5b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 72: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 73: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 74: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 75: `<text><![CDATA[Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 76: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 77: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 78: `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+Línea 79: `<detail>` → Abre una sección/banda estructural del informe.
+Línea 80: `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 81: `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 82: `<reportElement x="0" y="0" width="180" height="20" uuid="c1f2a3b4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 83: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 84: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 85: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 86: `<textFieldExpression><![CDATA[$F{libreria}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 87: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 88: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 89: `<reportElement x="180" y="0" width="120" height="20" uuid="d2a3b4c5-e6f7-8a9b-0c1d-2e3f4a5b6c7d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 90: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 91: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 92: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 93: `<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 94: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 95: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 96: `<reportElement x="300" y="0" width="80" height="20" uuid="e3b4c5d6-f7a8-9b0c-1d2e-3f4a5b6c7d8e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 97: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 98: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 99: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 100: `<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 101: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 102: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 103: `<reportElement x="380" y="0" width="90" height="20" uuid="f4c5d6e7-a8b9-0c1d-2e3f-4a5b6c7d8e9f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 104: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 105: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 106: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 107: `<textFieldExpression><![CDATA[$F{fecha_entrega}.substring(8,10) + "/" + $F{fecha_entrega}.substring(5,7) + "/" + $F{fecha_entrega}.substring(0,4)]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 108: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 109: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 110: `<reportElement x="470" y="0" width="85" height="20" uuid="a5d6e7f8-b9c0-1d2e-3f4a-5b6c7d8e9f0a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 111: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 112: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 113: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 114: `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 115: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 116: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 117: `</detail>` → Cierra el elemento XML abierto anteriormente.
+Línea 118: `<pageFooter>` → Abre una sección/banda estructural del informe.
+Línea 119: `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 120: `<staticText>` → Abre un elemento de texto estático.
+Línea 121: `<reportElement x="0" y="3" width="150" height="15" uuid="22222222-2222-4222-8222-222222222221"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 122: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 123: `<text><![CDATA[Total de entregas:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 124: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 125: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 126: `<reportElement x="150" y="3" width="70" height="15" uuid="22222222-2222-4222-8222-222222222222"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 127: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 128: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 129: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 130: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 131: `<reportElement x="170" y="23" width="190" height="15" uuid="22222222-2222-4222-8222-222222222223"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 132: `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 133: `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 134: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 135: `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 136: `<reportElement x="365" y="23" width="30" height="15" uuid="22222222-2222-4222-8222-222222222224"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 137: `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 138: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 139: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 140: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 141: `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+Línea 142: `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+
 
 **Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
 
@@ -4561,194 +2607,40 @@ public class GeneradorDistribucionXML {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.util.HashMap;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.util.Map;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperCompileManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperExportManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperFillManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperPrint;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.data.JRXmlDataSource;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">public class GeneradorDistribucionXML {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">            String rutaJrxml = &quot;reports/informe_distribucion_xml.jrxml&quot;;</div>
-<div class="line-desc">Fija la ruta del JRXML desde el Working Directory `EditorialReports`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">            String rutaJasper = &quot;reports/informe_distribucion_xml.jasper&quot;;</div>
-<div class="line-desc">Fija la ruta del artefacto `.jasper` compilado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">            String rutaPdf = &quot;output/informe_distribucion_xml.pdf&quot;;</div>
-<div class="line-desc">Fija la ruta del PDF que se exportará.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">            String rutaXml = &quot;data/distribucion.xml&quot;;</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;output&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);</div>
-<div class="line-desc">Compila el JRXML a `.jasper` con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            JRXmlDataSource dataSource = new JRXmlDataSource(rutaXml, &quot;/distribucion/entrega&quot;);</div>
-<div class="line-desc">Construye la fuente XML y aplica la XPath de selección de registros.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">            Map&lt;String,Object&gt; parametros = new HashMap&lt;String,Object&gt;();</div>
-<div class="line-desc">Crea el mapa de parámetros que se entrega al motor de llenado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, dataSource);</div>
-<div class="line-desc">Llena el informe y obtiene un `JasperPrint` en memoria.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);</div>
-<div class="line-desc">Exporta el `JasperPrint` a PDF.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Informe generado en: &quot; + new File(rutaPdf).getAbsolutePath());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Paginas del documento: &quot; + documento.getPages().size());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Entregas XML esperadas: 8&quot;);</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 6: `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 7: `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 8: `import net.sf.jasperreports.engine.data.JRXmlDataSource;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 9: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 10: `public class GeneradorDistribucionXML {` → Declara la clase Java del checkpoint.
+Línea 11: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 12: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 13: `String rutaJrxml = "reports/informe_distribucion_xml.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+Línea 14: `String rutaJasper = "reports/informe_distribucion_xml.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+Línea 15: `String rutaPdf = "output/informe_distribucion_xml.pdf";` → Fija la ruta del PDF que se exportará.
+Línea 16: `String rutaXml = "data/distribucion.xml";` → Forma parte de la lógica acumulativa del programa.
+Línea 17: `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 18: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+Línea 19: `JRXmlDataSource dataSource = new JRXmlDataSource(rutaXml, "/distribucion/entrega");` → Construye la fuente XML y aplica la XPath de selección de registros.
+Línea 20: `Map<String,Object> parametros = new HashMap<String,Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, dataSource);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+Línea 22: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+Línea 23: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 24: `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 25: `System.out.println("Entregas XML esperadas: 8");` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 26: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 27: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 28: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 29: `}` → Cierra el bloque Java actual.
+Línea 30: `}` → Cierra el bloque Java actual.
+Línea 31: `}` → Cierra el bloque Java actual.
+
 
 **Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
 
@@ -5600,860 +3492,151 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 </jasperReport>
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div>
-<div class="line-desc">Declara el documento XML y la codificación UTF-8.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">&lt;jasperReport xmlns=&quot;http://jasperreports.sourceforge.net/jasperreports&quot;</div>
-<div class="line-desc">Abre la plantilla JasperReports y define sus atributos principales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">              xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">              xsi:schemaLocation=&quot;http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd&quot;</div>
-<div class="line-desc">Declara el espacio de nombres/XSD usado para validar el JRXML.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">              name=&quot;informe_autores_json&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">              language=&quot;java&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">              pageWidth=&quot;595&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">              pageHeight=&quot;842&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">              columnWidth=&quot;555&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">              leftMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">              rightMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">              topMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">              bottomMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">              uuid=&quot;d5a6b7c8-e9f0-1a2b-3c4d-5e6f7a8b9c0d&quot;&gt;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">    &lt;property name=&quot;com.jaspersoft.studio.data.defaultdataadapter&quot; value=&quot;AutoresJSON&quot;/&gt;</div>
-<div class="line-desc">Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">    &lt;style name=&quot;Sans_Normal&quot; isDefault=&quot;true&quot; fontName=&quot;DejaVu Sans&quot; fontSize=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Declara un estilo compatible con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">    &lt;queryString language=&quot;json&quot;&gt;</div>
-<div class="line-desc">Abre la consulta del dataset e indica el lenguaje de consulta.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">        &lt;![CDATA[autores]]&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">    &lt;/queryString&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;nombre&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.json.field.expression&quot; value=&quot;nombre&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;nacionalidad&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.json.field.expression&quot; value=&quot;nacionalidad&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;nacimiento&quot; class=&quot;java.lang.String&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.json.field.expression&quot; value=&quot;nacimiento&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;premios&quot; class=&quot;java.lang.Integer&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.json.field.expression&quot; value=&quot;premios&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;vivo&quot; class=&quot;java.lang.Boolean&quot;&gt;&lt;property name=&quot;net.sf.jasperreports.json.field.expression&quot; value=&quot;vivo&quot;/&gt;&lt;/field&gt;</div>
-<div class="line-desc">Declara la expresión de mapeo del campo para el origen jerárquico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">    &lt;background&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;0&quot;/&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">    &lt;/background&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">    &lt;title&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;60&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;15&quot; width=&quot;555&quot; height=&quot;30&quot; uuid=&quot;e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;18&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">35</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">36</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Catálogo de Autores - Datos desde JSON]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">37</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">38</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">39</div>
-<div class="line-body">
-<div class="line-code">    &lt;/title&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">40</div>
-<div class="line-body">
-<div class="line-code">    &lt;columnHeader&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">41</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;25&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">42</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">43</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;5&quot; width=&quot;220&quot; height=&quot;15&quot; uuid=&quot;f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">44</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">45</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">46</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">47</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Nombre]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">48</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">49</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">50</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;220&quot; y=&quot;5&quot; width=&quot;120&quot; height=&quot;15&quot; uuid=&quot;a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">51</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">52</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">53</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">54</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Nacionalidad]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">55</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">56</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">57</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;340&quot; y=&quot;5&quot; width=&quot;90&quot; height=&quot;15&quot; uuid=&quot;b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">58</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">59</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">60</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">61</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Nacimiento]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">62</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">63</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">64</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;430&quot; y=&quot;5&quot; width=&quot;60&quot; height=&quot;15&quot; uuid=&quot;c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">65</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">66</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">67</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">68</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Premios]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">69</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">70</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">71</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;490&quot; y=&quot;5&quot; width=&quot;65&quot; height=&quot;15&quot; uuid=&quot;d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">72</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">73</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">74</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">75</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Estado]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">76</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">77</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">78</div>
-<div class="line-body">
-<div class="line-code">    &lt;/columnHeader&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">79</div>
-<div class="line-body">
-<div class="line-code">    &lt;detail&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">80</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;20&quot; splitType=&quot;Stretch&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">81</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField textAdjust=&quot;StretchHeight&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">82</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;0&quot; width=&quot;220&quot; height=&quot;20&quot; uuid=&quot;e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">83</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">84</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">85</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">86</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{nombre}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">87</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">88</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">89</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;220&quot; y=&quot;0&quot; width=&quot;120&quot; height=&quot;20&quot; uuid=&quot;f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">90</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">91</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">92</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">93</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{nacionalidad}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">94</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">95</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">96</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;340&quot; y=&quot;0&quot; width=&quot;90&quot; height=&quot;20&quot; uuid=&quot;a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">97</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">98</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">99</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">100</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{nacimiento}.substring(8,10) + &quot;/&quot; + $F{nacimiento}.substring(5,7) + &quot;/&quot; + $F{nacimiento}.substring(0,4)]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">101</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">102</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">103</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;430&quot; y=&quot;0&quot; width=&quot;60&quot; height=&quot;20&quot; uuid=&quot;b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">104</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">105</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">106</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">107</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{premios}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">108</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">109</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">110</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;490&quot; y=&quot;0&quot; width=&quot;65&quot; height=&quot;20&quot; uuid=&quot;c6f7a8b9-d0e1-2f3a-4b5c-6d7e8f9a0b1c&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">111</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">112</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">113</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">114</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{vivo}.booleanValue() ? &quot;Activo&quot; : &quot;Inactivo&quot;]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">115</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">116</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">117</div>
-<div class="line-body">
-<div class="line-code">    &lt;/detail&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">118</div>
-<div class="line-body">
-<div class="line-code">    &lt;pageFooter&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">119</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;45&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">120</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">121</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;3&quot; width=&quot;150&quot; height=&quot;15&quot; uuid=&quot;33333333-3333-4333-8333-333333333331&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">122</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">123</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Total de autores:]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">124</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">125</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">126</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;150&quot; y=&quot;3&quot; width=&quot;70&quot; height=&quot;15&quot; uuid=&quot;33333333-3333-4333-8333-333333333332&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">127</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot; isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">128</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{REPORT_COUNT}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">129</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">130</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">131</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;170&quot; y=&quot;23&quot; width=&quot;190&quot; height=&quot;15&quot; uuid=&quot;33333333-3333-4333-8333-333333333333&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">132</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">133</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[&quot;Página &quot; + $V{PAGE_NUMBER} + &quot; de&quot;]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">134</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">135</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField evaluationTime=&quot;Report&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">136</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;365&quot; y=&quot;23&quot; width=&quot;30&quot; height=&quot;15&quot; uuid=&quot;33333333-3333-4333-8333-333333333334&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">137</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Left&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">138</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{PAGE_NUMBER}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">139</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">140</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">141</div>
-<div class="line-body">
-<div class="line-code">    &lt;/pageFooter&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">142</div>
-<div class="line-body">
-<div class="line-code">&lt;/jasperReport&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
+Línea 2: `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+Línea 3: `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+Línea 4: `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+Línea 5: `name="informe_autores_json"` → Completa la definición declarativa del informe.
+Línea 6: `language="java"` → Completa la definición declarativa del informe.
+Línea 7: `pageWidth="595"` → Completa la definición declarativa del informe.
+Línea 8: `pageHeight="842"` → Completa la definición declarativa del informe.
+Línea 9: `columnWidth="555"` → Completa la definición declarativa del informe.
+Línea 10: `leftMargin="20"` → Completa la definición declarativa del informe.
+Línea 11: `rightMargin="20"` → Completa la definición declarativa del informe.
+Línea 12: `topMargin="20"` → Completa la definición declarativa del informe.
+Línea 13: `bottomMargin="20"` → Completa la definición declarativa del informe.
+Línea 14: `uuid="d5a6b7c8-e9f0-1a2b-3c4d-5e6f7a8b9c0d">` → Completa la definición declarativa del informe.
+Línea 15: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AutoresJSON"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+Línea 16: `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+Línea 17: `<queryString language="json">` → Abre la consulta del dataset e indica el lenguaje de consulta.
+Línea 18: `<![CDATA[autores]]>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 19: `</queryString>` → Cierra el elemento XML abierto anteriormente.
+Línea 20: `<field name="nombre" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nombre"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 21: `<field name="nacionalidad" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nacionalidad"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 22: `<field name="nacimiento" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nacimiento"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 23: `<field name="premios" class="java.lang.Integer"><property name="net.sf.jasperreports.json.field.expression" value="premios"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 24: `<field name="vivo" class="java.lang.Boolean"><property name="net.sf.jasperreports.json.field.expression" value="vivo"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+Línea 25: `<background>` → Abre una sección/banda estructural del informe.
+Línea 26: `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 27: `</background>` → Cierra el elemento XML abierto anteriormente.
+Línea 28: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 29: `<title>` → Abre una sección/banda estructural del informe.
+Línea 30: `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 31: `<staticText>` → Abre un elemento de texto estático.
+Línea 32: `<reportElement x="0" y="15" width="555" height="30" uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 33: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 34: `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 35: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 36: `<text><![CDATA[Catálogo de Autores - Datos desde JSON]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 37: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 38: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 39: `</title>` → Cierra el elemento XML abierto anteriormente.
+Línea 40: `<columnHeader>` → Abre una sección/banda estructural del informe.
+Línea 41: `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 42: `<staticText>` → Abre un elemento de texto estático.
+Línea 43: `<reportElement x="0" y="5" width="220" height="15" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 44: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 45: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 46: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 47: `<text><![CDATA[Nombre]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 48: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 49: `<staticText>` → Abre un elemento de texto estático.
+Línea 50: `<reportElement x="220" y="5" width="120" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 51: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 52: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 53: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 54: `<text><![CDATA[Nacionalidad]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 55: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 56: `<staticText>` → Abre un elemento de texto estático.
+Línea 57: `<reportElement x="340" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 58: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 59: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 60: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 61: `<text><![CDATA[Nacimiento]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 62: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 63: `<staticText>` → Abre un elemento de texto estático.
+Línea 64: `<reportElement x="430" y="5" width="60" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 65: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 66: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 67: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 68: `<text><![CDATA[Premios]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 69: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 70: `<staticText>` → Abre un elemento de texto estático.
+Línea 71: `<reportElement x="490" y="5" width="65" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 72: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 73: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 74: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 75: `<text><![CDATA[Estado]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 76: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 77: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 78: `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+Línea 79: `<detail>` → Abre una sección/banda estructural del informe.
+Línea 80: `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 81: `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 82: `<reportElement x="0" y="0" width="220" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 83: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 84: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 85: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 86: `<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 87: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 88: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 89: `<reportElement x="220" y="0" width="120" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 90: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 91: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 92: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 93: `<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 94: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 95: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 96: `<reportElement x="340" y="0" width="90" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 97: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 98: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 99: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 100: `<textFieldExpression><![CDATA[$F{nacimiento}.substring(8,10) + "/" + $F{nacimiento}.substring(5,7) + "/" + $F{nacimiento}.substring(0,4)]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 101: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 102: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 103: `<reportElement x="430" y="0" width="60" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 104: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 105: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 106: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 107: `<textFieldExpression><![CDATA[$F{premios}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 108: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 109: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 110: `<reportElement x="490" y="0" width="65" height="20" uuid="c6f7a8b9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 111: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 112: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 113: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 114: `<textFieldExpression><![CDATA[$F{vivo}.booleanValue() ? "Activo" : "Inactivo"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 115: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 116: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 117: `</detail>` → Cierra el elemento XML abierto anteriormente.
+Línea 118: `<pageFooter>` → Abre una sección/banda estructural del informe.
+Línea 119: `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 120: `<staticText>` → Abre un elemento de texto estático.
+Línea 121: `<reportElement x="0" y="3" width="150" height="15" uuid="33333333-3333-4333-8333-333333333331"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 122: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 123: `<text><![CDATA[Total de autores:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 124: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 125: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 126: `<reportElement x="150" y="3" width="70" height="15" uuid="33333333-3333-4333-8333-333333333332"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 127: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 128: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 129: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 130: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 131: `<reportElement x="170" y="23" width="190" height="15" uuid="33333333-3333-4333-8333-333333333333"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 132: `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 133: `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 134: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 135: `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 136: `<reportElement x="365" y="23" width="30" height="15" uuid="33333333-3333-4333-8333-333333333334"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 137: `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 138: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 139: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 140: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 141: `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+Línea 142: `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+
 
 **Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
 
@@ -6498,194 +3681,40 @@ public class GeneradorAutoresJSON {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.util.HashMap;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.util.Map;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperCompileManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperExportManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperFillManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperPrint;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.data.JsonDataSource;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">public class GeneradorAutoresJSON {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">            String rutaJrxml = &quot;reports/informe_autores_json.jrxml&quot;;</div>
-<div class="line-desc">Fija la ruta del JRXML desde el Working Directory `EditorialReports`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">            String rutaJasper = &quot;reports/informe_autores_json.jasper&quot;;</div>
-<div class="line-desc">Fija la ruta del artefacto `.jasper` compilado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">            String rutaPdf = &quot;output/informe_autores_json.pdf&quot;;</div>
-<div class="line-desc">Fija la ruta del PDF que se exportará.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">            String rutaJson = &quot;data/autores.json&quot;;</div>
-<div class="line-desc">Forma parte de la lógica acumulativa del programa.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;output&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);</div>
-<div class="line-desc">Compila el JRXML a `.jasper` con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            JsonDataSource dataSource = new JsonDataSource(new File(rutaJson), &quot;autores&quot;);</div>
-<div class="line-desc">Construye la fuente JSON y aplica explícitamente la selección `autores`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">            Map&lt;String,Object&gt; parametros = new HashMap&lt;String,Object&gt;();</div>
-<div class="line-desc">Crea el mapa de parámetros que se entrega al motor de llenado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, dataSource);</div>
-<div class="line-desc">Llena el informe y obtiene un `JasperPrint` en memoria.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">            JasperExportManager.exportReportToPdfFile(documento, rutaPdf);</div>
-<div class="line-desc">Exporta el `JasperPrint` a PDF.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Informe generado en: &quot; + new File(rutaPdf).getAbsolutePath());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Paginas del documento: &quot; + documento.getPages().size());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">            System.out.println(&quot;Autores JSON esperados: 6&quot;);</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 6: `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 7: `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 8: `import net.sf.jasperreports.engine.data.JsonDataSource;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 9: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 10: `public class GeneradorAutoresJSON {` → Declara la clase Java del checkpoint.
+Línea 11: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 12: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 13: `String rutaJrxml = "reports/informe_autores_json.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+Línea 14: `String rutaJasper = "reports/informe_autores_json.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+Línea 15: `String rutaPdf = "output/informe_autores_json.pdf";` → Fija la ruta del PDF que se exportará.
+Línea 16: `String rutaJson = "data/autores.json";` → Forma parte de la lógica acumulativa del programa.
+Línea 17: `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 18: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+Línea 19: `JsonDataSource dataSource = new JsonDataSource(new File(rutaJson), "autores");` → Construye la fuente JSON y aplica explícitamente la selección `autores`.
+Línea 20: `Map<String,Object> parametros = new HashMap<String,Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+Línea 21: `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, dataSource);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+Línea 22: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+Línea 23: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 24: `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 25: `System.out.println("Autores JSON esperados: 6");` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 26: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 27: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 28: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 29: `}` → Cierra el bloque Java actual.
+Línea 30: `}` → Cierra el bloque Java actual.
+Línea 31: `}` → Cierra el bloque Java actual.
+
 
 **Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
 
@@ -7522,824 +4551,145 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 </jasperReport>
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div>
-<div class="line-desc">Declara el documento XML y la codificación UTF-8.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">&lt;jasperReport xmlns=&quot;http://jasperreports.sourceforge.net/jasperreports&quot;</div>
-<div class="line-desc">Abre la plantilla JasperReports y define sus atributos principales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">              xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">              xsi:schemaLocation=&quot;http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd&quot;</div>
-<div class="line-desc">Declara el espacio de nombres/XSD usado para validar el JRXML.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">              name=&quot;informe_ventas&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">              language=&quot;java&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">              pageWidth=&quot;595&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">              pageHeight=&quot;842&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">              columnWidth=&quot;555&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">              leftMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">              rightMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">              topMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">              bottomMargin=&quot;20&quot;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">              uuid=&quot;e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e&quot;&gt;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">    &lt;property name=&quot;com.jaspersoft.studio.data.defaultdataadapter&quot; value=&quot;SQLiteEditorial&quot;/&gt;</div>
-<div class="line-desc">Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">    &lt;style name=&quot;Sans_Normal&quot; isDefault=&quot;true&quot; fontName=&quot;DejaVu Sans&quot; fontSize=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Declara un estilo compatible con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">    &lt;queryString language=&quot;sql&quot;&gt;</div>
-<div class="line-desc">Abre la consulta del dataset e indica el lenguaje de consulta.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">        &lt;![CDATA[</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            SELECT l.titulo,</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">                   SUM(v.cantidad) AS unidades_vendidas,</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">                   SUM(v.cantidad * v.precio_unitario) AS importe_total,</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">                   AVG(v.precio_unitario) AS precio_medio</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">            FROM libros l</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">            INNER JOIN ventas v ON l.titulo = v.titulo_libro</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">            GROUP BY l.titulo</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">            ORDER BY importe_total DESC</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">        ]]&gt;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">    &lt;/queryString&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;titulo&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;unidades_vendidas&quot; class=&quot;java.lang.Integer&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;importe_total&quot; class=&quot;java.lang.Double&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;precio_medio&quot; class=&quot;java.lang.Double&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">    &lt;background&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;0&quot;/&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">35</div>
-<div class="line-body">
-<div class="line-code">    &lt;/background&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">36</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">37</div>
-<div class="line-body">
-<div class="line-code">    &lt;title&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">38</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;60&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">39</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">40</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;15&quot; width=&quot;555&quot; height=&quot;30&quot; uuid=&quot;f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">41</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">42</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;18&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">43</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">44</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Informe de Ventas - Agregación por Título]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">45</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">46</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">47</div>
-<div class="line-body">
-<div class="line-code">    &lt;/title&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">48</div>
-<div class="line-body">
-<div class="line-code">    &lt;columnHeader&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">49</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;25&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">50</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">51</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;5&quot; width=&quot;250&quot; height=&quot;15&quot; uuid=&quot;a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">52</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">53</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">54</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">55</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Título]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">56</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">57</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">58</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;250&quot; y=&quot;5&quot; width=&quot;90&quot; height=&quot;15&quot; uuid=&quot;b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">59</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">60</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">61</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">62</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Unidades]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">63</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">64</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">65</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;340&quot; y=&quot;5&quot; width=&quot;130&quot; height=&quot;15&quot; uuid=&quot;c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">66</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">67</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">68</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">69</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Importe total]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">70</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">71</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">72</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;470&quot; y=&quot;5&quot; width=&quot;85&quot; height=&quot;15&quot; uuid=&quot;d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">73</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">74</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">75</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">76</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Precio medio]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">77</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">78</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">79</div>
-<div class="line-body">
-<div class="line-code">    &lt;/columnHeader&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">80</div>
-<div class="line-body">
-<div class="line-code">    &lt;detail&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">81</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;20&quot; splitType=&quot;Stretch&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">82</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField textAdjust=&quot;StretchHeight&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">83</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;0&quot; width=&quot;250&quot; height=&quot;20&quot; uuid=&quot;e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">84</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">85</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">86</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">87</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{titulo}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">88</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">89</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">90</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;250&quot; y=&quot;0&quot; width=&quot;90&quot; height=&quot;20&quot; uuid=&quot;f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">91</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">92</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">93</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">94</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{unidades_vendidas}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">95</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">96</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField pattern=&quot;#,##0.00 €&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">97</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;340&quot; y=&quot;0&quot; width=&quot;130&quot; height=&quot;20&quot; uuid=&quot;a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">98</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">99</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">100</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">101</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{importe_total}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">102</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">103</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField pattern=&quot;#,##0.00 €&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">104</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;470&quot; y=&quot;0&quot; width=&quot;85&quot; height=&quot;20&quot; uuid=&quot;b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">105</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">106</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;10&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">107</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">108</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$F{precio_medio}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">109</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">110</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">111</div>
-<div class="line-body">
-<div class="line-code">    &lt;/detail&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">112</div>
-<div class="line-body">
-<div class="line-code">    &lt;pageFooter&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">113</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;45&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">114</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">115</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;3&quot; width=&quot;150&quot; height=&quot;15&quot; uuid=&quot;44444444-4444-4444-8444-444444444441&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">116</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">117</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Total de títulos:]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">118</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">119</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">120</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;150&quot; y=&quot;3&quot; width=&quot;70&quot; height=&quot;15&quot; uuid=&quot;44444444-4444-4444-8444-444444444442&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">121</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot; isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">122</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{REPORT_COUNT}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">123</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">124</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">125</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;170&quot; y=&quot;23&quot; width=&quot;190&quot; height=&quot;15&quot; uuid=&quot;44444444-4444-4444-8444-444444444443&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">126</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Right&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">127</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[&quot;Página &quot; + $V{PAGE_NUMBER} + &quot; de&quot;]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">128</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">129</div>
-<div class="line-body">
-<div class="line-code">            &lt;textField evaluationTime=&quot;Report&quot;&gt;</div>
-<div class="line-desc">Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">130</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;365&quot; y=&quot;23&quot; width=&quot;30&quot; height=&quot;15&quot; uuid=&quot;44444444-4444-4444-8444-444444444444&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">131</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Left&quot; verticalAlignment=&quot;Middle&quot;&gt;&lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;9&quot;/&gt;&lt;/textElement&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">132</div>
-<div class="line-body">
-<div class="line-code">                &lt;textFieldExpression&gt;&lt;![CDATA[$V{PAGE_NUMBER}]]&gt;&lt;/textFieldExpression&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">133</div>
-<div class="line-body">
-<div class="line-code">            &lt;/textField&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">134</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">135</div>
-<div class="line-body">
-<div class="line-code">    &lt;/pageFooter&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">136</div>
-<div class="line-body">
-<div class="line-code">&lt;/jasperReport&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
+Línea 2: `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+Línea 3: `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+Línea 4: `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+Línea 5: `name="informe_ventas"` → Completa la definición declarativa del informe.
+Línea 6: `language="java"` → Completa la definición declarativa del informe.
+Línea 7: `pageWidth="595"` → Completa la definición declarativa del informe.
+Línea 8: `pageHeight="842"` → Completa la definición declarativa del informe.
+Línea 9: `columnWidth="555"` → Completa la definición declarativa del informe.
+Línea 10: `leftMargin="20"` → Completa la definición declarativa del informe.
+Línea 11: `rightMargin="20"` → Completa la definición declarativa del informe.
+Línea 12: `topMargin="20"` → Completa la definición declarativa del informe.
+Línea 13: `bottomMargin="20"` → Completa la definición declarativa del informe.
+Línea 14: `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Completa la definición declarativa del informe.
+Línea 15: `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+Línea 16: `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+Línea 17: `<queryString language="sql">` → Abre la consulta del dataset e indica el lenguaje de consulta.
+Línea 18: `<![CDATA[` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 19: `SELECT l.titulo,` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 20: `SUM(v.cantidad) AS unidades_vendidas,` → Completa la definición declarativa del informe.
+Línea 21: `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Completa la definición declarativa del informe.
+Línea 22: `AVG(v.precio_unitario) AS precio_medio` → Completa la definición declarativa del informe.
+Línea 23: `FROM libros l` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 24: `INNER JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 25: `GROUP BY l.titulo` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 26: `ORDER BY importe_total DESC` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 27: `]]>` → Completa la definición declarativa del informe.
+Línea 28: `</queryString>` → Cierra el elemento XML abierto anteriormente.
+Línea 29: `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 30: `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 31: `<field name="importe_total" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 32: `<field name="precio_medio" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 33: `<background>` → Abre una sección/banda estructural del informe.
+Línea 34: `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 35: `</background>` → Cierra el elemento XML abierto anteriormente.
+Línea 36: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 37: `<title>` → Abre una sección/banda estructural del informe.
+Línea 38: `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 39: `<staticText>` → Abre un elemento de texto estático.
+Línea 40: `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 41: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 42: `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 43: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 44: `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 45: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 46: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 47: `</title>` → Cierra el elemento XML abierto anteriormente.
+Línea 48: `<columnHeader>` → Abre una sección/banda estructural del informe.
+Línea 49: `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 50: `<staticText>` → Abre un elemento de texto estático.
+Línea 51: `<reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 52: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 53: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 54: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 55: `<text><![CDATA[Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 56: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 57: `<staticText>` → Abre un elemento de texto estático.
+Línea 58: `<reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 59: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 60: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 61: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 62: `<text><![CDATA[Unidades]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 63: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 64: `<staticText>` → Abre un elemento de texto estático.
+Línea 65: `<reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 66: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 67: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 68: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 69: `<text><![CDATA[Importe total]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 70: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 71: `<staticText>` → Abre un elemento de texto estático.
+Línea 72: `<reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 73: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 74: `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 75: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 76: `<text><![CDATA[Precio medio]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 77: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 78: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 79: `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+Línea 80: `<detail>` → Abre una sección/banda estructural del informe.
+Línea 81: `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 82: `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 83: `<reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 84: `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 85: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 86: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 87: `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 88: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 89: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 90: `<reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 91: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 92: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 93: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 94: `<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 95: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 96: `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 97: `<reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 98: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 99: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 100: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 101: `<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 102: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 103: `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 104: `<reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 105: `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 106: `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+Línea 107: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 108: `<textFieldExpression><![CDATA[$F{precio_medio}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 109: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 110: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 111: `</detail>` → Cierra el elemento XML abierto anteriormente.
+Línea 112: `<pageFooter>` → Abre una sección/banda estructural del informe.
+Línea 113: `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 114: `<staticText>` → Abre un elemento de texto estático.
+Línea 115: `<reportElement x="0" y="3" width="150" height="15" uuid="44444444-4444-4444-8444-444444444441"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 116: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 117: `<text><![CDATA[Total de títulos:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 118: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 119: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 120: `<reportElement x="150" y="3" width="70" height="15" uuid="44444444-4444-4444-8444-444444444442"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 121: `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 122: `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 123: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 124: `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 125: `<reportElement x="170" y="23" width="190" height="15" uuid="44444444-4444-4444-8444-444444444443"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 126: `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 127: `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 128: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 129: `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+Línea 130: `<reportElement x="365" y="23" width="30" height="15" uuid="44444444-4444-4444-8444-444444444444"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 131: `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+Línea 132: `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 133: `</textField>` → Cierra el elemento XML abierto anteriormente.
+Línea 134: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 135: `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+Línea 136: `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+
 
 **Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
 
@@ -8385,200 +4735,41 @@ public class GeneradorInformeVentas {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.sql.Connection;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.sql.DriverManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import java.util.HashMap;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">import java.util.Map;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperCompileManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperExportManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperFillManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperPrint;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">public class GeneradorInformeVentas {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">            String rutaJrxml = &quot;reports/informe_ventas.jrxml&quot;;</div>
-<div class="line-desc">Fija la ruta del JRXML desde el Working Directory `EditorialReports`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">            String rutaJasper = &quot;reports/informe_ventas.jasper&quot;;</div>
-<div class="line-desc">Fija la ruta del artefacto `.jasper` compilado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">            String rutaPdf = &quot;output/informe_ventas.pdf&quot;;</div>
-<div class="line-desc">Fija la ruta del PDF que se exportará.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">            String urlBD = &quot;jdbc:sqlite:../EditorialReportsJava/data/editorial.db&quot;;</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;output&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);</div>
-<div class="line-desc">Compila el JRXML a `.jasper` con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">            Map&lt;String, Object&gt; parametros = new HashMap&lt;String, Object&gt;();</div>
-<div class="line-desc">Crea el mapa de parámetros que se entrega al motor de llenado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            try (Connection conexion = DriverManager.getConnection(urlBD)) {</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">                JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);</div>
-<div class="line-desc">Llena el informe y obtiene un `JasperPrint` en memoria.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">                JasperExportManager.exportReportToPdfFile(documento, rutaPdf);</div>
-<div class="line-desc">Exporta el `JasperPrint` a PDF.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">                System.out.println(&quot;Informe generado en: &quot; + new File(rutaPdf).getAbsolutePath());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">                System.out.println(&quot;Paginas del documento: &quot; + documento.getPages().size());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">            }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.sql.Connection;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.sql.DriverManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 6: `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 7: `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 8: `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 9: `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 10: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 11: `public class GeneradorInformeVentas {` → Declara la clase Java del checkpoint.
+Línea 12: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 13: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 14: `String rutaJrxml = "reports/informe_ventas.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+Línea 15: `String rutaJasper = "reports/informe_ventas.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+Línea 16: `String rutaPdf = "output/informe_ventas.pdf";` → Fija la ruta del PDF que se exportará.
+Línea 17: `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 18: `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 19: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+Línea 20: `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+Línea 21: `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 22: `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+Línea 23: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+Línea 24: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 25: `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 26: `}` → Cierra el bloque Java actual.
+Línea 27: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 28: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 29: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 30: `}` → Cierra el bloque Java actual.
+Línea 31: `}` → Cierra el bloque Java actual.
+Línea 32: `}` → Cierra el bloque Java actual.
+
 
 **Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
 
@@ -9288,212 +5479,43 @@ Se reproducen las secciones modificadas: consulta SQL, campos, Column Header y D
     <columnHeader><band height="45"><staticText><reportElement x="0" y="5" width="250" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText><staticText><reportElement x="250" y="5" width="90" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Unidades]]></text></staticText><staticText><reportElement x="340" y="5" width="130" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Importe total]]></text></staticText><staticText><reportElement x="470" y="5" width="85" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Precio medio]]></text></staticText><staticText><reportElement x="0" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Primera venta]]></text></staticText><staticText><reportElement x="150" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Última venta]]></text></staticText><staticText><reportElement x="300" y="25" width="255" height="15"/><textElement textAlignment="Center"><font isBold="true"/></textElement><text><![CDATA[Periodo de ventas]]></text></staticText></band></columnHeader><detail><band height="42" splitType="Stretch"><textField textAdjust="StretchHeight"><reportElement x="0" y="1" width="250" height="20"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="250" y="1" width="90" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField><textField pattern="#0.00 €" isBlankWhenNull="true"><reportElement x="340" y="1" width="130" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField><textField><reportElement x="470" y="1" width="85" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="0" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="150" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField><textField><reportElement x="300" y="22" width="255" height="18"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " -> " + $F{ultima_venta}]]></textFieldExpression></textField></band></detail>
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">&lt;queryString language=&quot;sql&quot;&gt;&lt;![CDATA[</div>
-<div class="line-desc">Abre la consulta del dataset e indica el lenguaje de consulta.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">   SELECT l.titulo,</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">          SUM(v.cantidad) AS unidades_vendidas,</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">          SUM(v.cantidad * v.precio_unitario) AS importe_total,</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">          AVG(v.precio_unitario) AS precio_medio,</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">          MIN(v.fecha_venta) AS primera_venta,</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">          MAX(v.fecha_venta) AS ultima_venta</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">   FROM libros l</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">   LEFT JOIN ventas v ON l.titulo = v.titulo_libro</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">   GROUP BY l.titulo</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">   ORDER BY COALESCE(importe_total, 0) DESC, l.titulo</div>
-<div class="line-desc">Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code"> ]]&gt;&lt;/queryString&gt;</div>
-<div class="line-desc">Completa la definición declarativa del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;titulo&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;unidades_vendidas&quot; class=&quot;java.lang.Integer&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;importe_total&quot; class=&quot;java.lang.Double&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;precio_medio&quot; class=&quot;java.lang.Double&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;primera_venta&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">    &lt;field name=&quot;ultima_venta&quot; class=&quot;java.lang.String&quot;/&gt;</div>
-<div class="line-desc">Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">    &lt;background&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;0&quot;/&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">    &lt;/background&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">    &lt;title&gt;</div>
-<div class="line-desc">Abre una sección/banda estructural del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">        &lt;band height=&quot;60&quot;&gt;</div>
-<div class="line-desc">Define la altura y, cuando procede, la política de división de la banda.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">            &lt;staticText&gt;</div>
-<div class="line-desc">Abre un elemento de texto estático.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">                &lt;reportElement x=&quot;0&quot; y=&quot;15&quot; width=&quot;555&quot; height=&quot;30&quot; uuid=&quot;f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f&quot;/&gt;</div>
-<div class="line-desc">Define geometría y posición del elemento dentro del ancho útil del informe.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">                &lt;textElement textAlignment=&quot;Center&quot; verticalAlignment=&quot;Middle&quot;&gt;</div>
-<div class="line-desc">Configura alineación y propiedades del contenido textual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">                    &lt;font fontName=&quot;DejaVu Sans&quot; size=&quot;18&quot; isBold=&quot;true&quot;/&gt;</div>
-<div class="line-desc">Configura tipografía, tamaño y énfasis.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">                &lt;/textElement&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">                &lt;text&gt;&lt;![CDATA[Informe de Ventas - Agregación por Título]]&gt;&lt;/text&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">            &lt;/staticText&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">        &lt;/band&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">33</div>
-<div class="line-body">
-<div class="line-code">    &lt;/title&gt;</div>
-<div class="line-desc">Cierra el elemento XML abierto anteriormente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">34</div>
-<div class="line-body">
-<div class="line-code">    &lt;columnHeader&gt;&lt;band height=&quot;45&quot;&gt;&lt;staticText&gt;&lt;reportElement x=&quot;0&quot; y=&quot;5&quot; width=&quot;250&quot; height=&quot;15&quot;/&gt;&lt;textElement&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Título]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;staticText&gt;&lt;reportElement x=&quot;250&quot; y=&quot;5&quot; width=&quot;90&quot; height=&quot;15&quot;/&gt;&lt;textElement textAlignment=&quot;Right&quot;&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Unidades]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;staticText&gt;&lt;reportElement x=&quot;340&quot; y=&quot;5&quot; width=&quot;130&quot; height=&quot;15&quot;/&gt;&lt;textElement textAlignment=&quot;Right&quot;&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Importe total]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;staticText&gt;&lt;reportElement x=&quot;470&quot; y=&quot;5&quot; width=&quot;85&quot; height=&quot;15&quot;/&gt;&lt;textElement textAlignment=&quot;Right&quot;&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Precio medio]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;staticText&gt;&lt;reportElement x=&quot;0&quot; y=&quot;25&quot; width=&quot;150&quot; height=&quot;15&quot;/&gt;&lt;textElement&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Primera venta]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;staticText&gt;&lt;reportElement x=&quot;150&quot; y=&quot;25&quot; width=&quot;150&quot; height=&quot;15&quot;/&gt;&lt;textElement&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Última venta]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;staticText&gt;&lt;reportElement x=&quot;300&quot; y=&quot;25&quot; width=&quot;255&quot; height=&quot;15&quot;/&gt;&lt;textElement textAlignment=&quot;Center&quot;&gt;&lt;font isBold=&quot;true&quot;/&gt;&lt;/textElement&gt;&lt;text&gt;&lt;![CDATA[Periodo de ventas]]&gt;&lt;/text&gt;&lt;/staticText&gt;&lt;/band&gt;&lt;/columnHeader&gt;&lt;detail&gt;&lt;band height=&quot;42&quot; splitType=&quot;Stretch&quot;&gt;&lt;textField textAdjust=&quot;StretchHeight&quot;&gt;&lt;reportElement x=&quot;0&quot; y=&quot;1&quot; width=&quot;250&quot; height=&quot;20&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{titulo}]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;textField isBlankWhenNull=&quot;true&quot;&gt;&lt;reportElement x=&quot;250&quot; y=&quot;1&quot; width=&quot;90&quot; height=&quot;20&quot;/&gt;&lt;textElement textAlignment=&quot;Right&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{unidades_vendidas}]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;textField pattern=&quot;#0.00 €&quot; isBlankWhenNull=&quot;true&quot;&gt;&lt;reportElement x=&quot;340&quot; y=&quot;1&quot; width=&quot;130&quot; height=&quot;20&quot;/&gt;&lt;textElement textAlignment=&quot;Right&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{importe_total}]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;textField&gt;&lt;reportElement x=&quot;470&quot; y=&quot;1&quot; width=&quot;85&quot; height=&quot;20&quot;/&gt;&lt;textElement textAlignment=&quot;Right&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{precio_medio} == null ? &quot;Sin datos&quot; : new java.text.DecimalFormat(&quot;#0.00 &#x27;€&#x27;&quot;).format($F{precio_medio})]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;textField isBlankWhenNull=&quot;true&quot;&gt;&lt;reportElement x=&quot;0&quot; y=&quot;22&quot; width=&quot;150&quot; height=&quot;18&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{primera_venta}]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;textField isBlankWhenNull=&quot;true&quot;&gt;&lt;reportElement x=&quot;150&quot; y=&quot;22&quot; width=&quot;150&quot; height=&quot;18&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{ultima_venta}]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;textField&gt;&lt;reportElement x=&quot;300&quot; y=&quot;22&quot; width=&quot;255&quot; height=&quot;18&quot;/&gt;&lt;textElement textAlignment=&quot;Center&quot;/&gt;&lt;textFieldExpression&gt;&lt;![CDATA[$F{primera_venta} == null ? &quot;Sin ventas&quot; : $F{primera_venta} + &quot; -&gt; &quot; + $F{ultima_venta}]]&gt;&lt;/textFieldExpression&gt;&lt;/textField&gt;&lt;/band&gt;&lt;/detail&gt;</div>
-<div class="line-desc">Protege una consulta o expresión para que XML no interprete sus caracteres especiales.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `<queryString language="sql"><![CDATA[` → Abre la consulta del dataset e indica el lenguaje de consulta.
+Línea 2: `SELECT l.titulo,` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 3: `SUM(v.cantidad) AS unidades_vendidas,` → Completa la definición declarativa del informe.
+Línea 4: `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Completa la definición declarativa del informe.
+Línea 5: `AVG(v.precio_unitario) AS precio_medio,` → Completa la definición declarativa del informe.
+Línea 6: `MIN(v.fecha_venta) AS primera_venta,` → Completa la definición declarativa del informe.
+Línea 7: `MAX(v.fecha_venta) AS ultima_venta` → Completa la definición declarativa del informe.
+Línea 8: `FROM libros l` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 9: `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 10: `GROUP BY l.titulo` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 11: `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+Línea 12: `]]></queryString>` → Completa la definición declarativa del informe.
+Línea 13: `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 14: `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 15: `<field name="importe_total" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 16: `<field name="precio_medio" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 17: `<field name="primera_venta" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 18: `<field name="ultima_venta" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+Línea 19: `<background>` → Abre una sección/banda estructural del informe.
+Línea 20: `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 21: `</background>` → Cierra el elemento XML abierto anteriormente.
+Línea 22: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 23: `<title>` → Abre una sección/banda estructural del informe.
+Línea 24: `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+Línea 25: `<staticText>` → Abre un elemento de texto estático.
+Línea 26: `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+Línea 27: `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+Línea 28: `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+Línea 29: `</textElement>` → Cierra el elemento XML abierto anteriormente.
+Línea 30: `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+Línea 31: `</staticText>` → Cierra el elemento XML abierto anteriormente.
+Línea 32: `</band>` → Cierra el elemento XML abierto anteriormente.
+Línea 33: `</title>` → Cierra el elemento XML abierto anteriormente.
+Línea 34: `<columnHeader><band height="45"><staticText><reportElement x="0" y="5" width="250" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText><staticText><reportElement x="250" y="5" width="90" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Unidades]]></text></staticText><staticText><reportElement x="340" y="5" width="130" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Importe total]]></text></staticText><staticText><reportElement x="470" y="5" width="85" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Precio medio]]></text></staticText><staticText><reportElement x="0" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Primera venta]]></text></staticText><staticText><reportElement x="150" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Última venta]]></text></staticText><staticText><reportElement x="300" y="25" width="255" height="15"/><textElement textAlignment="Center"><font isBold="true"/></textElement><text><![CDATA[Periodo de ventas]]></text></staticText></band></columnHeader><detail><band height="42" splitType="Stretch"><textField textAdjust="StretchHeight"><reportElement x="0" y="1" width="250" height="20"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="250" y="1" width="90" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField><textField pattern="#0.00 €" isBlankWhenNull="true"><reportElement x="340" y="1" width="130" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField><textField><reportElement x="470" y="1" width="85" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="0" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="150" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField><textField><reportElement x="300" y="22" width="255" height="18"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " -> " + $F{ultima_venta}]]></textFieldExpression></textField></band></detail>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+
 
 **Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
 
@@ -9539,200 +5561,41 @@ public class GeneradorInformeVentas {
 }
 ```
 
-<div class="line-explanations">
-<div class="line-row">
-<div class="line-no">1</div>
-<div class="line-body">
-<div class="line-code">import java.io.File;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">2</div>
-<div class="line-body">
-<div class="line-code">import java.sql.Connection;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">3</div>
-<div class="line-body">
-<div class="line-code">import java.sql.DriverManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">4</div>
-<div class="line-body">
-<div class="line-code">import java.util.HashMap;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">5</div>
-<div class="line-body">
-<div class="line-code">import java.util.Map;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">6</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperCompileManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">7</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperExportManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">8</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperFillManager;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">9</div>
-<div class="line-body">
-<div class="line-code">import net.sf.jasperreports.engine.JasperPrint;</div>
-<div class="line-desc">Importa una clase necesaria para compilar o ejecutar el generador.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">10</div>
-<div class="line-body">
-<div class="line-code">&nbsp;</div>
-<div class="line-desc">Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">11</div>
-<div class="line-body">
-<div class="line-code">public class GeneradorInformeVentas {</div>
-<div class="line-desc">Declara la clase Java del checkpoint.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">12</div>
-<div class="line-body">
-<div class="line-code">    public static void main(String[] args) {</div>
-<div class="line-desc">Declara el punto de entrada ejecutable.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">13</div>
-<div class="line-body">
-<div class="line-code">        try {</div>
-<div class="line-desc">Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">14</div>
-<div class="line-body">
-<div class="line-code">            String rutaJrxml = &quot;reports/informe_ventas.jrxml&quot;;</div>
-<div class="line-desc">Fija la ruta del JRXML desde el Working Directory `EditorialReports`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">15</div>
-<div class="line-body">
-<div class="line-code">            String rutaJasper = &quot;reports/informe_ventas.jasper&quot;;</div>
-<div class="line-desc">Fija la ruta del artefacto `.jasper` compilado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">16</div>
-<div class="line-body">
-<div class="line-code">            String rutaPdf = &quot;output/informe_ventas.pdf&quot;;</div>
-<div class="line-desc">Fija la ruta del PDF que se exportará.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">17</div>
-<div class="line-body">
-<div class="line-code">            String urlBD = &quot;jdbc:sqlite:../EditorialReportsJava/data/editorial.db&quot;;</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">18</div>
-<div class="line-body">
-<div class="line-code">            new File(&quot;output&quot;).mkdirs();</div>
-<div class="line-desc">Crea el directorio necesario antes de escribir datos o salidas.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">19</div>
-<div class="line-body">
-<div class="line-code">            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);</div>
-<div class="line-desc">Compila el JRXML a `.jasper` con JasperReports 6.20.0.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">20</div>
-<div class="line-body">
-<div class="line-code">            Map&lt;String, Object&gt; parametros = new HashMap&lt;String, Object&gt;();</div>
-<div class="line-desc">Crea el mapa de parámetros que se entrega al motor de llenado.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">21</div>
-<div class="line-body">
-<div class="line-code">            try (Connection conexion = DriverManager.getConnection(urlBD)) {</div>
-<div class="line-desc">Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">22</div>
-<div class="line-body">
-<div class="line-code">                JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);</div>
-<div class="line-desc">Llena el informe y obtiene un `JasperPrint` en memoria.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">23</div>
-<div class="line-body">
-<div class="line-code">                JasperExportManager.exportReportToPdfFile(documento, rutaPdf);</div>
-<div class="line-desc">Exporta el `JasperPrint` a PDF.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">24</div>
-<div class="line-body">
-<div class="line-code">                System.out.println(&quot;Informe generado en: &quot; + new File(rutaPdf).getAbsolutePath());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">25</div>
-<div class="line-body">
-<div class="line-code">                System.out.println(&quot;Paginas del documento: &quot; + documento.getPages().size());</div>
-<div class="line-desc">Emite evidencia de ejecución para el usuario y GitHub Actions.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">26</div>
-<div class="line-body">
-<div class="line-code">            }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">27</div>
-<div class="line-body">
-<div class="line-code">        } catch (Exception e) {</div>
-<div class="line-desc">Captura cualquier fallo de compilación, datos, llenado o exportación.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">28</div>
-<div class="line-body">
-<div class="line-code">            e.printStackTrace();</div>
-<div class="line-desc">Imprime la traza completa para facilitar el diagnóstico.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">29</div>
-<div class="line-body">
-<div class="line-code">            System.exit(1);</div>
-<div class="line-desc">Termina con código distinto de cero para que CI detecte el fallo.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">30</div>
-<div class="line-body">
-<div class="line-code">        }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">31</div>
-<div class="line-body">
-<div class="line-code">    }</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-<div class="line-row">
-<div class="line-no">32</div>
-<div class="line-body">
-<div class="line-code">}</div>
-<div class="line-desc">Cierra el bloque Java actual.</div>
-</div></div>
-</div>
+### Explicación línea por línea
+
+Línea 1: `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 2: `import java.sql.Connection;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 3: `import java.sql.DriverManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 4: `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 5: `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 6: `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 7: `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 8: `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 9: `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+Línea 10: `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+Línea 11: `public class GeneradorInformeVentas {` → Declara la clase Java del checkpoint.
+Línea 12: `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+Línea 13: `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+Línea 14: `String rutaJrxml = "reports/informe_ventas.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+Línea 15: `String rutaJasper = "reports/informe_ventas.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+Línea 16: `String rutaPdf = "output/informe_ventas.pdf";` → Fija la ruta del PDF que se exportará.
+Línea 17: `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 18: `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+Línea 19: `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+Línea 20: `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+Línea 21: `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+Línea 22: `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+Línea 23: `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+Línea 24: `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 25: `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+Línea 26: `}` → Cierra el bloque Java actual.
+Línea 27: `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+Línea 28: `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+Línea 29: `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+Línea 30: `}` → Cierra el bloque Java actual.
+Línea 31: `}` → Cierra el bloque Java actual.
+Línea 32: `}` → Cierra el bloque Java actual.
+
 
 **Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
 
