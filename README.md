@@ -51,7 +51,7 @@ Estado: **3.1-3.6 PASS END-TO-END**.
 
 Run E2E final M3: **36027658743 - SUCCESS**.  
 
-Documentación: `M3/TEORIA_M3.md`, `M3/PRACTICA_M3.md`, `M3/TRAZABILIDAD_M3.md`, `M3/VALIDACION_M3.md`.
+Documentación: `M3/TEORIA_M3.md`, `M3/TEORIA_M3.pdf`, `M3/PRACTICA_M3.md`, `M3/PRACTICA_M3.pdf`, `M3/TRAZABILIDAD_M3.md`, `M3/VALIDACION_M3.md`.
 
 ## Criterio de validación
 

@@ -53,6 +53,18 @@ En 3.6 se generaron correctamente los cinco informes acumulados: `informe_concep
 - JRXML de cada checkpoint alineado con la práctica visual correspondiente.
 - SQLite, CSV, XML, JSON y SQL se prueban con datos reales, no con mocks.
 
+
+## PDFs docentes finales
+
+Render documental final: **run 36043444475 - SUCCESS**.
+
+- `TEORIA_M3.pdf`: **30 páginas A4**, SHA-256 `5aac477775a10415f4bc528ec33a9efc4c848211dc74000c97a9e4fbe3f2a296`.
+- `PRACTICA_M3.pdf`: **104 páginas A4**, SHA-256 `aa7d74895b3ed3f3fc495134b6df03b756b00c0ae9e1ea1a531975c2f526ccf4`.
+- Preflight: 0 páginas sin contenido, 0 bloques fuera del MediaBox y 0 glifos de sustitución detectados.
+- No aparecen marcadores `svgsvg`, fences Markdown crudos ni el rótulo editorial `Patrón corregido`.
+- Revisión visual con render PDFium sobre portada, inicios de puntos, Parte B/JRXML, código, tablas, cierres, 3.5, 3.6 y última página.
+- Se eliminó una página final vacía detectada durante la primera pasada del render de teoría antes de publicar la versión definitiva.
+
 ## Límite de la evidencia automatizada
 
 GitHub Actions valida compilación, llenado y exportación reales. Los clics de la GUI de Jaspersoft Studio se revisan documentalmente; no se automatizan.
