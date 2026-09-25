@@ -1250,25 +1250,24 @@ La cláusula `GROUP BY` agrupa las filas por el valor de una o varias columnas y
 ```xml
 <queryString language="sql">
     <![CDATA[
-        SELECT categoria,
+        SELECT CASE WHEN disponible = 1 THEN 'Disponible' ELSE 'No disponible' END AS estado,
                COUNT(*) AS num_libros,
                AVG(precio) AS precio_medio
         FROM libros
-        GROUP BY categoria
+        GROUP BY disponible
         HAVING COUNT(*) > 1
         ORDER BY num_libros DESC
     ]]>
 </queryString>
 ```
 
-
-**Línea 3:** `SELECT categoria,` → recupera la columna de agrupación.
-**Línea 4:** `COUNT(*) AS num_libros,` → cuenta las filas de cada grupo.
-**Línea 5:** `AVG(precio) AS precio_medio` → calcula la media de precios de cada grupo.
-**Línea 6:** `FROM libros` → indica la tabla.
-**Línea 7:** `GROUP BY categoria` → agrupa las filas por categoría.
-**Línea 8:** `HAVING COUNT(*) > 1` → filtra los grupos con más de un libro.
-**Línea 9:** `ORDER BY num_libros DESC` → ordena los grupos por número de libros descendente.
+**Línea 3:** la expresión `CASE ... END AS estado` transforma el 1/0 almacenado en SQLite en una etiqueta legible.
+**Línea 4:** `COUNT(*) AS num_libros` cuenta los libros de cada grupo.
+**Línea 5:** `AVG(precio) AS precio_medio` calcula la media de precios del grupo.
+**Línea 6:** `FROM libros` usa la tabla real del proyecto.
+**Línea 7:** `GROUP BY disponible` crea un grupo para disponibles y otro para no disponibles.
+**Línea 8:** `HAVING COUNT(*) > 1` conserva los grupos con más de un libro.
+**Línea 9:** `ORDER BY num_libros DESC` ordena por tamaño de grupo.
 
 ### Bloque 5 — Consultas con JOIN
 
