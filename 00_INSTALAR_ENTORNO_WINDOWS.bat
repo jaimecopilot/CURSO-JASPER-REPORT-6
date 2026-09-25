@@ -152,47 +152,104 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 >>"%LOG%" echo MAVEN_HOME=%MAVEN_HOME%
 
 rem ----------------------------------------------------------------
-rem 5. Jaspersoft Studio 6.20.0 Community portable
+rem 5. Jaspersoft Studio 6.20.0 Community
+rem    SourceForge puede rechazar Invoke-WebRequest o cambiar de mirror.
+rem    Se usa curl.exe con reintentos y SIEMPRE se valida SHA-256.
 rem ----------------------------------------------------------------
 echo [4/6] Instalando Jaspersoft Studio 6.20.0 Community...
 set "JSS_HOME=%TOOLS%\JaspersoftStudio-6.20.0"
 set "JSS_ZIP=%TEMP%\TIB_js-studiocomm_6.20.0_windows_x86_64.zip"
-set "JSS_SHA256=3681A443C226FA765CB6D72342EE760B0FA64CCBD298184200FDCD592E8CFCA8"
+set "JSS_INSTALLER=%TEMP%\TIB_js-studiocomm_6.20.0_windows_x86_64.exe"
+set "JSS_ZIP_SHA256=3681A443C226FA765CB6D72342EE760B0FA64CCBD298184200FDCD592E8CFCA8"
+set "JSS_EXE_SHA256=9333CFC633DE28E95630E085713319FAD837E88A775D815CF152DFBE4222B006"
+set "JSS_DOWNLOAD_MODE="
 
+rem Primero se busca una instalación ya existente, tanto portable como instalada.
 set "JSS_EXE="
-for /f "usebackq delims=" %%E in (`powershell -NoProfile -Command "if(Test-Path '%JSS_HOME%'){Get-ChildItem '%JSS_HOME%' -Recurse -File -Filter 'Jaspersoft Studio.exe' -ErrorAction SilentlyContinue ^| Select-Object -First 1 -ExpandProperty FullName}"`) do set "JSS_EXE=%%E"
+for /f "usebackq delims=" %%E in (`powershell -NoProfile -Command "$c=@(); if(Test-Path '%JSS_HOME%'){$c += Get-ChildItem '%JSS_HOME%' -Recurse -File -Filter 'Jaspersoft Studio.exe' -ErrorAction SilentlyContinue}; $p='C:\Program Files\TIBCO\Jaspersoft Studio-6.20.0\Jaspersoft Studio.exe'; if(Test-Path $p){$c += Get-Item $p}; $c ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "JSS_EXE=%%E"
 
 if not defined JSS_EXE (
-    powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-      "$ErrorActionPreference='Stop';" ^
-      "$url='https://sourceforge.net/projects/jasperstudio/files/JaspersoftStudio-6.20.0/TIB_js-studiocomm_6.20.0_windows_x86_64.zip/download';" ^
-      "$zip='%JSS_ZIP%';" ^
-      "Invoke-WebRequest -UseBasicParsing -MaximumRedirection 10 -Headers @{'User-Agent'='Mozilla/5.0'} -Uri $url -OutFile $zip;" ^
-      "$actual=(Get-FileHash $zip -Algorithm SHA256).Hash.ToUpperInvariant();" ^
-      "if($actual -ne '%JSS_SHA256%'){throw ('SHA-256 de Jaspersoft Studio no coincide. Obtenido: '+$actual)};" ^
-      "if(Test-Path '%JSS_HOME%'){Remove-Item -Recurse -Force '%JSS_HOME%'};" ^
-      "New-Item -ItemType Directory -Force -Path '%JSS_HOME%' | Out-Null;" ^
-      "Expand-Archive -Force -Path $zip -DestinationPath '%JSS_HOME%';"
+    where curl.exe >nul 2>&1
     if errorlevel 1 (
-        echo.
-        echo [ERROR] No se pudo descargar o validar Jaspersoft Studio 6.20.0.
-        echo El BAT NO instalara otra version como sustituto.
-        echo Consulta 00_PREPARACION_ENTORNO.md para la instalacion manual.
-        >>"%LOG%" echo ERROR: fallo Jaspersoft Studio 6.20.0.
+        echo [ERROR] No se encontro curl.exe.
+        echo Windows 10/11 actualizado incluye curl.exe. Actualiza Windows y vuelve a ejecutar el BAT.
+        >>"%LOG%" echo ERROR: curl.exe no disponible para descargar Jaspersoft Studio.
         pause
-        exit /b 50
+        exit /b 49
+    )
+
+    echo [INFO] Intentando paquete ZIP oficial de SourceForge...
+    call :download_jss "%JSS_ZIP%" "%JSS_ZIP_SHA256%" "https://downloads.sourceforge.net/project/jasperstudio/JaspersoftStudio-6.20.0/TIB_js-studiocomm_6.20.0_windows_x86_64.zip"
+    if not errorlevel 1 set "JSS_DOWNLOAD_MODE=ZIP"
+
+    if not defined JSS_DOWNLOAD_MODE (
+        echo [INFO] Primer endpoint no disponible. Probando endpoint alternativo de SourceForge...
+        call :download_jss "%JSS_ZIP%" "%JSS_ZIP_SHA256%" "https://sourceforge.net/projects/jasperstudio/files/JaspersoftStudio-6.20.0/TIB_js-studiocomm_6.20.0_windows_x86_64.zip/download"
+        if not errorlevel 1 set "JSS_DOWNLOAD_MODE=ZIP"
+    )
+
+    if defined JSS_DOWNLOAD_MODE (
+        echo [INFO] SHA-256 correcto. Extrayendo Jaspersoft Studio portable...
+        powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+          "$ErrorActionPreference='Stop';" ^
+          "if(Test-Path '%JSS_HOME%'){Remove-Item -Recurse -Force '%JSS_HOME%'};" ^
+          "New-Item -ItemType Directory -Force -Path '%JSS_HOME%' ^| Out-Null;" ^
+          "Expand-Archive -Force -Path '%JSS_ZIP%' -DestinationPath '%JSS_HOME%';"
+        if errorlevel 1 (
+            echo [ERROR] Se descargo el ZIP correcto, pero fallo la extraccion.
+            >>"%LOG%" echo ERROR: fallo extrayendo Jaspersoft Studio ZIP.
+            pause
+            exit /b 50
+        )
+    ) else (
+        echo [AVISO] SourceForge no ha permitido descargar el ZIP.
+        echo [INFO] Probando el instalador EXE 6.20.0 con SHA-256 conocido...
+
+        call :download_jss "%JSS_INSTALLER%" "%JSS_EXE_SHA256%" "https://downloads.sourceforge.net/project/jasperstudio/JaspersoftStudio-6.20.0/TIB_js-studiocomm_6.20.0_windows_x86_64.exe"
+        if not errorlevel 1 set "JSS_DOWNLOAD_MODE=EXE"
+
+        if not defined JSS_DOWNLOAD_MODE (
+            echo [INFO] SourceForge tampoco entrega el EXE. Probando mirror de respaldo...
+            echo [INFO] El mirror solo se acepta si el archivo coincide EXACTAMENTE con el SHA-256 esperado.
+            call :download_jss "%JSS_INSTALLER%" "%JSS_EXE_SHA256%" "https://downloadext.lsfusion.org/TIB_js-studiocomm_6.20.0_windows_x86_64.exe"
+            if not errorlevel 1 set "JSS_DOWNLOAD_MODE=EXE"
+        )
+
+        if defined JSS_DOWNLOAD_MODE (
+            echo [INFO] SHA-256 correcto. Ejecutando instalacion silenciosa de Jaspersoft Studio 6.20.0...
+            powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+              "$p=Start-Process -FilePath '%JSS_INSTALLER%' -ArgumentList '/S' -Wait -PassThru; exit $p.ExitCode"
+            if errorlevel 1 (
+                echo [ERROR] El instalador verificado de Jaspersoft Studio devolvio un error.
+                >>"%LOG%" echo ERROR: instalador Jaspersoft Studio 6.20.0 fallo.
+                pause
+                exit /b 50
+            )
+        ) else (
+            echo.
+            echo [ERROR] No se pudo descargar Jaspersoft Studio 6.20.0 desde ninguno de los endpoints.
+            echo No se acepto ningun archivo con SHA-256 distinto del esperado.
+            echo Consulta 00_PREPARACION_ENTORNO.md para la alternativa manual.
+            >>"%LOG%" echo ERROR: Jaspersoft Studio 6.20.0 no disponible en endpoints automaticos.
+            pause
+            exit /b 50
+        )
     )
 )
 
-for /f "usebackq delims=" %%E in (`powershell -NoProfile -Command "Get-ChildItem '%JSS_HOME%' -Recurse -File -Filter 'Jaspersoft Studio.exe' -ErrorAction SilentlyContinue ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "JSS_EXE=%%E"
+rem Localizar el ejecutable despues de ZIP portable o instalador EXE.
+set "JSS_EXE="
+for /f "usebackq delims=" %%E in (`powershell -NoProfile -Command "$c=@(); if(Test-Path '%JSS_HOME%'){$c += Get-ChildItem '%JSS_HOME%' -Recurse -File -Filter 'Jaspersoft Studio.exe' -ErrorAction SilentlyContinue}; $p='C:\Program Files\TIBCO\Jaspersoft Studio-6.20.0\Jaspersoft Studio.exe'; if(Test-Path $p){$c += Get-Item $p}; $c ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "JSS_EXE=%%E"
 
 if not defined JSS_EXE (
-    echo [ERROR] La descarga se extrajo, pero no se encontro "Jaspersoft Studio.exe".
-    >>"%LOG%" echo ERROR: ejecutable Jaspersoft Studio no encontrado.
+    echo [ERROR] Jaspersoft Studio parece haberse descargado/instalado, pero no se encontro "Jaspersoft Studio.exe".
+    echo Revisa %LOG% y la carpeta C:\Program Files\TIBCO\Jaspersoft Studio-6.20.0
+    >>"%LOG%" echo ERROR: ejecutable Jaspersoft Studio no encontrado tras la instalacion.
     pause
     exit /b 51
 )
 >>"%LOG%" echo Jaspersoft Studio=%JSS_EXE%
+>>"%LOG%" echo Jaspersoft Studio modo=%JSS_DOWNLOAD_MODE%
 
 rem ----------------------------------------------------------------
 rem 6. Localizar Git y clonar/actualizar el curso
@@ -253,7 +310,43 @@ echo ===== VERIFICACION =====>>"%LOG%"
 echo.
 echo --- Java ---
 "%JAVA_HOME%\bin\java.exe" -version 2>>"%LOG%"
-if errorlevel 1 goto :verification_error
+if errorlevel 1 goto :download_jss
+rem Uso: call :download_jss "destino" "SHA256" "URL"
+set "DL_FILE=%~1"
+set "DL_HASH=%~2"
+set "DL_URL=%~3"
+
+if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
+>>"%LOG%" echo Descargando: %DL_URL%
+
+curl.exe --fail --location --retry 3 --retry-delay 3 --connect-timeout 30 --max-time 1800 ^
+  -A "Mozilla/5.0" --output "%DL_FILE%" "%DL_URL%" >>"%LOG%" 2>&1
+if errorlevel 1 (
+    >>"%LOG%" echo AVISO: curl fallo para %DL_URL%
+    if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
+    exit /b 1
+)
+
+set "DL_ACTUAL="
+for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash -LiteralPath '%DL_FILE%' -Algorithm SHA256).Hash.ToUpperInvariant()"`) do set "DL_ACTUAL=%%H"
+
+if not defined DL_ACTUAL (
+    >>"%LOG%" echo AVISO: no se pudo calcular SHA-256 de %DL_FILE%
+    if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
+    exit /b 2
+)
+
+if /I not "%DL_ACTUAL%"=="%DL_HASH%" (
+    echo [AVISO] El archivo recibido no coincide con el SHA-256 esperado. Se descarta.
+    >>"%LOG%" echo AVISO: SHA-256 incorrecto. Esperado=%DL_HASH% Obtenido=%DL_ACTUAL% URL=%DL_URL%
+    del /q /f "%DL_FILE%" >nul 2>&1
+    exit /b 3
+)
+
+>>"%LOG%" echo OK: SHA-256 correcto para %DL_URL%
+exit /b 0
+
+:verification_error
 "%JAVA_HOME%\bin\javac.exe" -version >>"%LOG%" 2>&1
 if errorlevel 1 goto :verification_error
 

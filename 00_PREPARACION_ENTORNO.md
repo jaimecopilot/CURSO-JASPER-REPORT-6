@@ -89,14 +89,15 @@ El BAT:
 3. Instala **Temurin JDK 8 x64**.
 4. Instala **Git for Windows**.
 5. Instala **Apache Maven 3.9.16** desde la distribución binaria oficial de Apache y verifica su SHA-512 publicado.
-6. Descarga **Jaspersoft Studio 6.20.0 Community x64**.
-7. Comprueba el SHA-256 del ZIP de Jaspersoft Studio antes de extraerlo.
-8. Crea un directorio separado para herramientas del curso.
-9. Crea un workspace vacío para las prácticas.
-10. Configura `JAVA_HOME`, `MAVEN_HOME` y las entradas de PATH del usuario.
-11. Clona o actualiza este repositorio en una carpeta distinta del workspace.
-12. Crea un acceso directo para arrancar Jaspersoft Studio usando el workspace del curso.
-13. Ejecuta comprobaciones finales de Java, javac, Maven, Git y Jaspersoft Studio.
+6. Descarga **Jaspersoft Studio 6.20.0 Community x64** usando `curl.exe` con reintentos, porque SourceForge puede rechazar actualmente descargas automatizadas realizadas con `Invoke-WebRequest`.
+7. Intenta primero el ZIP portable desde dos endpoints de SourceForge. Si SourceForge no lo entrega, intenta el instalador EXE 6.20.0; como último respaldo puede usar un mirror externo, pero **solo acepta el archivo si su SHA-256 coincide exactamente con el conocido para 6.20.0**.
+8. Comprueba siempre el SHA-256 antes de extraer o ejecutar Jaspersoft Studio.
+9. Crea un directorio separado para herramientas del curso cuando se utiliza el ZIP portable.
+10. Crea un workspace vacío para las prácticas.
+11. Configura `JAVA_HOME`, `MAVEN_HOME` y las entradas de PATH del usuario.
+12. Clona o actualiza este repositorio en una carpeta distinta del workspace.
+13. Crea un acceso directo para arrancar Jaspersoft Studio usando el workspace del curso.
+14. Ejecuta comprobaciones finales de Java, javac, Maven, Git y Jaspersoft Studio.
 
 ### Directorios creados
 
@@ -118,23 +119,53 @@ Por defecto:
 
 ---
 
-## 4. Integridad de Jaspersoft Studio 6.20.0
+## 4. Integridad y descarga de Jaspersoft Studio 6.20.0
 
-El instalador automático usa el paquete Windows x64:
+El instalador automático **no confía en el nombre del fichero ni en el servidor que lo entrega**. La condición para aceptar una descarga es que coincida con el SHA-256 esperado para la distribución 6.20.0.
+
+### ZIP portable Windows x64
 
 ```text
 TIB_js-studiocomm_6.20.0_windows_x86_64.zip
-```
-
-y exige este SHA-256 antes de descomprimir:
-
-```text
+SHA-256:
 3681A443C226FA765CB6D72342EE760B0FA64CCBD298184200FDCD592E8CFCA8
 ```
 
-Si el hash no coincide, el BAT **se detiene y no ejecuta el archivo descargado**.
+### Instalador EXE Windows x64
 
-La descarga de una versión diferente de Jaspersoft Studio no se considera equivalente para estas prácticas. El curso está fijado en **6.20.0 Community Edition**.
+```text
+TIB_js-studiocomm_6.20.0_windows_x86_64.exe
+SHA-256:
+9333CFC633DE28E95630E085713319FAD837E88A775D815CF152DFBE4222B006
+```
+
+El BAT intenta primero el ZIP portable desde SourceForge. La descarga se realiza con `curl.exe --location`, no con `Invoke-WebRequest`, para tolerar mejor la cadena de redirecciones de SourceForge.
+
+Si SourceForge no entrega el ZIP, el BAT intenta el instalador EXE 6.20.0. Como último respaldo existe un mirror externo conocido que conserva el mismo instalador; **el BAT no lo ejecuta salvo que el SHA-256 sea exactamente el anterior**. Un fichero diferente, una página HTML de error o una descarga parcial se eliminan y se consideran fallo.
+
+Esto corrige un problema observado en 2025-2026: endpoints/mirrors antiguos de SourceForge usados por automatizaciones de terceros han dejado de resolver o devolver el fichero, aunque la versión 6.20.0 siga siendo la requerida para el curso.
+
+Si todos los endpoints fallan, el BAT se detiene. No sustituye 6.20.0 por una versión distinta.
+
+### Instalación manual de emergencia
+
+Si la descarga automática no funciona por proxy, firewall corporativo o filtrado regional:
+
+1. Descargar manualmente **Jaspersoft Studio 6.20.0 Community x64**.
+2. Comprobar el SHA-256 con:
+
+```powershell
+Get-FileHash .\TIB_js-studiocomm_6.20.0_windows_x86_64.exe -Algorithm SHA256
+```
+
+o, para el ZIP:
+
+```powershell
+Get-FileHash .\TIB_js-studiocomm_6.20.0_windows_x86_64.zip -Algorithm SHA256
+```
+
+3. Continuar solo si coincide con uno de los hashes anteriores.
+
 
 ---
 
