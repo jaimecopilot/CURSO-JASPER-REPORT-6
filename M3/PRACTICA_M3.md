@@ -7604,7 +7604,7 @@ El punto 3.6 cierra el Módulo 3 con la profundización en la declaración de ca
 
 **Qué hace:** suma el importe agregado de todos los títulos.  
 **Por qué:** con los datos seed el resultado correcto es 633,40 €.  
-**Error común:** volver a documentar 648,40 €. Ese valor no corresponde a las nueve ventas reales.
+**Error común:** reutilizar un total antiguo incorrecto. Debe recalcularse con las nueve ventas reales.
 
 ---
 
