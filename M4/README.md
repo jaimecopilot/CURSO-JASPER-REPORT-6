@@ -35,6 +35,7 @@ Proyecto acumulativo: **EditorialReports**.
 - `PRACTICA_M4.pdf`
 - `TRAZABILIDAD_M4.md`
 - `VALIDACION_M4.md`
+- `AUDITORIA_EDITORIAL_M4.md`
 - `PRECHECK_M4.json`
 - `SHA256SUMS.txt`
 

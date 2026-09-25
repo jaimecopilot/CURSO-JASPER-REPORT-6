@@ -735,39 +735,58 @@ M4/4.1/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** Crear un parámetro `mostrarCabeceraFiscal` Boolean con valor por defecto `Boolean.TRUE` y usarlo junto con `mostrarDetalle` en el `printWhenExpression` del encabezado y del campo de IVA. Probar las cuatro combinaciones lógicas y restaurar el checkpoint sin el parámetro adicional.
+**Enunciado:** recuperar el parámetro `formatoFecha` del material original para alternar entre fecha corta y fecha larga.
 
-1. Guardar una copia del checkpoint antes del reto.
-2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
-3. Compilar el JRXML con **Ctrl+Mayús+B**.
-4. Ejecutar Preview con el escenario indicado.
-5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
-6. Verificar el resultado tanto en Console como en el PDF.
-7. Comparar el comportamiento con el objetivo del reto.
-8. Deshacer únicamente los cambios del reto.
-9. Compilar de nuevo.
-10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
+Este reto se conserva como ampliación temporal: no forma parte del checkpoint oficial 4.1 y debe retirarse al terminar para mantener la paridad con Parte B.
 
-**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
+**Paso 1.** Abrir `informe_ventas.jrxml` y crear el parámetro `formatoFecha` de clase `java.lang.String`.
+
+**Paso 2.** Configurar `defaultValueExpression` con `"corto"` y mantener `isForPrompting=true`.
+
+**Paso 3.** Localizar el Text Field de `fechaInforme` en Title.
+
+**Paso 4.** Sustituir temporalmente su expresión por `new java.text.SimpleDateFormat("largo".equals($P{formatoFecha}) ? "EEEE, d 'de' MMMM 'de' yyyy" : "dd/MM/yyyy", new java.util.Locale("es","ES")).format($P{fechaInforme})`.
+
+**Paso 5.** Compilar con Ctrl+Mayús+B y ejecutar Preview con `formatoFecha=corto`.
+
+**Paso 6.** Verificar el patrón `dd/MM/yyyy`.
+
+**Paso 7.** Cambiar Preview a `formatoFecha=largo` y verificar el patrón largo en español.
+
+**Paso 8.** En Java, probar temporalmente `parametros.put("formatoFecha", "largo")` y generar el PDF.
+
+**Paso 9.** Comprobar que la misma plantilla cambia el formato sin modificar los datos.
+
+**Paso 10.** Restaurar `GeneradorInformeVentas.java`, retirar `formatoFecha` y devolver el Text Field a la expresión del checkpoint.
+
+**Paso 11.** Compilar de nuevo y confirmar que Parte B y Parte C vuelven a coincidir.
+
+**Resultado del reto:** el alumno recupera el reto original sobre formato dinámico de fecha, pero lo trata como una extensión controlada y reversible.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
-Los parámetros son la hoja de instrucciones que acompaña a una misma plantilla editorial: cambian el contexto y la presentación sin reescribir el catálogo.
+Los parámetros son las instrucciones que acompañan a una plantilla antes de componer el catálogo: responsable, fecha, departamento, periodo, IVA y nivel de detalle. Los parámetros internos representan el contexto que aporta el propio motor —conexión, locale o zona horaria— y los valores por defecto actúan como instrucciones de reserva cuando el llamador no proporciona otra cosa. Una misma plantilla puede producir ediciones distintas sin reescribir el diseño.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de seis parámetros operativos; departamento y periodo en Title; columna IVA null-safe; visibilidad coherente de encabezado y dato; Java y Preview funcionales.
+Al finalizar este punto, el alumno dispone de:
+
+- seis parámetros operativos: `usuario`, `fechaInforme`, `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`;
+- Title con departamento y periodo;
+- columna de importe con IVA null-safe;
+- encabezado y dato gobernados por la misma `printWhenExpression`;
+- Java y Preview funcionales;
+- `PARAMETROS.md` documentando el contrato;
+- comprensión de parámetros de usuario, parámetros internos, `defaultValueExpression` e `isForPrompting`.
 
 ---
 
 ## Conclusión
 
-El punto 4.1 deja preparado el informe para recibir valores externos de forma tipada. El punto 4.2 utiliza ese mecanismo para construir filtros opcionales.
-
+El punto 4.1 convierte el informe de ventas en una plantilla configurable mediante valores externos tipados y defaults controlados. El punto 4.2 utiliza ese contrato para introducir filtros opcionales sin duplicar la plantilla.
 # Punto 4.2 — Filtros con parámetros
 
 ## Parte práctica
@@ -1655,39 +1674,58 @@ M4/4.2/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** Probar un rango combinado: `categoria="Novela"`, `precioMinimo=18.0` y `precioMaximo=23.0`. Anotar cuántos títulos devuelve Preview, retirar después los tres valores y confirmar que vuelven los 14 títulos.
+**Enunciado:** recuperar el filtro opcional `disponible` de tipo `java.lang.Boolean`.
 
-1. Guardar una copia del checkpoint antes del reto.
-2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
-3. Compilar el JRXML con **Ctrl+Mayús+B**.
-4. Ejecutar Preview con el escenario indicado.
-5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
-6. Verificar el resultado tanto en Console como en el PDF.
-7. Comparar el comportamiento con el objetivo del reto.
-8. Deshacer únicamente los cambios del reto.
-9. Compilar de nuevo.
-10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
+El material original proponía este cuarto filtro. Es compatible con el esquema de `libros`, que ya contiene la columna `disponible`.
 
-**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
+**Paso 1.** Crear el parámetro `disponible` como `java.lang.Boolean`, sin valor por defecto.
+
+**Paso 2.** Mantener `isForPrompting=true` para poder probarlo en Preview.
+
+**Paso 3.** Añadir temporalmente al `WHERE` la condición `AND ($P{disponible} IS NULL OR l.disponible = $P{disponible})`.
+
+**Paso 4.** Compilar el JRXML.
+
+**Paso 5.** Ejecutar Preview con `disponible=null` y confirmar que el filtro es neutro.
+
+**Paso 6.** Ejecutar Preview con `disponible=Boolean.TRUE` y comprobar que solo permanecen filas disponibles.
+
+**Paso 7.** Añadir temporalmente en Java `parametros.put("disponible", null);` y ejecutar el informe.
+
+**Paso 8.** Cambiar temporalmente a `Boolean.TRUE` y repetir la prueba.
+
+**Paso 9.** Comparar ambos PDFs y relacionar el cambio con la técnica `IS NULL OR`.
+
+**Paso 10.** Retirar el parámetro y la condición SQL del reto.
+
+**Paso 11.** Compilar y confirmar que el checkpoint vuelve a sus tres filtros oficiales.
+
+**Resultado del reto:** se conserva la intención original: un cuarto filtro activable mediante null, sin alterar permanentemente el checkpoint.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
-Los filtros SQL son criterios de selección del archivador; la visibilidad de plantilla decide qué partes de cada ficha seleccionada se imprimen.
+Los filtros son los criterios que el editor aplica al seleccionar el catálogo. Categoría y límites de precio actúan en el archivador SQL antes de que los datos lleguen a la plantilla; `printWhenExpression` actúa después, decidiendo qué parte de una ficha ya seleccionada se imprime. El parámetro nulo equivale a dejar una casilla del formulario sin rellenar: ese criterio no restringe el resultado.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de esquema con categoría, tres filtros opcionales SQL, columna Categoría y escenario base sin filtros que conserva 14/9/31/633,40.
+Al finalizar este punto, el alumno dispone de:
+
+- esquema reproducible con `categoria`;
+- parámetros `categoria`, `precioMinimo` y `precioMaximo`;
+- tres filtros SQL opcionales con `IS NULL OR`;
+- columna Categoría en el informe;
+- distinción operativa entre filtrar filas en SQL y ocultar elementos en la plantilla;
+- escenario base que conserva 14 libros, 9 ventas, 31 unidades y 633,40 €;
+- `FILTROS.md` actualizado.
 
 ---
 
 ## Conclusión
 
-El punto 4.2 filtra datos sin romper la cobertura del `LEFT JOIN`. El punto 4.3 añade estado acumulado mediante variables.
-
+El punto 4.2 añade selección dinámica de datos y deja clara la frontera entre SQL y presentación. El `LEFT JOIN` se conserva para no perder libros sin ventas. El punto 4.3 usa el conjunto resultante como entrada para acumulados, medias, máximos y subtotales.
 # Punto 4.3 — Variables
 
 ## Parte práctica
@@ -2471,39 +2509,52 @@ M4/4.3/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** Añadir temporalmente una variable `UnidadesPagina` de tipo `java.lang.Integer`, cálculo `Sum`, reset `Page` y expresión `$F{unidades_vendidas}`. Mostrarla en Page Footer, recorrer varias páginas y comprobar que se reinicia. Eliminar después el reto para volver al checkpoint oficial.
+**Enunciado:** auditar el reto original `PorcentajePagina = TotalPagina / TotalImporte * 100` y comprobar por qué no puede presentarse como porcentaje real del total final en un Page Footer de una sola pasada.
 
-1. Guardar una copia del checkpoint antes del reto.
-2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
-3. Compilar el JRXML con **Ctrl+Mayús+B**.
-4. Ejecutar Preview con el escenario indicado.
-5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
-6. Verificar el resultado tanto en Console como en el PDF.
-7. Comparar el comportamiento con el objetivo del reto.
-8. Deshacer únicamente los cambios del reto.
-9. Compilar de nuevo.
-10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
+El reto original contenía una idea útil —relacionar subtotal de página y total de informe—, pero asumía que `TotalImporte` ya era definitivo en cada Page Footer. Esa suposición no es correcta durante el llenado.
 
-**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
+**Nota de auditoría:** No se implementa literalmente como resultado “correcto” porque el denominador global no está consolidado durante las primeras páginas.
+
+**Paso 1.** Guardar una copia del checkpoint 4.3.
+
+**Paso 2.** Crear temporalmente una variable `PorcentajePagina` de clase `java.lang.Double`, cálculo `Nothing` y reset `Page`.
+
+**Paso 3.** Usar temporalmente la expresión `$V{TotalPagina} / $V{TotalImporte} * 100` protegiendo división por cero.
+
+**Paso 4.** Mostrarla en Page Footer y generar un informe de varias páginas.
+
+**Paso 5.** Comparar el valor de la primera página con el total definitivo mostrado en Summary.
+
+**Paso 6.** Observar que `TotalImporte` aún se está acumulando cuando se imprime una página intermedia.
+
+**Paso 7.** Relacionar el resultado con `evaluationTime=Now`, `Page` y `Report`.
+
+**Paso 8.** Comprobar en la documentación oficial que `evaluationTime="Report"` difiere la evaluación hasta el final del informe.
+
+**Paso 9.** Explicar por qué diferir el Text Field no conserva automáticamente el histórico de `TotalPagina` de cada página una vez reiniciado.
+
+**Paso 10.** Concluir que el porcentaje exacto de cada página sobre el total final requiere otra estrategia —preagregación, dos pasadas o almacenamiento explícito de valores—.
+
+**Paso 11.** Eliminar `PorcentajePagina` y restaurar el checkpoint.
+
+**Resultado del reto:** el alumno conserva la pregunta pedagógica del original y aprende, además, la limitación real de los tiempos de evaluación en lugar de memorizar un cálculo engañoso.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
-Las variables son contadores y acumuladores del proceso editorial: algunos se reinician por página y otros solo al cerrar el informe completo.
+Las variables son los contadores y acumuladores que el editor mantiene mientras compone el informe. `REPORT_COUNT` cuenta registros; `TotalPagina` se reinicia al cambiar de página; `TotalImporte` vive hasta el final del informe; Average, Highest y Count responden a preguntas distintas. Tan importante como la fórmula es saber cuándo se reinicia y cuándo el valor ya está consolidado.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de cinco variables nuevas, subtotal de página y cuatro agregados globales, manteniendo las variables heredadas.
+Al finalizar este punto, el alumno dispone de siete variables en total: las heredadas `TotalUnidades` y `TotalImporte`, más `TotalPagina`, `PrecioMedio`, `PrecioMaximo`, `NumeroLibros` e `ImporteConIva`. El Page Footer muestra el subtotal de página y Summary presenta los agregados globales. El alumno distingue Calculation, Reset Type y tiempo de evaluación, y `VARIABLES.md` documenta el diseño.
 
 ---
 
 ## Conclusión
 
-El punto 4.3 introduce estado calculado durante el llenado. El punto 4.4 usa campos, parámetros y variables dentro de expresiones Java más ricas.
-
+El punto 4.3 profundiza en el ciclo de vida de las variables: cálculo, reinicio y momento de evaluación. El informe ya resume tanto la página actual como el conjunto del informe. El punto 4.4 reutiliza campos, parámetros y variables para construir expresiones más ricas.
 # Punto 4.4 — Expresiones avanzadas
 
 ## Parte práctica
@@ -3292,39 +3343,50 @@ M4/4.4/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** Añadir temporalmente un Text Field que muestre la longitud del título con `$F{titulo} == null ? 0 : $F{titulo}.length()`, verificarlo con varios títulos y retirarlo antes de restaurar el checkpoint.
+**Enunciado:** recuperar el mensaje descriptivo de rendimiento del material original utilizando `String.format` y un ternario anidado null-safe.
 
-1. Guardar una copia del checkpoint antes del reto.
-2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
-3. Compilar el JRXML con **Ctrl+Mayús+B**.
-4. Ejecutar Preview con el escenario indicado.
-5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
-6. Verificar el resultado tanto en Console como en el PDF.
-7. Comparar el comportamiento con el objetivo del reto.
-8. Deshacer únicamente los cambios del reto.
-9. Compilar de nuevo.
-10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
+El reto original es válido si se añade la protección necesaria para los títulos sin ventas conservados por `LEFT JOIN`.
 
-**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
+**Paso 1.** Añadir temporalmente un Static Text `Mensaje de rendimiento` al final de Column Header.
+
+**Paso 2.** Aumentar temporalmente la altura de Column Header y Detail lo necesario para evitar solapamientos.
+
+**Paso 3.** Añadir un Text Field de ancho completo en la fila adicional de Detail.
+
+**Paso 4.** Usar `String.format(java.util.Locale.ROOT, "%s - %s", $F{titulo}, ...)`.
+
+**Paso 5.** Construir el segundo argumento con la condición `$F{precio_medio} == null ? "Sin ventas" : ($F{precio_medio}.doubleValue() > 22.0d ? "Excelente rendimiento" : ($F{precio_medio}.doubleValue() > 18.0d ? "Buen rendimiento" : "Rendimiento bajo"))`.
+
+**Paso 6.** Compilar y abrir Preview.
+
+**Paso 7.** Verificar al menos un título sin ventas y varios tramos de precio.
+
+**Paso 8.** Ejecutar `GeneradorInformeVentas` y revisar el PDF.
+
+**Paso 9.** Relacionar el resultado con `String.format`, ternarios anidados y null-safety.
+
+**Paso 10.** Retirar la fila temporal y restaurar las alturas del checkpoint.
+
+**Paso 11.** Compilar de nuevo y comparar con Parte B.
+
+**Resultado del reto:** se recupera el ejercicio original de composición de texto y clasificación, corregido para que los `null` legítimos no provoquen excepciones.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
-Las expresiones son pequeñas fórmulas de maquetación que transforman datos ya disponibles sin convertir el informe en una aplicación paralela.
+Las expresiones avanzadas son pequeñas transformaciones aplicadas al dato bruto: clasifican, recortan títulos, calculan días, redondean, formatean y combinan información. Igual que en una mesa de edición, cada transformación debe ser legible, compatible con el soporte disponible —Java 8— y robusta ante fichas incompletas.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de cinco expresiones avanzadas en Detail y un resumen formateado, todas compatibles con Java 8 y seguras frente a nulos.
+Al finalizar este punto, el alumno dispone de cinco expresiones avanzadas visibles en Detail y un resumen formateado en Summary, compatibles con Java 8 y null-safe. Se practican ternarios, métodos de `String`, fechas ISO, `ChronoUnit`, `Math.round`, `String.format`, Locale y combinación de campos, parámetros y variables. `EXPRESIONES_AVANZADAS.md` recoge los criterios.
 
 ---
 
 ## Conclusión
 
-El punto 4.4 amplía la capacidad expresiva del JRXML. El punto 4.5 utiliza expresiones booleanas para controlar estilos y visibilidad.
-
+El punto 4.4 amplía la capacidad expresiva del JRXML con transformaciones Java 8, formateo y protección frente a nulos. El punto 4.5 convierte esas expresiones booleanas en comportamiento visual mediante visibilidad y estilos condicionales.
 # Punto 4.5 — Lógica condicional
 
 ## Parte práctica
@@ -4159,39 +4221,50 @@ M4/4.5/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** Cambiar temporalmente `umbralUnidades` entre 3, 5 y 8 y registrar cómo cambian color, porcentaje relativo y banda destacada. Restaurar 5 al finalizar.
+**Enunciado:** recuperar la visibilidad condicional del campo `precio_medio` combinando el field con el parámetro `precioMinimo`.
 
-1. Guardar una copia del checkpoint antes del reto.
-2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
-3. Compilar el JRXML con **Ctrl+Mayús+B**.
-4. Ejecutar Preview con el escenario indicado.
-5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
-6. Verificar el resultado tanto en Console como en el PDF.
-7. Comparar el comportamiento con el objetivo del reto.
-8. Deshacer únicamente los cambios del reto.
-9. Compilar de nuevo.
-10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
+El original comparaba directamente contra `precioMinimo`, que puede ser nulo. La expresión se corrige para preservar la semántica opcional del filtro.
 
-**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
+**Paso 1.** Seleccionar temporalmente el Text Field que muestra `precio_medio`.
+
+**Paso 2.** Configurar su Print When Expression como `$F{precio_medio} != null && ($P{precioMinimo} == null || $F{precio_medio}.doubleValue() >= $P{precioMinimo}.doubleValue())`.
+
+**Paso 3.** Compilar el JRXML.
+
+**Paso 4.** Ejecutar Preview con `precioMinimo=null` y comprobar que solo se ocultan los `null`.
+
+**Paso 5.** Asignar `precioMinimo=20.0` y repetir Preview.
+
+**Paso 6.** Comprobar que los precios medios inferiores a 20 dejan de imprimirse.
+
+**Paso 7.** Confirmar que el número de filas no cambia: se modifica la presentación, no el SQL del reto.
+
+**Paso 8.** Probar temporalmente el mismo parámetro desde Java.
+
+**Paso 9.** Comparar el comportamiento con el filtro SQL de 4.2 y explicar la diferencia.
+
+**Paso 10.** Retirar la Print When Expression temporal y restaurar el checkpoint.
+
+**Paso 11.** Compilar y cotejar de nuevo con Parte B.
+
+**Resultado del reto:** se recupera el reto original de combinar field y parámetro en una condición, eliminando el riesgo de `NullPointerException`.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
-La lógica condicional es el sistema de señales visuales del informe: el dato no cambia, pero su presentación comunica prioridad y estado.
+La lógica condicional es el sistema de señales del documento: una regla decide si se imprime un elemento, otra cambia el estilo y otra muestra un aviso. Los datos no tienen por qué cambiar; cambia la forma en la que se comunican. Por eso una condición de presentación no debe confundirse con un filtro SQL que elimina registros.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de umbral configurable, estilo condicional null-safe sobre unidades, porcentaje respecto al umbral, banda destacada y mensaje global de objetivo.
+Al finalizar este punto, el alumno dispone de `umbralUnidades`, estilo `UnidadesCondicional` con reglas mutuamente excluyentes, porcentaje relativo al umbral, una segunda banda Detail condicionada, visibilidad coherente de la columna IVA y mensaje global de objetivo. `LOGICA_CONDICIONAL.md` documenta operadores lógicos, `printWhenExpression`, estilos condicionales y diferencia entre presentación y filtrado.
 
 ---
 
 ## Conclusión
 
-El punto 4.5 convierte las expresiones booleanas en comportamiento visual. El punto 4.6 lleva los parámetros al propio SQL de forma segura.
-
+El punto 4.5 aplica reglas visuales sin alterar innecesariamente el conjunto de datos. El alumno distingue una condición de presentación de un filtro SQL y aprende a coordinar estilos, bandas, columnas y Summary. El punto 4.6 lleva esa lógica de parámetros al propio acceso a datos.
 # Punto 4.6 — Parámetros en consultas SQL
 
 ## Parte práctica
@@ -5092,35 +5165,49 @@ M4/4.6/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** Usar temporalmente `Arrays.asList("Novela", "Poesía")` y `textoBusqueda="a"`; ejecutar el informe, anotar `Resultados encontrados` y restaurar después `textoBusqueda=null` y las cuatro categorías del baseline.
+**Enunciado:** recuperar `rangoFechas` como parámetro temporal `yyyy-MM-dd,yyyy-MM-dd` y filtrar las ventas agregadas sin destruir la semántica del `LEFT JOIN`.
 
-1. Guardar una copia del checkpoint antes del reto.
-2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
-3. Compilar el JRXML con **Ctrl+Mayús+B**.
-4. Ejecutar Preview con el escenario indicado.
-5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
-6. Verificar el resultado tanto en Console como en el PDF.
-7. Comparar el comportamiento con el objetivo del reto.
-8. Deshacer únicamente los cambios del reto.
-9. Compilar de nuevo.
-10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
+El original colocaba la condición sobre `v.fecha_venta` en `WHERE`, lo que podía eliminar títulos sin ventas. La versión auditada mantiene la condición en el `LEFT JOIN`.
 
-**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
+**Paso 1.** Crear temporalmente `rangoFechas` como `java.lang.String`, con `isForPrompting=true`.
+
+**Paso 2.** Localizar `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
+
+**Paso 3.** Ampliar temporalmente el JOIN con `AND ($P{rangoFechas} IS NULL OR v.fecha_venta BETWEEN SUBSTR($P{rangoFechas}, 1, 10) AND SUBSTR($P{rangoFechas}, 12, 10))`.
+
+**Paso 4.** Mantener intactos los filtros posteriores de categoría, precio, texto y `$X{IN,...}`.
+
+**Paso 5.** Compilar el JRXML.
+
+**Paso 6.** Probar `rangoFechas=null` y comprobar el baseline.
+
+**Paso 7.** Probar `rangoFechas="2026-09-01,2026-09-15"`.
+
+**Paso 8.** Comprobar que las ventas agregadas se limitan al rango mientras los títulos siguen preservados por el `LEFT JOIN`.
+
+**Paso 9.** Pasar temporalmente el mismo valor desde Java y generar el PDF.
+
+**Paso 10.** Comparar esta solución con dos parámetros separados `fechaDesde`/`fechaHasta` y con la función de cláusula `$X{BETWEEN,...}` explicada en teoría.
+
+**Paso 11.** Retirar `rangoFechas` y restaurar el JOIN oficial del checkpoint.
+
+**Paso 12.** Compilar y confirmar de nuevo 14 títulos, 31 unidades y 633,40 €.
+
+**Resultado del reto:** se recupera el rango de fechas del material original, pero se corrige su ubicación para no convertir accidentalmente el `LEFT JOIN` en un filtrado equivalente a INNER JOIN.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
-`$P{}` rellena valores en casillas JDBC; `$X{}` construye cláusulas controladas que pueden necesitar varias casillas; `$P!{}` reescribe texto SQL y por eso exige un control mucho mayor.
+Las consultas parametrizadas son preguntas flexibles al archivador. `$P{}` rellena valores en casillas JDBC; `$X{}` construye cláusulas controladas que pueden necesitar varias casillas; `$P!{}` reescribe parte del texto SQL y por eso exige un control mucho mayor. LIKE, IN/NOTIN y los rangos de fechas son distintos tipos de pregunta sobre el mismo catálogo.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de búsqueda LIKE enlazada, filtro IN con Collection, criterios visibles en Title, recuento de resultados y Java con valores base deterministas.
+Al finalizar este punto, el alumno dispone de `textoBusqueda` y `categoriasLista`, búsqueda LIKE con valores enlazados, filtro `$X{IN,...}` con Collection, criterios visibles en Title, recuento de resultados en Summary y Java con valores base deterministas. La teoría cubre además `$P!{}`, `NOTIN`, semántica de colecciones vacías y rangos de fechas. `CONSULTAS_PARAMETRIZADAS.md` documenta el contrato y el informe ejecutable no utiliza sustitución textual directa.
 
 ---
 
 ## Conclusión
 
-El punto 4.6 cierra M4 con consultas parametrizadas seguras y trazables, sin utilizar `$P!{}` en el informe ejecutable.
+El punto 4.6 cierra M4 con consultas parametrizadas seguras y trazables. A lo largo del módulo se han conectado parámetros, filtros, variables, expresiones, lógica condicional y SQL sin perder la base acumulativa de M3/3.7. El proyecto queda preparado para continuar desde un informe de ventas dinámico, probado y documentado.

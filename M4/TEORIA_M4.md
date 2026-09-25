@@ -137,10 +137,10 @@ Los parámetros pueden utilizarse en expresiones de tres tipos. Las expresiones 
 Los parámetros también pueden utilizarse en expresiones de cálculo. Una expresión que calcula el importe total con IVA puede multiplicar un parámetro `tipoIva` por el valor de un campo. Una expresión que calcula el descuento puede multiplicar un parámetro `porcentajeDescuento` por el importe total. Una expresión que calcula la fecha de vencimiento puede sumar un parámetro `diasVencimiento` a la fecha actual. La combinación de parámetros con campos permite construir cálculos que dependen tanto de los datos como de las instrucciones del usuario.
 
 ```
-<textFieldExpression><![CDATA[$F{importe_total} * (1 + $P{tipoIva})]]></textFieldExpression>
+<textFieldExpression><![CDATA[$F{importe_total} == null ? 0.0d : $F{importe_total}.doubleValue() * (1.0d + ($P{tipoIva} == null ? 0.0d : $P{tipoIva}.doubleValue()))]]></textFieldExpression>
 ```
 
-**Línea 1:** `<textFieldExpression><![CDATA[$F{importe_total} * (1 + $P{tipoIva})]]></textFieldExpression>` → expresión que multiplica el importe total por el factor `(1 + tipoIva)`. Si `tipoIva` es 0.21, el resultado es el importe con IVA incluido.
+**Línea 1:** `<textFieldExpression><![CDATA[$F{importe_total} == null ? 0.0d : $F{importe_total}.doubleValue() * (1.0d + ($P{tipoIva} == null ? 0.0d : $P{tipoIva}.doubleValue()))]]></textFieldExpression>` → expresión null-safe: los títulos sin ventas producen `0.0`, y los títulos con importe multiplican el valor por el factor de IVA. Si `tipoIva` fuera nulo, el ejemplo utiliza 0 como tasa.
 
 ```
 TRES TIPOS DE EXPRESIONES CON PARÁMETROS
@@ -154,7 +154,7 @@ TRES TIPOS DE EXPRESIONES CON PARÁMETROS
     $P{fechaDesde}.before($P{fechaHasta})
 
   Cálculo:
-    $F{importe_total} * (1 + $P{tipoIva})
+    $F{importe_total} == null ? 0.0d : $F{importe_total}.doubleValue() * (1.0d + ($P{tipoIva} == null ? 0.0d : $P{tipoIva}.doubleValue()))
     $F{precio} - ($F{precio} * $P{descuento})
     $V{TotalImporte} / $P{numElementos}
 ```
@@ -620,40 +620,43 @@ TIPOS DE REINICIO
 
 ### Bloque 4 — Variables que combinan campos, parámetros y otras variables
 
-Una variable puede combinar campos, parámetros y otras variables en su expresión. La combinación permite construir valores derivados que dependen de varias fuentes. Una variable puede multiplicar un campo por un parámetro para calcular un importe con IVA. Puede dividir un acumulado entre un parámetro que representa el número de elementos. Puede combinar el valor de otra variable con un parámetro para calcular un porcentaje. La expresión de una variable tiene acceso al mismo contexto que las expresiones de los campos: campos, parámetros y variables declaradas antes de ella.
+Una variable puede combinar campos, parámetros y otras variables, pero debe respetar tanto la null-safety como el momento en que cada valor está disponible. En EditorialReports, `ImporteConIva` acumula un valor derivado del campo `importe_total` y del parámetro `tipoIva`. Como el `LEFT JOIN` conserva títulos sin ventas, el campo agregado puede ser nulo y la expresión debe contemplarlo.
 
-```
-<parameter name="tipoIva" class="java.lang.Double"/>
+```xml
+<parameter name="tipoIva" class="java.lang.Double">
+    <defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>
+</parameter>
 <variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">
-    <variableExpression><![CDATA[$F{importe_total} * (1 + $P{tipoIva})]]></variableExpression>
-</variable>
-<variable name="PorcentajeSobreTotal" class="java.lang.Double" calculation="Nothing" resetType="Report">
-    <variableExpression><![CDATA[$V{ImporteConIva} / $V{ImporteConIva}]]></variableExpression>
+    <variableExpression><![CDATA[
+        $F{importe_total} == null
+            ? Double.valueOf(0.0d)
+            : Double.valueOf(
+                $F{importe_total}.doubleValue()
+                * (1.0d + ($P{tipoIva} == null ? 0.0d : $P{tipoIva}.doubleValue()))
+              )
+    ]]></variableExpression>
 </variable>
 ```
 
-**Línea 1:** `<parameter name="tipoIva" class="java.lang.Double"/>` → declara el parámetro `tipoIva`.
-**Línea 2-4:** `<variable name="ImporteConIva" ...>` → declara una variable que acumula el importe total multiplicado por `(1 + tipoIva)`.
-**Línea 5-7:** `<variable name="PorcentajeSobreTotal" ...>` → declara una variable que combina dos veces la misma variable. La expresión es un ejemplo didáctico; en la práctica se combinaría con otras variables para calcular porcentajes.
+**Qué demuestra el ejemplo:** una variable de informe puede depender simultáneamente de un field y de un parámetro sin perder la robustez frente a nulos. El cálculo `Sum` agrega el resultado de la expresión para todas las filas y el reset `Report` mantiene el acumulado hasta el final.
 
-Las variables pueden referenciar otras variables declaradas antes. El orden de declaración determina la disponibilidad: una variable solo puede referenciar variables declaradas antes que ella. Si se declara una variable que referencia una variable declarada después, el compilador lanza un error de resolución. La convención es declarar las variables en el orden en que se necesitan: primero las que dependen solo de campos y parámetros, después las que dependen de las anteriores. La organización en cascada permite construir valores cada vez más derivados sin perder la legibilidad.
+Las variables también pueden depender de otras variables ya declaradas, pero el resultado solo es válido si se interpreta en el momento adecuado. Una variable con reset `Report` todavía se está acumulando mientras se procesa `Detail`. Por eso un cociente que pretenda usar el **total final** del informe no debe presentarse en una banda temprana como si ese total ya estuviera consolidado.
 
-```
+```text
 VARIABLES EN CASCADA
 
-  Nivel 1: variables que dependen de campos y parámetros.
-    ImporteConIva = SUM($F{importe_total} * (1 + $P{tipoIva}))
+  Nivel 1: fields + parámetros
+    ImporteConIva = SUM(importe_total null-safe × factor IVA)
 
-  Nivel 2: variables que dependen de variables del nivel 1.
-    PorcentajeIva = $V{ImporteConIva} - $V{TotalImporte}
+  Nivel 2: variables derivadas mostradas al final
+    DiferenciaIva = ImporteConIva - TotalImporte
 
-  Nivel 3: variables que dependen de variables del nivel 2.
-    RatioIva = $V{PorcentajeIva} / $V{TotalImporte}
+  Nivel 3: ratios globales
+    se calculan cuando los dos acumulados necesarios ya están consolidados,
+    normalmente en Summary o con un evaluationTime adecuado.
 ```
 
-**Qué representa el diagrama:** la organización en cascada de las variables. Cada nivel depende de los niveles anteriores.
-
-**Por qué es relevante:** permite construir valores derivados complejos sin perder la legibilidad y sin errores de resolución.
+**Regla práctica:** declarar las dependencias en orden y decidir también **cuándo** se consumirá el valor. El orden de declaración resuelve referencias; el tiempo de evaluación resuelve si el valor ya es definitivo.
 
 ### Bloque 5 — Variables en bandas específicas
 
@@ -929,25 +932,36 @@ Las expresiones avanzadas combinan campos, parámetros y variables en una misma 
 
 La combinación de campos, parámetros y variables requiere atención al orden de evaluación y a los tipos. El motor evalúa las expresiones de izquierda a derecha según la precedencia de los operadores. Los paréntesis modifican la precedencia. Los tipos de las variables y de los parámetros deben ser compatibles con las operaciones que se realizan. Una división entre enteros produce un entero truncado, mientras que una división entre decimales produce un decimal. La conversión de tipos puede realizarse con los métodos `intValue`, `doubleValue` o con los métodos estáticos `parseInt` y `parseDouble`. La coherencia de tipos es la primera línea de defensa contra los errores de evaluación.
 
-```
+```text
 COMBINACIÓN DE LOS TRES TIPOS DE REFERENCIAS
 
   Ejemplo 1: media con IVA redondeada
-    Math.round($V{TotalImporte} / $P{numElementos} * (1 + $P{tipoIva}) * 100.0) / 100.0
+    $V{NumeroLibros} == null || $V{NumeroLibros}.intValue() == 0 || $V{TotalImporte} == null
+      ? 0.0d
+      : Math.round(($V{TotalImporte}.doubleValue() / $V{NumeroLibros}.doubleValue())
+          * (1.0d + ($P{tipoIva} == null ? 0.0d : $P{tipoIva}.doubleValue())) * 100.0d) / 100.0d
 
   Ejemplo 2: clasificación con umbral
-    $F{unidades_vendidas} > $P{umbral} ? "Alta rotación" : "Baja rotación"
+    $F{unidades_vendidas} == null || $P{umbral} == null
+      ? "Sin datos"
+      : ($F{unidades_vendidas}.intValue() > $P{umbral}.intValue() ? "Alta rotación" : "Baja rotación")
 
   Ejemplo 3: porcentaje sobre total
-    $F{importe_total} / $V{TotalImporte} * 100.0
+    $F{importe_total} == null || $V{TotalImporte} == null || $V{TotalImporte}.doubleValue() == 0.0d
+      ? 0.0d
+      : $F{importe_total}.doubleValue() / $V{TotalImporte}.doubleValue() * 100.0d
 
   Ejemplo 4: fecha formateada con patrón dinámico
-    new SimpleDateFormat($P{formatoFecha}).format($P{fechaInforme})
+    $P{fechaInforme} == null
+      ? "-"
+      : new SimpleDateFormat($P{formatoFecha} == null ? "dd/MM/yyyy" : $P{formatoFecha}).format($P{fechaInforme})
 
   Ejemplo 5: título recortado con indicador
-    $F{titulo}.length() > $P{longitudMaxima} ?
-      $F{titulo}.substring(0, $P{longitudMaxima}) + "..." :
-      $F{titulo}
+    $F{titulo} == null
+      ? ""
+      : ($F{titulo}.length() > $P{longitudMaxima}
+          ? $F{titulo}.substring(0, $P{longitudMaxima}) + "..."
+          : $F{titulo})
 ```
 
 **Qué representa el diagrama:** cinco ejemplos de expresiones que combinan los tres tipos de referencias. Cada uno resuelve un caso de uso distinto.
@@ -1024,13 +1038,13 @@ CONSTRUCCIÓN INCREMENTAL DE UNA EXPRESIÓN
 Una condición compuesta es una expresión booleana que combina dos o más condiciones simples mediante operadores lógicos. Los operadores disponibles son `&&` para la conjunción, `||` para la disyunción y `!` para la negación. La conjunción `&&` devuelve verdadero solo si ambas condiciones son verdaderas. La disyunción `||` devuelve verdadero si al menos una de las condiciones es verdadera. La negación `!` invierte el valor de la condición. La combinación de estos operadores permite expresar reglas complejas que dependen de varios valores simultáneamente.
 
 ```
-<printWhenExpression><![CDATA[$P{mostrarDetalle}.booleanValue() && $F{unidades_vendidas} > 5]]></printWhenExpression>
+<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle}) && $F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() > 5]]></printWhenExpression>
 ```
 
 **Línea 1:** `<printWhenExpression><![CDATA[...]]></printWhenExpression>` → abre y cierra el bloque de la condición de visibilidad.
-**Línea 1 (continuación):** `$P{mostrarDetalle}.booleanValue()` → primera condición. Devuelve verdadero si el parámetro `mostrarDetalle` es verdadero.
+**Línea 1 (continuación):** `Boolean.TRUE.equals($P{mostrarDetalle})` → primera condición. Es verdadera únicamente cuando el parámetro contiene `Boolean.TRUE` y es segura frente a un valor nulo.
 **Línea 1 (continuación):** `&&` → operador de conjunción. La condición completa es verdadera solo si ambas condiciones son verdaderas.
-**Línea 1 (continuación):** `$F{unidades_vendidas} > 5` → segunda condición. Devuelve verdadero si el campo `unidades_vendidas` es superior a 5.
+**Línea 1 (continuación):** `$F{unidades_vendidas} != null && ... > 5` → segunda condición. Primero descarta los títulos sin ventas y después compara el entero.
 
 Los operadores lógicos tienen una precedencia distinta. El operador `!` tiene la precedencia más alta, seguido de `&&` y después de `||`. Esta precedencia puede modificarse con paréntesis. Sin paréntesis, la expresión `a || b && c` se evalúa como `a || (b && c)`, no como `(a || b) && c`. La práctica recomendada consiste en utilizar paréntesis siempre que la expresión combine más de un operador lógico. Los paréntesis no afectan al rendimiento pero mejoran la legibilidad y eliminan las ambigüedades. La coherencia en el uso de paréntesis facilita la lectura de las expresiones por parte de otros desarrolladores.
 
@@ -1130,15 +1144,18 @@ La lógica condicional puede combinar campos, parámetros y variables en una mis
 
 ```
 <printWhenExpression><![CDATA[
-    $P{mostrarDetalle}.booleanValue()
-    && $F{unidades_vendidas} > $P{umbralUnidades}
-    && $V{TotalImporte} > 0
+    Boolean.TRUE.equals($P{mostrarDetalle})
+    && $F{unidades_vendidas} != null
+    && $P{umbralUnidades} != null
+    && $F{unidades_vendidas}.intValue() > $P{umbralUnidades}.intValue()
+    && $V{TotalImporte} != null
+    && $V{TotalImporte}.doubleValue() > 0.0d
 ]]></printWhenExpression>
 ```
 
-**Línea 2:** `$P{mostrarDetalle}.booleanValue()` → primera condición. Comprueba el valor de un parámetro.
-**Línea 3:** `&& $F{unidades_vendidas} > $P{umbralUnidades}` → segunda condición. Comprueba el valor de un campo contra un parámetro.
-**Línea 4:** `&& $V{TotalImporte} > 0` → tercera condición. Comprueba el valor de una variable.
+**Línea 2:** `Boolean.TRUE.equals($P{mostrarDetalle})` → comprueba el parámetro de forma null-safe.
+**Línea 3:** `&& $F{unidades_vendidas} != null && $P{umbralUnidades} != null ...` → comprueba field y parámetro antes de comparar sus valores enteros.
+**Línea 4:** `&& $V{TotalImporte} != null && $V{TotalImporte}.doubleValue() > 0.0d` → comprueba que la variable exista y sea positiva.
 
 La combinación de condiciones requiere respetar el orden estructural del JRXML. En este informe se declaran primero estilos y parámetros; después `queryString`; a continuación los fields que describen las columnas devueltas, luego las variables y finalmente las bandas. Las expresiones de variables pueden referenciar fields y parámetros ya definidos; las bandas consumen parámetros, fields y variables.
 
@@ -1169,7 +1186,7 @@ La visibilidad condicional de una columna completa requiere aplicar `printWhenEx
     <band height="25">
         <staticText>
             <reportElement x="440" y="5" width="115" height="15" uuid="..."/>
-            <printWhenExpression><![CDATA[$P{mostrarDetalle}.booleanValue()]]></printWhenExpression>
+            <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
             <textElement textAlignment="Center" verticalAlignment="Middle">
                 <font fontName="DejaVu Sans" size="10" isBold="true"/>
             </textElement>
@@ -1181,11 +1198,11 @@ La visibilidad condicional de una columna completa requiere aplicar `printWhenEx
     <band height="90">
         <textField>
             <reportElement x="440" y="50" width="115" height="15" uuid="..."/>
-            <printWhenExpression><![CDATA[$P{mostrarDetalle}.booleanValue()]]></printWhenExpression>
+            <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
             <textElement textAlignment="Center" verticalAlignment="Middle">
                 <font fontName="DejaVu Sans" size="9"/>
             </textElement>
-            <textFieldExpression><![CDATA[$F{precio_medio} > 22 ? "Premium" : ...]]></textFieldExpression>
+            <textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin ventas" : ($F{precio_medio}.doubleValue() > 22.0d ? "Premium" : ...)]]></textFieldExpression>
         </textField>
     </band>
 </detail>
@@ -1257,7 +1274,7 @@ INFORME CON mostrarDetalle=false
 
 ### Bloque 1 — Cómo se enlazan los parámetros en una consulta SQL
 
-En JasperReports, un parámetro de consulta escrito como `$P{nombre}` **no se pega como texto dentro del SQL**. El query executer transforma esa referencia en un marcador `?` de una sentencia JDBC preparada y entrega el valor al `PreparedStatement` por separado. Por tanto, el tipo Java declarado en el parámetro sigue siendo importante, pero no porque JasperReports tenga que añadir manualmente comillas al texto SQL, sino porque JDBC debe enlazar el valor con el tipo adecuado.
+En JasperReports, `$P{nombre}` representa un **valor** dentro de una consulta fija. En el ejecutor JDBC, cada aparición se transforma en un marcador `?` y el valor se entrega por separado al `PreparedStatement`. Por tanto, JasperReports no necesita enseñar al alumno a añadir comillas manualmente ni a “escapar” el valor dentro del SQL: esa separación la resuelven JasperReports y el driver JDBC.
 
 ```xml
 <parameter name="categoria" class="java.lang.String"/>
@@ -1270,7 +1287,7 @@ En JasperReports, un parámetro de consulta escrito como `$P{nombre}` **no se pe
 </queryString>
 ```
 
-Conceptualmente, el motor prepara una sentencia equivalente a:
+Conceptualmente, el ejecutor prepara:
 
 ```text
 SELECT titulo, precio
@@ -1280,36 +1297,36 @@ WHERE categoria = ?
 bind #1 -> "Novela"
 ```
 
-La consulta y el valor viajan separados. Si `categoria` vale `null`, JDBC enlaza un valor SQL nulo; por eso los filtros opcionales de este curso usan una condición como `($P{categoria} IS NULL OR l.categoria = $P{categoria})`. No debe imaginarse esa expresión como una sustitución literal del texto `$P{categoria}` por la palabra `NULL`.
+El tipo Java sigue siendo importante porque determina cómo se enlaza el valor. `String`, `Integer`, `Double`, `Boolean` y fechas se entregan como valores JDBC tipados. Si Java proporciona `null`, JDBC enlaza SQL NULL. Por eso un filtro opcional puede escribirse como `($P{categoria} IS NULL OR l.categoria = $P{categoria})`: la primera condición desactiva el filtro cuando el valor es nulo.
 
-**Qué aporta al proyecto:** permite parametrizar valores sin construir SQL concatenando cadenas y mantiene el contrato de tipos entre Java, JasperReports y JDBC.
+**Qué se conserva del material original:** la relación entre tipo Java y tipo SQL y la idea de filtros parametrizados. **Qué se corrige:** `$P{}` no es sustitución textual previa a la consulta; usa placeholders y parámetros enlazados.
 
 ### Bloque 2 — Diferencia entre `$P{}`, `$X{}` y `$P!{}`
 
-JasperReports ofrece tres mecanismos distintos y conviene no mezclarlos:
+Los tres mecanismos cumplen funciones distintas:
 
-- **`$P{nombre}`**: representa un **valor**. En consultas JDBC termina como un marcador `?` y se enlaza mediante `PreparedStatement`.
-- **`$X{función, columna, parámetro}`**: ejecuta una **función de cláusula** de JasperReports. Se usa cuando la forma de una condición depende del valor, por ejemplo para crear un `IN` con una colección. Los valores generados siguen enlazándose como parámetros JDBC.
-- **`$P!{nombre}`**: realiza **sustitución textual directa** antes de preparar la consulta. Sirve únicamente para fragmentos estructurales que la aplicación controle estrictamente; no debe recibir texto arbitrario del usuario.
+- **`$P{nombre}`**: valor escalar enlazado mediante JDBC. La estructura SQL permanece fija.
+- **`$X{función, columna, parámetro, ...}`**: función de cláusula de JasperReports. Construye de forma controlada fragmentos como `IN`, `NOTIN`, `EQUAL`, `LESS`, `GREATER` o `BETWEEN` y enlaza los valores necesarios.
+- **`$P!{nombre}`**: sustitución textual directa. Modifica la sintaxis SQL antes de preparar la sentencia y solo debe recibir fragmentos estructurales controlados por la aplicación.
 
 ```text
 $P{categoria}
-  SQL preparado: WHERE categoria = ?
-  bind: "Novela"
+  SQL:   WHERE categoria = ?
+  bind:  "Novela"
 
 $X{IN, categoria, categoriasLista}
-  SQL generado: WHERE categoria IN (?, ?, ...)
-  binds: cada elemento de la colección
+  SQL:   WHERE categoria IN (?, ?, ...)
+  binds: un valor por elemento de la colección
 
 $P!{ordenControlado}
-  Inserta texto en la consulta antes de prepararla.
+  Inserta texto, por ejemplo un fragmento ORDER BY elegido de una lista cerrada.
 ```
 
-Esta distinción es fundamental para entender seguridad y depuración. Decir que `$X{}` es “sustitución directa” es incorrecto: la sustitución textual directa es `$P!{}`.
+El Query Sample oficial de JasperReports muestra precisamente esta diferencia: `$P{}` y `$X{}` producen parámetros JDBC; `$P!{}` inserta texto directamente. EditorialReports **no utiliza `$P!{}` en el informe ejecutable**.
 
-### Bloque 3 — Filtro parametrizado con LIKE
+### Bloque 3 — LIKE, comodines y rangos de fechas
 
-El operador `LIKE` puede combinarse con un valor enlazado. En SQLite, EditorialReports construye los comodines en la propia expresión SQL y mantiene el texto del usuario como bind parameter:
+El operador `LIKE` permite búsquedas parciales. `%` representa cualquier secuencia de caracteres y `_` representa un único carácter. En SQLite, EditorialReports puede construir el patrón dentro de la propia consulta:
 
 ```xml
 <parameter name="textoBusqueda" class="java.lang.String"/>
@@ -1324,13 +1341,26 @@ El operador `LIKE` puede combinarse con un valor enlazado. En SQLite, EditorialR
 </queryString>
 ```
 
-Para el valor `sol`, la estructura sigue siendo estable: el texto `sol` no pasa a formar parte de la sintaxis SQL. SQLite concatena los comodines con el valor enlazado y busca títulos que contengan esa secuencia.
+Con `textoBusqueda="sol"`, el valor sigue viajando como bind parameter; los `%` pertenecen a la expresión SQL. También es válido construir `"%" + texto + "%"` en Java y enlazar el patrón completo. La elección depende de dónde se quiera centralizar la lógica.
 
-Otra estrategia válida consiste en construir `"%"+texto+"%"` en Java y usar simplemente `titulo LIKE $P{patronTitulo}`. Ambas mantienen el valor separado de la estructura SQL; la elección depende de dónde se quiera concentrar la lógica de construcción del patrón.
+La concatenación del patrón depende del motor: SQLite y PostgreSQL admiten `||`; MySQL suele usar `CONCAT`. Esa diferencia pertenece a la sintaxis SQL del motor, no a JasperReports.
 
-### Bloque 4 — `$X{IN,...}` con colecciones
+#### Rangos de fechas
 
-Una colección no debe tratarse como un único parámetro escalar dentro de `IN`. Para ello JasperReports proporciona la función de cláusula `IN`:
+El objetivo original del punto incluye rangos de fechas, por lo que la versión final debe explicarlos. En EditorialReports las fechas de venta se almacenan como texto ISO `yyyy-MM-dd`. Si se usan dos parámetros separados, un filtro claro y portable dentro de SQLite puede ser:
+
+```sql
+AND ($P{fechaDesde} IS NULL OR v.fecha_venta >= $P{fechaDesde})
+AND ($P{fechaHasta} IS NULL OR v.fecha_venta <= $P{fechaHasta})
+```
+
+Cuando el informe debe **preservar los 14 títulos del `LEFT JOIN`**, las condiciones sobre `v.fecha_venta` deben situarse en la condición del `JOIN` o dentro de expresiones agregadas; moverlas sin más al `WHERE` eliminaría las filas sin ventas y cambiaría la semántica heredada.
+
+JasperReports también ofrece funciones de cláusula como `$X{BETWEEN, columna, parametroDesde, parametroHasta}`. La idea central es la misma: parametrizar los límites sin concatenar valores del usuario.
+
+### Bloque 4 — `$X{IN,...}`, `$X{NOTIN,...}` y colecciones
+
+El operador `IN` necesita un número variable de placeholders. Una colección no se debe tratar como un único parámetro escalar; por eso JasperReports ofrece `$X{IN, columna, parametroColeccion}`.
 
 ```xml
 <parameter name="categoriasLista" class="java.util.Collection"/>
@@ -1343,15 +1373,15 @@ Una colección no debe tratarse como un único parámetro escalar dentro de `IN`
 </queryString>
 ```
 
-Si la colección contiene, por ejemplo, `Novela` y `Poesía`, JasperReports construye una condición equivalente a `categoria IN (?, ?)` y enlaza los dos valores. La función también contempla valores nulos dentro de la colección.
+Con `Novela` y `Poesía`, el ejecutor construye `categoria IN (?, ?)` y enlaza ambos valores. `$X{NOTIN,...}` aplica la operación inversa. Las funciones contemplan además colecciones con valores nulos.
 
-Una colección nula o vacía **no se convierte en una lista SQL inválida**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad `net.sf.jasperreports.sql.clause.in.novalues.result`. Por eso una práctica correcta debe explicar la semántica de ausencia de valores en lugar de mostrar SQL inválido.
+Una colección nula o vacía **no se transforma en SQL inválido**. JasperReports genera una cláusula constante verdadera o falsa según el cuarto argumento opcional y las propiedades `net.sf.jasperreports.sql.clause.in.novalues.result` / `net.sf.jasperreports.sql.clause.notin.novalues.result`. En el E2E de este módulo se prueba explícitamente una colección vacía.
 
-En el checkpoint 4.6 el escenario base pasa explícitamente las cuatro categorías existentes. Así se conservan los 14 títulos mientras se demuestra el mecanismo `$X{IN,...}`.
+En el escenario base, `categoriasLista` contiene las cuatro categorías del dataset para que el filtro sea neutro y se mantengan los 14 títulos.
 
-### Bloque 5 — Prevención de inyección SQL
+### Bloque 5 — Prevención de inyección SQL y validación
 
-La regla principal es mantener separados **estructura SQL** y **valores**. Con `$P{}`, JasperReports/JDBC usa una sentencia preparada. No es necesario ni correcto explicar el mecanismo como un escape manual de comillas.
+La defensa principal es mantener separadas **estructura SQL** y **valores**. Con `$P{}`, JasperReports/JDBC usa `PreparedStatement`; con `$X{}` el motor puede generar varios placeholders y enlazar cada valor. La sintaxis que modifica directamente el texto es `$P!{}`.
 
 Entrada de prueba:
 
@@ -1359,31 +1389,31 @@ Entrada de prueba:
 sol' OR '1'='1
 ```
 
-Con el filtro del checkpoint:
+Con el filtro:
 
 ```sql
 titulo LIKE '%' || $P{textoBusqueda} || '%'
 ```
 
-la estructura preparada sigue siendo equivalente a:
+la estructura sigue siendo equivalente a:
 
 ```text
 titulo LIKE '%' || ? || '%'
 bind -> sol' OR '1'='1
 ```
 
-El contenido malicioso se trata como **dato**, no como parte de la consulta. `$X{}` debe limitarse a las funciones de cláusula previstas por JasperReports y `$P!{}` solo debe usarse con fragmentos estructurales seleccionados por la propia aplicación desde opciones cerradas.
+El texto malicioso se trata como dato. El workflow E2E de M4 prueba este caso y obtiene cero resultados en lugar de alterar la consulta.
 
-Buenas prácticas de EditorialReports:
+Buenas prácticas del proyecto:
 
 1. usar `$P{}` para valores escalares;
-2. usar `$X{}` para cláusulas dinámicas soportadas, como `IN`;
-3. evitar `$P!{}` con cualquier texto no confiable;
-4. no concatenar manualmente valores del usuario dentro del SQL;
-5. probar explícitamente nulos, colecciones vacías y cadenas con caracteres especiales.
+2. usar `$X{}` para funciones de cláusula previstas por JasperReports;
+3. evitar `$P!{}` con texto no confiable y, si se necesita para estructura, elegir el fragmento desde una lista cerrada;
+4. no concatenar manualmente comillas ni listas SQL;
+5. validar en Java reglas de negocio como formatos de fecha, listas de categorías permitidas o límites numéricos;
+6. probar nulos, colecciones vacías, cadenas con comodines y caracteres especiales.
 
 ---
-
 ## Resumen rápido de la teoría
 
 - JasperReports prepara la consulta y enlaza los valores de `$P{}` mediante JDBC; las funciones `$X{}` generan cláusulas parametrizadas cuando la estructura depende de una colección o condición.

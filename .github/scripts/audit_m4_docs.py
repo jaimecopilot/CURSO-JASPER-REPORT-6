@@ -89,4 +89,22 @@ for point,tokens in GUI_EXPECTED.items():
         if token not in a:
             fail(point+' Parte A no reproduce checkpoint: '+token)
 
+
+# Cobertura editorial recuperada de la fuente original.
+for token in ('formatoFecha','disponible','PorcentajePagina','Excelente rendimiento','precioMinimo','rangoFechas'):
+    if token not in P:
+        fail('reto original no representado en práctica: '+token)
+for token in ('NOTIN','comodín `%`','comodín `_`','Rangos de fechas','$X{BETWEEN'):
+    if token not in T:
+        fail('cobertura teórica 4.6 incompleta: '+token)
+for token in (
+    '$P{mostrarDetalle}.booleanValue() && $F{unidades_vendidas} > 5',
+    '$F{importe_total} * (1 + $P{tipoIva})',
+    '$F{precio_medio} > 22 ? "Premium" : ...',
+):
+    if token in T:
+        fail('ejemplo teórico no null-safe: '+token)
+if not (M4/'AUDITORIA_EDITORIAL_M4.md').exists():
+    fail('falta AUDITORIA_EDITORIAL_M4.md')
+
 print('M4 DOC/SOURCE AUDIT PASS')
