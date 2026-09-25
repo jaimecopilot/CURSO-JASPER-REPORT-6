@@ -18,5 +18,7 @@ El checkpoint 3.7 parte del **3.6 corregido**, conserva el `LEFT JOIN` y los 14 
 
 La ejecución reproducible se realiza con Java 8 y Maven. Los siete checkpoints se validan mediante `.github/workflows/m3-e2e.yml`.
 
-Estado actual: **M3 reabierto para integrar y validar 3.7**.  
-El cierre se actualizará en `VALIDACION_M3.md` después de los nuevos runs E2E y PDF.
+Estado ejecutable: **3.1-3.7 PASS END-TO-END**.  
+Estado documental: **TEORIA_M3.pdf y PRACTICA_M3.pdf regenerados, preflight PASS y punto 3.7 auditado visualmente**.
+
+Los IDs de los runs, hashes SHA-256 y evidencia de cierre se mantienen en `VALIDACION_M3.md`.
