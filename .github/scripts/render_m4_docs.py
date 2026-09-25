@@ -185,6 +185,16 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
             continue
         if POINT_RE.search(txt):
             h["class"] = list(h.get("class", [])) + ["point-title"]
+            # A Markdown separator immediately before a forced point-page break
+            # can be pushed alone to the preceding page, creating a visually
+            # blank page with only header/footer. It is purely decorative here.
+            prev = h.find_previous_sibling()
+            while isinstance(prev, NavigableString) and not str(prev).strip():
+                older = prev.find_previous_sibling()
+                prev.extract()
+                prev = older
+            if isinstance(prev, Tag) and prev.name == "hr":
+                prev.decompose()
         if "Resultado esperado" in txt:
             h["class"] = list(h.get("class", [])) + ["result-heading"]
         if txt.lower().startswith("conclusión") or txt.lower().startswith("conclusion"):
