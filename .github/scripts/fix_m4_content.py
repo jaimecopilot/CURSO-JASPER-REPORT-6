@@ -1172,6 +1172,26 @@ if 'primera regla verdadera' not in T:
     fail('falta semántica correcta de prioridad de conditionalStyle')
 if 'PreparedStatement' not in T or '$P!{}`' not in T:
     fail('falta semántica JDBC completa de parámetros SQL')
+
+GUI_EXPECTED={
+    '4.1':['Title** y mantener su altura en `90`','x=`420`, y=`24`, width=`135`','Boolean.TRUE.equals($P{mostrarDetalle})','parametros.put("periodo", "Septiembre 2026")'],
+    '4.2':['categoria TEXT NOT NULL','No utilizar `ALTER TABLE`','GROUP BY l.titulo, l.categoria','parametros.put("precioMinimo", null)'],
+    '4.3':['Page Footer y confirmar altura `62`','Summary y confirmar altura `128`','ImporteConIva'],
+    '4.4':['ChronoUnit.DAYS.between','toUpperCase(java.util.Locale.ROOT)','IVA %.0f%%','Math.round'],
+    '4.5':['UnidadesCondicional','segunda banda Detail de 14 px','parametros.put("umbralUnidades", Integer.valueOf(5))','Objetivo de ventas alcanzado'],
+    '4.6':['java.util.Collection','Desactivar `isForPrompting`','$X{IN, l.categoria, categoriasLista}','height=`124`','parametros.put("textoBusqueda", null)','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
+}
+for point,tokens in GUI_EXPECTED.items():
+    q=ptext(P,point)
+    a=q[q.find('### Parte A'):q.find('### Parte B')]
+    steps=[int(x) for x in re.findall(r'\\*\\*Paso (\\d+):',a)]
+    if steps != list(range(1,len(steps)+1)):
+        fail(point+' Parte A no tiene pasos contiguos')
+    if not 12 <= len(steps) <= 15:
+        fail(point+' Parte A debe tener 12-15 pasos, tiene '+str(len(steps)))
+    for token in tokens:
+        if token not in a:
+            fail(point+' Parte A no reproduce checkpoint: '+token)
 '''
     if extra.strip() not in s:
         s=s.replace(marker, extra+"\n"+marker)
