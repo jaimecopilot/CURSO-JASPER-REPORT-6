@@ -862,7 +862,7 @@ EditorialReportsJava/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir una segunda consulta que devuelva los libros disponibles ordenados por precio descendente y generar un segundo PDF con el resultado. El informe debe usar el mismo JRXML pero un parámetro que indique el orden de la consulta.
+**Enunciado:** modificar la consulta del informe para mostrar únicamente los libros disponibles, ordenados por precio descendente, y regenerar el PDF para comprobar el resultado.
 
 **Paso 1.** Hacer doble clic sobre el archivo `informe_concepto.jrxml` en el panel Project Explorer.
 
@@ -874,7 +874,7 @@ EditorialReportsJava/
 
 **Paso 5.** Escribir exactamente `<queryString language="sql">` y pulsar Enter.
 
-**Paso 6.** Escribir exactamente `<![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, disponible FROM libros WHERE disponible = 1 ORDER BY precio DESC]]>` y pulsar Enter.
+**Paso 6.** Escribir exactamente `<![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible FROM libros WHERE disponible = 1 ORDER BY precio DESC]]>` y pulsar Enter.
 
 **Paso 7.** Escribir exactamente `</queryString>` y pulsar Enter.
 
@@ -884,32 +884,25 @@ EditorialReportsJava/
 
 **Paso 10.** Pulsar el botón Preview y verificar que solo aparecen los libros disponibles ordenados por precio descendente.
 
-**Paso 11.** Modificar temporalmente la consulta para eliminar el filtro `WHERE disponible = 1` y restaurarlo después.
+**Paso 11.** Ejecutar el programa Java con Run As > Java Application.
 
-**Paso 12.** Ejecutar el programa Java con Run As > Java Application.
-
-**Paso 13.** Abrir el archivo `output/informe_concepto.pdf` y verificar que solo aparecen los libros disponibles ordenados por precio descendente.
+**Paso 12.** Abrir el archivo `output/informe_concepto.pdf` y verificar que aparecen once libros y que están ordenados por precio descendente.
 
 **Simulación ASCII del PDF tras el reto**
 
 ```text
-║  ┏━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━┓  ║
-║  ┃Portada┃Título            ┃Precio   ┃Páginas ┃ Año ┃  ║
-║  ┗━━━━━━━┻━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━┻━━━━━┛  ║
-║  ┌────┐ │La casa de los... │ 23,40 € │  448   │1982 │  ║
-║  │IMG │ │Categoría: Premium │Reg. 1   │        │     │  ║
-║  └────┘ │                  │         │        │     │  ║
-║  ┌────┐ │Rayuela           │ 22,50 € │  736   │1963 │  ║
-║  │IMG │ │Categoría: Premium │Reg. 2   │        │     │  ║
-║  └────┘ │                  │         │        │     │  ║
-║  ┌────┐ │Ficciones         │ 21,00 € │  224   │1944 │  ║
-║  │IMG │ │Categoría: Premium │Reg. 3   │        │     │  ║
-║  └────┘ │                  │         │        │     │  ║
-║   ...                                                    ║
+║  Título                         │ Precio  │ Págs. │ Año  │Disp.║
+║  ─────────────────────────────────────────────────────────── ║
+║  Paradiso                       │ 25,00 € │  576  │ 1966 │ Sí  ║
+║  La casa de los espíritus       │ 23,40 € │  448  │ 1982 │ Sí  ║
+║  Rayuela                        │ 22,50 € │  736  │ 1963 │ Sí  ║
+║  Ficciones                      │ 21,00 € │  224  │ 1944 │ Sí  ║
+║  ...                                                         ║
+║  Pedro Páramo                   │ 15,90 € │  132  │ 1955 │ Sí  ║
 ```
 
 
-**Resultado del reto:** la consulta `SELECT ... WHERE disponible = 1 ORDER BY precio DESC` devuelve únicamente los once libros disponibles ordenados por precio descendente. El primer libro del informe es `La casa de los espíritus` con 23,40 € y el último es `Martín Fierro` con 14,50 €. Los libros no disponibles (`Doña Bárbara`, `Martín Fierro` y `El túnel`) no aparecen en el informe. El reto demuestra cómo modificar la consulta SQL para cambiar el conjunto de datos del informe sin modificar el JRXML.
+**Resultado del reto:** la consulta `SELECT ... WHERE disponible = 1 ORDER BY precio DESC` devuelve los once libros disponibles. El primero es `Paradiso` con 25,00 € y el último es `Pedro Páramo` con 15,90 €. Los tres libros no disponibles (`Doña Bárbara`, `Martín Fierro` y `El túnel`) quedan excluidos. El reto demuestra cómo cambiar el conjunto y el orden de los datos modificando la consulta del JRXML mientras el generador Java continúa usando la misma conexión JDBC.
 
 ---
 
@@ -2051,49 +2044,49 @@ EditorialReportsJava/
 
 **Paso 2.** Hacer doble clic sobre el archivo `informe_catalogo_csv.jrxml` en el panel Project Explorer.
 
-**Paso 2.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+**Paso 3.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
 
-**Paso 3.** Hacer clic sobre el nodo Column Header en el panel Outline.
+**Paso 4.** Hacer clic sobre el nodo Column Header en el panel Outline.
 
-**Paso 4.** Hacer clic sobre la pestaña Elements en el panel Palette.
+**Paso 5.** Hacer clic sobre la pestaña Elements en el panel Palette.
 
-**Paso 5.** Hacer clic sobre el icono Static Text.
+**Paso 6.** Hacer clic sobre el icono Static Text.
 
-**Paso 6.** Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=455, y=5.
+**Paso 7.** Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=455, y=5.
 
-**Paso 7.** Hacer doble clic sobre el Static Text creado en la acción anterior.
+**Paso 8.** Hacer doble clic sobre el Static Text creado en la acción anterior.
 
-**Paso 8.** Escribir exactamente `Fecha publicación`.
+**Paso 9.** Escribir exactamente `Fecha publicación`.
 
-**Paso 9.** Hacer clic sobre una zona vacía del editor central para confirmar el texto.
+**Paso 10.** Hacer clic sobre una zona vacía del editor central para confirmar el texto.
 
-**Paso 10.** Hacer clic sobre el campo Width en el panel Properties, escribir `100` y pulsar Enter.
+**Paso 11.** Hacer clic sobre el campo Width en el panel Properties, escribir `100` y pulsar Enter.
 
-**Paso 11.** Marcar la casilla Bold.
+**Paso 12.** Marcar la casilla Bold.
 
-**Paso 12.** Hacer clic sobre el nodo Detail 1 en el panel Outline.
+**Paso 13.** Hacer clic sobre el nodo Detail 1 en el panel Outline.
 
-**Paso 13.** Hacer clic sobre la pestaña Elements en el panel Palette.
+**Paso 14.** Hacer clic sobre la pestaña Elements en el panel Palette.
 
-**Paso 14.** Hacer clic sobre el icono Text Field.
+**Paso 15.** Hacer clic sobre el icono Text Field.
 
-**Paso 15.** Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=455, y=0.
+**Paso 16.** Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=455, y=0.
 
-**Paso 16.** Hacer clic sobre el campo Width en el panel Properties, escribir `100` y pulsar Enter.
+**Paso 17.** Hacer clic sobre el campo Width en el panel Properties, escribir `100` y pulsar Enter.
 
-**Paso 17.** Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
+**Paso 18.** Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
 
-**Paso 18.** Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{fecha_publicacion}.substring(8,10) + "/" + $F{fecha_publicacion}.substring(5,7) + "/" + $F{fecha_publicacion}.substring(0,4)` y pulsar Enter.
+**Paso 19.** Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{fecha_publicacion}.substring(8,10) + "/" + $F{fecha_publicacion}.substring(5,7) + "/" + $F{fecha_publicacion}.substring(0,4)` y pulsar Enter.
 
-**Paso 19.** Dejar Pattern vacío, porque la expresión ya devuelve el texto con formato `dd/MM/yyyy`.
+**Paso 20.** Dejar Pattern vacío, porque la expresión ya devuelve el texto con formato `dd/MM/yyyy`.
 
-**Paso 20.** Pulsar Ctrl+S para guardar el archivo.
+**Paso 21.** Pulsar Ctrl+S para guardar el archivo.
 
-**Paso 21.** Pulsar Ctrl+Mayús+B para compilar el informe.
+**Paso 22.** Pulsar Ctrl+Mayús+B para compilar el informe.
 
-**Paso 22.** Hacer clic con el botón derecho sobre `GeneradorCatalogoCSV.java` y seleccionar Run As > Java Application.
+**Paso 23.** Hacer clic con el botón derecho sobre `GeneradorCatalogoCSV.java` y seleccionar Run As > Java Application.
 
-**Paso 23.** Abrir el archivo `output/informe_catalogo_csv.pdf` y verificar que la nueva columna muestra las fechas en formato `dd/MM/yyyy`.
+**Paso 24.** Abrir el archivo `output/informe_catalogo_csv.pdf` y verificar que la nueva columna muestra las fechas en formato `dd/MM/yyyy`.
 
 **Simulación ASCII del PDF tras el reto**
 
@@ -4533,17 +4526,21 @@ EditorialReportsJava/
 
 **Paso 4.** Seleccionar el contenido de la expresión `autores` y eliminarlo.
 
-**Paso 5.** Escribir exactamente `autoresautores(vivo == true)` y pulsar Enter.
+**Paso 5.** Escribir exactamente `autores(vivo == true)` y pulsar Enter.
 
 **Paso 6.** Pulsar Ctrl+S para guardar el archivo.
 
-**Paso 7.** Pulsar Ctrl+Mayús+B para compilar el informe.
+**Paso 7.** Pulsar Ctrl+Mayús+B para compilar el informe y usar Preview para comprobar que Jaspersoft Studio aplica el filtro del `queryString`.
 
 **Paso 8.** Hacer clic sobre el panel Problems y verificar que no hay errores.
 
-**Paso 9.** Hacer clic con el botón derecho sobre `GeneradorAutoresJSON.java` y seleccionar Run As > Java Application.
+**Paso 9.** Abrir `GeneradorAutoresJSON.java` y localizar `new JsonDataSource(new File(rutaJson), "autores")`.
 
-**Paso 10.** Abrir el archivo `output/informe_autores_json.pdf` y verificar que solo aparecen los autores vivos.
+**Paso 10.** Sustituir temporalmente la selección por `new JsonDataSource(new File(rutaJson), "autores(vivo == true)")`. El generador Java pasa un `JRDataSource` explícito a `fillReport`, por lo que la consulta JSON del JRXML no se vuelve a ejecutar durante esa ejecución Java.
+
+**Paso 11.** Guardar la clase, ejecutarla con Run As > Java Application y abrir `output/informe_autores_json.pdf`.
+
+**Paso 12.** Verificar que solo aparece `Isabel Allende` y restaurar después la selección `"autores"` si se desea volver al checkpoint base.
 
 **Simulación ASCII del PDF tras el reto**
 
@@ -4551,13 +4548,12 @@ EditorialReportsJava/
 ║  Nombre              │ Nacionalidad│Nacim. │Prem.│Estado ║
 ║  ──────────────────────────────────────────────────────  ║
 ║  Isabel Allende      │ Chilena     │02/08/42│  2  │Activo  ║
-║  Mario Vargas Llosa  │ Peruana     │28/03/36│  3  │Activo  ║
 ║                                                          ║
-║  Total de autores: 2                                     ║
+║  Total de autores: 1                                     ║
 ```
 
 
-**Resultado del reto:** la expresión de selección con filtro `autoresautores(vivo == true)` reduce los registros del informe a los dos autores cuyo campo `vivo` es verdadero. El resto de autores queda excluido. La sintaxis del filtro es similar a la de JSONPath y permite seleccionar subconjuntos de registros sin procesar el archivo completo en el programa Java.
+**Resultado del reto:** la selección `autores(vivo == true)` devuelve un único registro en el archivo de datos del curso: `Isabel Allende`. En Preview, el filtro lo aplica el `queryString` JSON del JRXML; en la ejecución Java del checkpoint, el mismo filtro debe pasarse al constructor de `JsonDataSource` porque el generador entrega un `JRDataSource` explícito a `fillReport`. La sintaxis utilizada pertenece al lenguaje JSON clásico de JasperReports y no debe confundirse con JSONPath.
 
 ---
 
@@ -5782,7 +5778,7 @@ EditorialReportsJava/
 
 **Paso 19.** Escribir exactamente `</queryString>` y pulsar Enter.
 
-**Paso 20.** Localizar las declaraciones de campos y sustituirlas por las cuatro nuevas.
+**Paso 20.** Localizar las declaraciones de campos y sustituirlas por estas cuatro líneas: `<field name="mes" class="java.lang.String"/>`, `<field name="num_ventas" class="java.lang.Integer"/>`, `<field name="unidades" class="java.lang.Integer"/>` y `<field name="importe" class="java.lang.Double"/>`.
 
 **Paso 21.** Pulsar Ctrl+S para guardar el archivo.
 
@@ -5799,11 +5795,11 @@ EditorialReportsJava/
 ```text
 ║  Mes       │ Nº ventas │ Unidades │ Importe total
 ║  ─────────────────────────────────────────────
-║  2026-09   │     9     │    31    │   648,40 €
+║  2026-09   │     9     │    31    │   633,40 €
 ```
 
 
-**Resultado del reto:** la consulta `SELECT SUBSTR(v.fecha_venta, 1, 7) AS mes, COUNT(*), SUM(v.cantidad), SUM(v.cantidad * v.precio_unitario) FROM ventas v GROUP BY mes` agrupa las ventas por mes (utilizando los primeros siete caracteres de la fecha como clave de agrupación). El informe muestra el número de ventas, las unidades totales y el importe total del mes. La función `SUBSTR` es específica de SQLite y extrae una subcadena de la fecha.
+**Resultado del reto:** la consulta `SELECT SUBSTR(v.fecha_venta, 1, 7) AS mes, COUNT(*), SUM(v.cantidad), SUM(v.cantidad * v.precio_unitario) FROM ventas v GROUP BY mes` agrupa las ventas por mes usando los primeros siete caracteres de la fecha. Con los nueve registros del checkpoint, septiembre de 2026 contiene 9 ventas, 31 unidades y un importe total de **633,40 €**. `SUBSTR` extrae la clave `yyyy-MM` de la fecha almacenada como texto ISO.
 
 ---
 
@@ -5903,11 +5899,11 @@ El punto 3.5 ha introducido las consultas SQL complejas y ha demostrado su uso c
 
 1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
 2. Localizar la línea que contiene `<field name="precio_medio" class="java.lang.Double"/>` y pulsar Enter al final.
-3. Escribir exactamente `<field name="ultima_venta" class="java.lang.String"/>` y pulsar Enter.
-4. Escribir exactamente `<field name="primera_venta" class="java.lang.String"/>` y pulsar Enter.
+3. Escribir exactamente `<field name="primera_venta" class="java.lang.String"/>` y pulsar Enter.
+4. Escribir exactamente `<field name="ultima_venta" class="java.lang.String"/>` y pulsar Enter.
 5. Pulsar Ctrl+S para guardar el archivo.
 6. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-7. Expandir el nodo Fields en el panel Outline y verificar que aparecen los cinco campos.
+7. Expandir el nodo Fields en el panel Outline y verificar que aparecen los seis campos.
 
 **Verificación visual:** el panel Outline muestra el nodo Fields con seis entradas: `titulo`, `unidades_vendidas`, `importe_total`, `precio_medio`, `ultima_venta` y `primera_venta`.
 
@@ -5970,15 +5966,15 @@ El punto 3.5 ha introducido las consultas SQL complejas y ha demostrado su uso c
 2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `40` y pulsar Enter.
 3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
 4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=20.
+5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=22.
 6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `20` y pulsar Enter.
+7. Hacer clic sobre el campo Y, escribir `22` y pulsar Enter.
 8. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
+9. Hacer clic sobre el campo Height, escribir `18` y pulsar Enter.
 10. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{primera_venta}` y pulsar Enter.
 11. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
 12. Dejar el campo Pattern vacío: `primera_venta` y `ultima_venta` son `String` ISO y no deben recibir un patrón de fecha de `Date`.
-13. Repetir las acciones 4 a 12 para el campo `ultima_venta` en la coordenada x=150, y=20, ancho 150.
+13. Repetir las acciones 4 a 12 para el campo `ultima_venta` en la coordenada x=150, y=22, ancho 150 y alto 18.
 
 **Verificación visual:** la banda Detail 1 muestra los dos nuevos campos con las expresiones correspondientes debajo de los campos existentes.
 
@@ -6084,12 +6080,12 @@ El punto 3.5 ha introducido las consultas SQL complejas y ha demostrado su uso c
 1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
 2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
 3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=300, y=20.
+4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=300, y=22.
 5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `300` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `20` y pulsar Enter.
+6. Hacer clic sobre el campo Y, escribir `22` y pulsar Enter.
 7. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{primera_venta} + " → " + $F{ultima_venta}` y pulsar Enter.
+8. Hacer clic sobre el campo Height, escribir `18` y pulsar Enter.
+9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}` y pulsar Enter.
 10. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
 11. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
 
@@ -6113,7 +6109,7 @@ El punto 3.5 ha introducido las consultas SQL complejas y ha demostrado su uso c
 **Verificación visual:** la banda Detail 1 aparece con 40 píxeles de altura. Los campos de la primera fila están en la parte superior y los de la segunda fila en la parte inferior.
 
 **Qué hace:** amplía la altura de la banda de detalle para alojar los nuevos campos.
-**Por qué:** los nuevos campos están situados en la coordenada Y=20 y necesitan espacio adicional.
+**Por qué:** los nuevos campos comienzan en Y=22 y tienen 18 píxeles de alto; por tanto terminan exactamente en Y=40 sin solaparse con la primera fila.
 **Error común:** olvidar ampliar la altura y provocar que los nuevos campos se solapen con la banda siguiente. Solución: ajustar la altura a 40 píxeles.
 **Analogía:** es como ampliar las filas del resumen de ventas para acomodar las nuevas columnas.
 
@@ -6535,7 +6531,7 @@ PÁGINAS TOTALES: 1
 TAMAÑO DE PÁGINA: 595 × 842 píxeles (A4 vertical)
 ORIGEN DE DATOS: jdbc:sqlite:../EditorialReportsJava/data/editorial.db
 CAMPOS DECLARADOS: 6
-REGISTROS OBTENIDOS: 7
+REGISTROS OBTENIDOS: 14
 BANDAS EMITIDAS: Title, Column Header, Detail (14 veces),
                  Page Footer, Background
 
@@ -6558,13 +6554,13 @@ BANDAS EMITIDAS: Title, Column Header, Detail (14 veces),
 ║                                                          ║
 ║  ...                                                     ║
 ║                                                          ║
-║  Total de títulos: 7                                     ║
+║  Total de títulos: 14                                     ║
 ║              Página 1 de 1                               ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
 
-**Qué representa:** la página única del PDF resultante con las nuevas columnas. Cada libro muestra el título, las unidades vendidas, el importe total, el precio medio, la primera fecha de venta, la última fecha de venta y el periodo de ventas.
+**Qué representa:** la página única del PDF resultante con los catorce títulos del catálogo. Los siete títulos con ventas muestran agregados y fechas; los siete sin ventas conservados por el `LEFT JOIN` muestran los campos agregados vacíos y el periodo `Sin ventas`.
 
 **Cómo verificarlo:** abrir el archivo `output/informe_ventas.pdf` con un lector de PDF y comprobar que aparecen las nuevas columnas en la segunda fila de la banda Detail. Si el periodo de ventas no se muestra correctamente, revisar la expresión del campo.
 
