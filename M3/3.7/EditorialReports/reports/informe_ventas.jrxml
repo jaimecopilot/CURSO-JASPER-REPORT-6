@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="informe_ventas"
+              language="java"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <parameter name="usuario" class="java.lang.String"/>
+    <parameter name="fechaInforme" class="java.util.Date">
+        <defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+    </parameter>
+    <queryString language="sql">
+        <![CDATA[
+            SELECT l.titulo,
+                   SUM(v.cantidad) AS unidades_vendidas,
+                   SUM(v.cantidad * v.precio_unitario) AS importe_total,
+                   AVG(v.precio_unitario) AS precio_medio,
+                   MIN(v.fecha_venta) AS primera_venta,
+                   MAX(v.fecha_venta) AS ultima_venta
+            FROM libros l
+            LEFT JOIN ventas v ON l.titulo = v.titulo_libro
+            GROUP BY l.titulo
+            ORDER BY COALESCE(importe_total, 0) DESC, l.titulo
+        ]]>
+    </queryString>
+    <field name="titulo" class="java.lang.String"/>
+    <field name="unidades_vendidas" class="java.lang.Integer"/>
+    <field name="importe_total" class="java.lang.Double"/>
+    <field name="precio_medio" class="java.lang.Double"/>
+    <field name="primera_venta" class="java.lang.String"/>
+    <field name="ultima_venta" class="java.lang.String"/>
+    <variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">
+        <variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>
+    </variable>
+    <variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">
+        <variableExpression><![CDATA[$F{importe_total}]]></variableExpression>
+    </variable>
+    <background>
+        <band height="0"/>
+    </background>
+    <title>
+        <band height="90">
+            <staticText>
+                <reportElement x="0" y="8" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Informe de Ventas - Agregación por Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="48" width="150" height="18" uuid="61000000-0000-4000-8000-000000000001"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <text><![CDATA[Informe generado por:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="150" y="48" width="200" height="18" uuid="61000000-0000-4000-8000-000000000002"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="70" width="150" height="18" uuid="61000000-0000-4000-8000-000000000003"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <text><![CDATA[Fecha del informe:]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="150" y="70" width="120" height="18" uuid="61000000-0000-4000-8000-000000000004"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{fechaInforme}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Unidades]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Importe total]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Precio medio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Primera venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Última venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Periodo de ventas]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="40" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="3" width="150" height="15" uuid="55555555-5555-4555-8555-555555555551"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <text><![CDATA[Total de títulos:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="3" width="70" height="15" uuid="55555555-5555-4555-8555-555555555552"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="170" y="23" width="190" height="15" uuid="55555555-5555-4555-8555-555555555553"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="365" y="23" width="30" height="15" uuid="55555555-5555-4555-8555-555555555554"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="55">
+            <staticText>
+                <reportElement x="0" y="5" width="245" height="18" uuid="62000000-0000-4000-8000-000000000001"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total de unidades vendidas:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="245" y="5" width="100" height="18" uuid="62000000-0000-4000-8000-000000000002"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="30" width="245" height="18" uuid="62000000-0000-4000-8000-000000000003"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Importe total:]]></text>
+            </staticText>
+            <textField pattern="#,##0.00 €">
+                <reportElement x="245" y="30" width="130" height="18" uuid="62000000-0000-4000-8000-000000000004"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>
