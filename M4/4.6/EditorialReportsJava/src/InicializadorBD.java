@@ -50,8 +50,8 @@ public class InicializadorBD {
                 sentencia.executeUpdate("INSERT INTO ventas VALUES (5, 'Pedro Páramo', 6, 15.90, '2026-09-04')");
                 sentencia.executeUpdate("INSERT INTO ventas VALUES (6, 'Ficciones', 3, 21.00, '2026-09-06')");
                 sentencia.executeUpdate("INSERT INTO ventas VALUES (7, 'La casa de los espíritus', 5, 23.40, '2026-09-08')");
-                sentencia.executeUpdate("INSERT INTO ventas VALUES (8, 'El amor en los tiempos del cólera', 2, 20.80, '2026-09-09')");
-                sentencia.executeUpdate("INSERT INTO ventas VALUES (9, 'La muerte de Artemio Cruz', 1, 17.60, '2026-09-10')");
+                sentencia.executeUpdate("INSERT INTO ventas VALUES (8, 'Comala', 2, 19.20, '2026-09-09')");
+                sentencia.executeUpdate("INSERT INTO ventas VALUES (9, 'Paradiso', 1, 25.00, '2026-09-10')");
 
                 try (ResultSet rs = sentencia.executeQuery("SELECT COUNT(*) FROM libros")) {
                     rs.next();
