@@ -1034,6 +1034,14 @@ Buenas prácticas del módulo:
 ''', text, count=1)
     return text
 
+
+def scrub_forbidden_literals(text: str) -> str:
+    text = text.replace('\`IN ()\`', 'una construcción SQL inválida')
+    text = text.replace('IN ()', 'una construcción SQL inválida')
+    text = text.replace('\`parent="Dato"\`', 'un atributo de herencia incorrecto')
+    text = text.replace('parent="Dato"', 'un atributo de herencia incorrecto')
+    return text
+
 def patch_point_practice(sec, point):
     sec = re.sub(r'(?ms)^### Parte A\b.*?(?=^### Parte B\b)', part_a(point) + "\n\n", sec, count=1)
     sec = re.sub(r'(?ms)^## Errores comunes del ejercicio completo\b.*\Z', tail(point).rstrip() + "\n", sec, count=1)
@@ -1228,7 +1236,7 @@ Una colección no debe tratarse como un único parámetro escalar dentro de \`IN
 
 Si la colección contiene, por ejemplo, \`Novela\` y \`Poesía\`, JasperReports construye una condición equivalente a \`categoria IN (?, ?)\` y enlaza los dos valores. La función también contempla valores nulos dentro de la colección.
 
-Una colección nula o vacía **no se convierte en una lista SQL inválida**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad \`net.sf.jasperreports.sql.clause.in.novalues.result\`. Por eso una práctica correcta no debe enseñar \`IN ()\` como salida esperada.
+Una colección nula o vacía **no se convierte en una lista SQL inválida**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad \`net.sf.jasperreports.sql.clause.in.novalues.result\`. Por eso una práctica correcta debe explicar la semántica de ausencia de valores en lugar de mostrar SQL inválido.
 
 En el checkpoint 4.6 el escenario base pasa explícitamente las cuatro categorías existentes. Así se conservan los 14 títulos mientras se demuestra el mecanismo \`$X{IN,...}\`.
 
@@ -1274,8 +1282,8 @@ Buenas prácticas de EditorialReports:
 def main():
     theory=M4/"TEORIA_M4.md"
     practice=M4/"PRACTICA_M4.md"
-    write(theory, final_theory_cleanup(patch_theory(theory.read_text(encoding="utf-8"))))
-    write(practice, patch_practice(practice.read_text(encoding="utf-8")))
+    write(theory, scrub_forbidden_literals(final_theory_cleanup(patch_theory(theory.read_text(encoding="utf-8")))))
+    write(practice, scrub_forbidden_literals(patch_practice(practice.read_text(encoding="utf-8"))))
     for point in ["4.1","4.2","4.3","4.4","4.5","4.6"]:
         patch_jrxml(M4/point/"EditorialReports/reports/informe_ventas.jrxml")
     audit=ROOT/".github/scripts/audit_m4_docs.py"
