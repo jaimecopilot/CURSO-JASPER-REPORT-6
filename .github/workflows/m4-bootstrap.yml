@@ -6,7 +6,7 @@ on:
     paths:
       - '.github/source/M4_ORIGINAL_COMPLETO.md'
       - '.github/scripts/build_m4.py'
-      - '.github/scripts/fix_m4_docs.py'
+      - '.github/scripts/fix_m4_content.py'
       - '.github/workflows/m4-bootstrap.yml'
   workflow_dispatch:
 
@@ -52,8 +52,6 @@ jobs:
             cp "/tmp/m4-close/VALIDACION-$cp.md" "M4/$cp/VALIDACION.md"
           done
 
-      - name: Corregir y sincronizar documentacion
-        run: python .github/scripts/fix_m4_docs.py
 
       - name: Publicar construccion reproducible
         if: github.ref == 'refs/heads/main'
