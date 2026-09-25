@@ -94,7 +94,7 @@ COMPONENTES DE UNA CONEXIÓN JDBC
 
 ### Bloque 2 — El driver JDBC de SQLite
 
-El driver JDBC de SQLite se distribuye como un único archivo JAR denominado `sqlite-jdbc-3.44.0.0.jar`. Este archivo contiene la implementación del driver y las bibliotecas nativas de SQLite para los sistemas operativos soportados. El driver se registra automáticamente en el `DriverManager` cuando el JAR está en el classpath, por lo que no es necesario invocar `Class.forName` en el código. La versión 3.44.0 es la utilizada en este curso y es compatible con Java 8 y versiones superiores. El JAR debe añadirse al classpath del proyecto Java y a la configuración del adaptador JDBC en Jaspersoft Studio.
+El driver JDBC de SQLite se distribuye como el archivo `sqlite-jdbc-3.44.0.0.jar`. Para el trabajo manual en Jaspersoft Studio, el alumno puede descargarlo y añadirlo al Build Path y al Data Adapter. El repositorio del curso **no versiona binarios JAR de terceros**: la ejecución reproducible resuelve `org.xerial:sqlite-jdbc:3.44.0.0` mediante Maven. El ejemplo conserva además `Class.forName("org.sqlite.JDBC")` para que la carga del driver resulte explícita en la práctica, aunque los drivers JDBC modernos pueden registrarse automáticamente cuando están presentes en el classpath.
 
 ```text
 sqlite-jdbc-3.44.0.0.jar
@@ -107,25 +107,23 @@ La base de datos SQLite es un único archivo con extensión `.db` que contiene t
 
 ```text
 EditorialReportsJava/
+├── pom.xml
+│   └── org.xerial:sqlite-jdbc:3.44.0.0
 ├── lib/
-│   ├── jasperreports-6.20.0.jar
-│   ├── commons-digester-2.1.jar
-│   ├── commons-collections-3.2.2.jar
-│   ├── commons-logging-1.2.jar
-│   ├── ecj-3.24.0.jar
-│   └── sqlite-jdbc-3.44.0.0.jar                    (nuevo)
+│   └── README.md                    (documenta los JAR manuales; no se versionan)
 ├── data/
-│   └── editorial.db                              (base de datos)
+│   └── editorial.db                (base de datos reproducible)
 └── src/
     ├── GeneradorInformeConcepto.java
-    ├── Libro.java
-    └── CatalogoDataSource.java
+    ├── InicializadorBD.java
+    ├── Libro.java                   (heredado)
+    └── CatalogoDataSource.java      (heredado)
 ```
 
 
-**Qué representa el diagrama:** la estructura del proyecto Java tras añadir la carpeta `data` con la base de datos SQLite y el JAR del driver en la carpeta `lib`.
+**Qué representa el diagrama:** la estructura **versionada** del checkpoint 3.1. Maven resuelve el runtime; la carpeta `lib` queda como documentación para la configuración manual de Jaspersoft Studio.
 
-**Por qué es relevante:** permite localizar los archivos necesarios para la conexión JDBC y mantener la coherencia con la estructura del proyecto.
+**Por qué es relevante:** distingue el procedimiento manual del alumno del contenido que debe poder clonarse y ejecutarse legal y reproduciblemente desde GitHub.
 
 ### Bloque 3 — Configuración del adaptador JDBC en Jaspersoft Studio
 
@@ -162,7 +160,7 @@ El adaptador JDBC se asocia al informe mediante la propiedad correspondiente en 
 
 ### Bloque 4 — La consulta SQL en el JRXML
 
-La consulta SQL que alimenta el informe se declara en el JRXML mediante el elemento `queryString`. Este elemento contiene la sentencia SQL que el motor ejecuta contra la conexión JDBC para obtener los registros. El atributo `language` del elemento indica el lenguaje de la consulta, que en este caso es `sql`. El contenido se encierra en un bloque `CDATA` para evitar conflictos con los caracteres especiales del XML. La consulta puede incluir parámetros mediante la sintaxis `$P{}`, aunque esta característica se estudia en el Módulo 4. En este punto la consulta es estática.
+La consulta SQL que alimenta el informe se declara en el JRXML mediante el elemento `queryString`. Este elemento contiene la sentencia SQL que el motor ejecuta contra la conexión JDBC para obtener los registros. El atributo `language` del elemento indica el lenguaje de la consulta, que en este caso es `sql`. El contenido se encierra en un bloque `CDATA` para evitar conflictos con los caracteres especiales del XML. La consulta puede incluir parámetros mediante la sintaxis `$P{}`. En este punto la consulta es estática; el punto 3.7 introduce formalmente Parameters y Variables, mientras que la parametrización SQL se aborda después con más profundidad.
 
 ```xml
 <queryString language="sql">
@@ -174,6 +172,8 @@ La consulta SQL que alimenta el informe se declara en el JRXML mediante el eleme
 **Línea 1:** `<queryString language="sql">` → declara la consulta SQL del informe. El atributo `language="sql"` indica al motor que debe interpretar el contenido como una sentencia SQL.
 **Línea 2:** `<![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible=1 THEN 1 ELSE 0 END AS disponible FROM libros ORDER BY titulo]]>` → sentencia SQL que selecciona las columnas necesarias de la tabla `libros` y las ordena por título.
 **Línea 3:** `</queryString>` → cierra la declaración de la consulta.
+
+En el checkpoint acumulativo la consulta se coloca **después de los parámetros y antes de los fields**, respetando el orden estructural del JRXML. El resto del diseño heredado de M2 (estilos, imágenes, bandas, `usuario`, `TotalPrecios` y `PrecioConIVA`) se conserva.
 
 La correspondencia entre las columnas del `ResultSet` y los campos del JRXML se establece por nombre. El motor toma cada columna del resultado y la mapea al campo cuyo nombre coincide. Si una columna del `ResultSet` no tiene un campo correspondiente en el JRXML, se ignora. Si un campo del JRXML no tiene una columna correspondiente en el `ResultSet`, el motor lanza `Field not found` al resolver la expresión que lo referencia. La coherencia entre los nombres de las columnas y los nombres de los campos es condición necesaria para que la resolución funcione.
 
@@ -202,9 +202,12 @@ La ejecución del informe con una conexión JDBC sustituye la fuente de datos pe
 Connection conexion = DriverManager.getConnection(
         "jdbc:sqlite:../EditorialReportsJava/data/editorial.db");
 
+Map<String, Object> parametros = new HashMap<String, Object>();
+parametros.put("usuario", "Ana Martínez");
+
 JasperPrint documento = JasperFillManager.fillReport(
         "reports/informe_concepto.jasper",
-        new HashMap<String, Object>(),
+        parametros,
         conexion);
 
 conexion.close();
@@ -212,30 +215,34 @@ conexion.close();
 
 
 **Línea 1-2:** `Connection conexion = DriverManager.getConnection("jdbc:sqlite:../EditorialReportsJava/data/editorial.db");` → establece la conexión con la base de datos SQLite.
-**Línea 4:** `JasperPrint documento =` → declara la variable que recibirá el documento en memoria.
-**Línea 4 (continuación):** `JasperFillManager.fillReport(` → invoca al motor de llenado.
-**Línea 5:** `"reports/informe_concepto.jasper",` → ruta del artefacto compilado.
-**Línea 6:** `new HashMap<String, Object>(),` → mapa de parámetros vacío.
-**Línea 7:** `conexion);` → conexión JDBC que el motor utiliza para ejecutar la consulta. El método cierra el `ResultSet` internamente pero no cierra la conexión.
-**Línea 9:** `conexion.close();` → cierra la conexión una vez finalizado el llenado. La conexión debe cerrarse siempre para liberar los recursos del sistema.
+**Líneas 4-5:** crean el mapa de parámetros y conservan `usuario = Ana Martínez`, requisito heredado de M2.
+**Líneas 7-10:** `fillReport` recibe el informe compilado, el mapa de parámetros y la conexión JDBC.
+**Línea 12:** `conexion.close();` cierra la conexión una vez finalizado el llenado.
 
 La conexión JDBC debe cerrarse siempre después de su uso. Si se olvida, la conexión permanece abierta hasta que el programa termina y consume recursos del sistema. En SQLite, la conexión abierta bloquea el archivo de base de datos e impide que otras aplicaciones lo modifiquen. La buena práctica consiste en cerrar la conexión en un bloque `finally` o en un bloque `try-with-resources` que garantice el cierre incluso si se produce una excepción. El bloque `try-with-resources` es la forma más limpia y la que se utiliza en el proyecto EditorialReports.
 
 ```java
-try (Connection conexion = DriverManager.getConnection("jdbc:sqlite:../EditorialReportsJava/data/editorial.db")) {
+Map<String, Object> parametros = new HashMap<String, Object>();
+parametros.put("usuario", "Ana Martínez");
+
+try (Connection conexion = DriverManager.getConnection(
+        "jdbc:sqlite:../EditorialReportsJava/data/editorial.db")) {
     JasperPrint documento = JasperFillManager.fillReport(
             "reports/informe_concepto.jasper",
-            new HashMap<String, Object>(),
+            parametros,
             conexion);
-    JasperExportManager.exportReportToPdfFile(documento, "output/informe_concepto.pdf");
+    JasperExportManager.exportReportToPdfFile(
+            documento,
+            "output/informe_concepto.pdf");
 }
 ```
 
 
-**Línea 1:** `try (Connection conexion = DriverManager.getConnection("jdbc:sqlite:../EditorialReportsJava/data/editorial.db")) {` → abre un bloque `try-with-resources` que garantiza el cierre automático de la conexión al finalizar el bloque, incluso si se produce una excepción.
-**Línea 2-5:** `JasperFillManager.fillReport(...)` llena el informe con la conexión.
-**Línea 6:** `JasperExportManager.exportReportToPdfFile(...)` exporta el informe a PDF.
-**Línea 7:** `}` → cierra el bloque `try-with-resources` y la conexión se cierra automáticamente.
+**Líneas 1-2:** preparan y conservan el parámetro `usuario`.
+**Líneas 4-5:** abren la conexión SQLite con `try-with-resources`.
+**Líneas 6-9:** llenan el mismo informe acumulativo mediante JDBC.
+**Líneas 10-12:** exportan el PDF mientras la conexión sigue abierta.
+**Línea 13:** cierra el bloque y la conexión automáticamente.
 
 ---
 
@@ -248,7 +255,9 @@ try (Connection conexion = DriverManager.getConnection("jdbc:sqlite:../Editorial
 - La consulta SQL se declara en el elemento `queryString` del JRXML.
 - La correspondencia entre columnas y campos se establece por nombre.
 - La ejecución desde Java utiliza `JasperFillManager.fillReport` con una conexión JDBC.
+- El mapa de parámetros se conserva: JDBC sustituye la fuente de filas, no las demás capacidades del informe.
 - La conexión debe cerrarse siempre con un bloque `try-with-resources` o `finally`.
+- El checkpoint 3.1 mantiene la maquetación y los recursos de M2; los cambios son trazables al origen de datos y al contrato de fecha.
 
 ---
 
