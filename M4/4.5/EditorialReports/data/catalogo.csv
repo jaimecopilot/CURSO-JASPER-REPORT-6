@@ -1,0 +1,15 @@
+titulo,autor,precio,paginas,fecha_publicacion,disponible
+Cien años de soledad,Gabriel García Márquez,19.95,471,1967-06-05,true
+Rayuela,Julio Cortázar,22.50,736,1963-06-28,true
+La ciudad y los perros,Mario Vargas Llosa,18.75,432,1963-10-15,true
+Pedro Páramo,Juan Rulfo,15.90,132,1955-03-01,true
+Ficciones,Jorge Luis Borges,21.00,224,1944-12-01,true
+La casa de los espíritus,Isabel Allende,23.40,448,1982-01-01,true
+El amor en los tiempos del cólera,Gabriel García Márquez,20.80,496,1985-09-05,true
+La muerte de Artemio Cruz,Carlos Fuentes,17.60,320,1962-05-01,true
+Doña Bárbara,Rómulo Gallegos,16.95,400,1929-02-01,false
+Martín Fierro,José Hernández,14.50,288,1872-12-01,false
+Comala,Juan Rulfo,19.20,148,1955-09-01,true
+Paradiso,José Lezama Lima,25.00,576,1966-01-01,true
+La invención de Morel,Adolfo Bioy Casares,18.30,128,1940-01-01,true
+El túnel,Ernesto Sábato,16.20,160,1948-01-01,false

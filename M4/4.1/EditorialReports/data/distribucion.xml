@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<distribucion>
+  <entrega><libreria>Librería Central</libreria><ciudad>Madrid</ciudad><cantidad>25</cantidad><fecha_entrega>2026-09-15</fecha_entrega><titulo>Cien años de soledad</titulo></entrega>
+  <entrega><libreria>Librería del Prado</libreria><ciudad>Barcelona</ciudad><cantidad>15</cantidad><fecha_entrega>2026-09-16</fecha_entrega><titulo>Rayuela</titulo></entrega>
+  <entrega><libreria>Librería Ateneo</libreria><ciudad>Sevilla</ciudad><cantidad>30</cantidad><fecha_entrega>2026-09-17</fecha_entrega><titulo>La ciudad y los perros</titulo></entrega>
+  <entrega><libreria>Librería Cálamo</libreria><ciudad>Zaragoza</ciudad><cantidad>20</cantidad><fecha_entrega>2026-09-18</fecha_entrega><titulo>Pedro Páramo</titulo></entrega>
+  <entrega><libreria>Librería Proteo</libreria><ciudad>Málaga</ciudad><cantidad>12</cantidad><fecha_entrega>2026-09-19</fecha_entrega><titulo>Ficciones</titulo></entrega>
+  <entrega><libreria>Librería La Central</libreria><ciudad>Barcelona</ciudad><cantidad>18</cantidad><fecha_entrega>2026-09-20</fecha_entrega><titulo>La casa de los espíritus</titulo></entrega>
+  <entrega><libreria>Librería Antonio Machado</libreria><ciudad>Madrid</ciudad><cantidad>22</cantidad><fecha_entrega>2026-09-21</fecha_entrega><titulo>El amor en los tiempos del cólera</titulo></entrega>
+  <entrega><libreria>Librería Cervantes</libreria><ciudad>Valladolid</ciudad><cantidad>8</cantidad><fecha_entrega>2026-09-22</fecha_entrega><titulo>La muerte de Artemio Cruz</titulo></entrega>
+</distribucion>
