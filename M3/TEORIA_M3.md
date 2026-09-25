@@ -958,7 +958,7 @@ CONVERSIÓN AUTOMÁTICA DE TIPOS EN JSON
 
 ### Bloque 4 — Lectura de JSON desde código Java
 
-La lectura de un archivo JSON desde código Java se realiza con la clase `net.sf.jasperreports.engine.data.JsonDataSource`. Esta clase lee el archivo y construye una fuente de datos que el motor puede recorrer. El constructor recibe un `InputStream` del archivo y el motor evalúa la expresión de selección pasada al constructor del `JsonDataSource`. La fuente de datos se pasa al motor de llenado como tercer argumento de `fillReport`. La clase forma parte del módulo JSON de JasperReports y requiere que el archivo `jackson-*.jar` esté en el classpath.
+La lectura de un archivo JSON desde código Java se realiza con la clase `net.sf.jasperreports.engine.data.JsonDataSource`. Esta clase lee el documento y construye una fuente de datos que el motor puede recorrer. Sus constructores admiten, entre otras opciones, un `File` o un `InputStream` junto con la expresión de selección. La fuente de datos se pasa al motor de llenado como tercer argumento de `fillReport`. El soporte JSON utiliza Jackson, cuyas clases deben estar disponibles en el classpath; en el runtime reproducible del curso Maven las resuelve transitivamente.
 
 ```java
 JsonDataSource dataSource = new JsonDataSource(new File("data/autores.json"), "autores");
