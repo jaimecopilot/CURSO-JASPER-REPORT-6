@@ -17,4 +17,3 @@ check(ROOT/'M4/4.3',ROOT/'M4/4.4',['EditorialReports/EXPRESIONES_AVANZADAS.md'],
 check(ROOT/'M4/4.4',ROOT/'M4/4.5',['EditorialReports/LOGICA_CONDICIONAL.md'],['EditorialReports/reports/informe_ventas.jrxml','EditorialReportsJava/src/GeneradorInformeVentas.java','README.md','VALIDACION.md'])
 check(ROOT/'M4/4.5',ROOT/'M4/4.6',['EditorialReports/CONSULTAS_PARAMETRIZADAS.md'],['EditorialReports/reports/informe_ventas.jrxml','EditorialReportsJava/src/GeneradorInformeVentas.java','README.md','VALIDACION.md'])
 print('M4 TRACEABILITY AUDIT PASS')
-# Revalidación tras restaurar el seed M3 14/9/31/633.40.
