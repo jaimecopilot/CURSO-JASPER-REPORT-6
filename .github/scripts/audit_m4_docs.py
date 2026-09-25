@@ -70,7 +70,7 @@ if 'PreparedStatement' not in T or '$P!{}`' not in T:
     fail('falta semántica JDBC completa de parámetros SQL')
 
 GUI_EXPECTED={
-    '4.1':['Title** y mantener su altura en `90`','x=`420`, y=`24`, width=`135`','Boolean.TRUE.equals($P{mostrarDetalle})','parametros.put("periodo", "Septiembre 2026")'],
+    '4.1':['Title** y mantener su altura en `90`','x=`420`, y=`24`, width=`135`','Boolean.TRUE.equals($P{mostrarDetalle})','parametros.put("periodo", "Septiembre 2026")','Total de títulos:','evaluationTime="Report"'],
     '4.2':['categoria TEXT NOT NULL','No utilizar `ALTER TABLE`','GROUP BY l.titulo, l.categoria','parametros.put("precioMinimo", null)'],
     '4.3':['Page Footer y confirmar altura `62`','Summary y confirmar altura `128`','ImporteConIva'],
     '4.4':['ChronoUnit.DAYS.between','toUpperCase(java.util.Locale.ROOT)','IVA %.0f%%','Math.round'],

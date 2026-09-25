@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# final-audit-v3
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 

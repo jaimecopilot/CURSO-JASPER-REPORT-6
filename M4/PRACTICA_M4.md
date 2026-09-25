@@ -231,7 +231,8 @@ La Parte B y la Parte C de cada punto contienen literalmente el JRXML y el Java 
 2. Verificar en Console que aparece `Informe generado en:`.
 3. Abrir `EditorialReports/output/informe_ventas.pdf`.
 4. Confirmar Departamento `Comercial`, Periodo `Septiembre 2026`, IVA visible y paginación.
-5. Confirmar que el proceso termina sin excepción.
+5. En cada página, comprobar que `Total de títulos:` muestra el total final `14`; el campo `$V{REPORT_COUNT}` debe usar `evaluationTime="Report"`.
+6. Confirmar que el proceso termina sin excepción.
 
 **Verificación visual:** el PDF real se genera y contiene los nuevos parámetros.
 
@@ -384,7 +385,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <pageFooter>
         <band height="45">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
         </band>
@@ -520,7 +521,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 116 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
 | 117 | `        <band height="45">` | Declara una banda y su geometría vertical. |
 | 118 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 119 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 119 | `            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 120 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 121 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 122 | `        </band>` | Cierra el elemento XML correspondiente. |
@@ -1138,7 +1139,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <pageFooter>
         <band height="45">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
         </band>
@@ -1284,7 +1285,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 126 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
 | 127 | `        <band height="45">` | Declara una banda y su geometría vertical. |
 | 128 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 129 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 129 | `            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 130 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 131 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 132 | `        </band>` | Cierra el elemento XML correspondiente. |
@@ -2069,7 +2070,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <pageFooter>
         <band height="62">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
             <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>
@@ -2240,7 +2241,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 141 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
 | 142 | `        <band height="62">` | Declara una banda y su geometría vertical. |
 | 143 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 144 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 144 | `            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 145 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 146 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 147 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
@@ -2883,7 +2884,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <pageFooter>
         <band height="62">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
             <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>
@@ -3060,7 +3061,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 146 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
 | 147 | `        <band height="62">` | Declara una banda y su geometría vertical. |
 | 148 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 149 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 149 | `            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 150 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 151 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 152 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
@@ -3725,7 +3726,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <pageFooter>
         <band height="62">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
             <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>
@@ -3924,7 +3925,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 167 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
 | 168 | `        <band height="62">` | Declara una banda y su geometría vertical. |
 | 169 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 170 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 170 | `            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 171 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 172 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 173 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
@@ -4640,7 +4641,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <pageFooter>
         <band height="62">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
             <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>
@@ -4850,7 +4851,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 177 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
 | 178 | `        <band height="62">` | Declara una banda y su geometría vertical. |
 | 179 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 180 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 180 | `            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 181 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 182 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 183 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
