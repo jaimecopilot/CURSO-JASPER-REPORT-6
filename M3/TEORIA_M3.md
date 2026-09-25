@@ -343,7 +343,7 @@ Repository Explorer > Data Adapters > Create Data Adapter
 **Línea 7:** `Use First Row as Column Names: marcada` → indica que la primera línea del archivo contiene los nombres de las columnas.
 **Línea 8:** `Test Connection → OK` → botón que verifica que el archivo se lee correctamente.
 
-El adaptador CSV lee el archivo completo en memoria y construye una colección de registros. Cada registro es un mapa con los nombres de columna como claves y los valores como cadenas. El motor de JasperReports recorre esta colección y resuelve los campos mediante `getFieldValue`. La resolución se realiza por nombre de columna. Si un campo del JRXML no coincide con ninguna columna del CSV, el motor lanza `Field not found`. La coherencia entre los nombres de las columnas del CSV y los nombres de los campos del JRXML es condición necesaria para que la resolución funcione.
+`JRCsvDataSource` trabaja sobre un flujo/lector CSV y avanza registro a registro cuando el motor llama a `next()`; no necesita materializar previamente una colección de mapas. Con `setUseFirstRowAsHeader(true)`, la primera fila define los nombres de columna y `getFieldValue` resuelve cada field por ese nombre. Los valores parten de texto y `JRAbstractTextDataSource` puede convertirlos al tipo declarado cuando dispone de la configuración de formato necesaria.
 
 ```text
 LECTURA DEL CSV POR EL ADAPTADOR
@@ -352,27 +352,25 @@ LECTURA DEL CSV POR EL ADAPTADOR
     titulo,autor,precio,paginas
     Cien años de soledad,Gabriel García Márquez,19.95,471
 
-  Colección de registros construida:
-    [
-      { "titulo": "Cien años de soledad",
-        "autor": "Gabriel García Márquez",
-        "precio": "19.95",
-        "paginas": "471" }
-    ]
+  Lectura secuencial:
+    next() → fila actual: Cien años de soledad, Gabriel García Márquez, 19.95, 471
 
-  El motor resuelve $F{titulo} buscando la clave "titulo" en el mapa.
-  El valor se devuelve como String. La conversión a Double o Date
-  debe realizarla la fuente de datos o el patrón del campo.
+  Con la cabecera activada:
+    $F{titulo} → columna "titulo" de la fila actual
+    $F{precio} → columna "precio" de la fila actual
+
+  El origen es textual. La fuente puede convertir al tipo Java declarado
+  si se configuran los formatos correspondientes.
 ```
 
 
-**Qué representa el diagrama:** la conversión del archivo CSV en una colección de mapas que el motor recorre. Los valores se almacenan como cadenas y el motor los resuelve por nombre.
+**Qué representa el diagrama:** el recorrido secuencial del CSV por `JRCsvDataSource`. La cabecera proporciona los nombres de columna y el motor obtiene los valores de la fila actual a través de los fields.
 
 **Por qué es relevante:** permite comprender por qué los valores de un CSV se comportan inicialmente como cadenas y por qué la conversión de tipos es necesaria para aplicar patrones numéricos o de fecha.
 
 ### Bloque 3 — Lectura de CSV desde código Java
 
-La lectura de un archivo CSV desde código Java se realiza con la clase `net.sf.jasperreports.engine.data.JRCsvDataSource`. Esta clase lee el archivo, interpreta la cabecera y construye una fuente de datos que el motor puede recorrer. El constructor recibe la ruta del archivo o un `InputStream`, y los métodos `setFieldDelimiter`, `setUseFirstRowAsHeader` y `setCharset` configuran el comportamiento. La fuente de datos se pasa al motor de llenado como tercer argumento de `fillReport`. La clase `JRCsvDataSource` forma parte de la biblioteca JasperReports y no requiere dependencias adicionales.
+La lectura de un archivo CSV desde código Java se realiza con la clase `net.sf.jasperreports.engine.data.JRCsvDataSource`. Esta clase lee el archivo, interpreta la cabecera y construye una fuente de datos que el motor puede recorrer. El constructor puede recibir un archivo, una URL, un `InputStream` o un lector. La codificación puede fijarse con el constructor que recibe `charsetName`; `setFieldDelimiter` configura el delimitador y `setUseFirstRowAsHeader` indica que la primera fila contiene los nombres de las columnas. La fuente de datos se pasa al motor de llenado como tercer argumento de `fillReport`. La clase `JRCsvDataSource` forma parte de la biblioteca JasperReports y no requiere dependencias adicionales.
 
 ```java
 JRCsvDataSource dataSource =
@@ -476,16 +474,23 @@ COMBINACIÓN DE CSV Y BASE DE DATOS
 La combinación de fuentes también puede realizarse en el programa Java que genera el informe. El programa puede leer el CSV, construir una lista de objetos y pasarla como fuente de datos al motor. Esta aproximación permite combinar datos de varias fuentes en memoria antes de pasarlos al motor. La lista de objetos puede construirse a partir de un CSV, de una consulta SQL y de una llamada a un servicio externo. El motor recibe una única fuente de datos con todos los registros combinados. Esta técnica es útil cuando la combinación no puede expresarse como una consulta SQL o cuando los datos proceden de fuentes heterogéneas.
 
 ```java
-List<Libro> libros = new ArrayList<>();
+List<Libro> libros = new ArrayList<Libro>();
 
-// Leer del CSV
 try (BufferedReader br = new BufferedReader(new FileReader("data/catalogo.csv"))) {
     String linea;
     boolean primera = true;
     while ((linea = br.readLine()) != null) {
-        if (primera) { primera = false; continue; }
+        if (primera) {
+            primera = false;
+            continue;
+        }
         String[] campos = linea.split(",");
-        libros.add(new Libro(campos[0], Double.parseDouble(campos[2])));
+        libros.add(new Libro(
+                campos[0],
+                Double.parseDouble(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4].substring(0, 4)),
+                Boolean.valueOf(campos[5])));
     }
 }
 
@@ -493,15 +498,10 @@ JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(libros);
 ```
 
 
-**Línea 1:** `List<Libro> libros = new ArrayList<>();` → declara la lista que contendrá los libros combinados.
-**Línea 3:** `try (BufferedReader br = new BufferedReader(new FileReader("data/catalogo.csv"))) {` → abre el archivo CSV con un lector de líneas.
-**Línea 4:** `String linea;` → declara la variable que contendrá cada línea del archivo.
-**Línea 5:** `boolean primera = true;` → marca la primera línea para ignorarla porque es la cabecera.
-**Línea 6:** `while ((linea = br.readLine()) != null) {` → recorre el archivo línea a línea.
-**Línea 7:** `if (primera) { primera = false; continue; }` → salta la primera línea.
-**Línea 8:** `String[] campos = linea.split(",");` → divide la línea por comas.
-**Línea 9:** `libros.add(new Libro(campos[0], Double.parseDouble(campos[2])));` → crea un objeto `Libro` con el título y el precio convertido a `Double`.
-**Línea 13:** `JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(libros);` → construye una fuente de datos a partir de la lista.
+**Línea 1:** `List<Libro> libros = new ArrayList<Libro>();` → declara la lista con la misma clase `Libro` utilizada por el proyecto.
+**Líneas 3-12:** abren `data/catalogo.csv`, omiten la cabecera y recorren las filas. `split(",")` es suficiente para el CSV didáctico de este curso, cuyos valores no contienen comas escapadas; para CSV generales conviene utilizar `JRCsvDataSource` o un parser CSV.
+**Líneas 13-18:** construyen `Libro` con la firma real de la clase heredada de M2: título, precio, páginas, año de publicación y disponibilidad.
+**Línea 22:** `JRBeanCollectionDataSource` adapta la lista de beans al contrato `JRDataSource`.
 
 ---
 
@@ -965,10 +965,9 @@ JsonDataSource dataSource = new JsonDataSource(new File("data/autores.json"), "a
 ```
 
 
-**Línea 1:** `InputStream is = new FileInputStream("data/autores.json");` → abre un flujo de entrada para leer el archivo JSON.
-**Línea 2:** `JsonDataSource dataSource = new JsonDataSource(new File(rutaJson), "autores");` → construye la fuente y aplica explícitamente la selección `autores`. Cuando se pasa un `JRDataSource` a `fillReport`, la consulta del JRXML no se ejecuta de nuevo.
+**Línea 1:** `JsonDataSource dataSource = new JsonDataSource(new File("data/autores.json"), "autores");` → abre el archivo JSON y aplica explícitamente la selección `autores`. Cuando se pasa este `JRDataSource` a `fillReport`, la consulta JSON del JRXML no se ejecuta de nuevo.
 
-La clase `JsonDataSource` lee el archivo completo en memoria y construye un árbol de objetos que el motor recorre. Esta característica es similar a la de `JRXmlDataSource` y permite evaluar expresiones con filtros. La contrapartida es el consumo de memoria para archivos grandes. La clase requiere que el archivo `jackson-*.jar` esté en el classpath porque la biblioteca Jackson es la que realiza el análisis del JSON. La versión de Jackson que se utiliza en JasperReports 6.20.0 se encuentra en la carpeta `plugins` de Jaspersoft Studio y debe copiarse a la carpeta `lib` del proyecto Java.
+La clase `JsonDataSource` lee el archivo completo en memoria y construye un árbol de objetos que el motor recorre. Esta característica es similar a la de `JRXmlDataSource` y permite evaluar expresiones con filtros. La contrapartida es el consumo de memoria para archivos grandes. La implementación JSON utiliza Jackson. En la ejecución reproducible del curso, Maven resuelve las dependencias transitivas necesarias desde `jasperreports:6.20.0`; no es necesario declarar tres dependencias Jackson adicionales en el `pom.xml`. En el ejercicio manual dentro de Jaspersoft Studio, si el proyecto Java se gestiona únicamente mediante Build Path, los JAR de Jackson pueden añadirse desde la distribución instalada, tal como se documenta en la práctica.
 
 ```text
 FLUJO DE LECTURA DEL JSON
@@ -1042,7 +1041,7 @@ La combinación también puede realizarse dentro del mismo nivel del informe. Un
 - El adaptador JSON de Jaspersoft Studio se configura desde el Repository Explorer.
 - La clase `JsonDataSource` permite leer JSON desde código Java.
 - JSON convierte automáticamente los tipos de datos según el tipo declarado en el campo.
-- El módulo JSON requiere el archivo `jackson-*.jar` en el classpath.
+- El soporte JSON utiliza Jackson; Maven resuelve sus dependencias transitivas en la ejecución reproducible y el Build Path manual debe contenerlas cuando se trabaja fuera de Maven.
 - Los filtros JSON permiten seleccionar subconjuntos de registros.
 - El JSON puede combinarse con otras fuentes mediante subreportes.
 
@@ -1199,18 +1198,18 @@ Los parámetros SQL admiten varios tipos Java. Con `$P{}` no se construye el lit
 SUSTITUCIÓN DE PARÁMETROS EN LA CONSULTA
 
   Parámetro declarado:
-    <parameter name="categoria" class="java.lang.String"/>
+    <parameter name="tituloBuscado" class="java.lang.String"/>
 
   Consulta declarada:
-    SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}
+    SELECT titulo, precio FROM libros WHERE titulo = $P{tituloBuscado}
 
   Valor del parámetro en el programa Java:
-    parametros.put("categoria", "Novela");
+    parametros.put("tituloBuscado", "Rayuela");
 
   Forma preparada equivalente:
-    SELECT titulo, precio FROM libros WHERE categoria = ?
+    SELECT titulo, precio FROM libros WHERE titulo = ?
 
-  Valor enlazado al marcador: Novela
+  Valor enlazado al marcador: Rayuela
 
   El motor añade las comillas simples alrededor del valor
   porque el parámetro es de tipo String.
