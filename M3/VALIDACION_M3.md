@@ -7,7 +7,7 @@
 
 ## Estado final
 
-**M3 CERRADO TRAS SEGUNDA AUDITORÍA INTEGRAL.**
+**M3 REABIERTO: incorporación del nuevo punto 3.7 — Parameters y Variables.**
 
 El cierre anterior se reabrió al detectarse en el punto 3.6 una línea JRXML minificada que contenía conjuntamente `columnHeader` y `detail`, además de una discrepancia real entre la práctica (`Detail height=40`) y el código versionado (`height=42`).
 
@@ -248,3 +248,25 @@ No existe ya una línea gigante que contenga `columnHeader + detail`.
 - [x] línea 34 del punto 3.6 corregida y verificada.
 
 **M3 queda cerrado tras la revisión integral de código, contenido y maquetación.**
+
+
+---
+
+## Reapertura 3.7 — Parameters y Variables
+
+Se ha incorporado un séptimo punto al temario recibido. El checkpoint 3.7 parte del 3.6 ya corregido y no de la versión antigua incluida en el borrador del nuevo punto.
+
+Correcciones aplicadas al material de partida:
+
+- se elimina el atributo XML duplicado `class` del ejemplo de parámetro;
+- se corrige el comportamiento de parámetros declarados y no suministrados: sin default, su valor es `null`;
+- se corrige `PAGE_COUNT`: cuenta registros procesados en la página, no páginas;
+- se conserva la paginación mediante `PAGE_NUMBER` y `evaluationTime="Report"`;
+- se conserva el `LEFT JOIN` y los **14 títulos**;
+- se conservan los agregados reales: **31 unidades** y **633,40 €**;
+- se mantiene DejaVu Sans;
+- Title se fija en 90 para que la fila de fecha termine en Y=88;
+- Summary se fija en 55 para mantener el informe compacto;
+- el reto `mostrarTotales` reutiliza el mismo espacio de Summary.
+
+Estado: **pendiente de nuevos runs E2E y PDF**.
