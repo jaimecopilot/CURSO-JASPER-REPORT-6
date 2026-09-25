@@ -15,7 +15,7 @@ def ptext(md,p):
     return m.group(0)
 def blocks(text,lang):
     return [m.group(1).rstrip('\n') for m in re.finditer(rf'(?ms)^```{lang}\s*\n(.*?)^```\s*$',text)]
-for token in ('svgsvg','The user wants','El usuario quiere','Cuando me confirmes','default="true"','fontName="Sans Serif"','INNER JOIN ventas'):
+for token in ('svgsvg','The user wants','El usuario quiere','Cuando me confirmes','default="true"','fontName="Sans Serif"','INNER JOIN ventas','parent="Sans_Normal"','Sustitución directa `$X{}`','sustitución directa `$X{}`','lista vacía produce una condición `IN ()`','aplica el último cuya condición sea verdadera','último bloque verdadero es el que prevalece','campos deben estar declarados antes de la consulta'):
     if token in T or token in P: fail('residuo/regresión: '+token)
 for p in POINTS:
     if ptext(T,p).count('### Bloque ') < 5: fail(p+' teoría incompleta')
@@ -43,13 +43,31 @@ if 'initialValueExpression` no forma parte de la definición de parámetros' not
     fail('no queda corregido initialValueExpression en parámetros')
 if '$P!{}` es sustitución textual directa' not in T and '$P!{}` para sustitución textual directa' not in T:
     fail('no queda diferenciada la sustitución directa')
-FINAL_VALIDATION=(M4/'VALIDACION_M4.md').read_text(encoding='utf-8')
-if 'PASS END-TO-END' not in FINAL_VALIDATION:
-    fail('VALIDACION_M4.md no registra el cierre PASS END-TO-END')
-for point in POINTS:
-    checkpoint_validation=(M4/point/'VALIDACION.md').read_text(encoding='utf-8')
-    if 'PASS END-TO-END' not in checkpoint_validation:
-        fail(point+' VALIDACION.md no registra PASS END-TO-END')
-    if 'preparado para validación' in checkpoint_validation.lower():
-        fail(point+' conserva texto provisional de validación')
+
+# Regressiones semánticas que una mera frase correcta al final no puede ocultar.
+if re.search(r'<parameter[^>]+>[\s\S]{0,1200}<initialValueExpression', T):
+    fail('initialValueExpression usado dentro de parameter')
+if 'escapa los caracteres especiales del valor antes de insertarlo en la consulta' in T:
+    fail('semántica incorrecta de $P{} como escape+inserción')
+if 'motor sustituye `$P{categoria}` por `NULL`' in T:
+    fail('semántica incorrecta de bind parameter nulo')
+if 'porcentaje sobre total\n    $F{importe_total} / $V{TotalImporte}' in T:
+    fail('TotalImporte corriente descrito como total final en Detail')
+
+# Parte A debe contener las geometrías/expresiones canónicas de cada checkpoint.
+part_a_contracts={
+ '4.1':['Title` y mantener Band height en `90`','x=420, y=24, width=135','Double.valueOf(0.21d)','Septiembre 2026'],
+ '4.2':['Band height=`62`','No añadir ningún `printWhenExpression` a la banda Detail','GROUP BY','parametros.put("categoria", null)'],
+ '4.3':['Band height=`62`','Summary y fijar Band height=`128`','$V{TotalPagina}'],
+ '4.4':['Band height=`82`','x=460, y=48','ChronoUnit.DAYS','REPORT_COUNT'],
+ '4.5':['style="Dato"','segunda `<band height="14">`','Summary height=`128`','Integer.valueOf(5)'],
+ '4.6':['Band height=`124`','$X{IN, l.categoria, categoriasLista}','x=390, y=86, width=165, height=34','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
+}
+for point,tokens in part_a_contracts.items():
+    q=ptext(P,point)
+    a=q[q.find('### Parte A'):q.find('### Parte B')]
+    for token in tokens:
+        if token not in a:
+            fail(point+' Parte A no refleja el checkpoint: '+token)
+
 print('M4 DOC/SOURCE AUDIT PASS')

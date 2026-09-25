@@ -32,33 +32,37 @@ Este documento conserva los seis puntos originales del material recibido y corri
 
 ## Parte teórica
 
-### Bloque 1 — Declaración de parámetros con tipo, valor por defecto y valor inicial
+### Bloque 1 — Declaración de parámetros con tipo y valor por defecto
 
-Un parámetro se declara en el JRXML con el elemento `parameter` y el atributo obligatorio `name`. El atributo `class` indica el tipo Java del valor. Los elementos hijos `defaultValueExpression` y `initialValueExpression` definen valores automáticos. El `defaultValueExpression` se evalúa cuando el programa Java no proporciona un valor para el parámetro. El `initialValueExpression` se evalúa antes que el `defaultValueExpression` y sirve para construir valores derivados de otros parámetros. El motor evalúa el `initialValueExpression` al inicio del llenado, guarda el resultado y lo utiliza si el valor del parámetro no se ha proporcionado.
+Un parámetro de JasperReports se declara con `<parameter name="..." class="...">`. El elemento opcional `defaultValueExpression` define el valor que se utilizará cuando el llamador no proporcione ese parámetro. En JasperReports 6.20.0 los parámetros **no** tienen `initialValueExpression`; esa expresión pertenece a las variables. Si se necesita un valor derivado de varios parámetros, puede calcularse desde Java o en la expresión del elemento que lo consume.
 
-```
+```xml
 <parameter name="fechaDesde" class="java.util.Date">
     <defaultValueExpression><![CDATA[new java.util.Date(0)]]></defaultValueExpression>
 </parameter>
 <parameter name="fechaHasta" class="java.util.Date">
     <defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
 </parameter>
-<parameter name="rangoFechas" class="java.lang.String">
-    <initialValueExpression>
-        <![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaDesde}) +
-                 " - " +
-                 new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaHasta})]]>
-    </initialValueExpression>
-</parameter>
 ```
 
-**Línea 1:** `<parameter name="fechaDesde" class="java.util.Date">` → declara el parámetro `fechaDesde` de tipo fecha.
-**Línea 2:** `<defaultValueExpression><![CDATA[new java.util.Date(0)]]></defaultValueExpression>` → valor por defecto: la fecha correspondiente al 1 de enero de 1970 (fecha 0 en milisegundos).
-**Línea 4:** `<parameter name="fechaHasta" class="java.util.Date">` → declara el parámetro `fechaHasta` de tipo fecha.
-**Línea 5:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → valor por defecto: la fecha actual del sistema.
-**Línea 7-12:** `<parameter name="rangoFechas" ...>` → declara el parámetro `rangoFechas` con una expresión de valor inicial que combina los dos parámetros anteriores en una cadena con formato `dd/MM/yyyy - dd/MM/yyyy`.
+**Línea 1:** declara `fechaDesde` como `java.util.Date`.
+**Línea 2:** establece un valor por defecto que solo se usa si el llamador no aporta `fechaDesde`.
+**Línea 4:** declara `fechaHasta`.
+**Línea 5:** usa la fecha actual como default.
 
-En los parámetros del informe el mecanismo declarativo de respaldo es `defaultValueExpression`. Si se necesita un valor derivado de otros parámetros, se expresa directamente en el elemento que lo consume o se calcula desde Java. `initialValueExpression` se estudiará con las variables, donde sí forma parte del ciclo de inicialización.
+Un valor derivado puede calcularse en la expresión que lo muestra:
+
+```xml
+<textFieldExpression><![CDATA[
+    new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaDesde})
+    + " - " +
+    new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaHasta})
+]]></textFieldExpression>
+```
+
+**Qué hace:** combina dos Parameters ya resueltos sin inventar un tipo de inicialización que el elemento `<parameter>` no admite.
+
+**Por qué es relevante:** separa correctamente el contrato de entrada (Parameters) del ciclo de inicialización/acumulación (Variables).
 
 ### Bloque 2 — Parámetros de usuario y parámetros internos
 
@@ -302,7 +306,7 @@ Un filtro opcional es un filtro que se aplica solo cuando el usuario proporciona
 
 **Línea 5:** `WHERE ($P{categoria} IS NULL OR categoria = $P{categoria})` → filtro opcional. Si el parámetro `categoria` es nulo, la primera condición es verdadera y el filtro no se aplica. Si el parámetro tiene un valor, la segunda condición filtra las filas que coinciden con ese valor.
 
-La técnica del parámetro nulo funciona porque la condición `$P{categoria} IS NULL` es verdadera cuando el parámetro no tiene valor. El operador `OR` hace que la condición completa sea verdadera independientemente del valor de `categoria = $P{categoria}`. Cuando el parámetro tiene un valor, la primera condición es falsa y el filtro se aplica según la segunda condición. La sustitución del parámetro nulo en la consulta debe gestionarse con cuidado: el motor sustituye `$P{categoria}` por `NULL` cuando el parámetro es nulo, y la condición `NULL = NULL` no es verdadera en SQL. La condición `IS NULL` es la que maneja correctamente este caso.
+La técnica del parámetro nulo funciona porque la condición `$P{categoria} IS NULL` es verdadera cuando el parámetro no tiene valor. El operador `OR` hace que la condición completa sea verdadera independientemente del valor de `categoria = $P{categoria}`. Cuando el parámetro tiene un valor, la primera condición es falsa y el filtro se aplica según la segunda condición. El valor de `$P{categoria}` se enlaza mediante JDBC como parámetro de una sentencia preparada. Si el valor enlazado es SQL `NULL`, una comparación `? = ?` no se vuelve verdadera por tratarse de dos nulos; por eso la rama `IS NULL` es la que desactiva de forma explícita el filtro opcional.
 
 ```
 COMPORTAMIENTO DEL FILTRO OPCIONAL
@@ -313,7 +317,8 @@ COMPORTAMIENTO DEL FILTRO OPCIONAL
     → Todas las filas se recuperan.
 
   Parámetro = 'Novela':
-    WHERE ('Novela' IS NULL OR categoria = 'Novela')
+    SQL preparado: WHERE (? IS NULL OR categoria = ?)
+    Valores enlazados: ['Novela', 'Novela']
     → (FALSE OR categoria = 'Novela')
     → Solo las filas con categoria = 'Novela'.
 
@@ -373,7 +378,7 @@ FILTROS COMBINADOS CON AND
 
 ### Bloque 4 — Filtrado con printWhenExpression
 
-La propiedad `printWhenExpression` de un elemento o de una banda determina si el elemento se imprime o se omite. La expresión se evalúa en el momento de la emisión y si devuelve `true` el elemento se imprime, si devuelve `false` se omite. Esta propiedad permite aplicar filtros en la plantilla que no pueden expresarse en SQL. Un filtro típico consiste en ocultar las filas cuyo valor de un campo no cumpla una condición. La diferencia con el filtrado en SQL es que el motor ya ha recibido los datos y simplemente decide no imprimirlos.
+La propiedad `printWhenExpression` de un elemento o de una banda determina si ese contenido se imprime o se omite; no elimina la fila del `ResultSet` ni equivale a un `WHERE`. La expresión se evalúa en el momento de la emisión y si devuelve `true` el elemento se imprime, si devuelve `false` se omite. Esta propiedad permite aplicar filtros en la plantilla que no pueden expresarse en SQL. Un filtro típico consiste en ocultar las filas cuyo valor de un campo no cumpla una condición. La diferencia con el filtrado en SQL es que el motor ya ha recibido los datos y simplemente decide no imprimirlos.
 
 ```
 <band height="20">
@@ -940,8 +945,8 @@ COMBINACIÓN DE LOS TRES TIPOS DE REFERENCIAS
   Ejemplo 2: clasificación con umbral
     $F{unidades_vendidas} > $P{umbral} ? "Alta rotación" : "Baja rotación"
 
-  Ejemplo 3: porcentaje sobre total
-    $F{importe_total} / $V{TotalImporte} * 100.0
+  Ejemplo 3: porcentaje sobre el acumulado disponible en ese momento
+    $V{TotalImporte} == null || $V{TotalImporte}.doubleValue() == 0.0d ? 0.0d : $F{importe_total} / $V{TotalImporte} * 100.0
 
   Ejemplo 4: fecha formateada con patrón dinámico
     new SimpleDateFormat($P{formatoFecha}).format($P{fechaInforme})
@@ -952,7 +957,7 @@ COMBINACIÓN DE LOS TRES TIPOS DE REFERENCIAS
       $F{titulo}
 ```
 
-**Qué representa el diagrama:** cinco ejemplos de expresiones que combinan los tres tipos de referencias. Cada uno resuelve un caso de uso distinto.
+**Qué representa el diagrama:** cinco ejemplos de expresiones que combinan los tres tipos de referencias. Cada uno resuelve un caso de uso distinto. En Detail, una variable `Sum` de ámbito Report es un acumulado en curso; su valor final solo está disponible cuando la evaluación se difiere al final del informe.
 
 **Por qué es relevante:** permite identificar el patrón adecuado para cada necesidad y construir expresiones complejas con garantías.
 
@@ -1093,56 +1098,38 @@ VISIBILIDAD EN CASCADA
 
 ### Bloque 3 — Estilos condicionales con conditionalStyle
 
-Un estilo condicional es un conjunto de propiedades de presentación que se aplican cuando se cumple una condición. Se declara dentro del elemento `style` con el bloque `conditionalStyle`. Cada bloque contiene un elemento `conditionExpression` con la condición y un elemento `style` con las propiedades que se aplican. Un estilo puede contener varios bloques condicionales. El motor los evalúa en orden y aplica el último cuya condición sea verdadera.
+Un `conditionalStyle` añade propiedades al estilo base cuando su `conditionExpression` devuelve `true`. JasperReports evalúa los estilos condicionales en el orden en que están declarados. Si varias reglas verdaderas modifican **la misma propiedad**, la documentación de JasperReports establece prioridad para la **primera** regla aplicable de la secuencia. Una forma aún más segura de diseñar el informe es escribir condiciones mutuamente excluyentes, como hace el checkpoint 4.5, de manera que una fila solo active una regla de color.
 
-```
-<style name="TextoPrecio" parent="TextoTabla">
+```xml
+<style name="TituloCondicional" style="Dato" isBold="true">
     <conditionalStyle>
-        <conditionExpression><![CDATA[$F{precio_medio} > 22]]></conditionExpression>
-        <style forecolor="#990000" isBold="true"/>
+        <conditionExpression><![CDATA[
+            $F{unidades_vendidas} != null
+            && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()
+        ]]></conditionExpression>
+        <style forecolor="#1B5E20"/>
     </conditionalStyle>
     <conditionalStyle>
-        <conditionExpression><![CDATA[$F{precio_medio} > 18]]></conditionExpression>
-        <style forecolor="#CC6600" isBold="true"/>
+        <conditionExpression><![CDATA[
+            $F{unidades_vendidas} != null
+            && $F{unidades_vendidas}.intValue() >= 3
+            && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()
+        ]]></conditionExpression>
+        <style forecolor="#1D5D88"/>
     </conditionalStyle>
     <conditionalStyle>
-        <conditionExpression><![CDATA[$F{precio_medio} > 15]]></conditionExpression>
-        <style forecolor="#006600"/>
+        <conditionExpression><![CDATA[
+            $F{unidades_vendidas} == null
+            || $F{unidades_vendidas}.intValue() < 3
+        ]]></conditionExpression>
+        <style forecolor="#9D3429"/>
     </conditionalStyle>
 </style>
 ```
 
-**Línea 1:** `<style name="TextoPrecio" parent="TextoTabla">` → declara un estilo que hereda de `TextoTabla`.
-**Línea 2-5:** primer bloque condicional. Se aplica cuando el precio es superior a 22. El color es rojo oscuro y el texto en negrita.
-**Línea 6-9:** segundo bloque condicional. Se aplica cuando el precio es superior a 18. El color es naranja oscuro y el texto en negrita.
-**Línea 10-13:** tercer bloque condicional. Se aplica cuando el precio es superior a 15. El color es verde.
+**Qué hace:** clasifica el campo de unidades en tres grupos que no se solapan: meta alcanzada, tramo intermedio y valor bajo/sin ventas.
 
-El orden de los bloques determina qué estilo prevalece cuando varias condiciones son verdaderas. El motor evalúa los bloques en orden y aplica el último cuya condición sea verdadera. Si un precio es 25, las tres condiciones son verdaderas y se aplica la última, la del bloque verde. Para que se aplique el primer bloque, la convención es declarar las condiciones de mayor a menor especificidad: primero las condiciones más restrictivas y después las más generales. Este orden garantiza que los valores extremos reciban el estilo correspondiente.
-
-```
-ORDEN DE EVALUACIÓN DE LOS ESTILOS CONDICIONALES
-
-  Bloques declarados:
-    1. precio_medio > 22 → rojo oscuro negrita
-    2. precio_medio > 18 → naranja negrita
-    3. precio_medio > 15 → verde
-
-  Valor 25:
-    Bloque 1: true → se aplica el estilo rojo oscuro
-    Bloque 2: true → sobrescribe con el estilo naranja
-    Bloque 3: true → sobrescribe con el estilo verde
-    Resultado: estilo verde (el último bloque verdadero)
-
-  Para que el valor 25 reciba el estilo rojo oscuro:
-    Declarar los bloques en orden inverso:
-    1. precio_medio > 15 → verde
-    2. precio_medio > 18 → naranja
-    3. precio_medio > 22 → rojo oscuro
-```
-
-**Qué representa el diagrama:** el efecto del orden de los bloques condicionales. El último bloque verdadero es el que prevalece.
-
-**Por qué es relevante:** permite ordenar los bloques para que los valores extremos reciban el estilo correcto.
+**Por qué es relevante:** enseña `conditionalStyle` sin depender de una interpretación errónea de “última regla ganadora”. También utiliza la herencia correcta `style="Dato"`; `parent="..."` no es el atributo de herencia utilizado en estos estilos JRXML.
 
 ### Bloque 4 — Lógica condicional sobre campos, parámetros y variables
 
@@ -1160,7 +1147,7 @@ La lógica condicional puede combinar campos, parámetros y variables en una mis
 **Línea 3:** `&& $F{unidades_vendidas} > $P{umbralUnidades}` → segunda condición. Comprueba el valor de un campo contra un parámetro.
 **Línea 4:** `&& $V{TotalImporte} > 0` → tercera condición. Comprueba el valor de una variable.
 
-La combinación de condiciones sobre campos, parámetros y variables requiere atención al orden de declaración. Las variables deben estar declaradas antes de la expresión que las referencia. Los parámetros deben estar declarados antes de la banda que los utiliza. Los campos deben estar declarados antes de la consulta que los produce. La coherencia en el orden de declaración es la que permite que la expresión se compile y se evalúe correctamente. La práctica recomendada consiste en declarar primero los parámetros, después los campos, después las variables y por último las bandas que los utilizan.
+La combinación de condiciones sobre campos, parámetros y variables requiere atención al orden de declaración. Las variables deben estar declaradas antes de la expresión que las referencia. Los parámetros deben estar declarados antes de la banda que los utiliza. La consulta se declara antes que los fields en el JRXML del curso; después se declaran los fields que reciben sus columnas/alias y, a continuación, las variables que dependen de esos fields. La práctica recomendada en este proyecto es: parámetros → queryString → fields → variables → bandas, respetando además el orden exigido por el esquema JRXML.
 
 ```
 ORDEN DE DECLARACIÓN EN EL JRXML
@@ -1173,7 +1160,7 @@ ORDEN DE DECLARACIÓN EN EL JRXML
   6. Variables
   7. Title y demás bandas
 
-  Cada sección puede referenciar a las anteriores pero no a las siguientes.
+  Las referencias deben respetar el ciclo de evaluación y el esquema: la query usa Parameters; los Fields describen sus columnas; las Variables usan Fields/Parameters; las bandas consumen todos ellos.
 ```
 
 **Qué representa el diagrama:** el orden de declaración de las secciones del JRXML. Cada sección solo puede referenciar las anteriores.
@@ -1275,218 +1262,100 @@ INFORME CON mostrarDetalle=false
 
 ## Parte teórica
 
-### Bloque 1 — Mecanismo de sustitución de parámetros
+### Bloque 1 — Cómo llegan los Parameters a una consulta SQL
 
-JasperReports sustituye los parámetros en las consultas SQL antes de enviarlas a la base de datos. El motor recorre la consulta, localiza cada aparición de la sintaxis `$P{nombre}` y la reemplaza por el valor del parámetro correspondiente. La sustitución se realiza con el tipo del parámetro y con el formato adecuado para cada motor de base de datos. Un parámetro de tipo `String` se sustituye con comillas simples alrededor del valor. Un parámetro numérico se sustituye sin comillas. Un parámetro de tipo `Date` se sustituye con el formato que el motor de base de datos espera. La sustitución se realiza antes de enviar la consulta, no como una sentencia preparada. Esta característica es la que permite utilizar la sintaxis `$P{}` en cualquier parte de la consulta, incluyendo la cláusula `LIKE` o la cláusula `IN`.
+Cuando un `queryString` contiene `$P{nombre}`, JasperReports no pega el texto del valor dentro del SQL. El motor prepara una sentencia JDBC con marcadores `?` y enlaza los valores mediante `PreparedStatement`. Esta separación entre estructura SQL y datos es la base para usar valores proporcionados por el usuario sin convertirlos en código SQL.
 
-```
-<parameter name="titulo" class="java.lang.String"/>
+```xml
 <queryString language="sql">
     <![CDATA[
-        SELECT titulo, precio FROM libros WHERE titulo = $P{titulo}
+        SELECT titulo, precio
+        FROM libros
+        WHERE precio >= $P{precioMinimo}
     ]]>
 </queryString>
 ```
 
-**Línea 1:** `<parameter name="titulo" class="java.lang.String"/>` → declara el parámetro `titulo` de tipo cadena.
-**Línea 3:** `<![CDATA[` → abre el bloque CDATA.
-**Línea 4:** `SELECT titulo, precio FROM libros WHERE titulo = $P{titulo}` → consulta con el parámetro en la cláusula `WHERE`. El motor sustituye `$P{titulo}` por el valor del parámetro entre comillas simples. Si el valor es `Cien años de soledad`, la consulta ejecutada es `SELECT titulo, precio FROM libros WHERE titulo = 'Cien años de soledad'`.
+De forma conceptual, el driver recibe una sentencia equivalente a `WHERE precio >= ?` y el valor de `precioMinimo` se enlaza aparte. En los logs de consulta de JasperReports puede verse la sentencia con `?` y, por separado, los valores de parámetros.
 
-El mecanismo de sustitución funciona con cualquier tipo de parámetro. Los parámetros de tipo `String` se sustituyen entre comillas simples. Los parámetros de tipo `Integer`, `Long`, `Double` y `BigDecimal` se sustituyen con su representación numérica sin comillas. Los parámetros de tipo `Boolean` se sustituyen con el valor `true` o `false` según el motor de base de datos. Los parámetros de tipo `Date` se sustituyen con el formato que el motor de base de datos reconoce, que en SQLite es una cadena en formato ISO 8601. La coherencia entre el tipo del parámetro y el tipo de la columna con la que se compara es condición necesaria para que el filtro funcione correctamente.
+**Por qué es relevante:** `$P{}` es apropiado para valores. No debe describirse como un mecanismo de “escape y pegado” porque eso oculta la separación real que proporciona JDBC.
 
-```
-SUSTITUCIÓN DE PARÁMETROS POR TIPO
+### Bloque 2 — Diferencia entre $P{}, $X{} y $P!{}
 
-  Tipo del parámetro  │ Valor              │ Consulta ejecutada
-  ─────────────────────┼────────────────────┼──────────────────────
-  java.lang.String     │ "Novela"           │ WHERE cat = 'Novela'
-  java.lang.Integer    │ 42                 │ WHERE num = 42
-  java.lang.Double     │ 19.95              │ WHERE precio = 19.95
-  java.lang.Boolean    │ Boolean.TRUE       │ WHERE disp = 1
-  java.util.Date       │ new Date()         │ WHERE fecha = '2026-09-23'
-```
+JasperReports ofrece tres mecanismos distintos y no deben confundirse:
 
-**Qué representa la tabla:** la sustitución de parámetros según su tipo. El motor adapta el formato al tipo del parámetro.
+- `$P{parametro}`: **valor enlazado** a la sentencia preparada.
+- `$X{funcion, columna, parametro}`: **función de cláusula** que permite al motor construir fragmentos controlados como `IN`, `NOTIN`, `EQUAL`, `LESS`, etc., enlazando los valores necesarios.
+- `$P!{parametro}`: **sustitución textual directa**. Inserta literalmente el contenido del parámetro en el texto de la consulta y, por ello, debe limitarse a fragmentos SQL controlados por la aplicación; no es el mecanismo para introducir valores de usuario.
 
-**Por qué es relevante:** permite escribir consultas parametrizadas con cualquier tipo de dato sin preocuparse por el formato de la sustitución.
+```sql
+-- Valor enlazado
+WHERE l.precio >= $P{precioMinimo}
 
-### Bloque 2 — Sustitución segura `$P{}` frente a sustitución directa `$X{}`
+-- Cláusula dinámica parametrizada
+AND $X{IN, l.categoria, categoriasLista}
 
-JasperReports ofrece dos sintaxis para insertar valores en las consultas SQL. La sintaxis `$P{nombre}` realiza una sustitución segura: el motor escapa los caracteres especiales del valor antes de insertarlo en la consulta. La sintaxis `$X{nombre}` realiza una sustitución directa: el motor inserta el valor tal cual, sin escaparlo. La diferencia es importante porque la sustitución directa puede ser vulnerable a la inyección SQL si el valor proviene de una fuente no confiable. La sustitución segura es la opción por defecto y la que se debe utilizar siempre que sea posible.
-
-```
-<parameter name="categoria" class="java.lang.String"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}
-    ]]>
-</queryString>
+-- Sustitución textual directa (no usada por EditorialReports)
+ORDER BY $P!{ordenControlado}
 ```
 
-**Línea 1:** `<parameter name="categoria" class="java.lang.String"/>` → declara el parámetro `categoria` de tipo cadena.
-**Línea 4:** `SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}` → la sintaxis `$P{categoria}` realiza una sustitución segura. El motor escapa las comillas simples y otros caracteres especiales antes de insertar el valor. Si el valor es `O'Brien`, la consulta ejecutada es `SELECT titulo, precio FROM libros WHERE categoria = 'O''Brien'` con la comilla simple escapada.
+En el checkpoint 4.6 **no se utiliza `$P!{}`**. La lista de categorías se resuelve con `$X{IN,...}` y el texto de búsqueda se mantiene como `$P{textoBusqueda}`.
 
-La sintaxis `$X{nombre}` se utiliza en casos específicos donde la sustitución segura no es suficiente. El caso más habitual es el operador `IN` con una lista de valores. La sintaxis `$X{nombre, columna, operador}` permite construir dinámicamente una condición `IN` a partir de una lista de valores. El segundo argumento es el nombre de la columna y el tercero es el operador de comparación. El motor genera la lista de valores separados por comas y la inserta en la consulta. Esta sintaxis es específica de JasperReports y no forma parte del estándar SQL.
+### Bloque 3 — LIKE y rangos manteniendo los valores enlazados
 
-```
-<parameter name="categorias" class="java.util.List"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros
-        WHERE $X{IN, categoria, categorias}
-    ]]>
-</queryString>
-```
+En SQLite puede formarse el patrón `LIKE` concatenando los comodines SQL alrededor de un parámetro enlazado:
 
-**Línea 1:** `<parameter name="categorias" class="java.util.List"/>` → declara el parámetro `categorias` de tipo lista.
-**Línea 4:** `WHERE $X{IN, categoria, categorias}` → la sintaxis `$X{IN, columna, parámetro}` construye dinámicamente la condición `IN`. Si el parámetro contiene las categorías `Novela`, `Ensayo` y `Poesía`, la consulta ejecutada incluye `WHERE categoria IN ('Novela', 'Ensayo', 'Poesía')`.
-
-```
-DIFERENCIAS ENTRE $P{} Y $X{}
-
-  $P{nombre}:
-    - Sustitución segura con escape de caracteres especiales.
-    - Sintaxis estándar de JasperReports.
-    - Utilizable en cualquier parte de la consulta.
-    - Adecuada para comparaciones simples.
-
-  $X{opción, columna, parámetro}:
-    - Sustitución directa con formato específico según la opción.
-    - Opciones: IN, NOTIN, EQUAL, NOTEQUAL.
-    - Solo utilizable en la cláusula WHERE.
-    - Adecuada para listas de valores y comparaciones parametrizadas.
+```sql
+AND (
+    $P{textoBusqueda} IS NULL
+    OR $P{textoBusqueda} = ''
+    OR l.titulo LIKE '%' || $P{textoBusqueda} || '%'
+)
 ```
 
-**Qué representa el diagrama:** las diferencias entre las dos sintaxis de sustitución. La primera es segura y estándar. La segunda es específica de JasperReports y adecuada para listas.
+El valor de `textoBusqueda` sigue viajando como parámetro JDBC. Los literales `'%'` pertenecen al SQL; el contenido del usuario no se convierte en estructura de la sentencia. Para un rango de fechas se aplica el mismo principio con dos Parameters enlazados:
 
-**Por qué es relevante:** permite elegir la sintaxis correcta según el caso de uso y evitar vulnerabilidades de inyección SQL.
-
-### Bloque 3 — Filtros parametrizados con LIKE
-
-El operador `LIKE` permite buscar coincidencias parciales en una columna de texto. La sintaxis `columna LIKE patrón` devuelve las filas en las que la columna coincide con el patrón. El patrón puede contener los comodines `%` para cualquier secuencia de caracteres y `_` para un único carácter. La combinación del operador `LIKE` con un parámetro permite construir búsquedas por texto parcial. El usuario proporciona una cadena y el motor busca las filas que la contienen.
-
-```
-<parameter name="textoBusqueda" class="java.lang.String"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros
-        WHERE titulo LIKE '%' || $P{textoBusqueda} || '%'
-    ]]>
-</queryString>
+```sql
+AND ($P{fechaDesde} IS NULL OR v.fecha_venta >= $P{fechaDesde})
+AND ($P{fechaHasta} IS NULL OR v.fecha_venta <= $P{fechaHasta})
 ```
 
-**Línea 1:** `<parameter name="textoBusqueda" class="java.lang.String"/>` → declara el parámetro `textoBusqueda` de tipo cadena.
-**Línea 4:** `WHERE titulo LIKE '%' || $P{textoBusqueda} || '%'` → construye el patrón concatenando el comodín `%` al principio, el valor del parámetro y el comodín `%` al final. El operador `||` de SQLite concatena cadenas. Si el valor es `sol`, el patrón es `%sol%` y la consulta devuelve los libros cuyo título contiene la secuencia `sol`.
+En EditorialReports las fechas de SQLite se almacenan como texto ISO `yyyy-MM-dd`, de forma que las comparaciones lexicográficas conservan el orden cronológico para ese formato.
 
-La construcción del patrón con `LIKE` requiere atención a la sintaxis del motor de base de datos. En SQLite el operador de concatenación es `||`. En MySQL es la función `CONCAT`. En PostgreSQL es el operador `||` o la función `CONCAT`. La elección del operador depende del motor. La construcción del patrón puede realizarse también en el propio parámetro, pasando ya el patrón con los comodines desde el programa Java. Esta aproximación simplifica la consulta pero traslada la lógica de construcción al programa. La elección entre ambas depende del control que se quiera tener sobre el patrón.
+### Bloque 4 — $X{IN,...}, listas nulas/vacías y función de cláusula
 
-```
-CONSTRUCCIÓN DEL PATRÓN LIKE
+La forma utilizada por el checkpoint es:
 
-  Patrón construido en la consulta:
-    WHERE titulo LIKE '%' || $P{textoBusqueda} || '%'
-    → el usuario proporciona solo el texto.
-
-  Patrón construido en el programa Java:
-    parametros.put("patronTitulo", "%" + textoUsuario + "%");
-    WHERE titulo LIKE $P{patronTitulo}
-    → el usuario proporciona el texto, el programa añade los comodines.
-
-  Patrón específico con comodín inicial:
-    WHERE titulo LIKE $P{textoBusqueda} || '%'
-    → busca los títulos que empiezan por el texto.
+```sql
+AND $X{IN, l.categoria, categoriasLista}
 ```
 
-**Qué representa el diagrama:** las tres formas de construir el patrón `LIKE`. La elección depende de dónde se quiera controlar el patrón.
+`categoriasLista` es una `java.util.Collection`. JasperReports construye la cláusula adecuada y enlaza cada elemento de la colección. No debe modelarse como una concatenación manual de `'Novela','Poesía',...`.
 
-**Por qué es relevante:** permite elegir la estrategia de búsqueda según el control que se necesite sobre el patrón.
+Para una colección con valores, el SQL preparado es conceptualmente equivalente a:
 
-### Bloque 4 — Filtros parametrizados con IN y listas
-
-El operador `IN` permite buscar coincidencias en una lista de valores. La sintaxis `columna IN (valor1, valor2, valor3)` devuelve las filas en las que la columna coincide con alguno de los valores de la lista. La combinación del operador `IN` con un parámetro de tipo lista permite construir búsquedas por conjuntos de valores. JasperReports ofrece la sintaxis `$X{IN, columna, parámetro}` que genera dinámicamente la lista. El parámetro debe ser de tipo `java.util.Collection` o `java.util.List`.
-
-```
-<parameter name="categorias" class="java.util.List"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio, categoria FROM libros
-        WHERE $X{IN, categoria, categorias}
-    ]]>
-</queryString>
+```text
+AND l.categoria IN (?, ?, ...)
+valores enlazados: [valor1, valor2, ...]
 ```
 
-**Línea 1:** `<parameter name="categorias" class="java.util.List"/>` → declara el parámetro `categorias` de tipo lista.
-**Línea 4:** `WHERE $X{IN, categoria, categorias}` → la sintaxis `$X{IN, columna, parámetro}` genera dinámicamente la lista de valores. Si el parámetro contiene `Novela`, `Ensayo` y `Poesía`, la consulta ejecutada incluye `WHERE categoria IN ('Novela', 'Ensayo', 'Poesía')`.
+Para una colección `null` o vacía, las funciones de cláusula de JasperReports tienen una semántica especial de “sin valores”: generan una cláusula que evalúa a verdadero o falso según el cuarto token opcional o la propiedad de configuración correspondiente. **No es correcto afirmar que JasperReports genera necesariamente `IN ()`.**
 
-El operador `IN` tiene una variante `NOT IN` que devuelve las filas que no coinciden con ningún valor de la lista. JasperReports ofrece la opción `NOTIN` en la sintaxis `$X{NOTIN, columna, parámetro}`. La combinación de `IN` y `NOTIN` permite construir filtros de inclusión y exclusión con la misma técnica. El parámetro de tipo lista se construye en el programa Java y puede contener cualquier número de valores. La lista vacía produce una condición `IN ()` que no devuelve filas. La lista con un solo valor produce una condición `IN ('valor')` que equivale a una igualdad. La lista con varios valores produce la condición completa.
+El checkpoint evita ambigüedad en su escenario base proporcionando por defecto las cuatro categorías existentes: `Novela`, `Realismo mágico`, `Cuento` y `Poesía`.
 
-```
-COMPORTAMIENTO DEL OPERADOR IN
+### Bloque 5 — Prevención de inyección y límites de la parametrización
 
-  Lista vacía:
-    WHERE categoria IN ()
-    → No devuelve ninguna fila.
+La defensa principal para los valores variables consiste en conservarlos como `$P{}` o como valores gestionados por funciones `$X{}`. Por ejemplo, si `textoBusqueda` vale `sol' OR '1'='1`, ese contenido se enlaza como **un valor** del patrón `LIKE`; no puede cerrar las comillas de la estructura SQL porque no se concatena como texto de consulta.
 
-  Lista con un valor:
-    WHERE categoria IN ('Novela')
-    → Equivale a WHERE categoria = 'Novela'
-
-  Lista con varios valores:
-    WHERE categoria IN ('Novela', 'Ensayo', 'Poesía')
-    → Devuelve las filas con cualquiera de los tres valores.
-
-  Variante NOTIN:
-    WHERE categoria NOT IN ('Ensayo')
-    → Devuelve las filas cuya categoría no es 'Ensayo'.
+```sql
+AND ($P{textoBusqueda} IS NULL
+     OR $P{textoBusqueda} = ''
+     OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')
 ```
 
-**Qué representa el diagrama:** el comportamiento del operador `IN` según el número de valores de la lista. La lista vacía no devuelve filas.
+La sustitución `$P!{}` sí modifica el texto SQL y, por tanto, solo debe recibir fragmentos seleccionados por código confiable (por ejemplo, una columna de orden elegida de una allowlist). Validar datos sigue siendo necesario por razones de dominio, tamaño, formato y lógica de negocio, aunque el valor se enlace de forma segura.
 
-**Por qué es relevante:** permite construir filtros de inclusión y exclusión con un único parámetro de tipo lista.
-
-### Bloque 5 — Prevención de inyección SQL
-
-La inyección SQL es una vulnerabilidad que se produce cuando el valor de un parámetro se inserta directamente en la consulta sin escapar los caracteres especiales. Un usuario malintencionado puede proporcionar un valor que contenga comillas simples y modificar la estructura de la consulta. La sintaxis `$P{}` de JasperReports escapa los caracteres especiales antes de insertarlos en la consulta, lo que previene la inyección SQL en la mayoría de los casos. La sintaxis `$X{}` no escapa los caracteres especiales, pero su uso está limitado a la cláusula `WHERE` y a las opciones predefinidas. La combinación de ambas sintaxis con las prácticas habituales de seguridad previene las vulnerabilidades.
-
-```
-<parameter name="categoria" class="java.lang.String"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}
-    ]]>
-</queryString>
-```
-
-**Línea 1:** `<parameter name="categoria" class="java.lang.String"/>` → declara el parámetro `categoria` de tipo cadena.
-**Línea 4:** `SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}` → la sintaxis `$P{categoria}` escapa los caracteres especiales del valor. Si el usuario proporciona el valor `' OR '1'='1`, el motor lo escapa como `'''' OR ''1''=''1` y la consulta no se modifica.
-
-La prevención de la inyección SQL en JasperReports se basa en tres prácticas. La primera es utilizar siempre la sintaxis `$P{}` para los valores que provienen del usuario. La segunda es evitar la concatenación de valores en la consulta y dejar que el motor realice la sustitución. La tercera es validar los valores en el programa Java antes de pasarlos al motor. La combinación de las tres prácticas reduce drásticamente el riesgo de inyección. La responsabilidad de la seguridad es compartida entre el programa Java y la plantilla JRXML. La documentación de las buenas prácticas es parte del proyecto EditorialReports.
-
-```
-PRÁCTICAS DE PREVENCIÓN DE INYECCIÓN SQL
-
-  1. Usar $P{} para todos los valores del usuario.
-     Correcto:   WHERE categoria = $P{categoria}
-     Incorrecto: WHERE categoria = '" + categoria + "'
-
-  2. Evitar la concatenación de valores en la consulta.
-     Correcto:   WHERE titulo LIKE '%' || $P{texto} || '%'
-     Incorrecto: WHERE titulo LIKE '%$P{texto}%'
-
-  3. Validar los valores en el programa Java.
-     Correcto:   if (valor.matches("[a-zA-Z ]+")) { ... }
-     Incorrecto: pasar el valor sin validación.
-
-  4. Usar $X{} solo con las opciones predefinidas.
-     Correcto:   WHERE $X{IN, categoria, categorias}
-     Incorrecto: WHERE $X{IN, categoria, categorias} OR ...
-```
-
-**Qué representa el diagrama:** las cuatro prácticas de prevención de inyección SQL en JasperReports. La combinación de las cuatro reduce el riesgo de vulnerabilidades.
-
-**Por qué es relevante:** permite construir informes seguros que no pueden ser manipulados por usuarios malintencionados.
-
----
+**Regla operativa del curso:** valores del usuario → `$P{}`; colecciones/condiciones soportadas → `$X{}`; fragmentos estructurales estrictamente controlados → `$P!{}` solo cuando sea imprescindible.
 
 ## Resumen rápido de la teoría
 

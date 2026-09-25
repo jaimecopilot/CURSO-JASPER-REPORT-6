@@ -15,375 +15,242 @@ La Parte B y la Parte C de cada punto contienen literalmente el JRXML y el Java 
 
 ---
 
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Abrir el checkpoint heredado de M3/3.7**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y elegir Refresh.
+2. Hacer doble clic sobre `reports/informe_ventas.jrxml`.
+3. Abrir la pestaña Design y expandir Parameters, Variables y las bandas en Outline.
+4. Confirmar que ya existen `usuario`, `fechaInforme`, `TotalUnidades` y `TotalImporte`.
 
-**Verificación visual:** el editor central muestra el informe de ventas con sus parámetros y variables declarados en el punto 3.7.
+**Verificación visual:** el informe heredado muestra Title de 90, Detail con los seis fields de ventas y Summary con los totales de M3/3.7.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir los nuevos parámetros.
-**Por qué:** el informe de ventas es la base para añadir los parámetros de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas del catálogo para ampliar sus instrucciones.
+**Qué hace:** Fija el punto de partida acumulativo real.
+**Por qué:** 4.1 no crea otro informe: evoluciona el de 3.7.
+**Error común:** Empezar desde una copia antigua con `INNER JOIN`.
+**Solución:** Usar exactamente `M3/3.7` y comprobar `LEFT JOIN ventas`.
+**Analogía:** Es abrir la última edición aprobada antes de añadir nuevas instrucciones.
 
 ---
 
-**Paso 2: Declarar el parámetro departamento**
+**Paso 2: Declarar departamento y periodo**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `departamento` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-5. Marcar la casilla Use default value.
-6. Hacer clic sobre el campo Default Value Expression y escribir exactamente `"General"`.
-7. Marcar la casilla is For Prompting.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, hacer clic con el botón derecho sobre Parameters y elegir Add Parameter.
+2. Crear `departamento` con clase `java.lang.String`, `isForPrompting=true` y Default Value Expression `"General"`.
+3. Repetir la operación para `periodo`, clase `java.lang.String`, `isForPrompting=true` y Default Value Expression `"Mensual"`.
+4. Guardar con Ctrl+S.
 
-**Verificación visual:** el panel Outline muestra el nodo Parameters con el nuevo parámetro `departamento` de tipo `java.lang.String` con valor por defecto `"General"`.
+**Verificación visual:** Parameters contiene `departamento` y `periodo` con los defaults indicados.
 
-**Qué hace:** declara un parámetro que representa el departamento que solicita el informe.
-**Por qué:** el nombre del departamento personaliza el encabezado del informe.
-**Error común:** escribir el valor por defecto sin comillas dobles. El compilador interpreta el valor como una expresión y lanza un error. Solución: escribir `"General"` con comillas dobles.
-**Analogía:** es como anotar en el resumen de ventas el nombre del departamento que lo ha solicitado.
+**Qué hace:** Añade metadatos de cabecera controlados por parámetros.
+**Por qué:** Los mismos valores pueden cambiar en Preview o desde Java sin editar el diseño.
+**Error común:** Intentar usar `initialValueExpression` en un parámetro.
+**Solución:** Usar `defaultValueExpression`; `initialValueExpression` pertenece al ciclo de variables.
+**Analogía:** Es rellenar campos configurables de una ficha, no crear una segunda ficha.
 
 ---
 
-**Paso 3: Declarar el parámetro periodo**
+**Paso 3: Declarar tipoIva y mostrarDetalle**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `periodo` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-5. Marcar la casilla Use default value.
-6. Hacer clic sobre el campo Default Value Expression y escribir exactamente `"Mensual"`.
-7. Marcar la casilla is For Prompting.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. Crear `tipoIva` como `java.lang.Double`, `isForPrompting=true` y Default Value Expression `Double.valueOf(0.21d)`.
+2. Crear `mostrarDetalle` como `java.lang.Boolean`, `isForPrompting=true` y Default Value Expression `Boolean.TRUE`.
+3. Guardar y revisar Problems.
 
-**Verificación visual:** el panel Outline muestra el parámetro `periodo` de tipo `java.lang.String` con valor por defecto `"Mensual"`.
+**Verificación visual:** los cuatro parámetros nuevos aparecen junto a los dos heredados.
 
-**Qué hace:** declara un parámetro que representa el periodo del informe.
-**Por qué:** el periodo identifica el intervalo temporal al que se refieren las ventas.
-**Error común:** olvidar marcar la casilla is For Prompting y provocar que el parámetro no aparezca en el diálogo. Solución: marcar la casilla.
-**Analogía:** es como anotar en el resumen de ventas el periodo al que corresponde.
+**Qué hace:** Añade un valor numérico para cálculos y un interruptor de visibilidad.
+**Por qué:** Ambos parámetros se reutilizan después en expresiones y `printWhenExpression`.
+**Error común:** Escribir `0,21` o tipar el parámetro como String.
+**Solución:** Usar `Double.valueOf(0.21d)` y clase `java.lang.Double`.
+**Analogía:** Es añadir al parte de trabajo el porcentaje fiscal y una casilla “mostrar detalle”.
 
 ---
 
-**Paso 4: Declarar el parámetro tipoIva**
+**Paso 4: Crear los estilos reutilizables del checkpoint**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `tipoIva` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Marcar la casilla Use default value.
-6. Hacer clic sobre el campo Default Value Expression y escribir exactamente `0.21`.
-7. Marcar la casilla is For Prompting.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir Source y situarse después de la property del data adapter.
+2. Declarar `Sans_Normal` con `isDefault="true"`, `fontName="DejaVu Sans"` y `fontSize="10"`.
+3. Declarar `TituloPrincipal` con `style="Sans_Normal"`, tamaño 18, negrita y color `#173F6B`.
+4. Declarar `Cabecera` con `style="Sans_Normal"`, tamaño 9, negrita y color `#173F6B`.
+5. Declarar `Dato` con `style="Sans_Normal"` y tamaño 9.
+6. Volver a Design.
 
-**Verificación visual:** el panel Outline muestra el parámetro `tipoIva` de tipo `java.lang.Double` con valor por defecto `0.21`.
+**Verificación visual:** Outline/Styles muestra los cuatro estilos y no aparece `Sans Serif`.
 
-**Qué hace:** declara un parámetro que representa el tipo de IVA aplicable a los importes.
-**Por qué:** el tipo de IVA permite calcular el importe con IVA incluido en las expresiones.
-**Error común:** escribir `0,21` con coma en lugar de `0.21` con punto. Java interpreta la coma como separador de argumentos. Solución: usar el punto como separador decimal.
-**Analogía:** es como anotar en el resumen de ventas el tipo de IVA aplicable.
+**Qué hace:** Centraliza fuente, tamaño y color.
+**Por qué:** Evita repetir configuración y mantiene portabilidad en PDF.
+**Error común:** Usar `default="true"` o `parent="..."`.
+**Solución:** Usar `isDefault="true"` y la herencia `style="..."`.
+**Analogía:** Es definir la guía de estilo antes de maquetar las páginas.
 
 ---
 
-**Paso 5: Declarar el parámetro mostrarDetalle**
+**Paso 5: Maquetar departamento y periodo en Title**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `mostrarDetalle` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Boolean`.
-5. Marcar la casilla Use default value.
-6. Hacer clic sobre el campo Default Value Expression y escribir exactamente `Boolean.TRUE`.
-7. Marcar la casilla is For Prompting.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. Seleccionar Title y mantener Band height en `90`.
+2. Añadir `Departamento:` en x=0, y=62, width=100, height=18.
+3. Añadir un Text Field en x=100, y=62, width=170, height=18 con `$P{departamento}`.
+4. Añadir `Periodo:` en x=300, y=62, width=70, height=18.
+5. Añadir un Text Field en x=370, y=62, width=185, height=18 con `$P{periodo}`.
+6. Mantener usuario y fecha en y=38 como en el checkpoint.
 
-**Verificación visual:** el panel Outline muestra el parámetro `mostrarDetalle` de tipo `java.lang.Boolean` con valor por defecto `Boolean.TRUE`.
+**Verificación visual:** los cuatro datos de cabecera caben dentro de los 90 px de Title sin solaparse.
 
-**Qué hace:** declara un parámetro que controla la visibilidad de las columnas de detalle.
-**Por qué:** el usuario puede solicitar un informe resumido o un informe detallado.
-**Error común:** escribir `true` en lugar de `Boolean.TRUE`. Tanto `true` como `Boolean.TRUE` pueden resolverse como `Boolean`; en este curso se usa `Boolean.TRUE` para mantener explícito el tipo objeto.
-**Analogía:** es como decidir si el resumen de ventas debe incluir el detalle de las columnas o solo los totales.
+**Qué hace:** Hace visibles los parámetros en el documento.
+**Por qué:** Un parámetro solo aporta contexto al lector si alguna expresión lo imprime.
+**Error común:** Subir Title a 110/124 o colocar los nuevos campos en y=90.
+**Solución:** En 4.1 usar exactamente Title=90 y la fila nueva en y=62.
+**Analogía:** Es añadir una segunda línea de metadatos sin agrandar innecesariamente el membrete.
 
 ---
 
-**Paso 6: Añadir el encabezado con los parámetros departamento y periodo**
+**Paso 6: Ajustar Column Header al diseño final de 4.1**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Title en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `110` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Title, en la coordenada aproximada x=0, y=90.
-6. Hacer doble clic sobre el Static Text creado en la acción anterior.
-7. Escribir exactamente `Departamento:`.
-8. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-9. Hacer clic sobre el campo X en el panel Properties, escribir `0` y pulsar Enter.
-10. Hacer clic sobre el campo Y, escribir `90` y pulsar Enter.
-11. Hacer clic sobre el campo Width, escribir `100` y pulsar Enter.
-12. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-13. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
+1. Seleccionar Column Header y fijar Band height=`48`.
+2. Primera fila: Título x=0 w=215; Unid. x=215 w=55; Importe x=280 w=90; Precio med. x=380 w=65.
+3. Segunda fila: Primera venta x=0 w=130; Última venta x=130 w=130; Periodo de ventas x=260 w=160.
+4. Añadir `Importe con IVA` en x=420, y=24, width=135, height=18 y alineación Right.
+5. Aplicar el estilo `Cabecera` a los rótulos.
 
-**Verificación visual:** la banda Title muestra el rótulo `Departamento:` en la parte inferior.
+**Verificación visual:** Column Header mide 48 y el encabezado IVA ocupa el hueco 420..555 de la segunda fila.
 
-**Qué hace:** inserta un rótulo para el parámetro `departamento`.
-**Por qué:** el rótulo identifica el valor del parámetro.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el rótulo se solape con la banda siguiente. Solución: ajustar la altura a 110 píxeles.
-**Analogía:** es como añadir el rótulo del departamento al resumen de ventas.
+**Qué hace:** Reordena la tabla para incorporar la nueva columna sin perder campos heredados.
+**Por qué:** La geometría coincide con el JRXML ejecutable.
+**Error común:** Crear el IVA en x=0/y=45 con una banda de 60.
+**Solución:** Usar x=420/y=24 y Band height=48.
+**Analogía:** Es aprovechar el hueco disponible de una tabla en vez de crear otra fila innecesaria.
 
 ---
 
-**Paso 7: Añadir el campo del parámetro departamento**
+**Paso 7: Ajustar Detail y añadir el importe con IVA**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-3. Arrastrar el icono Text Field y soltarlo dentro de la banda Title, a la derecha del rótulo, en la coordenada aproximada x=100, y=90.
-4. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `100` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `90` y pulsar Enter.
-6. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-7. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-8. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$P{departamento}` y pulsar Enter.
-9. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-10. Marcar la casilla Bold.
+1. Seleccionar Detail 1 y fijar Band height=`48`, splitType=`Stretch`.
+2. Mantener la primera fila de datos en y=0 y las fechas/periodo en y=24.
+3. Añadir un Text Field en x=420, y=24, width=135, height=18.
+4. Asignar Pattern `#,##0.00 €`, alineación Right y estilo `Dato`.
+5. Usar la expresión `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))`.
+6. Configurar Print When Expression como `Boolean.TRUE.equals($P{mostrarDetalle})`.
 
-**Verificación visual:** la banda Title muestra el campo con la expresión `$P{departamento}` a la derecha del rótulo.
+**Verificación visual:** el nuevo valor aparece en la segunda fila, es null-safe y se oculta al poner `mostrarDetalle=false`.
 
-**Qué hace:** inserta un campo que muestra el valor del parámetro `departamento`.
-**Por qué:** el parámetro proporciona el nombre del departamento que solicita el informe.
-**Error común:** usar `$F{departamento}` en lugar de `$P{departamento}`. El motor lanza `Field not found`. Solución: cambiar el prefijo a `$P{`.
-**Analogía:** es como imprimir el departamento solicitante en el resumen de ventas.
+**Qué hace:** Calcula y controla visualmente el importe con IVA.
+**Por qué:** Los tres títulos sin ventas producen agregados nulos y no deben lanzar una excepción.
+**Error común:** Multiplicar directamente un `importe_total` nulo.
+**Solución:** Mantener la comprobación de `null` antes de operar.
+**Analogía:** Es calcular un recargo solo cuando existe una cifra de partida.
 
 ---
 
-**Paso 8: Añadir el rótulo y el campo del parámetro periodo**
+**Paso 8: Mantener paginación y totales heredados**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-3. Arrastrar el icono Static Text y soltarlo dentro de la banda Title, a la derecha del campo anterior, en la coordenada aproximada x=260, y=90.
-4. Hacer doble clic sobre el Static Text creado en la acción anterior.
-5. Escribir exactamente `Periodo:`.
-6. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-7. Hacer clic sobre el campo X en el panel Properties, escribir `260` y pulsar Enter.
-8. Hacer clic sobre el campo Y, escribir `90` y pulsar Enter.
-9. Hacer clic sobre el campo Width, escribir `80` y pulsar Enter.
-10. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-11. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-12. Hacer clic sobre la pestaña Elements en el panel Palette.
-13. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-14. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=340, y=90.
-15. Hacer clic sobre el campo X, escribir `340` y pulsar Enter.
-16. Hacer clic sobre el campo Y, escribir `90` y pulsar Enter.
-17. Hacer clic sobre el campo Width, escribir `100` y pulsar Enter.
-18. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-19. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$P{periodo}` y pulsar Enter.
-20. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-21. Marcar la casilla Bold.
+1. Comprobar que Page Footer conserva `"Página " + $V{PAGE_NUMBER} + " de"`.
+2. Comprobar que el segundo campo usa `$V{PAGE_NUMBER}` con `evaluationTime="Report"`.
+3. Comprobar que Summary sigue mostrando `TotalUnidades` y `TotalImporte`.
+4. No introducir `$V{PAGE_COUNT}` como total de páginas.
 
-**Verificación visual:** la banda Title muestra el rótulo `Periodo:` seguido del campo con la expresión `$P{periodo}`.
+**Verificación visual:** la paginación y los totales de 3.7 siguen presentes.
 
-**Qué hace:** inserta el rótulo y el campo del parámetro `periodo`.
-**Por qué:** el periodo identifica el intervalo temporal al que se refieren las ventas.
-**Error común:** dejar el campo sin el estilo Bold y provocar que no destaque como los demás parámetros. Solución: marcar la casilla Bold.
-**Analogía:** es como imprimir el periodo al que corresponde el resumen de ventas.
+**Qué hace:** Protege una corrección ya cerrada en M3.
+**Por qué:** El nuevo punto no debe reintroducir errores de paginación.
+**Error común:** Usar PAGE_COUNT como total de páginas.
+**Solución:** Conservar PAGE_NUMBER y evaluationTime=Report.
+**Analogía:** Es ampliar una edición sin borrar la numeración ni el total del ejemplar anterior.
 
 ---
 
-**Paso 9: Añadir la columna calculada con el tipo de IVA**
+**Paso 9: Actualizar GeneradorInformeVentas.java**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `60` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=0, y=45.
-6. Hacer doble clic sobre el Static Text creado en la acción anterior.
-7. Escribir exactamente `Importe con IVA`.
-8. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-9. Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-10. Hacer clic sobre el campo Y, escribir `45` y pulsar Enter.
-11. Hacer clic sobre el campo Width, escribir `200` y pulsar Enter.
-12. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-13. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-14. Marcar la casilla Bold.
-15. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+1. Abrir `EditorialReportsJava/src/GeneradorInformeVentas.java`.
+2. Después de `usuario`, añadir `parametros.put("departamento", "Comercial");`.
+3. Añadir `parametros.put("periodo", "Septiembre 2026");`.
+4. Añadir `parametros.put("tipoIva", Double.valueOf(0.21d));`.
+5. Añadir `parametros.put("mostrarDetalle", Boolean.TRUE);`.
+6. Conservar `jdbc:sqlite:../EditorialReportsJava/data/editorial.db`, `new File("output").mkdirs()` y `System.exit(1)`.
 
-**Verificación visual:** la banda Column Header muestra el nuevo encabezado `Importe con IVA` en la parte inferior, alineado a la derecha.
+**Verificación visual:** el Java contiene exactamente los cuatro `put` nuevos y no pierde el contrato de error.
 
-**Qué hace:** inserta el encabezado de la columna calculada con el tipo de IVA.
-**Por qué:** el encabezado identifica la nueva columna del informe.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el encabezado se solape con la banda siguiente. Solución: ajustar la altura a 60 píxeles.
-**Analogía:** es como añadir el título de la columna del importe con IVA al resumen de ventas.
+**Qué hace:** Proporciona valores de ejecución distintos de los defaults de diseño.
+**Por qué:** Demuestra la diferencia entre un default JRXML y un valor pasado desde la aplicación.
+**Error común:** Cambiar la ruta JDBC a `data/editorial.db`.
+**Solución:** Mantener la ruta relativa al directorio desde el que se ejecuta el curso.
+**Analogía:** Es entregar al impresor los datos concretos del encargo manteniendo la misma plantilla.
 
 ---
 
-**Paso 10: Añadir el campo calculado con el tipo de IVA en la banda Detail**
+**Paso 10: Compilar y probar Preview**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `55` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=35.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `35` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `200` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-10. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))` y pulsar Enter.
-11. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-12. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-13. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+1. Guardar JRXML y pulsar Ctrl+Mayús+B.
+2. Revisar Problems: debe haber 0 errores.
+3. Abrir Preview y confirmar los parámetros promptable.
+4. Probar `mostrarDetalle=false` y verificar que el campo IVA se oculta.
+5. Volver a `mostrarDetalle=true` para el escenario base.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con la expresión que multiplica el importe total por el factor `(1 + tipoIva)`.
+**Verificación visual:** Preview compila y la visibilidad responde al parámetro.
 
-**Qué hace:** inserta un campo que calcula el importe con IVA incluido.
-**Por qué:** el parámetro `tipoIva` permite adaptar el cálculo a la legislación fiscal vigente.
-**Error común:** olvidar los paréntesis en la expresión `(1 + $P{tipoIva})`. La multiplicación se aplica solo al último término. Solución: envolver la suma entre paréntesis.
-**Analogía:** es como calcular el importe con IVA incluido en el resumen de ventas.
+**Qué hace:** Valida el diseño antes de ejecutar Java.
+**Por qué:** Aísla errores de plantilla de errores de integración.
+**Error común:** Confundir un error de Preview con un fallo JDBC del generador.
+**Solución:** Validar primero la plantilla y después la aplicación.
+**Analogía:** Es revisar una prueba de imprenta antes de lanzar la tirada.
 
 ---
 
-**Paso 11: Añadir la propiedad printWhenExpression a la columna de IVA**
+**Paso 11: Ejecutar el generador real**
 
 **Acciones:**
 
-1. Hacer clic sobre el Text Field que contiene la expresión `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))` en el editor central.
-2. Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-3. Hacer clic sobre la pestaña Properties en el panel Properties.
-4. Localizar el campo Print When Expression y escribir exactamente `Boolean.TRUE.equals($P{mostrarDetalle})` y pulsar Enter.
-5. Hacer clic sobre el Static Text `Importe con IVA` en la banda Column Header.
-6. Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-7. Localizar el campo Print When Expression y escribir exactamente `Boolean.TRUE.equals($P{mostrarDetalle})` y pulsar Enter.
-8. Pulsar Ctrl+S para guardar el archivo.
+1. Ejecutar `InicializadorBD` para reconstruir SQLite.
+2. Ejecutar `GeneradorInformeVentas` como Java Application.
+3. Comprobar en Console `M4 ventas generado correctamente`.
+4. Abrir `output/informe_ventas.pdf` y revisar cabecera, IVA y totales.
+5. Confirmar 14 títulos, 31 unidades y 633,40 €.
 
-**Verificación visual:** el campo del importe con IVA y su encabezado tienen la propiedad `printWhenExpression` con la expresión que comprueba el parámetro `mostrarDetalle`.
+**Verificación visual:** se genera un PDF real y los invariantes del dataset siguen intactos.
 
-**Qué hace:** configura la visibilidad de la columna del importe con IVA según el parámetro `mostrarDetalle`.
-**Por qué:** el usuario puede solicitar un informe con o sin las columnas de detalle.
-**Error común:** usar `$P{mostrarDetalle}` sin invocar `booleanValue()`. El compilador lanza un error de tipo. Solución: usar `Boolean.TRUE.equals($P{mostrarDetalle})`.
-**Analogía:** es como decidir si el resumen de ventas debe mostrar la columna del importe con IVA.
+**Qué hace:** Comprueba el flujo JRXML→Jasper→JasperPrint→PDF con JDBC real.
+**Por qué:** El curso valida ejecución, no solo XML bien formado.
+**Error común:** Dar por válido el punto porque Source no tiene marcas rojas.
+**Solución:** Ejecutar el generador y comprobar el PDF.
+**Analogía:** Es verificar la tirada terminada, no solo el archivo de diseño.
 
 ---
 
-**Paso 12: Modificar el programa Java para pasar los nuevos parámetros**
+**Paso 12: Crear PARAMETROS.md y contrastar con Parte B**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Localizar la línea que contiene `parametros.put("usuario", "Ana Martínez");`.
-3. Hacer clic al final de esa línea y pulsar Enter.
-4. Escribir exactamente `parametros.put("departamento", "Comercial");` y pulsar Enter.
-5. Escribir exactamente `parametros.put("periodo", "Octubre 2026");` y pulsar Enter.
-6. Escribir exactamente `parametros.put("tipoIva", 0.21);` y pulsar Enter.
-7. Escribir exactamente `parametros.put("mostrarDetalle", Boolean.TRUE);` y pulsar Enter.
-8. Pulsar Ctrl+S para guardar el archivo.
-9. Observar el panel Problems y verificar que no hay errores.
+1. Crear `EditorialReports/PARAMETROS.md`.
+2. Documentar `usuario`, `fechaInforme`, `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`.
+3. Indicar que Parameters usan `defaultValueExpression` y que `initialValueExpression` corresponde a Variables.
+4. Abrir la Parte B de esta práctica y comparar parámetros, bandas, posiciones y expresiones con Source.
+5. Guardar todo.
 
-**Verificación visual:** el editor central muestra las cuatro nuevas líneas que introducen los valores de los parámetros en el mapa.
+**Verificación visual:** PARAMETROS.md existe y la Parte A describe el mismo estado funcional que el JRXML de Parte B.
 
-**Qué hace:** modifica el programa Java para pasar los valores de los nuevos parámetros.
-**Por qué:** los parámetros necesitan valores para que el informe se resuelva correctamente.
-**Error común:** olvidar la coma al final de alguna línea. El compilador informa `';' expected`. Solución: revisar cada línea y asegurarse de que tiene el punto y coma.
-**Analogía:** es como indicar al operario los valores de los parámetros del resumen de ventas.
-
----
-
-**Paso 13: Compilar y previsualizar el informe**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Pulsar el botón Preview de la barra de herramientas superior.
-5. En el diálogo de previsualización, hacer clic sobre la pestaña Parameters.
-6. Verificar que aparecen los cuatro nuevos parámetros: `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`.
-7. Modificar el valor del parámetro `departamento` a `Editorial` y del parámetro `periodo` a `Noviembre 2026`.
-8. Hacer clic sobre el botón OK.
-9. Esperar a que se abra la pestaña Preview en el editor central.
-
-**Verificación visual:** la pestaña Preview muestra el informe con los valores modificados de los parámetros `departamento` y `periodo`. La columna del importe con IVA aparece porque `mostrarDetalle` es verdadero.
-
-**Qué hace:** compila y previsualiza el informe con los parámetros modificados desde el diálogo.
-**Por qué:** la previsualización confirma que los parámetros se resuelven y que la propiedad `isForPrompting` funciona.
-**Error común:** obtener `Parameter not found: departamento`. Indica que el parámetro no está declarado o no se ha proporcionado un valor. Solución: revisar la declaración del parámetro y el diálogo de previsualización.
-**Analogía:** es como revisar la prueba de color del resumen de ventas con los parámetros personalizados.
-
----
-
-**Paso 14: Ejecutar el programa Java y verificar el PDF**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra los valores de los parámetros `departamento` y `periodo`, y la columna del importe con IVA.
-
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra los valores de los parámetros.
-
-**Qué hace:** ejecuta el programa Java que pasa los parámetros y genera el informe.
-**Por qué:** la ejecución confirma que los parámetros se resuelven correctamente desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el resumen de ventas con los parámetros personalizados.
-
----
-
-**Paso 15: Documentar los parámetros**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `PARAMETROS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Parámetros del informe de ventas` y pulsar Enter dos veces.
-7. Escribir exactamente `| Parámetro | Tipo Java | Valor por defecto | isForPrompting | Uso |` y pulsar Enter.
-8. Escribir exactamente `|---|---|---|---|---|` y pulsar Enter.
-9. Escribir exactamente `| usuario | java.lang.String | (ninguno) | true | Nombre del usuario que solicita el informe |` y pulsar Enter.
-10. Escribir exactamente `| fechaInforme | java.util.Date | new java.util.Date() | true | Fecha del informe |` y pulsar Enter.
-11. Escribir exactamente `| departamento | java.lang.String | "General" | true | Departamento solicitante |` y pulsar Enter.
-12. Escribir exactamente `| periodo | java.lang.String | "Mensual" | true | Periodo del informe |` y pulsar Enter.
-13. Escribir exactamente `| tipoIva | java.lang.Double | 0.21 | true | Tipo de IVA aplicable |` y pulsar Enter.
-14. Escribir exactamente `| mostrarDetalle | java.lang.Boolean | Boolean.TRUE | true | Controla la visibilidad de las columnas de detalle |` y pulsar Enter.
-15. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `PARAMETROS.md` en la raíz del proyecto `EditorialReports` con la tabla de parámetros documentada.
-
-**Qué hace:** incorpora al proyecto un documento que registra los parámetros del informe de ventas.
-**Por qué:** la documentación de los parámetros facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown. Solución: revisar cada línea.
-**Analogía:** es como dejar en la editorial una ficha técnica con los parámetros del resumen de ventas.
+**Qué hace:** Cierra la trazabilidad entre GUI, documentación y código.
+**Por qué:** La práctica debe tener un único resultado final.
+**Error común:** Terminar Parte A con geometría distinta a Parte B.
+**Solución:** Usar Parte B como fuente canónica para la comprobación final.
+**Analogía:** Es cotejar la maqueta con el original aprobado antes de archivarla.
 
 ---
 
@@ -948,316 +815,236 @@ El punto 4.2, «Filtros con parámetros», introduce los filtros basados en par�
 
 ---
 
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Abrir el checkpoint 4.1**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `M4/4.2/EditorialReports/reports/informe_ventas.jrxml` y comprobar que conserva los parámetros de 4.1.
+2. Confirmar `LEFT JOIN ventas` en Source.
+3. Abrir Outline y localizar Parameters y Fields.
 
-**Verificación visual:** el editor central muestra el informe de ventas con sus parámetros y variables declarados.
+**Verificación visual:** el informe parte de 4.1 y no de una versión simplificada.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir los filtros.
-**Por qué:** el informe de ventas es la base para añadir los filtros de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para añadir los criterios de selección.
+**Qué hace:** Fija el baseline acumulativo.
+**Por qué:** Los filtros se añaden sobre el informe parametrizado.
+**Error común:** Partir de un JRXML con `INNER JOIN`.
+**Solución:** Conservar literalmente el `LEFT JOIN`.
+**Analogía:** Es aplicar filtros sobre el catálogo completo, no sobre una copia recortada.
 
 ---
 
-**Paso 2: Declarar el parámetro categoria**
+**Paso 2: Declarar los tres parámetros de filtro**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `categoria` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-5. Marcar la casilla is For Prompting.
-6. Hacer clic sobre el botón Finish.
-7. Pulsar Ctrl+S para guardar el archivo.
+1. Crear `categoria` como `java.lang.String`, `isForPrompting=true`, sin default.
+2. Crear `precioMinimo` como `java.lang.Double`, `isForPrompting=true`, sin default.
+3. Crear `precioMaximo` como `java.lang.Double`, `isForPrompting=true`, sin default.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra el parámetro `categoria` de tipo `java.lang.String`.
+**Verificación visual:** Parameters muestra los tres nombres y sus tipos.
 
-**Qué hace:** declara un parámetro para filtrar los libros por categoría.
-**Por qué:** el parámetro permite al usuario seleccionar los libros de una categoría concreta.
-**Error común:** marcar la casilla Use default value y dejar el valor por defecto vacío. El parámetro se inicializa como cadena vacía y el filtro no funciona. Solución: no marcar la casilla o proporcionar un valor por defecto nulo.
-**Analogía:** es como indicar al operario que seleccione los libros de una categoría concreta.
+**Qué hace:** Permite activar o desactivar cada filtro usando `null`.
+**Por qué:** Un valor nulo deja el filtro opcional inactivo.
+**Error común:** Asignar 0 como default a los precios y cambiar el resultado base.
+**Solución:** Dejar los defaults nulos.
+**Analogía:** Es dejar tres casillas de filtro vacías hasta que el usuario las rellene.
 
 ---
 
-**Paso 3: Declarar el parámetro precioMinimo**
+**Paso 3: Evolucionar el esquema libros con categoria**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `precioMinimo` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Marcar la casilla is For Prompting.
-6. Hacer clic sobre el botón Finish.
-7. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir `InicializadorBD.java`.
+2. Dentro de `CREATE TABLE libros`, añadir `categoria TEXT NOT NULL` como sexta columna.
+3. Actualizar los 14 INSERT de libros añadiendo una categoría a cada título.
+4. Usar únicamente `Novela`, `Realismo mágico`, `Cuento` y `Poesía` según el checkpoint.
+5. No añadir `ALTER TABLE`.
+6. Guardar.
 
-**Verificación visual:** el panel Outline muestra el parámetro `precioMinimo` de tipo `java.lang.Double`.
+**Verificación visual:** el esquema contiene categoria desde su creación y siguen existiendo 14 INSERT de libros.
 
-**Qué hace:** declara un parámetro para filtrar los libros por precio mínimo.
-**Por qué:** el parámetro permite al usuario seleccionar los libros con precio superior a un valor.
-**Error común:** escribir el nombre del parámetro con mayúscula inicial (`PrecioMinimo`). El motor busca el parámetro por el nombre exacto. Solución: usar minúscula inicial.
-**Analogía:** es como indicar al operario el precio mínimo de los libros a incluir.
+**Qué hace:** Hace reproducible la ampliación del modelo.
+**Por qué:** El inicializador recrea la base en cada ejecución.
+**Error común:** Añadir la columna mediante ALTER TABLE después del CREATE.
+**Solución:** Declararla directamente en CREATE TABLE y semillas.
+**Analogía:** Es añadir un campo a la ficha maestra, no un parche posterior.
 
 ---
 
-**Paso 4: Declarar el parámetro precioMaximo**
+**Paso 4: Actualizar la consulta SQL con filtros opcionales**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades aparece, escribir exactamente `precioMaximo` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Marcar la casilla is For Prompting.
-6. Hacer clic sobre el botón Finish.
-7. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir Source y localizar QueryString.
+2. Añadir `l.categoria` a SELECT.
+3. Mantener `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
+4. Añadir `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})`.
+5. Añadir `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})`.
+6. Añadir `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})`.
+7. Cambiar GROUP BY a `l.titulo, l.categoria`.
 
-**Verificación visual:** el panel Outline muestra el parámetro `precioMaximo` de tipo `java.lang.Double`.
+**Verificación visual:** la consulta contiene los tres `$P{}` y conserva LEFT JOIN.
 
-**Qué hace:** declara un parámetro para filtrar los libros por precio máximo.
-**Por qué:** el parámetro permite al usuario seleccionar los libros con precio inferior a un valor.
-**Error común:** olvidar marcar la casilla is For Prompting y provocar que el parámetro no aparezca en el diálogo. Solución: marcar la casilla.
-**Analogía:** es como indicar al operario el precio máximo de los libros a incluir.
+**Qué hace:** Lleva el filtrado a SQLite antes de construir el informe.
+**Por qué:** Reduce filas solo cuando un parámetro tiene valor.
+**Error común:** Describir `$P{}` como sustitución textual.
+**Solución:** Recordar que JasperReports enlaza los valores mediante PreparedStatement/JDBC.
+**Analogía:** Es entregar criterios al archivador sin reescribir la pregunta SQL.
 
 ---
 
-**Paso 5: Ampliar la consulta SQL con filtros opcionales**
+**Paso 5: Crear el field categoria**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source.
-2. Localizar el bloque completo `<queryString language="sql">`.
-3. Conservar la línea `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
-4. Añadir `l.categoria` a `SELECT`.
-5. Añadir después del `LEFT JOIN` las tres condiciones `WHERE`/`AND` para `categoria`, `precioMinimo` y `precioMaximo` usando `$P{}`.
-6. Añadir `l.categoria` al `GROUP BY`.
-7. Pulsar Ctrl+S y volver a Design.
+1. En Outline, hacer clic con el botón derecho sobre Fields y elegir Add Field.
+2. Name=`categoria`; Class=`java.lang.String`.
+3. Guardar.
 
-**Verificación visual:** la consulta conserva `LEFT JOIN` y contiene los tres parámetros opcionales.
+**Verificación visual:** Fields contiene `categoria` además de los seis fields heredados.
 
-**Qué hace:** filtra sin perder los títulos que carecen de ventas cuando no hay filtros restrictivos.
-**Por qué:** el `LEFT JOIN` es un invariante heredado de 3.6/3.7.
-**Error común:** volver a `INNER JOIN`; eso reduce el conjunto a los títulos vendidos. Solución: mantener `LEFT JOIN`.
-**Analogía:** es como filtrar el catálogo sin retirar del inventario los títulos que todavía no han vendido.
+**Qué hace:** Expone la nueva columna del ResultSet al diseño.
+**Por qué:** La consulta y el field deben tener el mismo nombre/alias.
+**Error común:** Usar `$P{categoria}` para imprimir la categoría de la fila.
+**Solución:** Imprimir el dato con `$F{categoria}`.
+**Analogía:** Es distinguir el criterio del usuario de la categoría que devuelve cada ficha.
 
 ---
 
-**Paso 6: Añadir la columna categoria al esquema reproducible**
+**Paso 6: Añadir categoria al encabezado**
 
 **Acciones:**
 
-1. Hacer doble clic sobre `InicializadorBD.java`.
-2. Localizar el `CREATE TABLE libros`.
-3. Añadir `categoria TEXT NOT NULL` como sexta columna dentro de la sentencia `CREATE TABLE`.
-4. Añadir a cada `INSERT INTO libros` un valor de categoría coherente (`Novela`, `Realismo mágico`, `Cuento` o `Poesía`).
-5. Pulsar Ctrl+S.
-6. Ejecutar `InicializadorBD` como Java Application.
-7. Verificar en Console `Libros insertados: 14` y `Ventas insertadas: 9`.
+1. Seleccionar Column Header y fijar Band height=`62`.
+2. Añadir Static Text `Categoría` en x=455, y=2, width=100, height=18.
+3. Aplicar estilo `Cabecera`.
 
-**Verificación visual:** SQLite se reconstruye con la columna `categoria` desde el propio esquema, sin `ALTER TABLE` posterior.
+**Verificación visual:** Categoría aparece al final de la primera fila de encabezados.
 
-**Qué hace:** evoluciona el esquema de forma determinista.
-**Por qué:** cada ejecución del inicializador debe producir el mismo estado.
-**Error común:** añadir la columna con `ALTER TABLE` después de recrear la tabla. Solución: declararla directamente en `CREATE TABLE`.
-**Analogía:** es como rediseñar la ficha maestra del libro en lugar de pegar una etiqueta adicional después.
+**Qué hace:** Reserva una columna visible para el nuevo field.
+**Por qué:** La geometría debe coincidir con el checkpoint.
+**Error común:** Mantener la banda en 48 y provocar desbordamiento.
+**Solución:** Usar 62.
+**Analogía:** Es ampliar la cabecera para incluir una nueva columna sin perder las fechas.
 
 ---
 
-**Paso 7: Añadir la columna categoria al informe**
+**Paso 7: Añadir categoria al Detail**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-3. Localizar la línea que contiene `SELECT l.titulo,` y pulsar Enter al final.
-4. Escribir exactamente `l.categoria,` y pulsar Enter.
-5. Localizar la línea que contiene `<field name="titulo" class="java.lang.String"/>` y pulsar Enter al final.
-6. Escribir exactamente `<field name="categoria" class="java.lang.String"/>` y pulsar Enter.
-7. Pulsar Ctrl+S para guardar el archivo.
-8. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Seleccionar Detail 1 y fijar Band height=`62`.
+2. Añadir Text Field en x=455, y=0, width=100, height=20.
+3. Expression=`$F{categoria}` y Style=`Dato`.
+4. No añadir ningún `printWhenExpression` a la banda Detail.
 
-**Verificación visual:** el panel Outline muestra el nuevo campo `categoria` de tipo `java.lang.String`.
+**Verificación visual:** la categoría se imprime en cada una de las 14 filas del escenario base.
 
-**Qué hace:** añade la columna `categoria` a la consulta y declara el campo correspondiente.
-**Por qué:** el campo `categoria` permite mostrar la categoría del libro en el informe.
-**Error común:** olvidar declarar el campo `categoria` y provocar `Field not found: categoria` al compilar. Solución: añadir la declaración del campo.
-**Analogía:** es como añadir la categoría al listado de datos del resumen de ventas.
+**Qué hace:** Muestra el dato recuperado por la consulta.
+**Por qué:** 4.2 introduce filtros SQL; no oculta filas con una condición de plantilla inexistente en el checkpoint.
+**Error común:** Añadir un filtro Detail `unidades_vendidas > 3`.
+**Solución:** No añadirlo: no forma parte del JRXML ejecutable 4.2.
+**Analogía:** Es mostrar la etiqueta de cada libro sin alterar después la selección del archivador.
 
 ---
 
-**Paso 8: Añadir el encabezado de la columna categoria**
+**Paso 8: Actualizar el generador con filtros nulos**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `75` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=200, y=45.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `200` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `45` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `120` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Categoría`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-14. Marcar la casilla Bold.
+1. Abrir `GeneradorInformeVentas.java`.
+2. Añadir `parametros.put("categoria", null);`.
+3. Añadir `parametros.put("precioMinimo", null);`.
+4. Añadir `parametros.put("precioMaximo", null);`.
+5. Conservar todos los puts de 4.1.
 
-**Verificación visual:** la banda Column Header muestra el nuevo encabezado `Categoría` en la coordenada 200.
+**Verificación visual:** el escenario Java base deja inactivos los tres filtros.
 
-**Qué hace:** inserta el encabezado de la columna de categoría.
-**Por qué:** el encabezado identifica la nueva columna del informe.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el encabezado se solape con la banda siguiente. Solución: ampliar la altura a 75 píxeles.
-**Analogía:** es como añadir el título de la columna de categoría al resumen de ventas.
+**Qué hace:** Permite demostrar que el resultado base sigue teniendo 14 títulos.
+**Por qué:** Los filtros pueden probarse aparte sin alterar el contrato acumulativo.
+**Error común:** Usar `precioMinimo=15.0` en el generador base y cambiar los resultados de control.
+**Solución:** Mantener null en el escenario E2E y usar Preview para escenarios filtrados.
+**Analogía:** Es conservar una tirada patrón y hacer pruebas de filtros en copias de prueba.
 
 ---
 
-**Paso 9: Añadir el campo categoria en la banda Detail**
+**Paso 9: Reconstruir SQLite y comprobar categoria**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `70` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=200, y=35.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `200` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `35` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `120` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-10. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{categoria}` y pulsar Enter.
-11. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
+1. Ejecutar `InicializadorBD`.
+2. Comprobar en Console `Libros insertados: 14` y `Ventas insertadas: 9`.
+3. Abrir Database Metadata/Data Adapter y refrescar el esquema si Studio conserva caché.
+4. Confirmar que `libros` contiene `categoria`.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con la expresión `$F{categoria}`.
+**Verificación visual:** la nueva columna existe y los contadores no cambian.
 
-**Qué hace:** inserta un campo que muestra la categoría del libro.
-**Por qué:** la categoría amplía la información del informe y permite al lector identificar los libros por tipo.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el campo se solape con la banda siguiente. Solución: ajustar la altura a 70 píxeles.
-**Analogía:** es como rellenar las celdas de la columna de categoría en el resumen de ventas.
+**Qué hace:** Valida que el cambio de esquema es real.
+**Por qué:** El JRXML no debe apoyarse en una columna que solo exista en documentación.
+**Error común:** No reinicializar la base después del cambio de CREATE TABLE.
+**Solución:** Ejecutar siempre InicializadorBD tras cambiar el esquema.
+**Analogía:** Es actualizar el catálogo físico antes de pedir informes sobre el nuevo campo.
 
 ---
 
-**Paso 10: Añadir un filtro con printWhenExpression para el precio**
+**Paso 10: Compilar y probar los filtros en Preview**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic con el botón derecho sobre el nodo Detail 1 y seleccionar Properties.
-3. Hacer clic sobre la pestaña Properties en el panel Properties.
-4. Localizar el campo Print When Expression y escribir exactamente `Boolean.TRUE.equals($P{mostrarDetalle}) || $F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() > 3` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
+1. Compilar con Ctrl+Mayús+B y revisar 0 errores.
+2. Previsualizar con categoria, precioMinimo y precioMaximo vacíos: deben aparecer 14 títulos.
+3. Repetir Preview con `categoria=Novela` y observar solo esa categoría.
+4. Repetir con un precio mínimo y confirmar que cambia el conjunto de filas.
+5. Volver al escenario sin filtros.
 
-**Verificación visual:** el campo Print When Expression de la banda Detail 1 contiene la expresión configurada.
+**Verificación visual:** los filtros son opcionales y el escenario vacío conserva 14 títulos.
 
-**Qué hace:** configura la visibilidad de la banda Detail según los parámetros y los campos.
-**Por qué:** la expresión combina el parámetro `mostrarDetalle` con el campo `unidades_vendidas` para mostrar solo las filas relevantes.
-**Error común:** olvidar invocar `booleanValue()` sobre el parámetro. El compilador lanza un error de tipo. Solución: escribir `Boolean.TRUE.equals($P{mostrarDetalle})`.
-**Analogía:** es como decidir si el resumen de ventas debe mostrar todas las filas o solo las destacadas.
+**Qué hace:** Demuestra la semántica `param IS NULL OR ...`.
+**Por qué:** Se prueba el filtro sin alterar el generador base.
+**Error común:** Interpretar `NULL = NULL` como verdadero.
+**Solución:** La desactivación se obtiene con la rama `IS NULL`.
+**Analogía:** Es activar filtros de búsqueda sin borrar el inventario original.
 
 ---
 
-**Paso 11: Modificar el programa Java para pasar los parámetros de filtro**
+**Paso 11: Ejecutar el flujo Java real**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Localizar la línea que contiene `parametros.put("mostrarDetalle", Boolean.TRUE);`.
-3. Hacer clic al final de esa línea y pulsar Enter.
-4. Escribir exactamente `parametros.put("categoria", null);` y pulsar Enter.
-5. Escribir exactamente `parametros.put("precioMinimo", 15.0);` y pulsar Enter.
-6. Escribir exactamente `parametros.put("precioMaximo", null);` y pulsar Enter.
-7. Pulsar Ctrl+S para guardar el archivo.
-8. Observar el panel Problems y verificar que no hay errores.
+1. Ejecutar `GeneradorInformeVentas`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar 14 títulos, 31 unidades y 633,40 €.
+4. Comprobar que la nueva columna Categoría aparece.
 
-**Verificación visual:** el editor central muestra las tres nuevas líneas que introducen los valores de los parámetros de filtro.
+**Verificación visual:** el PDF base conserva invariantes y muestra categoría.
 
-**Qué hace:** modifica el programa Java para pasar los valores de los parámetros de filtro.
-**Por qué:** los parámetros de filtro controlan los registros que se recuperan de la base de datos.
-**Error común:** olvidar el `null` para los parámetros opcionales y provocar que el filtro se aplique siempre. Solución: pasar `null` para desactivar el filtro.
-**Analogía:** es como indicar al operario los criterios de selección del resumen de ventas.
+**Qué hace:** Valida JDBC, query, fields y maquetación juntos.
+**Por qué:** El checkpoint debe funcionar end-to-end.
+**Error común:** Dar por suficiente la Preview.
+**Solución:** Ejecutar también Java con SQLite real.
+**Analogía:** Es comprobar el producto final después de probar los filtros.
 
 ---
 
-**Paso 12: Compilar y previsualizar el informe**
+**Paso 12: Documentar filtros y contrastar Parte B**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Pulsar el botón Preview de la barra de herramientas superior.
-5. En el diálogo de previsualización, hacer clic sobre la pestaña Parameters.
-6. Verificar que aparecen los parámetros `categoria`, `precioMinimo` y `precioMaximo`.
-7. Establecer el valor del parámetro `precioMinimo` a `18.0`.
-8. Hacer clic sobre el botón OK.
-9. Esperar a que se abra la pestaña Preview en el editor central.
+1. Crear `EditorialReports/FILTROS.md`.
+2. Documentar los tres parámetros SQL opcionales y que `LEFT JOIN` se conserva.
+3. Indicar que no existe un filtro adicional de Detail en el checkpoint 4.2.
+4. Comparar QueryString, field categoria y alturas 62 con la Parte B.
+5. Guardar.
 
-**Verificación visual:** la pestaña Preview muestra solo los libros con precio superior a 18 euros. La categoría aparece en la columna correspondiente.
+**Verificación visual:** FILTROS.md y Parte B describen el mismo comportamiento.
 
-**Qué hace:** compila y previsualiza el informe con los filtros aplicados.
-**Por qué:** la previsualización confirma que los filtros SQL se aplican correctamente y que el parámetro nulo desactiva el filtro.
-**Error común:** obtener `SQLException: no such column: l.categoria`. Indica que la columna no existe en la base de datos. Solución: ejecutar de nuevo el `InicializadorBD`.
-**Analogía:** es como revisar la prueba de color del resumen de ventas filtrado.
-
----
-
-**Paso 13: Ejecutar el programa Java y verificar el PDF**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra solo los libros con precio superior a 15 euros y que la columna de categoría aparece.
-
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra los libros filtrados.
-
-**Qué hace:** ejecuta el programa Java que pasa los parámetros de filtro y genera el informe.
-**Por qué:** la ejecución confirma que los filtros funcionan desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el resumen de ventas filtrado.
-
----
-
-**Paso 14: Documentar los filtros**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `FILTROS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Filtros del informe de ventas` y pulsar Enter dos veces.
-7. Escribir exactamente `## Filtros en SQL` y pulsar Enter dos veces.
-8. Escribir exactamente `- categoria: filtro opcional por categoría. Se aplica si el parámetro no es nulo.` y pulsar Enter.
-9. Escribir exactamente `- precioMinimo: filtro opcional por precio mínimo. Se aplica si el parámetro no es nulo.` y pulsar Enter.
-10. Escribir exactamente `- precioMaximo: filtro opcional por precio máximo. Se aplica si el parámetro no es nulo.` y pulsar Enter dos veces.
-11. Escribir exactamente `## Filtros en la plantilla` y pulsar Enter dos veces.
-12. Escribir exactamente `- mostrarDetalle: controla la visibilidad de la columna de importe con IVA.` y pulsar Enter.
-13. Escribir exactamente `- printWhenExpression en Detail 1: muestra las filas si mostrarDetalle es true o si unidades_vendidas > 3.` y pulsar Enter.
-14. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `FILTROS.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra los filtros del informe.
-**Por qué:** la documentación de los filtros facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar los filtros de la plantilla. Solución: incluir las dos secciones.
-**Analogía:** es como dejar en la editorial una ficha técnica con los criterios de selección del resumen de ventas.
+**Qué hace:** Cierra la trazabilidad docente.
+**Por qué:** Evita que la explicación introduzca lógica que el código no ejecuta.
+**Error común:** Documentar un printWhen inexistente.
+**Solución:** Documentar solo el estado real de 4.2.
+**Analogía:** Es archivar únicamente los filtros que realmente usa la tirada aprobada.
 
 ---
 
@@ -2013,22 +1800,21 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 ---
 
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Abrir 4.2 y revisar variables heredadas**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `informe_ventas.jrxml` en Design.
+2. Expandir Variables y confirmar `TotalUnidades` y `TotalImporte`.
+3. Confirmar que los siete fields de 4.2 siguen presentes.
 
-**Verificación visual:** el editor central muestra el informe de ventas con las dos variables declaradas en el punto 3.7.
+**Verificación visual:** el informe contiene el estado completo de 4.2.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir las nuevas variables.
-**Por qué:** el informe de ventas es la base para ampliar las variables de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas del catálogo para ampliar sus totales.
+**Qué hace:** Fija el baseline antes de añadir acumuladores.
+**Por qué:** Las nuevas variables se apoyan en fields y parámetros ya existentes.
+**Error común:** Crear un informe vacío.
+**Solución:** Trabajar sobre el checkpoint acumulativo.
+**Analogía:** Es añadir indicadores a un cuadro de mando ya existente.
 
 ---
 
@@ -2036,22 +1822,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `TotalPagina` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Sum`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Page`.
-7. Hacer clic sobre el campo Expression y escribir exactamente `$F{importe_total}`.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
+2. Name=`TotalPagina`; Class=`java.lang.Double`; Calculation=`Sum`; Reset Type=`Page`.
+3. Expression=`$F{importe_total}`.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `TotalPagina` de tipo `java.lang.Double` con cálculo `Sum` y reinicio `Page`.
+**Verificación visual:** Variables muestra `TotalPagina` con Calculation=Sum y Reset=Page.
 
-**Qué hace:** declara una variable que acumula el importe total de cada página.
-**Por qué:** la variable permite mostrar un subtotal al final de cada página.
-**Error común:** olvidar el reinicio `Page` y provocar que la variable acumule el total del informe en lugar del subtotal de página. Solución: seleccionar `Page` en el desplegable Reset Type.
-**Analogía:** es como sumar el importe de las ventas que caben en cada página del resumen.
+**Qué hace:** Calcula subtotal monetario de cada página.
+**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
+**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
+**Solución:** Usar exactamente `java.lang.Double`, `Sum` y `Page`.
+**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
 
 ---
 
@@ -2059,22 +1841,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `PrecioMedio` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Average`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Report`.
-7. Hacer clic sobre el campo Expression y escribir exactamente `$F{precio_medio}`.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
+2. Name=`PrecioMedio`; Class=`java.lang.Double`; Calculation=`Average`; Reset Type=`Report`.
+3. Expression=`$F{precio_medio}`.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `PrecioMedio` de tipo `java.lang.Double` con cálculo `Average` y reinicio `Report`.
+**Verificación visual:** Variables muestra `PrecioMedio` con Calculation=Average y Reset=Report.
 
-**Qué hace:** declara una variable que calcula la media de los precios medios de todos los libros.
-**Por qué:** la variable proporciona un valor agregado que resume el precio medio del catálogo.
-**Error común:** usar el cálculo `Sum` en lugar de `Average` y provocar que la variable acumule la suma en lugar de la media. Solución: seleccionar `Average` en el desplegable Calculation.
-**Analogía:** es como calcular el precio medio de los libros del resumen de ventas.
+**Qué hace:** Calcula media de los precios medios no nulos.
+**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
+**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
+**Solución:** Usar exactamente `java.lang.Double`, `Average` y `Report`.
+**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
 
 ---
 
@@ -2082,22 +1860,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `PrecioMaximo` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Highest`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Report`.
-7. Hacer clic sobre el campo Expression y escribir exactamente `$F{precio_medio}`.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
+2. Name=`PrecioMaximo`; Class=`java.lang.Double`; Calculation=`Highest`; Reset Type=`Report`.
+3. Expression=`$F{precio_medio}`.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `PrecioMaximo` de tipo `java.lang.Double` con cálculo `Highest` y reinicio `Report`.
+**Verificación visual:** Variables muestra `PrecioMaximo` con Calculation=Highest y Reset=Report.
 
-**Qué hace:** declara una variable que mantiene el precio máximo de todos los libros.
-**Por qué:** la variable proporciona el valor máximo del catálogo.
-**Error común:** usar el cálculo `Lowest` en lugar de `Highest` y provocar que la variable mantenga el mínimo. Solución: seleccionar `Highest` en el desplegable Calculation.
-**Analogía:** es como identificar el libro más caro del resumen de ventas.
+**Qué hace:** Calcula máximo de los precios medios.
+**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
+**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
+**Solución:** Usar exactamente `java.lang.Double`, `Highest` y `Report`.
+**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
 
 ---
 
@@ -2105,22 +1879,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `NumeroLibros` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Integer`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Count`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Report`.
-7. Hacer clic sobre el campo Expression y escribir exactamente `$F{titulo}`.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
+2. Name=`NumeroLibros`; Class=`java.lang.Integer`; Calculation=`Count`; Reset Type=`Report`.
+3. Expression=`$F{titulo}`.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `NumeroLibros` de tipo `java.lang.Integer` con cálculo `Count` y reinicio `Report`.
+**Verificación visual:** Variables muestra `NumeroLibros` con Calculation=Count y Reset=Report.
 
-**Qué hace:** declara una variable que cuenta el número de títulos no nulos.
-**Por qué:** la variable proporciona el número de libros distintos en el informe.
-**Error común:** olvidar el campo en la expresión y provocar que la variable cuente cero. Solución: escribir `$F{titulo}` en el campo Expression.
-**Analogía:** es como contar los libros del resumen de ventas.
+**Qué hace:** Calcula número de títulos no nulos.
+**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
+**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
+**Solución:** Usar exactamente `java.lang.Integer`, `Count` y `Report`.
+**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
 
 ---
 
@@ -2128,290 +1898,137 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `ImporteConIva` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Sum`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Report`.
-7. Hacer clic sobre el campo Expression y escribir exactamente `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))`.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
+2. Name=`ImporteConIva`; Class=`java.lang.Double`; Calculation=`Sum`; Reset Type=`Report`.
+3. Expression=`$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))`.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `ImporteConIva` de tipo `java.lang.Double` con cálculo `Sum` y reinicio `Report`.
+**Verificación visual:** Variables muestra `ImporteConIva` con Calculation=Sum y Reset=Report.
 
-**Qué hace:** declara una variable que acumula el importe total con IVA incluido.
-**Por qué:** la variable combina el campo `importe_total` con el parámetro `tipoIva` para calcular el importe con IVA.
-**Error común:** olvidar los paréntesis alrededor de `(1 + $P{tipoIva})`. La multiplicación se aplica solo al último término. Solución: envolver la suma entre paréntesis.
-**Analogía:** es como calcular el importe total del resumen de ventas con IVA incluido.
+**Qué hace:** Calcula importe agregado con IVA.
+**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
+**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
+**Solución:** Usar exactamente `java.lang.Double`, `Sum` y `Report`.
+**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
 
 ---
 
-**Paso 7: Añadir el subtotal de página en la banda Page Footer**
+**Paso 7: Ampliar Page Footer y mostrar TotalPagina**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Page Footer en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `80` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Page Footer, en la coordenada aproximada x=300, y=5.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `300` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `5` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Subtotal página:`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-14. Marcar la casilla Bold.
+1. Seleccionar Page Footer y fijar Band height=`62`.
+2. Añadir Static Text `Subtotal página:` en x=300, y=4, width=120, height=15.
+3. Añadir Text Field en x=420, y=4, width=135, height=15.
+4. Expression=`$V{TotalPagina}`, Pattern=`#,##0.00 €`, alineación Right.
+5. No mover la paginación existente de y=28.
 
-**Verificación visual:** la banda Page Footer muestra el rótulo `Subtotal página:` en la coordenada 300.
+**Verificación visual:** el subtotal de página y la paginación conviven dentro de 62 px.
 
-**Qué hace:** inserta un rótulo para el subtotal de página.
-**Por qué:** el rótulo identifica el valor del subtotal.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el rótulo se solape con el contenido existente. Solución: ampliar la altura a 80 píxeles.
-**Analogía:** es como añadir el rótulo del subtotal de página al pie del resumen de ventas.
+**Qué hace:** Expone el reset Page en un lugar que se imprime en cada página.
+**Por qué:** Permite comprobar visualmente el comportamiento de la variable.
+**Error común:** Usar Band height 80, que no coincide con el checkpoint.
+**Solución:** Usar 62 y las coordenadas del JRXML final.
+**Analogía:** Es imprimir al pie de cada hoja el subtotal de esa hoja.
 
 ---
 
-**Paso 8: Añadir el campo con la variable TotalPagina**
+**Paso 8: Ampliar Summary a 128 y distribuir agregados**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-3. Arrastrar el icono Text Field y soltarlo dentro de la banda Page Footer, a la derecha del rótulo, en la coordenada aproximada x=450, y=5.
-4. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `450` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `5` y pulsar Enter.
-6. Hacer clic sobre el campo Width, escribir `105` y pulsar Enter.
-7. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-8. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{TotalPagina}` y pulsar Enter.
-9. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-11. Marcar la casilla Bold.
-12. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+1. Seleccionar Summary y fijar Band height=`128`.
+2. Mantener TotalUnidades x=205/y=5 e Importe total x=420/y=5.
+3. Añadir Precio medio agregado: rótulo x=0/y=30/w=205 y valor `$V{PrecioMedio}` x=205/y=30/w=80.
+4. Añadir Precio máximo: rótulo x=300/y=30/w=120 y `$V{PrecioMaximo}` x=420/y=30/w=135.
+5. Añadir Número de libros: rótulo x=0/y=55/w=205 y `$V{NumeroLibros}` x=205/y=55/w=80.
+6. Añadir Importe con IVA: rótulo x=300/y=55/w=120 y `$V{ImporteConIva}` x=420/y=55/w=135.
+7. Aplicar `#,##0.00 €` a los valores monetarios.
 
-**Verificación visual:** la banda Page Footer muestra el campo con la expresión `$V{TotalPagina}` y el patrón de moneda.
+**Verificación visual:** Summary muestra seis indicadores en tres filas sin solaparse.
 
-**Qué hace:** inserta un campo que muestra el subtotal de la página actual.
-**Por qué:** el subtotal de página informa al lector del importe acumulado en cada página.
-**Error común:** usar `$F{TotalPagina}` en lugar de `$V{TotalPagina}`. El motor lanza `Field not found: TotalPagina`. Solución: cambiar el prefijo a `$V{`.
-**Analogía:** es como anotar el subtotal de cada página al pie del resumen de ventas.
+**Qué hace:** Presenta los agregados de Report en el cierre del informe.
+**Por qué:** La geometría coincide con el checkpoint ejecutable.
+**Error común:** Expandir Summary a 160 y colocar campos fuera del diseño final.
+**Solución:** Usar 128 y las posiciones indicadas.
+**Analogía:** Es ordenar el cuadro de totales en una rejilla compacta.
 
 ---
 
-**Paso 9: Añadir las nuevas variables a la banda Summary**
+**Paso 9: Comprobar semántica de nulos y resets**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `140` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=60.
-6. Hacer clic sobre el campo X en el panel Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `60` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Precio medio:`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-14. Marcar la casilla Bold.
-15. Hacer clic sobre la pestaña Elements en el panel Palette.
-16. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-17. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=250, y=60.
-18. Hacer clic sobre el campo X, escribir `250` y pulsar Enter.
-19. Hacer clic sobre el campo Y, escribir `60` y pulsar Enter.
-20. Hacer clic sobre el campo Width, escribir `130` y pulsar Enter.
-21. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-22. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{PrecioMedio}` y pulsar Enter.
-23. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-24. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-25. Marcar la casilla Bold.
+1. Abrir Preview con el escenario base.
+2. Localizar títulos sin ventas y confirmar que no provocan errores en Average/Highest/Sum.
+3. Pasar de una página a otra y observar que `TotalPagina` se reinicia.
+4. Confirmar que `TotalImporte` y `ImporteConIva` se mantienen como acumulados de Report.
 
-**Verificación visual:** la banda Summary muestra el rótulo `Precio medio:` seguido del campo con la expresión `$V{PrecioMedio}`.
+**Verificación visual:** los nulos de agregados no rompen el informe y cada variable respeta su reset.
 
-**Qué hace:** inserta el precio medio de los libros en la banda Summary.
-**Por qué:** el precio medio es un valor agregado que resume el catálogo.
-**Error común:** olvidar el patrón numérico y provocar que el precio se muestre sin decimales. Solución: añadir el patrón `#,##0.00 €`.
-**Analogía:** es como escribir el precio medio de los libros en el colofón del resumen.
+**Qué hace:** Valida la semántica real de variables, no solo su declaración.
+**Por qué:** El `LEFT JOIN` obliga a considerar títulos sin ventas.
+**Error común:** Asumir que todos los valores numéricos empiezan en cero.
+**Solución:** Basarse en calculation/reset/initialValueExpression y probar con datos reales.
+**Analogía:** Es comprobar cuándo se pone a cero cada contador al pasar de hoja o cerrar el informe.
 
 ---
 
-**Paso 10: Añadir las variables PrecioMaximo y NumeroLibros a la banda Summary**
+**Paso 10: Compilar y previsualizar**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-4. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=85.
-5. Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `85` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-9. Hacer doble clic sobre el Static Text creado en la acción anterior.
-10. Escribir exactamente `Precio máximo:`.
-11. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-12. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-13. Marcar la casilla Bold.
-14. Hacer clic sobre la pestaña Elements en el panel Palette.
-15. Hacer clic sobre el icono Text Field.
-16. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=250, y=85.
-17. Hacer clic sobre el campo X, escribir `250` y pulsar Enter.
-18. Hacer clic sobre el campo Y, escribir `85` y pulsar Enter.
-19. Hacer clic sobre el campo Width, escribir `130` y pulsar Enter.
-20. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-21. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{PrecioMaximo}` y pulsar Enter.
-22. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-23. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-24. Marcar la casilla Bold.
-25. Hacer clic sobre la pestaña Elements en el panel Palette.
-26. Hacer clic sobre el icono Static Text.
-27. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=110.
-28. Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-29. Hacer clic sobre el campo Y, escribir `110` y pulsar Enter.
-30. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-31. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-32. Hacer doble clic sobre el Static Text creado en la acción anterior.
-33. Escribir exactamente `Número de libros:`.
-34. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-35. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-36. Marcar la casilla Bold.
-37. Hacer clic sobre la pestaña Elements en el panel Palette.
-38. Hacer clic sobre el icono Text Field.
-39. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=250, y=110.
-40. Hacer clic sobre el campo X, escribir `250` y pulsar Enter.
-41. Hacer clic sobre el campo Y, escribir `110` y pulsar Enter.
-42. Hacer clic sobre el campo Width, escribir `80` y pulsar Enter.
-43. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-44. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{NumeroLibros}` y pulsar Enter.
-45. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-46. Marcar la casilla Bold.
-47. Pulsar Ctrl+S para guardar el archivo.
+1. Guardar y pulsar Ctrl+Mayús+B.
+2. Revisar Problems: 0 errores.
+3. Abrir Preview y recorrer todas las páginas.
+4. Comprobar los cuatro agregados nuevos y el subtotal de página.
 
-**Verificación visual:** la banda Summary muestra los tres nuevos pares de rótulo-campo con las variables `PrecioMedio`, `PrecioMaximo` y `NumeroLibros`.
+**Verificación visual:** el informe compila y los agregados aparecen con formato correcto.
 
-**Qué hace:** inserta los tres valores agregados en la banda Summary.
-**Por qué:** los tres valores resumen el catálogo desde perspectivas distintas.
-**Error común:** olvidar el patrón numérico en los campos de precio. Solución: añadir el patrón `#,##0.00 €` en ambos campos.
-**Analogía:** es como escribir el precio medio, el precio máximo y el número de libros en el colofón del resumen.
+**Qué hace:** Detecta errores de tipo/evaluación antes del runtime Java.
+**Por qué:** Las variables mezclan Integer y Double y requieren tipos coherentes.
+**Error común:** Usar `$F{TotalPagina}`.
+**Solución:** Las variables se referencian con `$V{...}`.
+**Analogía:** Es revisar los totales antes de publicar el cierre contable.
 
 ---
 
-**Paso 11: Añadir el importe con IVA a la banda Summary**
+**Paso 11: Ejecutar Java y confirmar invariantes**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-4. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=135.
-5. Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `135` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-9. Hacer doble clic sobre el Static Text creado en la acción anterior.
-10. Escribir exactamente `Importe total con IVA:`.
-11. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-12. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-13. Marcar la casilla Bold.
-14. Hacer clic sobre la pestaña Elements en el panel Palette.
-15. Hacer clic sobre el icono Text Field.
-16. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=250, y=135.
-17. Hacer clic sobre el campo X, escribir `250` y pulsar Enter.
-18. Hacer clic sobre el campo Y, escribir `135` y pulsar Enter.
-19. Hacer clic sobre el campo Width, escribir `130` y pulsar Enter.
-20. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-21. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{ImporteConIva}` y pulsar Enter.
-22. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-23. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-24. Marcar la casilla Bold.
-25. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-26. Hacer clic sobre el nodo Summary en el panel Outline.
-27. Hacer clic sobre el campo Band height en el panel Properties, escribir `160` y pulsar Enter.
-28. Pulsar Ctrl+S para guardar el archivo.
+1. Ejecutar `InicializadorBD` y después `GeneradorInformeVentas`.
+2. Abrir el PDF generado.
+3. Confirmar 14 títulos, 31 unidades y 633,40 €.
+4. Comprobar que el Summary muestra los nuevos agregados.
 
-**Verificación visual:** la banda Summary muestra el rótulo `Importe total con IVA:` seguido del campo con la expresión `$V{ImporteConIva}`. La banda tiene 160 píxeles de altura.
+**Verificación visual:** el PDF real se genera y conserva los resultados base.
 
-**Qué hace:** inserta el importe total con IVA en la banda Summary.
-**Por qué:** el importe con IVA es el valor final que el departamento comercial necesita.
-**Error común:** olvidar el patrón numérico y provocar que el importe se muestre sin decimales. Solución: añadir el patrón `#,##0.00 €`.
-**Analogía:** es como escribir el importe total con IVA en el colofón del resumen de ventas.
+**Qué hace:** Prueba el flujo end-to-end con las variables nuevas.
+**Por qué:** Los agregados no deben alterar las filas de la consulta.
+**Error común:** Confundir una variación de paginación con pérdida de datos.
+**Solución:** Contrastar también los contadores SQLite/E2E.
+**Analogía:** Es verificar que nuevos indicadores no cambian el libro mayor.
 
 ---
 
-**Paso 12: Compilar y previsualizar el informe**
+**Paso 12: Crear VARIABLES.md y cotejar Parte B**
 
 **Acciones:**
 
-1. Pulsar Ctrl+Mayús+B para compilar el informe.
-2. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-3. Pulsar el botón Preview de la barra de herramientas superior.
-4. En el diálogo de previsualización, verificar que los parámetros están configurados.
-5. Hacer clic sobre el botón OK.
-6. Esperar a que se abra la pestaña Preview en el editor central.
+1. Crear `EditorialReports/VARIABLES.md`.
+2. Documentar nombre, tipo, calculation, reset y expresión de las cinco variables nuevas.
+3. Indicar que `TotalPagina` se reinicia por Page y las demás por Report.
+4. Comparar Page Footer=62 y Summary=128 con la Parte B.
+5. Guardar.
 
-**Verificación visual:** la pestaña Preview muestra el informe con el subtotal de página en la banda Page Footer y los cinco valores agregados en la banda Summary.
+**Verificación visual:** VARIABLES.md coincide con el JRXML final.
 
-**Qué hace:** compila y previsualiza el informe con las nuevas variables.
-**Por qué:** la previsualización confirma que las variables se calculan correctamente.
-**Error común:** obtener `Variable not found: TotalPagina`. Indica que la variable no está declarada o el nombre no coincide. Solución: revisar la declaración de la variable.
-**Analogía:** es como revisar la prueba de color del resumen de ventas con los nuevos totales.
-
----
-
-**Paso 13: Ejecutar el programa Java y verificar el PDF**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra el subtotal de página y los cinco valores agregados en la banda Summary.
-
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra las nuevas variables.
-
-**Qué hace:** ejecuta el programa Java que genera el informe con las nuevas variables.
-**Por qué:** la ejecución confirma que las variables se calculan correctamente desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el resumen de ventas con los nuevos totales.
-
----
-
-**Paso 14: Documentar las variables**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `VARIABLES.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Variables del informe de ventas` y pulsar Enter dos veces.
-7. Escribir exactamente `| Variable | Tipo Java | Cálculo | Reset | Expresión |` y pulsar Enter.
-8. Escribir exactamente `|---|---|---|---|---|` y pulsar Enter.
-9. Escribir exactamente `| TotalUnidades | java.lang.Integer | Sum | Report | $F{unidades_vendidas} |` y pulsar Enter.
-10. Escribir exactamente `| TotalImporte | java.lang.Double | Sum | Report | $F{importe_total} |` y pulsar Enter.
-11. Escribir exactamente `| TotalPagina | java.lang.Double | Sum | Page | $F{importe_total} |` y pulsar Enter.
-12. Escribir exactamente `| PrecioMedio | java.lang.Double | Average | Report | $F{precio_medio} |` y pulsar Enter.
-13. Escribir exactamente `| PrecioMaximo | java.lang.Double | Highest | Report | $F{precio_medio} |` y pulsar Enter.
-14. Escribir exactamente `| NumeroLibros | java.lang.Integer | Count | Report | $F{titulo} |` y pulsar Enter.
-15. Escribir exactamente `| ImporteConIva | java.lang.Double | Sum | Report | $F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue())) |` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `VARIABLES.md` en la raíz del proyecto `EditorialReports` con la tabla de variables documentada.
-
-**Qué hace:** incorpora al proyecto un documento que registra las variables del informe de ventas.
-**Por qué:** la documentación de las variables facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar la barra vertical al final de cada línea de la tabla Markdown. Solución: revisar cada línea.
-**Analogía:** es como dejar en la editorial una ficha técnica con las variables del resumen de ventas.
+**Qué hace:** Deja una especificación mantenible.
+**Por qué:** La documentación debe explicar exactamente lo que ejecuta JasperReports.
+**Error común:** Documentar alturas 80/160 heredadas del borrador.
+**Solución:** Usar las alturas reales 62/128.
+**Analogía:** Es registrar los contadores con las mismas reglas que usa el sistema.
 
 ---
 
@@ -2948,8 +2565,8 @@ M4/4.3/
 | El precio máximo muestra el mínimo                      | El tipo de cálculo es `Lowest` en lugar de `Highest`      | Cambiar el valor de `calculation` a `Highest`                     |
 | El contador de libros muestra 0                         | La expresión de la variable está vacía o el campo es nulo | Escribir `$F{titulo}` en la expresión                             |
 | El importe con IVA se calcula incorrectamente           | Faltan paréntesis en la expresión                         | Escribir `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))` entre paréntesis |
-| El subtotal de página se solapa con el total de títulos | La banda Page Footer no tiene altura suficiente           | Ampliar la altura a 80 píxeles                                    |
-| Los valores agregados se solapan entre sí               | La banda Summary no tiene altura suficiente               | Ampliar la altura a 160 píxeles                                   |
+| El subtotal de página se solapa con el total de títulos | La banda Page Footer no tiene altura suficiente           | Usar la altura 62 del checkpoint                                    |
+| Los valores agregados se solapan entre sí               | La banda Summary no tiene altura suficiente               | Usar la altura 128 del checkpoint                                   |
 | El PDF muestra las variables sin formatear              | Faltan los patrones numéricos                             | Añadir el patrón `#,##0.00 €` en los campos de precio             |
 | La variable `ImporteConIva` no compila                  | El parámetro `tipoIva` no está declarado                  | Declarar el parámetro `tipoIva` antes de la variable              |
 
@@ -2957,7 +2574,7 @@ M4/4.3/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir una variable `PorcentajePagina` que calcule el porcentaje que representa el subtotal de la página actual sobre el total del informe. La variable debe usar la expresión `$V{TotalPagina} / $V{TotalImporte} * 100` y debe mostrarse en la banda Page Footer.
+**Enunciado:** añadir una variable `PorcentajePagina` que calcule qué porcentaje representa el subtotal de la página actual sobre el **importe acumulado hasta el cierre de esa página**. En Page Footer, `$V{TotalImporte}` todavía es un acumulado en curso; no debe describirse como el total final del informe. La expresión será `$V{TotalImporte} == null || $V{TotalImporte}.doubleValue() == 0.0d ? 0.0d : $V{TotalPagina} / $V{TotalImporte} * 100.0d`.
 
 **Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
 
@@ -2973,7 +2590,7 @@ M4/4.3/
 
 **Paso 7.** Hacer clic sobre el desplegable Reset Type y seleccionar `Page`.
 
-**Paso 8.** Hacer clic sobre el campo Expression y escribir exactamente `$V{TotalPagina} / $V{TotalImporte} * 100`.
+**Paso 8.** Hacer clic sobre el campo Expression y escribir exactamente `$V{TotalImporte} == null || $V{TotalImporte}.doubleValue() == 0.0d ? 0.0d : $V{TotalPagina} / $V{TotalImporte} * 100.0d`.
 
 **Paso 9.** Hacer clic sobre el botón Finish.
 
@@ -3086,329 +2703,230 @@ El punto 4.4, «Expresiones avanzadas», profundiza en las expresiones Java comp
 
 ---
 
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Abrir 4.3 y localizar Detail**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `informe_ventas.jrxml` en Design.
+2. Seleccionar Detail 1.
+3. Confirmar que antes del cambio mide 62 y ya contiene categoría e IVA.
 
-**Verificación visual:** el editor central muestra el informe de ventas con sus siete variables declaradas.
+**Verificación visual:** se parte exactamente del checkpoint 4.3.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir las expresiones avanzadas.
-**Por qué:** el informe de ventas es la base para las expresiones avanzadas de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para añadir los cálculos avanzados.
+**Qué hace:** Evita reescribir variables o filtros ya cerrados.
+**Por qué:** 4.4 se limita a expresiones avanzadas y una línea de resumen.
+**Error común:** Partir de 3.7/4.1.
+**Solución:** Usar 4.3 como baseline.
+**Analogía:** Es añadir fórmulas a una hoja que ya tiene sus totales.
 
 ---
 
-**Paso 2: Añadir la columna de clasificación por precio**
+**Paso 2: Ampliar Detail a 82**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `90` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=440, y=60.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `440` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `60` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `115` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Clasificación`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-14. Marcar la casilla Bold.
+1. Seleccionar Detail 1 y fijar Band height=`82`.
+2. Reservar y=48..66 para cinco campos nuevos.
+3. Mantener intactas las filas y=0 y y=24.
 
-**Verificación visual:** la banda Column Header muestra el nuevo encabezado `Clasificación` en la coordenada 440.
+**Verificación visual:** queda una tercera fila disponible sin mover los datos previos.
 
-**Qué hace:** inserta el encabezado de la nueva columna de clasificación.
-**Por qué:** el encabezado identifica la columna que mostrará la clasificación del precio.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el encabezado se solape con la banda siguiente. Solución: ajustar la altura a 90 píxeles.
-**Analogía:** es como añadir el título de la columna de clasificación al resumen de ventas.
+**Qué hace:** Prepara espacio para las expresiones avanzadas.
+**Por qué:** El checkpoint final usa exactamente 82 px.
+**Error común:** Usar y=65 con una banda insuficiente.
+**Solución:** Usar y=48, height=18 dentro de Detail=82.
+**Analogía:** Es añadir una tercera línea a cada registro sin invadir el siguiente.
 
 ---
 
-**Paso 3: Añadir la expresión del ternario anidado en la banda Detail**
+**Paso 3: Añadir Clasificación de ventas**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `90` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-5. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=440, y=50.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `440` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `50` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `115` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-10. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{precio_medio} > 22 ? "Premium" : ($F{precio_medio} > 18 ? "Estándar" : "Económico")` y pulsar Enter.
-11. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-12. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
+1. Arrastrar un Text Field a Detail 1.
+2. Fijar x=0, y=48, width=105, height=18 y Style=`Dato`.
+3. Escribir exactamente la expresión `$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))`.
+4. Configurar la alineación como en la Parte B y guardar.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con la expresión del ternario anidado.
+**Verificación visual:** el campo de clasificación de ventas ocupa su segmento de la tercera fila.
 
-**Qué hace:** inserta un campo que clasifica los libros en tres categorías según su precio medio.
-**Por qué:** la clasificación permite al lector identificar rápidamente el segmento de precio de cada libro.
-**Error común:** olvidar los paréntesis alrededor del ternario interno. El compilador asocia el `:` con el primer `?` y el resultado es incorrecto. Solución: envolver el ternario interno entre paréntesis.
-**Analogía:** es como clasificar los libros del catálogo en segmentos de precio.
+**Qué hace:** Demuestra ternario anidado null-safe.
+**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
+**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
+**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
+**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
 
 ---
 
-**Paso 4: Añadir una columna con el título abreviado**
+**Paso 4: Añadir Título normalizado**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=50.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `50` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{titulo}.length() > 25 ? $F{titulo}.substring(0, 22).trim() + "..." : $F{titulo}` y pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
+1. Arrastrar un Text Field a Detail 1.
+2. Fijar x=105, y=48, width=185, height=18 y Style=`Dato`.
+3. Escribir exactamente la expresión `$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)`.
+4. Configurar la alineación como en la Parte B y guardar.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con la expresión que abrevia los títulos largos.
+**Verificación visual:** el campo de título normalizado ocupa su segmento de la tercera fila.
 
-**Qué hace:** inserta un campo que muestra el título abreviado si supera los 25 caracteres.
-**Por qué:** la abreviatura permite que los títulos largos quepan en la columna sin recortarse.
-**Error común:** olvidar el método `trim()` después de `substring`. El título abreviado puede terminar con un espacio y los puntos suspensivos quedar separados. Solución: añadir `.trim()` entre `substring` y la concatenación.
-**Analogía:** es como abreviar los títulos largos en el catálogo para que quepan en la columna.
+**Qué hace:** Demuestra métodos String + Locale.
+**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
+**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
+**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
+**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
 
 ---
 
-**Paso 5: Añadir un cálculo avanzado con Math y parámetros**
+**Paso 5: Añadir Precio redondeado**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=250, y=65.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `250` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `65` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `190` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `Math.round($F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue())) * 100.0) / 100.0` y pulsar Enter.
-10. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-11. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-12. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+1. Arrastrar un Text Field a Detail 1.
+2. Fijar x=290, y=48, width=80, height=18 y Style=`Dato`.
+3. Escribir exactamente la expresión `$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))`.
+4. Configurar la alineación como en la Parte B y guardar.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con la expresión que calcula el importe con IVA redondeado.
+**Verificación visual:** el campo de precio redondeado ocupa su segmento de la tercera fila.
 
-**Qué hace:** inserta un campo que calcula el importe con IVA redondeado a dos decimales mediante el método estático `Math.round`.
-**Por qué:** el redondeo garantiza que el valor mostrado tenga exactamente dos decimales.
-**Error común:** olvidar el sufijo `100.0` en el multiplicador y provocar que el redondeo se aplique al valor entero. Solución: escribir `* 100.0) / 100.0` para redondear a dos decimales.
-**Analogía:** es como redondear el importe con IVA del resumen de ventas a dos decimales exactos.
+**Qué hace:** Demuestra Math.round + String.format.
+**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
+**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
+**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
+**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
 
 ---
 
-**Paso 6: Añadir un indicador con formato condicional**
+**Paso 6: Añadir Días entre ventas**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=440, y=65.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `440` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `65` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `115` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{TotalImporte} > 0 ? String.format("%.1f%%", $F{importe_total} / $V{TotalImporte} * 100.0) : "-"` y pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-11. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
+1. Arrastrar un Text Field a Detail 1.
+2. Fijar x=370, y=48, width=90, height=18 y Style=`Dato`.
+3. Escribir exactamente la expresión `$F{primera_venta} == null || $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"`.
+4. Configurar la alineación como en la Parte B y guardar.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con el porcentaje del importe sobre el total.
+**Verificación visual:** el campo de días entre ventas ocupa su segmento de la tercera fila.
 
-**Qué hace:** inserta un campo que muestra el porcentaje que representa cada libro sobre el total de importe.
-**Por qué:** el porcentaje permite al lector valorar la contribución de cada libro al total.
-**Error común:** olvidar la comprobación `$V{TotalImporte} > 0` y provocar una división por cero cuando el informe no tiene registros. Solución: usar el operador ternario con la comprobación.
-**Analogía:** es como indicar el porcentaje que cada libro representa sobre el total de ventas.
+**Qué hace:** Demuestra LocalDate + ChronoUnit.
+**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
+**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
+**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
+**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
 
 ---
 
-**Paso 7: Añadir un campo con formato dinámico de fecha**
+**Paso 7: Añadir Indicador unidades/filas**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=300, y=50.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `300` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `50` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `140` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{ultima_venta}))` y pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-11. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
+1. Arrastrar un Text Field a Detail 1.
+2. Fijar x=460, y=48, width=95, height=18 y Style=`Dato`.
+3. Escribir exactamente la expresión `$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))`.
+4. Configurar la alineación como en la Parte B y guardar.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con la fecha de la última venta formateada.
+**Verificación visual:** el campo de indicador unidades/filas ocupa su segmento de la tercera fila.
 
-**Qué hace:** inserta un campo que convierte la cadena de fecha ISO en una fecha formateada como `dd/MM/yyyy`.
-**Por qué:** el formato de fecha español es más legible para el lector que el formato ISO.
-**Error común:** olvidar el segundo argumento del método `parse`. El compilador informa `no suitable method found for parse(String)`. Solución: usar el formato `SimpleDateFormat("yyyy-MM-dd").parse(...)`.
-**Analogía:** es como convertir las fechas ISO del resumen de ventas al formato español.
+**Qué hace:** Demuestra división protegida + formato.
+**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
+**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
+**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
+**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
 
 ---
 
-**Paso 8: Añadir un campo con método estático condicional**
+**Paso 8: Añadir el resumen textual**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=65.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `65` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `String.format("Autor: %s | Páginas: %d", "EditorialReports", $F{unidades_vendidas} * 10)` y pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
+1. Seleccionar Summary, que permanece en height=128.
+2. Añadir Text Field en x=0, y=80, width=555, height=18.
+3. Alinear Center.
+4. Expression=`String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})`.
 
-**Verificación visual:** la banda Detail 1 muestra el nuevo campo con el texto formateado mediante `String.format`.
+**Verificación visual:** aparece una línea de resumen centrada debajo de los agregados.
 
-**Qué hace:** inserta un campo que construye un texto formateado con el método estático `String.format`.
-**Por qué:** el método `String.format` permite construir textos con formato sin necesidad de concatenaciones múltiples.
-**Error común:** olvidar el especificador de formato `%d` para enteros o `%s` para cadenas. El compilador informa `Conversion = 'd'` o un resultado incorrecto. Solución: usar el especificador correcto según el tipo del argumento.
-**Analogía:** es como construir un texto descriptivo con formato uniforme para cada libro del resumen.
+**Qué hace:** Combina variables y `String.format` en una expresión final.
+**Por qué:** Muestra una expresión avanzada que no requiere código Java adicional.
+**Error común:** Cambiar Summary a otra altura sin necesidad.
+**Solución:** Mantener 128 y usar y=80.
+**Analogía:** Es componer una frase editorial a partir de los totales calculados.
 
 ---
 
-**Paso 9: Añadir una expresión con división protegida**
+**Paso 9: Revisar el significado del porcentaje**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `180` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=160.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `160` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Media por libro:`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-14. Marcar la casilla Bold.
-15. Hacer clic sobre la pestaña Elements en el panel Palette.
-16. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-17. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=250, y=160.
-18. Hacer clic sobre el campo X, escribir `250` y pulsar Enter.
-19. Hacer clic sobre el campo Y, escribir `160` y pulsar Enter.
-20. Hacer clic sobre el campo Width, escribir `130` y pulsar Enter.
-21. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-22. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{NumeroLibros} > 0 ? Math.round($V{TotalImporte} / $V{NumeroLibros} * 100.0) / 100.0 : 0.0` y pulsar Enter.
-23. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-24. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-25. Marcar la casilla Bold.
+1. Seleccionar el quinto campo de la tercera fila.
+2. Confirmar que divide `unidades_vendidas` por `REPORT_COUNT` protegido con `Math.max(1.0d, ...)`.
+3. Documentarlo como indicador unidades por número de filas, no como porcentaje del importe total.
+4. No describir `$V{TotalImporte}` en Detail como total final: en Detail es un acumulado en curso.
 
-**Verificación visual:** la banda Summary muestra el rótulo `Media por libro:` seguido del campo con la expresión que calcula la media por libro con división protegida.
+**Verificación visual:** la explicación coincide con el momento de evaluación real.
 
-**Qué hace:** inserta un campo que calcula la media de importe por libro con protección contra la división por cero.
-**Por qué:** la protección evita el error cuando el informe no tiene registros.
-**Error común:** olvidar la comprobación `$V{NumeroLibros} > 0` y provocar una división por cero en informes vacíos. Solución: usar el operador ternario con la comprobación.
-**Analogía:** es como calcular la media de ventas por libro en el colofón del resumen.
+**Qué hace:** Evita confundir una variable acumulativa con su valor final de Report.
+**Por qué:** JasperReports actualiza variables durante el llenado.
+**Error común:** Llamar “porcentaje sobre el total final” a una división contra una variable corriente.
+**Solución:** Nombrar exactamente el denominador usado y su momento de evaluación.
+**Analogía:** Es distinguir el saldo acumulado hasta ahora del cierre definitivo del libro.
 
 ---
 
-**Paso 10: Compilar y verificar la sintaxis de las expresiones**
+**Paso 10: Compilar y recorrer Preview**
 
 **Acciones:**
 
-1. Pulsar Ctrl+S para guardar el archivo.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Si hay errores, hacer clic sobre cada uno para localizar la línea y corregir la expresión.
-5. Hacer clic sobre la pestaña Source y verificar que las expresiones avanzadas están correctamente escritas.
+1. Guardar y compilar con Ctrl+Mayús+B.
+2. Revisar 0 errores en Problems.
+3. Abrir Preview y buscar títulos sin ventas.
+4. Confirmar que muestran `Sin ventas`, `-` o `0.0%` sin excepción.
+5. Revisar la línea Resumen al final.
 
-**Verificación visual:** el panel Problems permanece vacío. La vista Source muestra las expresiones avanzadas correctamente.
+**Verificación visual:** las cinco expresiones funcionan también con valores nulos.
 
-**Qué hace:** compila el informe y verifica que las expresiones avanzadas son sintácticamente correctas.
-**Por qué:** el compilador detecta los errores de sintaxis en las expresiones antes de ejecutar el informe.
-**Error común:** obtener un error de compilación en una expresión con ternarios anidados. Solución: revisar los paréntesis y asegurarse de que cada ternario tiene sus dos ramas.
-**Analogía:** es como revisar las fórmulas del resumen de ventas antes de imprimirlo.
+**Qué hace:** Valida ternarios, fechas, formato y estáticos con datos reales.
+**Por qué:** Los títulos sin ventas son la prueba crítica del LEFT JOIN.
+**Error común:** Probar solo filas con ventas.
+**Solución:** Revisar explícitamente filas con nulos.
+**Analogía:** Es probar la fórmula también en fichas incompletas.
 
 ---
 
-**Paso 11: Previsualizar el informe y verificar las expresiones**
+**Paso 11: Ejecutar Java y revisar el PDF**
 
 **Acciones:**
 
-1. Pulsar el botón Preview de la barra de herramientas superior.
-2. En el diálogo de previsualización, verificar que los parámetros están configurados.
-3. Hacer clic sobre el botón OK.
-4. Esperar a que se abra la pestaña Preview en el editor central.
-5. Verificar que cada expresión avanzada muestra el valor esperado.
+1. Ejecutar `GeneradorInformeVentas`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que la tercera fila de cada registro se lee sin solapamientos.
+4. Confirmar 14 títulos, 31 unidades y 633,40 €.
 
-**Verificación visual:** la pestaña Preview muestra el informe con las nuevas columnas: clasificación, título abreviado, importe con IVA redondeado, porcentaje, fecha formateada, texto con formato y media por libro.
+**Verificación visual:** el runtime muestra las expresiones y conserva los invariantes.
 
-**Qué hace:** compila y previsualiza el informe con las expresiones avanzadas.
-**Por qué:** la previsualización confirma que las expresiones se evalúan correctamente.
-**Error común:** obtener `JRException: Compilation failed` en una expresión con `String.format`. Indica que el especificador de formato no coincide con el tipo del argumento. Solución: revisar el especificador y el argumento.
-**Analogía:** es como revisar la prueba de color del resumen de ventas con los nuevos cálculos.
+**Qué hace:** Verifica que el diseño más alto pagina correctamente.
+**Por qué:** Detail pasa de 62 a 82 y puede aumentar el número de páginas.
+**Error común:** Considerar un aumento de páginas como error automáticamente.
+**Solución:** Validar contenido y ausencia de clipping, no exigir el mismo número de páginas que 4.3.
+**Analogía:** Es aceptar más hojas si cada línea del catálogo ahora lleva más información.
 
 ---
 
-**Paso 12: Ejecutar el programa Java y verificar el PDF**
+**Paso 12: Crear EXPRESIONES_AVANZADAS.md**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra las nuevas columnas con los valores calculados.
+1. Crear el archivo en EditorialReports.
+2. Documentar ternarios, String/Locale, Math/String.format y LocalDate/ChronoUnit.
+3. Indicar que las expresiones sobre agregados son null-safe.
+4. Comparar las cinco expresiones con la Parte B y guardar.
 
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra las nuevas columnas.
+**Verificación visual:** el documento técnico nombra exactamente las técnicas usadas.
 
-**Qué hace:** ejecuta el programa Java que genera el informe con las expresiones avanzadas.
-**Por qué:** la ejecución confirma que las expresiones se evalúan correctamente desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el resumen de ventas con los nuevos cálculos.
-
----
-
-**Paso 13: Documentar las expresiones avanzadas**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `EXPRESIONES_AVANZADAS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Expresiones avanzadas del informe de ventas` y pulsar Enter dos veces.
-7. Escribir exactamente `## Expresiones con ternarios anidados` y pulsar Enter dos veces.
-8. Escribir exactamente `- Clasificación: precio_medio > 22 ? "Premium" : (precio_medio > 18 ? "Estándar" : "Económico")` y pulsar Enter dos veces.
-9. Escribir exactamente `## Expresiones con métodos de String` y pulsar Enter dos veces.
-10. Escribir exactamente `- Título abreviado: titulo.length() > 25 ? titulo.substring(0, 22).trim() + "..." : titulo` y pulsar Enter dos veces.
-11. Escribir exactamente `## Expresiones con métodos estáticos` y pulsar Enter dos veces.
-12. Escribir exactamente `- Importe con IVA redondeado: Math.round(importe_total * (1 + tipoIva) * 100.0) / 100.0` y pulsar Enter.
-13. Escribir exactamente `- Texto formateado: String.format("Autor: %s | Páginas: %d", "EditorialReports", unidades_vendidas * 10)` y pulsar Enter dos veces.
-14. Escribir exactamente `## Expresiones con división protegida` y pulsar Enter dos veces.
-15. Escribir exactamente `- Media por libro: NumeroLibros > 0 ? Math.round(TotalImporte / NumeroLibros * 100.0) / 100.0 : 0.0` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `EXPRESIONES_AVANZADAS.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra las expresiones avanzadas del informe.
-**Por qué:** la documentación de las expresiones facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar las expresiones con métodos estáticos. Solución: incluir las tres categorías de expresiones.
-**Analogía:** es como dejar en la editorial una ficha técnica con las expresiones avanzadas del resumen de ventas.
+**Qué hace:** Cierra la trazabilidad docente.
+**Por qué:** La documentación debe poder revisarse contra el JRXML.
+**Error común:** Documentar expresiones que no existen en el checkpoint.
+**Solución:** Usar como lista las cinco expresiones de y=48 más el resumen.
+**Analogía:** Es dejar una ficha de fórmulas idéntica a la que usa la plantilla.
 
 ---
 
@@ -4082,317 +3600,231 @@ El punto 4.5, «Lógica condicional», profundiza en las técnicas de lógica co
 
 ---
 
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Abrir 4.4 y conservar sus expresiones**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `informe_ventas.jrxml` y revisar Detail 1 height=82.
+2. Confirmar los cinco campos de y=48 y Summary height=128.
+3. No modificar la visibilidad de la columna IVA: sigue usando `Boolean.TRUE.equals($P{mostrarDetalle})`.
 
-**Verificación visual:** el editor central muestra el informe de ventas con sus expresiones avanzadas declaradas en el punto 4.4.
+**Verificación visual:** el punto parte íntegramente de 4.4.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir la lógica condicional.
-**Por qué:** el informe de ventas es la base para las condiciones de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para añadir las reglas de visibilidad.
+**Qué hace:** Fija el baseline de lógica condicional.
+**Por qué:** 4.5 añade reglas; no sustituye las expresiones anteriores.
+**Error común:** Cambiar el IVA a `$P{tipoIva} > 0`.
+**Solución:** Conservar el printWhen heredado de 4.1.
+**Analogía:** Es añadir señales de color sin cambiar las reglas de columnas ya aprobadas.
 
 ---
 
-**Paso 2: Declarar el parámetro umbralUnidades**
+**Paso 2: Declarar umbralUnidades**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `umbralUnidades` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Integer`.
-5. Marcar la casilla Use default value.
-6. Hacer clic sobre el campo Default Value Expression y escribir exactamente `5`.
-7. Marcar la casilla is For Prompting.
-8. Hacer clic sobre el botón Finish.
-9. Pulsar Ctrl+S para guardar el archivo.
+1. En Parameters, Add Parameter.
+2. Name=`umbralUnidades`; Class=`java.lang.Integer`; isForPrompting=true.
+3. Default Value Expression=`Integer.valueOf(5)`.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra el parámetro `umbralUnidades` de tipo `java.lang.Integer` con valor por defecto `5`.
+**Verificación visual:** el nuevo parámetro aparece con valor por defecto 5.
 
-**Qué hace:** declara un parámetro que representa el umbral de unidades vendidas.
-**Por qué:** el parámetro permite al usuario definir el umbral que activa las condiciones de visibilidad.
-**Error común:** escribir el valor por defecto como cadena (`"5"`). El compilador rechaza la asignación al tipo `Integer`. Solución: escribir el valor sin comillas: `5`.
-**Analogía:** es como indicar al operario el umbral de unidades a partir del cual una fila se destaca.
+**Qué hace:** Centraliza el umbral usado por estilos, mensajes y ratio.
+**Por qué:** Permite cambiar la lógica sin editar expresiones.
+**Error común:** Usar String o dejarlo nulo sin protección.
+**Solución:** Usar Integer con default 5.
+**Analogía:** Es fijar una meta de unidades configurable para el parte.
 
 ---
 
-**Paso 3: Aplicar la condición de banda en Detail 1**
+**Paso 3: Crear TituloCondicional con condiciones mutuamente excluyentes**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic con el botón derecho sobre el nodo Detail 1 y seleccionar Properties.
-3. Hacer clic sobre la pestaña Properties en el panel Properties (inferior derecho).
-4. Localizar el campo Print When Expression y escribir exactamente `(Boolean.TRUE.equals($P{mostrarDetalle}) || $F{unidades_vendidas} > $P{umbralUnidades}) && $V{TotalImporte} > 0` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir Source después de los estilos existentes.
+2. Añadir `<style name="TituloCondicional" style="Dato" isBold="true">`.
+3. Primera conditionExpression: unidades no nulas y `>= $P{umbralUnidades}`; color `#1B5E20`.
+4. Segunda: unidades no nulas, `>= 3` y `< $P{umbralUnidades}`; color `#1D5D88`.
+5. Tercera: unidades nulas o `< 3`; color `#9D3429`.
+6. Cerrar style y guardar.
 
-**Verificación visual:** el campo Print When Expression de la banda Detail 1 contiene la expresión con paréntesis, operadores lógicos y referencias a campos, parámetros y variables.
+**Verificación visual:** Styles muestra `TituloCondicional` heredando de `Dato` mediante el atributo `style`.
 
-**Qué hace:** configura la condición de visibilidad de la banda Detail con una expresión compuesta.
-**Por qué:** la condición combina el parámetro `mostrarDetalle`, el campo `unidades_vendidas`, el parámetro `umbralUnidades` y la variable `TotalImporte`.
-**Error común:** olvidar los paréntesis alrededor de la disyunción. La precedencia hace que el `&&` se evalúe antes que el `||` y el resultado es incorrecto. Solución: envolver la disyunción entre paréntesis.
-**Analogía:** es como decidir cuándo se imprime una fila del resumen según varias condiciones combinadas.
+**Qué hace:** Codifica tres estados visuales sin solapamiento lógico.
+**Por qué:** Al ser mutuamente excluyentes no depende de precedencias entre reglas.
+**Error común:** Usar `parent="Sans_Normal"` o condiciones solapadas.
+**Solución:** Usar `style="Dato"` y las tres condiciones exactas.
+**Analogía:** Es asignar verde, azul o rojo a cada fila con reglas que no se pisan.
 
 ---
 
-**Paso 4: Aplicar condición al encabezado de la columna Clasificación**
+**Paso 4: Aplicar el estilo a unidades_vendidas**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Static Text que contiene el texto `Clasificación` en el editor central.
-3. Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-4. Hacer clic sobre la pestaña Properties en el panel Properties.
-5. Localizar el campo Print When Expression y escribir exactamente `Boolean.TRUE.equals($P{mostrarDetalle}) && $P{umbralUnidades} > 0` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. En Design, seleccionar el Text Field `$F{unidades_vendidas}` de x=215, y=0.
+2. En Style elegir `TituloCondicional`.
+3. Mantener x=215, width=55, height=20 y alineación Right.
+4. Guardar.
 
-**Verificación visual:** el encabezado `Clasificación` tiene la propiedad Print When Expression configurada con la condición compuesta.
+**Verificación visual:** el campo de unidades cambia de color según el valor.
 
-**Qué hace:** configura la condición de visibilidad del encabezado de la columna de clasificación.
-**Por qué:** el encabezado aparece solo cuando el parámetro `mostrarDetalle` es verdadero y el umbral es positivo.
-**Error común:** olvidar invocar `booleanValue()` sobre el parámetro `mostrarDetalle`. El compilador lanza un error de tipo. Solución: usar `Boolean.TRUE.equals($P{mostrarDetalle})`.
-**Analogía:** es como decidir cuándo se muestra el título de la columna de clasificación en el resumen.
+**Qué hace:** Hace visible la clasificación condicional en el dato que la origina.
+**Por qué:** El checkpoint aplica el estilo a unidades, no al título del informe.
+**Error común:** Aplicar `TituloCondicional` al título principal.
+**Solución:** Aplicarlo al campo de unidades.
+**Analogía:** Es colorear la cifra que dispara la alerta, no el membrete.
 
 ---
 
-**Paso 5: Aplicar la misma condición al campo de clasificación**
+**Paso 5: Actualizar el indicador porcentual con el umbral**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Text Field que contiene la expresión `$F{precio_medio} > 22 ? "Premium" : ...` en el editor central.
-3. Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-4. Hacer clic sobre la pestaña Properties en el panel Properties.
-5. Localizar el campo Print When Expression y escribir exactamente `Boolean.TRUE.equals($P{mostrarDetalle}) && $P{umbralUnidades} > 0` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. Seleccionar el campo x=460, y=48, width=95.
+2. Reemplazar su expresión por `$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))`.
+3. Guardar.
 
-**Verificación visual:** el campo de clasificación tiene la misma condición de visibilidad que su encabezado.
+**Verificación visual:** el porcentaje representa unidades respecto al umbral y evita división por cero.
 
-**Qué hace:** aplica la misma condición al campo de clasificación para que la columna aparezca o desaparezca de forma coherente.
-**Por qué:** la coherencia entre encabezado y datos es necesaria para que la columna se muestre completa o se oculte completa.
-**Error común:** aplicar la condición solo al encabezado y provocar que los datos de la columna aparezcan sin su rótulo. Solución: aplicar la misma condición a ambos elementos.
-**Analogía:** es como asegurar que la columna de clasificación se muestra completa o se oculta completa en el resumen.
+**Qué hace:** Integra un parámetro en una expresión avanzada.
+**Por qué:** Mide progreso hacia la meta configurada.
+**Error común:** Seguir dividiendo por REPORT_COUNT como en 4.4.
+**Solución:** Usar umbralUnidades protegido con Math.max.
+**Analogía:** Es convertir las unidades vendidas en porcentaje de la meta.
 
 ---
 
-**Paso 6: Aplicar condición al encabezado de la columna Importe con IVA**
+**Paso 6: Añadir la segunda banda Detail condicional**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Static Text que contiene el texto `Importe con IVA` en el editor central.
-3. Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-4. Hacer clic sobre la pestaña Properties en el panel Properties.
-5. Localizar el campo Print When Expression y escribir exactamente `$P{tipoIva} > 0` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. En Source, dentro de `<detail>`, añadir una segunda `<band height="14">` después de la banda de 82.
+2. Añadir `printWhenExpression` con unidades no nulas, umbral no nulo y `unidades_vendidas >= umbralUnidades`.
+3. Añadir un Text Field x=0, y=0, width=555, height=12, centrado, DejaVu Sans 8 negrita.
+4. Expression=`"Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"`.
 
-**Verificación visual:** el encabezado `Importe con IVA` tiene la condición de visibilidad configurada.
+**Verificación visual:** Outline muestra dos bandas Detail: 82 y 14; la segunda solo aparece para filas que alcanzan el umbral.
 
-**Qué hace:** configura la condición de visibilidad del encabezado de la columna del importe con IVA.
-**Por qué:** el encabezado aparece solo cuando el tipo de IVA es positivo.
-**Error común:** usar `$P{tipoIva} == 0` en lugar de `> 0`. La condición inversa oculta la columna cuando el IVA existe. Solución: usar `$P{tipoIva} > 0`.
-**Analogía:** es como decidir cuándo se muestra el título de la columna del importe con IVA.
+**Qué hace:** Demuestra `printWhenExpression` aplicado a una banda completa.
+**Por qué:** La condición añade contexto sin eliminar la fila principal.
+**Error común:** Poner la condición en la primera banda y ocultar libros.
+**Solución:** Usar una segunda banda exclusivamente informativa.
+**Analogía:** Es añadir una nota de alerta debajo de una línea sin borrar la línea original.
 
 ---
 
-**Paso 7: Aplicar la misma condición al campo de Importe con IVA**
+**Paso 7: Añadir el mensaje de objetivo en Summary**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Text Field que contiene la expresión `Math.round($F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue())) * 100.0) / 100.0` en el editor central.
-3. Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-4. Hacer clic sobre la pestaña Properties en el panel Properties.
-5. Localizar el campo Print When Expression y escribir exactamente `$P{tipoIva} > 0` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. Mantener Summary height=`128`.
+2. Añadir Text Field x=0, y=103, width=350, height=18, Center, DejaVu Sans 10 Bold.
+3. Expression=`$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"`.
 
-**Verificación visual:** el campo del importe con IVA tiene la misma condición de visibilidad que su encabezado.
+**Verificación visual:** el mensaje aparece en la última fila del Summary sin ampliar la banda.
 
-**Qué hace:** aplica la misma condición al campo del importe con IVA para que la columna se muestre u oculte de forma coherente.
-**Por qué:** la coherencia entre encabezado y datos es necesaria para que la columna se comporte como una unidad.
-**Error común:** olvidar la condición en el campo y provocar que los datos aparezcan sin su rótulo. Solución: aplicar la misma condición a ambos elementos.
-**Analogía:** es como asegurar que la columna del importe con IVA se muestra completa o se oculta completa.
+**Qué hace:** Combina variable total y parámetro en un ternario.
+**Por qué:** Evita el Summary=200 del borrador que no coincide con el código final.
+**Error común:** Aumentar Summary a 200 y colocar y=180.
+**Solución:** Mantener 128 y usar y=103.
+**Analogía:** Es colocar el estado de la meta dentro del cuadro final ya existente.
 
 ---
 
-**Paso 8: Definir un estilo condicional para el título**
+**Paso 8: Actualizar el generador con umbralUnidades**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `<style name="Sans_Normal" .../>` y pulsar Enter al final.
-3. Escribir exactamente `<style name="TituloCondicional" parent="Sans_Normal" fontSize="18" isBold="true">` y pulsar Enter.
-4. Escribir exactamente `<conditionalStyle>` y pulsar Enter.
-5. Escribir exactamente `<conditionExpression><![CDATA[$P{periodo}.equals("Mensual")]]></conditionExpression>` y pulsar Enter.
-6. Escribir exactamente `<style forecolor="#1A3D6B"/>` y pulsar Enter.
-7. Escribir exactamente `</conditionalStyle>` y pulsar Enter.
-8. Escribir exactamente `<conditionalStyle>` y pulsar Enter.
-9. Escribir exactamente `<conditionExpression><![CDATA[$P{periodo}.equals("Anual")]]></conditionExpression>` y pulsar Enter.
-10. Escribir exactamente `<style forecolor="#990000"/>` y pulsar Enter.
-11. Escribir exactamente `</conditionalStyle>` y pulsar Enter.
-12. Escribir exactamente `<conditionalStyle>` y pulsar Enter.
-13. Escribir exactamente `<conditionExpression><![CDATA[true]]></conditionExpression>` y pulsar Enter.
-14. Escribir exactamente `<style forecolor="#333333"/>` y pulsar Enter.
-15. Escribir exactamente `</conditionalStyle>` y pulsar Enter.
-16. Escribir exactamente `</style>` y pulsar Enter.
-17. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir GeneradorInformeVentas.java.
+2. Después de los filtros añadir `parametros.put("umbralUnidades", Integer.valueOf(5));`.
+3. Conservar el resto de parámetros con sus valores anteriores.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra el nuevo estilo `TituloCondicional` con tres bloques condicionales.
+**Verificación visual:** el Java proporciona el mismo umbral usado como default.
 
-**Qué hace:** declara un estilo con tres condiciones que cambian el color del título según el periodo.
-**Por qué:** el color del título informa visualmente del periodo del informe.
-**Error común:** olvidar el último bloque con la condición `true`. Cuando ninguna de las condiciones anteriores es verdadera, el estilo no se aplica. Solución: añadir un bloque con la condición `true` como caso por defecto.
-**Analogía:** es como cambiar el color del título del resumen según el periodo al que se refiere.
+**Qué hace:** Ejercita el paso de un Integer desde la aplicación.
+**Por qué:** El runtime debe ser determinista para E2E.
+**Error común:** Pasar `"5"` como String.
+**Solución:** Usar Integer.valueOf(5).
+**Analogía:** Es entregar al informe la meta numérica en su tipo correcto.
 
 ---
 
-**Paso 9: Aplicar el estilo condicional al título del informe**
+**Paso 9: Compilar y verificar estilos en Preview**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-2. Hacer clic sobre el nodo Title en el panel Outline (inferior izquierdo).
-3. Hacer clic sobre el Static Text que contiene el texto `Informe de Ventas - Agregación por Título` en el editor central.
-4. Hacer clic sobre el desplegable Style en el panel Properties (inferior derecho), pestaña Properties.
-5. Seleccionar `TituloCondicional` en la lista de estilos.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. Guardar y compilar con Ctrl+Mayús+B.
+2. Abrir Preview.
+3. Localizar filas con 0/null, 3–4 y >=5 unidades y comparar colores.
+4. Confirmar que solo las filas >=5 reciben la segunda línea destacada.
 
-**Verificación visual:** el título del informe tiene el estilo `TituloCondicional` aplicado.
+**Verificación visual:** los tres estados visuales y la banda condicional se comportan de forma coherente.
 
-**Qué hace:** aplica el estilo condicional al título del informe.
-**Por qué:** el color del título cambia según el valor del parámetro `periodo`.
-**Error común:** olvidar que el estilo tiene `fontSize="18"` y `isBold="true"`. El título conserva estas propiedades del estilo. Solución: verificar que el estilo tiene las propiedades correctas.
-**Analogía:** es como aplicar el color dinámico al título del resumen según el periodo.
+**Qué hace:** Valida `conditionalStyle` y `printWhenExpression` con datos reales.
+**Por qué:** Las condiciones del checkpoint son mutuamente excluyentes.
+**Error común:** Interpretar que “el último conditionalStyle verdadero gana”.
+**Solución:** Con condiciones excluyentes, cada fila activa una sola regla; no enseñar una precedencia incorrecta.
+**Analogía:** Es comprobar que cada nivel de alerta recibe una sola señal.
 
 ---
 
-**Paso 10: Añadir un mensaje condicional en la banda Summary**
+**Paso 10: Probar otro umbral desde Preview**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `200` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-5. Arrastrar el icono Text Field y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=180.
-6. Hacer clic sobre el campo X en el panel Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `180` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{TotalImporte} > 500 ? "Objetivo de ventas superado" : ($V{TotalImporte} > 200 ? "Objetivo de ventas en curso" : "Objetivo de ventas no alcanzado")` y pulsar Enter.
-11. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-12. Marcar la casilla Bold.
-13. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
+1. Cambiar `umbralUnidades` a 3 en Parameters de Preview.
+2. Regenerar Preview.
+3. Observar que cambian el color verde, el porcentaje y las bandas destacadas.
+4. Restaurar 5 al terminar.
 
-**Verificación visual:** la banda Summary muestra un campo con la expresión condicional que clasifica el importe total.
+**Verificación visual:** las tres expresiones responden al mismo parámetro.
 
-**Qué hace:** inserta un campo que muestra un mensaje condicional según el importe total.
-**Por qué:** el mensaje informa al lector del estado del objetivo de ventas.
-**Error común:** olvidar los paréntesis alrededor del ternario interno. La expresión se evalúa de derecha a izquierda. Solución: envolver el ternario interno entre paréntesis.
-**Analogía:** es como mostrar un mensaje al pie del resumen según el importe total alcanzado.
+**Qué hace:** Demuestra reutilización coherente de un criterio.
+**Por qué:** Un solo valor gobierna estilo, ratio y mensajes.
+**Error común:** Editar tres expresiones para cambiar la meta.
+**Solución:** Cambiar solo el parámetro.
+**Analogía:** Es mover una única meta y ver cómo se actualizan todos los indicadores.
 
 ---
 
-**Paso 11: Modificar el programa Java para pasar el parámetro umbralUnidades**
+**Paso 11: Ejecutar Java y revisar el PDF**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Localizar la línea que contiene `parametros.put("disponible", null);`.
-3. Hacer clic al final de esa línea y pulsar Enter.
-4. Escribir exactamente `parametros.put("umbralUnidades", 5);` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
-6. Observar el panel Problems y verificar que no hay errores.
+1. Ejecutar GeneradorInformeVentas.
+2. Abrir el PDF.
+3. Confirmar las bandas destacadas sin clipping.
+4. Confirmar 14 títulos, 31 unidades y 633,40 €.
 
-**Verificación visual:** el editor central muestra la línea que introduce el valor del parámetro `umbralUnidades` en el mapa.
+**Verificación visual:** el runtime final de 4.5 conserva datos y añade lógica visual.
 
-**Qué hace:** modifica el programa Java para pasar el valor del parámetro `umbralUnidades`.
-**Por qué:** el parámetro `umbralUnidades` controla la condición de visibilidad de las filas.
-**Error común:** olvidar el punto y coma al final de la línea. El compilador informa `';' expected`. Solución: revisar la línea y añadir el punto y coma.
-**Analogía:** es como indicar al operario el umbral de unidades para el resumen de ventas.
+**Qué hace:** Valida la lógica condicional fuera de Studio.
+**Por qué:** El objetivo es un informe ejecutable.
+**Error común:** Revisar solo colores en Design.
+**Solución:** Abrir el PDF real.
+**Analogía:** Es comprobar que las marcas de alerta sobreviven a la impresión final.
 
 ---
 
-**Paso 12: Compilar y previsualizar el informe**
+**Paso 12: Crear LOGICA_CONDICIONAL.md y cotejar Parte B**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Pulsar el botón Preview de la barra de herramientas superior.
-5. En el diálogo de previsualización, hacer clic sobre la pestaña Parameters.
-6. Verificar que aparece el parámetro `umbralUnidades` con valor por defecto `5`.
-7. Cambiar el valor del parámetro `mostrarDetalle` a `false` para verificar el efecto.
-8. Hacer clic sobre el botón OK.
-9. Observar el informe con `mostrarDetalle=false`.
+1. Crear `EditorialReports/LOGICA_CONDICIONAL.md`.
+2. Documentar `umbralUnidades`, `conditionalStyle` y la segunda banda con printWhenExpression.
+3. Indicar que la columna IVA conserva su condición `mostrarDetalle` heredada.
+4. Comparar style, segunda banda y Summary=128 con Parte B.
+5. Guardar.
 
-**Verificación visual:** la pestaña Preview muestra el informe sin las columnas de clasificación e importe con IVA porque el parámetro `mostrarDetalle` es falso.
+**Verificación visual:** la documentación describe exactamente el checkpoint 4.5.
 
-**Qué hace:** compila y previsualiza el informe con el parámetro `mostrarDetalle` a falso.
-**Por qué:** la previsualización confirma que la visibilidad condicional funciona correctamente.
-**Error común:** olvidar el valor por defecto del parámetro `umbralUnidades` y provocar que la condición no se evalúe. Solución: verificar el valor en el diálogo.
-**Analogía:** es como revisar la prueba de color del resumen de ventas en modo resumido.
-
----
-
-**Paso 13: Ejecutar el programa Java y verificar el PDF**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra las columnas condicionales y el mensaje condicional.
-
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra las columnas condicionales y el mensaje.
-
-**Qué hace:** ejecuta el programa Java que pasa el parámetro `umbralUnidades` y genera el informe.
-**Por qué:** la ejecución confirma que la lógica condicional funciona desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el resumen de ventas con las condiciones aplicadas.
-
----
-
-**Paso 14: Documentar la lógica condicional**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `LOGICA_CONDICIONAL.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Lógica condicional del informe de ventas` y pulsar Enter dos veces.
-7. Escribir exactamente `## Condiciones de banda` y pulsar Enter dos veces.
-8. Escribir exactamente `- Detail 1: ($P{mostrarDetalle} || $F{unidades_vendidas} > $P{umbralUnidades}) && $V{TotalImporte} > 0` y pulsar Enter dos veces.
-9. Escribir exactamente `## Condiciones de columna` y pulsar Enter dos veces.
-10. Escribir exactamente `- Clasificación: Boolean.TRUE.equals($P{mostrarDetalle}) && $P{umbralUnidades} > 0` y pulsar Enter.
-11. Escribir exactamente `- Importe con IVA: $P{tipoIva} > 0` y pulsar Enter dos veces.
-12. Escribir exactamente `## Estilos condicionales` y pulsar Enter dos veces.
-13. Escribir exactamente `- TituloCondicional: color según el parámetro periodo.` y pulsar Enter dos veces.
-14. Escribir exactamente `## Mensajes condicionales` y pulsar Enter dos veces.
-15. Escribir exactamente `- Objetivo de ventas: mensaje según el valor de $V{TotalImporte}.` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `LOGICA_CONDICIONAL.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra la lógica condicional del informe.
-**Por qué:** la documentación de las condiciones facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar las condiciones de las columnas. Solución: incluir las cuatro secciones.
-**Analogía:** es como dejar en la editorial una ficha técnica con las reglas de visibilidad del resumen de ventas.
+**Qué hace:** Cierra trazabilidad GUI↔JRXML↔Java.
+**Por qué:** Impide reintroducir las instrucciones antiguas sobre periodo/título.
+**Error común:** Documentar `parent="Sans_Normal"` o Summary=200.
+**Solución:** Usar la estructura real de Parte B.
+**Analogía:** Es archivar exactamente las reglas que usa la edición publicada.
 
 ---
 
@@ -5077,352 +4509,270 @@ El punto 4.6, «Parámetros en consultas SQL», profundiza en el uso de parámet
 
 ---
 
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Abrir 4.5 y comprobar la consulta acumulativa**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `informe_ventas.jrxml`.
+2. Confirmar los parámetros de filtros y `umbralUnidades`.
+3. Confirmar que QueryString conserva los tres filtros opcionales y `LEFT JOIN`.
+4. Confirmar Detail con bandas 82 y 14.
 
-**Verificación visual:** el editor central muestra el informe de ventas con las condiciones del punto 4.5.
+**Verificación visual:** el punto parte íntegramente de 4.5.
 
-**Qué hace:** abre el informe de ventas y lo prepara para ampliar las consultas parametrizadas.
-**Por qué:** el informe de ventas es la base para las consultas de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para añadir consultas parametrizadas.
+**Qué hace:** Fija la base antes de añadir búsqueda SQL avanzada.
+**Por qué:** 4.6 solo añade dos parámetros, dos condiciones SQL y elementos de contexto/resultados.
+**Error común:** Partir de una consulta sin categoria.
+**Solución:** Usar 4.5.
+**Analogía:** Es añadir dos criterios a una consulta ya aprobada.
 
 ---
 
-**Paso 2: Declarar el parámetro textoBusqueda**
+**Paso 2: Declarar textoBusqueda**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `textoBusqueda` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-5. Marcar la casilla is For Prompting.
-6. Hacer clic sobre el botón Finish.
-7. Pulsar Ctrl+S para guardar el archivo.
+1. En Parameters elegir Add Parameter.
+2. Name=`textoBusqueda`; Class=`java.lang.String`; isForPrompting=true; sin default.
+3. Guardar.
 
-**Verificación visual:** el panel Outline muestra el parámetro `textoBusqueda` de tipo `java.lang.String`.
+**Verificación visual:** textoBusqueda aparece como parámetro String promptable.
 
-**Qué hace:** declara un parámetro para la búsqueda parcial por texto.
-**Por qué:** el parámetro permite al usuario buscar libros por una secuencia de caracteres en el título.
-**Error común:** marcar la casilla Use default value y dejar el valor por defecto vacío. El filtro `LIKE '%%'` devuelve todos los registros. Solución: no marcar la casilla o proporcionar un valor por defecto nulo.
-**Analogía:** es como indicar al operario el texto que debe buscar en los títulos del catálogo.
+**Qué hace:** Recibe un fragmento de título para LIKE.
+**Por qué:** Al ser nulo o vacío, la query lo desactiva.
+**Error común:** Construir SQL concatenando el texto desde Java.
+**Solución:** Mantener el valor como `$P{textoBusqueda}` enlazado.
+**Analogía:** Es entregar una palabra de búsqueda como dato, no como parte de la orden SQL.
 
 ---
 
-**Paso 3: Declarar el parámetro categoriasLista**
+**Paso 3: Declarar categoriasLista**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `categoriasLista` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.util.List`.
-5. Marcar la casilla is For Prompting.
-6. Hacer clic sobre el botón Finish.
-7. Pulsar Ctrl+S para guardar el archivo.
+1. Crear Parameter `categoriasLista` con Class=`java.util.Collection` e `isForPrompting=false`.
+2. Default Value Expression=`java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")`.
+3. Guardar.
 
-**Verificación visual:** el panel Outline muestra el parámetro `categoriasLista` de tipo `java.util.List`.
+**Verificación visual:** el parámetro Collection tiene las cuatro categorías del dataset como default.
 
-**Qué hace:** declara un parámetro de tipo lista para la búsqueda por varias categorías.
-**Por qué:** el parámetro permite al usuario seleccionar varias categorías simultáneamente.
-**Error común:** olvidar importar `java.util.List` en el programa Java. El compilador lanza `cannot find symbol: class List`. Solución: añadir la importación correspondiente.
-**Analogía:** es como permitir al operario seleccionar varias categorías del catálogo a la vez.
+**Qué hace:** Alimenta la función de cláusula `$X{IN,...}`.
+**Por qué:** El default preserva los 14 títulos del escenario base.
+**Error común:** Declararlo como `java.util.List` sin default y enseñar una condición nula distinta del checkpoint.
+**Solución:** Usar Collection y la lista por defecto exacta.
+**Analogía:** Es entregar al archivador una bandeja con todas las categorías permitidas.
 
 ---
 
-**Paso 4: Ampliar la consulta SQL con el filtro LIKE**
+**Paso 4: Añadir el filtro LIKE enlazado**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `AND ($P{disponible} IS NULL OR l.disponible = $P{disponible})` y pulsar Enter al final.
-3. Escribir exactamente `AND ($P{textoBusqueda} IS NULL OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
-5. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Abrir Source y localizar las tres condiciones de 4.2.
+2. Añadir `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')`.
+3. Guardar.
 
-**Verificación visual:** la vista Source muestra la condición `LIKE` con el parámetro `textoBusqueda`.
+**Verificación visual:** QueryString contiene `$P{textoBusqueda}` tres veces y no contiene `$P!{textoBusqueda}`.
 
-**Qué hace:** amplía la consulta SQL con un filtro de búsqueda parcial por título.
-**Por qué:** el filtro `LIKE` permite al usuario buscar libros por una secuencia de caracteres.
-**Error común:** olvidar los comodines `%` alrededor del parámetro. La búsqueda solo encuentra coincidencias exactas. Solución: añadir `'%' || ... || '%'` alrededor del parámetro.
-**Analogía:** es como buscar los libros del catálogo que contienen una palabra en su título.
+**Qué hace:** Añade búsqueda parcial manteniendo el valor separado de la estructura SQL.
+**Por qué:** `$P{}` se enlaza mediante PreparedStatement/JDBC.
+**Error común:** Explicar que JasperReports pega el texto escapado dentro del SQL.
+**Solución:** Explicarlo como bind parameter; el operador de concatenación forma el patrón en SQLite alrededor del valor enlazado.
+**Analogía:** Es entregar al archivador el texto en una casilla protegida, no reescribir la orden.
 
 ---
 
-**Paso 5: Ampliar la consulta SQL con el filtro IN**
+**Paso 5: Añadir la cláusula IN con $X{}**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `AND ($P{textoBusqueda} IS NULL OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` y pulsar Enter al final.
-3. Escribir exactamente `AND ($P{categoriasLista} IS NULL OR $X{IN, l.categoria, categoriasLista})` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
-5. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Debajo del LIKE añadir exactamente `AND $X{IN, l.categoria, categoriasLista}`.
+2. No envolverla en `$P{categoriasLista} IS NULL OR ...` porque ese no es el checkpoint final.
+3. Guardar.
 
-**Verificación visual:** la vista Source muestra la condición `IN` con la sintaxis `$X{}`.
+**Verificación visual:** la consulta contiene `$X{IN, l.categoria, categoriasLista}`.
 
-**Qué hace:** amplía la consulta SQL con un filtro por lista de categorías.
-**Por qué:** el filtro `IN` permite al usuario seleccionar varias categorías simultáneamente.
-**Error común:** olvidar la comprobación `$P{categoriasLista} IS NULL` y provocar un error cuando el parámetro es nulo. Solución: envolver la condición `$X{}` con la comprobación de nulo.
-**Analogía:** es como filtrar los libros del catálogo por varias categorías a la vez.
+**Qué hace:** Genera una cláusula IN controlada para una colección.
+**Por qué:** `$X{}` construye la cláusula y enlaza sus valores; no es sustitución textual directa.
+**Error común:** Llamar `$X{}` “sustitución directa” o afirmar que genera siempre `IN ()` con lista vacía.
+**Solución:** Reservar “sustitución textual directa” para `$P!{}` y explicar la semántica no-values de `$X`.
+**Analogía:** Es pedir al archivador “categoría en esta lista” usando una plantilla de cláusula segura.
 
 ---
 
-**Paso 6: Añadir un encabezado con el texto de búsqueda**
+**Paso 6: Ampliar Title a 124 y mostrar la búsqueda**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Title en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `130` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Title, en la coordenada aproximada x=0, y=110.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `110` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Búsqueda:`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
+1. Seleccionar Title y fijar Band height=`124`.
+2. Añadir `Búsqueda:` en x=0, y=86, width=100, height=18.
+3. Añadir Text Field x=100, y=86, width=170, height=18.
+4. Expression=`$P{textoBusqueda} == null || $P{textoBusqueda}.trim().isEmpty() ? "(todas)" : $P{textoBusqueda}`.
 
-**Verificación visual:** la banda Title muestra el rótulo `Búsqueda:` en la coordenada 110.
+**Verificación visual:** la tercera fila del Title muestra el texto o `(todas)`.
 
-**Qué hace:** inserta un rótulo que precede al texto de búsqueda.
-**Por qué:** el rótulo informa al lector del texto que se ha utilizado para filtrar el informe.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el rótulo se solape con la banda siguiente. Solución: ajustar la altura a 130 píxeles.
-**Analogía:** es como anotar en el resumen de ventas el texto de búsqueda utilizado.
+**Qué hace:** Informa al lector del criterio de búsqueda.
+**Por qué:** El incremento a 124 es el único aumento de Title en M4.
+**Error común:** Usar y=110/height=130 del borrador.
+**Solución:** Usar y=86 y height=124.
+**Analogía:** Es añadir una tercera línea al membrete con el criterio aplicado.
 
 ---
 
-**Paso 7: Añadir el campo del texto de búsqueda**
+**Paso 7: Mostrar categoriasLista en Title**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-3. Arrastrar el icono Text Field y soltarlo dentro de la banda Title, a la derecha del rótulo, en la coordenada aproximada x=150, y=110.
-4. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `150` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `110` y pulsar Enter.
-6. Hacer clic sobre el campo Width, escribir `200` y pulsar Enter.
-7. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-8. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$P{textoBusqueda} == null ? "(sin filtro)" : $P{textoBusqueda}` y pulsar Enter.
-9. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-10. Marcar la casilla Bold.
-11. Hacer clic sobre el desplegable Style y seleccionar `Sans_Normal`.
+1. Añadir `Categorías:` en x=300, y=86, width=90, height=18.
+2. Añadir Text Field x=390, y=86, width=165, height=34 y textAdjust=StretchHeight.
+3. Expression=`String.valueOf($P{categoriasLista})`.
+4. Guardar.
 
-**Verificación visual:** la banda Title muestra el campo con la expresión que muestra el texto de búsqueda o `(sin filtro)`.
+**Verificación visual:** la lista cabe en la tercera fila y puede estirarse hasta 34 px.
 
-**Qué hace:** inserta un campo que muestra el texto de búsqueda aplicado o la indicación de que no se ha aplicado ningún filtro.
-**Por qué:** el lector puede saber si el informe está filtrado y con qué criterio.
-**Error común:** olvidar la comprobación de nulo y provocar que el campo muestre `null` cuando no se ha proporcionado un valor. Solución: usar el operador ternario con la comprobación.
-**Analogía:** es como indicar en el resumen de ventas si se ha aplicado algún filtro de búsqueda.
+**Qué hace:** Documenta el alcance del `$X{IN}` en el propio PDF.
+**Por qué:** El lector puede auditar qué categorías se incluyeron.
+**Error común:** Usar x=460/w=95 y truncar la lista.
+**Solución:** Usar x=390/w=165/h=34.
+**Analogía:** Es imprimir en el encabezado la lista de secciones consultadas.
 
 ---
 
-**Paso 8: Añadir un encabezado con las categorías seleccionadas**
+**Paso 8: Añadir Resultados encontrados al Summary**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-3. Arrastrar el icono Static Text y soltarlo dentro de la banda Title, a la derecha del campo anterior, en la coordenada aproximada x=360, y=110.
-4. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `360` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `110` y pulsar Enter.
-6. Hacer clic sobre el campo Width, escribir `100` y pulsar Enter.
-7. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-8. Hacer doble clic sobre el Static Text creado en la acción anterior.
-9. Escribir exactamente `Categorías:`.
-10. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-11. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-12. Hacer clic sobre la pestaña Elements en el panel Palette.
-13. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-14. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=460, y=110.
-15. Hacer clic sobre el campo X, escribir `460` y pulsar Enter.
-16. Hacer clic sobre el campo Y, escribir `110` y pulsar Enter.
-17. Hacer clic sobre el campo Width, escribir `95` y pulsar Enter.
-18. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-19. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$P{categoriasLista} == null ? "Todas" : $P{categoriasLista}.toString()` y pulsar Enter.
-20. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-21. Marcar la casilla Bold.
+1. Mantener Summary height=`128`.
+2. Añadir Text Field x=360, y=103, width=195, height=18.
+3. Expression=`"Resultados encontrados: " + $V{REPORT_COUNT}`.
+4. Guardar.
 
-**Verificación visual:** la banda Title muestra el rótulo `Categorías:` seguido del campo con las categorías seleccionadas o `Todas`.
+**Verificación visual:** la última fila comparte espacio con el mensaje de objetivo de 4.5.
 
-**Qué hace:** inserta un campo que muestra las categorías seleccionadas o la indicación de que se han seleccionado todas.
-**Por qué:** el lector puede saber qué categorías se han utilizado para filtrar el informe.
-**Error común:** olvidar la comprobación de nulo y provocar que el campo muestre `null` cuando no se ha proporcionado una lista. Solución: usar el operador ternario con la comprobación.
-**Analogía:** es como indicar en el resumen de ventas qué categorías se han utilizado.
+**Qué hace:** Muestra el número de filas de la consulta tras filtros.
+**Por qué:** No requiere ampliar Summary.
+**Error común:** Llevar Summary a 230/y=210.
+**Solución:** Mantener 128/y=103.
+**Analogía:** Es colocar el recuento final al lado del estado del objetivo.
 
 ---
 
-**Paso 9: Añadir un campo con el número de resultados**
+**Paso 9: Actualizar GeneradorInformeVentas.java**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `230` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=210.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `210` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `250` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Resultados encontrados:`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-14. Marcar la casilla Bold.
-15. Hacer clic sobre la pestaña Elements en el panel Palette.
-16. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-17. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=250, y=210.
-18. Hacer clic sobre el campo X, escribir `250` y pulsar Enter.
-19. Hacer clic sobre el campo Y, escribir `210` y pulsar Enter.
-20. Hacer clic sobre el campo Width, escribir `80` y pulsar Enter.
-21. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-22. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{REPORT_COUNT}` y pulsar Enter.
-23. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-24. Marcar la casilla Bold.
+1. Añadir `import java.util.Arrays;`.
+2. Después de umbralUnidades añadir `parametros.put("textoBusqueda", null);`.
+3. Añadir `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));`.
+4. Conservar los filtros de 4.2 a null y todos los parámetros anteriores.
+5. Guardar.
 
-**Verificación visual:** la banda Summary muestra el rótulo `Resultados encontrados:` seguido del campo con la variable `$V{REPORT_COUNT}`.
+**Verificación visual:** el escenario Java base usa búsqueda nula y las cuatro categorías.
 
-**Qué hace:** inserta un campo con el número de resultados encontrados.
-**Por qué:** el recuento informa al lector del volumen de resultados tras aplicar los filtros.
-**Error común:** olvidar marcar la casilla Bold. Solución: marcar la casilla.
-**Analogía:** es como indicar en el colofón del resumen cuántos libros han pasado los filtros.
+**Qué hace:** Mantiene el contrato de 14 títulos mientras ejercita `$X{IN}`.
+**Por qué:** Permite E2E determinista.
+**Error común:** Usar ArrayList con solo dos categorías y cambiar el resultado base.
+**Solución:** Usar exactamente Arrays.asList con las cuatro categorías.
+**Analogía:** Es ejecutar la consulta patrón sobre todo el catálogo antes de probar selecciones parciales.
 
 ---
 
-**Paso 10: Modificar el programa Java para pasar los parámetros de búsqueda**
+**Paso 10: Compilar y previsualizar el escenario base**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic al final de la línea que contiene `import java.util.Map;` y pulsar Enter.
-3. Escribir exactamente `import java.util.ArrayList;` y pulsar Enter.
-4. Escribir exactamente `import java.util.List;` y pulsar Enter.
-5. Localizar la línea que contiene `parametros.put("umbralUnidades", 5);` y pulsar Enter al final.
-6. Escribir exactamente `parametros.put("textoBusqueda", "sol");` y pulsar Enter.
-7. Escribir exactamente `List<String> categorias = new ArrayList<>();` y pulsar Enter.
-8. Escribir exactamente `categorias.add("Novela");` y pulsar Enter.
-9. Escribir exactamente `categorias.add("Realismo mágico");` y pulsar Enter.
-10. Escribir exactamente `parametros.put("categoriasLista", categorias);` y pulsar Enter.
-11. Pulsar Ctrl+S para guardar el archivo.
-12. Observar el panel Problems y verificar que no hay errores.
+1. Guardar y compilar con Ctrl+Mayús+B.
+2. Abrir Preview.
+3. Dejar textoBusqueda vacío/nulo.
+4. Confirmar que categoriasLista usa su default de cuatro valores.
+5. Confirmar 14 títulos.
 
-**Verificación visual:** el editor central muestra las líneas que introducen los valores de los parámetros de búsqueda en el mapa.
+**Verificación visual:** el informe sin búsqueda restrictiva conserva el dataset base.
 
-**Qué hace:** modifica el programa Java para pasar el texto de búsqueda y la lista de categorías.
-**Por qué:** los parámetros controlan los filtros de búsqueda y de categoría.
-**Error común:** olvidar la importación de `java.util.ArrayList`. El compilador lanza `cannot find symbol: class ArrayList`. Solución: añadir la importación.
-**Analogía:** es como indicar al operario el texto y las categorías que debe buscar en el catálogo.
+**Qué hace:** Valida que los nuevos filtros son neutros por defecto.
+**Por qué:** Un punto acumulativo no debe cambiar sus invariantes sin intención.
+**Error común:** Esperar solo dos categorías por copiar el borrador antiguo.
+**Solución:** Usar la lista del checkpoint final.
+**Analogía:** Es comprobar primero la búsqueda “todo el catálogo”.
 
 ---
 
-**Paso 11: Compilar y previsualizar el informe**
+**Paso 11: Probar textoBusqueda en Preview**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Pulsar el botón Preview de la barra de herramientas superior.
-5. En el diálogo de previsualización, hacer clic sobre la pestaña Parameters.
-6. Verificar que aparecen los parámetros `textoBusqueda` y `categoriasLista`.
-7. Establecer el valor del parámetro `textoBusqueda` a `sol`.
-8. Hacer clic sobre el botón OK.
-9. Esperar a que se abra la pestaña Preview en el editor central.
+1. En Parameters de Preview escribir `sol` en textoBusqueda.
+2. Regenerar.
+3. Comprobar que solo quedan títulos que contienen esa secuencia y pertenecen a categoriasLista.
+4. Vaciar de nuevo el parámetro al terminar.
 
-**Verificación visual:** la pestaña Preview muestra solo los libros cuyo título contiene la secuencia `sol` y cuya categoría es `Novela` o `Realismo mágico`.
+**Verificación visual:** LIKE modifica el conjunto sin errores SQL.
 
-**Qué hace:** compila y previsualiza el informe con los filtros de búsqueda y de categoría.
-**Por qué:** la previsualización confirma que los filtros `LIKE` e `IN` funcionan correctamente.
-**Error común:** obtener `SQLException: near "||": syntax error`. Indica que el motor de base de datos no reconoce el operador de concatenación. Solución: verificar la sintaxis del motor de base de datos.
-**Analogía:** es como revisar la prueba de color del resumen de ventas filtrado por texto y categoría.
+**Qué hace:** Demuestra el bind parameter en una búsqueda parcial.
+**Por qué:** El valor sigue siendo dato aunque contenga caracteres SQL.
+**Error común:** Eliminar los `%` del patrón y esperar búsqueda parcial.
+**Solución:** Conservar `'%' || $P{textoBusqueda} || '%'`.
+**Analogía:** Es buscar una palabra dentro de los títulos sin cambiar la pregunta.
 
 ---
 
-**Paso 12: Ejecutar el programa Java y verificar el PDF**
+**Paso 12: Verificar resistencia a inyección desde Preview**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra el texto de búsqueda, las categorías seleccionadas y los resultados filtrados.
+1. En textoBusqueda escribir literalmente `sol' OR '1'='1`.
+2. Regenerar Preview.
+3. Confirmar que no se convierten todos los libros en coincidencias.
+4. Observar que no aparece un error de sintaxis SQL.
+5. Restaurar el valor nulo.
 
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra los filtros aplicados.
+**Verificación visual:** el texto se trata como valor de búsqueda, no como código SQL.
 
-**Qué hace:** ejecuta el programa Java que pasa los parámetros de búsqueda y genera el informe.
-**Por qué:** la ejecución confirma que los filtros `LIKE` e `IN` funcionan desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el resumen de ventas con los filtros de búsqueda y categoría.
+**Qué hace:** Demuestra la propiedad esencial de `$P{}`.
+**Por qué:** PreparedStatement mantiene estructura y valor separados.
+**Error común:** Probar Program arguments aunque el generador no lee `args`.
+**Solución:** Hacer la prueba en el parámetro de Preview o modificar temporalmente el put y revertirlo.
+**Analogía:** Es comprobar que un texto malicioso sigue siendo texto dentro de la casilla de búsqueda.
 
 ---
 
-**Paso 13: Documentar las consultas parametrizadas**
+**Paso 13: Ejecutar Java y revisar el runtime**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `CONSULTAS_PARAMETRIZADAS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Consultas parametrizadas del informe de ventas` y pulsar Enter dos veces.
-7. Escribir exactamente `## Sustitución segura $P{}` y pulsar Enter dos veces.
-8. Escribir exactamente `- categoria: WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` y pulsar Enter.
-9. Escribir exactamente `- precioMinimo: WHERE ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` y pulsar Enter.
-10. Escribir exactamente `- textoBusqueda: WHERE ($P{textoBusqueda} IS NULL OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` y pulsar Enter dos veces.
-11. Escribir exactamente `## Sustitución directa $X{}` y pulsar Enter dos veces.
-12. Escribir exactamente `- categoriasLista: WHERE ($P{categoriasLista} IS NULL OR $X{IN, l.categoria, categoriasLista})` y pulsar Enter dos veces.
-13. Escribir exactamente `## Parámetros utilizados` y pulsar Enter dos veces.
-14. Escribir exactamente `| Parámetro | Tipo Java | Uso |` y pulsar Enter.
-15. Escribir exactamente `|---|---|---|` y pulsar Enter.
-16. Escribir exactamente `| textoBusqueda | java.lang.String | Filtro LIKE sobre el título |` y pulsar Enter.
-17. Escribir exactamente `| categoriasLista | java.util.List | Filtro IN sobre la categoría |` y pulsar Enter.
-18. Pulsar Ctrl+S para guardar el archivo.
+1. Ejecutar GeneradorInformeVentas con los valores base.
+2. Abrir `output/informe_ventas.pdf`.
+3. Comprobar la tercera fila de Title y el recuento final.
+4. Confirmar 14 títulos, 31 unidades y 633,40 €.
 
-**Verificación visual:** el panel Project Explorer muestra el archivo `CONSULTAS_PARAMETRIZADAS.md` en la raíz del proyecto `EditorialReports`.
+**Verificación visual:** el PDF real refleja búsqueda/categorías y conserva invariantes.
 
-**Qué hace:** incorpora al proyecto un documento que registra las consultas parametrizadas del informe.
-**Por qué:** la documentación de las consultas facilita el mantenimiento y la prevención de inyección SQL.
-**Error común:** olvidar documentar la sintaxis `$X{}`. Solución: incluir las dos secciones.
-**Analogía:** es como dejar en la editorial una ficha técnica con las consultas parametrizadas del resumen de ventas.
+**Qué hace:** Valida `$P{}`, `$X{}` y maquetación conjuntamente.
+**Por qué:** La prueba final es el runtime, no solo la consulta en Source.
+**Error común:** Dar por válido `$X{}` porque el JRXML compila.
+**Solución:** Ejecutar con SQLite y revisar el PDF.
+**Analogía:** Es comprobar que la consulta parametrizada produce una edición imprimible.
 
 ---
 
-**Paso 14: Verificar la prevención de inyección SQL**
+**Paso 14: Crear CONSULTAS_PARAMETRIZADAS.md y cotejar Parte B**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Run Configurations... en el submenú.
-4. En el diálogo, hacer clic sobre la pestaña Arguments.
-5. Escribir exactamente `"sol' OR '1'='1"` en el campo Program arguments.
-6. Hacer clic sobre el botón Run.
-7. Observar la vista Console y verificar que el programa ejecuta la consulta sin errores.
-8. Abrir el archivo `output/informe_ventas.pdf` y verificar que el informe no contiene todos los libros.
+1. Crear `EditorialReports/CONSULTAS_PARAMETRIZADAS.md`.
+2. Documentar `$P{}` como valor enlazado JDBC/PreparedStatement.
+3. Documentar `$X{IN,...}` como función de cláusula parametrizada para colecciones.
+4. Documentar `$P!{}` como sustitución textual directa y señalar que no se usa en el checkpoint.
+5. Comparar QueryString, Title=124 y Summary=128 con Parte B.
+6. Guardar.
 
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` sin errores de sintaxis SQL. El archivo PDF muestra solo los libros cuyo título contiene la secuencia `sol' OR '1'='1` (ninguno).
+**Verificación visual:** la documentación técnica coincide con la semántica y el código ejecutable.
 
-**Qué hace:** verifica que la sintaxis `$P{}` previene la inyección SQL.
-**Por qué:** el motor escapa los caracteres especiales del valor y la consulta no se modifica.
-**Error común:** olvidar el escape y provocar que la consulta devuelva todos los libros. Solución: usar siempre la sintaxis `$P{}` para valores del usuario.
-**Analogía:** es como verificar que el resumen de ventas no puede ser manipulado por un texto malicioso.
+**Qué hace:** Elimina la ambigüedad entre `$P{}`, `$X{}` y `$P!{}`.
+**Por qué:** Es una distinción de seguridad fundamental.
+**Error común:** Titular una sección “Sustitución directa $X{}”.
+**Solución:** Reservar esa descripción para `$P!{}`.
+**Analogía:** Es documentar por separado valores, plantillas de cláusula y sustitución literal.
 
 ---
 
@@ -6118,7 +5468,7 @@ M4/4.6/
 
 ## Analogía final con el contexto de la editorial
 
-Las consultas parametrizadas son las preguntas que el editor hace al archivador con criterios flexibles. El filtro `LIKE` busca los libros que contienen una secuencia de caracteres en el título. El filtro `IN` selecciona los libros que pertenecen a varias categorías. El filtro `BETWEEN` selecciona las ventas que caen dentro de un rango de fechas. Cada filtro es un criterio que el editor puede activar o desactivar según las instrucciones del usuario. La sustitución segura `$P{}` garantiza que el texto proporcionado por el usuario no puede modificar la estructura de la consulta. La sustitución directa `$X{}` permite construir listas de valores de forma dinámica. La combinación de las dos sintaxis con las buenas prácticas de validación construye un sistema de consultas seguro y flexible.
+Las consultas parametrizadas son las preguntas que el editor hace al archivador con criterios flexibles. El filtro `LIKE` busca los libros que contienen una secuencia de caracteres en el título. El filtro `IN` selecciona los libros que pertenecen a varias categorías. El filtro `BETWEEN` selecciona las ventas que caen dentro de un rango de fechas. Cada filtro es un criterio que el editor puede activar o desactivar según las instrucciones del usuario. El enlace `$P{}` mantiene los valores del usuario separados de la estructura de la consulta. La función de cláusula `$X{}` permite construir condiciones como `IN` y enlazar los elementos de una colección de forma controlada. La combinación de las dos sintaxis con las buenas prácticas de validación construye un sistema de consultas seguro y flexible.
 
 ---
 
@@ -6132,7 +5482,7 @@ Al finalizar este punto, el alumno dispone de:
 - El programa `GeneradorInformeVentas.java` modificado para pasar el texto de búsqueda y la lista de categorías.
 - El archivo `output/informe_ventas.pdf` con los filtros aplicados.
 - El archivo `CONSULTAS_PARAMETRIZADAS.md` en la raíz del proyecto con la documentación.
-- Comprensión operativa de la sustitución de parámetros, de la diferencia entre `$P{}` y `$X{}`, de los filtros `LIKE` e `IN` y de la prevención de inyección SQL.
+- Comprensión operativa de `$P{}` como valor enlazado, `$X{}` como función de cláusula, `$P!{}` como sustitución textual directa, de los filtros `LIKE`/`IN` y de la prevención de inyección SQL.
 
 ---
 
