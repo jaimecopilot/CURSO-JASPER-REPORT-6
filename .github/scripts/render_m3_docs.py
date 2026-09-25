@@ -105,7 +105,7 @@ h1,h2,h3,h4 { break-after:avoid-page; }
 img { max-width:100%; height:auto; }
 '''
 
-POINT_RE = re.compile(r"\b(?:PUNTO|Punto)\s+3\.[1-6]\b", re.I)
+POINT_RE = re.compile(r"\b(?:PUNTO|Punto)\s+3\.[1-7]\b", re.I)
 LINE_RE = re.compile(r"^(L[ií]nea(?:s)?\s+[^:]+):?$", re.I)
 
 
