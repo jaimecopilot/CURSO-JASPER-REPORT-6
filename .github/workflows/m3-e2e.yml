@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        checkpoint: ['3.1','3.2','3.3','3.4','3.5','3.6']
+        checkpoint: ['3.1','3.2','3.3','3.4','3.5','3.6','3.7']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,22 +50,22 @@ jobs:
           java -cp "$CP" GeneradorInformeConcepto 2>&1 | tee -a execution.log
 
           case "${{ matrix.checkpoint }}" in
-            3.2|3.3|3.4|3.5|3.6)
+            3.2|3.3|3.4|3.5|3.6|3.7)
               java -cp "$CP" GeneradorCatalogoCSV 2>&1 | tee -a execution.log
               ;;
           esac
           case "${{ matrix.checkpoint }}" in
-            3.3|3.4|3.5|3.6)
+            3.3|3.4|3.5|3.6|3.7)
               java -cp "$CP" GeneradorDistribucionXML 2>&1 | tee -a execution.log
               ;;
           esac
           case "${{ matrix.checkpoint }}" in
-            3.4|3.5|3.6)
+            3.4|3.5|3.6|3.7)
               java -cp "$CP" GeneradorAutoresJSON 2>&1 | tee -a execution.log
               ;;
           esac
           case "${{ matrix.checkpoint }}" in
-            3.5|3.6)
+            3.5|3.6|3.7)
               java -cp "$CP" GeneradorInformeVentas 2>&1 | tee -a execution.log
               ;;
           esac
@@ -76,7 +76,7 @@ jobs:
           grep -q "Libros insertados: 14" execution.log
 
           case "${{ matrix.checkpoint }}" in
-            3.2|3.3|3.4|3.5|3.6)
+            3.2|3.3|3.4|3.5|3.6|3.7)
               test -s reports/informe_catalogo_csv.jasper
               test -s output/informe_catalogo_csv.pdf
               test "$(head -c 5 output/informe_catalogo_csv.pdf)" = "%PDF-"
@@ -84,7 +84,7 @@ jobs:
               ;;
           esac
           case "${{ matrix.checkpoint }}" in
-            3.3|3.4|3.5|3.6)
+            3.3|3.4|3.5|3.6|3.7)
               test -s reports/informe_distribucion_xml.jasper
               test -s output/informe_distribucion_xml.pdf
               test "$(head -c 5 output/informe_distribucion_xml.pdf)" = "%PDF-"
@@ -92,7 +92,7 @@ jobs:
               ;;
           esac
           case "${{ matrix.checkpoint }}" in
-            3.4|3.5|3.6)
+            3.4|3.5|3.6|3.7)
               test -s reports/informe_autores_json.jasper
               test -s output/informe_autores_json.pdf
               test "$(head -c 5 output/informe_autores_json.pdf)" = "%PDF-"
@@ -100,11 +100,20 @@ jobs:
               ;;
           esac
           case "${{ matrix.checkpoint }}" in
-            3.5|3.6)
+            3.5|3.6|3.7)
               test -s reports/informe_ventas.jasper
               test -s output/informe_ventas.pdf
               test "$(head -c 5 output/informe_ventas.pdf)" = "%PDF-"
               grep -q "Ventas insertadas: 9" execution.log
+              ;;
+          esac
+          case "${{ matrix.checkpoint }}" in
+            3.7)
+              grep -q "Parametro usuario: Ana Martínez" execution.log
+              grep -q '<parameter name="usuario" class="java.lang.String"/>' reports/informe_ventas.jrxml
+              grep -q '<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">' reports/informe_ventas.jrxml
+              grep -q '<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">' reports/informe_ventas.jrxml
+              test -s PARAMETROS_VARIABLES.md
               ;;
           esac
 
