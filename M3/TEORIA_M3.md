@@ -242,7 +242,7 @@ try (Connection conexion = DriverManager.getConnection(
 **Líneas 4-5:** abren la conexión SQLite con `try-with-resources`.
 **Líneas 6-9:** llenan el mismo informe acumulativo mediante JDBC.
 **Líneas 10-12:** exportan el PDF mientras la conexión sigue abierta.
-**Línea 13:** cierra el bloque y la conexión automáticamente.
+**Cierre del bloque:** `}` termina el `try-with-resources` y cierra la conexión automáticamente.
 
 ---
 
