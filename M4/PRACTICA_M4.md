@@ -5008,7 +5008,7 @@ M4/4.6/
 | La lista se trata como un String | se intenta pasar SQL textual | pasar una `Collection` y usar `$X{IN,...}` |
 | Se usa `$P{categoriasLista} IS NULL OR $X{...}` | la Collection se intenta enlazar como un escalar | usar directamente `$X{IN,...}` |
 | Se afirma que `$X{}` es sustitución directa | confusión con `$P!{}` | reservar `$P!{}` para sustitución textual directa |
-| La lista vacía se explica como `IN ()` | la función `$X{IN}` tiene semántica de no-values configurable | documentar la cláusula true/false configurada, no `IN ()` |
+| La lista vacía se explica como SQL inválido | la función `$X{IN}` tiene semántica de no-values configurable | documentar la cláusula constante true/false configurada |
 | La prueba de inyección usa Program Arguments | el generador no lee `args` | probar cambiando temporalmente el valor del mapa o mediante CI |
 
 ---

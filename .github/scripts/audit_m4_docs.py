@@ -46,6 +46,8 @@ if '$P!{}` es sustitución textual directa' not in T and '$P!{}` para sustituci�
 
 for token in (
     '<initialValueExpression>',
+    'parent="',
+    'IN ()',
     'aplica el último cuya condición sea verdadera',
     'último bloque verdadero',
     'Sustitución directa `$X{}`',
