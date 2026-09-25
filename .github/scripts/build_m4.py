@@ -308,10 +308,10 @@ def report_jrxml(stage: int) -> str:
             <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression>{cdata(expr_summary)}</textFieldExpression></textField>'''
     if has_logic:
         summary += f'''
-            <textField><reportElement x="0" y="103" width="555" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression>{cdata(expr_goal)}</textFieldExpression></textField>'''
+            <textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression>{cdata(expr_goal)}</textFieldExpression></textField>'''
     if has_sql_adv:
         summary += f'''
-            <textField><reportElement x="0" y="103" width="180" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression>{cdata(expr_results)}</textFieldExpression></textField>'''
+            <textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression>{cdata(expr_results)}</textFieldExpression></textField>'''
     summary += '\n        </band>\n    </summary>'
 
     xml = f'''<?xml version="1.0" encoding="UTF-8"?>
