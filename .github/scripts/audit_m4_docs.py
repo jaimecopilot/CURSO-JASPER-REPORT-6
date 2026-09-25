@@ -76,7 +76,7 @@ GUI_EXPECTED={
     '4.3':['Page Footer y fijar altura `62`','Summary y fijar altura `128`','Importe con IVA:` con `$V{ImporteConIva}`'],
     '4.4':['ChronoUnit.DAYS.between','toUpperCase(java.util.Locale.ROOT)','IVA %.0f%%','Math.round($F{precio_medio}.doubleValue() * 100.0d)'],
     '4.5':['UnidadesCondicional','<band height="14">','parametros.put("umbralUnidades", Integer.valueOf(5))','Objetivo de ventas alcanzado'],
-    '4.6':['java.util.Collection','Desactivar `isForPrompting`','$X{IN, l.categoria, categoriasLista}','altura `124`','parametros.put("textoBusqueda", null)','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
+    '4.6':['java.util.Collection','Desactivar `isForPrompting`','$X{IN, l.categoria, categoriasLista}','height=`124`','parametros.put("textoBusqueda", null)','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
 }
 for point,tokens in GUI_EXPECTED.items():
     q=ptext(P,point)
