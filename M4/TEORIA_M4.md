@@ -1255,216 +1255,132 @@ INFORME CON mostrarDetalle=false
 
 ## Parte teórica
 
-### Bloque 1 — Mecanismo de sustitución de parámetros
+### Bloque 1 — Cómo se enlazan los parámetros en una consulta SQL
 
-JasperReports sustituye los parámetros en las consultas SQL antes de enviarlas a la base de datos. El motor recorre la consulta, localiza cada aparición de la sintaxis `$P{nombre}` y la reemplaza por el valor del parámetro correspondiente. La sustitución se realiza con el tipo del parámetro y con el formato adecuado para cada motor de base de datos. Un parámetro de tipo `String` se sustituye con comillas simples alrededor del valor. Un parámetro numérico se sustituye sin comillas. Un parámetro de tipo `Date` se sustituye con el formato que el motor de base de datos espera. La sustitución se realiza antes de enviar la consulta, no como una sentencia preparada. Esta característica es la que permite utilizar la sintaxis `$P{}` en cualquier parte de la consulta, incluyendo la cláusula `LIKE` o la cláusula `IN`.
+En JasperReports, un parámetro de consulta escrito como \`$P{nombre}\` **no se pega como texto dentro del SQL**. El query executer transforma esa referencia en un marcador \`?\` de una sentencia JDBC preparada y entrega el valor al \`PreparedStatement\` por separado. Por tanto, el tipo Java declarado en el parámetro sigue siendo importante, pero no porque JasperReports tenga que añadir manualmente comillas al texto SQL, sino porque JDBC debe enlazar el valor con el tipo adecuado.
 
-```
-<parameter name="titulo" class="java.lang.String"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros WHERE titulo = $P{titulo}
-    ]]>
-</queryString>
-```
-
-**Línea 1:** `<parameter name="titulo" class="java.lang.String"/>` → declara el parámetro `titulo` de tipo cadena.
-**Línea 3:** `<![CDATA[` → abre el bloque CDATA.
-**Línea 4:** `SELECT titulo, precio FROM libros WHERE titulo = $P{titulo}` → consulta con el parámetro en la cláusula `WHERE`. El motor sustituye `$P{titulo}` por el valor del parámetro entre comillas simples. Si el valor es `Cien años de soledad`, la consulta ejecutada es `SELECT titulo, precio FROM libros WHERE titulo = 'Cien años de soledad'`.
-
-El mecanismo de sustitución funciona con cualquier tipo de parámetro. Los parámetros de tipo `String` se sustituyen entre comillas simples. Los parámetros de tipo `Integer`, `Long`, `Double` y `BigDecimal` se sustituyen con su representación numérica sin comillas. Los parámetros de tipo `Boolean` se sustituyen con el valor `true` o `false` según el motor de base de datos. Los parámetros de tipo `Date` se sustituyen con el formato que el motor de base de datos reconoce, que en SQLite es una cadena en formato ISO 8601. La coherencia entre el tipo del parámetro y el tipo de la columna con la que se compara es condición necesaria para que el filtro funcione correctamente.
-
-```
-SUSTITUCIÓN DE PARÁMETROS POR TIPO
-
-  Tipo del parámetro  │ Valor              │ Consulta ejecutada
-  ─────────────────────┼────────────────────┼──────────────────────
-  java.lang.String     │ "Novela"           │ WHERE cat = 'Novela'
-  java.lang.Integer    │ 42                 │ WHERE num = 42
-  java.lang.Double     │ 19.95              │ WHERE precio = 19.95
-  java.lang.Boolean    │ Boolean.TRUE       │ WHERE disp = 1
-  java.util.Date       │ new Date()         │ WHERE fecha = '2026-09-23'
-```
-
-**Qué representa la tabla:** la sustitución de parámetros según su tipo. El motor adapta el formato al tipo del parámetro.
-
-**Por qué es relevante:** permite escribir consultas parametrizadas con cualquier tipo de dato sin preocuparse por el formato de la sustitución.
-
-### Bloque 2 — Sustitución segura `$P{}` frente a sustitución directa `$X{}`
-
-JasperReports ofrece dos sintaxis para insertar valores en las consultas SQL. La sintaxis `$P{nombre}` realiza una sustitución segura: el motor escapa los caracteres especiales del valor antes de insertarlo en la consulta. La sintaxis `$X{nombre}` realiza una sustitución directa: el motor inserta el valor tal cual, sin escaparlo. La diferencia es importante porque la sustitución directa puede ser vulnerable a la inyección SQL si el valor proviene de una fuente no confiable. La sustitución segura es la opción por defecto y la que se debe utilizar siempre que sea posible.
-
-```
+\`\`\`xml
 <parameter name="categoria" class="java.lang.String"/>
 <queryString language="sql">
     <![CDATA[
-        SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}
+        SELECT titulo, precio
+        FROM libros
+        WHERE categoria = $P{categoria}
     ]]>
 </queryString>
-```
+\`\`\`
 
-**Línea 1:** `<parameter name="categoria" class="java.lang.String"/>` → declara el parámetro `categoria` de tipo cadena.
-**Línea 4:** `SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}` → la sintaxis `$P{categoria}` realiza una sustitución segura. El motor escapa las comillas simples y otros caracteres especiales antes de insertar el valor. Si el valor es `O'Brien`, la consulta ejecutada es `SELECT titulo, precio FROM libros WHERE categoria = 'O''Brien'` con la comilla simple escapada.
+Conceptualmente, el motor prepara una sentencia equivalente a:
 
-La sintaxis `$X{nombre}` se utiliza en casos específicos donde la sustitución segura no es suficiente. El caso más habitual es el operador `IN` con una lista de valores. La sintaxis `$X{nombre, columna, operador}` permite construir dinámicamente una condición `IN` a partir de una lista de valores. El segundo argumento es el nombre de la columna y el tercero es el operador de comparación. El motor genera la lista de valores separados por comas y la inserta en la consulta. Esta sintaxis es específica de JasperReports y no forma parte del estándar SQL.
+\`\`\`text
+SELECT titulo, precio
+FROM libros
+WHERE categoria = ?
 
-```
-<parameter name="categorias" class="java.util.List"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros
-        WHERE $X{IN, categoria, categorias}
-    ]]>
-</queryString>
-```
+bind #1 -> "Novela"
+\`\`\`
 
-**Línea 1:** `<parameter name="categorias" class="java.util.List"/>` → declara el parámetro `categorias` de tipo lista.
-**Línea 4:** `WHERE $X{IN, categoria, categorias}` → la sintaxis `$X{IN, columna, parámetro}` construye dinámicamente la condición `IN`. Si el parámetro contiene las categorías `Novela`, `Ensayo` y `Poesía`, la consulta ejecutada incluye `WHERE categoria IN ('Novela', 'Ensayo', 'Poesía')`.
+La consulta y el valor viajan separados. Si \`categoria\` vale \`null\`, JDBC enlaza un valor SQL nulo; por eso los filtros opcionales de este curso usan una condición como \`($P{categoria} IS NULL OR l.categoria = $P{categoria})\`. No debe imaginarse esa expresión como una sustitución literal del texto \`$P{categoria}\` por la palabra \`NULL\`.
 
-```
-DIFERENCIAS ENTRE $P{} Y $X{}
+**Qué aporta al proyecto:** permite parametrizar valores sin construir SQL concatenando cadenas y mantiene el contrato de tipos entre Java, JasperReports y JDBC.
 
-  $P{nombre}:
-    - Sustitución segura con escape de caracteres especiales.
-    - Sintaxis estándar de JasperReports.
-    - Utilizable en cualquier parte de la consulta.
-    - Adecuada para comparaciones simples.
+### Bloque 2 — Diferencia entre \`$P{}\`, \`$X{}\` y \`$P!{}\`
 
-  $X{opción, columna, parámetro}:
-    - Sustitución directa con formato específico según la opción.
-    - Opciones: IN, NOTIN, EQUAL, NOTEQUAL.
-    - Solo utilizable en la cláusula WHERE.
-    - Adecuada para listas de valores y comparaciones parametrizadas.
-```
+JasperReports ofrece tres mecanismos distintos y conviene no mezclarlos:
 
-**Qué representa el diagrama:** las diferencias entre las dos sintaxis de sustitución. La primera es segura y estándar. La segunda es específica de JasperReports y adecuada para listas.
+- **\`$P{nombre}\`**: representa un **valor**. En consultas JDBC termina como un marcador \`?\` y se enlaza mediante \`PreparedStatement\`.
+- **\`$X{función, columna, parámetro}\`**: ejecuta una **función de cláusula** de JasperReports. Se usa cuando la forma de una condición depende del valor, por ejemplo para crear un \`IN\` con una colección. Los valores generados siguen enlazándose como parámetros JDBC.
+- **\`$P!{nombre}\`**: realiza **sustitución textual directa** antes de preparar la consulta. Sirve únicamente para fragmentos estructurales que la aplicación controle estrictamente; no debe recibir texto arbitrario del usuario.
 
-**Por qué es relevante:** permite elegir la sintaxis correcta según el caso de uso y evitar vulnerabilidades de inyección SQL.
+\`\`\`text
+$P{categoria}
+  SQL preparado: WHERE categoria = ?
+  bind: "Novela"
 
-### Bloque 3 — Filtros parametrizados con LIKE
+$X{IN, categoria, categoriasLista}
+  SQL generado: WHERE categoria IN (?, ?, ...)
+  binds: cada elemento de la colección
 
-El operador `LIKE` permite buscar coincidencias parciales en una columna de texto. La sintaxis `columna LIKE patrón` devuelve las filas en las que la columna coincide con el patrón. El patrón puede contener los comodines `%` para cualquier secuencia de caracteres y `_` para un único carácter. La combinación del operador `LIKE` con un parámetro permite construir búsquedas por texto parcial. El usuario proporciona una cadena y el motor busca las filas que la contienen.
+$P!{ordenControlado}
+  Inserta texto en la consulta antes de prepararla.
+\`\`\`
 
-```
+Esta distinción es fundamental para entender seguridad y depuración. Decir que \`$X{}\` es “sustitución directa” es incorrecto: la sustitución textual directa es \`$P!{}\`.
+
+### Bloque 3 — Filtro parametrizado con LIKE
+
+El operador \`LIKE\` puede combinarse con un valor enlazado. En SQLite, EditorialReports construye los comodines en la propia expresión SQL y mantiene el texto del usuario como bind parameter:
+
+\`\`\`xml
 <parameter name="textoBusqueda" class="java.lang.String"/>
 <queryString language="sql">
     <![CDATA[
-        SELECT titulo, precio FROM libros
-        WHERE titulo LIKE '%' || $P{textoBusqueda} || '%'
+        SELECT titulo
+        FROM libros
+        WHERE ($P{textoBusqueda} IS NULL
+               OR $P{textoBusqueda} = ''
+               OR titulo LIKE '%' || $P{textoBusqueda} || '%')
     ]]>
 </queryString>
-```
+\`\`\`
 
-**Línea 1:** `<parameter name="textoBusqueda" class="java.lang.String"/>` → declara el parámetro `textoBusqueda` de tipo cadena.
-**Línea 4:** `WHERE titulo LIKE '%' || $P{textoBusqueda} || '%'` → construye el patrón concatenando el comodín `%` al principio, el valor del parámetro y el comodín `%` al final. El operador `||` de SQLite concatena cadenas. Si el valor es `sol`, el patrón es `%sol%` y la consulta devuelve los libros cuyo título contiene la secuencia `sol`.
+Para el valor \`sol\`, la estructura sigue siendo estable: el texto \`sol\` no pasa a formar parte de la sintaxis SQL. SQLite concatena los comodines con el valor enlazado y busca títulos que contengan esa secuencia.
 
-La construcción del patrón con `LIKE` requiere atención a la sintaxis del motor de base de datos. En SQLite el operador de concatenación es `||`. En MySQL es la función `CONCAT`. En PostgreSQL es el operador `||` o la función `CONCAT`. La elección del operador depende del motor. La construcción del patrón puede realizarse también en el propio parámetro, pasando ya el patrón con los comodines desde el programa Java. Esta aproximación simplifica la consulta pero traslada la lógica de construcción al programa. La elección entre ambas depende del control que se quiera tener sobre el patrón.
+Otra estrategia válida consiste en construir \`"%"+texto+"%"\` en Java y usar simplemente \`titulo LIKE $P{patronTitulo}\`. Ambas mantienen el valor separado de la estructura SQL; la elección depende de dónde se quiera concentrar la lógica de construcción del patrón.
 
-```
-CONSTRUCCIÓN DEL PATRÓN LIKE
+### Bloque 4 — \`$X{IN,...}\` con colecciones
 
-  Patrón construido en la consulta:
-    WHERE titulo LIKE '%' || $P{textoBusqueda} || '%'
-    → el usuario proporciona solo el texto.
+Una colección no debe tratarse como un único parámetro escalar dentro de \`IN\`. Para ello JasperReports proporciona la función de cláusula \`IN\`:
 
-  Patrón construido en el programa Java:
-    parametros.put("patronTitulo", "%" + textoUsuario + "%");
-    WHERE titulo LIKE $P{patronTitulo}
-    → el usuario proporciona el texto, el programa añade los comodines.
-
-  Patrón específico con comodín inicial:
-    WHERE titulo LIKE $P{textoBusqueda} || '%'
-    → busca los títulos que empiezan por el texto.
-```
-
-**Qué representa el diagrama:** las tres formas de construir el patrón `LIKE`. La elección depende de dónde se quiera controlar el patrón.
-
-**Por qué es relevante:** permite elegir la estrategia de búsqueda según el control que se necesite sobre el patrón.
-
-### Bloque 4 — Filtros parametrizados con IN y listas
-
-El operador `IN` permite buscar coincidencias en una lista de valores. La sintaxis `columna IN (valor1, valor2, valor3)` devuelve las filas en las que la columna coincide con alguno de los valores de la lista. La combinación del operador `IN` con un parámetro de tipo lista permite construir búsquedas por conjuntos de valores. JasperReports ofrece la sintaxis `$X{IN, columna, parámetro}` que genera dinámicamente la lista. El parámetro debe ser de tipo `java.util.Collection` o `java.util.List`.
-
-```
-<parameter name="categorias" class="java.util.List"/>
+\`\`\`xml
+<parameter name="categoriasLista" class="java.util.Collection"/>
 <queryString language="sql">
     <![CDATA[
-        SELECT titulo, precio, categoria FROM libros
-        WHERE $X{IN, categoria, categorias}
+        SELECT titulo, categoria
+        FROM libros
+        WHERE $X{IN, categoria, categoriasLista}
     ]]>
 </queryString>
-```
+\`\`\`
 
-**Línea 1:** `<parameter name="categorias" class="java.util.List"/>` → declara el parámetro `categorias` de tipo lista.
-**Línea 4:** `WHERE $X{IN, categoria, categorias}` → la sintaxis `$X{IN, columna, parámetro}` genera dinámicamente la lista de valores. Si el parámetro contiene `Novela`, `Ensayo` y `Poesía`, la consulta ejecutada incluye `WHERE categoria IN ('Novela', 'Ensayo', 'Poesía')`.
+Si la colección contiene, por ejemplo, \`Novela\` y \`Poesía\`, JasperReports construye una condición equivalente a \`categoria IN (?, ?)\` y enlaza los dos valores. La función también contempla valores nulos dentro de la colección.
 
-El operador `IN` tiene una variante `NOT IN` que devuelve las filas que no coinciden con ningún valor de la lista. JasperReports ofrece la opción `NOTIN` en la sintaxis `$X{NOTIN, columna, parámetro}`. La combinación de `IN` y `NOTIN` permite construir filtros de inclusión y exclusión con la misma técnica. El parámetro de tipo lista se construye en el programa Java y puede contener cualquier número de valores. La lista vacía produce una condición `IN ()` que no devuelve filas. La lista con un solo valor produce una condición `IN ('valor')` que equivale a una igualdad. La lista con varios valores produce la condición completa.
+Una colección nula o vacía **no se convierte simplemente en \`IN ()\`**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad \`net.sf.jasperreports.sql.clause.in.novalues.result\`. Por eso una práctica correcta no debe enseñar \`IN ()\` como salida esperada.
 
-```
-COMPORTAMIENTO DEL OPERADOR IN
-
-  Lista vacía:
-    WHERE categoria IN ()
-    → No devuelve ninguna fila.
-
-  Lista con un valor:
-    WHERE categoria IN ('Novela')
-    → Equivale a WHERE categoria = 'Novela'
-
-  Lista con varios valores:
-    WHERE categoria IN ('Novela', 'Ensayo', 'Poesía')
-    → Devuelve las filas con cualquiera de los tres valores.
-
-  Variante NOTIN:
-    WHERE categoria NOT IN ('Ensayo')
-    → Devuelve las filas cuya categoría no es 'Ensayo'.
-```
-
-**Qué representa el diagrama:** el comportamiento del operador `IN` según el número de valores de la lista. La lista vacía no devuelve filas.
-
-**Por qué es relevante:** permite construir filtros de inclusión y exclusión con un único parámetro de tipo lista.
+En el checkpoint 4.6 el escenario base pasa explícitamente las cuatro categorías existentes. Así se conservan los 14 títulos mientras se demuestra el mecanismo \`$X{IN,...}\`.
 
 ### Bloque 5 — Prevención de inyección SQL
 
-La inyección SQL es una vulnerabilidad que se produce cuando el valor de un parámetro se inserta directamente en la consulta sin escapar los caracteres especiales. Un usuario malintencionado puede proporcionar un valor que contenga comillas simples y modificar la estructura de la consulta. La sintaxis `$P{}` de JasperReports escapa los caracteres especiales antes de insertarlos en la consulta, lo que previene la inyección SQL en la mayoría de los casos. La sintaxis `$X{}` no escapa los caracteres especiales, pero su uso está limitado a la cláusula `WHERE` y a las opciones predefinidas. La combinación de ambas sintaxis con las prácticas habituales de seguridad previene las vulnerabilidades.
+La regla principal es mantener separados **estructura SQL** y **valores**. Con \`$P{}\`, JasperReports/JDBC usa una sentencia preparada. No es necesario ni correcto explicar el mecanismo como un escape manual de comillas.
 
-```
-<parameter name="categoria" class="java.lang.String"/>
-<queryString language="sql">
-    <![CDATA[
-        SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}
-    ]]>
-</queryString>
-```
+Entrada de prueba:
 
-**Línea 1:** `<parameter name="categoria" class="java.lang.String"/>` → declara el parámetro `categoria` de tipo cadena.
-**Línea 4:** `SELECT titulo, precio FROM libros WHERE categoria = $P{categoria}` → la sintaxis `$P{categoria}` escapa los caracteres especiales del valor. Si el usuario proporciona el valor `' OR '1'='1`, el motor lo escapa como `'''' OR ''1''=''1` y la consulta no se modifica.
+\`\`\`text
+sol' OR '1'='1
+\`\`\`
 
-La prevención de la inyección SQL en JasperReports se basa en tres prácticas. La primera es utilizar siempre la sintaxis `$P{}` para los valores que provienen del usuario. La segunda es evitar la concatenación de valores en la consulta y dejar que el motor realice la sustitución. La tercera es validar los valores en el programa Java antes de pasarlos al motor. La combinación de las tres prácticas reduce drásticamente el riesgo de inyección. La responsabilidad de la seguridad es compartida entre el programa Java y la plantilla JRXML. La documentación de las buenas prácticas es parte del proyecto EditorialReports.
+Con el filtro del checkpoint:
 
-```
-PRÁCTICAS DE PREVENCIÓN DE INYECCIÓN SQL
+\`\`\`sql
+titulo LIKE '%' || $P{textoBusqueda} || '%'
+\`\`\`
 
-  1. Usar $P{} para todos los valores del usuario.
-     Correcto:   WHERE categoria = $P{categoria}
-     Incorrecto: WHERE categoria = '" + categoria + "'
+la estructura preparada sigue siendo equivalente a:
 
-  2. Evitar la concatenación de valores en la consulta.
-     Correcto:   WHERE titulo LIKE '%' || $P{texto} || '%'
-     Incorrecto: WHERE titulo LIKE '%$P{texto}%'
+\`\`\`text
+titulo LIKE '%' || ? || '%'
+bind -> sol' OR '1'='1
+\`\`\`
 
-  3. Validar los valores en el programa Java.
-     Correcto:   if (valor.matches("[a-zA-Z ]+")) { ... }
-     Incorrecto: pasar el valor sin validación.
+El contenido malicioso se trata como **dato**, no como parte de la consulta. \`$X{}\` debe limitarse a las funciones de cláusula previstas por JasperReports y \`$P!{}\` solo debe usarse con fragmentos estructurales seleccionados por la propia aplicación desde opciones cerradas.
 
-  4. Usar $X{} solo con las opciones predefinidas.
-     Correcto:   WHERE $X{IN, categoria, categorias}
-     Incorrecto: WHERE $X{IN, categoria, categorias} OR ...
-```
+Buenas prácticas de EditorialReports:
 
-**Qué representa el diagrama:** las cuatro prácticas de prevención de inyección SQL en JasperReports. La combinación de las cuatro reduce el riesgo de vulnerabilidades.
-
-**Por qué es relevante:** permite construir informes seguros que no pueden ser manipulados por usuarios malintencionados.
+1. usar \`$P{}\` para valores escalares;
+2. usar \`$X{}\` para cláusulas dinámicas soportadas, como \`IN\`;
+3. evitar \`$P!{}\` con cualquier texto no confiable;
+4. no concatenar manualmente valores del usuario dentro del SQL;
+5. probar explícitamente nulos, colecciones vacías y cadenas con caracteres especiales.
 
 ---
 
