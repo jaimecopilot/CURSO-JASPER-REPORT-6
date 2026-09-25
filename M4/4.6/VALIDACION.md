@@ -3,13 +3,15 @@
 **Punto:** Parámetros en consultas SQL  
 **Estado vigente:** **PASS END-TO-END**
 
-Run E2E de cierre del Módulo 4: **36168126731 — SUCCESS**  
-Job: **108180808441 — success**  
-Commit de código validado: `ea76d71cecd5a4c3cf9ca5dcfd27b683c2ca76a7`.
+Run E2E final del Módulo 4: **36171783565 — SUCCESS**  
+Job: **108192864683 — success**  
+Commit revalidado: `000b326f0b3f055f739738a1977cf6233ae81646`.
+
+El código ejecutable coincide con el ya validado en `ea76d71cecd5a4c3cf9ca5dcfd27b683c2ca76a7`; la revalidación posterior incorpora el cierre documental y las auditorías endurecidas.
 
 El job:
 
-- compila el proyecto Java con Temurin JDK 8 y Maven;
+- compila con Temurin JDK 8 y Maven;
 - resuelve JasperReports Library 6.20.0;
 - inicializa SQLite;
 - compila los JRXML;
@@ -20,8 +22,8 @@ El job:
 - verifica los contratos acumulativos hasta 4.6;
 - conserva `LEFT JOIN ventas`, DejaVu Sans y `System.exit(1)`.
 
-La trazabilidad del módulo fue validada por el job **108180776747 — success**, sin eliminaciones heredadas ni cambios fuera de la allowlist.
+La trazabilidad final fue validada por el job **108192828960 — success**, sin eliminaciones heredadas ni cambios fuera de la allowlist.
 
-Artefacto runtime final: **M4-4.6-runtime**, ID **10879770118**, digest `sha256:8b736479a226770429a015c9a68c94d60d8e3e4bc0681bb1d6771e12f579b51e`.
+Artefacto runtime final revalidado: **M4-4.6-runtime**, ID **10880766302**, digest `sha256:7f1554d81f5707f1ef180603d214f2415d2d0a846809070039cc0c1c06d59c4e`.
 
 **Checkpoint 4.6 validado.**
