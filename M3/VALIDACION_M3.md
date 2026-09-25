@@ -1,179 +1,227 @@
-# Validación end-to-end - Módulo 3
+# Validación integral - Módulo 3
 
 **Curso:** Curso Profesional de JasperReports 6.20.0 Community  
 **Módulo:** 3 - Conexión a datos  
-**Proyecto:** EditorialReports
+**Proyecto:** EditorialReports  
+**Baseline:** Jaspersoft Studio 6.20.0 Community + JasperReports Library 6.20.0 + Java 8 + Maven
 
 ## Estado final
 
-**M3 CERRADO. Código 6/6 PASS END-TO-END y documentación PDF regenerada, prevalidada y revisada visualmente contra M2.**
+**M3 CERRADO TRAS SEGUNDA AUDITORÍA INTEGRAL.**
 
-La revisión visual del usuario que invalidó los PDF anteriores se considera la referencia que originó esta corrección. Los PDF anteriores quedan sustituidos por los artefactos descritos en este documento.
+El cierre anterior se reabrió al detectarse en el punto 3.6 una línea JRXML minificada que contenía conjuntamente `columnHeader` y `detail`, además de una discrepancia real entre la práctica (`Detail height=40`) y el código versionado (`height=42`).
 
-## Auditoría de los Markdown
+La segunda auditoría no se limitó a esa incidencia: se volvió a revisar el código fuente, los ejemplos de teoría, las Partes A/B/C/D, los retos resueltos, los datos de ejemplo, los resultados esperados, la paridad documentación/código, los seis checkpoints ejecutables y los PDF.
 
-Fuentes auditadas en `main`:
+## Correcciones de código fuente
 
-- `M3/TEORIA_M3.md`: 1602 líneas; 63 bloques fenced cerrados; puntos 3.1-3.6 presentes exactamente una vez.
-- `M3/PRACTICA_M3.md`: 6740 líneas; 43 bloques fenced cerrados; puntos 3.1-3.6 presentes exactamente una vez.
-- 0 etiquetas `<div>`, 0 `<span>`, 0 tablas HTML de presentación y 0 restos `svgsvg`.
-- No se detectaron fences sin cerrar ni texto docente incrustado dentro de bloques de código.
-- La práctica conserva 88 bloques de `Verificación visual`, 88 `Qué hace`, 88 `Por qué`, 88 `Error común`, 88 `Solución` y 88 `Analogía`.
-- Los seis puntos mantienen `Analogía final`, `Resultado esperado` y `Conclusión`.
-- No se detectaron referencias a JasperReports/Jaspersoft Studio 7 ni a una baseline distinta de la acordada.
+### Punto 3.6
 
-Corrección editorial real aplicada en la teoría: el diagrama de correspondencia JDBC tenía fusionadas las líneas `fecha_publicacion/disponible`. Se corrigió para representar el alias real `fechaPublicacion` y su campo `java.lang.String`, seguido de `disponible`.
+Se corrigió `M3/3.6/EditorialReports/reports/informe_ventas.jrxml`:
 
-## Causa del fallo visual y corrección del renderer
+- eliminado el bloque minificado de miles de caracteres;
+- JRXML reformateado y legible;
+- `Detail` corregido de `height="42"` a `height="40"`;
+- segunda fila fijada en `y=22`, `height=18`;
+- `primera_venta`: x=0, width=150;
+- `ultima_venta`: x=150, width=150;
+- periodo: x=300, width=150;
+- expresión del periodo protegida frente a nulos y separada con `→`;
+- queda libre x=450..555 para el reto de `DiasVenta`.
 
-El defecto principal no estaba ya en HTML incrustado en los Markdown, sino en la interpretación de los saltos de línea semánticos.
+### Código heredado acumulativo
 
-CommonMark/Mistune fusionaba varias líneas consecutivas dentro de un único párrafo HTML. Como consecuencia:
+Para evitar que el problema de la línea gigante reaparezca en otros checkpoints se normalizaron también los fuentes heredados:
 
-- varias explicaciones `Línea N` acababan en una sola fila visual;
-- `Qué hace`, `Por qué`, `Error común`, `Solución` y `Analogía` podían terminar dentro del mismo bloque;
-- el PDF de prácticas perdía el código de colores pedagógico de M2.
+- `informe_concepto.jrxml` en 3.1-3.6;
+- `CatalogoDataSource.java` en 3.1-3.6;
+- `Libro.java` en 3.1-3.6;
+- `InicializadorBD.java` en 3.5 y 3.6.
 
-Se corrigió `.github/scripts/render_m3_docs.py` para normalizar esos saltos **solo en la entrada transitoria del renderer**, sin introducir HTML de presentación en los Markdown.
+La auditoría automática rechaza ahora cualquier línea Java/JRXML superior a 240 caracteres.
 
-Resultado:
+## Correcciones de prácticas y retos
 
-- explicaciones línea por línea en filas independientes;
-- número de línea en columna azul y cuerpo separado;
-- `Verificación visual` en azul claro;
-- `Qué hace` y `Por qué` en tonos informativos;
-- `Error común` en rojo suave;
-- `Solución` en verde;
-- `Analogía` en amarillo;
-- `Analogía final` amarilla, `Resultado esperado` azul y `Conclusión` verde;
-- código en Noto Sans Mono;
-- portada sin cabecera ni pie;
-- cabeceras y pies interiores coherentes con M2.
+### 3.1 JDBC
 
-Commit de la corrección de renderer/fuente:
+El reto anterior mezclaba una supuesta segunda consulta/segundo PDF/parámetro de ordenación con unos pasos que realmente sustituían la consulta del mismo informe.
 
-`258555d40c73233973d578d0cda9e306eb364290` — **Corrige maquetación M3 según patrón visual M2**.
+Se corrigió para que el ejercicio haga una sola cosa reproducible: filtrar libros disponibles y ordenar por precio descendente.
 
-El workflow documental se reforzó después con concurrencia y rebase antes de publicar para evitar colisiones entre ejecuciones simultáneas:
+Los resultados se recalcularon contra los datos reales:
 
-`55f735a3a744cbdc02f27d7fc625531979be5183` — **Evita colisiones en el render documental M3**.
+- 11 libros disponibles;
+- primero: `Paradiso`, 25,00 €;
+- último: `Pedro Páramo`, 15,90 €;
+- excluidos: `Doña Bárbara`, `Martín Fierro` y `El túnel`.
 
-## PDFs docentes definitivos
+La simulación antigua con imágenes/categorías no pertenecía al informe real y fue sustituida.
 
-Run documental final:
+### 3.2 CSV
 
-**36060219927 - SUCCESS**
+Se corrigió una duplicación de numeración en el reto resuelto: existían dos `Paso 2`. La secuencia vuelve a ser contigua.
 
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36060219927
+### 3.4 JSON
 
-PDFs generados y versionados en GitHub:
+Se corrigieron tres defectos:
 
-- `TEORIA_M3.pdf`: **32 páginas A4**, SHA-256 `4bfe14557953832320e3b4ea2802136194795bd800f0fea23976f53cd75f045c`.
-- `PRACTICA_M3.pdf`: **117 páginas A4**, SHA-256 `a3627d44da283a99611ef0357c932f783732265d70b740efdd2ce39e37311e9b`.
+- typo `autoresautores(vivo == true)`;
+- el JSON real contiene **una** autora con `vivo=true`: `Isabel Allende`, no dos;
+- cuando el generador Java pasa un `JsonDataSource` explícito a `fillReport`, modificar solo el `queryString` del JRXML no filtra esa ejecución Java.
 
-Commit que contiene esos dos PDF:
+El reto diferencia ahora correctamente Preview/JRXML de la ejecución Java y aplica `autores(vivo == true)` también al `JsonDataSource` cuando se prueba desde Java.
 
-`8249845b8a11f1b951fb04619e3089056b9a83f9` — **Regenera PDFs M3 con patrón visual M2 [skip ci]**.
+### 3.5 SQL
 
-### Preflight final
+El importe total del reto mensual era incorrecto.
 
-- A4 en todas las páginas.
-- 0 páginas vacías.
-- 0 páginas sin contenido de cuerpo.
-- 0 bloques fuera del MediaBox.
-- 0 glifos de sustitución.
-- 0 HTML de presentación visible.
-- 0 fences Markdown visibles.
-- 0 entidades `&lt;` / `&gt;` visibles como fuga de maquetación.
-- Portada sin cabecera ni pie.
-- Fuentes embebidas: Noto Sans, Noto Sans Bold, Noto Sans Mono y Noto Sans Mono Bold.
+Con los nueve registros de `ventas`:
 
-### Auditoría visual
+- ventas: 9;
+- unidades: 31;
+- importe total: **633,40 €**.
 
-Se renderizaron **todas las páginas** de los dos PDF: 32 de teoría y 117 de prácticas.
+Se eliminó el valor anterior de 648,40 € y se documentaron explícitamente los cuatro fields del informe mensual.
 
-Se construyeron y revisaron contact sheets de toda la documentación. Además se compararon directamente páginas equivalentes de M2 y M3.
+### 3.6 Fields
 
-Comprobaciones visuales realizadas:
+Además de corregir el JRXML base:
 
-- portada;
-- estado inicial e índice;
-- inicios 3.1-3.6;
-- explicaciones línea por línea;
-- Parte A visual;
-- Partes B y C con JRXML/Java;
-- Parte D;
-- tablas de errores;
-- retos resueltos;
-- cierres de cada punto;
-- páginas finales;
-- densidad, márgenes, jerarquía, código, cabeceras/pies y paleta frente a M2.
+- el orden de `primera_venta` / `ultima_venta` en los pasos coincide con el fuente;
+- la comprobación habla de seis fields, no cinco;
+- coordenadas y alturas de Parte A coinciden literalmente con el JRXML;
+- el PDF esperado documenta 14 títulos, porque el `LEFT JOIN` conserva también los títulos sin ventas;
+- el reto `DiasVenta` declara la variable después de todos los fields y antes de las bandas;
+- `DiasVenta` es `java.lang.Long` y comprueba ambas fechas antes del cálculo;
+- el reto mantiene la banda Detail en 40 y utiliza el hueco x=450..555 sin solapamientos.
 
-La comparación M2 ↔ M3 confirma que M3 vuelve a pertenecer a la misma familia visual: las explicaciones de teoría tienen filas separadas y las prácticas recuperan los bloques cromáticos diferenciados.
+## Correcciones de teoría
 
-## Validación end-to-end ejecutable
+La teoría se volvió a contrastar con los fuentes ejecutables y con las APIs utilizadas.
 
-Run E2E final:
+Se corrigieron, entre otros, estos puntos:
 
-**36060530760 - SUCCESS**
+- `JRCsvDataSource` ya no se describe como una colección de mapas materializada en memoria: el ejemplo refleja su recorrido secuencial por registros;
+- se eliminó la referencia a un método `setCharset` inexistente en el ejemplo y se usa el constructor con charset;
+- el ejemplo CSV que creaba `Libro` con un constructor de dos argumentos se alineó con la firma real de cinco argumentos;
+- la explicación de `JsonDataSource` coincide ahora con el constructor real `File + selectExpression`;
+- se aclaró la diferencia entre dependencias transitivas Maven y Build Path manual para Jackson;
+- los ejemplos SQL dejaron de usar una columna `categoria` inexistente en la tabla `libros`;
+- el ejemplo parametrizado usa `titulo`, existente en el esquema;
+- el ejemplo `GROUP BY` usa `disponible`, existente en el esquema.
 
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36060530760
+## Paridad documentación ↔ código
 
-Commit validado:
+Se añadió `.github/scripts/audit_m3_docs.py` como puerta automática previa al render PDF.
 
-`82510c417271f6d4eef560968861b2eb4f8adbae`.
+La auditoría comprueba en cada ejecución:
+
+- Markdown sin HTML de presentación espurio;
+- fences cerrados;
+- Java/JRXML sin líneas gigantes;
+- todos los JRXML parseables;
+- Parte B de 3.1-3.6 idéntica al JRXML real del checkpoint;
+- Parte C contiene literalmente el Java ejecutable correspondiente;
+- retos con numeración `Paso 1..N` contigua;
+- explicaciones de teoría que no referencian líneas inexistentes;
+- regresiones textuales conocidas;
+- todas las consultas SQL fenced contra el esquema SQLite real del curso;
+- resultados de los retos contra los datos semilla;
+- JSON de autores vivos;
+- contrato geométrico del 3.6;
+- documentación de los 14 registros del `LEFT JOIN`.
+
+La propia auditoría detectó durante esta revisión una referencia de explicación a una línea 22 en un snippet de 21 líneas. Se corrigió antes de permitir el render final.
+
+## Markdown final
+
+- `TEORIA_M3.md`: **1600 líneas**, 63 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
+- `PRACTICA_M3.md`: **7496 líneas**, 43 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
+- Partes B de 3.1 y 3.6 ahora reproducen el **JRXML completo real**, no fragmentos minificados.
+
+## Validación end-to-end final
+
+Run:
+
+**36103965988 - SUCCESS**
+
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36103965988
 
 Jobs:
 
 | Checkpoint | Job | Resultado |
 |---|---:|---|
-| 3.1 | 107838103592 | PASS |
-| 3.2 | 107838103905 | PASS |
-| 3.3 | 107838104015 | PASS |
-| 3.4 | 107838103894 | PASS |
-| 3.5 | 107838103861 | PASS |
-| 3.6 | 107838103906 | PASS |
+| 3.1 | 107972297841 | PASS |
+| 3.2 | 107972297847 | PASS |
+| 3.3 | 107972297862 | PASS |
+| 3.4 | 107972297689 | PASS |
+| 3.5 | 107972297829 | PASS |
+| 3.6 | 107972297954 | PASS |
 
-El workflow ejecuta Java 8 + Maven, inicializa SQLite, compila los JRXML, llena los informes, exporta PDF, verifica firma `%PDF-` y comprueba los contadores esperados.
+El workflow compila Java 8 con Maven, inicializa SQLite, compila JRXML, llena los informes con datos reales, exporta PDF, verifica firma `%PDF-` y comprueba los contadores esperados.
 
-Contadores validados:
+## Auditoría documental y PDF final
 
-- SQLite: 14 libros.
-- CSV: 14 registros.
-- XML: 8 entregas.
-- JSON: 6 autores.
-- Ventas: 9 registros.
+Run:
 
-## Incidencia transitoria resuelta
+**36103965812 - SUCCESS**
 
-Durante la primera publicación coexistieron dos ejecuciones documentales simultáneas sobre el mismo commit. Ambas completaron correctamente la generación y el preflight; una de ellas falló únicamente en el paso de `git push` porque la otra ya había publicado los PDF.
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36103965812
 
-No fue un fallo de render ni de contenido.
+Todos sus pasos terminaron en SUCCESS:
 
-Se corrigió el workflow con `concurrency` y `git rebase origin/main`. La ejecución documental final **36060219927** terminó completa en SUCCESS.
+1. dependencias;
+2. auditoría código/documentación;
+3. render y preflight;
+4. publicación de PDF versionados;
+5. publicación de artefactos de auditoría.
 
-## Checklist de cierre
+### PDF definitivos
 
-- [x] `TEORIA_M3.md` auditado.
-- [x] `PRACTICA_M3.md` auditado.
-- [x] 0 HTML de presentación espurio en Markdown.
-- [x] Código/documentación coherentes.
-- [x] Código M3 6/6 E2E.
-- [x] `TEORIA_M3.pdf` regenerado.
-- [x] `PRACTICA_M3.pdf` regenerado.
-- [x] Estilo visual equivalente a M2.
-- [x] Explicaciones línea por línea maquetadas en filas.
-- [x] Colores pedagógicos de práctica recuperados.
-- [x] Código con tipografía monoespaciada.
-- [x] Cabeceras/pies correctos.
-- [x] Portada sin cabecera/pie.
-- [x] Sin páginas vacías.
-- [x] Sin clipping detectado en preflight/revisión visual.
-- [x] Sin elementos fuera de página.
-- [x] Sin HTML visible.
-- [x] Sin Markdown visible.
-- [x] Todas las páginas renderizadas y revisadas mediante contact sheets.
-- [x] PDFs finales versionados en GitHub.
-- [x] `VALIDACION_M3.md` actualizado.
+- `TEORIA_M3.pdf`: **32 páginas A4**  
+  SHA-256: `20771a64e335228395ef34808a1606429c5ea32fbc17ddb43ab54b23615358f2`
+- `PRACTICA_M3.pdf`: **128 páginas A4**  
+  SHA-256: `121a31a63217661410ebd17c173531e6650e3537883711fca2e3a2538546933b`
 
-**Conclusión: M3 queda cerrado. No iniciar M4 sin una instrucción posterior explícita.**
+Commit que versiona los PDF finales:
+
+`e53f87d9e178bc25d658506a0c9a3ab1490200e7` — **Regenera PDFs M3 con patrón visual M2 [skip ci]**
+
+### Preflight
+
+- 0 páginas vacías;
+- 0 páginas sin cuerpo;
+- 0 bloques fuera del MediaBox;
+- 0 glifos de sustitución;
+- A4 en todas las páginas.
+
+### Revisión visual completa
+
+Se rasterizaron y revisaron las **32 páginas de teoría** y las **128 páginas de prácticas**.
+
+Para la práctica, las 128 páginas del render final son pixel a pixel idénticas al render completo que se revisó inmediatamente antes; solo cambió metadato/binario del PDF entre ejecuciones.
+
+En teoría, entre ambas ejecuciones solo cambió visualmente la página 20 por la precisión añadida sobre `JsonDataSource`; esa página se volvió a renderizar e inspeccionar a resolución ampliada.
+
+La antigua línea gigante del punto 3.6 ya no existe. En el PDF final, la `Línea 34` de esa Parte B es una declaración normal:
+
+`<field name="precio_medio" class="java.lang.Double"/>`
+
+y las líneas siguientes continúan separadamente con `primera_venta`, `ultima_venta`, bandas y elementos.
+
+## Cierre
+
+- [x] código fuente revisado nuevamente;
+- [x] ejemplos teóricos revisados;
+- [x] retos resueltos revisados contra los datos reales;
+- [x] Partes A/B/C/D revisadas;
+- [x] código fuente legible y sin líneas gigantes;
+- [x] paridad MD ↔ fuentes ejecutables;
+- [x] auditoría permanente incorporada al CI;
+- [x] 6/6 checkpoints PASS END-TO-END;
+- [x] PDF regenerados;
+- [x] PDF preflight PASS;
+- [x] revisión visual completa;
+- [x] línea 34 de 3.6 corregida.
+
+**M3 queda cerrado tras esta segunda auditoría integral.**
