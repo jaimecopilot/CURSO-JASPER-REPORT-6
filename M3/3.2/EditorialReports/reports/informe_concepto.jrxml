@@ -111,13 +111,40 @@
 
     <columnHeader>
         <band height="25">
-            <staticText><reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Port.]]></text></staticText>
-            <staticText><reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/><text><![CDATA[Título]]></text></staticText>
-            <staticText><reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[Precio]]></text></staticText>
-            <staticText><reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[Págs.]]></text></staticText>
-            <staticText><reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Año]]></text></staticText>
-            <staticText><reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818" style="TextoTablaCabecera"/><textElement textAlignment="Center"/><text><![CDATA[Disp.]]></text></staticText>
-            <staticText><reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919" style="TextoTablaCabecera"/><textElement textAlignment="Right"/><text><![CDATA[#]]></text></staticText>
+            <staticText>
+                <reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Port.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Págs.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Año]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Disp.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[#]]></text>
+            </staticText>
         </band>
     </columnHeader>
 
@@ -176,12 +203,22 @@
             </textField>
             <textField>
                 <reportElement x="325" y="60" width="150" height="20" uuid="32323232-3232-3232-3232-323232323232" style="TextoPequeno"/>
-                <textFieldExpression><![CDATA[$F{fechaPublicacion} != null && java.time.LocalDate.parse($F{fechaPublicacion}).isAfter(java.time.LocalDate.of(2000, 1, 1)) ? "Después de 2000" : "Hasta 2000"]]></textFieldExpression>
+                <textFieldExpression><![CDATA[
+                    $F{fechaPublicacion} != null
+                            && java.time.LocalDate.parse($F{fechaPublicacion})
+                                    .isAfter(java.time.LocalDate.of(2000, 1, 1))
+                            ? "Después de 2000"
+                            : "Hasta 2000"
+                ]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="480" y="60" width="75" height="20" uuid="33333333-3333-3333-3333-333333333333" style="TextoPequeno"/>
                 <textElement textAlignment="Right"/>
-                <textFieldExpression><![CDATA["R" + $V{REPORT_COUNT} + " · " + $P{usuario}.substring(0, Math.min(3, $P{usuario}.length())) + " · " + $F{titulo}.substring(0, 1)]]></textFieldExpression>
+                <textFieldExpression><![CDATA[
+                    "R" + $V{REPORT_COUNT}
+                            + " · " + $P{usuario}.substring(0, Math.min(3, $P{usuario}.length()))
+                            + " · " + $F{titulo}.substring(0, 1)
+                ]]></textFieldExpression>
             </textField>
         </band>
     </detail>
@@ -228,13 +265,35 @@
 
     <summary>
         <band height="95" splitType="Prevent">
-            <staticText><reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/><text><![CDATA[Total de páginas:]]></text></staticText>
-            <textField evaluationTime="Report"><reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
-            <staticText><reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[Fin del informe. EditorialReports.]]></text></staticText>
-            <staticText><reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/><text><![CDATA[Total de libros:]]></text></staticText>
-            <textField><reportElement x="155" y="45" width="80" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>
-            <staticText><reportElement x="0" y="70" width="150" height="20" uuid="c4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/><text><![CDATA[Subtotal precios:]]></text></staticText>
-            <textField pattern="#,##0.00 €"><reportElement x="155" y="70" width="100" height="20" uuid="d4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/><textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression></textField>
+            <staticText>
+                <reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+                <text><![CDATA[Total de páginas:]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Fin del informe. EditorialReports.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
+                <text><![CDATA[Total de libros:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="155" y="45" width="80" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="70" width="150" height="20" uuid="c4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/>
+                <text><![CDATA[Subtotal precios:]]></text>
+            </staticText>
+            <textField pattern="#,##0.00 €">
+                <reportElement x="155" y="70" width="100" height="20" uuid="d4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/>
+                <textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>
+            </textField>
         </band>
     </summary>
 </jasperReport>
