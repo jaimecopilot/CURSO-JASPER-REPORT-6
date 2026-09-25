@@ -73,10 +73,10 @@ if 'PreparedStatement' not in T or '$P!{}`' not in T:
 GUI_EXPECTED={
     '4.1':['Title** y mantener su altura en `90`','x=`420`, y=`24`, width=`135`','Boolean.TRUE.equals($P{mostrarDetalle})','parametros.put("periodo", "Septiembre 2026")'],
     '4.2':['categoria TEXT NOT NULL','No utilizar `ALTER TABLE`','GROUP BY l.titulo, l.categoria','parametros.put("precioMinimo", null)'],
-    '4.3':['Band height=`62`','Summary** y fijar su altura en `128`','x=`420`, y=`55`','$V{ImporteConIva}'],
+    '4.3':['Page Footer y fijar altura `62`','Summary y fijar altura `128`','Importe con IVA:` con `$V{ImporteConIva}`'],
     '4.4':['ChronoUnit.DAYS.between','toUpperCase(java.util.Locale.ROOT)','IVA %.0f%%','Math.round($F{precio_medio}.doubleValue() * 100.0d)'],
-    '4.5':['UnidadesCondicional','height=`14`','parametros.put("umbralUnidades", Integer.valueOf(5))','Objetivo de ventas alcanzado'],
-    '4.6':['java.util.Collection','isForPrompting=false','$X{IN, l.categoria, categoriasLista}','height=`124`','parametros.put("textoBusqueda", null)','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
+    '4.5':['UnidadesCondicional','<band height="14">','parametros.put("umbralUnidades", Integer.valueOf(5))','Objetivo de ventas alcanzado'],
+    '4.6':['java.util.Collection','Desactivar `isForPrompting`','$X{IN, l.categoria, categoriasLista}','altura `124`','parametros.put("textoBusqueda", null)','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
 }
 for point,tokens in GUI_EXPECTED.items():
     q=ptext(P,point)
