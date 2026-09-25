@@ -575,7 +575,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. El bloque coincide
 
 **Línea 21:** `paginas,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 22:** `fecha_publicacion AS fechaPublicacion,` → Continúa la definición declarativa del informe.
+**Línea 22:** `fecha_publicacion AS fechaPublicacion,` → Selecciona la fecha de publicación y le asigna el alias `fechaPublicacion`, que coincide con el nombre del field JRXML.
 
 **Línea 23:** `CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible` → Añade una columna o expresión calculada al resultado de la consulta.
 
@@ -1938,7 +1938,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.2. El bloque coincide
 
 **Línea 25:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 26:** `` → Continúa la definición declarativa del informe.
+**Línea 26:** `[línea en blanco]` → Separa visualmente los bloques del JRXML sin añadir contenido al informe.
 
 **Línea 27:** `<title>` → Abre la banda Title.
 
@@ -3140,7 +3140,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.3. El bloque coincide
 
 **Línea 27:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 28:** `` → Continúa la definición declarativa del informe.
+**Línea 28:** `[línea en blanco]` → Separa visualmente los bloques del JRXML sin añadir contenido al informe.
 
 **Línea 29:** `<title>` → Abre la banda Title.
 
@@ -4383,7 +4383,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.4. El bloque coincide
 
 **Línea 27:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 28:** `` → Continúa la definición declarativa del informe.
+**Línea 28:** `[línea en blanco]` → Separa visualmente los bloques del JRXML sin añadir contenido al informe.
 
 **Línea 29:** `<title>` → Abre la banda Title.
 
@@ -5630,7 +5630,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.5. El bloque coincide
 
 **Línea 35:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 36:** `` → Continúa la definición declarativa del informe.
+**Línea 36:** `[línea en blanco]` → Separa visualmente los bloques del JRXML sin añadir contenido al informe.
 
 **Línea 37:** `<title>` → Abre la banda Title.
 
