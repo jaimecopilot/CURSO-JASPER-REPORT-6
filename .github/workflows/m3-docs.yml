@@ -54,7 +54,10 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           git fetch origin main
-          git rebase origin/main
+          # El render puede dejar cambios locales derivados de fuentes/cache.
+          # Para publicar solo los PDFs, sincronizamos los tracked files con
+          # el main remoto sin borrar M3/_pdf_build (directorio no versionado).
+          git reset --hard origin/main
           cp M3/_pdf_build/TEORIA_M3.pdf M3/TEORIA_M3.pdf
           cp M3/_pdf_build/PRACTICA_M3.pdf M3/PRACTICA_M3.pdf
           git config user.name "github-actions[bot]"
