@@ -195,7 +195,7 @@ def report_jrxml(stage: int) -> str:
             '    </variable>',
         ]
 
-    title_h = 112 if has_sql_adv else 90
+    title_h = 124 if has_sql_adv else 90
     title = f'''    <title>
         <band height="{title_h}">
             <staticText>
@@ -216,19 +216,19 @@ def report_jrxml(stage: int) -> str:
             <staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>
             <textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression>{cdata(expr_search_display)}</textFieldExpression></textField>
             <staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>
-            <textField><reportElement x="390" y="86" width="165" height="18" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression>{cdata("String.valueOf($P{categoriasLista})")}</textFieldExpression></textField>'''
+            <textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression>{cdata("String.valueOf($P{categoriasLista})")}</textFieldExpression></textField>'''
     title += '\n        </band>\n    </title>'
 
     header_h = 62 if has_filters else 48
     detail_h = 82 if has_advanced else (62 if has_filters else 48)
     header = f'''    <columnHeader>
         <band height="{header_h}">
-            <staticText><reportElement x="0" y="2" width="220" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>
-            <staticText><reportElement x="220" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Unid.]]></text></staticText>
-            <staticText><reportElement x="285" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe]]></text></staticText>
-            <staticText><reportElement x="385" y="2" width="80" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Precio med.]]></text></staticText>'''
+            <staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>
+            <staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Unid.]]></text></staticText>
+            <staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe]]></text></staticText>
+            <staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Precio med.]]></text></staticText>'''
     if has_filters:
-        header += '\n            <staticText><reportElement x="465" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>'
+        header += '\n            <staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>'
     header += '''
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
@@ -240,12 +240,12 @@ def report_jrxml(stage: int) -> str:
     units_style = ' style="TituloCondicional"' if has_logic else ' style="Dato"'
     detail = f'''    <detail>
         <band height="{detail_h}" splitType="Stretch">
-            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="220" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression>{cdata("$F{titulo}")}</textFieldExpression></textField>
-            <textField isBlankWhenNull="true"><reportElement x="220" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000002"{units_style}/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{unidades_vendidas}")}</textFieldExpression></textField>
-            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="285" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{importe_total}")}</textFieldExpression></textField>
-            <textField isBlankWhenNull="true"><reportElement x="385" y="0" width="80" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_price_display)}</textFieldExpression></textField>'''
+            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression>{cdata("$F{titulo}")}</textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002"{units_style}/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{unidades_vendidas}")}</textFieldExpression></textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{importe_total}")}</textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_price_display)}</textFieldExpression></textField>'''
     if has_filters:
-        detail += f'\n            <textField isBlankWhenNull="true"><reportElement x="465" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression>{cdata("$F{categoria}")}</textFieldExpression></textField>'
+        detail += f'\n            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression>{cdata("$F{categoria}")}</textFieldExpression></textField>'
     detail += f'''
             <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression>{cdata("$F{primera_venta}")}</textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression>{cdata("$F{ultima_venta}")}</textFieldExpression></textField>
