@@ -159,7 +159,7 @@ for bad in (
     "648,40 €",
     'band height="42"',
     "setCharset",
-    "colección de mapas",
+    "la conversión del archivo CSV en una colección de mapas",
 ):
     if bad in THEORY or bad in PRACTICE:
         fail("regresión textual detectada: " + bad)
