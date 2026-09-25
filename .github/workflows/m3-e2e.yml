@@ -74,6 +74,21 @@ jobs:
           test -s output/informe_concepto.pdf
           test "$(head -c 5 output/informe_concepto.pdf)" = "%PDF-"
           grep -q "Libros insertados: 14" execution.log
+          grep -q "Paginas del documento: 3" execution.log
+          grep -q "Parametro usuario: Ana Martínez" execution.log
+
+          # Trazabilidad funcional: 3.1 conserva el diseño y las expresiones de M2
+          # mientras sustituye la fuente principal de filas por JDBC.
+          grep -q 'style name="TituloPrincipal"' reports/informe_concepto.jrxml
+          grep -q 'style name="TextoPrecio"' reports/informe_concepto.jrxml
+          grep -q '<parameter name="usuario" class="java.lang.String">' reports/informe_concepto.jrxml
+          grep -q '<variable name="PrecioConIVA"' reports/informe_concepto.jrxml
+          grep -q '"resources/logo.png"' reports/informe_concepto.jrxml
+          grep -q '<columnFooter>' reports/informe_concepto.jrxml
+          grep -q '<lastPageFooter>' reports/informe_concepto.jrxml
+          grep -q 'value="SQLiteEditorial"' reports/informe_concepto.jrxml
+          grep -q '<queryString language="sql">' reports/informe_concepto.jrxml
+          grep -q 'java.time.LocalDate.parse($F{fechaPublicacion})' reports/informe_concepto.jrxml
 
           case "${{ matrix.checkpoint }}" in
             3.2|3.3|3.4|3.5|3.6|3.7)
@@ -117,16 +132,31 @@ jobs:
               ;;
           esac
 
-          python3 - <<'PY'
+          CHECKPOINT="${{ matrix.checkpoint }}" python3 - <<'PY\'
+          import os
           import sqlite3
-          con=sqlite3.connect('../EditorialReportsJava/data/editorial.db')
+
+          checkpoint = os.environ["CHECKPOINT"]
+          con = sqlite3.connect('../EditorialReportsJava/data/editorial.db')
           assert con.execute('select count(*) from libros').fetchone()[0] == 14
+
           try:
-              sales=con.execute('select count(*) from ventas').fetchone()[0]
+              sales = con.execute(
+                  'select count(*), sum(cantidad), sum(cantidad * precio_unitario) from ventas'
+              ).fetchone()
           except sqlite3.OperationalError:
-              sales=None
+              sales = None
+
+          if checkpoint in {'3.5', '3.6', '3.7'}:
+              assert sales is not None
+              assert sales[0] == 9
+              assert sales[1] == 31
+              assert abs(sales[2] - 633.40) < 0.001
+              print('SQLite libros=14 ventas=9 unidades=31 importe=633.40')
+          else:
+              assert sales is None
+              print('SQLite libros=14 ventas=None')
           con.close()
-          print('SQLite libros=14 ventas=' + str(sales))
           PY
           echo "PASS checkpoint ${{ matrix.checkpoint }}"
 
