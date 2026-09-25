@@ -14,18 +14,20 @@
               uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
     <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
-    <queryString language="sql"><![CDATA[
-   SELECT l.titulo,
-          SUM(v.cantidad) AS unidades_vendidas,
-          SUM(v.cantidad * v.precio_unitario) AS importe_total,
-          AVG(v.precio_unitario) AS precio_medio,
-          MIN(v.fecha_venta) AS primera_venta,
-          MAX(v.fecha_venta) AS ultima_venta
-   FROM libros l
-   LEFT JOIN ventas v ON l.titulo = v.titulo_libro
-   GROUP BY l.titulo
-   ORDER BY COALESCE(importe_total, 0) DESC, l.titulo
- ]]></queryString>
+    <queryString language="sql">
+        <![CDATA[
+            SELECT l.titulo,
+                   SUM(v.cantidad) AS unidades_vendidas,
+                   SUM(v.cantidad * v.precio_unitario) AS importe_total,
+                   AVG(v.precio_unitario) AS precio_medio,
+                   MIN(v.fecha_venta) AS primera_venta,
+                   MAX(v.fecha_venta) AS ultima_venta
+            FROM libros l
+            LEFT JOIN ventas v ON l.titulo = v.titulo_libro
+            GROUP BY l.titulo
+            ORDER BY COALESCE(importe_total, 0) DESC, l.titulo
+        ]]>
+    </queryString>
     <field name="titulo" class="java.lang.String"/>
     <field name="unidades_vendidas" class="java.lang.Integer"/>
     <field name="importe_total" class="java.lang.Double"/>
@@ -35,7 +37,6 @@
     <background>
         <band height="0"/>
     </background>
-
     <title>
         <band height="60">
             <staticText>
@@ -47,7 +48,84 @@
             </staticText>
         </band>
     </title>
-    <columnHeader><band height="45"><staticText><reportElement x="0" y="5" width="250" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText><staticText><reportElement x="250" y="5" width="90" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Unidades]]></text></staticText><staticText><reportElement x="340" y="5" width="130" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Importe total]]></text></staticText><staticText><reportElement x="470" y="5" width="85" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Precio medio]]></text></staticText><staticText><reportElement x="0" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Primera venta]]></text></staticText><staticText><reportElement x="150" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Última venta]]></text></staticText><staticText><reportElement x="300" y="25" width="255" height="15"/><textElement textAlignment="Center"><font isBold="true"/></textElement><text><![CDATA[Periodo de ventas]]></text></staticText></band></columnHeader><detail><band height="42" splitType="Stretch"><textField textAdjust="StretchHeight"><reportElement x="0" y="1" width="250" height="20"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="250" y="1" width="90" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField><textField pattern="#0.00 €" isBlankWhenNull="true"><reportElement x="340" y="1" width="130" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField><textField><reportElement x="470" y="1" width="85" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="0" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="150" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField><textField><reportElement x="300" y="22" width="255" height="18"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " -> " + $F{ultima_venta}]]></textFieldExpression></textField></band></detail>
+    <columnHeader>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Unidades]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Importe total]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Precio medio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <text><![CDATA[Primera venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <text><![CDATA[Última venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <text><![CDATA[Periodo de ventas]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="40" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
     <pageFooter>
         <band height="45">
             <staticText>
