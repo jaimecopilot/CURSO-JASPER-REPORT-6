@@ -501,7 +501,7 @@ JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(libros);
 **Línea 1:** `List<Libro> libros = new ArrayList<Libro>();` → declara la lista con la misma clase `Libro` utilizada por el proyecto.
 **Líneas 3-12:** abren `data/catalogo.csv`, omiten la cabecera y recorren las filas. `split(",")` es suficiente para el CSV didáctico de este curso, cuyos valores no contienen comas escapadas; para CSV generales conviene utilizar `JRCsvDataSource` o un parser CSV.
 **Líneas 13-18:** construyen `Libro` con la firma real de la clase heredada de M2: título, precio, páginas, año de publicación y disponibilidad.
-**Línea 22:** `JRBeanCollectionDataSource` adapta la lista de beans al contrato `JRDataSource`.
+**Línea 21:** `JRBeanCollectionDataSource` adapta la lista de beans al contrato `JRDataSource`.
 
 ---
 
