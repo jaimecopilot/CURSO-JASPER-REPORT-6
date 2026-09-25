@@ -168,6 +168,7 @@ for bad in (
 for bad in (
     "Protege una consulta o expresión para que XML no interprete sus caracteres especiales.",
     "Completa la definición declarativa del informe.",
+    "Continúa la definición declarativa del informe.",
 ):
     if bad in PRACTICE:
         fail("explicación JRXML genérica o incorrecta detectada: " + bad)
