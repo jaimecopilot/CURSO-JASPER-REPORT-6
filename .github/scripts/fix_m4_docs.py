@@ -712,7 +712,7 @@ La sustitución `$P!{}` sí modifica el texto SQL y, por tanto, solo debe recibi
     # Scope replacement to Point 4.6.
     p46=text.index('# Punto 4.6')
     before=text[:p46]; tail=text[p46:]
-    tail=replace_section(tail,r'^### Bloque 1 — .*$',r'^## Resumen rápido$',block46)
+    tail=replace_section(tail,r'^### Bloque 1 — .*$',r'^## Resumen rápido.*$',block46)
     text=before+tail
 
     return text
