@@ -1042,8 +1042,60 @@ def scrub_forbidden_literals(text: str) -> str:
     text = text.replace('parent="Dato"', 'un atributo de herencia incorrecto')
     return text
 
+
+def verified_part_a(point):
+    visual = part_a(point)
+    if point == "4.3":
+        visual += "\n" + step(12, "Contrastar variables, bandas y Parte B", [
+            "Expandir Variables en Outline y contar `TotalUnidades`, `TotalImporte`, `TotalPagina`, `PrecioMedio`, `PrecioMaximo`, `NumeroLibros` e `ImporteConIva`.",
+            "Seleccionar Page Footer y confirmar altura `62`.",
+            "Seleccionar Summary y confirmar altura `128`.",
+            "Abrir la Parte B de esta práctica y comparar nombres, resets, expresiones y alturas con Source.",
+            "Ejecutar `GeneradorInformeVentas` una última vez y abrir el PDF resultante."
+        ], "Outline, Source, Parte B y PDF describen el mismo checkpoint 4.3.",
+        "cierra la trazabilidad visual de las variables antes de continuar.",
+        "una variable correcta en teoría pero situada en otra banda produce un resultado docente distinto.",
+        "dar por terminado el punto solo porque el JRXML compila. Solución: cotejar también banda, reset y salida PDF.",
+        "es como revisar que las cifras del balance están no solo calculadas, sino impresas en el lugar previsto.")
+    elif point == "4.4":
+        visual += "\n" + step(11, "Probar las expresiones con títulos sin ventas", [
+            "Abrir Preview con los filtros base sin restricciones.",
+            "Localizar al menos un título conservado por `LEFT JOIN` que no tenga ventas.",
+            "Comprobar que la clasificación muestra `Sin ventas`.",
+            "Comprobar que precio redondeado y días muestran `-` en lugar de lanzar una excepción.",
+            "Confirmar que el título transformado sigue siendo legible."
+        ], "las expresiones avanzadas son null-safe también en filas sin agregados.",
+        "prueba el caso que más fácilmente rompe ternarios, métodos y conversiones.",
+        "LEFT JOIN introduce null legítimos que deben formar parte del diseño.",
+        "probar solo filas con ventas. Solución: revisar explícitamente una fila sin ventas.",
+        "es como ensayar la plantilla con una ficha incompleta antes de imprimir toda la colección.")
+        visual += "\n" + step(12, "Contrastar expresiones con Parte B y PDF", [
+            "Abrir Source y localizar las cinco expresiones añadidas en la tercera fila de Detail.",
+            "Abrir la Parte B de esta práctica y localizar las mismas expresiones.",
+            "Comparar `ChronoUnit.DAYS.between`, `toUpperCase`, `Math.round`, `String.format` y el ternario de clasificación.",
+            "Ejecutar `GeneradorInformeVentas`.",
+            "Abrir el PDF y comprobar que las cinco salidas son visibles sin solapamiento."
+        ], "las expresiones de Design/Source, Parte B y PDF son idénticas funcionalmente.",
+        "cierra la cadena explicación, expresión y salida.",
+        "una práctica de expresiones debe demostrar tanto compilación como resultado visible.",
+        "documentar una expresión diferente de la ejecutable. Solución: cotejar literalmente con Parte B.",
+        "es como cotejar fórmula, cálculo y cifra impresa antes de aprobar una tabla financiera.")
+    elif point == "4.5":
+        visual += "\n" + step(12, "Verificar conjuntamente estilos y bandas condicionales", [
+            "Abrir Preview con `umbralUnidades=5`.",
+            "Comprobar una fila con unidades iguales o superiores al umbral y observar el estilo `UnidadesCondicional`.",
+            "Comprobar que debajo de esa fila aparece la segunda banda Detail de 14 px.",
+            "Cambiar temporalmente el umbral y confirmar que color y banda responden al nuevo valor.",
+            "Restaurar `5`, ejecutar `GeneradorInformeVentas` y comparar con la Parte B."
+        ], "el mismo parámetro gobierna estilo, porcentaje, banda de destacado y mensaje de Summary.",
+        "demuestra la lógica condicional como comportamiento integrado, no como fragmentos aislados.",
+        "los cuatro usos deben responder al mismo contrato de parámetro.",
+        "validar únicamente el color y olvidar la banda o el Summary. Solución: probar las cuatro manifestaciones.",
+        "es como comprobar que una regla editorial cambia simultáneamente señalización, llamada y resumen.")
+    return visual
+
 def patch_point_practice(sec, point):
-    sec = re.sub(r'(?ms)^### Parte A\b.*?(?=^### Parte B\b)', part_a(point) + "\n\n", sec, count=1)
+    sec = re.sub(r'(?ms)^### Parte A\b.*?(?=^### Parte B\b)', verified_part_a(point) + "\n\n", sec, count=1)
     sec = re.sub(r'(?ms)^## Errores comunes del ejercicio completo\b.*\Z', tail(point).rstrip() + "\n", sec, count=1)
     return sec
 
