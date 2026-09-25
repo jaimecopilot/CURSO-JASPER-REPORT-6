@@ -201,48 +201,48 @@ Las ejecuciones Java se lanzan con `EditorialReports` como Working Directory. Po
 
 ---
 
-**Paso 8: Declarar la consulta SQL en el JRXML**
+**Paso 8: Declarar la consulta SQL en la posición válida del JRXML**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `informe_concepto.jrxml` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-3. Localizar la línea que contiene `<field name="disponible" class="java.lang.Boolean"/>`.
-4. Hacer clic al final de esa línea y pulsar Enter.
-5. Escribir exactamente `<queryString language="sql">` y pulsar Enter.
-6. Escribir exactamente `<![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible=1 THEN 1 ELSE 0 END AS disponible FROM libros ORDER BY titulo]]>` y pulsar Enter.
-7. Escribir exactamente `</queryString>` y pulsar Enter.
-8. Pulsar Ctrl+S para guardar el archivo.
-9. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Hacer doble clic sobre el archivo `informe_concepto.jrxml`.
+2. Abrir la pestaña Source.
+3. Localizar el cierre del parámetro heredado: `</parameter>`.
+4. Situar el cursor **después del parámetro y antes del primer `<field>`**.
+5. Escribir `<queryString language="sql">`.
+6. Añadir dentro de CDATA la consulta que selecciona `titulo`, `precio`, `paginas`, `fecha_publicacion AS fechaPublicacion` y el alias `disponible` desde `libros`, ordenando por `titulo`.
+7. Cerrar `</queryString>`.
+8. Guardar el archivo.
 
-**Verificación visual:** el editor central muestra el informe sin errores. En la vista Source, la consulta SQL aparece después de la declaración de campos y antes de las bandas.
+**Verificación visual:** Source muestra el orden `parameter → queryString → field → variable → bands`.
 
-**Qué hace:** declara la consulta SQL que el motor ejecutará contra la base de datos.
-**Por qué:** la consulta define los registros que alimentan el informe.
-**Error común:** olvidar el bloque `CDATA` y provocar un error de análisis XML porque la consulta contiene caracteres especiales como `>` o `ORDER BY`. Solución: encerrar la consulta en `<![CDATA[...]]>`.
-**Analogía:** es como escribir la consulta que el archivero debe ejecutar para recuperar las fichas de los libros.
+**Qué hace:** añade JDBC sin desmontar la estructura heredada del informe.  
+**Por qué:** `queryString` debe ocupar su posición válida antes de los fields en el JRXML de JasperReports.  
+**Error común:** insertar `queryString` después de los fields. Puede violar el orden esperado por el esquema. Solución: moverlo antes del primer field.
 
 ---
 
-**Paso 9: Alinear el campo fechaPublicacion con SQLite**
+**Paso 9: Alinear fechaPublicacion con SQLite sin perder las expresiones de M2**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la declaración `<field name="fechaPublicacion" class="java.util.Date"/>` heredada del Módulo 2.
-3. Sustituirla por `<field name="fechaPublicacion" class="java.lang.String"/>`.
-4. Verificar que la consulta SQL usa el alias `fecha_publicacion AS fechaPublicacion`.
-5. Localizar el Text Field del año y sustituir la expresión de fecha por `$F{fechaPublicacion}.substring(0,4)`.
-6. Eliminar el atributo `pattern="yyyy"` de ese Text Field, porque el campo ya no es un `Date`.
-7. Pulsar Ctrl+S y volver a Design.
-8. Expandir Fields y verificar que siguen apareciendo los cinco campos del informe.
+1. En Source, sustituir `<field name="fechaPublicacion" class="java.util.Date"/>` por `<field name="fechaPublicacion" class="java.lang.String"/>`.
+2. Confirmar el alias SQL `fecha_publicacion AS fechaPublicacion`.
+3. Localizar el Text Field que en M2 mostraba el año con `pattern="yyyy"`.
+4. Eliminar ese patrón de fecha.
+5. Sustituir su expresión por `$F{fechaPublicacion} == null ? "" : $F{fechaPublicacion}.substring(0, 4)`.
+6. Localizar la expresión heredada que clasificaba la antigüedad con el método `.after(...)`.
+7. Sustituirla por una comparación compatible con el String ISO usando `java.time.LocalDate.parse($F{fechaPublicacion})` y `java.time.LocalDate.of(2000, 1, 1)`.
+8. **No eliminar** estilos, imágenes, parámetros, variables, Column Footer, Last Page Footer ni Summary del Módulo 2.
+9. Guardar y volver a Design.
 
-**Verificación visual:** el panel Outline muestra cinco campos y el año sigue apareciendo en Preview.
+**Verificación visual:** siguen presentes los cinco fields, los estilos, `usuario`, `TotalPrecios`, `PrecioConIVA`, logo, portadas, iconos y todas las bandas heredadas.
 
-**Qué hace:** adapta el contrato del campo a la forma en que SQLite almacena `fecha_publicacion` en este curso: texto ISO `yyyy-MM-dd`.
-**Por qué:** evita depender de una conversión implícita de `TEXT` a `java.util.Date` por parte del driver JDBC.
-**Error común:** mantener `java.util.Date` y asumir que el driver convertirá siempre el texto ISO. Solución: usar `String` y extraer el año explícitamente.
-**Analogía:** es como respetar el formato real de la ficha del archivo en lugar de fingir que ya llega convertido.
+**Qué hace:** adapta únicamente el contrato de la fecha al tipo real entregado por SQLite.  
+**Por qué:** al cambiar Date por String también deben corregirse **todas** las expresiones que trataban la fecha como `java.util.Date`.  
+**Error común:** cambiar solo el field y el año, dejando `$F{fechaPublicacion}.after(...)`. El JRXML dejaría de compilar porque String no tiene el método `after`.
+
+---
 
 **Paso 10: Asociar el adaptador JDBC al informe**
 
@@ -285,34 +285,26 @@ Las ejecuciones Java se lanzan con `EditorialReports` como Working Directory. Po
 
 ---
 
-**Paso 12: Modificar el programa Java para usar la conexión JDBC**
+**Paso 12: Modificar el programa Java para usar JDBC conservando el parámetro heredado**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `GeneradorInformeConcepto.java` en el panel Project Explorer.
-2. Hacer clic sobre la línea que contiene `import java.util.HashMap;` y pulsar Enter al final.
-3. Escribir exactamente `import java.sql.Connection;` y pulsar Enter.
-4. Escribir exactamente `import java.sql.DriverManager;` y pulsar Enter.
-5. Hacer clic sobre la línea que contiene `JasperPrint documento = JasperFillManager.fillReport(`.
-6. Seleccionar el bloque completo desde esa línea hasta `new CatalogoDataSource(Libro.listaEjemplo()));` y eliminar con la tecla Suprimir.
-7. Escribir exactamente `try (Connection conexion = DriverManager.getConnection("jdbc:sqlite:../EditorialReportsJava/data/editorial.db")) {` y pulsar Enter.
-8. Escribir exactamente `JasperPrint documento = JasperFillManager.fillReport(` y pulsar Enter.
-9. Escribir exactamente `rutaJasper,` y pulsar Enter.
-10. Escribir exactamente `parametros,` y pulsar Enter.
-11. Escribir exactamente `conexion);` y pulsar Enter.
-12. Escribir exactamente `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` y pulsar Enter.
-13. Escribir exactamente `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` y pulsar Enter.
-14. Escribir exactamente `System.out.println("Paginas del documento: " + documento.getPages().size());` y pulsar Enter.
-15. Escribir exactamente `}` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
-17. Observar el panel Problems y verificar que no hay errores.
+1. Abrir `GeneradorInformeConcepto.java`.
+2. Añadir los imports `java.sql.Connection` y `java.sql.DriverManager`.
+3. Conservar `Map<String, Object> parametros = new HashMap<String, Object>();`.
+4. Conservar exactamente `parametros.put("usuario", "Ana Martínez");`.
+5. Definir `urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
+6. Sustituir únicamente el tercer argumento basado en `CatalogoDataSource` por una conexión JDBC abierta con `try-with-resources`.
+7. Ejecutar `fillReport(rutaJasper, parametros, conexion)`.
+8. Mantener la exportación a PDF dentro del bloque de conexión.
+9. Imprimir ruta del PDF, número de páginas y valor de `usuario`.
+10. Guardar y comprobar Problems.
 
-**Verificación visual:** el editor central muestra la clase con el bloque `try-with-resources` que abre la conexión JDBC. El panel Problems permanece vacío.
+**Verificación visual:** la clase ya no usa `CatalogoDataSource` para llenar este informe, pero **sí conserva el mapa y el parámetro `usuario`**.
 
-**Qué hace:** modifica el programa para que utilice la conexión JDBC en lugar de la fuente de datos personalizada.
-**Por qué:** el informe ahora obtiene los datos de la base de datos SQLite en lugar de la lista de ejemplo.
-**Error común:** olvidar el cierre `}` del bloque `try-with-resources`. El compilador informa `Syntax error, insert "}" to complete Block`. Solución: revisar la estructura del bloque y añadir el cierre.
-**Analogía:** es como sustituir la bandeja de fichas de ejemplo por la consulta directa al archivador de libros.
+**Qué hace:** cambia exclusivamente el canal de datos del generador.  
+**Por qué:** 3.1 es acumulativo: JDBC sustituye la fuente de filas, no elimina funcionalidades del informe de M2.  
+**Error común:** vaciar el mapa de parámetros al migrar a JDBC. Eso rompería la trazabilidad de `$P{usuario}`.
 
 ---
 
@@ -372,7 +364,7 @@ Las ejecuciones Java se lanzan con `EditorialReports` como Working Directory. Po
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-Se reproduce el JRXML ejecutable completo del checkpoint 3.1. El bloque coincide con el archivo real versionado en GitHub.
+El siguiente bloque es el **JRXML acumulativo real** del checkpoint 3.1. Conserva la maquetación, estilos, imágenes, parámetro y variables de `M2/2.6`; los cambios funcionales son el Data Adapter JDBC, la consulta SQL y la adaptación de `fechaPublicacion`.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -391,6 +383,22 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. El bloque coincide
               uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
     <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>
+    <style name="TituloSecundario" style="Sans_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>
+    <style name="TextoTablaCabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>
+    <style name="TextoTabla" style="Sans_Normal" fontSize="9"/>
+    <style name="TextoPrecio" style="TextoTabla">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$F{precio}.doubleValue() > 20.0]]></conditionExpression>
+            <style forecolor="#CC0000" isBold="true"/>
+        </conditionalStyle>
+    </style>
+    <style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>
+
+    <parameter name="usuario" class="java.lang.String">
+        <defaultValueExpression><![CDATA["Ana Martínez"]]></defaultValueExpression>
+    </parameter>
+
     <queryString language="sql">
         <![CDATA[
             SELECT titulo,
@@ -402,129 +410,257 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. El bloque coincide
             ORDER BY titulo
         ]]>
     </queryString>
+
     <field name="titulo" class="java.lang.String"/>
     <field name="precio" class="java.lang.Double"/>
     <field name="paginas" class="java.lang.Integer"/>
     <field name="fechaPublicacion" class="java.lang.String"/>
     <field name="disponible" class="java.lang.Boolean"/>
+
     <variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">
         <variableExpression><![CDATA[$F{precio}]]></variableExpression>
     </variable>
-    <background>
-        <band height="0"/>
-    </background>
+    <variable name="PrecioConIVA" class="java.lang.Double">
+        <variableExpression><![CDATA[$F{precio} == null ? null : Double.valueOf($F{precio}.doubleValue() * 1.21d)]]></variableExpression>
+    </variable>
+
+    <background><band height="0"/></background>
+
     <title>
-        <band height="70">
+        <band height="100">
+            <image scaleImage="RetainShape" onErrorType="Error">
+                <reportElement x="0" y="10" width="80" height="80" uuid="dddddddd-dddd-dddd-dddd-dddddddddddd"/>
+                <imageExpression><![CDATA["resources/logo.png"]]></imageExpression>
+            </image>
             <staticText>
-                <reportElement x="0" y="10" width="555" height="30"/>
-                <textElement textAlignment="Center">
-                    <font size="18" isBold="true"/>
-                </textElement>
+                <reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee" style="TituloPrincipal"/>
+                <textElement verticalAlignment="Middle"/>
                 <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
             </staticText>
             <staticText>
-                <reportElement x="0" y="45" width="555" height="20"/>
-                <textElement textAlignment="Center"/>
-                <text><![CDATA[Datos JDBC - SQLite]]></text>
+                <reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff" style="TextoTabla"/>
+                <text><![CDATA[Fecha de emisión:]]></text>
             </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="215" y="60" width="110" height="20" uuid="12121212-1212-1212-1212-121212121212" style="TextoTabla"/>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="335" y="60" width="220" height="20" uuid="28282828-2828-2828-2828-282828282828" style="TextoPequeno"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Usuario: " + $P{usuario}]]></textFieldExpression>
+            </textField>
         </band>
     </title>
+
     <pageHeader>
-        <band height="25">
+        <band height="40" splitType="Prevent">
+            <staticText>
+                <reportElement x="0" y="5" width="330" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+            </staticText>
             <textField>
-                <reportElement x="390" y="5" width="120" height="15"/>
-                <textElement textAlignment="Right"/>
+                <reportElement x="330" y="5" width="170" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
             </textField>
             <textField evaluationTime="Report">
-                <reportElement x="510" y="5" width="45" height="15"/>
-                <textElement textAlignment="Right"/>
+                <reportElement x="500" y="5" width="55" height="15" uuid="f9ab1a6c-59d2-5c71-a85f-72cee0efbcfb"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
                 <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
+            <staticText>
+                <reportElement x="0" y="20" width="555" height="15" uuid="00000000-0000-4000-8000-000000000001"/>
+                <textElement verticalAlignment="Middle" markup="styled"><font size="8"/></textElement>
+                <text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text>
+            </staticText>
         </band>
     </pageHeader>
+
     <columnHeader>
         <band height="25">
             <staticText>
-                <reportElement x="0" y="5" width="250" height="15"/>
-                <textElement><font isBold="true"/></textElement>
+                <reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Port.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/>
                 <text><![CDATA[Título]]></text>
             </staticText>
             <staticText>
-                <reportElement x="250" y="5" width="85" height="15"/>
-                <textElement textAlignment="Right"><font isBold="true"/></textElement>
+                <reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Right"/>
                 <text><![CDATA[Precio]]></text>
             </staticText>
             <staticText>
-                <reportElement x="335" y="5" width="70" height="15"/>
-                <textElement textAlignment="Right"><font isBold="true"/></textElement>
+                <reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Right"/>
                 <text><![CDATA[Págs.]]></text>
             </staticText>
             <staticText>
-                <reportElement x="405" y="5" width="80" height="15"/>
-                <textElement textAlignment="Center"><font isBold="true"/></textElement>
+                <reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Center"/>
                 <text><![CDATA[Año]]></text>
             </staticText>
             <staticText>
-                <reportElement x="485" y="5" width="70" height="15"/>
-                <textElement textAlignment="Center"><font isBold="true"/></textElement>
+                <reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Center"/>
                 <text><![CDATA[Disp.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919" style="TextoTablaCabecera"/>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[#]]></text>
             </staticText>
         </band>
     </columnHeader>
+
     <detail>
-        <band height="22" splitType="Stretch">
+        <band height="85" splitType="Prevent">
+            <image onErrorType="Blank" scaleImage="RetainShape">
+                <reportElement x="0" y="5" width="50" height="50" uuid="20202020-2020-2020-2020-202020202020"/>
+                <imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>
+            </image>
             <textField textAdjust="StretchHeight">
-                <reportElement x="0" y="1" width="250" height="20"/>
+                <reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/>
                 <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
             </textField>
-            <textField pattern="#0.00 €">
-                <reportElement x="250" y="1" width="85" height="20"/>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666" style="TextoPrecio"/>
                 <textElement textAlignment="Right"/>
                 <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
             </textField>
-            <textField>
-                <reportElement x="335" y="1" width="70" height="20"/>
+            <textField isBlankWhenNull="true">
+                <reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323" style="TextoTabla"/>
                 <textElement textAlignment="Right"/>
                 <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
             </textField>
-            <textField>
-                <reportElement x="405" y="1" width="80" height="20"/>
+            <textField isBlankWhenNull="true">
+                <reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424" style="TextoTabla"/>
                 <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{fechaPublicacion}.substring(0,4)]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{fechaPublicacion} == null ? "" : $F{fechaPublicacion}.substring(0, 4)]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="485" y="1" width="70" height="20"/>
+                <reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525" style="TextoTabla"/>
                 <textElement textAlignment="Center"/>
                 <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
             </textField>
+            <image onErrorType="Blank" scaleImage="RetainShape">
+                <reportElement x="475" y="20" width="20" height="20" uuid="26262626-2626-2626-2626-262626262626"/>
+                <imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727" style="TextoPequeno"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="0" y="60" width="100" height="20" uuid="29292929-2929-2929-2929-292929292929" style="TextoPequeno"/>
+                <textFieldExpression><![CDATA[$F{precio}.doubleValue() > 20.0d ? "Premium" : ($F{precio}.doubleValue() > 15.0d ? "Estándar" : "Económico")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="100" y="60" width="135" height="20" uuid="30303030-3030-3030-3030-303030303030" style="TextoPequeno"/>
+                <textFieldExpression><![CDATA[$F{titulo}.length() > 30 ? "Título largo (" + $F{titulo}.length() + ")" : "Título corto"]]></textFieldExpression>
+            </textField>
+            <textField pattern="'IVA: ' #,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="235" y="60" width="85" height="20" uuid="31313131-3131-3131-3131-313131313131" style="TextoPequeno"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$V{PrecioConIVA}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="325" y="60" width="150" height="20" uuid="32323232-3232-3232-3232-323232323232" style="TextoPequeno"/>
+                <textFieldExpression><![CDATA[
+                    $F{fechaPublicacion} != null
+                            && java.time.LocalDate.parse($F{fechaPublicacion})
+                                    .isAfter(java.time.LocalDate.of(2000, 1, 1))
+                            ? "Después de 2000"
+                            : "Hasta 2000"
+                ]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="480" y="60" width="75" height="20" uuid="33333333-3333-3333-3333-333333333333" style="TextoPequeno"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[
+                    "R" + $V{REPORT_COUNT}
+                            + " · " + $P{usuario}.substring(0, Math.min(3, $P{usuario}.length()))
+                            + " · " + $F{titulo}.substring(0, 1)
+                ]]></textFieldExpression>
+            </textField>
         </band>
     </detail>
-    <pageFooter>
-        <band height="25">
+
+    <columnFooter>
+        <band height="40">
             <staticText>
-                <reportElement x="0" y="5" width="555" height="15"/>
-                <textElement textAlignment="Center"><font size="8" isItalic="true"/></textElement>
-                <text><![CDATA[EditorialReports - JasperReports 6.20.0]]></text>
+                <reportElement x="0" y="5" width="555" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[--- Fin de la tabla de datos ---]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="20" width="150" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+                <textElement verticalAlignment="Middle"><font size="9"/></textElement>
+                <text><![CDATA[Registros procesados:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="20" width="100" height="15" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+                <textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnFooter>
+
+    <pageFooter>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>
+                <textElement verticalAlignment="Middle"><font size="9"/></textElement>
+                <text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>
             </staticText>
         </band>
     </pageFooter>
-    <summary>
-        <band height="50" splitType="Prevent">
+
+    <lastPageFooter>
+        <band height="30">
             <staticText>
-                <reportElement x="0" y="5" width="150" height="20"/>
-                <text><![CDATA[Total libros:]]></text>
+                <reportElement x="0" y="5" width="555" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[Documento generado en la última página]]></text>
+            </staticText>
+        </band>
+    </lastPageFooter>
+
+    <summary>
+        <band height="95" splitType="Prevent">
+            <staticText>
+                <reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>
+                <text><![CDATA[Total de páginas:]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Fin del informe. EditorialReports.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>
+                <text><![CDATA[Total de libros:]]></text>
             </staticText>
             <textField>
-                <reportElement x="150" y="5" width="80" height="20"/>
+                <reportElement x="155" y="45" width="80" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>
                 <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement x="0" y="27" width="150" height="20"/>
+                <reportElement x="0" y="70" width="150" height="20" uuid="c4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/>
                 <text><![CDATA[Subtotal precios:]]></text>
             </staticText>
-            <textField pattern="#0.00 €">
-                <reportElement x="150" y="27" width="100" height="20"/>
+            <textField pattern="#,##0.00 €">
+                <reportElement x="155" y="70" width="100" height="20" uuid="d4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/>
                 <textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>
             </textField>
         </band>
@@ -534,321 +670,611 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. El bloque coincide
 
 ### Explicación línea por línea
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y la codificación UTF-8.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace con el XSD de JasperReports.
 
-**Línea 5:** `name="informe_concepto"` → Fija el nombre interno del informe.
+**Línea 5:** `name="informe_concepto"` → Conserva el nombre interno heredado del informe conceptual.
 
-**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
+**Línea 6:** `language="java"` → Mantiene Java como lenguaje de expresiones.
 
-**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
+**Línea 7:** `pageWidth="595"` → Conserva la geometría de página del informe de M2.
 
-**Línea 8:** `pageHeight="842"` → Define la altura de la página.
+**Línea 8:** `pageHeight="842"` → Conserva la geometría de página del informe de M2.
 
-**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
+**Línea 9:** `columnWidth="555"` → Conserva la geometría de página del informe de M2.
 
-**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
+**Línea 10:** `leftMargin="20"` → Conserva uno de los márgenes del informe heredado.
 
-**Línea 11:** `rightMargin="20"` → Define el margen derecho.
+**Línea 11:** `rightMargin="20"` → Conserva uno de los márgenes del informe heredado.
 
-**Línea 12:** `topMargin="20"` → Define el margen superior.
+**Línea 12:** `topMargin="20"` → Conserva uno de los márgenes del informe heredado.
 
-**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
+**Línea 13:** `bottomMargin="20"` → Conserva uno de los márgenes del informe heredado.
 
-**Línea 14:** `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → Fija el UUID del informe y completa la apertura del elemento raíz.
+**Línea 14:** `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → Conserva el UUID del informe y cierra la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Cambia únicamente el Data Adapter por SQLiteEditorial para el punto 3.1.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 17:** `<queryString language="sql">` → Abre la consulta o expresión de selección del dataset y declara el lenguaje sql.
+**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 18:** `<![CDATA[` → Abre un bloque CDATA para escribir la consulta sin que XML interprete sus caracteres.
+**Línea 18:** `<style name="TituloSecundario" style="Sans_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 19:** `SELECT titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta SQL.
+**Línea 19:** `<style name="TextoTablaCabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 20:** `precio,` → Añade una columna o expresión calculada al resultado de la consulta.
+**Línea 20:** `<style name="TextoTabla" style="Sans_Normal" fontSize="9"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 21:** `paginas,` → Añade una columna o expresión calculada al resultado de la consulta.
+**Línea 21:** `<style name="TextoPrecio" style="TextoTabla">` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 22:** `fecha_publicacion AS fechaPublicacion,` → Selecciona la fecha de publicación y le asigna el alias `fechaPublicacion`, que coincide con el nombre del field JRXML.
+**Línea 22:** `<conditionalStyle>` → Abre el estilo condicional del precio.
 
-**Línea 23:** `CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible` → Añade una columna o expresión calculada al resultado de la consulta.
+**Línea 23:** `<conditionExpression><![CDATA[$F{precio}.doubleValue() > 20.0]]></conditionExpression>` → Mantiene la condición que resalta precios superiores a 20.
 
-**Línea 24:** `FROM libros` → Indica la tabla principal de la consulta SQL.
+**Línea 24:** `<style forecolor="#CC0000" isBold="true"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 25:** `ORDER BY titulo` → Ordena el resultado de la consulta.
+**Línea 25:** `</conditionalStyle>` → Cierra el estilo condicional.
 
-**Línea 26:** `]]>` → Cierra el bloque CDATA de la consulta.
+**Línea 26:** `</style>` → Cierra el elemento style.
 
-**Línea 27:** `</queryString>` → Cierra la consulta o expresión de selección del dataset.
+**Línea 27:** `<style name="TextoPequeno" style="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>` → Conserva o define uno de los estilos visuales heredados de M2.
 
-**Línea 28:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+**Línea 28:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 29:** `<field name="precio" class="java.lang.Double"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+**Línea 29:** `<parameter name="usuario" class="java.lang.String">` → Conserva el parámetro usuario heredado de M2.
 
-**Línea 30:** `<field name="paginas" class="java.lang.Integer"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+**Línea 30:** `<defaultValueExpression><![CDATA["Ana Martínez"]]></defaultValueExpression>` → Conserva Ana Martínez como valor por defecto del parámetro usuario.
 
-**Línea 31:** `<field name="fechaPublicacion" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+**Línea 31:** `</parameter>` → Cierra el elemento parameter.
 
-**Línea 32:** `<field name="disponible" class="java.lang.Boolean"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+**Línea 32:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 33:** `<variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">` → Declara una variable calculada del informe.
+**Línea 33:** `<queryString language="sql">` → Añade la consulta SQL JDBC antes de la declaración de fields, respetando el orden JRXML.
 
-**Línea 34:** `<variableExpression><![CDATA[$F{precio}]]></variableExpression>` → Define la expresión utilizada para calcular la variable.
+**Línea 34:** `<![CDATA[` → Abre CDATA para escribir la consulta SQL.
 
-**Línea 35:** `</variable>` → Cierra el elemento `variable` abierto anteriormente.
+**Línea 35:** `SELECT titulo,` → Inicia la selección de columnas de la tabla libros.
 
-**Línea 36:** `<background>` → Abre la banda Background.
+**Línea 36:** `precio,` → Añade la columna indicada al ResultSet.
 
-**Línea 37:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 37:** `paginas,` → Añade la columna indicada al ResultSet.
 
-**Línea 38:** `</background>` → Cierra el elemento `background` abierto anteriormente.
+**Línea 38:** `fecha_publicacion AS fechaPublicacion,` → Mapea fecha_publicacion al nombre de field fechaPublicacion.
 
-**Línea 39:** `<title>` → Abre la banda Title.
+**Línea 39:** `CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible` → Normaliza disponible como 1/0 con el alias usado por el field.
 
-**Línea 40:** `<band height="70">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 40:** `FROM libros` → Usa libros como tabla principal.
 
-**Línea 41:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 41:** `ORDER BY titulo` → Ordena alfabéticamente los catorce libros.
 
-**Línea 42:** `<reportElement x="0" y="10" width="555" height="30"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 42:** `]]>` → Cierra el CDATA de la consulta SQL.
 
-**Línea 43:** `<textElement textAlignment="Center">` → Configura la alineación y el formato textual del elemento.
+**Línea 43:** `</queryString>` → Cierra la consulta del dataset.
 
-**Línea 44:** `<font size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
+**Línea 44:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 45:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
+**Línea 45:** `<field name="titulo" class="java.lang.String"/>` → Conserva un field del informe y declara su tipo Java compatible con JDBC.
 
-**Línea 46:** `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → Define el texto literal `Catálogo Editorial - Informe Conceptual` que se imprimirá.
+**Línea 46:** `<field name="precio" class="java.lang.Double"/>` → Conserva un field del informe y declara su tipo Java compatible con JDBC.
 
-**Línea 47:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 47:** `<field name="paginas" class="java.lang.Integer"/>` → Conserva un field del informe y declara su tipo Java compatible con JDBC.
 
-**Línea 48:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 48:** `<field name="fechaPublicacion" class="java.lang.String"/>` → Declara fechaPublicacion como String porque SQLite almacena la fecha en texto ISO.
 
-**Línea 49:** `<reportElement x="0" y="45" width="555" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 49:** `<field name="disponible" class="java.lang.Boolean"/>` → Conserva un field del informe y declara su tipo Java compatible con JDBC.
 
-**Línea 50:** `<textElement textAlignment="Center"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 50:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 51:** `<text><![CDATA[Datos JDBC - SQLite]]></text>` → Define el texto literal `Datos JDBC - SQLite` que se imprimirá.
+**Línea 51:** `<variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">` → Conserva la variable Sum TotalPrecios del Módulo 2.
 
-**Línea 52:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 52:** `<variableExpression><![CDATA[$F{precio}]]></variableExpression>` → Define la expresión de la variable declarada inmediatamente antes.
 
-**Línea 53:** `</band>` → Cierra el elemento `band` abierto anteriormente.
+**Línea 53:** `</variable>` → Cierra el elemento variable.
 
-**Línea 54:** `</title>` → Cierra el elemento `title` abierto anteriormente.
+**Línea 54:** `<variable name="PrecioConIVA" class="java.lang.Double">` → Conserva la variable PrecioConIVA del Módulo 2.
 
-**Línea 55:** `<pageHeader>` → Abre la banda Page Header.
+**Línea 55:** `<variableExpression><![CDATA[$F{precio} == null ? null : Double.valueOf($F{precio}.doubleValue() * 1.21d)]]></variableExpression>` → Define la expresión de la variable declarada inmediatamente antes.
 
-**Línea 56:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 56:** `</variable>` → Cierra el elemento variable.
 
-**Línea 57:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 57:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 58:** `<reportElement x="390" y="5" width="120" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 58:** `<background><band height="0"/></background>` → Conserva Background de altura 0.
 
-**Línea 59:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 59:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 60:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 60:** `<title>` → Abre Title, conservado con su maquetación de M2.
 
-**Línea 61:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 61:** `<band height="100">` → Conserva la altura y la política de división de esta banda.
 
-**Línea 62:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 62:** `<image scaleImage="RetainShape" onErrorType="Error">` → Abre un elemento Image heredado.
 
-**Línea 63:** `<reportElement x="510" y="5" width="45" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 63:** `<reportElement x="0" y="10" width="80" height="80" uuid="dddddddd-dddd-dddd-dddd-dddddddddddd"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 64:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 64:** `<imageExpression><![CDATA["resources/logo.png"]]></imageExpression>` → Conserva la expresión que resuelve logo, portada o icono.
 
-**Línea 65:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 65:** `</image>` → Cierra el elemento image.
 
-**Línea 66:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 66:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 67:** `</band>` → Cierra el elemento `band` abierto anteriormente.
+**Línea 67:** `<reportElement x="90" y="25" width="465" height="30" uuid="eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee" style="TituloPrincipal"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 68:** `</pageHeader>` → Cierra el elemento `pageHeader` abierto anteriormente.
+**Línea 68:** `<textElement verticalAlignment="Middle"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 69:** `<columnHeader>` → Abre la banda Column Header.
+**Línea 69:** `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → Conserva el texto literal «Catálogo Editorial - Informe Conceptual».
 
-**Línea 70:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 70:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 71:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 71:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 72:** `<reportElement x="0" y="5" width="250" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 72:** `<reportElement x="90" y="60" width="120" height="20" uuid="ffffffff-ffff-ffff-ffff-ffffffffffff" style="TextoTabla"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 73:** `<textElement><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
+**Línea 73:** `<text><![CDATA[Fecha de emisión:]]></text>` → Conserva el texto literal «Fecha de emisión:».
 
-**Línea 74:** `<text><![CDATA[Título]]></text>` → Define el texto literal `Título` que se imprimirá.
+**Línea 74:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 75:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 75:** `<textField pattern="dd/MM/yyyy">` → Abre el Text Field de fecha de emisión.
 
-**Línea 76:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 76:** `<reportElement x="215" y="60" width="110" height="20" uuid="12121212-1212-1212-1212-121212121212" style="TextoTabla"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 77:** `<reportElement x="250" y="5" width="85" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 77:** `<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
 
-**Línea 78:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
+**Línea 78:** `</textField>` → Cierra el elemento textField.
 
-**Línea 79:** `<text><![CDATA[Precio]]></text>` → Define el texto literal `Precio` que se imprimirá.
+**Línea 79:** `<textField>` → Abre un Text Field dinámico heredado.
 
-**Línea 80:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 80:** `<reportElement x="335" y="60" width="220" height="20" uuid="28282828-2828-2828-2828-282828282828" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 81:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 81:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 82:** `<reportElement x="335" y="5" width="70" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 82:** `<textFieldExpression><![CDATA["Usuario: " + $P{usuario}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
 
-**Línea 83:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
+**Línea 83:** `</textField>` → Cierra el elemento textField.
 
-**Línea 84:** `<text><![CDATA[Págs.]]></text>` → Define el texto literal `Págs.` que se imprimirá.
+**Línea 84:** `</band>` → Cierra el elemento band.
 
-**Línea 85:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 85:** `</title>` → Cierra el elemento title.
 
-**Línea 86:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 86:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 87:** `<reportElement x="405" y="5" width="80" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 87:** `<pageHeader>` → Abre Page Header heredado.
 
-**Línea 88:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
+**Línea 88:** `<band height="40" splitType="Prevent">` → Conserva la altura y la política de división de esta banda.
 
-**Línea 89:** `<text><![CDATA[Año]]></text>` → Define el texto literal `Año` que se imprimirá.
+**Línea 89:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 90:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 90:** `<reportElement x="0" y="5" width="330" height="15" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 91:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 91:** `<textElement verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 92:** `<reportElement x="485" y="5" width="70" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 92:** `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → Conserva el texto literal «Catálogo Editorial - Informe Conceptual».
 
-**Línea 93:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
+**Línea 93:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 94:** `<text><![CDATA[Disp.]]></text>` → Define el texto literal `Disp.` que se imprimirá.
+**Línea 94:** `<textField>` → Abre un Text Field dinámico heredado.
 
-**Línea 95:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 95:** `<reportElement x="330" y="5" width="170" height="15" uuid="b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 96:** `</band>` → Cierra el elemento `band` abierto anteriormente.
+**Línea 96:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 97:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
+**Línea 97:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
 
-**Línea 98:** `<detail>` → Abre la banda Detail.
+**Línea 98:** `</textField>` → Cierra el elemento textField.
 
-**Línea 99:** `<band height="22" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 99:** `<textField evaluationTime="Report">` → Abre un Text Field evaluado al final del informe para obtener el total de páginas.
 
-**Línea 100:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 100:** `<reportElement x="500" y="5" width="55" height="15" uuid="f9ab1a6c-59d2-5c71-a85f-72cee0efbcfb"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 101:** `<reportElement x="0" y="1" width="250" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 101:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 102:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 102:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
 
-**Línea 103:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 103:** `</textField>` → Cierra el elemento textField.
 
-**Línea 104:** `<textField pattern="#0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 104:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 105:** `<reportElement x="250" y="1" width="85" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 105:** `<reportElement x="0" y="20" width="555" height="15" uuid="00000000-0000-4000-8000-000000000001"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 106:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 106:** `<textElement verticalAlignment="Middle" markup="styled"><font size="8"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 107:** `<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 107:** `<text><![CDATA[Precio en <b>euros</b> con IVA incluido]]></text>` → Conserva el texto literal «Precio en <b>euros</b> con IVA incluido».
 
-**Línea 108:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 108:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 109:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 109:** `</band>` → Cierra el elemento band.
 
-**Línea 110:** `<reportElement x="335" y="1" width="70" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 110:** `</pageHeader>` → Cierra el elemento pageHeader.
 
-**Línea 111:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 111:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 112:** `<textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 112:** `<columnHeader>` → Abre Column Header heredado.
 
-**Línea 113:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 113:** `<band height="25">` → Conserva la altura y la política de división de esta banda.
 
-**Línea 114:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 114:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 115:** `<reportElement x="405" y="1" width="80" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 115:** `<reportElement x="0" y="5" width="50" height="15" uuid="13131313-1313-1313-1313-131313131313" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 116:** `<textElement textAlignment="Center"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 116:** `<textElement textAlignment="Center"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 117:** `<textFieldExpression><![CDATA[$F{fechaPublicacion}.substring(0,4)]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 117:** `<text><![CDATA[Port.]]></text>` → Conserva el texto literal «Port.».
 
-**Línea 118:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 118:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 119:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 119:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 120:** `<reportElement x="485" y="1" width="70" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 120:** `<reportElement x="55" y="5" width="180" height="15" uuid="14141414-1414-1414-1414-141414141414" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 121:** `<textElement textAlignment="Center"/>` → Configura la alineación y el formato textual del elemento.
+**Línea 121:** `<text><![CDATA[Título]]></text>` → Conserva el texto literal «Título».
 
-**Línea 122:** `<textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 122:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 123:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 123:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 124:** `</band>` → Cierra el elemento `band` abierto anteriormente.
+**Línea 124:** `<reportElement x="235" y="5" width="80" height="15" uuid="15151515-1515-1515-1515-151515151515" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 125:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
+**Línea 125:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 126:** `<pageFooter>` → Abre la banda Page Footer.
+**Línea 126:** `<text><![CDATA[Precio]]></text>` → Conserva el texto literal «Precio».
 
-**Línea 127:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 127:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 128:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 128:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 129:** `<reportElement x="0" y="5" width="555" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 129:** `<reportElement x="315" y="5" width="50" height="15" uuid="16161616-1616-1616-1616-161616161616" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 130:** `<textElement textAlignment="Center"><font size="8" isItalic="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
+**Línea 130:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 131:** `<text><![CDATA[EditorialReports - JasperReports 6.20.0]]></text>` → Define el texto literal `EditorialReports - JasperReports 6.20.0` que se imprimirá.
+**Línea 131:** `<text><![CDATA[Págs.]]></text>` → Conserva el texto literal «Págs.».
 
-**Línea 132:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 132:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 133:** `</band>` → Cierra el elemento `band` abierto anteriormente.
+**Línea 133:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 134:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
+**Línea 134:** `<reportElement x="365" y="5" width="50" height="15" uuid="17171717-1717-1717-1717-171717171717" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 135:** `<summary>` → Abre la banda Summary.
+**Línea 135:** `<textElement textAlignment="Center"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 136:** `<band height="50" splitType="Prevent">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 136:** `<text><![CDATA[Año]]></text>` → Conserva el texto literal «Año».
 
-**Línea 137:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 137:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 138:** `<reportElement x="0" y="5" width="150" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 138:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 139:** `<text><![CDATA[Total libros:]]></text>` → Define el texto literal `Total libros:` que se imprimirá.
+**Línea 139:** `<reportElement x="415" y="5" width="80" height="15" uuid="18181818-1818-1818-1818-181818181818" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 140:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 140:** `<textElement textAlignment="Center"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 141:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 141:** `<text><![CDATA[Disp.]]></text>` → Conserva el texto literal «Disp.».
 
-**Línea 142:** `<reportElement x="150" y="5" width="80" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 142:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 143:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 143:** `<staticText>` → Abre un Static Text heredado.
 
-**Línea 144:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 144:** `<reportElement x="500" y="5" width="55" height="15" uuid="19191919-1919-1919-1919-191919191919" style="TextoTablaCabecera"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 145:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 145:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
 
-**Línea 146:** `<reportElement x="0" y="27" width="150" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 146:** `<text><![CDATA[#]]></text>` → Conserva el texto literal «#».
 
-**Línea 147:** `<text><![CDATA[Subtotal precios:]]></text>` → Define el texto literal `Subtotal precios:` que se imprimirá.
+**Línea 147:** `</staticText>` → Cierra el elemento staticText.
 
-**Línea 148:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
+**Línea 148:** `</band>` → Cierra el elemento band.
 
-**Línea 149:** `<textField pattern="#0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 149:** `</columnHeader>` → Cierra el elemento columnHeader.
 
-**Línea 150:** `<reportElement x="150" y="27" width="100" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+**Línea 150:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
 
-**Línea 151:** `<textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+**Línea 151:** `<detail>` → Abre Detail heredado.
 
-**Línea 152:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
+**Línea 152:** `<band height="85" splitType="Prevent">` → Conserva la altura y la política de división de esta banda.
 
-**Línea 153:** `</band>` → Cierra el elemento `band` abierto anteriormente.
+**Línea 153:** `<image onErrorType="Blank" scaleImage="RetainShape">` → Abre un elemento Image heredado.
 
-**Línea 154:** `</summary>` → Cierra el elemento `summary` abierto anteriormente.
+**Línea 154:** `<reportElement x="0" y="5" width="50" height="50" uuid="20202020-2020-2020-2020-202020202020"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
 
-**Línea 155:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
+**Línea 155:** `<imageExpression><![CDATA["resources/portadas/" + $F{titulo} + ".png"]]></imageExpression>` → Conserva la expresión que resuelve logo, portada o icono.
 
-**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
+**Línea 156:** `</image>` → Cierra el elemento image.
+
+**Línea 157:** `<textField textAdjust="StretchHeight">` → Abre un Text Field dinámico heredado.
+
+**Línea 158:** `<reportElement x="55" y="20" width="180" height="20" uuid="21212121-2121-2121-2121-212121212121" style="TextoTabla"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 159:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 160:** `</textField>` → Cierra el elemento textField.
+
+**Línea 161:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un Text Field monetario con el patrón heredado.
+
+**Línea 162:** `<reportElement x="235" y="20" width="80" height="20" uuid="22222222-3333-4444-5555-666666666666" style="TextoPrecio"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 163:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 164:** `<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 165:** `</textField>` → Cierra el elemento textField.
+
+**Línea 166:** `<textField isBlankWhenNull="true">` → Abre un Text Field que evita imprimir null.
+
+**Línea 167:** `<reportElement x="315" y="20" width="50" height="20" uuid="23232323-2323-2323-2323-232323232323" style="TextoTabla"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 168:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 169:** `<textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 170:** `</textField>` → Cierra el elemento textField.
+
+**Línea 171:** `<textField isBlankWhenNull="true">` → Abre un Text Field que evita imprimir null.
+
+**Línea 172:** `<reportElement x="365" y="20" width="50" height="20" uuid="24242424-2424-2424-2424-242424242424" style="TextoTabla"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 173:** `<textElement textAlignment="Center"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 174:** `<textFieldExpression><![CDATA[$F{fechaPublicacion} == null ? "" : $F{fechaPublicacion}.substring(0, 4)]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 175:** `</textField>` → Cierra el elemento textField.
+
+**Línea 176:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 177:** `<reportElement x="415" y="20" width="55" height="20" uuid="25252525-2525-2525-2525-252525252525" style="TextoTabla"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 178:** `<textElement textAlignment="Center"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 179:** `<textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 180:** `</textField>` → Cierra el elemento textField.
+
+**Línea 181:** `<image onErrorType="Blank" scaleImage="RetainShape">` → Abre un elemento Image heredado.
+
+**Línea 182:** `<reportElement x="475" y="20" width="20" height="20" uuid="26262626-2626-2626-2626-262626262626"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 183:** `<imageExpression><![CDATA[$F{disponible}.booleanValue() ? "resources/icono_disponible.png" : "resources/icono_no_disponible.png"]]></imageExpression>` → Conserva la expresión que resuelve logo, portada o icono.
+
+**Línea 184:** `</image>` → Cierra el elemento image.
+
+**Línea 185:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 186:** `<reportElement x="500" y="20" width="55" height="20" uuid="27272727-2727-2727-2727-272727272727" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 187:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 188:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 189:** `</textField>` → Cierra el elemento textField.
+
+**Línea 190:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
+
+**Línea 191:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 192:** `<reportElement x="0" y="60" width="100" height="20" uuid="29292929-2929-2929-2929-292929292929" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 193:** `<textFieldExpression><![CDATA[$F{precio}.doubleValue() > 20.0d ? "Premium" : ($F{precio}.doubleValue() > 15.0d ? "Estándar" : "Económico")]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 194:** `</textField>` → Cierra el elemento textField.
+
+**Línea 195:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 196:** `<reportElement x="100" y="60" width="135" height="20" uuid="30303030-3030-3030-3030-303030303030" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 197:** `<textFieldExpression><![CDATA[$F{titulo}.length() > 30 ? "Título largo (" + $F{titulo}.length() + ")" : "Título corto"]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 198:** `</textField>` → Cierra el elemento textField.
+
+**Línea 199:** `<textField pattern="'IVA: ' #,##0.00 €" isBlankWhenNull="true">` → Abre un Text Field que evita imprimir null.
+
+**Línea 200:** `<reportElement x="235" y="60" width="85" height="20" uuid="31313131-3131-3131-3131-313131313131" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 201:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 202:** `<textFieldExpression><![CDATA[$V{PrecioConIVA}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 203:** `</textField>` → Cierra el elemento textField.
+
+**Línea 204:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 205:** `<reportElement x="325" y="60" width="150" height="20" uuid="32323232-3232-3232-3232-323232323232" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 206:** `<textFieldExpression><![CDATA[` → Abre un Text Field dinámico heredado.
+
+**Línea 207:** `$F{fechaPublicacion} != null` → Comienza la comprobación de nulo para la fecha JDBC.
+
+**Línea 208:** `&& java.time.LocalDate.parse($F{fechaPublicacion})` → Convierte la fecha ISO String a LocalDate.
+
+**Línea 209:** `.isAfter(java.time.LocalDate.of(2000, 1, 1))` → Compara la fecha con 01/01/2000.
+
+**Línea 210:** `? "Después de 2000"` → Define la rama verdadera de la expresión ternaria.
+
+**Línea 211:** `: "Hasta 2000"` → Define la rama falsa de la expresión ternaria.
+
+**Línea 212:** `]]></textFieldExpression>` → Cierra el CDATA y la expresión dinámica.
+
+**Línea 213:** `</textField>` → Cierra el elemento textField.
+
+**Línea 214:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 215:** `<reportElement x="480" y="60" width="75" height="20" uuid="33333333-3333-3333-3333-333333333333" style="TextoPequeno"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 216:** `<textElement textAlignment="Right"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 217:** `<textFieldExpression><![CDATA[` → Abre un Text Field dinámico heredado.
+
+**Línea 218:** `"R" + $V{REPORT_COUNT}` → Comienza la expresión de contexto del registro.
+
+**Línea 219:** `+ " · " + $P{usuario}.substring(0, Math.min(3, $P{usuario}.length()))` → Añade la abreviatura del parámetro usuario.
+
+**Línea 220:** `+ " · " + $F{titulo}.substring(0, 1)` → Añade la inicial del título.
+
+**Línea 221:** `]]></textFieldExpression>` → Cierra el CDATA y la expresión dinámica.
+
+**Línea 222:** `</textField>` → Cierra el elemento textField.
+
+**Línea 223:** `</band>` → Cierra el elemento band.
+
+**Línea 224:** `</detail>` → Cierra el elemento detail.
+
+**Línea 225:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
+
+**Línea 226:** `<columnFooter>` → Abre Column Footer heredado.
+
+**Línea 227:** `<band height="40">` → Conserva la altura y la política de división de esta banda.
+
+**Línea 228:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 229:** `<reportElement x="0" y="5" width="555" height="15" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 230:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 231:** `<text><![CDATA[--- Fin de la tabla de datos ---]]></text>` → Conserva el texto literal «--- Fin de la tabla de datos ---».
+
+**Línea 232:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 233:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 234:** `<reportElement x="0" y="20" width="150" height="15" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 235:** `<textElement verticalAlignment="Middle"><font size="9"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 236:** `<text><![CDATA[Registros procesados:]]></text>` → Conserva el texto literal «Registros procesados:».
+
+**Línea 237:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 238:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 239:** `<reportElement x="150" y="20" width="100" height="15" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 240:** `<textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 241:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 242:** `</textField>` → Cierra el elemento textField.
+
+**Línea 243:** `</band>` → Cierra el elemento band.
+
+**Línea 244:** `</columnFooter>` → Cierra el elemento columnFooter.
+
+**Línea 245:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
+
+**Línea 246:** `<pageFooter>` → Abre Page Footer heredado.
+
+**Línea 247:** `<band height="30">` → Conserva la altura y la política de división de esta banda.
+
+**Línea 248:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 249:** `<reportElement x="0" y="5" width="555" height="20" uuid="b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 250:** `<textElement verticalAlignment="Middle"><font size="9"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 251:** `<text><![CDATA[EditorialReports - Documento generado con JasperReports 6.20.0]]></text>` → Conserva el texto literal «EditorialReports - Documento generado con JasperReports 6.20.0».
+
+**Línea 252:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 253:** `</band>` → Cierra el elemento band.
+
+**Línea 254:** `</pageFooter>` → Cierra el elemento pageFooter.
+
+**Línea 255:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
+
+**Línea 256:** `<lastPageFooter>` → Abre Last Page Footer heredado.
+
+**Línea 257:** `<band height="30">` → Conserva la altura y la política de división de esta banda.
+
+**Línea 258:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 259:** `<reportElement x="0" y="5" width="555" height="20" uuid="c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 260:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isItalic="true"/></textElement>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 261:** `<text><![CDATA[Documento generado en la última página]]></text>` → Conserva el texto literal «Documento generado en la última página».
+
+**Línea 262:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 263:** `</band>` → Cierra el elemento band.
+
+**Línea 264:** `</lastPageFooter>` → Cierra el elemento lastPageFooter.
+
+**Línea 265:** [línea en blanco] → Separa visualmente bloques lógicos del JRXML.
+
+**Línea 266:** `<summary>` → Abre Summary heredado.
+
+**Línea 267:** `<band height="95" splitType="Prevent">` → Conserva la altura y la política de división de esta banda.
+
+**Línea 268:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 269:** `<reportElement x="0" y="5" width="150" height="20" uuid="d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 270:** `<text><![CDATA[Total de páginas:]]></text>` → Conserva el texto literal «Total de páginas:».
+
+**Línea 271:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 272:** `<textField evaluationTime="Report">` → Abre un Text Field evaluado al final del informe para obtener el total de páginas.
+
+**Línea 273:** `<reportElement x="155" y="5" width="50" height="20" uuid="e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 274:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 275:** `</textField>` → Cierra el elemento textField.
+
+**Línea 276:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 277:** `<reportElement x="0" y="25" width="555" height="20" uuid="f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 278:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Conserva alineación, markup u otras propiedades del texto.
+
+**Línea 279:** `<text><![CDATA[Fin del informe. EditorialReports.]]></text>` → Conserva el texto literal «Fin del informe. EditorialReports.».
+
+**Línea 280:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 281:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 282:** `<reportElement x="0" y="45" width="150" height="20" uuid="a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 283:** `<text><![CDATA[Total de libros:]]></text>` → Conserva el texto literal «Total de libros:».
+
+**Línea 284:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 285:** `<textField>` → Abre un Text Field dinámico heredado.
+
+**Línea 286:** `<reportElement x="155" y="45" width="80" height="20" uuid="b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 287:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 288:** `</textField>` → Cierra el elemento textField.
+
+**Línea 289:** `<staticText>` → Abre un Static Text heredado.
+
+**Línea 290:** `<reportElement x="0" y="70" width="150" height="20" uuid="c4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 291:** `<text><![CDATA[Subtotal precios:]]></text>` → Conserva el texto literal «Subtotal precios:».
+
+**Línea 292:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 293:** `<textField pattern="#,##0.00 €">` → Abre un Text Field monetario con el patrón heredado.
+
+**Línea 294:** `<reportElement x="155" y="70" width="100" height="20" uuid="d4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9f"/>` → Conserva las coordenadas, dimensiones, UUID y/o estilo del elemento.
+
+**Línea 295:** `<textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>` → Abre un Text Field dinámico heredado.
+
+**Línea 296:** `</textField>` → Cierra el elemento textField.
+
+**Línea 297:** `</band>` → Cierra el elemento band.
+
+**Línea 298:** `</summary>` → Cierra el elemento summary.
+
+**Línea 299:** `</jasperReport>` → Cierra el elemento jasperReport.
+
+**Comprobación:** este bloque coincide literalmente con `M3/3.1/EditorialReports/reports/informe_concepto.jrxml`.
+
+---
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
-El código siguiente es el código real incluido en el checkpoint y ejecutado por el workflow E2E. Java no redibuja el informe: **compila -> llena -> exporta**.
+El checkpoint ejecuta dos clases: la inicialización reproducible de SQLite y el generador acumulativo del informe conceptual.
 
 **Clase `InicializadorBD.java`**
 
@@ -861,9 +1287,11 @@ import java.sql.Statement;
 public class InicializadorBD {
     public static void main(String[] args) {
         String url = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
+
         try {
             new File("../EditorialReportsJava/data").mkdirs();
             Class.forName("org.sqlite.JDBC");
+
             try (Connection conexion = DriverManager.getConnection(url);
                  Statement sentencia = conexion.createStatement()) {
                 sentencia.executeUpdate("DROP TABLE IF EXISTS libros");
@@ -873,25 +1301,39 @@ public class InicializadorBD {
                         "paginas INTEGER NOT NULL, " +
                         "fecha_publicacion TEXT NOT NULL, " +
                         "disponible INTEGER NOT NULL)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Cien años de soledad', 19.95, 471, '1967-06-05', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Rayuela', 22.50, 736, '1963-06-28', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('La ciudad y los perros', 18.75, 432, '1963-10-15', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Pedro Páramo', 15.90, 132, '1955-03-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Ficciones', 21.00, 224, '1944-12-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('La casa de los espíritus', 23.40, 448, '1982-01-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('El amor en los tiempos del cólera', 20.80, 496, '1985-09-05', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('La muerte de Artemio Cruz', 17.60, 320, '1962-05-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Doña Bárbara', 16.95, 400, '1929-02-01', 0)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Martín Fierro', 14.50, 288, '1872-12-01', 0)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Comala', 19.20, 148, '1955-09-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('Paradiso', 25.00, 576, '1966-01-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('La invención de Morel', 18.30, 128, '1940-01-01', 1)");
-            sentencia.executeUpdate("INSERT INTO libros VALUES ('El túnel', 16.20, 160, '1948-01-01', 0)");
 
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Cien años de soledad', 19.95, 471, '1967-06-05', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Rayuela', 22.50, 736, '1963-06-28', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('La ciudad y los perros', 18.75, 432, '1963-10-15', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Pedro Páramo', 15.90, 132, '1955-03-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Ficciones', 21.00, 224, '1944-12-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('La casa de los espíritus', 23.40, 448, '1982-01-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('El amor en los tiempos del cólera', 20.80, 496, '1985-09-05', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('La muerte de Artemio Cruz', 17.60, 320, '1962-05-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Doña Bárbara', 16.95, 400, '1929-02-01', 0)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Martín Fierro', 14.50, 288, '1872-12-01', 0)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Comala', 19.20, 148, '1955-09-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('Paradiso', 25.00, 576, '1966-01-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('La invención de Morel', 18.30, 128, '1940-01-01', 1)");
+                sentencia.executeUpdate(
+                        "INSERT INTO libros VALUES ('El túnel', 16.20, 160, '1948-01-01', 0)");
             }
+
             System.out.println("Base de datos inicializada correctamente en: " + url);
             System.out.println("Libros insertados: 14");
-            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -900,98 +1342,129 @@ public class InicializadorBD {
 }
 ```
 
-### Explicación línea por línea
+### Explicación línea por línea — InicializadorBD.java
 
-**Línea 1:** `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 1:** `import java.io.File;` → Importa java.io.File.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa java.sql.Connection.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa java.sql.DriverManager.
 
-**Línea 4:** `import java.sql.Statement;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 4:** `import java.sql.Statement;` → Importa java.sql.Statement.
 
-**Línea 5:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 5:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 6:** `public class InicializadorBD {` → Declara la clase Java del checkpoint.
+**Línea 6:** `public class InicializadorBD {` → Declara la clase ejecutable del checkpoint.
 
-**Línea 7:** `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+**Línea 7:** `public static void main(String[] args) {` → Declara el punto de entrada Java.
 
-**Línea 8:** `String url = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+**Línea 8:** `String url = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC de la base SQLite.
 
-**Línea 9:** `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+**Línea 9:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 10:** `new File("../EditorialReportsJava/data").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+**Línea 10:** `try {` → Abre el bloque principal de control de errores.
 
-**Línea 11:** `Class.forName("org.sqlite.JDBC");` → Carga explícitamente el driver SQLite para que el ejemplo sea determinista.
+**Línea 11:** `new File("../EditorialReportsJava/data").mkdirs();` → Garantiza que exista el directorio necesario.
 
-**Línea 12:** `try (Connection conexion = DriverManager.getConnection(url);` → Abre una conexión JDBC; el bloque try-with-resources garantiza su cierre.
+**Línea 12:** `Class.forName("org.sqlite.JDBC");` → Carga explícitamente el driver SQLite.
 
-**Línea 13:** `Statement sentencia = conexion.createStatement()) {` → Crea el Statement usado para inicializar el esquema y los datos.
+**Línea 13:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 14:** `sentencia.executeUpdate("DROP TABLE IF EXISTS libros");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 14:** `try (Connection conexion = DriverManager.getConnection(url);` → Abre la conexión JDBC con cierre automático.
 
-**Línea 15:** `sentencia.executeUpdate("CREATE TABLE libros (" +` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 15:** `Statement sentencia = conexion.createStatement()) {` → Crea el Statement usado para inicializar SQLite.
 
-**Línea 16:** `"titulo TEXT PRIMARY KEY, " +` → Forma parte de la lógica acumulativa del programa.
+**Línea 16:** `sentencia.executeUpdate("DROP TABLE IF EXISTS libros");` → Elimina la tabla libros previa para lograr una inicialización reproducible.
 
-**Línea 17:** `"precio REAL NOT NULL, " +` → Forma parte de la lógica acumulativa del programa.
+**Línea 17:** `sentencia.executeUpdate("CREATE TABLE libros (" +` → Comienza la sentencia que crea el esquema de libros.
 
-**Línea 18:** `"paginas INTEGER NOT NULL, " +` → Forma parte de la lógica acumulativa del programa.
+**Línea 18:** `"titulo TEXT PRIMARY KEY, " +` → Añade una columna a la definición SQL de libros.
 
-**Línea 19:** `"fecha_publicacion TEXT NOT NULL, " +` → Forma parte de la lógica acumulativa del programa.
+**Línea 19:** `"precio REAL NOT NULL, " +` → Añade una columna a la definición SQL de libros.
 
-**Línea 20:** `"disponible INTEGER NOT NULL)");` → Forma parte de la lógica acumulativa del programa.
+**Línea 20:** `"paginas INTEGER NOT NULL, " +` → Añade una columna a la definición SQL de libros.
 
-**Línea 21:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Cien años de soledad', 19.95, 471, '1967-06-05', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 21:** `"fecha_publicacion TEXT NOT NULL, " +` → Añade una columna a la definición SQL de libros.
 
-**Línea 22:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Rayuela', 22.50, 736, '1963-06-28', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 22:** `"disponible INTEGER NOT NULL)");` → Añade una columna a la definición SQL de libros.
 
-**Línea 23:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('La ciudad y los perros', 18.75, 432, '1963-10-15', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 23:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 24:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Pedro Páramo', 15.90, 132, '1955-03-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 24:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 25:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Ficciones', 21.00, 224, '1944-12-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 25:** `"INSERT INTO libros VALUES ('Cien años de soledad', 19.95, 471, '1967-06-05', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 26:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('La casa de los espíritus', 23.40, 448, '1982-01-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 26:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 27:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('El amor en los tiempos del cólera', 20.80, 496, '1985-09-05', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 27:** `"INSERT INTO libros VALUES ('Rayuela', 22.50, 736, '1963-06-28', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 28:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('La muerte de Artemio Cruz', 17.60, 320, '1962-05-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 28:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 29:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Doña Bárbara', 16.95, 400, '1929-02-01', 0)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 29:** `"INSERT INTO libros VALUES ('La ciudad y los perros', 18.75, 432, '1963-10-15', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 30:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Martín Fierro', 14.50, 288, '1872-12-01', 0)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 30:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 31:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Comala', 19.20, 148, '1955-09-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 31:** `"INSERT INTO libros VALUES ('Pedro Páramo', 15.90, 132, '1955-03-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 32:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('Paradiso', 25.00, 576, '1966-01-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 32:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 33:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('La invención de Morel', 18.30, 128, '1940-01-01', 1)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 33:** `"INSERT INTO libros VALUES ('Ficciones', 21.00, 224, '1944-12-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 34:** `sentencia.executeUpdate("INSERT INTO libros VALUES ('El túnel', 16.20, 160, '1948-01-01', 0)");` → Ejecuta una sentencia DDL/DML contra SQLite.
+**Línea 34:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 35:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 35:** `"INSERT INTO libros VALUES ('La casa de los espíritus', 23.40, 448, '1982-01-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 36:** `}` → Cierra el bloque Java actual.
+**Línea 36:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 37:** `System.out.println("Base de datos inicializada correctamente en: " + url);` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+**Línea 37:** `"INSERT INTO libros VALUES ('El amor en los tiempos del cólera', 20.80, 496, '1985-09-05', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 38:** `System.out.println("Libros insertados: 14");` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+**Línea 38:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 39:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 39:** `"INSERT INTO libros VALUES ('La muerte de Artemio Cruz', 17.60, 320, '1962-05-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 40:** `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+**Línea 40:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 41:** `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+**Línea 41:** `"INSERT INTO libros VALUES ('Doña Bárbara', 16.95, 400, '1929-02-01', 0)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 42:** `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+**Línea 42:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 43:** `}` → Cierra el bloque Java actual.
+**Línea 43:** `"INSERT INTO libros VALUES ('Martín Fierro', 14.50, 288, '1872-12-01', 0)");` → Inserta uno de los catorce libros del dataset reproducible.
 
-**Línea 44:** `}` → Cierra el bloque Java actual.
+**Línea 44:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
 
-**Línea 45:** `}` → Cierra el bloque Java actual.
+**Línea 45:** `"INSERT INTO libros VALUES ('Comala', 19.20, 148, '1955-09-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
 
+**Línea 46:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
+
+**Línea 47:** `"INSERT INTO libros VALUES ('Paradiso', 25.00, 576, '1966-01-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
+
+**Línea 48:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
+
+**Línea 49:** `"INSERT INTO libros VALUES ('La invención de Morel', 18.30, 128, '1940-01-01', 1)");` → Inserta uno de los catorce libros del dataset reproducible.
+
+**Línea 50:** `sentencia.executeUpdate(` → Abre una llamada executeUpdate con la sentencia SQL en la línea siguiente.
+
+**Línea 51:** `"INSERT INTO libros VALUES ('El túnel', 16.20, 160, '1948-01-01', 0)");` → Inserta uno de los catorce libros del dataset reproducible.
+
+**Línea 52:** `}` → Cierra el bloque Java actual.
+
+**Línea 53:** [línea en blanco] → Separa bloques lógicos del programa.
+
+**Línea 54:** `System.out.println("Base de datos inicializada correctamente en: " + url);` → Informa de la URL de la base creada.
+
+**Línea 55:** `System.out.println("Libros insertados: 14");` → Deja evidencia de que el seed esperado contiene 14 libros.
+
+**Línea 56:** `} catch (Exception e) {` → Captura cualquier excepción del proceso.
+
+**Línea 57:** `e.printStackTrace();` → Imprime la traza completa para diagnóstico.
+
+**Línea 58:** `System.exit(1);` → Devuelve código de error para que CI marque el fallo.
+
+**Línea 59:** `}` → Cierra el bloque Java actual.
+
+**Línea 60:** `}` → Cierra el bloque Java actual.
+
+**Línea 61:** `}` → Cierra el bloque Java actual.
 
 **Clase `GeneradorInformeConcepto.java`**
 
@@ -1001,6 +1474,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
+
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -1013,14 +1487,24 @@ public class GeneradorInformeConcepto {
             String rutaJasper = "reports/informe_concepto.jasper";
             String rutaPdf = "output/informe_concepto.pdf";
             String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
+
             new File("output").mkdirs();
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
             Map<String, Object> parametros = new HashMap<String, Object>();
+            parametros.put("usuario", "Ana Martínez");
+
             try (Connection conexion = DriverManager.getConnection(urlBD)) {
-                JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);
+                JasperPrint documento = JasperFillManager.fillReport(
+                        rutaJasper,
+                        parametros,
+                        conexion);
+
                 JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
+                System.out.println("Parametro usuario: " + parametros.get("usuario"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1030,247 +1514,232 @@ public class GeneradorInformeConcepto {
 }
 ```
 
-### Explicación línea por línea
+### Explicación línea por línea — GeneradorInformeConcepto.java
 
-**Línea 1:** `import java.io.File;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 1:** `import java.io.File;` → Importa java.io.File.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa java.sql.Connection.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa java.sql.DriverManager.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa java.util.HashMap.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 5:** `import java.util.Map;` → Importa java.util.Map.
 
-**Línea 6:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 6:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa net.sf.jasperreports.engine.JasperCompileManager.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa net.sf.jasperreports.engine.JasperExportManager.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase necesaria para compilar o ejecutar el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa net.sf.jasperreports.engine.JasperFillManager.
 
-**Línea 10:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa net.sf.jasperreports.engine.JasperPrint.
 
-**Línea 11:** `public class GeneradorInformeConcepto {` → Declara la clase Java del checkpoint.
+**Línea 11:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 12:** `public static void main(String[] args) {` → Declara el punto de entrada ejecutable.
+**Línea 12:** `public class GeneradorInformeConcepto {` → Declara la clase ejecutable del checkpoint.
 
-**Línea 13:** `try {` → Abre un bloque protegido; si contiene recursos, se cerrarán automáticamente.
+**Línea 13:** `public static void main(String[] args) {` → Declara el punto de entrada Java.
 
-**Línea 14:** `String rutaJrxml = "reports/informe_concepto.jrxml";` → Fija la ruta del JRXML desde el Working Directory `EditorialReports`.
+**Línea 14:** `try {` → Abre el bloque principal de control de errores.
 
-**Línea 15:** `String rutaJasper = "reports/informe_concepto.jasper";` → Fija la ruta del artefacto `.jasper` compilado.
+**Línea 15:** `String rutaJrxml = "reports/informe_concepto.jrxml";` → Define la ruta del JRXML.
 
-**Línea 16:** `String rutaPdf = "output/informe_concepto.pdf";` → Fija la ruta del PDF que se exportará.
+**Línea 16:** `String rutaJasper = "reports/informe_concepto.jasper";` → Define la ruta del artefacto compilado.
 
-**Línea 17:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+**Línea 17:** `String rutaPdf = "output/informe_concepto.pdf";` → Define la ruta del PDF de salida.
 
-**Línea 18:** `new File("output").mkdirs();` → Crea el directorio necesario antes de escribir datos o salidas.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC usada por el generador.
 
-**Línea 19:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a `.jasper` con JasperReports 6.20.0.
+**Línea 19:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 20:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa de parámetros que se entrega al motor de llenado.
+**Línea 20:** `new File("output").mkdirs();` → Garantiza que exista el directorio necesario.
 
-**Línea 21:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Define la URL JDBC hacia `EditorialReportsJava/data/editorial.db`.
+**Línea 21:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a .jasper.
 
-**Línea 22:** `JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);` → Llena el informe y obtiene un `JasperPrint` en memoria.
+**Línea 22:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 23:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 23:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa de parámetros del informe.
 
-**Línea 24:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+**Línea 24:** `parametros.put("usuario", "Ana Martínez");` → Conserva el parámetro usuario heredado del Módulo 2.
 
-**Línea 25:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Emite evidencia de ejecución para el usuario y GitHub Actions.
+**Línea 25:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 26:** `}` → Cierra el bloque Java actual.
+**Línea 26:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión JDBC con cierre automático.
 
-**Línea 27:** `} catch (Exception e) {` → Captura cualquier fallo de compilación, datos, llenado o exportación.
+**Línea 27:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado y obtiene el JasperPrint.
 
-**Línea 28:** `e.printStackTrace();` → Imprime la traza completa para facilitar el diagnóstico.
+**Línea 28:** `rutaJasper,` → Pasa el informe compilado a fillReport.
 
-**Línea 29:** `System.exit(1);` → Termina con código distinto de cero para que CI detecte el fallo.
+**Línea 29:** `parametros,` → Pasa el mapa de parámetros a fillReport.
 
-**Línea 30:** `}` → Cierra el bloque Java actual.
+**Línea 30:** `conexion);` → Pasa la conexión JDBC y completa fillReport.
 
-**Línea 31:** `}` → Cierra el bloque Java actual.
+**Línea 31:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Línea 32:** `}` → Cierra el bloque Java actual.
+**Línea 32:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el JasperPrint a PDF dentro del mismo bloque de conexión.
 
+**Línea 33:** [línea en blanco] → Separa bloques lógicos del programa.
 
-**Criterio de fallo:** todo `catch` termina con `System.exit(1)` para que una excepción no pueda aparecer como ejecución verde en CI.
+**Línea 34:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Imprime la ruta absoluta del PDF.
 
+**Línea 35:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Imprime el número real de páginas producido.
 
-### Parte D — Simulación del PDF esperado y de la estructura del proyecto
+**Línea 36:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Confirma que el parámetro usuario sigue presente.
 
-#### D.1 — Vista de diseño en Jaspersoft Studio
+**Línea 37:** `}` → Cierra el bloque Java actual.
 
-```text
-+-------------------------------------------------------------------------+
-|  informe_concepto.jrxml                          [Design] [Source]      |
-+-------------------------------------------------------------------------+
-|  Ruler:  0   100  200  300  400  500  555  600  650  700                 |
-+-------------------------------------------------------------------------+
-|                                                                         |
-|  ┌─── Column Header ─────────────────────────────────── h = 25 ─────┐  |
-|  │  Portada │ Título              │ Precio │ Páginas │ Año            │  |
-|  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  ┌─── Detail 1 ──────────────────────────────────────── h = 60 ─────┐  |
-|  │ [IMG] [ $F{titulo} ] [ $F{precio} ] [ $F{pag} ] [ $F{fech} ]     │  |
-|  │ 50×50                                [ $F{disp} ] [icono] [# ]    │  |
-|  │                                                                   │  |
-|  │  Categoría / Longitud / IVA / Antigüedad / Registro               │  |
-|  │  [$F{titulo}.length()>30 ? ...] [$V{PrecioConIVA}] [ ... ]       │  |
-|  └───────────────────────────────────────────────────────────────────┘  |
-|                                                                         |
-|  Panel Outline muestra:                                                 |
-|  Properties                                                             |
-|   └── com.jaspersoft.studio.data.defaultdataadapter = SQLiteEditorial  │
-|  Fields                                                                 |
-|   ├── titulo              [java.lang.String]                            │
-|   ├── precio              [java.lang.Double]                            │
-|   ├── paginas             [java.lang.Integer]                           │
-|   ├── fechaPublicacion    [java.lang.String]                            │
-|   └── disponible          [java.lang.Boolean]                           │
-|  QueryString                                                            │
-|   └── SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, disponible     │
-|       FROM libros ORDER BY titulo                                       │
-+-------------------------------------------------------------------------+
-```
+**Línea 38:** `} catch (Exception e) {` → Captura cualquier excepción del proceso.
 
+**Línea 39:** `e.printStackTrace();` → Imprime la traza completa para diagnóstico.
 
-**Qué representa:** la disposición del informe en el editor tras asociar el adaptador JDBC. El panel Outline muestra la propiedad del adaptador, los cinco campos declarados y la consulta SQL.
+**Línea 40:** `System.exit(1);` → Devuelve código de error para que CI marque el fallo.
 
-**Cómo verificarlo:** comparar la vista del editor con este esquema. El panel Outline debe mostrar el nodo QueryString con la consulta SQL.
+**Línea 41:** `}` → Cierra el bloque Java actual.
 
-#### D.2 — Jerarquía del Outline
+**Línea 42:** `}` → Cierra el bloque Java actual.
+
+**Línea 43:** `}` → Cierra el bloque Java actual.
+
+**Criterio de fallo:** ambos programas terminan con `System.exit(1)` ante una excepción para que la validación E2E no pueda quedar verde con errores ocultos.
+
+---
+
+### Parte D — Simulación del PDF esperado y trazabilidad del checkpoint
+
+#### D.1 — Vista de diseño acumulativa
 
 ```text
-informe_concepto
-│
-├── Properties
-│   └── com.jaspersoft.studio.data.defaultdataadapter = SQLiteEditorial
-│
+informe_concepto.jrxml
 ├── Styles
-│   └── (7 estilos del punto 2.5)
-│
-├── Fields
-│   ├── titulo  [java.lang.String]
-│   ├── precio  [java.lang.Double]
-│   ├── paginas  [java.lang.Integer]
-│   ├── fechaPublicacion  [java.lang.String]
-│   └── disponible  [java.lang.Boolean]
-│
-├── Variables
-│   └── PrecioConIVA  [java.lang.Double]
-│
+│   ├── Sans_Normal
+│   ├── TituloPrincipal
+│   ├── TituloSecundario
+│   ├── TextoTablaCabecera
+│   ├── TextoTabla
+│   ├── TextoPrecio
+│   └── TextoPequeno
+├── Parameters
+│   └── usuario [String, default="Ana Martínez"]
 ├── QueryString
-│   └── SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, disponible
-│       FROM libros ORDER BY titulo
-│
-├── Title  [band, height=100]
-│   └── ...
-│
-├── Column Header  [band, height=25]
-│   └── ...
-│
-├── Detail 1  [band, height=60]
-│   └── ...
-│
-└── Summary  [band, height=70]
-    └── ...
+│   └── SELECT ... FROM libros ORDER BY titulo
+├── Fields
+│   ├── titulo [String]
+│   ├── precio [Double]
+│   ├── paginas [Integer]
+│   ├── fechaPublicacion [String]
+│   └── disponible [Boolean]
+├── Variables
+│   ├── TotalPrecios [Double, Sum]
+│   └── PrecioConIVA [Double]
+├── Background [0]
+├── Title [100]             → logo + fecha + usuario
+├── Page Header [40]        → título corto + Página X de Y + markup styled
+├── Column Header [25]      → portada, título, precio, páginas, año, disponible, #
+├── Detail [85]             → portada + fields + icono + expresiones heredadas
+├── Column Footer [40]
+├── Page Footer [30]
+├── Last Page Footer [30]
+└── Summary [95]            → total páginas + total libros + subtotal precios
 ```
 
+**Qué representa:** el punto 3.1 **no sustituye** el diseño de M2 por un informe nuevo. Mantiene el árbol visual y cambia el origen de los datos a JDBC.
 
-**Qué representa:** el árbol de nodos del informe tras asociar el adaptador JDBC. La novedad respecto al punto 2.6 es el nodo QueryString con la consulta SQL y la propiedad del adaptador.
+#### D.2 — Cambios exactos respecto a M2/2.6
 
-**Cómo verificarlo:** expandir el nodo `informe_concepto` en el panel Outline y comparar la estructura. El nodo QueryString debe mostrar la sentencia SQL.
+```text
+SE CONSERVA
+  estilos, bandas, logo, portadas, iconos
+  parameter usuario
+  variables TotalPrecios y PrecioConIVA
+  expresiones de categoría, longitud, IVA y contexto
+  paginación PAGE_NUMBER
+  Summary y Last Page Footer
+  Libro.java y CatalogoDataSource.java como artefactos heredados
 
-#### D.3 — Documento PDF resultante, página por página
+SE AÑADE / MODIFICA EN 3.1
+  BASEDATOS.md
+  editorial.db
+  InicializadorBD.java
+  dependencia SQLite JDBC
+  Data Adapter SQLiteEditorial
+  queryString SQL
+  fechaPublicacion: Date → String
+  dos expresiones de fecha adaptadas a String ISO
+  GeneradorInformeConcepto: CatalogoDataSource → Connection JDBC
+```
+
+#### D.3 — Documento PDF resultante
+
+La ejecución E2E real del informe acumulativo produce:
 
 ```text
 INFORME: informe_concepto.pdf
-PÁGINAS TOTALES: 1
-TAMAÑO DE PÁGINA: 595 × 842 píxeles (A4 vertical)
-ORIGEN DE DATOS: jdbc:sqlite:../EditorialReportsJava/data/editorial.db
-REGISTROS OBTENIDOS: 14 (SELECT ... FROM libros ORDER BY titulo)
-BANDAS EMITIDAS: Title, Page Header, Column Header, Detail (14 veces),
-                 Column Footer, Last Page Footer, Summary, Background
+PÁGINAS TOTALES: 3
+TAMAÑO: A4 vertical
+ORIGEN: jdbc:sqlite:../EditorialReportsJava/data/editorial.db
+REGISTROS: 14
+USUARIO: Ana Martínez
 
+Página 1
+  Title completo con logo, fecha y usuario
+  Page Header y Column Header
+  primeras filas con portada, precio, páginas, año, disponibilidad
+  segunda línea de Detail con categoría, longitud, IVA, antigüedad y contexto
 
-──────────────────── Página 1 de 1 ────────────────────
-╔══════════════════════════════════════════════════════════╗
-║  Catálogo Editorial - Informe Conceptual                 ║
-║  Fecha de emisión:  22/09/2026                           ║
-║                                                          ║
-║  ┏━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━┓  ║
-║  ┃Portada┃Título            ┃Precio   ┃Páginas ┃ Año ┃  ║
-║  ┗━━━━━━━┻━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━┻━━━━━┛  ║
-║  ┌────┐ │Cien años de sol. │ 19,95 € │  471   │1967 │  ║
-║  │IMG │ │Categoría: Estándar│IVA: 24,14 €│Reg. 1    │  ║
-║  └────┘ │                  │         │        │     │  ║
-║  ┌────┐ │Comala            │ 19,20 € │  148   │1955 │  ║
-║  │IMG │ │Categoría: Estándar│IVA: 23,23 €│Reg. 2    │  ║
-║  └────┘ │                  │         │        │     │  ║
-║  ┌────┐ │Doña Bárbara      │ 16,95 € │  400   │1929 │  ║
-║  │IMG │ │Categoría: Estándar│IVA: 20,51 €│Reg. 3    │  ║
-║  └────┘ │                  │         │        │     │  ║
-║   ...                                                    ║
-║                                                          ║
-║  Total de páginas: 1                                     ║
-║  Total de libros: 14                                     ║
-╚══════════════════════════════════════════════════════════╝
+Página 2
+  Page Header / Column Header
+  continuación de registros
+  Column Footer y Page Footer según el flujo del informe
+
+Página 3
+  últimos registros
+  Last Page Footer
+  Summary:
+    Total de páginas: 3
+    Total de libros: 14
+    Subtotal precios: suma de los catorce precios
 ```
 
+**Cómo verificarlo:** ejecutar `InicializadorBD` y `GeneradorInformeConcepto`; la consola debe informar `Paginas del documento: 3` y `Parametro usuario: Ana Martínez`.
 
-**Qué representa:** la página única del PDF resultante con los catorce libros recuperados de la base de datos SQLite. El orden de los libros es alfabético porque la consulta incluye `ORDER BY titulo`. El primer libro es `Cien años de soledad` y el último es `Rayuela`.
-
-**Cómo verificarlo:** abrir el archivo `output/informe_concepto.pdf` con un lector de PDF y comprobar que los libros aparecen en orden alfabético. Si el orden es distinto, revisar la cláusula `ORDER BY` de la consulta SQL.
-
-#### D.4 — Árbol de carpetas del proyecto tras completar el punto
+#### D.4 — Árbol acumulativo tras 3.1
 
 ```text
 EditorialReports/
-│
-├── ECOSISTEMA.md, ENTORNO.md, BANDAS.md, JRXML.md
-├── TEXTO.md, CAMPOS.md, IMAGENES.md, ESTILOS.md, EXPRESIONES.md
-├── BASEDATOS.md                                  (documentación de la BD)
-│
+├── ECOSISTEMA.md
+├── ENTORNO.md
+├── BANDAS.md
+├── JRXML.md
+├── TEXTO.md
+├── CAMPOS.md
+├── IMAGENES.md
+├── ESTILOS.md
+├── EXPRESIONES.md
+├── BASEDATOS.md                         (nuevo)
 ├── reports/
-│   ├── informe_concepto.jrxml                    (con consulta SQL)
-│   └── informe_concepto.jasper                   (artefacto compilado)
-│
-├── resources/
-│   └── (logotipo, iconos y portadas)
-│
+│   └── informe_concepto.jrxml           (mismo diseño; ahora JDBC)
+├── resources/                           (conservado íntegramente)
+│   ├── logo.png
+│   ├── icono_disponible.png
+│   ├── icono_no_disponible.png
+│   └── portadas/
 └── output/
-    └── informe_concepto.pdf                      (con datos de la BD)
-
+    └── informe_concepto.pdf             (generado)
 
 EditorialReportsJava/
-│
-├── lib/
-│   ├── jasperreports-6.20.0.jar
-│   ├── commons-digester-2.1.jar
-│   ├── commons-collections-3.2.2.jar
-│   ├── commons-logging-1.2.jar
-│   ├── ecj-3.24.0.jar
-│   └── sqlite-jdbc-3.44.0.0.jar                    (nuevo)
-│
-├── data/
-│   └── editorial.db                              (base de datos SQLite)
-│
+├── pom.xml                              (añade runtime JDBC)
+├── lib/README.md                        (documenta JAR manuales)
+├── data/editorial.db                    (nuevo)
 └── src/
-    ├── GeneradorInformeConcepto.java             (modificada con JDBC)
-    ├── Libro.java
-    ├── CatalogoDataSource.java
-    └── InicializadorBD.java                      (nueva clase)
+    ├── Libro.java                       (conservado)
+    ├── CatalogoDataSource.java          (conservado)
+    ├── InicializadorBD.java             (nuevo)
+    └── GeneradorInformeConcepto.java    (migrado a JDBC)
 ```
 
-
-**Qué representa:** el estado de los dos proyectos tras completar los catorce pasos. La novedad respecto al punto 2.6 es la carpeta `data` con la base de datos, el JAR del driver en `lib`, la clase `InicializadorBD` en `src` y el archivo `BASEDATOS.md` en la raíz del proyecto de informes.
-
-**Cómo verificarlo:** expandir los nodos del panel Project Explorer y comparar con este esquema. Si el archivo `editorial.db` no aparece, repetir el paso 5. Si el archivo `BASEDATOS.md` no aparece, repetir el paso 14.
+**Trazabilidad:** ningún recurso o concepto funcional de M2 necesario para `informe_concepto` desaparece en 3.1; la transición es aditiva salvo los cambios explícitos de origen y tipo de fecha.
 
 ---
 
@@ -1348,7 +1817,7 @@ La base de datos es el archivador de la editorial. La tabla `libros` es el conju
 Al finalizar este punto, el alumno dispone de:
 
 - La carpeta `data` con la base de datos `editorial.db` que contiene la tabla `libros` con catorce registros.
-- El archivo `sqlite-jdbc-3.44.0.0.jar` en la carpeta `lib` y referenciado en el Build Path.
+- El driver SQLite JDBC disponible para el trabajo manual en Jaspersoft Studio; el repositorio no versiona el JAR y Maven resuelve `org.xerial:sqlite-jdbc:3.44.0.0` para la ejecución reproducible.
 - La clase `InicializadorBD.java` que crea la base de datos y la rellena con los datos de ejemplo.
 - El adaptador `SQLiteEditorial` en el panel Repository Explorer de Jaspersoft Studio.
 - El archivo `reports/informe_concepto.jrxml` con el alias `fechaPublicacion` y la consulta SQL declarada.
