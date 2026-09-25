@@ -1,0 +1,45 @@
+name: M4 - Empaquetar modulo final
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/m4-package.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Crear ZIP completo M4
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Preparar entrega
+        run: |
+          set -e
+          rm -rf M4_ENTREGA_FINAL
+          mkdir -p M4_ENTREGA_FINAL/.github/scripts M4_ENTREGA_FINAL/.github/workflows
+          cp -a M4 M4_ENTREGA_FINAL/
+          cp README.md M4_ENTREGA_FINAL/README_REPOSITORIO.md
+          for f in build_m4.py fix_m4_content.py editorial_audit_m4.py audit_m4_docs.py audit_m4_traceability.py render_m4_docs.py; do
+            cp ".github/scripts/$f" "M4_ENTREGA_FINAL/.github/scripts/$f"
+          done
+          for f in m4-bootstrap.yml m4-e2e.yml m4-docs.yml m4-package.yml; do
+            cp ".github/workflows/$f" "M4_ENTREGA_FINAL/.github/workflows/$f"
+          done
+          printf '%s\n' "Entrega M4 generada desde commit $GITHUB_SHA" > M4_ENTREGA_FINAL/COMMIT_GITHUB.txt
+          zip -rq M4_COMPLETO_FINAL_GITHUB.zip M4_ENTREGA_FINAL
+          sha256sum M4_COMPLETO_FINAL_GITHUB.zip > M4_COMPLETO_FINAL_GITHUB.zip.sha256
+
+      - name: Publicar ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: M4-completo-final
+          if-no-files-found: error
+          path: |
+            M4_COMPLETO_FINAL_GITHUB.zip
+            M4_COMPLETO_FINAL_GITHUB.zip.sha256
