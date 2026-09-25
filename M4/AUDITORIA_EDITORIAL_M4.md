@@ -63,7 +63,7 @@ No se restauran literalmente las siguientes afirmaciones del material fuente por
 
 La cobertura editorial se considera completa cuando:
 
-- los 35 objetivos originales (7+6+6+6+6+6) están representados;
+- los 37 objetivos originales (7+6+6+6+6+6) están representados;
 - los 30 bloques teóricos originales (5 por punto) siguen cubiertos;
 - los seis retos originales están presentes como reto recuperado o reto auditado/corregido;
 - ninguna afirmación técnicamente falsa se reintroduce para aumentar volumen;
