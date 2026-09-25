@@ -19,33 +19,19 @@ public class Libro {
     }
 
     private static java.util.Date fecha(int anio) {
-        Calendar calendario = new GregorianCalendar(anio, Calendar.JANUARY, 1);
-        calendario.set(Calendar.HOUR_OF_DAY, 0);
-        calendario.set(Calendar.MINUTE, 0);
-        calendario.set(Calendar.SECOND, 0);
-        calendario.set(Calendar.MILLISECOND, 0);
-        return calendario.getTime();
+        Calendar c = new GregorianCalendar(anio, Calendar.JANUARY, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public Integer getPaginas() {
-        return paginas;
-    }
-
-    public java.util.Date getFechaPublicacion() {
-        return fechaPublicacion;
-    }
-
-    public Boolean getDisponible() {
-        return disponible;
-    }
+    public String getTitulo() { return titulo; }
+    public Double getPrecio() { return precio; }
+    public Integer getPaginas() { return paginas; }
+    public java.util.Date getFechaPublicacion() { return fechaPublicacion; }
+    public Boolean getDisponible() { return disponible; }
 
     public static List<Libro> listaEjemplo() {
         List<Libro> libros = new ArrayList<Libro>();
