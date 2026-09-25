@@ -471,4 +471,8 @@ for required in (
     if required not in p31:
         fail("3.1 práctica no refleja el informe acumulativo: " + required)
 
+render_script = (ROOT / ".github/scripts/render_m3_docs.py").read_text(encoding="utf-8")
+if '3\\.[1-7]' not in render_script:
+    fail("render_m3_docs.py no reconoce 3.7 como point-title")
+
 print("M3 DOC/SOURCE AUDIT PASS")
