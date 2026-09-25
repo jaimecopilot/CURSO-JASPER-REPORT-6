@@ -7,6 +7,7 @@ on:
       - '.github/source/M4_ORIGINAL_COMPLETO.md'
       - '.github/scripts/build_m4.py'
       - '.github/scripts/fix_m4_content.py'
+      - '.github/scripts/editorial_audit_m4.py'
       - '.github/workflows/m4-bootstrap.yml'
   workflow_dispatch:
 
@@ -52,6 +53,8 @@ jobs:
             cp "/tmp/m4-close/VALIDACION-$cp.md" "M4/$cp/VALIDACION.md"
           done
 
+      - name: Auditar y recuperar cobertura editorial
+        run: python .github/scripts/editorial_audit_m4.py
 
       - name: Publicar construccion reproducible
         if: github.ref == 'refs/heads/main'
