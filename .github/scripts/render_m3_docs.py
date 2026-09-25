@@ -325,9 +325,9 @@ def create_contact_sheets(pdf_path: Path, out_dir: Path, label: str):
     doc = fitz.open(pdf_path)
     points=[]
     if label == "practica":
-        needles=["Punto 3.1", "Parte B", "Parte C", "Punto 3.2", "Punto 3.3", "Punto 3.4", "Punto 3.5", "Punto 3.6", "Reto resuelto", "Resultado esperado"]
+        needles=["Punto 3.1", "Parte B", "Parte C", "Punto 3.2", "Punto 3.3", "Punto 3.4", "Punto 3.5", "Punto 3.6", "Punto 3.7", "Reto resuelto", "Resultado esperado"]
     else:
-        needles=["Punto 3.1", "Punto 3.2", "Punto 3.3", "Punto 3.4", "Punto 3.5", "Punto 3.6", "Resumen rápido"]
+        needles=["Punto 3.1", "Punto 3.2", "Punto 3.3", "Punto 3.4", "Punto 3.5", "Punto 3.6", "Punto 3.7", "Resumen rápido"]
     points=[0]
     for n in needles:
         p=find_page(doc,n)
