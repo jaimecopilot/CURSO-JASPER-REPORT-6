@@ -41,6 +41,35 @@ def section(text, start, end):
         fail("no se encuentra final de sección " + end)
     return text[a:b]
 
+def tree_snapshot(base):
+    result = {}
+    for path in base.rglob("*"):
+        if path.is_file():
+            result[path.relative_to(base).as_posix()] = path.read_bytes()
+    return result
+
+def assert_transition(previous, current, expected_added, expected_changed):
+    prev = tree_snapshot(previous)
+    cur = tree_snapshot(current)
+    actual_added = sorted(set(cur) - set(prev))
+    actual_deleted = sorted(set(prev) - set(cur))
+    actual_changed = sorted(
+        path for path in set(prev) & set(cur)
+        if prev[path] != cur[path]
+    )
+    if actual_deleted:
+        fail(f"trazabilidad {previous.name}->{current.name}: archivos eliminados: {actual_deleted}")
+    if actual_added != sorted(expected_added):
+        fail(
+            f"trazabilidad {previous.name}->{current.name}: añadidos {actual_added}, "
+            f"esperados {sorted(expected_added)}"
+        )
+    if actual_changed != sorted(expected_changed):
+        fail(
+            f"trazabilidad {previous.name}->{current.name}: modificados {actual_changed}, "
+            f"esperados {sorted(expected_changed)}"
+        )
+
 # 1. Markdown hygiene and source readability.
 for name, md in (("TEORIA", THEORY), ("PRACTICA", PRACTICE)):
     for token in ("<div", "<span", "<table", "svgsvg"):
@@ -309,5 +338,137 @@ if "PAGE_COUNT cuenta registros procesados en la página actual" not in THEORY:
     fail("3.7 teoría no corrige el significado de PAGE_COUNT")
 if "PAGE_COUNT no representa el total de páginas" not in paramdoc37:
     fail("PARAMETROS_VARIABLES.md no documenta PAGE_COUNT correctamente")
+
+# 10. Cumulative checkpoint traceability.
+assert_transition(
+    ROOT / "M2/2.6",
+    M3 / "3.1",
+    [
+        "EditorialReports/BASEDATOS.md",
+        "EditorialReportsJava/data/editorial.db",
+        "EditorialReportsJava/lib/README.md",
+        "EditorialReportsJava/src/InicializadorBD.java",
+    ],
+    [
+        "EditorialReports/CAMPOS.md",
+        "EditorialReports/ECOSISTEMA.md",
+        "EditorialReports/ENTORNO.md",
+        "EditorialReports/EXPRESIONES.md",
+        "EditorialReports/IMAGENES.md",
+        "EditorialReports/JRXML.md",
+        "EditorialReports/TEXTO.md",
+        "EditorialReports/reports/informe_concepto.jrxml",
+        "EditorialReportsJava/pom.xml",
+        "EditorialReportsJava/src/GeneradorInformeConcepto.java",
+        "README.md",
+        "VALIDACION.md",
+    ],
+)
+assert_transition(
+    M3 / "3.1",
+    M3 / "3.2",
+    [
+        "EditorialReports/CSV.md",
+        "EditorialReports/data/catalogo.csv",
+        "EditorialReports/reports/informe_catalogo_csv.jrxml",
+        "EditorialReportsJava/src/GeneradorCatalogoCSV.java",
+    ],
+    ["README.md", "VALIDACION.md"],
+)
+assert_transition(
+    M3 / "3.2",
+    M3 / "3.3",
+    [
+        "EditorialReports/XML.md",
+        "EditorialReports/data/distribucion.xml",
+        "EditorialReports/reports/informe_distribucion_xml.jrxml",
+        "EditorialReportsJava/src/GeneradorDistribucionXML.java",
+    ],
+    ["README.md", "VALIDACION.md"],
+)
+assert_transition(
+    M3 / "3.3",
+    M3 / "3.4",
+    [
+        "EditorialReports/JSON.md",
+        "EditorialReports/data/autores.json",
+        "EditorialReports/reports/informe_autores_json.jrxml",
+        "EditorialReportsJava/src/GeneradorAutoresJSON.java",
+    ],
+    ["README.md", "VALIDACION.md"],
+)
+assert_transition(
+    M3 / "3.4",
+    M3 / "3.5",
+    [
+        "EditorialReports/CONSULTAS.md",
+        "EditorialReports/reports/informe_ventas.jrxml",
+        "EditorialReportsJava/src/GeneradorInformeVentas.java",
+    ],
+    [
+        "EditorialReportsJava/data/editorial.db",
+        "EditorialReportsJava/src/InicializadorBD.java",
+        "README.md",
+        "VALIDACION.md",
+    ],
+)
+assert_transition(
+    M3 / "3.5",
+    M3 / "3.6",
+    ["EditorialReports/CAMPOS_VENTAS.md"],
+    [
+        "EditorialReports/reports/informe_ventas.jrxml",
+        "README.md",
+        "VALIDACION.md",
+    ],
+)
+assert_transition(
+    M3 / "3.6",
+    M3 / "3.7",
+    ["EditorialReports/PARAMETROS_VARIABLES.md"],
+    [
+        "EditorialReports/reports/informe_ventas.jrxml",
+        "EditorialReportsJava/src/GeneradorInformeVentas.java",
+        "README.md",
+        "VALIDACION.md",
+    ],
+)
+
+# 11. The conceptual report must remain cumulative from M2.
+report31 = (M3 / "3.1/EditorialReports/reports/informe_concepto.jrxml").read_text(encoding="utf-8")
+generator31 = (M3 / "3.1/EditorialReportsJava/src/GeneradorInformeConcepto.java").read_text(encoding="utf-8")
+for required in (
+    'style name="TituloPrincipal"',
+    'style name="TextoTablaCabecera"',
+    'style name="TextoPrecio"',
+    '<parameter name="usuario" class="java.lang.String">',
+    '<variable name="TotalPrecios"',
+    '<variable name="PrecioConIVA"',
+    '"resources/logo.png"',
+    '"resources/portadas/" + $F{titulo} + ".png"',
+    'icono_disponible.png',
+    '<columnFooter>',
+    '<lastPageFooter>',
+    '<summary>',
+    'value="SQLiteEditorial"',
+    '<queryString language="sql">',
+    '<field name="fechaPublicacion" class="java.lang.String"/>',
+    'java.time.LocalDate.parse($F{fechaPublicacion})',
+):
+    if required not in report31:
+        fail("3.1 perdió trazabilidad funcional de M2: " + required)
+if 'parametros.put("usuario", "Ana Martínez");' not in generator31:
+    fail("3.1 Java perdió el parámetro usuario heredado de M2")
+p31 = point_text(PRACTICE, "3.1")
+for required in (
+    "PÁGINAS TOTALES: 3",
+    "Title [100]",
+    "Detail [85]",
+    "Summary [95]",
+    "PrecioConIVA",
+    "Last Page Footer",
+):
+    if required not in p31:
+        fail("3.1 práctica no refleja el informe acumulativo: " + required)
 
 print("M3 DOC/SOURCE AUDIT PASS")
