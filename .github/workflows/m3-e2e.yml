@@ -132,7 +132,7 @@ jobs:
               ;;
           esac
 
-          CHECKPOINT="${{ matrix.checkpoint }}" python3 - <<'PY\'
+          CHECKPOINT="${{ matrix.checkpoint }}" python3 - <<'PY'
           import os
           import sqlite3
 
