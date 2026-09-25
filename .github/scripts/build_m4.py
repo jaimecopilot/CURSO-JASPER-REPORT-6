@@ -57,7 +57,7 @@ def report_jrxml(stage: int) -> str:
     expr_round = '$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))'
     expr_days = '$F{primera_venta} == null || $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"'
     expr_ratio_logic = '$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))'
-    expr_ratio_basic = '$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))'
+    expr_ratio_basic = '$P{tipoIva} == null ? "IVA -" : String.format(java.util.Locale.ROOT, "IVA %.0f%%", Double.valueOf($P{tipoIva}.doubleValue() * 100.0d))'
     expr_highlight = '"Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"'
     expr_page = '"Página " + $V{PAGE_NUMBER} + " de"'
     expr_summary = 'String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})'
@@ -72,13 +72,13 @@ def report_jrxml(stage: int) -> str:
     ]
     if has_logic:
         styles += [
-            '    <style name="TituloCondicional" style="Dato" isBold="true">',
+            '    <style name="UnidadesCondicional" style="Dato" isBold="true">',
             '        <conditionalStyle>',
-            f'            <conditionExpression>{cdata("$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()")}</conditionExpression>',
+            f'            <conditionExpression>{cdata("$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()")}</conditionExpression>',
             '            <style forecolor="#1B5E20"/>',
             '        </conditionalStyle>',
             '        <conditionalStyle>',
-            f'            <conditionExpression>{cdata("$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()")}</conditionExpression>',
+            f'            <conditionExpression>{cdata("$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()")}</conditionExpression>',
             '            <style forecolor="#1D5D88"/>',
             '        </conditionalStyle>',
             '        <conditionalStyle>',
@@ -233,11 +233,17 @@ def report_jrxml(stage: int) -> str:
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>'''
 
-    units_style = ' style="TituloCondicional"' if has_logic else ' style="Dato"'
+    units_style = ' style="UnidadesCondicional"' if has_logic else ' style="Dato"'
     detail = f'''    <detail>
         <band height="{detail_h}" splitType="Stretch">
             <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression>{cdata("$F{titulo}")}</textFieldExpression></textField>

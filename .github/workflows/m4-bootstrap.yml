@@ -30,8 +30,27 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Preservar registros de cierre
+        run: |
+          mkdir -p /tmp/m4-close
+          cp M4/README.md /tmp/m4-close/README.md
+          cp M4/VALIDACION_M4.md /tmp/m4-close/VALIDACION_M4.md
+          for cp in 4.1 4.2 4.3 4.4 4.5 4.6; do
+            cp "M4/$cp/VALIDACION.md" "/tmp/m4-close/VALIDACION-$cp.md"
+          done
+
       - name: Construir M4 desde M3/3.7
-        run: python .github/scripts/build_m4.py
+        run: |
+          python .github/scripts/build_m4.py
+          python .github/scripts/fix_m4_content.py
+
+      - name: Restaurar registros de cierre hasta la revalidacion
+        run: |
+          cp /tmp/m4-close/README.md M4/README.md
+          cp /tmp/m4-close/VALIDACION_M4.md M4/VALIDACION_M4.md
+          for cp in 4.1 4.2 4.3 4.4 4.5 4.6; do
+            cp "/tmp/m4-close/VALIDACION-$cp.md" "M4/$cp/VALIDACION.md"
+          done
 
       - name: Corregir y sincronizar documentacion
         run: python .github/scripts/fix_m4_docs.py
