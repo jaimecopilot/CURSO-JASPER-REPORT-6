@@ -51,14 +51,14 @@ for name, md in (("TEORIA", THEORY), ("PRACTICA", PRACTICE)):
     for language, block in fenced_blocks(md):
         if language in {"java", "xml", "json", "csv"}:
             for line_no, line in enumerate(block.splitlines(), 1):
-                if len(line) > 240:
+                if len(line) > 200:
                     fail(f"{name}: línea de código >240 caracteres ({language}, línea interna {line_no})")
 
 for path in M3.rglob("*"):
     if path.suffix in {".java", ".jrxml"}:
         lines = path.read_text(encoding="utf-8").splitlines()
         for line_no, line in enumerate(lines, 1):
-            if len(line) > 240:
+            if len(line) > 200:
                 fail(f"{path.relative_to(ROOT)}:{line_no} supera 240 caracteres")
     if path.suffix == ".jrxml":
         try:
@@ -163,6 +163,14 @@ for bad in (
 ):
     if bad in THEORY or bad in PRACTICE:
         fail("regresión textual detectada: " + bad)
+
+# 5b. Pedagogical line-by-line explanations must not fall back to the old generic text.
+for bad in (
+    "Protege una consulta o expresión para que XML no interprete sus caracteres especiales.",
+    "Completa la definición declarativa del informe.",
+):
+    if bad in PRACTICE:
+        fail("explicación JRXML genérica o incorrecta detectada: " + bad)
 
 # 6. Validate every fenced SQL query against the real course schema.
 con = sqlite3.connect(":memory:")

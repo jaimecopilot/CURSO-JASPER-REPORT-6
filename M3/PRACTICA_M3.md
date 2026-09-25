@@ -371,7 +371,7 @@ Las ejecuciones Java se lanzan con `EditorialReports` como Working Directory. Po
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación y el archivo real del repositorio utilizan exactamente la misma estructura.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.1. El bloque coincide con el archivo real versionado en GitHub.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -539,53 +539,53 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con su esquema XSD.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
 
 **Línea 5:** `name="informe_concepto"` → Fija el nombre interno del informe.
 
-**Línea 6:** `language="java"` → Indica que las expresiones del informe se evalúan como Java.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
 
-**Línea 7:** `pageWidth="595"` → Define el ancho de página.
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
 
-**Línea 8:** `pageHeight="842"` → Define la altura de página.
+**Línea 8:** `pageHeight="842"` → Define la altura de la página.
 
-**Línea 9:** `columnWidth="555"` → Define el ancho útil de la columna.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
 
-**Línea 10:** `leftMargin="20"` → Define uno de los márgenes del informe.
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
 
-**Línea 11:** `rightMargin="20"` → Define uno de los márgenes del informe.
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
 
-**Línea 12:** `topMargin="20"` → Define uno de los márgenes del informe.
+**Línea 12:** `topMargin="20"` → Define el margen superior.
 
-**Línea 13:** `bottomMargin="20"` → Define uno de los márgenes del informe.
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
 
-**Línea 14:** `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → Fija el UUID del informe y cierra la apertura del elemento raíz.
+**Línea 14:** `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → Fija el UUID del informe y completa la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
 
-**Línea 17:** `<queryString language="sql">` → Abre la consulta del dataset y declara su lenguaje.
+**Línea 17:** `<queryString language="sql">` → Abre la consulta o expresión de selección del dataset y declara el lenguaje sql.
 
-**Línea 18:** `<![CDATA[` → Abre CDATA para que XML no interprete los caracteres de la consulta.
+**Línea 18:** `<![CDATA[` → Abre un bloque CDATA para escribir la consulta sin que XML interprete sus caracteres.
 
-**Línea 19:** `SELECT titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta.
+**Línea 19:** `SELECT titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta SQL.
 
-**Línea 20:** `precio,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 20:** `precio,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 21:** `paginas,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 21:** `paginas,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 22:** `fecha_publicacion AS fechaPublicacion,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 22:** `fecha_publicacion AS fechaPublicacion,` → Continúa la definición declarativa del informe.
 
-**Línea 23:** `CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 23:** `CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 24:** `FROM libros` → Indica la tabla principal de la consulta.
+**Línea 24:** `FROM libros` → Indica la tabla principal de la consulta SQL.
 
 **Línea 25:** `ORDER BY titulo` → Ordena el resultado de la consulta.
 
 **Línea 26:** `]]>` → Cierra el bloque CDATA de la consulta.
 
-**Línea 27:** `</queryString>` → Cierra la consulta del dataset.
+**Línea 27:** `</queryString>` → Cierra la consulta o expresión de selección del dataset.
 
 **Línea 28:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
@@ -601,13 +601,13 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 34:** `<variableExpression><![CDATA[$F{precio}]]></variableExpression>` → Define la expresión utilizada para calcular la variable.
 
-**Línea 35:** `</variable>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 35:** `</variable>` → Cierra el elemento `variable` abierto anteriormente.
 
 **Línea 36:** `<background>` → Abre la banda Background.
 
 **Línea 37:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 38:** `</background>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 38:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
 **Línea 39:** `<title>` → Abre la banda Title.
 
@@ -617,29 +617,29 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 42:** `<reportElement x="0" y="10" width="555" height="30"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 43:** `<textElement textAlignment="Center">` → Configura la alineación del contenido textual.
+**Línea 43:** `<textElement textAlignment="Center">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 44:** `<font size="18" isBold="true"/>` → Configura familia, tamaño y estilo de la fuente.
+**Línea 44:** `<font size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 45:** `</textElement>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 45:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 46:** `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → Define el texto literal que se imprimirá.
+**Línea 46:** `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → Define el texto literal `Catálogo Editorial - Informe Conceptual` que se imprimirá.
 
-**Línea 47:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 47:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 48:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 49:** `<reportElement x="0" y="45" width="555" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 50:** `<textElement textAlignment="Center"/>` → Configura la alineación del contenido textual.
+**Línea 50:** `<textElement textAlignment="Center"/>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 51:** `<text><![CDATA[Datos JDBC - SQLite]]></text>` → Define el texto literal que se imprimirá.
+**Línea 51:** `<text><![CDATA[Datos JDBC - SQLite]]></text>` → Define el texto literal `Datos JDBC - SQLite` que se imprimirá.
 
-**Línea 52:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 52:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 53:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 53:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 54:** `</title>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 54:** `</title>` → Cierra el elemento `title` abierto anteriormente.
 
 **Línea 55:** `<pageHeader>` → Abre la banda Page Header.
 
@@ -649,25 +649,25 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 58:** `<reportElement x="390" y="5" width="120" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 59:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+**Línea 59:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 60:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 61:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 61:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 62:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 63:** `<reportElement x="510" y="5" width="45" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 64:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+**Línea 64:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 65:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 66:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 66:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 67:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 67:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 68:** `</pageHeader>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 68:** `</pageHeader>` → Cierra el elemento `pageHeader` abierto anteriormente.
 
 **Línea 69:** `<columnHeader>` → Abre la banda Column Header.
 
@@ -677,55 +677,55 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 72:** `<reportElement x="0" y="5" width="250" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 73:** `<textElement><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 73:** `<textElement><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 74:** `<text><![CDATA[Título]]></text>` → Define el texto literal que se imprimirá.
+**Línea 74:** `<text><![CDATA[Título]]></text>` → Define el texto literal `Título` que se imprimirá.
 
-**Línea 75:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 75:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 76:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 77:** `<reportElement x="250" y="5" width="85" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 78:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 78:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 79:** `<text><![CDATA[Precio]]></text>` → Define el texto literal que se imprimirá.
+**Línea 79:** `<text><![CDATA[Precio]]></text>` → Define el texto literal `Precio` que se imprimirá.
 
-**Línea 80:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 80:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 81:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 82:** `<reportElement x="335" y="5" width="70" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 83:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 83:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 84:** `<text><![CDATA[Págs.]]></text>` → Define el texto literal que se imprimirá.
+**Línea 84:** `<text><![CDATA[Págs.]]></text>` → Define el texto literal `Págs.` que se imprimirá.
 
-**Línea 85:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 85:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 86:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 87:** `<reportElement x="405" y="5" width="80" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 88:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 88:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 89:** `<text><![CDATA[Año]]></text>` → Define el texto literal que se imprimirá.
+**Línea 89:** `<text><![CDATA[Año]]></text>` → Define el texto literal `Año` que se imprimirá.
 
-**Línea 90:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 90:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 91:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 92:** `<reportElement x="485" y="5" width="70" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 93:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 93:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 94:** `<text><![CDATA[Disp.]]></text>` → Define el texto literal que se imprimirá.
+**Línea 94:** `<text><![CDATA[Disp.]]></text>` → Define el texto literal `Disp.` que se imprimirá.
 
-**Línea 95:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 95:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 96:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 96:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 97:** `</columnHeader>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 97:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
 
 **Línea 98:** `<detail>` → Abre la banda Detail.
 
@@ -737,51 +737,51 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 102:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 103:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 103:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 104:** `<textField pattern="#0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 105:** `<reportElement x="250" y="1" width="85" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 106:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+**Línea 106:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 107:** `<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 108:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 108:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 109:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 110:** `<reportElement x="335" y="1" width="70" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 111:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+**Línea 111:** `<textElement textAlignment="Right"/>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 112:** `<textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 113:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 113:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 114:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 115:** `<reportElement x="405" y="1" width="80" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 116:** `<textElement textAlignment="Center"/>` → Configura la alineación del contenido textual.
+**Línea 116:** `<textElement textAlignment="Center"/>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 117:** `<textFieldExpression><![CDATA[$F{fechaPublicacion}.substring(0,4)]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 118:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 118:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 119:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 120:** `<reportElement x="485" y="1" width="70" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 121:** `<textElement textAlignment="Center"/>` → Configura la alineación del contenido textual.
+**Línea 121:** `<textElement textAlignment="Center"/>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 122:** `<textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 123:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 123:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 124:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 124:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 125:** `</detail>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 125:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
 
 **Línea 126:** `<pageFooter>` → Abre la banda Page Footer.
 
@@ -791,15 +791,15 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 129:** `<reportElement x="0" y="5" width="555" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 130:** `<textElement textAlignment="Center"><font size="8" isItalic="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 130:** `<textElement textAlignment="Center"><font size="8" isItalic="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 131:** `<text><![CDATA[EditorialReports - JasperReports 6.20.0]]></text>` → Define el texto literal que se imprimirá.
+**Línea 131:** `<text><![CDATA[EditorialReports - JasperReports 6.20.0]]></text>` → Define el texto literal `EditorialReports - JasperReports 6.20.0` que se imprimirá.
 
-**Línea 132:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 132:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 133:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 133:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 134:** `</pageFooter>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 134:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
 
 **Línea 135:** `<summary>` → Abre la banda Summary.
 
@@ -809,9 +809,9 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 138:** `<reportElement x="0" y="5" width="150" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 139:** `<text><![CDATA[Total libros:]]></text>` → Define el texto literal que se imprimirá.
+**Línea 139:** `<text><![CDATA[Total libros:]]></text>` → Define el texto literal `Total libros:` que se imprimirá.
 
-**Línea 140:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 140:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 141:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
@@ -819,15 +819,15 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 143:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 144:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 144:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 145:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 146:** `<reportElement x="0" y="27" width="150" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 147:** `<text><![CDATA[Subtotal precios:]]></text>` → Define el texto literal que se imprimirá.
+**Línea 147:** `<text><![CDATA[Subtotal precios:]]></text>` → Define el texto literal `Subtotal precios:` que se imprimirá.
 
-**Línea 148:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 148:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 149:** `<textField pattern="#0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
 
@@ -835,15 +835,15 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación 
 
 **Línea 151:** `<textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 152:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 152:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 153:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 153:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 154:** `</summary>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 154:** `</summary>` → Cierra el elemento `summary` abierto anteriormente.
 
-**Línea 155:** `</jasperReport>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 155:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
 
-**Comprobación:** el bloque anterior coincide literalmente con el archivo JRXML versionado del checkpoint; las coordenadas se mantienen dentro de `columnWidth="555"` y la estructura es la que valida el workflow E2E.
+**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
@@ -1755,7 +1755,7 @@ El punto 3.2, «Ficheros CSV», introduce la lectura de datos desde archivos CSV
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Actions.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.2. El bloque coincide con el archivo real versionado en GitHub.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1890,259 +1890,257 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 
 **Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
 
-**Línea 5:** `name="informe_catalogo_csv"` → Completa la definición declarativa del informe.
+**Línea 5:** `name="informe_catalogo_csv"` → Fija el nombre interno del informe.
 
-**Línea 6:** `language="java"` → Completa la definición declarativa del informe.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
 
-**Línea 7:** `pageWidth="595"` → Completa la definición declarativa del informe.
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
 
-**Línea 8:** `pageHeight="842"` → Completa la definición declarativa del informe.
+**Línea 8:** `pageHeight="842"` → Define la altura de la página.
 
-**Línea 9:** `columnWidth="555"` → Completa la definición declarativa del informe.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
 
-**Línea 10:** `leftMargin="20"` → Completa la definición declarativa del informe.
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
 
-**Línea 11:** `rightMargin="20"` → Completa la definición declarativa del informe.
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
 
-**Línea 12:** `topMargin="20"` → Completa la definición declarativa del informe.
+**Línea 12:** `topMargin="20"` → Define el margen superior.
 
-**Línea 13:** `bottomMargin="20"` → Completa la definición declarativa del informe.
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
 
-**Línea 14:** `uuid="9a3d2b5f-2e4c-5a6b-8d1f-3c7e9a0b2d44">` → Completa la definición declarativa del informe.
+**Línea 14:** `uuid="9a3d2b5f-2e4c-5a6b-8d1f-3c7e9a0b2d44">` → Fija el UUID del informe y completa la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CatalogoCSV"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CatalogoCSV"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
 
-**Línea 17:** `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 17:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 18:** `<field name="autor" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 18:** `<field name="autor" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 19:** `<field name="precio" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 19:** `<field name="precio" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 20:** `<field name="paginas" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 20:** `<field name="paginas" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 21:** `<field name="fecha_publicacion" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 21:** `<field name="fecha_publicacion" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 22:** `<field name="disponible" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 22:** `<field name="disponible" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 23:** `<background>` → Abre una sección/banda estructural del informe.
+**Línea 23:** `<background>` → Abre la banda Background.
 
 **Línea 24:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 25:** `</background>` → Cierra el elemento XML abierto anteriormente.
+**Línea 25:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 26:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 26:** `` → Continúa la definición declarativa del informe.
 
-**Línea 27:** `<title>` → Abre una sección/banda estructural del informe.
+**Línea 27:** `<title>` → Abre la banda Title.
 
 **Línea 28:** `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 29:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 30:** `<reportElement x="0" y="15" width="555" height="30" uuid="1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 30:** `<reportElement x="0" y="15" width="555" height="30" uuid="1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 31:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 31:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 32:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 32:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 33:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 33:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 34:** `<text><![CDATA[Catálogo Editorial - Datos desde CSV]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 34:** `<text><![CDATA[Catálogo Editorial - Datos desde CSV]]></text>` → Define el texto literal `Catálogo Editorial - Datos desde CSV` que se imprimirá.
 
-**Línea 35:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 35:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 36:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 36:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 37:** `</title>` → Cierra el elemento XML abierto anteriormente.
+**Línea 37:** `</title>` → Cierra el elemento `title` abierto anteriormente.
 
-**Línea 38:** `<columnHeader>` → Abre una sección/banda estructural del informe.
+**Línea 38:** `<columnHeader>` → Abre la banda Column Header.
 
 **Línea 39:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 40:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 41:** `<reportElement x="0" y="5" width="250" height="15" uuid="2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 41:** `<reportElement x="0" y="5" width="250" height="15" uuid="2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 42:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 42:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 43:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 43:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 44:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 44:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 45:** `<text><![CDATA[Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 45:** `<text><![CDATA[Título]]></text>` → Define el texto literal `Título` que se imprimirá.
 
-**Línea 46:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 46:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 47:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 48:** `<reportElement x="250" y="5" width="150" height="15" uuid="3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 48:** `<reportElement x="250" y="5" width="150" height="15" uuid="3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 49:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 49:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 50:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 50:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 51:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 51:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 52:** `<text><![CDATA[Autor]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 52:** `<text><![CDATA[Autor]]></text>` → Define el texto literal `Autor` que se imprimirá.
 
-**Línea 53:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 53:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 54:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 55:** `<reportElement x="400" y="5" width="80" height="15" uuid="4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 55:** `<reportElement x="400" y="5" width="80" height="15" uuid="4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 56:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 56:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 57:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 57:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 58:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 58:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 59:** `<text><![CDATA[Precio]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 59:** `<text><![CDATA[Precio]]></text>` → Define el texto literal `Precio` que se imprimirá.
 
-**Línea 60:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 60:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 61:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 62:** `<reportElement x="480" y="5" width="75" height="15" uuid="5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 62:** `<reportElement x="480" y="5" width="75" height="15" uuid="5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 63:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 63:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 64:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 64:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 65:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 65:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 66:** `<text><![CDATA[Páginas]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 66:** `<text><![CDATA[Páginas]]></text>` → Define el texto literal `Páginas` que se imprimirá.
 
-**Línea 67:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 67:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 68:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 68:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 69:** `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+**Línea 69:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
 
-**Línea 70:** `<detail>` → Abre una sección/banda estructural del informe.
+**Línea 70:** `<detail>` → Abre la banda Detail.
 
 **Línea 71:** `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 72:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 72:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 73:** `<reportElement x="0" y="0" width="250" height="20" uuid="6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 73:** `<reportElement x="0" y="0" width="250" height="20" uuid="6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 74:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 74:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 75:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 75:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 76:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 76:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 77:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 77:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 78:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 78:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 79:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 79:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 80:** `<reportElement x="250" y="0" width="150" height="20" uuid="7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 80:** `<reportElement x="250" y="0" width="150" height="20" uuid="7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 81:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 81:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 82:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 82:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 83:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 83:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 84:** `<textFieldExpression><![CDATA[$F{autor}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 84:** `<textFieldExpression><![CDATA[$F{autor}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 85:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 85:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 86:** `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 86:** `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 87:** `<reportElement x="400" y="0" width="80" height="20" uuid="8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 87:** `<reportElement x="400" y="0" width="80" height="20" uuid="8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 88:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 88:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 89:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 89:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 90:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 90:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 91:** `<textFieldExpression><![CDATA[Double.parseDouble($F{precio})]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 91:** `<textFieldExpression><![CDATA[Double.parseDouble($F{precio})]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 92:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 92:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 93:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 93:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 94:** `<reportElement x="480" y="0" width="75" height="20" uuid="9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 94:** `<reportElement x="480" y="0" width="75" height="20" uuid="9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 95:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 95:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 96:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 96:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 97:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 97:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 98:** `<textFieldExpression><![CDATA[Integer.valueOf($F{paginas})]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 98:** `<textFieldExpression><![CDATA[Integer.valueOf($F{paginas})]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 99:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 99:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 100:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 100:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 101:** `</detail>` → Cierra el elemento XML abierto anteriormente.
+**Línea 101:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
 
-**Línea 102:** `<pageFooter>` → Abre una sección/banda estructural del informe.
+**Línea 102:** `<pageFooter>` → Abre la banda Page Footer.
 
 **Línea 103:** `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 104:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 105:** `<reportElement x="0" y="3" width="150" height="15" uuid="11111111-1111-4111-8111-111111111111"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 105:** `<reportElement x="0" y="3" width="150" height="15" uuid="11111111-1111-4111-8111-111111111111"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 106:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 106:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 107:** `<text><![CDATA[Registros CSV:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 107:** `<text><![CDATA[Registros CSV:]]></text>` → Define el texto literal `Registros CSV:` que se imprimirá.
 
-**Línea 108:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 108:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 109:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 109:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 110:** `<reportElement x="150" y="3" width="70" height="15" uuid="11111111-1111-4111-8111-111111111112"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 110:** `<reportElement x="150" y="3" width="70" height="15" uuid="11111111-1111-4111-8111-111111111112"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 111:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 111:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 112:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 112:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 113:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 113:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 114:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 114:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 115:** `<reportElement x="170" y="23" width="190" height="15" uuid="11111111-1111-4111-8111-111111111113"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 115:** `<reportElement x="170" y="23" width="190" height="15" uuid="11111111-1111-4111-8111-111111111113"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 116:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 116:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 117:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 117:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 118:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 118:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 119:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 119:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 120:** `<reportElement x="365" y="23" width="30" height="15" uuid="11111111-1111-4111-8111-111111111114"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 120:** `<reportElement x="365" y="23" width="30" height="15" uuid="11111111-1111-4111-8111-111111111114"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 121:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 121:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 122:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 122:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 123:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 123:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 124:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 124:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 125:** `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+**Línea 125:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
 
-**Línea 126:** `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+**Línea 126:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
 
-
-**Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
-
+**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
@@ -2939,7 +2937,7 @@ El punto 3.3, «Ficheros XML», introduce la lectura de datos desde archivos XML
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Actions.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.3. El bloque coincide con el archivo real versionado en GitHub.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -3090,291 +3088,289 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 
 **Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
 
-**Línea 5:** `name="informe_distribucion_xml"` → Completa la definición declarativa del informe.
+**Línea 5:** `name="informe_distribucion_xml"` → Fija el nombre interno del informe.
 
-**Línea 6:** `language="java"` → Completa la definición declarativa del informe.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
 
-**Línea 7:** `pageWidth="595"` → Completa la definición declarativa del informe.
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
 
-**Línea 8:** `pageHeight="842"` → Completa la definición declarativa del informe.
+**Línea 8:** `pageHeight="842"` → Define la altura de la página.
 
-**Línea 9:** `columnWidth="555"` → Completa la definición declarativa del informe.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
 
-**Línea 10:** `leftMargin="20"` → Completa la definición declarativa del informe.
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
 
-**Línea 11:** `rightMargin="20"` → Completa la definición declarativa del informe.
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
 
-**Línea 12:** `topMargin="20"` → Completa la definición declarativa del informe.
+**Línea 12:** `topMargin="20"` → Define el margen superior.
 
-**Línea 13:** `bottomMargin="20"` → Completa la definición declarativa del informe.
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
 
-**Línea 14:** `uuid="b4e5f6a7-c8d9-0e1f-2a3b-4c5d6e7f8a9b">` → Completa la definición declarativa del informe.
+**Línea 14:** `uuid="b4e5f6a7-c8d9-0e1f-2a3b-4c5d6e7f8a9b">` → Fija el UUID del informe y completa la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DistribucionXML"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DistribucionXML"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
 
-**Línea 17:** `<queryString language="xPath">` → Abre la consulta del dataset e indica el lenguaje de consulta.
+**Línea 17:** `<queryString language="xPath">` → Abre la consulta o expresión de selección del dataset y declara el lenguaje xPath.
 
-**Línea 18:** `<![CDATA[/distribucion/entrega]]>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 18:** `<![CDATA[/distribucion/entrega]]>` → Contiene dentro de CDATA la expresión de selección `/distribucion/entrega`.
 
-**Línea 19:** `</queryString>` → Cierra el elemento XML abierto anteriormente.
+**Línea 19:** `</queryString>` → Cierra la consulta o expresión de selección del dataset.
 
-**Línea 20:** `<field name="libreria" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="libreria"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 20:** `<field name="libreria" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="libreria"/></field>` → Declara el field y lo mapea al nodo XML indicado mediante la propiedad XPath.
 
-**Línea 21:** `<field name="ciudad" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="ciudad"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 21:** `<field name="ciudad" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="ciudad"/></field>` → Declara el field y lo mapea al nodo XML indicado mediante la propiedad XPath.
 
-**Línea 22:** `<field name="cantidad" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="cantidad"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 22:** `<field name="cantidad" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="cantidad"/></field>` → Declara el field y lo mapea al nodo XML indicado mediante la propiedad XPath.
 
-**Línea 23:** `<field name="fecha_entrega" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="fecha_entrega"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 23:** `<field name="fecha_entrega" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="fecha_entrega"/></field>` → Declara el field y lo mapea al nodo XML indicado mediante la propiedad XPath.
 
-**Línea 24:** `<field name="titulo" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="titulo"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 24:** `<field name="titulo" class="java.lang.String"><property name="net.sf.jasperreports.xpath.field.expression" value="titulo"/></field>` → Declara el field y lo mapea al nodo XML indicado mediante la propiedad XPath.
 
-**Línea 25:** `<background>` → Abre una sección/banda estructural del informe.
+**Línea 25:** `<background>` → Abre la banda Background.
 
 **Línea 26:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 27:** `</background>` → Cierra el elemento XML abierto anteriormente.
+**Línea 27:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 28:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 28:** `` → Continúa la definición declarativa del informe.
 
-**Línea 29:** `<title>` → Abre una sección/banda estructural del informe.
+**Línea 29:** `<title>` → Abre la banda Title.
 
 **Línea 30:** `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 31:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 32:** `<reportElement x="0" y="15" width="555" height="30" uuid="c5f6a7b8-d9e0-1f2a-3b4c-5d6e7f8a9b0c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 32:** `<reportElement x="0" y="15" width="555" height="30" uuid="c5f6a7b8-d9e0-1f2a-3b4c-5d6e7f8a9b0c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 33:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 33:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 34:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 34:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 35:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 35:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 36:** `<text><![CDATA[Distribución Editorial - Datos desde XML]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 36:** `<text><![CDATA[Distribución Editorial - Datos desde XML]]></text>` → Define el texto literal `Distribución Editorial - Datos desde XML` que se imprimirá.
 
-**Línea 37:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 37:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 38:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 38:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 39:** `</title>` → Cierra el elemento XML abierto anteriormente.
+**Línea 39:** `</title>` → Cierra el elemento `title` abierto anteriormente.
 
-**Línea 40:** `<columnHeader>` → Abre una sección/banda estructural del informe.
+**Línea 40:** `<columnHeader>` → Abre la banda Column Header.
 
 **Línea 41:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 42:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 43:** `<reportElement x="0" y="5" width="180" height="15" uuid="d6a7b8c9-e0f1-2a3b-4c5d-6e7f8a9b0c1d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 43:** `<reportElement x="0" y="5" width="180" height="15" uuid="d6a7b8c9-e0f1-2a3b-4c5d-6e7f8a9b0c1d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 44:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 44:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 45:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 45:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 46:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 46:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 47:** `<text><![CDATA[Librería]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 47:** `<text><![CDATA[Librería]]></text>` → Define el texto literal `Librería` que se imprimirá.
 
-**Línea 48:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 48:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 49:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 50:** `<reportElement x="180" y="5" width="120" height="15" uuid="e7b8c9d0-f1a2-3b4c-5d6e-7f8a9b0c1d2e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 50:** `<reportElement x="180" y="5" width="120" height="15" uuid="e7b8c9d0-f1a2-3b4c-5d6e-7f8a9b0c1d2e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 51:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 51:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 52:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 52:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 53:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 53:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 54:** `<text><![CDATA[Ciudad]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 54:** `<text><![CDATA[Ciudad]]></text>` → Define el texto literal `Ciudad` que se imprimirá.
 
-**Línea 55:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 55:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 56:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 57:** `<reportElement x="300" y="5" width="80" height="15" uuid="f8c9d0e1-a2b3-4c5d-6e7f-8a9b0c1d2e3f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 57:** `<reportElement x="300" y="5" width="80" height="15" uuid="f8c9d0e1-a2b3-4c5d-6e7f-8a9b0c1d2e3f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 58:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 58:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 59:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 59:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 60:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 60:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 61:** `<text><![CDATA[Cantidad]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 61:** `<text><![CDATA[Cantidad]]></text>` → Define el texto literal `Cantidad` que se imprimirá.
 
-**Línea 62:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 62:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 63:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 64:** `<reportElement x="380" y="5" width="90" height="15" uuid="a9d0e1f2-b3c4-5d6e-7f8a-9b0c1d2e3f4a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 64:** `<reportElement x="380" y="5" width="90" height="15" uuid="a9d0e1f2-b3c4-5d6e-7f8a-9b0c1d2e3f4a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 65:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 65:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 66:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 66:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 67:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 67:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 68:** `<text><![CDATA[Fecha]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 68:** `<text><![CDATA[Fecha]]></text>` → Define el texto literal `Fecha` que se imprimirá.
 
-**Línea 69:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 69:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 70:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 71:** `<reportElement x="470" y="5" width="85" height="15" uuid="b0e1f2a3-c4d5-6e7f-8a9b-0c1d2e3f4a5b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 71:** `<reportElement x="470" y="5" width="85" height="15" uuid="b0e1f2a3-c4d5-6e7f-8a9b-0c1d2e3f4a5b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 72:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 72:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 73:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 73:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 74:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 74:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 75:** `<text><![CDATA[Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 75:** `<text><![CDATA[Título]]></text>` → Define el texto literal `Título` que se imprimirá.
 
-**Línea 76:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 76:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 77:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 77:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 78:** `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+**Línea 78:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
 
-**Línea 79:** `<detail>` → Abre una sección/banda estructural del informe.
+**Línea 79:** `<detail>` → Abre la banda Detail.
 
 **Línea 80:** `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 81:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 81:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 82:** `<reportElement x="0" y="0" width="180" height="20" uuid="c1f2a3b4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 82:** `<reportElement x="0" y="0" width="180" height="20" uuid="c1f2a3b4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 83:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 83:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 84:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 84:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 85:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 85:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 86:** `<textFieldExpression><![CDATA[$F{libreria}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 86:** `<textFieldExpression><![CDATA[$F{libreria}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 87:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 87:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 88:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 88:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 89:** `<reportElement x="180" y="0" width="120" height="20" uuid="d2a3b4c5-e6f7-8a9b-0c1d-2e3f4a5b6c7d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 89:** `<reportElement x="180" y="0" width="120" height="20" uuid="d2a3b4c5-e6f7-8a9b-0c1d-2e3f4a5b6c7d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 90:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 90:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 91:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 91:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 92:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 92:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 93:** `<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 93:** `<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 94:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 94:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 95:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 95:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 96:** `<reportElement x="300" y="0" width="80" height="20" uuid="e3b4c5d6-f7a8-9b0c-1d2e-3f4a5b6c7d8e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 96:** `<reportElement x="300" y="0" width="80" height="20" uuid="e3b4c5d6-f7a8-9b0c-1d2e-3f4a5b6c7d8e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 97:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 97:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 98:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 98:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 99:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 99:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 100:** `<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 100:** `<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 101:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 101:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 102:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 102:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 103:** `<reportElement x="380" y="0" width="90" height="20" uuid="f4c5d6e7-a8b9-0c1d-2e3f-4a5b6c7d8e9f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 103:** `<reportElement x="380" y="0" width="90" height="20" uuid="f4c5d6e7-a8b9-0c1d-2e3f-4a5b6c7d8e9f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 104:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 104:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 105:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 105:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 106:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 106:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 107:** `<textFieldExpression><![CDATA[$F{fecha_entrega}.substring(8,10) + "/" + $F{fecha_entrega}.substring(5,7) + "/" + $F{fecha_entrega}.substring(0,4)]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 107:** `<textFieldExpression><![CDATA[$F{fecha_entrega}.substring(8,10) + "/" + $F{fecha_entrega}.substring(5,7) + "/" + $F{fecha_entrega}.substring(0,4)]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 108:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 108:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 109:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 109:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 110:** `<reportElement x="470" y="0" width="85" height="20" uuid="a5d6e7f8-b9c0-1d2e-3f4a-5b6c7d8e9f0a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 110:** `<reportElement x="470" y="0" width="85" height="20" uuid="a5d6e7f8-b9c0-1d2e-3f4a-5b6c7d8e9f0a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 111:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 111:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 112:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 112:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 113:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 113:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 114:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 114:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 115:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 115:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 116:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 116:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 117:** `</detail>` → Cierra el elemento XML abierto anteriormente.
+**Línea 117:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
 
-**Línea 118:** `<pageFooter>` → Abre una sección/banda estructural del informe.
+**Línea 118:** `<pageFooter>` → Abre la banda Page Footer.
 
 **Línea 119:** `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 120:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 121:** `<reportElement x="0" y="3" width="150" height="15" uuid="22222222-2222-4222-8222-222222222221"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 121:** `<reportElement x="0" y="3" width="150" height="15" uuid="22222222-2222-4222-8222-222222222221"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 122:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 122:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 123:** `<text><![CDATA[Total de entregas:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 123:** `<text><![CDATA[Total de entregas:]]></text>` → Define el texto literal `Total de entregas:` que se imprimirá.
 
-**Línea 124:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 124:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 125:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 125:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 126:** `<reportElement x="150" y="3" width="70" height="15" uuid="22222222-2222-4222-8222-222222222222"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 126:** `<reportElement x="150" y="3" width="70" height="15" uuid="22222222-2222-4222-8222-222222222222"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 127:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 127:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 128:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 128:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 129:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 129:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 130:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 130:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 131:** `<reportElement x="170" y="23" width="190" height="15" uuid="22222222-2222-4222-8222-222222222223"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 131:** `<reportElement x="170" y="23" width="190" height="15" uuid="22222222-2222-4222-8222-222222222223"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 132:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 132:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 133:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 133:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 134:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 134:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 135:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 135:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 136:** `<reportElement x="365" y="23" width="30" height="15" uuid="22222222-2222-4222-8222-222222222224"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 136:** `<reportElement x="365" y="23" width="30" height="15" uuid="22222222-2222-4222-8222-222222222224"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 137:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 137:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 138:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 138:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 139:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 139:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 140:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 140:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 141:** `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+**Línea 141:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
 
-**Línea 142:** `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+**Línea 142:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
 
-
-**Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
-
+**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
@@ -4184,7 +4180,7 @@ El punto 3.4, «Ficheros JSON», introduce la lectura de datos desde archivos JS
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Actions.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.4. El bloque coincide con el archivo real versionado en GitHub.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -4335,291 +4331,289 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 
 **Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
 
-**Línea 5:** `name="informe_autores_json"` → Completa la definición declarativa del informe.
+**Línea 5:** `name="informe_autores_json"` → Fija el nombre interno del informe.
 
-**Línea 6:** `language="java"` → Completa la definición declarativa del informe.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
 
-**Línea 7:** `pageWidth="595"` → Completa la definición declarativa del informe.
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
 
-**Línea 8:** `pageHeight="842"` → Completa la definición declarativa del informe.
+**Línea 8:** `pageHeight="842"` → Define la altura de la página.
 
-**Línea 9:** `columnWidth="555"` → Completa la definición declarativa del informe.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
 
-**Línea 10:** `leftMargin="20"` → Completa la definición declarativa del informe.
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
 
-**Línea 11:** `rightMargin="20"` → Completa la definición declarativa del informe.
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
 
-**Línea 12:** `topMargin="20"` → Completa la definición declarativa del informe.
+**Línea 12:** `topMargin="20"` → Define el margen superior.
 
-**Línea 13:** `bottomMargin="20"` → Completa la definición declarativa del informe.
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
 
-**Línea 14:** `uuid="d5a6b7c8-e9f0-1a2b-3c4d-5e6f7a8b9c0d">` → Completa la definición declarativa del informe.
+**Línea 14:** `uuid="d5a6b7c8-e9f0-1a2b-3c4d-5e6f7a8b9c0d">` → Fija el UUID del informe y completa la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AutoresJSON"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AutoresJSON"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
 
-**Línea 17:** `<queryString language="json">` → Abre la consulta del dataset e indica el lenguaje de consulta.
+**Línea 17:** `<queryString language="json">` → Abre la consulta o expresión de selección del dataset y declara el lenguaje json.
 
-**Línea 18:** `<![CDATA[autores]]>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 18:** `<![CDATA[autores]]>` → Contiene dentro de CDATA la expresión de selección `autores`.
 
-**Línea 19:** `</queryString>` → Cierra el elemento XML abierto anteriormente.
+**Línea 19:** `</queryString>` → Cierra la consulta o expresión de selección del dataset.
 
-**Línea 20:** `<field name="nombre" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nombre"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 20:** `<field name="nombre" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nombre"/></field>` → Declara el field y lo mapea a la propiedad JSON indicada.
 
-**Línea 21:** `<field name="nacionalidad" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nacionalidad"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 21:** `<field name="nacionalidad" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nacionalidad"/></field>` → Declara el field y lo mapea a la propiedad JSON indicada.
 
-**Línea 22:** `<field name="nacimiento" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nacimiento"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 22:** `<field name="nacimiento" class="java.lang.String"><property name="net.sf.jasperreports.json.field.expression" value="nacimiento"/></field>` → Declara el field y lo mapea a la propiedad JSON indicada.
 
-**Línea 23:** `<field name="premios" class="java.lang.Integer"><property name="net.sf.jasperreports.json.field.expression" value="premios"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 23:** `<field name="premios" class="java.lang.Integer"><property name="net.sf.jasperreports.json.field.expression" value="premios"/></field>` → Declara el field y lo mapea a la propiedad JSON indicada.
 
-**Línea 24:** `<field name="vivo" class="java.lang.Boolean"><property name="net.sf.jasperreports.json.field.expression" value="vivo"/></field>` → Declara la expresión de mapeo del campo para el origen jerárquico.
+**Línea 24:** `<field name="vivo" class="java.lang.Boolean"><property name="net.sf.jasperreports.json.field.expression" value="vivo"/></field>` → Declara el field y lo mapea a la propiedad JSON indicada.
 
-**Línea 25:** `<background>` → Abre una sección/banda estructural del informe.
+**Línea 25:** `<background>` → Abre la banda Background.
 
 **Línea 26:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 27:** `</background>` → Cierra el elemento XML abierto anteriormente.
+**Línea 27:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 28:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 28:** `` → Continúa la definición declarativa del informe.
 
-**Línea 29:** `<title>` → Abre una sección/banda estructural del informe.
+**Línea 29:** `<title>` → Abre la banda Title.
 
 **Línea 30:** `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 31:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 32:** `<reportElement x="0" y="15" width="555" height="30" uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 32:** `<reportElement x="0" y="15" width="555" height="30" uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 33:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 33:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 34:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 34:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 35:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 35:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 36:** `<text><![CDATA[Catálogo de Autores - Datos desde JSON]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 36:** `<text><![CDATA[Catálogo de Autores - Datos desde JSON]]></text>` → Define el texto literal `Catálogo de Autores - Datos desde JSON` que se imprimirá.
 
-**Línea 37:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 37:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 38:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 38:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 39:** `</title>` → Cierra el elemento XML abierto anteriormente.
+**Línea 39:** `</title>` → Cierra el elemento `title` abierto anteriormente.
 
-**Línea 40:** `<columnHeader>` → Abre una sección/banda estructural del informe.
+**Línea 40:** `<columnHeader>` → Abre la banda Column Header.
 
 **Línea 41:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 42:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 43:** `<reportElement x="0" y="5" width="220" height="15" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 43:** `<reportElement x="0" y="5" width="220" height="15" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 44:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 44:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 45:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 45:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 46:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 46:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 47:** `<text><![CDATA[Nombre]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 47:** `<text><![CDATA[Nombre]]></text>` → Define el texto literal `Nombre` que se imprimirá.
 
-**Línea 48:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 48:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 49:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 50:** `<reportElement x="220" y="5" width="120" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 50:** `<reportElement x="220" y="5" width="120" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 51:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 51:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 52:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 52:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 53:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 53:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 54:** `<text><![CDATA[Nacionalidad]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 54:** `<text><![CDATA[Nacionalidad]]></text>` → Define el texto literal `Nacionalidad` que se imprimirá.
 
-**Línea 55:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 55:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 56:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 57:** `<reportElement x="340" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 57:** `<reportElement x="340" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 58:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 58:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 59:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 59:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 60:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 60:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 61:** `<text><![CDATA[Nacimiento]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 61:** `<text><![CDATA[Nacimiento]]></text>` → Define el texto literal `Nacimiento` que se imprimirá.
 
-**Línea 62:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 62:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 63:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 64:** `<reportElement x="430" y="5" width="60" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 64:** `<reportElement x="430" y="5" width="60" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 65:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 65:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 66:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 66:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 67:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 67:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 68:** `<text><![CDATA[Premios]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 68:** `<text><![CDATA[Premios]]></text>` → Define el texto literal `Premios` que se imprimirá.
 
-**Línea 69:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 69:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 70:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 71:** `<reportElement x="490" y="5" width="65" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 71:** `<reportElement x="490" y="5" width="65" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 72:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 72:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 73:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 73:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 74:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 74:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 75:** `<text><![CDATA[Estado]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 75:** `<text><![CDATA[Estado]]></text>` → Define el texto literal `Estado` que se imprimirá.
 
-**Línea 76:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 76:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 77:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 77:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 78:** `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+**Línea 78:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
 
-**Línea 79:** `<detail>` → Abre una sección/banda estructural del informe.
+**Línea 79:** `<detail>` → Abre la banda Detail.
 
 **Línea 80:** `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 81:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 81:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 82:** `<reportElement x="0" y="0" width="220" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 82:** `<reportElement x="0" y="0" width="220" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 83:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 83:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 84:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 84:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 85:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 85:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 86:** `<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 86:** `<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 87:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 87:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 88:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 88:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 89:** `<reportElement x="220" y="0" width="120" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 89:** `<reportElement x="220" y="0" width="120" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 90:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 90:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 91:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 91:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 92:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 92:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 93:** `<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 93:** `<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 94:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 94:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 95:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 95:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 96:** `<reportElement x="340" y="0" width="90" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 96:** `<reportElement x="340" y="0" width="90" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 97:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 97:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 98:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 98:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 99:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 99:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 100:** `<textFieldExpression><![CDATA[$F{nacimiento}.substring(8,10) + "/" + $F{nacimiento}.substring(5,7) + "/" + $F{nacimiento}.substring(0,4)]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 100:** `<textFieldExpression><![CDATA[$F{nacimiento}.substring(8,10) + "/" + $F{nacimiento}.substring(5,7) + "/" + $F{nacimiento}.substring(0,4)]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 101:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 101:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 102:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 102:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 103:** `<reportElement x="430" y="0" width="60" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 103:** `<reportElement x="430" y="0" width="60" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 104:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 104:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 105:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 105:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 106:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 106:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 107:** `<textFieldExpression><![CDATA[$F{premios}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 107:** `<textFieldExpression><![CDATA[$F{premios}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 108:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 108:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 109:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 109:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 110:** `<reportElement x="490" y="0" width="65" height="20" uuid="c6f7a8b9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 110:** `<reportElement x="490" y="0" width="65" height="20" uuid="c6f7a8b9-d0e1-2f3a-4b5c-6d7e8f9a0b1c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 111:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 111:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 112:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 112:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 113:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 113:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 114:** `<textFieldExpression><![CDATA[$F{vivo}.booleanValue() ? "Activo" : "Inactivo"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 114:** `<textFieldExpression><![CDATA[$F{vivo}.booleanValue() ? "Activo" : "Inactivo"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 115:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 115:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 116:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 116:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 117:** `</detail>` → Cierra el elemento XML abierto anteriormente.
+**Línea 117:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
 
-**Línea 118:** `<pageFooter>` → Abre una sección/banda estructural del informe.
+**Línea 118:** `<pageFooter>` → Abre la banda Page Footer.
 
 **Línea 119:** `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 120:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 121:** `<reportElement x="0" y="3" width="150" height="15" uuid="33333333-3333-4333-8333-333333333331"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 121:** `<reportElement x="0" y="3" width="150" height="15" uuid="33333333-3333-4333-8333-333333333331"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 122:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 122:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 123:** `<text><![CDATA[Total de autores:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 123:** `<text><![CDATA[Total de autores:]]></text>` → Define el texto literal `Total de autores:` que se imprimirá.
 
-**Línea 124:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 124:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 125:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 125:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 126:** `<reportElement x="150" y="3" width="70" height="15" uuid="33333333-3333-4333-8333-333333333332"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 126:** `<reportElement x="150" y="3" width="70" height="15" uuid="33333333-3333-4333-8333-333333333332"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 127:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 127:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 128:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 128:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 129:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 129:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 130:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 130:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 131:** `<reportElement x="170" y="23" width="190" height="15" uuid="33333333-3333-4333-8333-333333333333"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 131:** `<reportElement x="170" y="23" width="190" height="15" uuid="33333333-3333-4333-8333-333333333333"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 132:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 132:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 133:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 133:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 134:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 134:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 135:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 135:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 136:** `<reportElement x="365" y="23" width="30" height="15" uuid="33333333-3333-4333-8333-333333333334"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 136:** `<reportElement x="365" y="23" width="30" height="15" uuid="33333333-3333-4333-8333-333333333334"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 137:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 137:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 138:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 138:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 139:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 139:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 140:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 140:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 141:** `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+**Línea 141:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
 
-**Línea 142:** `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+**Línea 142:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
 
-
-**Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
-
+**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
@@ -5423,7 +5417,7 @@ El punto 3.4 ha introducido la lectura de archivos JSON como fuente de datos par
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Actions.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.5. El bloque coincide con el archivo real versionado en GitHub.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -5568,279 +5562,277 @@ JRXML canónico del checkpoint. Es el mismo archivo que se compila en GitHub Act
 
 **Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre la plantilla JasperReports y define sus atributos principales.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Completa la definición declarativa del informe.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Declara el espacio de nombres/XSD usado para validar el JRXML.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Completa la definición declarativa del informe.
+**Línea 5:** `name="informe_ventas"` → Fija el nombre interno del informe.
 
-**Línea 6:** `language="java"` → Completa la definición declarativa del informe.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
 
-**Línea 7:** `pageWidth="595"` → Completa la definición declarativa del informe.
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
 
-**Línea 8:** `pageHeight="842"` → Completa la definición declarativa del informe.
+**Línea 8:** `pageHeight="842"` → Define la altura de la página.
 
-**Línea 9:** `columnWidth="555"` → Completa la definición declarativa del informe.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
 
-**Línea 10:** `leftMargin="20"` → Completa la definición declarativa del informe.
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
 
-**Línea 11:** `rightMargin="20"` → Completa la definición declarativa del informe.
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
 
-**Línea 12:** `topMargin="20"` → Completa la definición declarativa del informe.
+**Línea 12:** `topMargin="20"` → Define el margen superior.
 
-**Línea 13:** `bottomMargin="20"` → Completa la definición declarativa del informe.
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
 
-**Línea 14:** `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Completa la definición declarativa del informe.
+**Línea 14:** `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Fija el UUID del informe y completa la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
 
-**Línea 17:** `<queryString language="sql">` → Abre la consulta del dataset e indica el lenguaje de consulta.
+**Línea 17:** `<queryString language="sql">` → Abre la consulta o expresión de selección del dataset y declara el lenguaje sql.
 
-**Línea 18:** `<![CDATA[` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 18:** `<![CDATA[` → Abre un bloque CDATA para escribir la consulta sin que XML interprete sus caracteres.
 
-**Línea 19:** `SELECT l.titulo,` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 19:** `SELECT l.titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta SQL.
 
-**Línea 20:** `SUM(v.cantidad) AS unidades_vendidas,` → Completa la definición declarativa del informe.
+**Línea 20:** `SUM(v.cantidad) AS unidades_vendidas,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 21:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Completa la definición declarativa del informe.
+**Línea 21:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 22:** `AVG(v.precio_unitario) AS precio_medio` → Completa la definición declarativa del informe.
+**Línea 22:** `AVG(v.precio_unitario) AS precio_medio` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 23:** `FROM libros l` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 23:** `FROM libros l` → Indica la tabla principal de la consulta SQL.
 
-**Línea 24:** `INNER JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 24:** `INNER JOIN ventas v ON l.titulo = v.titulo_libro` → Combina las tablas mediante la condición indicada.
 
-**Línea 25:** `GROUP BY l.titulo` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 25:** `GROUP BY l.titulo` → Agrupa las filas antes de calcular los agregados.
 
-**Línea 26:** `ORDER BY importe_total DESC` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 26:** `ORDER BY importe_total DESC` → Ordena el resultado de la consulta.
 
-**Línea 27:** `]]>` → Completa la definición declarativa del informe.
+**Línea 27:** `]]>` → Cierra el bloque CDATA de la consulta.
 
-**Línea 28:** `</queryString>` → Cierra el elemento XML abierto anteriormente.
+**Línea 28:** `</queryString>` → Cierra la consulta o expresión de selección del dataset.
 
-**Línea 29:** `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 29:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 30:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 30:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 31:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 31:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 32:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 32:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 33:** `<background>` → Abre una sección/banda estructural del informe.
+**Línea 33:** `<background>` → Abre la banda Background.
 
 **Línea 34:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 35:** `</background>` → Cierra el elemento XML abierto anteriormente.
+**Línea 35:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
-**Línea 36:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 36:** `` → Continúa la definición declarativa del informe.
 
-**Línea 37:** `<title>` → Abre una sección/banda estructural del informe.
+**Línea 37:** `<title>` → Abre la banda Title.
 
 **Línea 38:** `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 39:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 40:** `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 40:** `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 41:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 41:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 42:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 42:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 43:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 43:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 44:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 44:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal `Informe de Ventas - Agregación por Título` que se imprimirá.
 
-**Línea 45:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 45:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 46:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 46:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 47:** `</title>` → Cierra el elemento XML abierto anteriormente.
+**Línea 47:** `</title>` → Cierra el elemento `title` abierto anteriormente.
 
-**Línea 48:** `<columnHeader>` → Abre una sección/banda estructural del informe.
+**Línea 48:** `<columnHeader>` → Abre la banda Column Header.
 
 **Línea 49:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 50:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 51:** `<reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 51:** `<reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 52:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 52:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 53:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 53:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 54:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 54:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 55:** `<text><![CDATA[Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 55:** `<text><![CDATA[Título]]></text>` → Define el texto literal `Título` que se imprimirá.
 
-**Línea 56:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 56:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 57:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 58:** `<reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 58:** `<reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 59:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 59:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 60:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 60:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 61:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 61:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 62:** `<text><![CDATA[Unidades]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 62:** `<text><![CDATA[Unidades]]></text>` → Define el texto literal `Unidades` que se imprimirá.
 
-**Línea 63:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 63:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 64:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 65:** `<reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 65:** `<reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 66:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 66:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 67:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 67:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 68:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 68:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 69:** `<text><![CDATA[Importe total]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 69:** `<text><![CDATA[Importe total]]></text>` → Define el texto literal `Importe total` que se imprimirá.
 
-**Línea 70:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 70:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 71:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 72:** `<reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 72:** `<reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 73:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 73:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 74:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 74:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 75:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 75:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 76:** `<text><![CDATA[Precio medio]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 76:** `<text><![CDATA[Precio medio]]></text>` → Define el texto literal `Precio medio` que se imprimirá.
 
-**Línea 77:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 77:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 78:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 78:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 79:** `</columnHeader>` → Cierra el elemento XML abierto anteriormente.
+**Línea 79:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
 
-**Línea 80:** `<detail>` → Abre una sección/banda estructural del informe.
+**Línea 80:** `<detail>` → Abre la banda Detail.
 
 **Línea 81:** `<band height="20" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 82:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 82:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 83:** `<reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 83:** `<reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 84:** `<textElement verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 84:** `<textElement verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 85:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 85:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 86:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 86:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 87:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 87:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 88:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 88:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 89:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 89:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 90:** `<reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 90:** `<reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 91:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 91:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 92:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 92:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 93:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 93:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 94:** `<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 94:** `<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 95:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 95:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 96:** `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 96:** `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 97:** `<reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 97:** `<reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 98:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 98:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 99:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 99:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 100:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 100:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 101:** `<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 101:** `<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 102:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 102:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 103:** `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 103:** `<textField pattern="#,##0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 104:** `<reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 104:** `<reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 105:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 105:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 106:** `<font fontName="DejaVu Sans" size="10"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 106:** `<font fontName="DejaVu Sans" size="10"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 107:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 107:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 108:** `<textFieldExpression><![CDATA[$F{precio_medio}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 108:** `<textFieldExpression><![CDATA[$F{precio_medio}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 109:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 109:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 110:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 110:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 111:** `</detail>` → Cierra el elemento XML abierto anteriormente.
+**Línea 111:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
 
-**Línea 112:** `<pageFooter>` → Abre una sección/banda estructural del informe.
+**Línea 112:** `<pageFooter>` → Abre la banda Page Footer.
 
 **Línea 113:** `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
 
 **Línea 114:** `<staticText>` → Abre un elemento de texto estático.
 
-**Línea 115:** `<reportElement x="0" y="3" width="150" height="15" uuid="44444444-4444-4444-8444-444444444441"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 115:** `<reportElement x="0" y="3" width="150" height="15" uuid="44444444-4444-4444-8444-444444444441"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 116:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 116:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 117:** `<text><![CDATA[Total de títulos:]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 117:** `<text><![CDATA[Total de títulos:]]></text>` → Define el texto literal `Total de títulos:` que se imprimirá.
 
-**Línea 118:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 118:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 119:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 119:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 120:** `<reportElement x="150" y="3" width="70" height="15" uuid="44444444-4444-4444-8444-444444444442"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 120:** `<reportElement x="150" y="3" width="70" height="15" uuid="44444444-4444-4444-8444-444444444442"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 121:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 121:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 122:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 122:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 123:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 123:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 124:** `<textField>` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 124:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 125:** `<reportElement x="170" y="23" width="190" height="15" uuid="44444444-4444-4444-8444-444444444443"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 125:** `<reportElement x="170" y="23" width="190" height="15" uuid="44444444-4444-4444-8444-444444444443"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 126:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 126:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 127:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 127:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 128:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 128:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 129:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico; puede incluir patrón o gestión de nulos.
+**Línea 129:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 130:** `<reportElement x="365" y="23" width="30" height="15" uuid="44444444-4444-4444-8444-444444444444"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 130:** `<reportElement x="365" y="23" width="30" height="15" uuid="44444444-4444-4444-8444-444444444444"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 131:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura alineación y propiedades del contenido textual.
+**Línea 131:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 132:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 132:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 133:** `</textField>` → Cierra el elemento XML abierto anteriormente.
+**Línea 133:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 134:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 134:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 135:** `</pageFooter>` → Cierra el elemento XML abierto anteriormente.
+**Línea 135:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
 
-**Línea 136:** `</jasperReport>` → Cierra el elemento XML abierto anteriormente.
+**Línea 136:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
 
-
-**Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
-
+**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
@@ -6619,7 +6611,7 @@ El punto 3.5 ha introducido las consultas SQL complejas y ha demostrado su uso c
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta Parte B utilizan las mismas alturas, coordenadas, expresiones y tipos.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.6. El bloque coincide con el archivo real versionado en GitHub.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -6785,51 +6777,51 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con su esquema XSD.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con el XSD usado para validar la estructura.
 
 **Línea 5:** `name="informe_ventas"` → Fija el nombre interno del informe.
 
-**Línea 6:** `language="java"` → Indica que las expresiones del informe se evalúan como Java.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evaluarán como Java.
 
-**Línea 7:** `pageWidth="595"` → Define el ancho de página.
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página.
 
-**Línea 8:** `pageHeight="842"` → Define la altura de página.
+**Línea 8:** `pageHeight="842"` → Define la altura de la página.
 
-**Línea 9:** `columnWidth="555"` → Define el ancho útil de la columna.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil disponible para las bandas.
 
-**Línea 10:** `leftMargin="20"` → Define uno de los márgenes del informe.
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
 
-**Línea 11:** `rightMargin="20"` → Define uno de los márgenes del informe.
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
 
-**Línea 12:** `topMargin="20"` → Define uno de los márgenes del informe.
+**Línea 12:** `topMargin="20"` → Define el margen superior.
 
-**Línea 13:** `bottomMargin="20"` → Define uno de los márgenes del informe.
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
 
-**Línea 14:** `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Fija el UUID del informe y cierra la apertura del elemento raíz.
+**Línea 14:** `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Fija el UUID del informe y completa la apertura del elemento raíz.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter que Jaspersoft Studio utilizará durante Preview.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado del informe.
 
-**Línea 17:** `<queryString language="sql">` → Abre la consulta del dataset y declara su lenguaje.
+**Línea 17:** `<queryString language="sql">` → Abre la consulta o expresión de selección del dataset y declara el lenguaje sql.
 
-**Línea 18:** `<![CDATA[` → Abre CDATA para que XML no interprete los caracteres de la consulta.
+**Línea 18:** `<![CDATA[` → Abre un bloque CDATA para escribir la consulta sin que XML interprete sus caracteres.
 
-**Línea 19:** `SELECT l.titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta.
+**Línea 19:** `SELECT l.titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta SQL.
 
-**Línea 20:** `SUM(v.cantidad) AS unidades_vendidas,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 20:** `SUM(v.cantidad) AS unidades_vendidas,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 21:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 21:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 22:** `AVG(v.precio_unitario) AS precio_medio,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 22:** `AVG(v.precio_unitario) AS precio_medio,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 23:** `MIN(v.fecha_venta) AS primera_venta,` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 23:** `MIN(v.fecha_venta) AS primera_venta,` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 24:** `MAX(v.fecha_venta) AS ultima_venta` → Añade una columna o expresión calculada al resultado SQL.
+**Línea 24:** `MAX(v.fecha_venta) AS ultima_venta` → Añade una columna o expresión calculada al resultado de la consulta.
 
-**Línea 25:** `FROM libros l` → Indica la tabla principal de la consulta.
+**Línea 25:** `FROM libros l` → Indica la tabla principal de la consulta SQL.
 
-**Línea 26:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Combina tablas mediante la condición indicada.
+**Línea 26:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Combina las tablas mediante la condición indicada.
 
 **Línea 27:** `GROUP BY l.titulo` → Agrupa las filas antes de calcular los agregados.
 
@@ -6837,7 +6829,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 29:** `]]>` → Cierra el bloque CDATA de la consulta.
 
-**Línea 30:** `</queryString>` → Cierra la consulta del dataset.
+**Línea 30:** `</queryString>` → Cierra la consulta o expresión de selección del dataset.
 
 **Línea 31:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
@@ -6855,7 +6847,7 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 38:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
 
-**Línea 39:** `</background>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 39:** `</background>` → Cierra el elemento `background` abierto anteriormente.
 
 **Línea 40:** `<title>` → Abre la banda Title.
 
@@ -6865,19 +6857,19 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 43:** `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 44:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación del contenido textual.
+**Línea 44:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación y el formato textual del elemento.
 
-**Línea 45:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura familia, tamaño y estilo de la fuente.
+**Línea 45:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura la familia, el tamaño y el estilo de la fuente.
 
-**Línea 46:** `</textElement>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 46:** `</textElement>` → Cierra el elemento `textElement` abierto anteriormente.
 
-**Línea 47:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal que se imprimirá.
+**Línea 47:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal `Informe de Ventas - Agregación por Título` que se imprimirá.
 
-**Línea 48:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 48:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 49:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 49:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 50:** `</title>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 50:** `</title>` → Cierra el elemento `title` abierto anteriormente.
 
 **Línea 51:** `<columnHeader>` → Abre la banda Column Header.
 
@@ -6887,75 +6879,75 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 54:** `<reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 55:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 55:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 56:** `<text><![CDATA[Título]]></text>` → Define el texto literal que se imprimirá.
+**Línea 56:** `<text><![CDATA[Título]]></text>` → Define el texto literal `Título` que se imprimirá.
 
-**Línea 57:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 57:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 58:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 59:** `<reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 60:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 60:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 61:** `<text><![CDATA[Unidades]]></text>` → Define el texto literal que se imprimirá.
+**Línea 61:** `<text><![CDATA[Unidades]]></text>` → Define el texto literal `Unidades` que se imprimirá.
 
-**Línea 62:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 62:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 63:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 64:** `<reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 65:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 65:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 66:** `<text><![CDATA[Importe total]]></text>` → Define el texto literal que se imprimirá.
+**Línea 66:** `<text><![CDATA[Importe total]]></text>` → Define el texto literal `Importe total` que se imprimirá.
 
-**Línea 67:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 67:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 68:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 69:** `<reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 70:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 70:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 71:** `<text><![CDATA[Precio medio]]></text>` → Define el texto literal que se imprimirá.
+**Línea 71:** `<text><![CDATA[Precio medio]]></text>` → Define el texto literal `Precio medio` que se imprimirá.
 
-**Línea 72:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 72:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 73:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 74:** `<reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 75:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 75:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 76:** `<text><![CDATA[Primera venta]]></text>` → Define el texto literal que se imprimirá.
+**Línea 76:** `<text><![CDATA[Primera venta]]></text>` → Define el texto literal `Primera venta` que se imprimirá.
 
-**Línea 77:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 77:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 78:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 79:** `<reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 80:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 80:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 81:** `<text><![CDATA[Última venta]]></text>` → Define el texto literal que se imprimirá.
+**Línea 81:** `<text><![CDATA[Última venta]]></text>` → Define el texto literal `Última venta` que se imprimirá.
 
-**Línea 82:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 82:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 83:** `<staticText>` → Abre un elemento de texto estático.
 
 **Línea 84:** `<reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 85:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 85:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 86:** `<text><![CDATA[Periodo de ventas]]></text>` → Define el texto literal que se imprimirá.
+**Línea 86:** `<text><![CDATA[Periodo de ventas]]></text>` → Define el texto literal `Periodo de ventas` que se imprimirá.
 
-**Línea 87:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 87:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
-**Línea 88:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 88:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 89:** `</columnHeader>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 89:** `</columnHeader>` → Cierra el elemento `columnHeader` abierto anteriormente.
 
 **Línea 90:** `<detail>` → Abre la banda Detail.
 
@@ -6965,75 +6957,75 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 93:** `<reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 94:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 94:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 95:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 96:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 96:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 97:** `<textField isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 98:** `<reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 99:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 99:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 100:** `<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 101:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 101:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 102:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 103:** `<reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 104:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 104:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 105:** `<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 106:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 106:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 107:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 108:** `<reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 109:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 109:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 110:** `<textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 111:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 111:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 112:** `<textField isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 113:** `<reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 114:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 114:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 115:** `<textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 116:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 116:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 117:** `<textField isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 118:** `<reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 119:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 119:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 120:** `<textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 121:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 121:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 122:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 123:** `<reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 124:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 124:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 125:** `<textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 126:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 126:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 127:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 127:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 128:** `</detail>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 128:** `</detail>` → Cierra el elemento `detail` abierto anteriormente.
 
 **Línea 129:** `<pageFooter>` → Abre la banda Page Footer.
 
@@ -7043,49 +7035,49 @@ Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta 
 
 **Línea 132:** `<reportElement x="0" y="3" width="150" height="15" uuid="55555555-5555-4555-8555-555555555551"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 133:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 133:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
-**Línea 134:** `<text><![CDATA[Total de títulos:]]></text>` → Define el texto literal que se imprimirá.
+**Línea 134:** `<text><![CDATA[Total de títulos:]]></text>` → Define el texto literal `Total de títulos:` que se imprimirá.
 
-**Línea 135:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 135:** `</staticText>` → Cierra el elemento `staticText` abierto anteriormente.
 
 **Línea 136:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 137:** `<reportElement x="150" y="3" width="70" height="15" uuid="55555555-5555-4555-8555-555555555552"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 138:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 138:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 139:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 140:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 140:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 141:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 142:** `<reportElement x="170" y="23" width="190" height="15" uuid="55555555-5555-4555-8555-555555555553"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 143:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 143:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 144:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 145:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 145:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
 **Línea 146:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
 
 **Línea 147:** `<reportElement x="365" y="23" width="30" height="15" uuid="55555555-5555-4555-8555-555555555554"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
 
-**Línea 148:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+**Línea 148:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación y el formato textual del elemento.
 
 **Línea 149:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
 
-**Línea 150:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 150:** `</textField>` → Cierra el elemento `textField` abierto anteriormente.
 
-**Línea 151:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 151:** `</band>` → Cierra el elemento `band` abierto anteriormente.
 
-**Línea 152:** `</pageFooter>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 152:** `</pageFooter>` → Cierra el elemento `pageFooter` abierto anteriormente.
 
-**Línea 153:** `</jasperReport>` → Cierra el elemento JRXML abierto correspondiente.
+**Línea 153:** `</jasperReport>` → Cierra el elemento `jasperReport` abierto anteriormente.
 
-**Comprobación:** el bloque anterior coincide literalmente con el archivo JRXML versionado del checkpoint; las coordenadas se mantienen dentro de `columnWidth="555"` y la estructura es la que valida el workflow E2E.
+**Comprobación:** el código documentado coincide literalmente con el JRXML del checkpoint y el workflow E2E lo compila antes de generar el PDF del ejercicio.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
