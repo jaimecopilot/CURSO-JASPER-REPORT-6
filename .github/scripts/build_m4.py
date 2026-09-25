@@ -283,7 +283,7 @@ def report_jrxml(stage: int) -> str:
     footer = f'''    <pageFooter>
         <band height="{footer_h}">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
-            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression>{cdata("$V{REPORT_COUNT}")}</textFieldExpression></textField>
+            <textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression>{cdata("$V{REPORT_COUNT}")}</textFieldExpression></textField>
             <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_page)}</textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression>{cdata("$V{PAGE_NUMBER}")}</textFieldExpression></textField>'''
     if has_vars:
