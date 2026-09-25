@@ -776,7 +776,7 @@ def tail(point):
                 ("La lista se trata como un String","se intenta pasar SQL textual","pasar una `Collection` y usar `$X{IN,...}`"),
                 ("Se usa `$P{categoriasLista} IS NULL OR $X{...}`","la Collection se intenta enlazar como un escalar","usar directamente `$X{IN,...}`"),
                 ("Se afirma que `$X{}` es sustitución directa","confusión con `$P!{}`","reservar `$P!{}` para sustitución textual directa"),
-                ("La lista vacía se explica como `IN ()`","la función `$X{IN}` tiene semántica de no-values configurable","documentar la cláusula true/false configurada, no `IN ()`"),
+                ("La lista vacía se explica como SQL inválido","la función `$X{IN}` tiene semántica de no-values configurable","documentar la cláusula constante true/false configurada"),
                 ("La prueba de inyección usa Program Arguments","el generador no lee `args`","probar cambiando temporalmente el valor del mapa o mediante CI")
             ],
             "challenge":"Usar temporalmente `Arrays.asList(\"Novela\", \"Poesía\")` y `textoBusqueda=\"a\"`; ejecutar el informe, anotar `Resultados encontrados` y restaurar después `textoBusqueda=null` y las cuatro categorías del baseline.",
@@ -948,7 +948,7 @@ Un `conditionalStyle` añade propiedades visuales cuando su condición booleana 
 </style>
 ```
 
-El atributo `style="Dato"` indica el estilo padre en JRXML. No se utiliza `parent="Dato"` en esta sintaxis. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.
+El atributo `style="Dato"` referencia el estilo base del que hereda este estilo. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.
 
 ''', text, count=1)
 
@@ -1000,7 +1000,7 @@ El operador `IN` necesita un número variable de placeholders. Por eso una colec
 </queryString>
 ```
 
-Si la colección contiene valores no nulos, JasperReports genera `categoria IN (?, ?, ...)` y enlaza cada elemento. Si contiene valores nulos puede generar también la parte `IS NULL` correspondiente. Para una colección nula o vacía no genera `IN ()`: produce una cláusula que evalúa a verdadero o falso según el cuarto argumento opcional y la propiedad de configuración `net.sf.jasperreports.sql.clause.in.novalues.result`.
+Si la colección contiene valores no nulos, JasperReports genera `categoria IN (?, ?, ...)` y enlaza cada elemento. Si contiene valores nulos puede generar también la parte `IS NULL` correspondiente. Para una colección nula o vacía genera una cláusula que evalúa a verdadero o falso según el cuarto argumento opcional y la propiedad de configuración `net.sf.jasperreports.sql.clause.in.novalues.result`.
 
 En EditorialReports el escenario base pasa las cuatro categorías conocidas para conservar los 14 títulos. Durante la práctica puede usarse una colección reducida para comprobar el filtrado.
 
@@ -1090,6 +1090,8 @@ def patch_audit(path: Path):
     extra=r'''
 for token in (
     '<initialValueExpression>',
+    'parent="',
+    'IN ()',
     'aplica el último cuya condición sea verdadera',
     'último bloque verdadero',
     'Sustitución directa `$X{}`',
@@ -1119,7 +1121,7 @@ if 'PreparedStatement' not in T or '$P!{}`' not in T:
 def final_theory_cleanup(text: str) -> str:
     # 4.5: explicar la herencia sin reintroducir sintaxis JRXML inválida.
     text = text.replace(
-        'El atributo \`style="Dato"\` indica el estilo padre en JRXML. No se utiliza \`parent="Dato"\` en esta sintaxis. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.',
+        'El atributo \`style="Dato"\` referencia el estilo base del que hereda este estilo. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.',
         'El atributo \`style="Dato"\` referencia el estilo base del que hereda este estilo. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.'
     )
 
@@ -1226,7 +1228,7 @@ Una colección no debe tratarse como un único parámetro escalar dentro de \`IN
 
 Si la colección contiene, por ejemplo, \`Novela\` y \`Poesía\`, JasperReports construye una condición equivalente a \`categoria IN (?, ?)\` y enlaza los dos valores. La función también contempla valores nulos dentro de la colección.
 
-Una colección nula o vacía **no se convierte simplemente en \`IN ()\`**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad \`net.sf.jasperreports.sql.clause.in.novalues.result\`. Por eso una práctica correcta no debe enseñar \`IN ()\` como salida esperada.
+Una colección nula o vacía **no se convierte en una lista SQL inválida**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad \`net.sf.jasperreports.sql.clause.in.novalues.result\`. Por eso una práctica correcta no debe enseñar \`IN ()\` como salida esperada.
 
 En el checkpoint 4.6 el escenario base pasa explícitamente las cuatro categorías existentes. Así se conservan los 14 títulos mientras se demuestra el mecanismo \`$X{IN,...}\`.
 
