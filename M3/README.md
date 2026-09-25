@@ -22,3 +22,5 @@ Estado ejecutable: **3.1-3.7 PASS END-TO-END**.
 Estado documental: **TEORIA_M3.pdf y PRACTICA_M3.pdf regenerados, preflight PASS y punto 3.7 auditado visualmente**.
 
 Los IDs de los runs, hashes SHA-256 y evidencia de cierre se mantienen en `VALIDACION_M3.md`.
+
+La evolución exacta entre checkpoints y la conservación de los artefactos heredados se documentan en `TRAZABILIDAD_M3.md` y se verifican automáticamente en CI.
