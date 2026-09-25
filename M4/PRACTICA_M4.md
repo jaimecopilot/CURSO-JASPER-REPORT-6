@@ -691,7 +691,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.1");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -740,7 +740,7 @@ public class GeneradorInformeVentas {
 | 35 | `                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` | Emite una traza verificable por CI. |
 | 36 | `                System.out.println("Paginas del documento: " + documento.getPages().size());` | Emite una traza verificable por CI. |
 | 37 | `                System.out.println("Parametro usuario: " + parametros.get("usuario"));` | Emite una traza verificable por CI. |
-| 38 | `                System.out.println("M4 checkpoint: 4.1");` | Emite una traza verificable por CI. |
+| 38 | `                System.out.println("M4 ventas generado correctamente");` | Emite una traza verificable por CI. |
 | 39 | `            }` | Cierra un bloque o inicia la gestión de excepciones. |
 | 40 | `        } catch (Exception e) {` | Cierra un bloque o inicia la gestión de excepciones. |
 | 41 | `            e.printStackTrace();` | Continúa la lógica del programa manteniendo el flujo compilación → llenado → exportación. |
@@ -1588,7 +1588,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.2");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1640,7 +1640,7 @@ public class GeneradorInformeVentas {
 | 38 | `                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` | Emite una traza verificable por CI. |
 | 39 | `                System.out.println("Paginas del documento: " + documento.getPages().size());` | Emite una traza verificable por CI. |
 | 40 | `                System.out.println("Parametro usuario: " + parametros.get("usuario"));` | Emite una traza verificable por CI. |
-| 41 | `                System.out.println("M4 checkpoint: 4.2");` | Emite una traza verificable por CI. |
+| 41 | `                System.out.println("M4 ventas generado correctamente");` | Emite una traza verificable por CI. |
 | 42 | `            }` | Cierra un bloque o inicia la gestión de excepciones. |
 | 43 | `        } catch (Exception e) {` | Cierra un bloque o inicia la gestión de excepciones. |
 | 44 | `            e.printStackTrace();` | Continúa la lógica del programa manteniendo el flujo compilación → llenado → exportación. |
@@ -2792,7 +2792,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.3");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2844,7 +2844,7 @@ public class GeneradorInformeVentas {
 | 38 | `                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` | Emite una traza verificable por CI. |
 | 39 | `                System.out.println("Paginas del documento: " + documento.getPages().size());` | Emite una traza verificable por CI. |
 | 40 | `                System.out.println("Parametro usuario: " + parametros.get("usuario"));` | Emite una traza verificable por CI. |
-| 41 | `                System.out.println("M4 checkpoint: 4.3");` | Emite una traza verificable por CI. |
+| 41 | `                System.out.println("M4 ventas generado correctamente");` | Emite una traza verificable por CI. |
 | 42 | `            }` | Cierra un bloque o inicia la gestión de excepciones. |
 | 43 | `        } catch (Exception e) {` | Cierra un bloque o inicia la gestión de excepciones. |
 | 44 | `            e.printStackTrace();` | Continúa la lógica del programa manteniendo el flujo compilación → llenado → exportación. |
@@ -3801,7 +3801,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.4");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -3853,7 +3853,7 @@ public class GeneradorInformeVentas {
 | 38 | `                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` | Emite una traza verificable por CI. |
 | 39 | `                System.out.println("Paginas del documento: " + documento.getPages().size());` | Emite una traza verificable por CI. |
 | 40 | `                System.out.println("Parametro usuario: " + parametros.get("usuario"));` | Emite una traza verificable por CI. |
-| 41 | `                System.out.println("M4 checkpoint: 4.4");` | Emite una traza verificable por CI. |
+| 41 | `                System.out.println("M4 ventas generado correctamente");` | Emite una traza verificable por CI. |
 | 42 | `            }` | Cierra un bloque o inicia la gestión de excepciones. |
 | 43 | `        } catch (Exception e) {` | Cierra un bloque o inicia la gestión de excepciones. |
 | 44 | `            e.printStackTrace();` | Continúa la lógica del programa manteniendo el flujo compilación → llenado → exportación. |
@@ -4830,7 +4830,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.5");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -4883,7 +4883,7 @@ public class GeneradorInformeVentas {
 | 39 | `                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` | Emite una traza verificable por CI. |
 | 40 | `                System.out.println("Paginas del documento: " + documento.getPages().size());` | Emite una traza verificable por CI. |
 | 41 | `                System.out.println("Parametro usuario: " + parametros.get("usuario"));` | Emite una traza verificable por CI. |
-| 42 | `                System.out.println("M4 checkpoint: 4.5");` | Emite una traza verificable por CI. |
+| 42 | `                System.out.println("M4 ventas generado correctamente");` | Emite una traza verificable por CI. |
 | 43 | `            }` | Cierra un bloque o inicia la gestión de excepciones. |
 | 44 | `        } catch (Exception e) {` | Cierra un bloque o inicia la gestión de excepciones. |
 | 45 | `            e.printStackTrace();` | Continúa la lógica del programa manteniendo el flujo compilación → llenado → exportación. |
@@ -5885,7 +5885,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.6");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -5941,7 +5941,7 @@ public class GeneradorInformeVentas {
 | 42 | `                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` | Emite una traza verificable por CI. |
 | 43 | `                System.out.println("Paginas del documento: " + documento.getPages().size());` | Emite una traza verificable por CI. |
 | 44 | `                System.out.println("Parametro usuario: " + parametros.get("usuario"));` | Emite una traza verificable por CI. |
-| 45 | `                System.out.println("M4 checkpoint: 4.6");` | Emite una traza verificable por CI. |
+| 45 | `                System.out.println("M4 ventas generado correctamente");` | Emite una traza verificable por CI. |
 | 46 | `            }` | Cierra un bloque o inicia la gestión de excepciones. |
 | 47 | `        } catch (Exception e) {` | Cierra un bloque o inicia la gestión de excepciones. |
 | 48 | `            e.printStackTrace();` | Continúa la lógica del programa manteniendo el flujo compilación → llenado → exportación. |

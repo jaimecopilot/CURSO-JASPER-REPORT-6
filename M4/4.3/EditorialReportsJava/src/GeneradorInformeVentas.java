@@ -38,7 +38,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
-                System.out.println("M4 checkpoint: 4.3");
+                System.out.println("M4 ventas generado correctamente");
             }
         } catch (Exception e) {
             e.printStackTrace();
