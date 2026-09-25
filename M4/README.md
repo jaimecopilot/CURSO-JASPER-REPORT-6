@@ -19,12 +19,12 @@ Proyecto acumulativo: **EditorialReports**.
 
 - Run E2E final: **36186862553 — SUCCESS**
 - Commit revalidado E2E: `4c5ed4a0061c74f93fbb43ae57f9486551e8c3e7`
-- Run documental final: **36186862616 — SUCCESS**
-- Commit PDF versionado: `2c0aff62feb37219b1230c997442401d05d1a357`
+- Run documental/editorial final: **36190906104 — SUCCESS**
+- Commit PDF versionado: `61dfa8be05955155054b67e168448eaeb53d1240`
 - Teoría: **27 páginas A4**
 - Práctica: **129 páginas A4**
 - Preflight: **0 incidencias, 0 glifos de sustitución**
-- Revisión visual completa: **156/156 páginas docentes**
+- Revisión visual previa completa: **156/156 páginas docentes**; tras la recuperación editorial se revisaron de nuevo **27/27 páginas de teoría** y todas las páginas de práctica modificadas
 - Runtime final 4.6 revisado: **3/3 páginas de informe de ventas**
 
 ## Documentación
@@ -52,7 +52,17 @@ Proyecto acumulativo: **EditorialReports**.
 - Las Partes A tienen 12–15 pasos GUI verificados y llevan al mismo estado que Partes B/C y checkpoint.
 - `Total de títulos` usa `evaluationTime="Report"` y muestra 14 en todas las páginas del runtime final.
 
+## Auditoría editorial final
+
+- `AUDITORIA_EDITORIAL_M4.md` compara la fuente completa con teoría, práctica y checkpoints.
+- **37/37 objetivos** originales representados.
+- **30/30 bloques teóricos** cubiertos.
+- **6/6 retos originales** recuperados o corregidos técnicamente.
+- El código ejecutable no cambió: comparación de **108 ficheros Java/JRXML/pom/SQLite/datos = 0 diferencias** frente al commit E2E validado.
+- Se corrigió la pérdida de profundidad de 4.6: `NOTIN`, comodines `%`/`_`, rangos de fechas, validación Java y semántica de colecciones.
+- Se eliminaron de los ejemplos docentes comparaciones y cálculos no null-safe incompatibles con el `LEFT JOIN`.
+
 ## Hashes PDF vigentes
 
-- `TEORIA_M4.pdf`: `35084d68bd119e29b4a5c47321d2484515c6252fd48e0dd86764323e6b205869`
-- `PRACTICA_M4.pdf`: `3d5864cad2cd611743ed25e8a7267f8ad87e1e1cdc652601002344f4f30594a7`
+- `TEORIA_M4.pdf`: `b3af1a60b302011beda56f29a59370294a962f9ace8e9a906c2761dab98b14ec`
+- `PRACTICA_M4.pdf`: `d78e9eb4d1b6e32228880aaabeb4b9420fcaa22204fae632082741fa32d31bab`

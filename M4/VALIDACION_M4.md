@@ -74,8 +74,8 @@ Comprobaciones finales visibles:
 
 ## Auditoría documental definitiva
 
-Run: **36186862616 — SUCCESS**  
-Job: **108242247066 — SUCCESS**
+Run documental/editorial final: **36190906104 — SUCCESS**  
+Job: **108255508702 — SUCCESS**
 
 Antes de renderizar se ejecutaron y pasaron:
 
@@ -97,16 +97,32 @@ La auditoría documental comprueba:
 - **12–15 pasos GUI contiguos en cada punto**;
 - propiedades GUI concretas coherentes con cada checkpoint.
 
+## Auditoría editorial de cobertura
+
+Se añadió `M4/AUDITORIA_EDITORIAL_M4.md` y una validación reproducible en `.github/scripts/editorial_audit_m4.py`.
+
+Resultado:
+
+- **37/37 objetivos originales** representados;
+- **30/30 bloques teóricos** cubiertos;
+- **6/6 retos originales** recuperados o auditados/corregidos;
+- analogía, resultado esperado y conclusión conservados en los seis puntos;
+- 4.6 recupera `NOTIN`, comodines `%`/`_`, diferencias de concatenación, rangos de fechas, no-values y validación Java;
+- los retos que contenían una suposición incorrecta no se restauran literalmente: se conserva su intención y se explica la corrección;
+- comparación binaria de **108 ficheros ejecutables** entre el commit E2E validado `4c5ed4a...` y el árbol editorial generado: **0 diferencias**.
+
+La recuperación editorial no modifica Java, JRXML, `pom.xml`, SQLite ni los datos ya validados E2E.
+
 ## PDF docentes definitivos
 
 Artefacto: **M4-documentacion-final**  
-Artifact ID: **10886760522**  
-Digest ZIP: `sha256:69d2b0e1d5545a444b33c74e6a013569e037b73a966752463370e486932e5ce0`
+Artifact ID: **10887892960**  
+Digest ZIP: `sha256:4e41140736e00d3e04c5a38a3d937fe61254d69687b711d4fad6a9d819997b23`
 
 - `TEORIA_M4.pdf`: **27 páginas A4**  
-  SHA-256: `35084d68bd119e29b4a5c47321d2484515c6252fd48e0dd86764323e6b205869`
+  SHA-256: `b3af1a60b302011beda56f29a59370294a962f9ace8e9a906c2761dab98b14ec`
 - `PRACTICA_M4.pdf`: **129 páginas A4**  
-  SHA-256: `3d5864cad2cd611743ed25e8a7267f8ad87e1e1cdc652601002344f4f30594a7`
+  SHA-256: `d78e9eb4d1b6e32228880aaabeb4b9420fcaa22204fae632082741fa32d31bab`
 
 Preflight:
 
@@ -116,7 +132,7 @@ Preflight:
 
 ## Revisión visual completa
 
-Se renderizaron e inspeccionaron **27/27 páginas de teoría y 129/129 de práctica: 156/156 páginas docentes**.
+En la revisión técnica anterior se inspeccionaron **27/27 páginas de teoría y 129/129 de práctica: 156/156 páginas docentes**. Tras recuperar cobertura editorial, se inspeccionaron de nuevo **27/27 páginas de teoría** y todas las páginas de práctica alteradas por los seis retos y sus cierres; el preflight automático volvió a comprobar las 129 páginas de práctica.
 
 Resultado:
 
@@ -137,7 +153,9 @@ Durante esta reauditoría se detectaron y corrigieron antes del cierre:
 3. divergencias Parte A ↔ checkpoint;
 4. puntos 4.3–4.5 con menos de 12 pasos GUI;
 5. Markdown escapado que se imprimía crudo en teoría 4.6;
-6. rótulo `Total de títulos` usando `REPORT_COUNT` con evaluación inmediata; ahora usa `evaluationTime="Report"`.
+6. rótulo `Total de títulos` usando `REPORT_COUNT` con evaluación inmediata; ahora usa `evaluationTime="Report"`;
+7. recuperación editorial de los 37 objetivos, 30 bloques y seis retos originales sin reintroducir errores técnicos;
+8. página vacía de teoría producida por separadores decorativos antes de un salto de punto; el renderer elimina esos separadores y el preflight final queda en 0 incidencias.
 
 ## Checklist de cierre
 
@@ -152,8 +170,10 @@ Durante esta reauditoría se detectaron y corrigieron antes del cierre:
 - [x] pruebas funcionales adicionales PASS;
 - [x] 14 / 9 / 31 / 633,40 verificados;
 - [x] PDFs docentes generados y preflight PASS;
-- [x] 156/156 páginas docentes revisadas visualmente;
+- [x] revisión visual integral previa 156/156 + revisión posterior de 27/27 teoría y páginas modificadas de práctica;
 - [x] runtime final 4.6 revisado visualmente;
+- [x] auditoría editorial 37/37 objetivos, 30/30 bloques y 6/6 retos;
+- [x] 108 ficheros ejecutables sin diferencias respecto al E2E validado;
 - [x] validaciones actualizadas con evidencia real;
 - [x] M5 no creado.
 

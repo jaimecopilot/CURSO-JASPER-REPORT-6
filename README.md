@@ -66,9 +66,9 @@ Documentación: `M3/TEORIA_M3.md`, `M3/TEORIA_M3.pdf`, `M3/PRACTICA_M3.md`, `M3/
 Estado: **4.1–4.6 PASS END-TO-END**.
 
 Run E2E final M4: **36186862553 — SUCCESS**.  
-Run documental final M4: **36186862616 — SUCCESS**.
+Run documental/editorial final M4: **36190906104 — SUCCESS**.
 
-Documentación: `M4/TEORIA_M4.md`, `M4/TEORIA_M4.pdf`, `M4/PRACTICA_M4.md`, `M4/PRACTICA_M4.pdf`, `M4/TRAZABILIDAD_M4.md`, `M4/VALIDACION_M4.md`.
+Documentación: `M4/TEORIA_M4.md`, `M4/TEORIA_M4.pdf`, `M4/PRACTICA_M4.md`, `M4/PRACTICA_M4.pdf`, `M4/TRAZABILIDAD_M4.md`, `M4/AUDITORIA_EDITORIAL_M4.md`, `M4/VALIDACION_M4.md`.
 
 ## Criterio de validación
 
