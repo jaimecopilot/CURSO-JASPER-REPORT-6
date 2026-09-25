@@ -14,6 +14,7 @@
 - 3.4 Ficheros JSON
 - 3.5 Consultas SQL
 - 3.6 Fields
+- 3.7 Introducción a Parameters y Variables
 
 ### Estado del proyecto al inicio del módulo
 
@@ -21,7 +22,7 @@ M3 comienza desde el checkpoint validado `M2/2.6`. Se conservan `EditorialReport
 
 ### Correcciones técnicas consolidadas en esta edición
 
-Esta edición separa el origen docente recibido de la solución ejecutable final. Se han corregido: la versión Maven real del driver Xerial (`3.44.0.0`), el mapeo XPath mediante `net.sf.jasperreports.xpath.field.expression`, la selección explícita `JsonDataSource(..., "autores")`, la sintaxis del lenguaje JSON de JasperReports frente a JSONPath externo, la parametrización SQL con `$P{}` mediante `PreparedStatement`, el soporte de `RIGHT/FULL OUTER JOIN` en SQLite 3.44, el tratamiento de fechas almacenadas como `TEXT`, el uso de `textAdjust="StretchHeight"` y los nulos del informe final mediante `LEFT JOIN`.
+Esta edición separa el origen docente recibido de la solución ejecutable final. Se han corregido: la versión Maven real del driver Xerial (`3.44.0.0`), el mapeo XPath mediante `net.sf.jasperreports.xpath.field.expression`, la selección explícita `JsonDataSource(..., "autores")`, la sintaxis del lenguaje JSON de JasperReports frente a JSONPath externo, la parametrización SQL con `$P{}` mediante `PreparedStatement`, el soporte de `RIGHT/FULL OUTER JOIN` en SQLite 3.44, el tratamiento de fechas almacenadas como `TEXT`, el uso de `textAdjust="StretchHeight"`, los nulos del informe final mediante `LEFT JOIN` y la introducción correcta de Parameters/Variables sin confundir `PAGE_COUNT` con el total de páginas.
 
 ---
 
@@ -1595,5 +1596,192 @@ PROCESO DE DECLARACIÓN DE CAMPOS
 - Las buenas prácticas incluyen tipos coherentes, alias descriptivos y documentación.
 
 ---
+
+---
+
+# Punto 3.7 — Introducción a Parameters y Variables
+
+## Módulo, proyecto y objetivos de aprendizaje
+
+**Módulo:** 3 — Conexión a datos (3,5 horas)  
+**Proyecto:** EditorialReports — sistema de informes empresariales para una editorial  
+**Punto:** 3.7 — Introducción a Parameters y Variables
+
+**Objetivos de aprendizaje**
+
+- Diferenciar campos, parámetros y variables mediante las referencias `$F{}`, `$P{}` y `$V{}`.
+- Declarar parámetros en JRXML y asignarles un tipo Java.
+- Pasar parámetros desde Java mediante `Map<String, Object>`.
+- Comprender el comportamiento de un parámetro ausente y de `defaultValueExpression`.
+- Declarar variables propias con `calculation` y `resetType`.
+- Utilizar correctamente las variables del sistema `PAGE_NUMBER`, `PAGE_COUNT`, `REPORT_COUNT`, `COLUMN_NUMBER` y `COLUMN_COUNT`.
+- Combinar parámetros, fields y variables en expresiones.
+- Aplicar los conceptos sobre el informe de ventas acumulativo del punto 3.6.
+
+---
+
+## Parte teórica
+
+### Bloque 1 — Campos, parámetros y variables: tres orígenes distintos
+
+JasperReports utiliza referencias con una sintaxis parecida, pero cada familia representa una fuente de valor diferente. Un **field** se obtiene de la fuente de datos y suele cambiar con cada registro; un **parameter** es un valor externo suministrado al proceso de llenado; una **variable** es un valor que el motor mantiene o calcula durante el llenado. La distinción determina quién proporciona el valor, cuándo puede cambiar y en qué expresiones debe utilizarse.
+
+```xml
+<field name="titulo" class="java.lang.String"/>
+<parameter name="usuario" class="java.lang.String"/>
+<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">
+    <variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>
+</variable>
+```
+
+**Línea 1:** declara un field cuyo valor procede del registro actual del dataset.  
+**Línea 2:** declara un parámetro externo de tipo `String`.  
+**Líneas 3-5:** declaran una variable que suma el field `unidades_vendidas` durante todo el informe.
+
+```text
+REFERENCIAS EN JASPERREPORTS
+
+  $F{titulo}            → FIELD     → viene de la fuente de datos
+  $P{usuario}           → PARAMETER → lo suministra el llamador o un valor por defecto
+  $V{TotalUnidades}     → VARIABLE  → la calcula el motor
+  $V{REPORT_COUNT}      → VARIABLE  → variable del sistema
+```
+
+Un field no debe utilizarse para representar una opción del usuario; un parámetro no debe sustituir un valor que pertenece a cada fila; una variable no debe usarse como simple alias de un parámetro. Elegir la referencia correcta hace explícito el ciclo de vida del dato.
+
+### Bloque 2 — Declaración y paso de parámetros
+
+Un parámetro se declara con `parameter`. El nombre debe coincidir exactamente con la clave utilizada en el mapa de parámetros y la clase debe ser compatible con el objeto entregado al motor. Un parámetro puede tener `defaultValueExpression`.
+
+```xml
+<parameter name="usuario" class="java.lang.String"/>
+<parameter name="fechaInforme" class="java.util.Date">
+    <defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+</parameter>
+```
+
+Si el llamador no suministra `fechaInforme`, se evalúa su expresión por defecto. Si no se suministra `usuario` y no existe valor por defecto, el valor del parámetro es `null`. Un error del tipo `Parameter not found` corresponde a una referencia a un parámetro que no está declarado en el informe, no al simple hecho de omitir una clave declarada del mapa.
+
+Desde Java se pasa un `Map<String, Object>`:
+
+```java
+Map<String, Object> parametros = new HashMap<String, Object>();
+parametros.put("usuario", "Ana Martínez");
+
+JasperPrint documento = JasperFillManager.fillReport(
+        rutaJasper,
+        parametros,
+        conexion);
+```
+
+La clave `usuario` coincide con el `name` del JRXML. `fechaInforme` no aparece en el mapa porque el checkpoint utiliza deliberadamente `new java.util.Date()` como valor por defecto.
+
+```text
+JAVA                         JASPERREPORTS
+──────────────────────       ─────────────────────────
+Map<String,Object>           <parameter ...>
+"usuario" ────────────────►  $P{usuario}
+(no fechaInforme) ─────────► defaultValueExpression
+```
+
+### Bloque 3 — Variables: cálculo, expresión y reinicio
+
+Las variables de usuario permiten acumular, contar o conservar valores durante el llenado. El atributo `calculation` define la operación y `resetType` define cuándo se reinicia.
+
+```xml
+<variable name="TotalImporte"
+          class="java.lang.Double"
+          calculation="Sum"
+          resetType="Report">
+    <variableExpression><![CDATA[$F{importe_total}]]></variableExpression>
+</variable>
+```
+
+En EditorialReports, `TotalImporte` suma los importes agregados de cada título. El `LEFT JOIN` heredado de 3.6 produce `null` para los títulos sin ventas; esos valores no añaden importe a la suma. Con los datos seed del curso, el resultado final es **633,40 €**.
+
+```text
+calculation
+  Nothing        → último valor evaluado
+  Count          → cuenta valores no nulos
+  DistinctCount  → cuenta valores distintos no nulos
+  Sum            → suma valores numéricos
+  Average        → calcula la media
+  Lowest         → conserva el mínimo
+  Highest        → conserva el máximo
+  First          → conserva el primer valor
+
+resetType
+  Report         → reinicia al comenzar el informe
+  Page           → reinicia al comenzar cada página
+  Column         → reinicia al comenzar cada columna
+  Group          → reinicia cuando rompe el grupo indicado
+  None           → no usa un reinicio periódico
+```
+
+Las variables se evalúan en el orden en el que están declaradas. Si una variable depende de otra variable, la variable de la que depende debe estar disponible cuando se evalúe la siguiente.
+
+### Bloque 4 — Variables del sistema y paginación correcta
+
+JasperReports crea variables del sistema sin necesidad de declararlas. Para este punto son especialmente útiles:
+
+```text
+REPORT_COUNT   → registros procesados en el dataset
+PAGE_NUMBER    → número de página actual; al final contiene el total de páginas
+PAGE_COUNT     → registros procesados en la página actual
+COLUMN_NUMBER  → número de columna actual
+COLUMN_COUNT   → registros procesados en la columna actual
+```
+
+Es fundamental no confundir `PAGE_COUNT` con el número total de páginas. **PAGE_COUNT cuenta registros procesados en la página actual.** Para mostrar «Página X de Y», el checkpoint conserva el patrón validado en 3.6: un Text Field utiliza `PAGE_NUMBER` normalmente para X y otro Text Field utiliza también `PAGE_NUMBER`, pero con `evaluationTime="Report"`, para resolver Y al final del llenado.
+
+```xml
+<textField>
+    <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+</textField>
+<textField evaluationTime="Report">
+    <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+</textField>
+```
+
+`REPORT_COUNT` sí es adecuado para «Total de títulos». En el checkpoint 3.7 el dataset conserva los 14 libros gracias al `LEFT JOIN`, de modo que al finalizar el informe `REPORT_COUNT = 14`.
+
+### Bloque 5 — Combinación de parámetros, fields y variables
+
+Las tres familias pueden participar en expresiones Java siempre que sus tipos sean compatibles. El título puede usar parámetros, el detalle usa fields y el resumen utiliza variables.
+
+```text
+Title:
+  $P{usuario}
+  $P{fechaInforme}
+
+Detail:
+  $F{titulo}
+  $F{unidades_vendidas}
+  $F{importe_total}
+
+Summary:
+  $V{TotalUnidades}
+  $V{TotalImporte}
+
+Page Footer:
+  $V{REPORT_COUNT}
+  $V{PAGE_NUMBER}
+```
+
+Esta separación refleja el ciclo completo: **entrada externa → datos por fila → acumulación → salida**. El programa decide quién solicita el informe, la consulta proporciona los registros, las variables resumen esos registros y las bandas presentan cada valor en el momento adecuado.
+
+---
+
+## Resumen rápido de la teoría
+
+- `$F{}` referencia fields del dataset.
+- `$P{}` referencia parámetros suministrados desde Java/Preview o resueltos mediante un valor por defecto.
+- Un parámetro declarado pero no suministrado vale `null` si no tiene `defaultValueExpression`.
+- `$V{}` referencia variables definidas por el usuario o variables del sistema.
+- `Sum`, `Count`, `Average`, `Lowest`, `Highest` y `DistinctCount` son cálculos habituales.
+- `Report`, `Page`, `Column`, `Group` y `None` controlan el reinicio.
+- `PAGE_COUNT` cuenta registros de la página; no es el total de páginas.
+- Para «Página X de Y», el checkpoint usa `PAGE_NUMBER` y otro `PAGE_NUMBER` con `evaluationTime="Report"`.
+- Con los datos seed actuales, `TotalUnidades = 31`, `TotalImporte = 633,40 €` y `REPORT_COUNT = 14`.
 
 ---
