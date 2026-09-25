@@ -196,6 +196,21 @@ bind #1 -> "Novela"
 
 El tipo Java sigue siendo importante porque determina cómo se enlaza el valor. `String`, `Integer`, `Double`, `Boolean` y fechas se entregan como valores JDBC tipados. Si Java proporciona `null`, JDBC enlaza SQL NULL. Por eso un filtro opcional puede escribirse como `($P{categoria} IS NULL OR l.categoria = $P{categoria})`: la primera condición desactiva el filtro cuando el valor es nulo.
 
+**Línea 1:** el parámetro `categoria` declara un valor Java `String`.  
+**Líneas 3-7:** `queryString` contiene SQL fijo; `$P{categoria}` ocupa el lugar de un valor, no de una palabra clave ni de un nombre de columna.  
+**SQL preparado:** el ejecutor sustituye la referencia por `?`.  
+**Bind #1:** JasperReports entrega `"Novela"` al driver como valor independiente.
+
+La misma idea se aplica a tipos numéricos, booleanos y fechas: el driver recibe un valor tipado. El diseñador debe preocuparse por que la clase Java del parámetro sea compatible con la columna, no por construir manualmente una representación SQL.
+
+| Tipo Java | Uso típico | Tratamiento |
+|---|---|---|
+| `String` | categoría, texto de búsqueda | bind JDBC de texto |
+| `Integer` | umbrales, identificadores | bind numérico entero |
+| `Double` | precios, porcentajes | bind numérico decimal |
+| `Boolean` | flags | bind booleano según el driver |
+| fecha/fecha ISO | rangos temporales | bind compatible con la columna y el motor |
+
 **Qué se conserva del material original:** la relación entre tipo Java y tipo SQL y la idea de filtros parametrizados. **Qué se corrige:** `$P{}` no es sustitución textual previa a la consulta; usa placeholders y parámetros enlazados.
 
 ### Bloque 2 — Diferencia entre `$P{}`, `$X{}` y `$P!{}`
@@ -219,6 +234,12 @@ $P!{ordenControlado}
   Inserta texto, por ejemplo un fragmento ORDER BY elegido de una lista cerrada.
 ```
 
+**Lectura del esquema anterior:**
+
+- `$P{categoria}` responde a la pregunta “¿qué valor comparar?”.
+- `$X{IN,...}` responde a “¿cuántos valores forman la cláusula y qué placeholders hacen falta?”.
+- `$P!{ordenControlado}` responde a “¿qué fragmento de sintaxis SQL debe escribirse aquí?”.
+
 El Query Sample oficial de JasperReports muestra precisamente esta diferencia: `$P{}` y `$X{}` producen parámetros JDBC; `$P!{}` inserta texto directamente. EditorialReports **no utiliza `$P!{}` en el informe ejecutable**.
 
 ### Bloque 3 — LIKE, comodines y rangos de fechas
@@ -238,9 +259,20 @@ El operador `LIKE` permite búsquedas parciales. `%` representa cualquier secuen
 </queryString>
 ```
 
-Con `textoBusqueda="sol"`, el valor sigue viajando como bind parameter; los `%` pertenecen a la expresión SQL. También es válido construir `"%" + texto + "%"` en Java y enlazar el patrón completo. La elección depende de dónde se quiera centralizar la lógica.
+**Línea 1:** `textoBusqueda` es un parámetro escalar.  
+**Primeras condiciones:** `IS NULL` y cadena vacía convierten el filtro en opcional.  
+**Última condición:** SQLite concatena `%`, el placeholder enlazado y otro `%`.
 
-La concatenación del patrón depende del motor: SQLite y PostgreSQL admiten `||`; MySQL suele usar `CONCAT`. Esa diferencia pertenece a la sintaxis SQL del motor, no a JasperReports.
+Con `textoBusqueda="sol"`, el valor sigue viajando como bind parameter; los `%` pertenecen a la expresión SQL. Los comodines más habituales son:
+
+| Patrón | Significado |
+|---|---|
+| `%sol%` | contiene `sol` en cualquier posición |
+| `sol%` | empieza por `sol` |
+| `%sol` | termina en `sol` |
+| `_ol` | exactamente un carácter seguido de `ol` |
+
+También es válido construir `"%" + texto + "%"` en Java y enlazar el patrón completo. La elección depende de dónde se quiera centralizar la lógica. La concatenación depende del motor: SQLite y PostgreSQL admiten `||`; MySQL suele usar `CONCAT`. Esa diferencia pertenece a la sintaxis SQL del motor, no a JasperReports.
 
 #### Rangos de fechas
 
@@ -251,9 +283,13 @@ AND ($P{fechaDesde} IS NULL OR v.fecha_venta >= $P{fechaDesde})
 AND ($P{fechaHasta} IS NULL OR v.fecha_venta <= $P{fechaHasta})
 ```
 
+**Línea 1:** `fechaDesde` actúa como límite inferior opcional.  
+**Línea 2:** `fechaHasta` actúa como límite superior opcional.  
+**Formato del dataset:** las fechas de ventas son textos ISO `yyyy-MM-dd`, por lo que el orden lexicográfico coincide con el orden temporal mientras se respete ese formato.
+
 Cuando el informe debe **preservar los 14 títulos del `LEFT JOIN`**, las condiciones sobre `v.fecha_venta` deben situarse en la condición del `JOIN` o dentro de expresiones agregadas; moverlas sin más al `WHERE` eliminaría las filas sin ventas y cambiaría la semántica heredada.
 
-JasperReports también ofrece funciones de cláusula como `$X{BETWEEN, columna, parametroDesde, parametroHasta}`. La idea central es la misma: parametrizar los límites sin concatenar valores del usuario.
+JasperReports también ofrece funciones de cláusula como `$X{BETWEEN, columna, parametroDesde, parametroHasta}`. La idea central es la misma: parametrizar los límites sin concatenar valores del usuario. El reto de este punto recupera además la variante del material original que recibe ambos límites dentro de un único `rangoFechas` y los extrae con `SUBSTR`, pero la coloca en el `LEFT JOIN` para no perder filas.
 
 ### Bloque 4 — `$X{IN,...}`, `$X{NOTIN,...}` y colecciones
 
@@ -270,7 +306,17 @@ El operador `IN` necesita un número variable de placeholders. Una colección no
 </queryString>
 ```
 
+**Línea 1:** `categoriasLista` acepta una `Collection`, no un String que contenga SQL.  
+**Línea 5:** `$X{IN,...}` decide cuántos placeholders necesita y enlaza cada elemento.
+
 Con `Novela` y `Poesía`, el ejecutor construye `categoria IN (?, ?)` y enlaza ambos valores. `$X{NOTIN,...}` aplica la operación inversa. Las funciones contemplan además colecciones con valores nulos.
+
+| Contenido de la colección | Forma conceptual de la cláusula |
+|---|---|
+| valores no nulos | `columna IN (?, ?, ...)` |
+| valores + `null` | `columna IS NULL OR columna IN (...)` |
+| solo `null` | `columna IS NULL` |
+| nula o vacía | cláusula constante según configuración |
 
 Una colección nula o vacía **no se transforma en SQL inválido**. JasperReports genera una cláusula constante verdadera o falsa según el cuarto argumento opcional y las propiedades `net.sf.jasperreports.sql.clause.in.novalues.result` / `net.sf.jasperreports.sql.clause.notin.novalues.result`. En el E2E de este módulo se prueba explícitamente una colección vacía.
 
@@ -309,6 +355,16 @@ Buenas prácticas del proyecto:
 4. no concatenar manualmente comillas ni listas SQL;
 5. validar en Java reglas de negocio como formatos de fecha, listas de categorías permitidas o límites numéricos;
 6. probar nulos, colecciones vacías, cadenas con comodines y caracteres especiales.
+
+Ejemplo de validación previa del reto de fechas:
+
+```java
+if (rangoFechas != null && !rangoFechas.matches("\\d{4}-\\d{2}-\\d{2},\\d{4}-\\d{2}-\\d{2}")) {
+    throw new IllegalArgumentException("rangoFechas debe usar yyyy-MM-dd,yyyy-MM-dd");
+}
+```
+
+La validación Java no sustituye a los bind parameters: cumple otra función. JDBC protege la estructura de la consulta; la validación decide si el valor tiene sentido para la regla de negocio.
 
 ---
 '''
@@ -549,7 +605,7 @@ No se restauran literalmente las siguientes afirmaciones del material fuente por
 
 La cobertura editorial se considera completa cuando:
 
-- los 35 objetivos originales (7+6+6+6+6+6) están representados;
+- los 37 objetivos originales (7+6+6+6+6+6) están representados;
 - los 30 bloques teóricos originales (5 por punto) siguen cubiertos;
 - los seis retos originales están presentes como reto recuperado o reto auditado/corregido;
 - ninguna afirmación técnicamente falsa se reintroduce para aumentar volumen;
@@ -582,9 +638,11 @@ def patch_audit_script():
 for token in ('formatoFecha','disponible','PorcentajePagina','Excelente rendimiento','precioMinimo','rangoFechas'):
     if token not in P:
         fail('reto original no representado en práctica: '+token)
-for token in ('NOTIN','comodín `%`','comodín `_`','Rangos de fechas','$X{BETWEEN'):
+for token in ('NOTIN','Rangos de fechas','$X{BETWEEN'):
     if token not in T:
         fail('cobertura teórica 4.6 incompleta: '+token)
+if '`%` representa cualquier secuencia' not in T or '`_` representa un único carácter' not in T:
+    fail('cobertura teórica 4.6 incompleta: comodines LIKE')
 for token in (
     '$P{mostrarDetalle}.booleanValue() && $F{unidades_vendidas} > 5',
     '$F{importe_total} * (1 + $P{tipoIva})',
