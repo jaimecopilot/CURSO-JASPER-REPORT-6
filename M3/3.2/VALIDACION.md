@@ -1,9 +1,24 @@
 # Validación checkpoint 3.2
 
-Run E2E final del Módulo 3: **36027658743 - SUCCESS**  
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36027658743
+**Punto:** Ficheros CSV  
+**Estado vigente:** PASS END-TO-END
 
-Job: **107728183257 - success**  
-Commit validado: `fcf972479794fd0d42400cacb066122e1687d9a0`.
+Run final del Módulo 3:
 
-Este checkpoint compila Java con Maven/Temurin JDK 8, compila los JRXML aplicables, llena los informes con datos reales, exporta PDF y valida los artefactos esperados.
+**36118817972 — SUCCESS**  
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36118817972
+
+Job:
+
+**108019157623 — success**
+
+Commit validado:
+
+`780abefa1287c778eafd7ed78a52e4bc63282703`
+
+El job compila con Temurin JDK 8/Maven, ejecuta el checkpoint con datos reales y verifica los artefactos PDF esperados.
+El checkpoint conserva íntegramente el estado anterior y añade únicamente los artefactos de ficheros csv previstos por `TRAZABILIDAD_M3.md`.
+
+La evolución respecto al checkpoint anterior está protegida por `.github/scripts/audit_m3_docs.py` y documentada en `M3/TRAZABILIDAD_M3.md`.
+
+**Checkpoint 3.2 validado.**
