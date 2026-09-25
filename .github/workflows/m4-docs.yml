@@ -1,0 +1,83 @@
+name: M4 - Generar PDFs docentes
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/scripts/render_m4_docs.py'
+      - '.github/scripts/audit_m4_docs.py'
+      - '.github/scripts/audit_m4_traceability.py'
+      - 'M4/TEORIA_M4.md'
+      - 'M4/PRACTICA_M4.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: m4-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    name: Render y preflight PDFs M4
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dependencias del render
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-core fonts-noto-mono poppler-utils
+          python -m pip install --upgrade pip
+          python -m pip install mistune beautifulsoup4 weasyprint pymupdf pillow
+
+      - name: Auditar trazabilidad y paridad documental
+        run: |
+          python .github/scripts/audit_m4_traceability.py
+          python .github/scripts/audit_m4_docs.py
+
+      - name: Generar y prevalidar PDFs
+        run: |
+          mkdir -p M4/_pdf_build
+          python .github/scripts/render_m4_docs.py --theory M4/TEORIA_M4.md --practice M4/PRACTICA_M4.md --out-dir M4/_pdf_build
+          pdfinfo M4/_pdf_build/TEORIA_M4.pdf | grep -E 'Pages|Page size'
+          pdfinfo M4/_pdf_build/PRACTICA_M4.pdf | grep -E 'Pages|Page size'
+          sha256sum M4/_pdf_build/TEORIA_M4.pdf M4/_pdf_build/PRACTICA_M4.pdf | tee M4/_pdf_build/SHA256SUMS.txt
+
+      - name: Actualizar artefactos docentes versionados
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+          cp M4/_pdf_build/TEORIA_M4.pdf M4/TEORIA_M4.pdf
+          cp M4/_pdf_build/PRACTICA_M4.pdf M4/PRACTICA_M4.pdf
+          cp M4/_pdf_build/PRECHECK_M4.json M4/PRECHECK_M4.json
+          cp M4/_pdf_build/SHA256SUMS.txt M4/SHA256SUMS.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add M4/TEORIA_M4.pdf M4/PRACTICA_M4.pdf M4/PRECHECK_M4.json M4/SHA256SUMS.txt
+          if git diff --cached --quiet; then
+            echo "Los artefactos docentes ya coinciden con el render validado."
+          else
+            git commit -m "Regenera PDFs M4 con patron visual M3 [skip ci]"
+            git push
+          fi
+
+      - name: Publicar PDFs y auditoria visual
+        uses: actions/upload-artifact@v4
+        with:
+          name: M4-documentacion-final
+          if-no-files-found: error
+          path: |
+            M4/_pdf_build/TEORIA_M4.pdf
+            M4/_pdf_build/PRACTICA_M4.pdf
+            M4/_pdf_build/PRECHECK_M4.json
+            M4/_pdf_build/SHA256SUMS.txt
+            M4/_pdf_build/contact_*.jpg

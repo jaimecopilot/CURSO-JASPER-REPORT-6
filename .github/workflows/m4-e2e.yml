@@ -1,0 +1,120 @@
+name: M4 - Validacion end-to-end
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'M4/4.*/**'
+      - '.github/scripts/audit_m4_traceability.py'
+  workflow_dispatch:
+
+jobs:
+  traceability:
+    name: Trazabilidad acumulativa
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar no regresion
+        run: python .github/scripts/audit_m4_traceability.py
+
+  checkpoint:
+    name: Checkpoint ${{ matrix.checkpoint }}
+    needs: traceability
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        checkpoint: ['4.1','4.2','4.3','4.4','4.5','4.6']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+          cache-dependency-path: M4/${{ matrix.checkpoint }}/EditorialReportsJava/pom.xml
+
+      - name: Compilar Java y resolver JasperReports 6.20.0
+        working-directory: M4/${{ matrix.checkpoint }}/EditorialReportsJava
+        run: |
+          mvn -B -ntp clean package
+          mvn -B -ntp dependency:build-classpath -Dmdep.outputFile=classpath.txt
+
+      - name: Ejecutar todos los informes acumulados
+        working-directory: M4/${{ matrix.checkpoint }}/EditorialReports
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          : > execution.log
+          CP="../EditorialReportsJava/target/classes:$(cat ../EditorialReportsJava/classpath.txt)"
+
+          java -cp "$CP" InicializadorBD 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorInformeConcepto 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorCatalogoCSV 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorDistribucionXML 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorAutoresJSON 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorInformeVentas 2>&1 | tee -a execution.log
+
+          for name in informe_concepto informe_catalogo_csv informe_distribucion_xml informe_autores_json informe_ventas; do
+            test -s "reports/${name}.jasper"
+            test -s "output/${name}.pdf"
+            test "$(head -c 5 "output/${name}.pdf")" = "%PDF-"
+          done
+
+          grep -q "Libros insertados: 14" execution.log
+          grep -q "Ventas insertadas: 9" execution.log
+          grep -q "Registros CSV esperados: 14" execution.log
+          grep -q "Entregas XML esperadas: 8" execution.log
+          grep -q "Autores JSON esperados: 6" execution.log
+          grep -q "Parametro usuario: Ana Martínez" execution.log
+          grep -q "LEFT JOIN ventas" reports/informe_ventas.jrxml
+          ! grep -q 'fontName="Sans Serif"' reports/informe_ventas.jrxml
+          ! grep -q 'default="true"' reports/informe_ventas.jrxml
+          grep -q 'System.exit(1);' ../EditorialReportsJava/src/GeneradorInformeVentas.java
+
+          CHECKPOINT="${{ matrix.checkpoint }}" python3 - <<'PY'
+          import os, sqlite3
+          cp=os.environ['CHECKPOINT']
+          con=sqlite3.connect('../EditorialReportsJava/data/editorial.db')
+          assert con.execute('select count(*) from libros').fetchone()[0] == 14
+          sales=con.execute('select count(*), sum(cantidad), sum(cantidad*precio_unitario) from ventas').fetchone()
+          assert sales[0] == 9 and sales[1] == 31 and abs(sales[2]-633.40) < 0.001
+          cols=[r[1] for r in con.execute('pragma table_info(libros)')]
+          if cp != '4.1':
+              assert 'categoria' in cols
+          con.close()
+          report=open('reports/informe_ventas.jrxml',encoding='utf-8').read()
+          required={
+            '4.1':['departamento','periodo','tipoIva','mostrarDetalle'],
+            '4.2':['categoria','precioMinimo','precioMaximo','LEFT JOIN ventas'],
+            '4.3':['TotalPagina','PrecioMedio','PrecioMaximo','NumeroLibros','ImporteConIva'],
+            '4.4':['ChronoUnit.DAYS','String.format','Math.round'],
+            '4.5':['umbralUnidades','conditionalStyle','printWhenExpression'],
+            '4.6':['textoBusqueda','categoriasLista','$X{IN, l.categoria, categoriasLista}'],
+          }
+          order=['4.1','4.2','4.3','4.4','4.5','4.6']
+          upto=order.index(cp)+1
+          for p in order[:upto]:
+              for token in required[p]:
+                  assert token in report, (cp,p,token)
+          assert '$P!{' not in report
+          print('SQLite libros=14 ventas=9 unidades=31 importe=633.40')
+          print('PASS contracts',cp)
+          PY
+          echo "PASS checkpoint ${{ matrix.checkpoint }}"
+
+      - name: Publicar artefactos de ejecucion
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: M4-${{ matrix.checkpoint }}-runtime
+          if-no-files-found: warn
+          path: |
+            M4/${{ matrix.checkpoint }}/EditorialReports/reports/*.jasper
+            M4/${{ matrix.checkpoint }}/EditorialReports/output/*.pdf
+            M4/${{ matrix.checkpoint }}/EditorialReports/execution.log
+            M4/${{ matrix.checkpoint }}/EditorialReportsJava/data/editorial.db

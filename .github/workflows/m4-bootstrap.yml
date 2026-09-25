@@ -1,0 +1,46 @@
+name: M4 - Construccion acumulativa
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/source/M4_ORIGINAL_COMPLETO.md'
+      - '.github/scripts/build_m4.py'
+      - '.github/workflows/m4-bootstrap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: m4-bootstrap-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Construir checkpoints y documentacion M4
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Construir M4 desde M3/3.7
+        run: python .github/scripts/build_m4.py
+
+      - name: Publicar construccion reproducible
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add M4 .github/scripts/render_m4_docs.py .github/scripts/audit_m4_docs.py .github/scripts/audit_m4_traceability.py
+          if git diff --cached --quiet; then
+            echo "M4 ya coincide con la construccion reproducible."
+          else
+            git commit -m "Construye M4 acumulativo desde M3 3.7"
+            git push
+          fi
