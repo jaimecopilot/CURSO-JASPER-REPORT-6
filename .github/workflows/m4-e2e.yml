@@ -5,7 +5,9 @@ on:
     branches: [ main ]
     paths:
       - 'M4/4.*/**'
+      - '!M4/4.*/VALIDACION.md'
       - '.github/scripts/audit_m4_traceability.py'
+      - '.github/workflows/m4-e2e.yml'
   workflow_dispatch:
 
 jobs:

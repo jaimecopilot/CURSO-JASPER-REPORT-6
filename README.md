@@ -34,28 +34,45 @@ Documentación: `M1/TEORIA_M1.md`, `M1/PRACTICA_M1.md`, `M1/VALIDACION_M1.md`.
 
 Estado: **2.1–2.6 PASS END-TO-END**.
 
-Run E2E final M2: **36021472437 — SUCCESS**.  
+Run E2E final M2: **36021472437 — SUCCESS**.
 
 Documentación: `M2/TEORIA_M2.md`, `M2/PRACTICA_M2.md`, `M2/TRAZABILIDAD_M2.md`, `M2/VALIDACION_M2.md`.
 
-## Módulo 3 - Conexión a datos
+## Módulo 3 — Conexión a datos
 
-- 3.1 - Bases de datos y JDBC
-- 3.2 - Ficheros CSV
-- 3.3 - Ficheros XML
-- 3.4 - Ficheros JSON
-- 3.5 - Consultas SQL
-- 3.6 - Fields
+- 3.1 — Bases de datos y JDBC
+- 3.2 — Ficheros CSV
+- 3.3 — Ficheros XML
+- 3.4 — Ficheros JSON
+- 3.5 — Consultas SQL
+- 3.6 — Fields
+- 3.7 — Introducción a Parameters y Variables
 
-Estado: **3.1-3.6 PASS END-TO-END**.
+Estado: **3.1–3.7 PASS END-TO-END**.
 
-Run E2E final M3: **36027658743 - SUCCESS**.  
+Run E2E final M3: **36118817972 — SUCCESS**.
 
 Documentación: `M3/TEORIA_M3.md`, `M3/TEORIA_M3.pdf`, `M3/PRACTICA_M3.md`, `M3/PRACTICA_M3.pdf`, `M3/TRAZABILIDAD_M3.md`, `M3/VALIDACION_M3.md`.
 
+## Módulo 4 — Parámetros y lógica
+
+- 4.1 — Parámetros
+- 4.2 — Filtros con parámetros
+- 4.3 — Variables
+- 4.4 — Expresiones avanzadas
+- 4.5 — Lógica condicional
+- 4.6 — Parámetros en consultas SQL
+
+Estado: **4.1–4.6 PASS END-TO-END**.
+
+Run E2E de cierre M4: **36168126731 — SUCCESS**.  
+Run documental M4: **36168126505 — SUCCESS**.
+
+Documentación: `M4/TEORIA_M4.md`, `M4/TEORIA_M4.pdf`, `M4/PRACTICA_M4.md`, `M4/PRACTICA_M4.pdf`, `M4/TRAZABILIDAD_M4.md`, `M4/VALIDACION_M4.md`.
+
 ## Criterio de validación
 
-Un checkpoint sólo se considera validado cuando GitHub Actions compila Java, compila el JRXML con JasperReports Library 6.20.0, llena el informe y genera un PDF real.
+Un checkpoint sólo se considera validado cuando GitHub Actions compila Java, compila el JRXML con JasperReports Library 6.20.0, llena un `JasperPrint`, exporta un PDF real y verifica los contratos de datos correspondientes.
 
 ## Referencias oficiales
 

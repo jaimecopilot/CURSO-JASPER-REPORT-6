@@ -43,4 +43,13 @@ if 'initialValueExpression` no forma parte de la definición de parámetros' not
     fail('no queda corregido initialValueExpression en parámetros')
 if '$P!{}` es sustitución textual directa' not in T and '$P!{}` para sustitución textual directa' not in T:
     fail('no queda diferenciada la sustitución directa')
+FINAL_VALIDATION=(M4/'VALIDACION_M4.md').read_text(encoding='utf-8')
+if 'PASS END-TO-END' not in FINAL_VALIDATION:
+    fail('VALIDACION_M4.md no registra el cierre PASS END-TO-END')
+for point in POINTS:
+    checkpoint_validation=(M4/point/'VALIDACION.md').read_text(encoding='utf-8')
+    if 'PASS END-TO-END' not in checkpoint_validation:
+        fail(point+' VALIDACION.md no registra PASS END-TO-END')
+    if 'preparado para validación' in checkpoint_validation.lower():
+        fail(point+' conserva texto provisional de validación')
 print('M4 DOC/SOURCE AUDIT PASS')
