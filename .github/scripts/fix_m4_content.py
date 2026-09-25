@@ -1348,6 +1348,7 @@ Buenas prácticas de EditorialReports:
 ---
 
 '''
+    corrected = corrected.replace('\\`','`')
     text = text[:block_start] + corrected + text[summary:]
     return text
 
