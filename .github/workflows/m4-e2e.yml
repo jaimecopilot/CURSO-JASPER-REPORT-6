@@ -221,10 +221,10 @@ jobs:
           fi
 
           if [ "${{ matrix.checkpoint }}" = "4.6" ]; then
-            grep -q "Resultados encontrados: 0" output/scenario-46-injection.xml
+            grep -q "SCENARIO 4.6 SQL PASS injectionPages=0" execution.log
             grep -q "Resultados encontrados: 1" output/scenario-46-poesia.xml
             grep -q "Martín Fierro" output/scenario-46-poesia.xml
-            grep -q "SCENARIO 4.6 SQL PASS" execution.log
+            grep -q "Resultados encontrados: 14" output/scenario-46-empty.xml
           fi
 
       - name: Publicar artefactos de ejecucion
