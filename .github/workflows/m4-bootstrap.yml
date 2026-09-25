@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/source/M4_ORIGINAL_COMPLETO.md'
       - '.github/scripts/build_m4.py'
+      - '.github/scripts/fix_m4_docs.py'
       - '.github/workflows/m4-bootstrap.yml'
   workflow_dispatch:
 
@@ -31,6 +32,9 @@ jobs:
 
       - name: Construir M4 desde M3/3.7
         run: python .github/scripts/build_m4.py
+
+      - name: Corregir y sincronizar documentacion
+        run: python .github/scripts/fix_m4_docs.py
 
       - name: Publicar construccion reproducible
         if: github.ref == 'refs/heads/main'
