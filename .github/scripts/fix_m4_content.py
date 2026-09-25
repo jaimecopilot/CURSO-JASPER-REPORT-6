@@ -1090,7 +1090,6 @@ def patch_audit(path: Path):
     extra=r'''
 for token in (
     '<initialValueExpression>',
-    'parent="',
     'aplica el último cuya condición sea verdadera',
     'último bloque verdadero',
     'Sustitución directa `$X{}`',
@@ -1116,10 +1115,164 @@ if 'PreparedStatement' not in T or '$P!{}`' not in T:
         s=s.replace(marker, extra+"\n"+marker)
     write(path,s)
 
+
+def final_theory_cleanup(text: str) -> str:
+    # 4.5: explicar la herencia sin reintroducir sintaxis JRXML inválida.
+    text = text.replace(
+        'El atributo \`style="Dato"\` indica el estilo padre en JRXML. No se utiliza \`parent="Dato"\` en esta sintaxis. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.',
+        'El atributo \`style="Dato"\` referencia el estilo base del que hereda este estilo. Las tres reglas representan tramos distintos: alto, medio y bajo/sin ventas; así una fila solo entra en un tramo de color.'
+    )
+
+    # 4.6: sustituir los cinco bloques heredados completos por la semántica real
+    # de JasperReports 6.20.0/JDBC. Se reemplaza como unidad para evitar que
+    # sobrevivan párrafos contradictorios de la fuente original.
+    point_start = text.find('# Punto 4.6')
+    if point_start < 0:
+        raise SystemExit('No se encuentra Punto 4.6 en teoría')
+    summary = text.find('## Resumen rápido de la teoría', point_start)
+    if summary < 0:
+        raise SystemExit('No se encuentra resumen de 4.6')
+    block_start = text.find('### Bloque 1', point_start, summary)
+    if block_start < 0:
+        raise SystemExit('No se encuentra Bloque 1 de 4.6')
+
+    corrected = r'''### Bloque 1 — Cómo se enlazan los parámetros en una consulta SQL
+
+En JasperReports, un parámetro de consulta escrito como \`$P{nombre}\` **no se pega como texto dentro del SQL**. El query executer transforma esa referencia en un marcador \`?\` de una sentencia JDBC preparada y entrega el valor al \`PreparedStatement\` por separado. Por tanto, el tipo Java declarado en el parámetro sigue siendo importante, pero no porque JasperReports tenga que añadir manualmente comillas al texto SQL, sino porque JDBC debe enlazar el valor con el tipo adecuado.
+
+\`\`\`xml
+<parameter name="categoria" class="java.lang.String"/>
+<queryString language="sql">
+    <![CDATA[
+        SELECT titulo, precio
+        FROM libros
+        WHERE categoria = $P{categoria}
+    ]]>
+</queryString>
+\`\`\`
+
+Conceptualmente, el motor prepara una sentencia equivalente a:
+
+\`\`\`text
+SELECT titulo, precio
+FROM libros
+WHERE categoria = ?
+
+bind #1 -> "Novela"
+\`\`\`
+
+La consulta y el valor viajan separados. Si \`categoria\` vale \`null\`, JDBC enlaza un valor SQL nulo; por eso los filtros opcionales de este curso usan una condición como \`($P{categoria} IS NULL OR l.categoria = $P{categoria})\`. No debe imaginarse esa expresión como una sustitución literal del texto \`$P{categoria}\` por la palabra \`NULL\`.
+
+**Qué aporta al proyecto:** permite parametrizar valores sin construir SQL concatenando cadenas y mantiene el contrato de tipos entre Java, JasperReports y JDBC.
+
+### Bloque 2 — Diferencia entre \`$P{}\`, \`$X{}\` y \`$P!{}\`
+
+JasperReports ofrece tres mecanismos distintos y conviene no mezclarlos:
+
+- **\`$P{nombre}\`**: representa un **valor**. En consultas JDBC termina como un marcador \`?\` y se enlaza mediante \`PreparedStatement\`.
+- **\`$X{función, columna, parámetro}\`**: ejecuta una **función de cláusula** de JasperReports. Se usa cuando la forma de una condición depende del valor, por ejemplo para crear un \`IN\` con una colección. Los valores generados siguen enlazándose como parámetros JDBC.
+- **\`$P!{nombre}\`**: realiza **sustitución textual directa** antes de preparar la consulta. Sirve únicamente para fragmentos estructurales que la aplicación controle estrictamente; no debe recibir texto arbitrario del usuario.
+
+\`\`\`text
+$P{categoria}
+  SQL preparado: WHERE categoria = ?
+  bind: "Novela"
+
+$X{IN, categoria, categoriasLista}
+  SQL generado: WHERE categoria IN (?, ?, ...)
+  binds: cada elemento de la colección
+
+$P!{ordenControlado}
+  Inserta texto en la consulta antes de prepararla.
+\`\`\`
+
+Esta distinción es fundamental para entender seguridad y depuración. Decir que \`$X{}\` es “sustitución directa” es incorrecto: la sustitución textual directa es \`$P!{}\`.
+
+### Bloque 3 — Filtro parametrizado con LIKE
+
+El operador \`LIKE\` puede combinarse con un valor enlazado. En SQLite, EditorialReports construye los comodines en la propia expresión SQL y mantiene el texto del usuario como bind parameter:
+
+\`\`\`xml
+<parameter name="textoBusqueda" class="java.lang.String"/>
+<queryString language="sql">
+    <![CDATA[
+        SELECT titulo
+        FROM libros
+        WHERE ($P{textoBusqueda} IS NULL
+               OR $P{textoBusqueda} = ''
+               OR titulo LIKE '%' || $P{textoBusqueda} || '%')
+    ]]>
+</queryString>
+\`\`\`
+
+Para el valor \`sol\`, la estructura sigue siendo estable: el texto \`sol\` no pasa a formar parte de la sintaxis SQL. SQLite concatena los comodines con el valor enlazado y busca títulos que contengan esa secuencia.
+
+Otra estrategia válida consiste en construir \`"%"+texto+"%"\` en Java y usar simplemente \`titulo LIKE $P{patronTitulo}\`. Ambas mantienen el valor separado de la estructura SQL; la elección depende de dónde se quiera concentrar la lógica de construcción del patrón.
+
+### Bloque 4 — \`$X{IN,...}\` con colecciones
+
+Una colección no debe tratarse como un único parámetro escalar dentro de \`IN\`. Para ello JasperReports proporciona la función de cláusula \`IN\`:
+
+\`\`\`xml
+<parameter name="categoriasLista" class="java.util.Collection"/>
+<queryString language="sql">
+    <![CDATA[
+        SELECT titulo, categoria
+        FROM libros
+        WHERE $X{IN, categoria, categoriasLista}
+    ]]>
+</queryString>
+\`\`\`
+
+Si la colección contiene, por ejemplo, \`Novela\` y \`Poesía\`, JasperReports construye una condición equivalente a \`categoria IN (?, ?)\` y enlaza los dos valores. La función también contempla valores nulos dentro de la colección.
+
+Una colección nula o vacía **no se convierte simplemente en \`IN ()\`**. En ese caso JasperReports genera una cláusula de resultado constante. El resultado puede controlarse mediante el cuarto argumento opcional de la función y mediante la propiedad \`net.sf.jasperreports.sql.clause.in.novalues.result\`. Por eso una práctica correcta no debe enseñar \`IN ()\` como salida esperada.
+
+En el checkpoint 4.6 el escenario base pasa explícitamente las cuatro categorías existentes. Así se conservan los 14 títulos mientras se demuestra el mecanismo \`$X{IN,...}\`.
+
+### Bloque 5 — Prevención de inyección SQL
+
+La regla principal es mantener separados **estructura SQL** y **valores**. Con \`$P{}\`, JasperReports/JDBC usa una sentencia preparada. No es necesario ni correcto explicar el mecanismo como un escape manual de comillas.
+
+Entrada de prueba:
+
+\`\`\`text
+sol' OR '1'='1
+\`\`\`
+
+Con el filtro del checkpoint:
+
+\`\`\`sql
+titulo LIKE '%' || $P{textoBusqueda} || '%'
+\`\`\`
+
+la estructura preparada sigue siendo equivalente a:
+
+\`\`\`text
+titulo LIKE '%' || ? || '%'
+bind -> sol' OR '1'='1
+\`\`\`
+
+El contenido malicioso se trata como **dato**, no como parte de la consulta. \`$X{}\` debe limitarse a las funciones de cláusula previstas por JasperReports y \`$P!{}\` solo debe usarse con fragmentos estructurales seleccionados por la propia aplicación desde opciones cerradas.
+
+Buenas prácticas de EditorialReports:
+
+1. usar \`$P{}\` para valores escalares;
+2. usar \`$X{}\` para cláusulas dinámicas soportadas, como \`IN\`;
+3. evitar \`$P!{}\` con cualquier texto no confiable;
+4. no concatenar manualmente valores del usuario dentro del SQL;
+5. probar explícitamente nulos, colecciones vacías y cadenas con caracteres especiales.
+
+---
+
+'''
+    text = text[:block_start] + corrected + text[summary:]
+    return text
+
 def main():
     theory=M4/"TEORIA_M4.md"
     practice=M4/"PRACTICA_M4.md"
-    write(theory, patch_theory(theory.read_text(encoding="utf-8")))
+    write(theory, final_theory_cleanup(patch_theory(theory.read_text(encoding="utf-8"))))
     write(practice, patch_practice(practice.read_text(encoding="utf-8")))
     for point in ["4.1","4.2","4.3","4.4","4.5","4.6"]:
         patch_jrxml(M4/point/"EditorialReports/reports/informe_ventas.jrxml")
