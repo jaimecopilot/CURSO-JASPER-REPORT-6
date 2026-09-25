@@ -3325,7 +3325,7 @@ El punto 4.4 amplía la capacidad expresiva del JRXML. El punto 4.5 utiliza expr
 
 **Qué hace:** aplica formato dependiente de datos sin ambigüedad de precedencia.
 **Por qué:** JasperReports da prioridad a la primera regla verdadera cuando varias modifican la misma propiedad; condiciones mutuamente excluyentes evitan depender de ese detalle.
-**Error común:** usar `parent="Dato"` o condiciones solapadas. Solución: usar el atributo JRXML `style` y rangos no solapados.
+**Error común:** usar `un atributo de herencia incorrecto` o condiciones solapadas. Solución: usar el atributo JRXML `style` y rangos no solapados.
 **Analogía:** es como asignar un único color editorial a cada tramo de ventas.
 
 ---
