@@ -7,7 +7,7 @@
 
 ## Estado final
 
-**M3 REABIERTO: incorporación del nuevo punto 3.7 — Parameters y Variables.**
+**M3 CERRADO CON SIETE CHECKPOINTS: 3.1-3.7 VALIDADOS END-TO-END.**
 
 El cierre anterior se reabrió al detectarse en el punto 3.6 una línea JRXML minificada que contenía conjuntamente `columnHeader` y `detail`, además de una discrepancia real entre la práctica (`Detail height=40`) y el código versionado (`height=42`).
 
@@ -269,4 +269,176 @@ Correcciones aplicadas al material de partida:
 - Summary se fija en 55 para mantener el informe compacto;
 - el reto `mostrarTotales` reutiliza el mismo espacio de Summary.
 
-Estado: **pendiente de nuevos runs E2E y PDF**.
+Estado: **3.7 integrado, ejecutado y documentado; cierre final descrito a continuación.**
+
+
+---
+
+## Cierre final después de incorporar 3.7
+
+Esta sección **supersede el cierre histórico 3.1-3.6** documentado más arriba. El estado vigente del módulo es ahora **3.1-3.7**.
+
+### Checkpoint 3.7 implementado
+
+`M3/3.7` es una continuación acumulativa de `M3/3.6`, no una reconstrucción desde el borrador antiguo.
+
+El código final conserva:
+
+- `LEFT JOIN ventas` y los 14 títulos;
+- seis fields del punto 3.6;
+- `Detail height=40`;
+- Page Footer de 45;
+- paginación mediante `PAGE_NUMBER` y `evaluationTime="Report"`;
+- DejaVu Sans;
+- gestión de nulos de 3.6.
+
+Y añade:
+
+- parámetro `usuario : java.lang.String`;
+- parámetro `fechaInforme : java.util.Date` con `new java.util.Date()` como valor por defecto;
+- variable `TotalUnidades : Integer, Sum, Report`;
+- variable `TotalImporte : Double, Sum, Report`;
+- `PARAMETROS_VARIABLES.md`;
+- Title de 90 píxeles con geometría válida;
+- Summary de 55 píxeles con los totales generales.
+
+Los datos seed producen:
+
+- 14 títulos;
+- 9 registros de ventas;
+- 31 unidades vendidas;
+- 633,40 € de importe total;
+- 1 página en el PDF de ventas.
+
+### Correcciones realizadas sobre el borrador de 3.7 recibido
+
+No se copió literalmente el borrador. Se corrigieron antes de incorporarlo:
+
+- atributo XML `class` duplicado en un `parameter`;
+- semántica de parámetros declarados pero no suministrados;
+- uso incorrecto de `PAGE_COUNT` como total de páginas;
+- `INNER JOIN` antiguo que reducía el resultado a siete títulos;
+- total antiguo incorrecto;
+- tipografía distinta del baseline;
+- Title de 80 con elementos que llegaban hasta Y=90;
+- reto `mostrarTotales` que ampliaba innecesariamente Summary.
+
+La teoría y la práctica finales reflejan el checkpoint ejecutable corregido.
+
+## Validación END-TO-END definitiva
+
+Run final:
+
+**36116316917 - SUCCESS**
+
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36116316917
+
+Commit validado:
+
+`4c173e0bd180f436c9d9e08b974c14555a50e94a`
+
+| Checkpoint | Job | Resultado |
+|---|---:|---|
+| 3.1 | 108011158682 | PASS |
+| 3.2 | 108011158475 | PASS |
+| 3.3 | 108011158672 | PASS |
+| 3.4 | 108011158781 | PASS |
+| 3.5 | 108011158862 | PASS |
+| 3.6 | 108011158702 | PASS |
+| 3.7 | 108011158776 | PASS |
+
+El checkpoint 3.7 compila Java 8 con Maven, inicializa SQLite, compila todos los JRXML acumulativos, ejecuta los cinco generadores, exporta los PDF y verifica además las declaraciones de Parameters/Variables y la existencia de `PARAMETROS_VARIABLES.md`.
+
+En la ejecución real de 3.7 se confirmó:
+
+- `Libros insertados: 14`;
+- `Ventas insertadas: 9`;
+- `Paginas del documento: 1`;
+- `Parametro usuario: Ana Martínez`;
+- `PASS checkpoint 3.7`.
+
+## Auditoría documental y PDFs definitivos
+
+Run:
+
+**36115639499 - SUCCESS**
+
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36115639499
+
+La auditoría automática terminó en PASS antes del render y verifica ahora también 3.7:
+
+- paridad Parte B ↔ JRXML real para 3.1-3.7;
+- paridad Parte C ↔ Java real;
+- numeración contigua de retos;
+- JRXML parseables;
+- ausencia de líneas gigantes;
+- SQL contra el esquema del curso;
+- resultados reales de los datos seed;
+- contrato específico de Parameters/Variables del 3.7;
+- prohibición de `PAGE_COUNT` como total de páginas en el JRXML ejecutable;
+- conservación de `LEFT JOIN`, 14 títulos, 31 unidades y 633,40 €.
+
+### Markdown final
+
+- `TEORIA_M3.md`: **1788 líneas**, 73 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
+- `PRACTICA_M3.md`: **8859 líneas**, 49 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
+
+### PDF definitivos
+
+- `TEORIA_M3.pdf`: **34 páginas A4**  
+  SHA-256: `d4e53d3721e2c741b7e577c6b0c56766403c8cb0cf6c3de53084ffaa07dd59fb`
+- `PRACTICA_M3.pdf`: **147 páginas A4**  
+  SHA-256: `19be1828bd3bbfd5f41f496e2a4458e9b1ad2de5378f7d35df98b345c37e8fbe`
+
+Commit que versiona los PDF:
+
+`8e6518b35c346f126d6ea4b3da8e7fb1fd5db273` — **Regenera PDFs M3 con patrón visual M2 [skip ci]**
+
+Preflight:
+
+- A4 en todas las páginas;
+- 0 páginas vacías;
+- 0 páginas sin cuerpo;
+- 0 bloques fuera del MediaBox;
+- 0 glifos de sustitución.
+
+### Revisión visual del contenido nuevo
+
+Se rasterizaron e inspeccionaron todas las páginas añadidas por 3.7:
+
+- teoría: páginas finales correspondientes al nuevo punto;
+- práctica: las 21 páginas del nuevo 3.7, incluida Parte A, JRXML completo, explicaciones línea por línea, Java, Parte D y reto.
+
+No se observaron clipping, solapamientos, filas fusionadas, código cortado ni glifos defectuosos.
+
+También se rasterizó a 220 dpi el PDF **real** producido por el checkpoint 3.7. La página muestra correctamente:
+
+- `Ana Martínez`;
+- fecha de ejecución;
+- 14 títulos;
+- 31 unidades;
+- 633,40 €;
+- `Página 1 de 1`.
+
+El PDF runtime es una página válida, no cifrada, abierta correctamente por PyMuPDF y sin problemas visuales detectados.
+
+## Checklist final M3
+
+- [x] 3.1-3.7 presentes;
+- [x] checkpoint acumulativo 3.7 creado;
+- [x] teoría 3.7 corregida;
+- [x] práctica 3.7 A/B/C/D completa;
+- [x] JRXML 3.7 completo y legible;
+- [x] Java 3.7 completo;
+- [x] `PARAMETROS_VARIABLES.md`;
+- [x] reto resuelto 3.7;
+- [x] auditoría automática extendida;
+- [x] workflow E2E extendido a siete checkpoints;
+- [x] 7/7 PASS END-TO-END;
+- [x] PDF docentes regenerados;
+- [x] preflight PASS;
+- [x] revisión visual del contenido 3.7;
+- [x] PDF runtime 3.7 revisado visualmente;
+- [x] README actualizado.
+
+**M3 queda cerrado definitivamente con los siete puntos del temario, 3.1-3.7.**
