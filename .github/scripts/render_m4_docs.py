@@ -189,12 +189,18 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
             # can be pushed alone to the preceding page, creating a visually
             # blank page with only header/footer. It is purely decorative here.
             prev = h.find_previous_sibling()
-            while isinstance(prev, NavigableString) and not str(prev).strip():
-                older = prev.find_previous_sibling()
-                prev.extract()
-                prev = older
-            if isinstance(prev, Tag) and prev.name == "hr":
-                prev.decompose()
+            while prev is not None:
+                if isinstance(prev, NavigableString) and not str(prev).strip():
+                    older = prev.find_previous_sibling()
+                    prev.extract()
+                    prev = older
+                    continue
+                if isinstance(prev, Tag) and prev.name == "hr":
+                    older = prev.find_previous_sibling()
+                    prev.decompose()
+                    prev = older
+                    continue
+                break
         if "Resultado esperado" in txt:
             h["class"] = list(h.get("class", [])) + ["result-heading"]
         if txt.lower().startswith("conclusión") or txt.lower().startswith("conclusion"):
