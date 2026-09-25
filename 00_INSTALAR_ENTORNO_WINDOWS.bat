@@ -310,43 +310,7 @@ echo ===== VERIFICACION =====>>"%LOG%"
 echo.
 echo --- Java ---
 "%JAVA_HOME%\bin\java.exe" -version 2>>"%LOG%"
-if errorlevel 1 goto :download_jss
-rem Uso: call :download_jss "destino" "SHA256" "URL"
-set "DL_FILE=%~1"
-set "DL_HASH=%~2"
-set "DL_URL=%~3"
-
-if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
->>"%LOG%" echo Descargando: %DL_URL%
-
-curl.exe --fail --location --retry 3 --retry-delay 3 --connect-timeout 30 --max-time 1800 ^
-  -A "Mozilla/5.0" --output "%DL_FILE%" "%DL_URL%" >>"%LOG%" 2>&1
-if errorlevel 1 (
-    >>"%LOG%" echo AVISO: curl fallo para %DL_URL%
-    if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
-    exit /b 1
-)
-
-set "DL_ACTUAL="
-for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash -LiteralPath '%DL_FILE%' -Algorithm SHA256).Hash.ToUpperInvariant()"`) do set "DL_ACTUAL=%%H"
-
-if not defined DL_ACTUAL (
-    >>"%LOG%" echo AVISO: no se pudo calcular SHA-256 de %DL_FILE%
-    if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
-    exit /b 2
-)
-
-if /I not "%DL_ACTUAL%"=="%DL_HASH%" (
-    echo [AVISO] El archivo recibido no coincide con el SHA-256 esperado. Se descarta.
-    >>"%LOG%" echo AVISO: SHA-256 incorrecto. Esperado=%DL_HASH% Obtenido=%DL_ACTUAL% URL=%DL_URL%
-    del /q /f "%DL_FILE%" >nul 2>&1
-    exit /b 3
-)
-
->>"%LOG%" echo OK: SHA-256 correcto para %DL_URL%
-exit /b 0
-
-:verification_error
+if errorlevel 1 goto :verification_error
 "%JAVA_HOME%\bin\javac.exe" -version >>"%LOG%" 2>&1
 if errorlevel 1 goto :verification_error
 
@@ -398,3 +362,39 @@ echo Revisa:
 echo   %LOG%
 pause
 exit /b 70
+
+:download_jss
+rem Uso: call :download_jss "destino" "SHA256" "URL"
+set "DL_FILE=%~1"
+set "DL_HASH=%~2"
+set "DL_URL=%~3"
+
+if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
+>>"%LOG%" echo Descargando: %DL_URL%
+
+curl.exe --fail --location --retry 3 --retry-delay 3 --connect-timeout 30 --max-time 1800 ^
+  -A "Mozilla/5.0" --output "%DL_FILE%" "%DL_URL%" >>"%LOG%" 2>&1
+if errorlevel 1 (
+    >>"%LOG%" echo AVISO: curl fallo para %DL_URL%
+    if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
+    exit /b 1
+)
+
+set "DL_ACTUAL="
+for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash -LiteralPath '%DL_FILE%' -Algorithm SHA256).Hash.ToUpperInvariant()"`) do set "DL_ACTUAL=%%H"
+
+if not defined DL_ACTUAL (
+    >>"%LOG%" echo AVISO: no se pudo calcular SHA-256 de %DL_FILE%
+    if exist "%DL_FILE%" del /q /f "%DL_FILE%" >nul 2>&1
+    exit /b 2
+)
+
+if /I not "%DL_ACTUAL%"=="%DL_HASH%" (
+    echo [AVISO] El archivo recibido no coincide con el SHA-256 esperado. Se descarta.
+    >>"%LOG%" echo AVISO: SHA-256 incorrecto. Esperado=%DL_HASH% Obtenido=%DL_ACTUAL% URL=%DL_URL%
+    del /q /f "%DL_FILE%" >nul 2>&1
+    exit /b 3
+)
+
+>>"%LOG%" echo OK: SHA-256 correcto para %DL_URL%
+exit /b 0
