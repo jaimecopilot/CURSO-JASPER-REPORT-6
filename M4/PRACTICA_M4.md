@@ -1901,6 +1901,25 @@ El punto 4.2 filtra datos sin romper la cobertura del `LEFT JOIN`. El punto 4.3 
 
 ---
 
+**Paso 12: Contrastar variables, bandas y Parte B**
+
+**Acciones:**
+
+1. Expandir Variables en Outline y contar `TotalUnidades`, `TotalImporte`, `TotalPagina`, `PrecioMedio`, `PrecioMaximo`, `NumeroLibros` e `ImporteConIva`.
+2. Seleccionar Page Footer y confirmar altura `62`.
+3. Seleccionar Summary y confirmar altura `128`.
+4. Abrir la Parte B de esta práctica y comparar nombres, resets, expresiones y alturas con Source.
+5. Ejecutar `GeneradorInformeVentas` una última vez y abrir el PDF resultante.
+
+**Verificación visual:** Outline, Source, Parte B y PDF describen el mismo checkpoint 4.3.
+
+**Qué hace:** cierra la trazabilidad visual de las variables antes de continuar.
+**Por qué:** una variable correcta en teoría pero situada en otra banda produce un resultado docente distinto.
+**Error común:** dar por terminado el punto solo porque el JRXML compila. Solución: cotejar también banda, reset y salida PDF.
+**Analogía:** es como revisar que las cifras del balance están no solo calculadas, sino impresas en el lugar previsto.
+
+---
+
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -2669,6 +2688,44 @@ El punto 4.3 introduce estado calculado durante el llenado. El punto 4.4 usa cam
 **Por qué:** los ejemplos deben corresponder a expresiones que realmente compilan con Java 8.
 **Error común:** usar APIs posteriores a Java 8. Solución: mantener las clases disponibles en el baseline.
 **Analogía:** es como comprobar que las fórmulas del manual son las mismas que usa la hoja de producción.
+
+---
+
+**Paso 11: Probar las expresiones con títulos sin ventas**
+
+**Acciones:**
+
+1. Abrir Preview con los filtros base sin restricciones.
+2. Localizar al menos un título conservado por `LEFT JOIN` que no tenga ventas.
+3. Comprobar que la clasificación muestra `Sin ventas`.
+4. Comprobar que precio redondeado y días muestran `-` en lugar de lanzar una excepción.
+5. Confirmar que el título transformado sigue siendo legible.
+
+**Verificación visual:** las expresiones avanzadas son null-safe también en filas sin agregados.
+
+**Qué hace:** prueba el caso que más fácilmente rompe ternarios, métodos y conversiones.
+**Por qué:** LEFT JOIN introduce null legítimos que deben formar parte del diseño.
+**Error común:** probar solo filas con ventas. Solución: revisar explícitamente una fila sin ventas.
+**Analogía:** es como ensayar la plantilla con una ficha incompleta antes de imprimir toda la colección.
+
+---
+
+**Paso 12: Contrastar expresiones con Parte B y PDF**
+
+**Acciones:**
+
+1. Abrir Source y localizar las cinco expresiones añadidas en la tercera fila de Detail.
+2. Abrir la Parte B de esta práctica y localizar las mismas expresiones.
+3. Comparar `ChronoUnit.DAYS.between`, `toUpperCase`, `Math.round`, `String.format` y el ternario de clasificación.
+4. Ejecutar `GeneradorInformeVentas`.
+5. Abrir el PDF y comprobar que las cinco salidas son visibles sin solapamiento.
+
+**Verificación visual:** las expresiones de Design/Source, Parte B y PDF son idénticas funcionalmente.
+
+**Qué hace:** cierra la cadena explicación, expresión y salida.
+**Por qué:** una práctica de expresiones debe demostrar tanto compilación como resultado visible.
+**Error común:** documentar una expresión diferente de la ejecutable. Solución: cotejar literalmente con Parte B.
+**Analogía:** es como cotejar fórmula, cálculo y cifra impresa antes de aprobar una tabla financiera.
 
 ---
 
@@ -3471,6 +3528,25 @@ El punto 4.4 amplía la capacidad expresiva del JRXML. El punto 4.5 utiliza expr
 **Por qué:** la documentación debe coincidir con JasperReports 6.20.0.
 **Error común:** afirmar que gana la última regla verdadera. Solución: documentar la prioridad de la primera propiedad aplicable y usar rangos excluyentes.
 **Analogía:** es como dejar una leyenda exacta de los colores usados en el informe.
+
+---
+
+**Paso 12: Verificar conjuntamente estilos y bandas condicionales**
+
+**Acciones:**
+
+1. Abrir Preview con `umbralUnidades=5`.
+2. Comprobar una fila con unidades iguales o superiores al umbral y observar el estilo `UnidadesCondicional`.
+3. Comprobar que debajo de esa fila aparece la segunda banda Detail de 14 px.
+4. Cambiar temporalmente el umbral y confirmar que color y banda responden al nuevo valor.
+5. Restaurar `5`, ejecutar `GeneradorInformeVentas` y comparar con la Parte B.
+
+**Verificación visual:** el mismo parámetro gobierna estilo, porcentaje, banda de destacado y mensaje de Summary.
+
+**Qué hace:** demuestra la lógica condicional como comportamiento integrado, no como fragmentos aislados.
+**Por qué:** los cuatro usos deben responder al mismo contrato de parámetro.
+**Error común:** validar únicamente el color y olvidar la banda o el Summary. Solución: probar las cuatro manifestaciones.
+**Analogía:** es como comprobar que una regla editorial cambia simultáneamente señalización, llamada y resumen.
 
 ---
 

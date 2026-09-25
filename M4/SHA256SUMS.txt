@@ -1,2 +1,0 @@
-bdbc1efd513f23e762cc7ceec8f230bbb497d667edc338bd98957c0d062d10aa  M4/_pdf_build/TEORIA_M4.pdf
-8b83e7e20fdee23efa44f7230d7eb4809195e83154ff5ebad97e09185bb137a9  M4/_pdf_build/PRACTICA_M4.pdf
