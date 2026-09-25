@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# editorial-coverage-final
 from pathlib import Path
 import re, xml.etree.ElementTree as ET
 ROOT=Path(__file__).resolve().parents[2]
