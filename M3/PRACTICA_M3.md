@@ -371,49 +371,479 @@ Las ejecuciones Java se lanzan con `EditorialReports` como Working Directory. Po
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-Se reproduce la sección de contrato de datos modificada respecto a M2/2.6. El resto de bandas conserva el informe conceptual.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.1. La documentación y el archivo real del repositorio utilizan exactamente la misma estructura.
 
 ```xml
-<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
-<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
-<queryString language="sql"><![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible=1 THEN 1 ELSE 0 END AS disponible FROM libros ORDER BY titulo]]></queryString>
-<field name="titulo" class="java.lang.String"/>
-<field name="precio" class="java.lang.Double"/>
-<field name="paginas" class="java.lang.Integer"/>
-<field name="fechaPublicacion" class="java.lang.String"/>
-<field name="disponible" class="java.lang.Boolean"/>
-<variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">
-    <variableExpression><![CDATA[$F{precio}]]></variableExpression>
-</variable>
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="informe_concepto"
+              language="java"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <queryString language="sql">
+        <![CDATA[
+            SELECT titulo,
+                   precio,
+                   paginas,
+                   fecha_publicacion AS fechaPublicacion,
+                   CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible
+            FROM libros
+            ORDER BY titulo
+        ]]>
+    </queryString>
+    <field name="titulo" class="java.lang.String"/>
+    <field name="precio" class="java.lang.Double"/>
+    <field name="paginas" class="java.lang.Integer"/>
+    <field name="fechaPublicacion" class="java.lang.String"/>
+    <field name="disponible" class="java.lang.Boolean"/>
+    <variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">
+        <variableExpression><![CDATA[$F{precio}]]></variableExpression>
+    </variable>
+    <background>
+        <band height="0"/>
+    </background>
+    <title>
+        <band height="70">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="45" width="555" height="20"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Datos JDBC - SQLite]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="25">
+            <textField>
+                <reportElement x="390" y="5" width="120" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="510" y="5" width="45" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="5" width="250" height="15"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="5" width="85" height="15"/>
+                <textElement textAlignment="Right"><font isBold="true"/></textElement>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="335" y="5" width="70" height="15"/>
+                <textElement textAlignment="Right"><font isBold="true"/></textElement>
+                <text><![CDATA[Págs.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="405" y="5" width="80" height="15"/>
+                <textElement textAlignment="Center"><font isBold="true"/></textElement>
+                <text><![CDATA[Año]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="485" y="5" width="70" height="15"/>
+                <textElement textAlignment="Center"><font isBold="true"/></textElement>
+                <text><![CDATA[Disp.]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="22" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="1" width="250" height="20"/>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#0.00 €">
+                <reportElement x="250" y="1" width="85" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="335" y="1" width="70" height="20"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="405" y="1" width="80" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{fechaPublicacion}.substring(0,4)]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="485" y="1" width="70" height="20"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="25">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="15"/>
+                <textElement textAlignment="Center"><font size="8" isItalic="true"/></textElement>
+                <text><![CDATA[EditorialReports - JasperReports 6.20.0]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="50" splitType="Prevent">
+            <staticText>
+                <reportElement x="0" y="5" width="150" height="20"/>
+                <text><![CDATA[Total libros:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="5" width="80" height="20"/>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="27" width="150" height="20"/>
+                <text><![CDATA[Subtotal precios:]]></text>
+            </staticText>
+            <textField pattern="#0.00 €">
+                <reportElement x="150" y="27" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>
 ```
 
 ### Explicación línea por línea
 
-**Línea 1:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
 
-**Línea 2:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo compatible con JasperReports 6.20.0.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
 
-**Línea 3:** `<queryString language="sql"><![CDATA[SELECT titulo, precio, paginas, fecha_publicacion AS fechaPublicacion, CASE WHEN disponible=1 THEN 1 ELSE 0 END AS disponible FROM libros ORDER BY titulo]]></queryString>` → Abre la consulta del dataset e indica el lenguaje de consulta.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con su esquema XSD.
 
-**Línea 5:** `<field name="precio" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 5:** `name="informe_concepto"` → Fija el nombre interno del informe.
 
-**Línea 6:** `<field name="paginas" class="java.lang.Integer"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evalúan como Java.
 
-**Línea 7:** `<field name="fechaPublicacion" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 7:** `pageWidth="595"` → Define el ancho de página.
 
-**Línea 8:** `<field name="disponible" class="java.lang.Boolean"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 8:** `pageHeight="842"` → Define la altura de página.
 
-**Línea 9:** `<variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">` → Declara una variable calculada del informe.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil de la columna.
 
-**Línea 10:** `<variableExpression><![CDATA[$F{precio}]]></variableExpression>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 10:** `leftMargin="20"` → Define uno de los márgenes del informe.
 
-**Línea 11:** `</variable>` → Cierra el elemento XML abierto anteriormente.
+**Línea 11:** `rightMargin="20"` → Define uno de los márgenes del informe.
 
+**Línea 12:** `topMargin="20"` → Define uno de los márgenes del informe.
 
-**Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
+**Línea 13:** `bottomMargin="20"` → Define uno de los márgenes del informe.
 
+**Línea 14:** `uuid="8f2c1a4e-1d3b-4f5a-9c7e-2b6d8a0f1c33">` → Fija el UUID del informe y cierra la apertura del elemento raíz.
+
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
+
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado.
+
+**Línea 17:** `<queryString language="sql">` → Abre la consulta del dataset y declara su lenguaje.
+
+**Línea 18:** `<![CDATA[` → Abre CDATA para que XML no interprete los caracteres de la consulta.
+
+**Línea 19:** `SELECT titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta.
+
+**Línea 20:** `precio,` → Añade una columna o expresión calculada al resultado SQL.
+
+**Línea 21:** `paginas,` → Añade una columna o expresión calculada al resultado SQL.
+
+**Línea 22:** `fecha_publicacion AS fechaPublicacion,` → Añade una columna o expresión calculada al resultado SQL.
+
+**Línea 23:** `CASE WHEN disponible = 1 THEN 1 ELSE 0 END AS disponible` → Añade una columna o expresión calculada al resultado SQL.
+
+**Línea 24:** `FROM libros` → Indica la tabla principal de la consulta.
+
+**Línea 25:** `ORDER BY titulo` → Ordena el resultado de la consulta.
+
+**Línea 26:** `]]>` → Cierra el bloque CDATA de la consulta.
+
+**Línea 27:** `</queryString>` → Cierra la consulta del dataset.
+
+**Línea 28:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+
+**Línea 29:** `<field name="precio" class="java.lang.Double"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+
+**Línea 30:** `<field name="paginas" class="java.lang.Integer"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+
+**Línea 31:** `<field name="fechaPublicacion" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+
+**Línea 32:** `<field name="disponible" class="java.lang.Boolean"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
+
+**Línea 33:** `<variable name="TotalPrecios" class="java.lang.Double" calculation="Sum">` → Declara una variable calculada del informe.
+
+**Línea 34:** `<variableExpression><![CDATA[$F{precio}]]></variableExpression>` → Define la expresión utilizada para calcular la variable.
+
+**Línea 35:** `</variable>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 36:** `<background>` → Abre la banda Background.
+
+**Línea 37:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 38:** `</background>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 39:** `<title>` → Abre la banda Title.
+
+**Línea 40:** `<band height="70">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 41:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 42:** `<reportElement x="0" y="10" width="555" height="30"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 43:** `<textElement textAlignment="Center">` → Configura la alineación del contenido textual.
+
+**Línea 44:** `<font size="18" isBold="true"/>` → Configura familia, tamaño y estilo de la fuente.
+
+**Línea 45:** `</textElement>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 46:** `<text><![CDATA[Catálogo Editorial - Informe Conceptual]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 47:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 48:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 49:** `<reportElement x="0" y="45" width="555" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 50:** `<textElement textAlignment="Center"/>` → Configura la alineación del contenido textual.
+
+**Línea 51:** `<text><![CDATA[Datos JDBC - SQLite]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 52:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 53:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 54:** `</title>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 55:** `<pageHeader>` → Abre la banda Page Header.
+
+**Línea 56:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 57:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 58:** `<reportElement x="390" y="5" width="120" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 59:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+
+**Línea 60:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 61:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 62:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 63:** `<reportElement x="510" y="5" width="45" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 64:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+
+**Línea 65:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 66:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 67:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 68:** `</pageHeader>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 69:** `<columnHeader>` → Abre la banda Column Header.
+
+**Línea 70:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 71:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 72:** `<reportElement x="0" y="5" width="250" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 73:** `<textElement><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 74:** `<text><![CDATA[Título]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 75:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 76:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 77:** `<reportElement x="250" y="5" width="85" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 78:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 79:** `<text><![CDATA[Precio]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 80:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 81:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 82:** `<reportElement x="335" y="5" width="70" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 83:** `<textElement textAlignment="Right"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 84:** `<text><![CDATA[Págs.]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 85:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 86:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 87:** `<reportElement x="405" y="5" width="80" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 88:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 89:** `<text><![CDATA[Año]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 90:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 91:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 92:** `<reportElement x="485" y="5" width="70" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 93:** `<textElement textAlignment="Center"><font isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 94:** `<text><![CDATA[Disp.]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 95:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 96:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 97:** `</columnHeader>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 98:** `<detail>` → Abre la banda Detail.
+
+**Línea 99:** `<band height="22" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 100:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 101:** `<reportElement x="0" y="1" width="250" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 102:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 103:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 104:** `<textField pattern="#0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 105:** `<reportElement x="250" y="1" width="85" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 106:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+
+**Línea 107:** `<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 108:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 109:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 110:** `<reportElement x="335" y="1" width="70" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 111:** `<textElement textAlignment="Right"/>` → Configura la alineación del contenido textual.
+
+**Línea 112:** `<textFieldExpression><![CDATA[$F{paginas}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 113:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 114:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 115:** `<reportElement x="405" y="1" width="80" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 116:** `<textElement textAlignment="Center"/>` → Configura la alineación del contenido textual.
+
+**Línea 117:** `<textFieldExpression><![CDATA[$F{fechaPublicacion}.substring(0,4)]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 118:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 119:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 120:** `<reportElement x="485" y="1" width="70" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 121:** `<textElement textAlignment="Center"/>` → Configura la alineación del contenido textual.
+
+**Línea 122:** `<textFieldExpression><![CDATA[$F{disponible}.booleanValue() ? "Sí" : "No"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 123:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 124:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 125:** `</detail>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 126:** `<pageFooter>` → Abre la banda Page Footer.
+
+**Línea 127:** `<band height="25">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 128:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 129:** `<reportElement x="0" y="5" width="555" height="15"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 130:** `<textElement textAlignment="Center"><font size="8" isItalic="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 131:** `<text><![CDATA[EditorialReports - JasperReports 6.20.0]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 132:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 133:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 134:** `</pageFooter>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 135:** `<summary>` → Abre la banda Summary.
+
+**Línea 136:** `<band height="50" splitType="Prevent">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 137:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 138:** `<reportElement x="0" y="5" width="150" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 139:** `<text><![CDATA[Total libros:]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 140:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 141:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 142:** `<reportElement x="150" y="5" width="80" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 143:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 144:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 145:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 146:** `<reportElement x="0" y="27" width="150" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 147:** `<text><![CDATA[Subtotal precios:]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 148:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 149:** `<textField pattern="#0.00 €">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 150:** `<reportElement x="150" y="27" width="100" height="20"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 151:** `<textFieldExpression><![CDATA[$V{TotalPrecios}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 152:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 153:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 154:** `</summary>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 155:** `</jasperReport>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Comprobación:** el bloque anterior coincide literalmente con el archivo JRXML versionado del checkpoint; las coordenadas se mantienen dentro de `columnWidth="555"` y la estructura es la que valida el workflow E2E.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
@@ -6189,21 +6619,39 @@ El punto 3.5 ha introducido las consultas SQL complejas y ha demostrado su uso c
 
 ### Parte B — JRXML completo explicado línea por línea [VALIDADO]
 
-Se reproducen las secciones modificadas: consulta SQL, campos, Column Header y Detail.
+Se reproduce el JRXML ejecutable completo del checkpoint 3.6. La Parte A y esta Parte B utilizan las mismas alturas, coordenadas, expresiones y tipos.
 
 ```xml
-<queryString language="sql"><![CDATA[
-   SELECT l.titulo,
-          SUM(v.cantidad) AS unidades_vendidas,
-          SUM(v.cantidad * v.precio_unitario) AS importe_total,
-          AVG(v.precio_unitario) AS precio_medio,
-          MIN(v.fecha_venta) AS primera_venta,
-          MAX(v.fecha_venta) AS ultima_venta
-   FROM libros l
-   LEFT JOIN ventas v ON l.titulo = v.titulo_libro
-   GROUP BY l.titulo
-   ORDER BY COALESCE(importe_total, 0) DESC, l.titulo
- ]]></queryString>
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="informe_ventas"
+              language="java"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <queryString language="sql">
+        <![CDATA[
+            SELECT l.titulo,
+                   SUM(v.cantidad) AS unidades_vendidas,
+                   SUM(v.cantidad * v.precio_unitario) AS importe_total,
+                   AVG(v.precio_unitario) AS precio_medio,
+                   MIN(v.fecha_venta) AS primera_venta,
+                   MAX(v.fecha_venta) AS ultima_venta
+            FROM libros l
+            LEFT JOIN ventas v ON l.titulo = v.titulo_libro
+            GROUP BY l.titulo
+            ORDER BY COALESCE(importe_total, 0) DESC, l.titulo
+        ]]>
+    </queryString>
     <field name="titulo" class="java.lang.String"/>
     <field name="unidades_vendidas" class="java.lang.Integer"/>
     <field name="importe_total" class="java.lang.Double"/>
@@ -6213,7 +6661,6 @@ Se reproducen las secciones modificadas: consulta SQL, campos, Column Header y D
     <background>
         <band height="0"/>
     </background>
-
     <title>
         <band height="60">
             <staticText>
@@ -6225,82 +6672,420 @@ Se reproducen las secciones modificadas: consulta SQL, campos, Column Header y D
             </staticText>
         </band>
     </title>
-    <columnHeader><band height="45"><staticText><reportElement x="0" y="5" width="250" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText><staticText><reportElement x="250" y="5" width="90" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Unidades]]></text></staticText><staticText><reportElement x="340" y="5" width="130" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Importe total]]></text></staticText><staticText><reportElement x="470" y="5" width="85" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Precio medio]]></text></staticText><staticText><reportElement x="0" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Primera venta]]></text></staticText><staticText><reportElement x="150" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Última venta]]></text></staticText><staticText><reportElement x="300" y="25" width="255" height="15"/><textElement textAlignment="Center"><font isBold="true"/></textElement><text><![CDATA[Periodo de ventas]]></text></staticText></band></columnHeader><detail><band height="42" splitType="Stretch"><textField textAdjust="StretchHeight"><reportElement x="0" y="1" width="250" height="20"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="250" y="1" width="90" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField><textField pattern="#0.00 €" isBlankWhenNull="true"><reportElement x="340" y="1" width="130" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField><textField><reportElement x="470" y="1" width="85" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="0" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="150" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField><textField><reportElement x="300" y="22" width="255" height="18"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " -> " + $F{ultima_venta}]]></textFieldExpression></textField></band></detail>
+    <columnHeader>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Unidades]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Importe total]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>
+                <text><![CDATA[Precio medio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <text><![CDATA[Primera venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <text><![CDATA[Última venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <text><![CDATA[Periodo de ventas]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="40" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>
+                <textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="3" width="150" height="15" uuid="55555555-5555-4555-8555-555555555551"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <text><![CDATA[Total de títulos:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="3" width="70" height="15" uuid="55555555-5555-4555-8555-555555555552"/>
+                <textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="170" y="23" width="190" height="15" uuid="55555555-5555-4555-8555-555555555553"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="365" y="23" width="30" height="15" uuid="55555555-5555-4555-8555-555555555554"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>
 ```
 
 ### Explicación línea por línea
 
-**Línea 1:** `<queryString language="sql"><![CDATA[` → Abre la consulta del dataset e indica el lenguaje de consulta.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara el documento XML y la codificación UTF-8.
 
-**Línea 2:** `SELECT l.titulo,` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
 
-**Línea 3:** `SUM(v.cantidad) AS unidades_vendidas,` → Completa la definición declarativa del informe.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el espacio de nombres XML Schema Instance.
 
-**Línea 4:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Completa la definición declarativa del informe.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace de JasperReports con su esquema XSD.
 
-**Línea 5:** `AVG(v.precio_unitario) AS precio_medio,` → Completa la definición declarativa del informe.
+**Línea 5:** `name="informe_ventas"` → Fija el nombre interno del informe.
 
-**Línea 6:** `MIN(v.fecha_venta) AS primera_venta,` → Completa la definición declarativa del informe.
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evalúan como Java.
 
-**Línea 7:** `MAX(v.fecha_venta) AS ultima_venta` → Completa la definición declarativa del informe.
+**Línea 7:** `pageWidth="595"` → Define el ancho de página.
 
-**Línea 8:** `FROM libros l` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 8:** `pageHeight="842"` → Define la altura de página.
 
-**Línea 9:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 9:** `columnWidth="555"` → Define el ancho útil de la columna.
 
-**Línea 10:** `GROUP BY l.titulo` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 10:** `leftMargin="20"` → Define uno de los márgenes del informe.
 
-**Línea 11:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL que selecciona, combina, agrupa u ordena los datos.
+**Línea 11:** `rightMargin="20"` → Define uno de los márgenes del informe.
 
-**Línea 12:** `]]></queryString>` → Completa la definición declarativa del informe.
+**Línea 12:** `topMargin="20"` → Define uno de los márgenes del informe.
 
-**Línea 13:** `<field name="titulo" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 13:** `bottomMargin="20"` → Define uno de los márgenes del informe.
 
-**Línea 14:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 14:** `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Fija el UUID del informe y cierra la apertura del elemento raíz.
 
-**Línea 15:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter usado por Jaspersoft Studio durante Preview.
 
-**Línea 16:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo tipográfico predeterminado.
 
-**Línea 17:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 17:** `<queryString language="sql">` → Abre la consulta del dataset y declara su lenguaje.
 
-**Línea 18:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un campo y su tipo Java; su nombre debe coincidir con el origen o el alias.
+**Línea 18:** `<![CDATA[` → Abre CDATA para que XML no interprete los caracteres de la consulta.
 
-**Línea 19:** `<background>` → Abre una sección/banda estructural del informe.
+**Línea 19:** `SELECT l.titulo,` → Inicia la lista de columnas y expresiones devueltas por la consulta.
 
-**Línea 20:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 20:** `SUM(v.cantidad) AS unidades_vendidas,` → Añade una columna o expresión calculada al resultado SQL.
 
-**Línea 21:** `</background>` → Cierra el elemento XML abierto anteriormente.
+**Línea 21:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Añade una columna o expresión calculada al resultado SQL.
 
-**Línea 22:** `` → Línea en blanco usada para separar bloques lógicos y mejorar la legibilidad.
+**Línea 22:** `AVG(v.precio_unitario) AS precio_medio,` → Añade una columna o expresión calculada al resultado SQL.
 
-**Línea 23:** `<title>` → Abre una sección/banda estructural del informe.
+**Línea 23:** `MIN(v.fecha_venta) AS primera_venta,` → Añade una columna o expresión calculada al resultado SQL.
 
-**Línea 24:** `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+**Línea 24:** `MAX(v.fecha_venta) AS ultima_venta` → Añade una columna o expresión calculada al resultado SQL.
 
-**Línea 25:** `<staticText>` → Abre un elemento de texto estático.
+**Línea 25:** `FROM libros l` → Indica la tabla principal de la consulta.
 
-**Línea 26:** `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define geometría y posición del elemento dentro del ancho útil del informe.
+**Línea 26:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Combina tablas mediante la condición indicada.
 
-**Línea 27:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación y propiedades del contenido textual.
+**Línea 27:** `GROUP BY l.titulo` → Agrupa las filas antes de calcular los agregados.
 
-**Línea 28:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura tipografía, tamaño y énfasis.
+**Línea 28:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Ordena el resultado de la consulta.
 
-**Línea 29:** `</textElement>` → Cierra el elemento XML abierto anteriormente.
+**Línea 29:** `]]>` → Cierra el bloque CDATA de la consulta.
 
-**Línea 30:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 30:** `</queryString>` → Cierra la consulta del dataset.
 
-**Línea 31:** `</staticText>` → Cierra el elemento XML abierto anteriormente.
+**Línea 31:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 32:** `</band>` → Cierra el elemento XML abierto anteriormente.
+**Línea 32:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 33:** `</title>` → Cierra el elemento XML abierto anteriormente.
+**Línea 33:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Línea 34:** `<columnHeader><band height="45"><staticText><reportElement x="0" y="5" width="250" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Título]]></text></staticText><staticText><reportElement x="250" y="5" width="90" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Unidades]]></text></staticText><staticText><reportElement x="340" y="5" width="130" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Importe total]]></text></staticText><staticText><reportElement x="470" y="5" width="85" height="15"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Precio medio]]></text></staticText><staticText><reportElement x="0" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Primera venta]]></text></staticText><staticText><reportElement x="150" y="25" width="150" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Última venta]]></text></staticText><staticText><reportElement x="300" y="25" width="255" height="15"/><textElement textAlignment="Center"><font isBold="true"/></textElement><text><![CDATA[Periodo de ventas]]></text></staticText></band></columnHeader><detail><band height="42" splitType="Stretch"><textField textAdjust="StretchHeight"><reportElement x="0" y="1" width="250" height="20"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="250" y="1" width="90" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField><textField pattern="#0.00 €" isBlankWhenNull="true"><reportElement x="340" y="1" width="130" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField><textField><reportElement x="470" y="1" width="85" height="20"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="0" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField><textField isBlankWhenNull="true"><reportElement x="150" y="22" width="150" height="18"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField><textField><reportElement x="300" y="22" width="255" height="18"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " -> " + $F{ultima_venta}]]></textFieldExpression></textField></band></detail>` → Protege una consulta o expresión para que XML no interprete sus caracteres especiales.
+**Línea 34:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
+**Línea 35:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
-**Comprobación:** las coordenadas se mantienen dentro de `columnWidth="555"`, el orden estructural es compatible con JasperReports 6.20.0 y no se usa sintaxis retirada de la baseline.
+**Línea 36:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java; el nombre debe coincidir con la columna o alias del origen.
 
+**Línea 37:** `<background>` → Abre la banda Background.
+
+**Línea 38:** `<band height="0"/>` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 39:** `</background>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 40:** `<title>` → Abre la banda Title.
+
+**Línea 41:** `<band height="60">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 42:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 43:** `<reportElement x="0" y="15" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 44:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura la alineación del contenido textual.
+
+**Línea 45:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura familia, tamaño y estilo de la fuente.
+
+**Línea 46:** `</textElement>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 47:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 48:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 49:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 50:** `</title>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 51:** `<columnHeader>` → Abre la banda Column Header.
+
+**Línea 52:** `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 53:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 54:** `<reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 55:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 56:** `<text><![CDATA[Título]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 57:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 58:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 59:** `<reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 60:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 61:** `<text><![CDATA[Unidades]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 62:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 63:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 64:** `<reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 65:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 66:** `<text><![CDATA[Importe total]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 67:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 68:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 69:** `<reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 70:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 71:** `<text><![CDATA[Precio medio]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 72:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 73:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 74:** `<reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 75:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 76:** `<text><![CDATA[Primera venta]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 77:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 78:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 79:** `<reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 80:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 81:** `<text><![CDATA[Última venta]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 82:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 83:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 84:** `<reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 85:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 86:** `<text><![CDATA[Periodo de ventas]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 87:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 88:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 89:** `</columnHeader>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 90:** `<detail>` → Abre la banda Detail.
+
+**Línea 91:** `<band height="40" splitType="Stretch">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 92:** `<textField textAdjust="StretchHeight">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 93:** `<reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 94:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 95:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 96:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 97:** `<textField isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 98:** `<reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 99:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 100:** `<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 101:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 102:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 103:** `<reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 104:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 105:** `<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 106:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 107:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 108:** `<reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 109:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="10"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 110:** `<textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 111:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 112:** `<textField isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 113:** `<reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 114:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 115:** `<textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 116:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 117:** `<textField isBlankWhenNull="true">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 118:** `<reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 119:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 120:** `<textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 121:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 122:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 123:** `<reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 124:** `<textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 125:** `<textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 126:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 127:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 128:** `</detail>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 129:** `<pageFooter>` → Abre la banda Page Footer.
+
+**Línea 130:** `<band height="45">` → Define la altura y, cuando procede, la política de división de la banda.
+
+**Línea 131:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 132:** `<reportElement x="0" y="3" width="150" height="15" uuid="55555555-5555-4555-8555-555555555551"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 133:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 134:** `<text><![CDATA[Total de títulos:]]></text>` → Define el texto literal que se imprimirá.
+
+**Línea 135:** `</staticText>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 136:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 137:** `<reportElement x="150" y="3" width="70" height="15" uuid="55555555-5555-4555-8555-555555555552"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 138:** `<textElement verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9" isBold="true"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 139:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 140:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 141:** `<textField>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 142:** `<reportElement x="170" y="23" width="190" height="15" uuid="55555555-5555-4555-8555-555555555553"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 143:** `<textElement textAlignment="Right" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 144:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 145:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 146:** `<textField evaluationTime="Report">` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 147:** `<reportElement x="365" y="23" width="30" height="15" uuid="55555555-5555-4555-8555-555555555554"/>` → Fija posición, tamaño y, cuando existe, UUID del elemento.
+
+**Línea 148:** `<textElement textAlignment="Left" verticalAlignment="Middle"><font fontName="DejaVu Sans" size="9"/></textElement>` → Configura la alineación del contenido textual.
+
+**Línea 149:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un campo de texto dinámico y configura sus atributos.
+
+**Línea 150:** `</textField>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 151:** `</band>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 152:** `</pageFooter>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Línea 153:** `</jasperReport>` → Cierra el elemento JRXML abierto correspondiente.
+
+**Comprobación:** el bloque anterior coincide literalmente con el archivo JRXML versionado del checkpoint; las coordenadas se mantienen dentro de `columnWidth="555"` y la estructura es la que valida el workflow E2E.
 
 ### Parte C — Código Java explicado línea por línea [VALIDADO]
 
