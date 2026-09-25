@@ -48,6 +48,22 @@ def report_jrxml(stage: int) -> str:
     has_logic = stage >= 5
     has_sql_adv = stage >= 6
 
+    expr_categories_default = 'java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'
+    expr_search_display = '$P{textoBusqueda} == null || $P{textoBusqueda}.trim().isEmpty() ? "(todas)" : $P{textoBusqueda}'
+    expr_price_display = '$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 \'€\'").format($F{precio_medio})'
+    expr_period = '$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}'
+    expr_class = '$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))'
+    expr_title_upper = '$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)'
+    expr_round = '$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))'
+    expr_days = '$F{primera_venta} == null || $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"'
+    expr_ratio_logic = '$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))'
+    expr_ratio_basic = '$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))'
+    expr_highlight = '"Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"'
+    expr_page = '"Página " + $V{PAGE_NUMBER} + " de"'
+    expr_summary = 'String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})'
+    expr_goal = '$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"'
+    expr_results = '"Resultados encontrados: " + $V{REPORT_COUNT}'
+
     styles = [
         '    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>',
         '    <style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>',
@@ -106,7 +122,7 @@ def report_jrxml(stage: int) -> str:
         params += [
             '    <parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>',
             '    <parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">',
-            f'        <defaultValueExpression>{cdata("java.util.Arrays.asList(\"Novela\", \"Realismo mágico\", \"Cuento\", \"Poesía\")")}</defaultValueExpression>',
+            f'        <defaultValueExpression>{cdata(expr_categories_default)}</defaultValueExpression>',
             '    </parameter>',
         ]
 
@@ -198,7 +214,7 @@ def report_jrxml(stage: int) -> str:
     if has_sql_adv:
         title += f'''
             <staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>
-            <textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression>{cdata("$P{textoBusqueda} == null || $P{textoBusqueda}.trim().isEmpty() ? \"(todas)\" : $P{textoBusqueda}")}</textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression>{cdata(expr_search_display)}</textFieldExpression></textField>
             <staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>
             <textField><reportElement x="390" y="86" width="165" height="18" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression>{cdata("String.valueOf($P{categoriasLista})")}</textFieldExpression></textField>'''
     title += '\n        </band>\n    </title>'
@@ -227,13 +243,13 @@ def report_jrxml(stage: int) -> str:
             <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="220" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression>{cdata("$F{titulo}")}</textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="220" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000002"{units_style}/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{unidades_vendidas}")}</textFieldExpression></textField>
             <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="285" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{importe_total}")}</textFieldExpression></textField>
-            <textField isBlankWhenNull="true"><reportElement x="385" y="0" width="80" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{precio_medio} == null ? \"Sin datos\" : new java.text.DecimalFormat(\"#0.00 '€'\").format($F{precio_medio})")}</textFieldExpression></textField>'''
+            <textField isBlankWhenNull="true"><reportElement x="385" y="0" width="80" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_price_display)}</textFieldExpression></textField>'''
     if has_filters:
         detail += f'\n            <textField isBlankWhenNull="true"><reportElement x="465" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression>{cdata("$F{categoria}")}</textFieldExpression></textField>'
     detail += f'''
             <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression>{cdata("$F{primera_venta}")}</textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression>{cdata("$F{ultima_venta}")}</textFieldExpression></textField>
-            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression>{cdata("$F{primera_venta} == null ? \"Sin ventas\" : $F{primera_venta} + \" → \" + $F{ultima_venta}")}</textFieldExpression></textField>
+            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression>{cdata(expr_period)}</textFieldExpression></textField>
             <textField pattern="#,##0.00 €" isBlankWhenNull="true">
                 <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">
                     <printWhenExpression>{cdata("Boolean.TRUE.equals($P{mostrarDetalle})")}</printWhenExpression>
@@ -243,17 +259,17 @@ def report_jrxml(stage: int) -> str:
             </textField>'''
     if has_advanced:
         detail += f'''
-            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression>{cdata("$F{unidades_vendidas} == null ? \"Sin ventas\" : ($F{unidades_vendidas}.intValue() >= 6 ? \"Premium\" : ($F{unidades_vendidas}.intValue() >= 3 ? \"Estándar\" : \"Económico\"))")}</textFieldExpression></textField>
-            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression>{cdata("$F{titulo} == null ? \"\" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)")}</textFieldExpression></textField>
-            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{precio_medio} == null ? \"-\" : String.format(java.util.Locale.ROOT, \"%.2f\", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))")}</textFieldExpression></textField>
-            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression>{cdata("$F{primera_venta} == null || $F{ultima_venta} == null ? \"-\" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + \" días\"")}</textFieldExpression></textField>
-            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$F{unidades_vendidas} == null ? \"0.0%\" : String.format(java.util.Locale.ROOT, \"%.1f%%\", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))" if has_logic else "$F{unidades_vendidas} == null ? \"0.0%\" : String.format(java.util.Locale.ROOT, \"%.1f%%\", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))")}</textFieldExpression></textField>'''
+            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression>{cdata(expr_class)}</textFieldExpression></textField>
+            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression>{cdata(expr_title_upper)}</textFieldExpression></textField>
+            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_round)}</textFieldExpression></textField>
+            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression>{cdata(expr_days)}</textFieldExpression></textField>
+            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_ratio_logic if has_logic else expr_ratio_basic)}</textFieldExpression></textField>'''
     detail += '\n        </band>'
     if has_logic:
         detail += f'''
         <band height="14">
             <printWhenExpression>{cdata("$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()")}</printWhenExpression>
-            <textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="8" isBold="true"/></textElement><textFieldExpression>{cdata("\"Fila destacada: \" + $F{titulo} + \" supera el umbral de \" + $P{umbralUnidades} + \" unidades\"")}</textFieldExpression></textField>
+            <textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="8" isBold="true"/></textElement><textFieldExpression>{cdata(expr_highlight)}</textFieldExpression></textField>
         </band>'''
     detail += '\n    </detail>'
 
@@ -262,7 +278,7 @@ def report_jrxml(stage: int) -> str:
         <band height="{footer_h}">
             <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>
             <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression>{cdata("$V{REPORT_COUNT}")}</textFieldExpression></textField>
-            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("\"Página \" + $V{PAGE_NUMBER} + \" de\"")}</textFieldExpression></textField>
+            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression>{cdata(expr_page)}</textFieldExpression></textField>
             <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression>{cdata("$V{PAGE_NUMBER}")}</textFieldExpression></textField>'''
     if has_vars:
         footer += f'''
@@ -289,13 +305,13 @@ def report_jrxml(stage: int) -> str:
             <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression>{cdata("$V{ImporteConIva}")}</textFieldExpression></textField>'''
     if has_advanced:
         summary += f'''
-            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression>{cdata("String.format(java.util.Locale.ROOT, \"Resumen: %d títulos · %d unidades · %.2f €\", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})")}</textFieldExpression></textField>'''
+            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression>{cdata(expr_summary)}</textFieldExpression></textField>'''
     if has_logic:
         summary += f'''
-            <textField><reportElement x="0" y="103" width="555" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression>{cdata("$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? \"Objetivo de ventas alcanzado\" : \"Objetivo de ventas pendiente\"")}</textFieldExpression></textField>'''
+            <textField><reportElement x="0" y="103" width="555" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression>{cdata(expr_goal)}</textFieldExpression></textField>'''
     if has_sql_adv:
         summary += f'''
-            <textField><reportElement x="0" y="103" width="180" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression>{cdata("\"Resultados encontrados: \" + $V{REPORT_COUNT}")}</textFieldExpression></textField>'''
+            <textField><reportElement x="0" y="103" width="180" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression>{cdata(expr_results)}</textFieldExpression></textField>'''
     summary += '\n        </band>\n    </summary>'
 
     xml = f'''<?xml version="1.0" encoding="UTF-8"?>
