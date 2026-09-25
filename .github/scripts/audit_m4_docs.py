@@ -80,7 +80,7 @@ GUI_EXPECTED={
 for point,tokens in GUI_EXPECTED.items():
     q=ptext(P,point)
     a=q[q.find('### Parte A'):q.find('### Parte B')]
-    steps=[int(x) for x in re.findall(r'\\*\\*Paso (\\d+):',a)]
+    steps=[int(x) for x in re.findall(r'\*\*Paso (\d+):',a)]
     if steps != list(range(1,len(steps)+1)):
         fail(point+' Parte A no tiene pasos contiguos')
     if not 12 <= len(steps) <= 15:
