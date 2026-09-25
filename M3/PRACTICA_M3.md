@@ -14,10 +14,11 @@
 - 3.4 Ficheros JSON
 - 3.5 Consultas SQL
 - 3.6 Fields
+- 3.7 Introducción a Parameters y Variables
 
 ### Modelo pedagógico
 
-Cada punto conserva el patrón A/B/C/D: **A** construcción visual en Jaspersoft Studio; **B** JRXML que representa el estado construido; **C** Java que compila, llena y exporta; **D** verificación del PDF y del árbol acumulativo. Los checkpoints `M3/3.1` a `M3/3.6` son soluciones acumulativas.
+Cada punto conserva el patrón A/B/C/D: **A** construcción visual en Jaspersoft Studio; **B** JRXML que representa el estado construido; **C** Java que compila, llena y exporta; **D** verificación del PDF y del árbol acumulativo. Los checkpoints `M3/3.1` a `M3/3.7` son soluciones acumulativas.
 
 ### Directorio de trabajo reproducible
 
@@ -7483,5 +7484,1375 @@ Al finalizar este punto, el alumno dispone de:
 ## Conclusión del Módulo 3 y enlace al Módulo 4
 
 El punto 3.6 cierra el Módulo 3 con la profundización en la declaración de campos a partir de consultas SQL. A lo largo de los seis puntos del módulo, el alumno ha conectado el informe a cuatro fuentes de datos distintas: base de datos SQLite mediante JDBC, archivos CSV, archivos XML y archivos JSON. Ha aprendido a configurar los adaptadores en Jaspersoft Studio, a leer las fuentes desde código Java y a combinar datos de varias fuentes. El proyecto EditorialReports contiene ahora cinco informes que cubren las fuentes de datos más habituales en el ámbito empresarial.
+
+---
+
+# Punto 3.7 — Introducción a Parameters y Variables
+
+## Módulo, proyecto y objetivos de aprendizaje
+
+**Módulo:** 3 — Conexión a datos (3,5 horas)  
+**Proyecto:** EditorialReports — sistema de informes empresariales para una editorial  
+**Punto:** 3.7 — Introducción a Parameters y Variables
+
+**Objetivos de aprendizaje**
+
+- Diferenciar `$F{}`, `$P{}` y `$V{}`.
+- Declarar y usar parámetros desde Jaspersoft Studio y Java.
+- Declarar variables `Sum` con reinicio `Report`.
+- Utilizar correctamente variables del sistema.
+- Añadir parámetros y variables sin romper el informe acumulativo corregido de 3.6.
+- Documentar y validar el resultado end-to-end.
+
+---
+
+## Parte práctica
+
+### Parte A — Práctica visual
+
+---
+
+**Paso 1: Partir exactamente del checkpoint 3.6**
+
+**Acciones:**
+
+1. Abrir el workspace del curso en Jaspersoft Studio 6.20.0.
+2. Usar como punto de partida el estado final construido en 3.6.
+3. Abrir `reports/informe_ventas.jrxml`.
+4. Seleccionar la pestaña Design.
+5. Expandir el nodo `informe_ventas` en Outline.
+
+**Verificación visual:** el informe conserva los seis fields, el `LEFT JOIN`, Detail de 40 y Page Footer de 45 del punto 3.6.
+
+**Qué hace:** garantiza que 3.7 sea acumulativo.  
+**Por qué:** el borrador recibido de 3.7 partía de una versión anterior con `INNER JOIN`; este checkpoint no debe reintroducir esa regresión.  
+**Error común:** comenzar desde un JRXML antiguo con siete registros. Solución: comprobar que Preview muestra 14 títulos antes de continuar.
+
+---
+
+**Paso 2: Declarar el parámetro usuario**
+
+**Acciones:**
+
+1. Hacer clic con el botón derecho sobre el nodo raíz del informe en Outline.
+2. Elegir Add Parameter.
+3. Escribir `usuario` en Name.
+4. Seleccionar `java.lang.String` como Class.
+5. No definir valor por defecto.
+6. Guardar.
+
+**Verificación visual:** Parameters contiene `usuario [java.lang.String]`.
+
+**Qué hace:** declara el nombre de la persona que solicita el informe.  
+**Por qué:** es un valor externo al dataset.  
+**Error común:** escribir `Usuario` y luego usar `$P{usuario}`. Los nombres son sensibles a mayúsculas/minúsculas.
+
+---
+
+**Paso 3: Declarar fechaInforme con valor por defecto**
+
+**Acciones:**
+
+1. Añadir otro Parameter.
+2. Name: `fechaInforme`.
+3. Class: `java.util.Date`.
+4. Activar el valor por defecto.
+5. Default Value Expression: `new java.util.Date()`.
+6. Guardar.
+
+**Verificación visual:** Parameters contiene `usuario` y `fechaInforme`.
+
+**Qué hace:** crea la fecha de emisión.  
+**Por qué:** permite omitirla en Java y resolverla automáticamente.  
+**Error común:** creer que un parámetro declarado pero no enviado provoca automáticamente `Parameter not found`. Sin default, su valor es `null`.
+
+---
+
+**Paso 4: Declarar TotalUnidades**
+
+**Acciones:**
+
+1. Añadir una Variable desde Outline.
+2. Name: `TotalUnidades`.
+3. Class: `java.lang.Integer`.
+4. Calculation: `Sum`.
+5. Reset Type: `Report`.
+6. Expression: `$F{unidades_vendidas}`.
+7. Guardar.
+
+**Verificación visual:** Variables muestra `TotalUnidades [Integer, Sum, Report]`.
+
+**Qué hace:** suma las unidades de los títulos con ventas.  
+**Por qué:** el total se calcula durante el llenado.  
+**Error común:** dejar Calculation en Nothing; en ese caso no se obtiene la suma final.
+
+---
+
+**Paso 5: Declarar TotalImporte**
+
+**Acciones:**
+
+1. Añadir otra Variable.
+2. Name: `TotalImporte`.
+3. Class: `java.lang.Double`.
+4. Calculation: `Sum`.
+5. Reset Type: `Report`.
+6. Expression: `$F{importe_total}`.
+7. Guardar.
+
+**Verificación visual:** Variables muestra las dos variables del punto.
+
+**Qué hace:** suma el importe agregado de todos los títulos.  
+**Por qué:** con los datos seed el resultado correcto es 633,40 €.  
+**Error común:** volver a documentar 648,40 €. Ese valor no corresponde a las nueve ventas reales.
+
+---
+
+**Paso 6: Ampliar Title sin salir de la banda**
+
+**Acciones:**
+
+1. Seleccionar Title.
+2. Establecer Band height = `90`.
+3. Mantener el título principal en Y=8, Height=30.
+4. Añadir un Static Text en X=0, Y=48, Width=150, Height=18 con `Informe generado por:`.
+5. Añadir un Text Field en X=150, Y=48, Width=200, Height=18.
+6. Expression: `$P{usuario}`.
+7. Activar Bold para el valor.
+
+**Verificación visual:** la fila de usuario termina en Y=66, dentro de la banda de 90.
+
+**Qué hace:** incorpora el parámetro usuario al título.  
+**Por qué:** personaliza el documento.  
+**Error común:** usar una banda de 80 con un elemento que termina en Y=90. Este checkpoint corrige esa geometría.
+
+---
+
+**Paso 7: Añadir fechaInforme dentro de Title**
+
+**Acciones:**
+
+1. Añadir un Static Text en X=0, Y=70, Width=150, Height=18 con `Fecha del informe:`.
+2. Añadir un Text Field en X=150, Y=70, Width=120, Height=18.
+3. Expression: `$P{fechaInforme}`.
+4. Pattern: `dd/MM/yyyy`.
+5. Guardar.
+
+**Verificación visual:** ambos elementos terminan en Y=88, dentro del Title de 90.
+
+**Qué hace:** muestra la fecha de emisión formateada.  
+**Por qué:** el parámetro es Date y admite patrón de fecha.
+
+---
+
+**Paso 8: Mantener el Page Footer correcto**
+
+**Acciones:**
+
+1. Seleccionar Page Footer.
+2. Confirmar Band height = `45`.
+3. Confirmar `$V{REPORT_COUNT}` para el total de títulos.
+4. Confirmar el primer Text Field con `"Página " + $V{PAGE_NUMBER} + " de"`.
+5. Confirmar un segundo Text Field con `evaluationTime="Report"` y `$V{PAGE_NUMBER}`.
+
+**Verificación visual:** no se usa `PAGE_COUNT` como total de páginas.
+
+**Qué hace:** conserva la paginación validada en 3.6.  
+**Por qué:** `PAGE_COUNT` cuenta registros de la página, no páginas.
+
+---
+
+**Paso 9: Crear la banda Summary compacta**
+
+**Acciones:**
+
+1. Añadir Summary si no existe.
+2. Band height = `55`.
+3. Añadir Static Text X=0, Y=5, Width=245, Height=18: `Total de unidades vendidas:`.
+4. Añadir Text Field X=245, Y=5, Width=100, Height=18 con `$V{TotalUnidades}`.
+5. Añadir Static Text X=0, Y=30, Width=245, Height=18: `Importe total:`.
+6. Añadir Text Field X=245, Y=30, Width=130, Height=18 con `$V{TotalImporte}`.
+7. Pattern del importe: `#,##0.00 €`.
+8. Marcar Bold en los cuatro elementos.
+
+**Verificación visual:** la segunda fila termina en Y=48, dentro del Summary de 55.
+
+**Qué hace:** presenta los acumulados al final del dataset.  
+**Por qué:** Summary se emite después de procesar los 14 registros.  
+**Error común:** aumentar innecesariamente Summary y provocar un salto a una segunda página.
+
+---
+
+**Paso 10: Modificar GeneradorInformeVentas.java**
+
+**Acciones:**
+
+1. Abrir `EditorialReportsJava/src/GeneradorInformeVentas.java`.
+2. Localizar el mapa `parametros`.
+3. Añadir exactamente `parametros.put("usuario", "Ana Martínez");`.
+4. Guardar.
+5. Comprobar Problems.
+
+**Verificación visual:** no hay errores Java.
+
+**Qué hace:** suministra el parámetro `usuario`.  
+**Por qué:** `usuario` no tiene default.  
+**Error común:** terminar la sentencia con coma. En Java debe terminar con punto y coma.
+
+---
+
+**Paso 11: Documentar Parameters y Variables**
+
+**Acciones:**
+
+1. Crear `PARAMETROS_VARIABLES.md` en la raíz de EditorialReports.
+2. Documentar `usuario` y `fechaInforme`.
+3. Documentar `TotalUnidades` y `TotalImporte`.
+4. Añadir una nota indicando que `PAGE_COUNT` cuenta registros de la página y no páginas.
+5. Guardar.
+
+**Verificación visual:** el archivo aparece junto a `CAMPOS_VENTAS.md`.
+
+---
+
+**Paso 12: Compilar y probar Preview**
+
+**Acciones:**
+
+1. Guardar el JRXML.
+2. Compilar el informe.
+3. Abrir Preview.
+4. Cuando Jaspersoft Studio solicite `usuario`, escribir `Ana Martínez`.
+5. Dejar `fechaInforme` sin valor explícito para usar el default.
+6. Ejecutar Preview.
+
+**Verificación visual:** aparecen 14 títulos, usuario, fecha, 31 unidades y 633,40 €.
+
+---
+
+**Paso 13: Ejecutar Java end-to-end**
+
+**Acciones:**
+
+1. Ejecutar `InicializadorBD`.
+2. Ejecutar `GeneradorInformeVentas`.
+3. Abrir `output/informe_ventas.pdf`.
+4. Revisar la consola.
+
+**Verificación visual:** la consola muestra la ruta, páginas y `Parametro usuario: Ana Martínez`.
+
+**Qué hace:** valida JRXML → compilación → parámetros → JDBC → variables → JasperPrint → PDF.
+
+---
+
+**Paso 14: Verificar los resultados contra los datos reales**
+
+**Acciones:**
+
+1. Confirmar `Total de títulos: 14`.
+2. Confirmar `Total de unidades vendidas: 31`.
+3. Confirmar `Importe total: 633,40 €`.
+4. Confirmar que los siete títulos sin ventas siguen presentes por el `LEFT JOIN`.
+5. Confirmar que el PDF sigue cabiendo en una página con los datos seed actuales.
+
+**Verificación visual:** los valores coinciden con SQLite y no reaparece ninguna regresión de 3.5/3.6.
+
+---
+
+### Parte B — JRXML completo explicado línea por línea [VALIDADO]
+
+El siguiente bloque es **el JRXML ejecutable completo del checkpoint 3.7**.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="informe_ventas"
+              language="java"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>
+    <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+    <parameter name="usuario" class="java.lang.String"/>
+    <parameter name="fechaInforme" class="java.util.Date">
+        <defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+    </parameter>
+    <queryString language="sql">
+        <![CDATA[
+            SELECT l.titulo,
+                   SUM(v.cantidad) AS unidades_vendidas,
+                   SUM(v.cantidad * v.precio_unitario) AS importe_total,
+                   AVG(v.precio_unitario) AS precio_medio,
+                   MIN(v.fecha_venta) AS primera_venta,
+                   MAX(v.fecha_venta) AS ultima_venta
+            FROM libros l
+            LEFT JOIN ventas v ON l.titulo = v.titulo_libro
+            GROUP BY l.titulo
+            ORDER BY COALESCE(importe_total, 0) DESC, l.titulo
+        ]]>
+    </queryString>
+    <field name="titulo" class="java.lang.String"/>
+    <field name="unidades_vendidas" class="java.lang.Integer"/>
+    <field name="importe_total" class="java.lang.Double"/>
+    <field name="precio_medio" class="java.lang.Double"/>
+    <field name="primera_venta" class="java.lang.String"/>
+    <field name="ultima_venta" class="java.lang.String"/>
+    <variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">
+        <variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>
+    </variable>
+    <variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">
+        <variableExpression><![CDATA[$F{importe_total}]]></variableExpression>
+    </variable>
+    <background>
+        <band height="0"/>
+    </background>
+    <title>
+        <band height="90">
+            <staticText>
+                <reportElement x="0" y="8" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Informe de Ventas - Agregación por Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="48" width="150" height="18" uuid="61000000-0000-4000-8000-000000000001"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <text><![CDATA[Informe generado por:]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="150" y="48" width="200" height="18" uuid="61000000-0000-4000-8000-000000000002"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="70" width="150" height="18" uuid="61000000-0000-4000-8000-000000000003"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <text><![CDATA[Fecha del informe:]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="150" y="70" width="120" height="18" uuid="61000000-0000-4000-8000-000000000004"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{fechaInforme}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Título]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Unidades]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Importe total]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Precio medio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Primera venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Última venta]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Periodo de ventas]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="40" splitType="Stretch">
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00 €" isBlankWhenNull="true">
+                <reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="3" width="150" height="15" uuid="55555555-5555-4555-8555-555555555551"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <text><![CDATA[Total de títulos:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="3" width="70" height="15" uuid="55555555-5555-4555-8555-555555555552"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="170" y="23" width="190" height="15" uuid="55555555-5555-4555-8555-555555555553"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="365" y="23" width="30" height="15" uuid="55555555-5555-4555-8555-555555555554"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="55">
+            <staticText>
+                <reportElement x="0" y="5" width="245" height="18" uuid="62000000-0000-4000-8000-000000000001"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total de unidades vendidas:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="245" y="5" width="100" height="18" uuid="62000000-0000-4000-8000-000000000002"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="30" width="245" height="18" uuid="62000000-0000-4000-8000-000000000003"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Importe total:]]></text>
+            </staticText>
+            <textField pattern="#,##0.00 €">
+                <reportElement x="245" y="30" width="130" height="18" uuid="62000000-0000-4000-8000-000000000004"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>
+```
+
+### Explicación línea por línea
+
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 con codificación UTF-8.
+
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el elemento raíz del informe JasperReports.
+
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara XML Schema Instance.
+
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Asocia el namespace con el XSD de JasperReports.
+
+**Línea 5:** `name="informe_ventas"` → Fija el nombre interno del informe.
+
+**Línea 6:** `language="java"` → Indica que las expresiones del informe se evalúan como Java.
+
+**Línea 7:** `pageWidth="595"` → Define el ancho de la página A4.
+
+**Línea 8:** `pageHeight="842"` → Define la altura de la página A4.
+
+**Línea 9:** `columnWidth="555"` → Define el ancho útil de la columna.
+
+**Línea 10:** `leftMargin="20"` → Define el margen izquierdo.
+
+**Línea 11:** `rightMargin="20"` → Define el margen derecho.
+
+**Línea 12:** `topMargin="20"` → Define el margen superior.
+
+**Línea 13:** `bottomMargin="20"` → Define el margen inferior.
+
+**Línea 14:** `uuid="e6b7c8d9-f0a1-2b3c-4d5e-6f7a8b9c0d1e">` → Fija el UUID del informe y completa la apertura del elemento raíz.
+
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Asocia el Data Adapter SQLite utilizado en Preview.
+
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara DejaVu Sans como estilo predeterminado.
+
+**Línea 17:** `<parameter name="usuario" class="java.lang.String"/>` → Declara un parámetro y su clase Java.
+
+**Línea 18:** `<parameter name="fechaInforme" class="java.util.Date">` → Declara un parámetro y su clase Java.
+
+**Línea 19:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor por defecto que se evalúa si el llamador no proporciona el parámetro.
+
+**Línea 20:** `</parameter>` → Cierra el elemento parameter.
+
+**Línea 21:** `<queryString language="sql">` → Abre la consulta SQL del dataset.
+
+**Línea 22:** `<![CDATA[` → Abre CDATA para escribir la consulta SQL sin escapar caracteres XML.
+
+**Línea 23:** `SELECT l.titulo,` → Inicia la lista de columnas del SELECT.
+
+**Línea 24:** `SUM(v.cantidad) AS unidades_vendidas,` → Añade una expresión agregada con su alias.
+
+**Línea 25:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Añade una expresión agregada con su alias.
+
+**Línea 26:** `AVG(v.precio_unitario) AS precio_medio,` → Añade una expresión agregada con su alias.
+
+**Línea 27:** `MIN(v.fecha_venta) AS primera_venta,` → Añade una expresión agregada con su alias.
+
+**Línea 28:** `MAX(v.fecha_venta) AS ultima_venta` → Añade una expresión agregada con su alias.
+
+**Línea 29:** `FROM libros l` → Selecciona libros como tabla principal.
+
+**Línea 30:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Enlaza ventas conservando también los títulos sin ventas.
+
+**Línea 31:** `GROUP BY l.titulo` → Agrupa por título antes de calcular los agregados.
+
+**Línea 32:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Ordena por importe descendente y título.
+
+**Línea 33:** `]]>` → Cierra el bloque CDATA de la consulta.
+
+**Línea 34:** `</queryString>` → Cierra la consulta del dataset.
+
+**Línea 35:** `<field name="titulo" class="java.lang.String"/>` → Declara un field cuyo nombre coincide con una columna o alias del ResultSet.
+
+**Línea 36:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field cuyo nombre coincide con una columna o alias del ResultSet.
+
+**Línea 37:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field cuyo nombre coincide con una columna o alias del ResultSet.
+
+**Línea 38:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field cuyo nombre coincide con una columna o alias del ResultSet.
+
+**Línea 39:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field cuyo nombre coincide con una columna o alias del ResultSet.
+
+**Línea 40:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field cuyo nombre coincide con una columna o alias del ResultSet.
+
+**Línea 41:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable con tipo, cálculo y política de reinicio.
+
+**Línea 42:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor que alimenta la variable durante el llenado.
+
+**Línea 43:** `</variable>` → Cierra el elemento variable.
+
+**Línea 44:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable con tipo, cálculo y política de reinicio.
+
+**Línea 45:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor que alimenta la variable durante el llenado.
+
+**Línea 46:** `</variable>` → Cierra el elemento variable.
+
+**Línea 47:** `<background>` → Abre la banda Background.
+
+**Línea 48:** `<band height="0"/>` → Define la altura de la banda y, cuando existe, la política de división.
+
+**Línea 49:** `</background>` → Cierra el elemento background.
+
+**Línea 50:** `<title>` → Abre la banda Title.
+
+**Línea 51:** `<band height="90">` → Define la altura de la banda y, cuando existe, la política de división.
+
+**Línea 52:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 53:** `<reportElement x="0" y="8" width="555" height="30" uuid="f7c8d9e0-a1b2-3c4d-5e6f-7a8b9c0d1e2f"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 54:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 55:** `<font fontName="DejaVu Sans" size="18" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 56:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 57:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal «Informe de Ventas - Agregación por Título».
+
+**Línea 58:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 59:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 60:** `<reportElement x="0" y="48" width="150" height="18" uuid="61000000-0000-4000-8000-000000000001"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 61:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 62:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 63:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 64:** `<text><![CDATA[Informe generado por:]]></text>` → Define el texto literal «Informe generado por:».
+
+**Línea 65:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 66:** `<textField isBlankWhenNull="true">` → Abre un Text Field y configura sus atributos.
+
+**Línea 67:** `<reportElement x="150" y="48" width="200" height="18" uuid="61000000-0000-4000-8000-000000000002"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 68:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 69:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 70:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 71:** `<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 72:** `</textField>` → Cierra el elemento textField.
+
+**Línea 73:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 74:** `<reportElement x="0" y="70" width="150" height="18" uuid="61000000-0000-4000-8000-000000000003"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 75:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 76:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 77:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 78:** `<text><![CDATA[Fecha del informe:]]></text>` → Define el texto literal «Fecha del informe:».
+
+**Línea 79:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 80:** `<textField pattern="dd/MM/yyyy">` → Abre un Text Field y configura sus atributos.
+
+**Línea 81:** `<reportElement x="150" y="70" width="120" height="18" uuid="61000000-0000-4000-8000-000000000004"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 82:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 83:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 84:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 85:** `<textFieldExpression><![CDATA[$P{fechaInforme}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 86:** `</textField>` → Cierra el elemento textField.
+
+**Línea 87:** `</band>` → Cierra el elemento band.
+
+**Línea 88:** `</title>` → Cierra el elemento title.
+
+**Línea 89:** `<columnHeader>` → Abre la banda Column Header.
+
+**Línea 90:** `<band height="45">` → Define la altura de la banda y, cuando existe, la política de división.
+
+**Línea 91:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 92:** `<reportElement x="0" y="5" width="250" height="15" uuid="a8d9e0f1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 93:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 94:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 95:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 96:** `<text><![CDATA[Título]]></text>` → Define el texto literal «Título».
+
+**Línea 97:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 98:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 99:** `<reportElement x="250" y="5" width="90" height="15" uuid="b9e0f1a2-c3d4-5e6f-7a8b-9c0d1e2f3a4b"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 100:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 101:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 102:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 103:** `<text><![CDATA[Unidades]]></text>` → Define el texto literal «Unidades».
+
+**Línea 104:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 105:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 106:** `<reportElement x="340" y="5" width="130" height="15" uuid="c0f1a2b3-d4e5-6f7a-8b9c-0d1e2f3a4b5c"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 107:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 108:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 109:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 110:** `<text><![CDATA[Importe total]]></text>` → Define el texto literal «Importe total».
+
+**Línea 111:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 112:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 113:** `<reportElement x="470" y="5" width="85" height="15" uuid="d1a2b3c4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 114:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 115:** `<font fontName="DejaVu Sans" size="10" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 116:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 117:** `<text><![CDATA[Precio medio]]></text>` → Define el texto literal «Precio medio».
+
+**Línea 118:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 119:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 120:** `<reportElement x="0" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a51"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 121:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 122:** `<font fontName="DejaVu Sans" size="9" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 123:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 124:** `<text><![CDATA[Primera venta]]></text>` → Define el texto literal «Primera venta».
+
+**Línea 125:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 126:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 127:** `<reportElement x="150" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a52"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 128:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 129:** `<font fontName="DejaVu Sans" size="9" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 130:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 131:** `<text><![CDATA[Última venta]]></text>` → Define el texto literal «Última venta».
+
+**Línea 132:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 133:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 134:** `<reportElement x="300" y="25" width="150" height="15" uuid="66f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a53"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 135:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 136:** `<font fontName="DejaVu Sans" size="9" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 137:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 138:** `<text><![CDATA[Periodo de ventas]]></text>` → Define el texto literal «Periodo de ventas».
+
+**Línea 139:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 140:** `</band>` → Cierra el elemento band.
+
+**Línea 141:** `</columnHeader>` → Cierra el elemento columnHeader.
+
+**Línea 142:** `<detail>` → Abre la sección Detail.
+
+**Línea 143:** `<band height="40" splitType="Stretch">` → Define la altura de la banda y, cuando existe, la política de división.
+
+**Línea 144:** `<textField textAdjust="StretchHeight">` → Abre un Text Field y configura sus atributos.
+
+**Línea 145:** `<reportElement x="0" y="0" width="250" height="20" uuid="e2b3c4d5-f6a7-8b9c-0d1e-2f3a4b5c6d7e"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 146:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 147:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 148:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 149:** `<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 150:** `</textField>` → Cierra el elemento textField.
+
+**Línea 151:** `<textField isBlankWhenNull="true">` → Abre un Text Field y configura sus atributos.
+
+**Línea 152:** `<reportElement x="250" y="0" width="90" height="20" uuid="f3c4d5e6-a7b8-9c0d-1e2f-3a4b5c6d7e8f"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 153:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 154:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 155:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 156:** `<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 157:** `</textField>` → Cierra el elemento textField.
+
+**Línea 158:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un Text Field y configura sus atributos.
+
+**Línea 159:** `<reportElement x="340" y="0" width="130" height="20" uuid="a4d5e6f7-b8c9-0d1e-2f3a-4b5c6d7e8f9a"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 160:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 161:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 162:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 163:** `<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 164:** `</textField>` → Cierra el elemento textField.
+
+**Línea 165:** `<textField>` → Abre un Text Field y configura sus atributos.
+
+**Línea 166:** `<reportElement x="470" y="0" width="85" height="20" uuid="b5e6f7a8-c9d0-1e2f-3a4b-5c6d7e8f9a0b"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 167:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 168:** `<font fontName="DejaVu Sans" size="10"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 169:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 170:** `<textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 171:** `</textField>` → Cierra el elemento textField.
+
+**Línea 172:** `<textField isBlankWhenNull="true">` → Abre un Text Field y configura sus atributos.
+
+**Línea 173:** `<reportElement x="0" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b61"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 174:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 175:** `<font fontName="DejaVu Sans" size="9"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 176:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 177:** `<textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 178:** `</textField>` → Cierra el elemento textField.
+
+**Línea 179:** `<textField isBlankWhenNull="true">` → Abre un Text Field y configura sus atributos.
+
+**Línea 180:** `<reportElement x="150" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b62"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 181:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 182:** `<font fontName="DejaVu Sans" size="9"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 183:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 184:** `<textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 185:** `</textField>` → Cierra el elemento textField.
+
+**Línea 186:** `<textField>` → Abre un Text Field y configura sus atributos.
+
+**Línea 187:** `<reportElement x="300" y="22" width="150" height="18" uuid="77a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b63"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 188:** `<textElement textAlignment="Center" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 189:** `<font fontName="DejaVu Sans" size="9"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 190:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 191:** `<textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 192:** `</textField>` → Cierra el elemento textField.
+
+**Línea 193:** `</band>` → Cierra el elemento band.
+
+**Línea 194:** `</detail>` → Cierra el elemento detail.
+
+**Línea 195:** `<pageFooter>` → Abre la banda Page Footer.
+
+**Línea 196:** `<band height="45">` → Define la altura de la banda y, cuando existe, la política de división.
+
+**Línea 197:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 198:** `<reportElement x="0" y="3" width="150" height="15" uuid="55555555-5555-4555-8555-555555555551"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 199:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 200:** `<font fontName="DejaVu Sans" size="9"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 201:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 202:** `<text><![CDATA[Total de títulos:]]></text>` → Define el texto literal «Total de títulos:».
+
+**Línea 203:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 204:** `<textField>` → Abre un Text Field y configura sus atributos.
+
+**Línea 205:** `<reportElement x="150" y="3" width="70" height="15" uuid="55555555-5555-4555-8555-555555555552"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 206:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 207:** `<font fontName="DejaVu Sans" size="9" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 208:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 209:** `<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 210:** `</textField>` → Cierra el elemento textField.
+
+**Línea 211:** `<textField>` → Abre un Text Field y configura sus atributos.
+
+**Línea 212:** `<reportElement x="170" y="23" width="190" height="15" uuid="55555555-5555-4555-8555-555555555553"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 213:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 214:** `<font fontName="DejaVu Sans" size="9"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 215:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 216:** `<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 217:** `</textField>` → Cierra el elemento textField.
+
+**Línea 218:** `<textField evaluationTime="Report">` → Abre un Text Field que se resuelve al final del informe.
+
+**Línea 219:** `<reportElement x="365" y="23" width="30" height="15" uuid="55555555-5555-4555-8555-555555555554"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 220:** `<textElement textAlignment="Left" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 221:** `<font fontName="DejaVu Sans" size="9"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 222:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 223:** `<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 224:** `</textField>` → Cierra el elemento textField.
+
+**Línea 225:** `</band>` → Cierra el elemento band.
+
+**Línea 226:** `</pageFooter>` → Cierra el elemento pageFooter.
+
+**Línea 227:** `<summary>` → Abre la banda Summary, emitida al terminar el dataset.
+
+**Línea 228:** `<band height="55">` → Define la altura de la banda y, cuando existe, la política de división.
+
+**Línea 229:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 230:** `<reportElement x="0" y="5" width="245" height="18" uuid="62000000-0000-4000-8000-000000000001"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 231:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 232:** `<font fontName="DejaVu Sans" size="11" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 233:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 234:** `<text><![CDATA[Total de unidades vendidas:]]></text>` → Define el texto literal «Total de unidades vendidas:».
+
+**Línea 235:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 236:** `<textField>` → Abre un Text Field y configura sus atributos.
+
+**Línea 237:** `<reportElement x="245" y="5" width="100" height="18" uuid="62000000-0000-4000-8000-000000000002"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 238:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 239:** `<font fontName="DejaVu Sans" size="11" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 240:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 241:** `<textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 242:** `</textField>` → Cierra el elemento textField.
+
+**Línea 243:** `<staticText>` → Abre un elemento de texto estático.
+
+**Línea 244:** `<reportElement x="0" y="30" width="245" height="18" uuid="62000000-0000-4000-8000-000000000003"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 245:** `<textElement verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 246:** `<font fontName="DejaVu Sans" size="11" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 247:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 248:** `<text><![CDATA[Importe total:]]></text>` → Define el texto literal «Importe total:».
+
+**Línea 249:** `</staticText>` → Cierra el elemento staticText.
+
+**Línea 250:** `<textField pattern="#,##0.00 €">` → Abre un Text Field y configura sus atributos.
+
+**Línea 251:** `<reportElement x="245" y="30" width="130" height="18" uuid="62000000-0000-4000-8000-000000000004"/>` → Define coordenadas, tamaño y UUID del elemento.
+
+**Línea 252:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → Configura alineación del contenido textual.
+
+**Línea 253:** `<font fontName="DejaVu Sans" size="11" isBold="true"/>` → Configura DejaVu Sans, tamaño y énfasis.
+
+**Línea 254:** `</textElement>` → Cierra el elemento textElement.
+
+**Línea 255:** `<textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression>` → Abre un Text Field y configura sus atributos.
+
+**Línea 256:** `</textField>` → Cierra el elemento textField.
+
+**Línea 257:** `</band>` → Cierra el elemento band.
+
+**Línea 258:** `</summary>` → Cierra el elemento summary.
+
+**Línea 259:** `</jasperReport>` → Cierra el elemento jasperReport.
+
+**Comprobación:** el bloque anterior coincide literalmente con `M3/3.7/EditorialReports/reports/informe_ventas.jrxml`.
+
+---
+
+### Parte C — Código Java explicado línea por línea [VALIDADO]
+
+```java
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Map;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+public class GeneradorInformeVentas {
+    public static void main(String[] args) {
+        try {
+            String rutaJrxml = "reports/informe_ventas.jrxml";
+            String rutaJasper = "reports/informe_ventas.jasper";
+            String rutaPdf = "output/informe_ventas.pdf";
+            String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
+            new File("output").mkdirs();
+
+            JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            parametros.put("usuario", "Ana Martínez");
+
+            try (Connection conexion = DriverManager.getConnection(urlBD)) {
+                JasperPrint documento = JasperFillManager.fillReport(
+                        rutaJasper,
+                        parametros,
+                        conexion);
+                JasperExportManager.exportReportToPdfFile(documento, rutaPdf);
+                System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());
+                System.out.println("Paginas del documento: " + documento.getPages().size());
+                System.out.println("Parametro usuario: " + parametros.get("usuario"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+}
+```
+
+### Explicación línea por línea
+
+**Línea 1:** `import java.io.File;` → Importa java.io.File.
+
+**Línea 2:** `import java.sql.Connection;` → Importa java.sql.Connection.
+
+**Línea 3:** `import java.sql.DriverManager;` → Importa java.sql.DriverManager.
+
+**Línea 4:** `import java.util.HashMap;` → Importa java.util.HashMap.
+
+**Línea 5:** `import java.util.Map;` → Importa java.util.Map.
+
+**Línea 6:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa net.sf.jasperreports.engine.JasperCompileManager.
+
+**Línea 7:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa net.sf.jasperreports.engine.JasperExportManager.
+
+**Línea 8:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa net.sf.jasperreports.engine.JasperFillManager.
+
+**Línea 9:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa net.sf.jasperreports.engine.JasperPrint.
+
+**Línea 10:** `` → Separa visualmente bloques lógicos.
+
+**Línea 11:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable.
+
+**Línea 12:** `public static void main(String[] args) {` → Declara el punto de entrada.
+
+**Línea 13:** `try {` → Abre el bloque principal protegido.
+
+**Línea 14:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Define la ruta del JRXML.
+
+**Línea 15:** `String rutaJasper = "reports/informe_ventas.jasper";` → Define la ruta del informe compilado.
+
+**Línea 16:** `String rutaPdf = "output/informe_ventas.pdf";` → Define la ruta del PDF final.
+
+**Línea 17:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Define la URL JDBC SQLite del proyecto acumulativo.
+
+**Línea 18:** `new File("output").mkdirs();` → Crea output si todavía no existe.
+
+**Línea 19:** `` → Separa visualmente bloques lógicos.
+
+**Línea 20:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML a .jasper.
+
+**Línea 21:** `` → Separa visualmente bloques lógicos.
+
+**Línea 22:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa de parámetros.
+
+**Línea 23:** `parametros.put("usuario", "Ana Martínez");` → Asigna Ana Martínez al parámetro usuario.
+
+**Línea 24:** `` → Separa visualmente bloques lógicos.
+
+**Línea 25:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión JDBC con cierre automático.
+
+**Línea 26:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado y crea el JasperPrint.
+
+**Línea 27:** `rutaJasper,` → Pasa el informe compilado a fillReport.
+
+**Línea 28:** `parametros,` → Pasa el mapa de parámetros a fillReport.
+
+**Línea 29:** `conexion);` → Pasa la conexión JDBC y completa la llamada.
+
+**Línea 30:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el JasperPrint a PDF.
+
+**Línea 31:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Imprime la ruta absoluta del PDF.
+
+**Línea 32:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Imprime el número de páginas.
+
+**Línea 33:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Confirma en consola el valor enviado a usuario.
+
+**Línea 34:** `}` → Cierra el bloque Java actual.
+
+**Línea 35:** `} catch (Exception e) {` → Captura cualquier excepción.
+
+**Línea 36:** `e.printStackTrace();` → Imprime la traza de error.
+
+**Línea 37:** `System.exit(1);` → Devuelve un código de error distinto de cero.
+
+**Línea 38:** `}` → Cierra el bloque Java actual.
+
+**Línea 39:** `}` → Cierra el bloque Java actual.
+
+**Línea 40:** `}` → Cierra el bloque Java actual.
+
+**Comprobación:** el bloque anterior coincide literalmente con `M3/3.7/EditorialReportsJava/src/GeneradorInformeVentas.java`.
+
+---
+
+### Parte D — Simulación del PDF esperado y estructura del proyecto
+
+#### D.1 — Vista lógica del informe
+
+```text
+Title [90]
+  Informe de Ventas - Agregación por Título
+  Informe generado por:  $P{usuario}
+  Fecha del informe:     $P{fechaInforme}
+
+Column Header [45]
+  Título | Unidades | Importe total | Precio medio
+  Primera venta | Última venta | Periodo de ventas
+
+Detail [40] × 14 registros
+  fields heredados de 3.6
+
+Page Footer [45]
+  Total de títulos: $V{REPORT_COUNT}
+  Página $V{PAGE_NUMBER} de [PAGE_NUMBER evaluado al final]
+
+Summary [55]
+  Total de unidades vendidas: $V{TotalUnidades}
+  Importe total:              $V{TotalImporte}
+```
+
+#### D.2 — Outline esperado
+
+```text
+informe_ventas
+├── Styles
+│   └── Sans_Normal [DejaVu Sans]
+├── Parameters
+│   ├── usuario [java.lang.String]
+│   └── fechaInforme [java.util.Date, default=new java.util.Date()]
+├── QueryString
+│   └── LEFT JOIN ventas ...
+├── Fields
+│   ├── titulo
+│   ├── unidades_vendidas
+│   ├── importe_total
+│   ├── precio_medio
+│   ├── primera_venta
+│   └── ultima_venta
+├── Variables
+│   ├── TotalUnidades [Integer, Sum, Report]
+│   └── TotalImporte [Double, Sum, Report]
+├── Title [90]
+├── Column Header [45]
+├── Detail [40]
+├── Page Footer [45]
+├── Summary [55]
+└── Background [0]
+```
+
+#### D.3 — Documento PDF resultante
+
+```text
+INFORME: informe_ventas.pdf
+PÁGINAS ESPERADAS CON LOS DATOS SEED: 1
+REGISTROS OBTENIDOS: 14
+PARÁMETRO usuario: Ana Martínez
+fechaInforme: fecha de ejecución
+TOTAL UNIDADES: 31
+IMPORTE TOTAL: 633,40 €
+
+──────────────────── Página 1 de 1 ────────────────────
+╔══════════════════════════════════════════════════════════╗
+║        Informe de Ventas - Agregación por Título         ║
+║ Informe generado por: Ana Martínez                       ║
+║ Fecha del informe: <fecha de ejecución>                  ║
+║ ... 14 títulos, incluidos los títulos sin ventas ...     ║
+║ Total de títulos: 14          Página 1 de 1              ║
+║ Total de unidades vendidas: 31                           ║
+║ Importe total: 633,40 €                                  ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+#### D.4 — Árbol final del checkpoint
+
+```text
+M3/3.7/
+├── EditorialReports/
+│   ├── CAMPOS_VENTAS.md
+│   ├── PARAMETROS_VARIABLES.md          (nuevo)
+│   ├── data/
+│   ├── reports/
+│   │   └── informe_ventas.jrxml         (ampliado)
+│   ├── resources/
+│   └── output/                          (generado en ejecución)
+├── EditorialReportsJava/
+│   ├── data/editorial.db
+│   ├── pom.xml
+│   └── src/
+│       └── GeneradorInformeVentas.java  (modificado)
+├── README.md
+└── VALIDACION.md
+```
+
+---
+
+## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `Parameter not found: usuario` | La expresión referencia un parámetro no declarado | Declarar `usuario` en el JRXML |
+| `$P{usuario}` aparece vacío | Está declarado pero Java/Preview no le pasó valor | Añadirlo al mapa o introducirlo en Preview |
+| La fecha aparece vacía | Se eliminó el default y no se pasó fecha | Restaurar `defaultValueExpression` o pasar un Date |
+| TotalUnidades no suma | Calculation no es Sum | Configurar `Sum` |
+| TotalImporte no es 633,40 € | Datos/query distintos o valor esperado antiguo | Reinicializar SQLite y conservar el LEFT JOIN |
+| Solo aparecen 7 títulos | Se reintrodujo INNER JOIN | Restaurar LEFT JOIN |
+| «Página X de Y» usa PAGE_COUNT | Se confundieron páginas y registros de página | Usar PAGE_NUMBER con evaluationTime=Report |
+| Elementos de Title quedan fuera | Banda demasiado baja | Mantener Title=90 y elementos hasta Y=88 |
+| Summary salta de página | Se amplió en exceso | Mantener Summary=55 |
+
+---
+
+## Reto resuelto paso a paso
+
+**Enunciado:** añadir un parámetro Boolean `mostrarTotales` que permita mostrar u ocultar los cuatro elementos de totales sin aumentar la altura de Summary.
+
+**Paso 1.** Añadir el parámetro `mostrarTotales` de tipo `java.lang.Boolean`.
+
+**Paso 2.** Definir como valor por defecto `Boolean.TRUE`.
+
+**Paso 3.** En cada uno de los cuatro elementos de Summary, establecer Print When Expression como `Boolean.TRUE.equals($P{mostrarTotales})`.
+
+**Paso 4.** Añadir un Text Field alternativo dentro del mismo Summary, X=0, Y=5, Width=555, Height=43.
+
+**Paso 5.** Establecer su expresión como `"Totales no solicitados"`.
+
+**Paso 6.** Establecer Print When Expression como `!Boolean.TRUE.equals($P{mostrarTotales})`.
+
+**Paso 7.** Alinear el texto vertical y horizontalmente al centro.
+
+**Paso 8.** Mantener **Summary height=55**; no ampliar la banda.
+
+**Paso 9.** Guardar y compilar.
+
+**Paso 10.** Ejecutar con el valor por defecto y comprobar que aparecen 31 y 633,40 €.
+
+**Paso 11.** Añadir temporalmente `parametros.put("mostrarTotales", Boolean.FALSE);` en Java.
+
+**Paso 12.** Ejecutar de nuevo y verificar que desaparecen los cuatro elementos de totales y aparece `Totales no solicitados`.
+
+**Paso 13.** Eliminar la línea temporal o restaurar `Boolean.TRUE` antes de continuar.
+
+**Resultado del reto:** los dos estados comparten el mismo espacio de Summary; no se aumenta la banda ni se degrada la paginación.
+
+---
+
+## Analogía final con el contexto de la editorial
+
+Los **fields** son los datos de cada ficha o venta; los **parameters** son instrucciones recibidas antes de imprimir, como quién solicita el informe o qué fecha debe figurar; las **variables** son los acumuladores que se actualizan mientras se compone el documento. El informe final combina los tres niveles sin confundir sus responsabilidades.
+
+---
+
+## Resultado esperado
+
+Al finalizar 3.7, el alumno dispone de:
+
+- `informe_ventas.jrxml` acumulativo con los dos parámetros y las dos variables.
+- `GeneradorInformeVentas.java` pasando `usuario`.
+- `PARAMETROS_VARIABLES.md`.
+- 14 títulos conservados por el `LEFT JOIN`.
+- 31 unidades y 633,40 € de importe total.
+- Paginación basada correctamente en `PAGE_NUMBER`.
+- Comprensión operativa de `$F{}`, `$P{}` y `$V{}`.
+
+---
+
+## Conclusión del Módulo 3 y enlace al Módulo 4
+
+El punto 3.7 cierra el Módulo 3 introduciendo Parameters y Variables sobre el mismo informe de ventas consolidado en 3.6. EditorialReports termina M3 con fuentes JDBC, CSV, XML y JSON, consultas SQL agregadas, fields tipados, gestión de nulos, parámetros externos, variables acumulativas y variables del sistema.
 
 ---
