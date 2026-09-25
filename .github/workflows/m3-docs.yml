@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/m3-docs.yml'
       - '.github/scripts/render_m3_docs.py'
+      - '.github/scripts/audit_m3_docs.py'
       - 'M3/TEORIA_M3.md'
       - 'M3/PRACTICA_M3.md'
   workflow_dispatch:
@@ -36,6 +37,10 @@ jobs:
           sudo apt-get install -y fonts-noto-core fonts-noto-mono poppler-utils
           python -m pip install --upgrade pip
           python -m pip install mistune beautifulsoup4 weasyprint pymupdf pillow
+
+      - name: Auditar código y paridad documental
+        run: |
+          python .github/scripts/audit_m3_docs.py
 
       - name: Generar y prevalidar PDFs
         run: |
