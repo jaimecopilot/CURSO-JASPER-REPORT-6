@@ -17,7 +17,7 @@ def norm(text):
     return text.replace("\r\n", "\n").strip()
 
 def point_text(md, point):
-    pattern = rf"(?ms)^# Punto {re.escape(point)}\b.*?(?=^# Punto 3\.[1-6]\b|\Z)"
+    pattern = rf"(?ms)^# Punto {re.escape(point)}\b.*?(?=^# Punto 3\.[1-7]\b|\Z)"
     match = re.search(pattern, md)
     if not match:
         fail("no se encuentra el punto " + point)
@@ -95,6 +95,10 @@ mapping = {
         "M3/3.6/EditorialReports/reports/informe_ventas.jrxml",
         ["M3/3.6/EditorialReportsJava/src/GeneradorInformeVentas.java"],
     ),
+    "3.7": (
+        "M3/3.7/EditorialReports/reports/informe_ventas.jrxml",
+        ["M3/3.7/EditorialReportsJava/src/GeneradorInformeVentas.java"],
+    ),
 }
 for point, (jrxml_path, java_paths) in mapping.items():
     ptext = point_text(PRACTICE, point)
@@ -116,7 +120,7 @@ for point, (jrxml_path, java_paths) in mapping.items():
             fail(f"{point}: Parte C no contiene literalmente {java_path}")
 
 # 3. Every solved challenge must have a contiguous step sequence.
-for point in ("3.1", "3.2", "3.3", "3.4", "3.5", "3.6"):
+for point in ("3.1", "3.2", "3.3", "3.4", "3.5", "3.6", "3.7"):
     ptext = point_text(PRACTICE, point)
     a = ptext.find("## Reto resuelto paso a paso")
     b = ptext.find("## Analogía final", a)
@@ -160,6 +164,8 @@ for bad in (
     'band height="42"',
     "setCharset",
     "la conversión del archivo CSV en una colección de mapas",
+    'class="java.lang.Double" class="java.lang.Double"',
+    '"Página " + $V{PAGE_NUMBER} + " de " + $V{PAGE_COUNT}',
 ):
     if bad in THEORY or bad in PRACTICE:
         fail("regresión textual detectada: " + bad)
@@ -272,5 +278,36 @@ for required in (
 p36 = point_text(PRACTICE, "3.6")
 if "REGISTROS OBTENIDOS: 14" not in p36 or "Total de títulos: 14" not in p36:
     fail("3.6 no documenta los 14 títulos conservados por LEFT JOIN")
+
+# 9. Point 3.7 contract: cumulative 3.6 + Parameters/Variables.
+report37 = (M3 / "3.7/EditorialReports/reports/informe_ventas.jrxml").read_text(encoding="utf-8")
+java37 = (M3 / "3.7/EditorialReportsJava/src/GeneradorInformeVentas.java").read_text(encoding="utf-8")
+paramdoc37 = (M3 / "3.7/EditorialReports/PARAMETROS_VARIABLES.md").read_text(encoding="utf-8")
+for required in (
+    '<parameter name="usuario" class="java.lang.String"/>',
+    '<parameter name="fechaInforme" class="java.util.Date">',
+    '<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">',
+    '<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">',
+    '<band height="90">',
+    '<summary>',
+    '<band height="55">',
+    "LEFT JOIN ventas",
+    '$V{REPORT_COUNT}',
+    'evaluationTime="Report"',
+):
+    if required not in report37:
+        fail("3.7 no cumple el contrato esperado: " + required)
+if '$V{PAGE_COUNT}' in report37:
+    fail("3.7 usa PAGE_COUNT como si fuese total de páginas")
+if 'parametros.put("usuario", "Ana Martínez");' not in java37:
+    fail("3.7 Java no proporciona el parámetro usuario")
+p37 = point_text(PRACTICE, "3.7")
+for required in ("REGISTROS OBTENIDOS: 14", "TOTAL UNIDADES: 31", "IMPORTE TOTAL: 633,40 €"):
+    if required not in p37:
+        fail("3.7 no documenta el resultado real: " + required)
+if "PAGE_COUNT cuenta registros procesados en la página actual" not in THEORY:
+    fail("3.7 teoría no corrige el significado de PAGE_COUNT")
+if "PAGE_COUNT no representa el total de páginas" not in paramdoc37:
+    fail("PARAMETROS_VARIABLES.md no documenta PAGE_COUNT correctamente")
 
 print("M3 DOC/SOURCE AUDIT PASS")
