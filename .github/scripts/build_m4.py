@@ -445,8 +445,8 @@ def initializer_java() -> str:
         (5, "Pedro Páramo", 6, 15.90, "2026-09-04"),
         (6, "Ficciones", 3, 21.00, "2026-09-06"),
         (7, "La casa de los espíritus", 5, 23.40, "2026-09-08"),
-        (8, "El amor en los tiempos del cólera", 2, 20.80, "2026-09-09"),
-        (9, "La muerte de Artemio Cruz", 1, 17.60, "2026-09-10"),
+        (8, "Comala", 2, 19.20, "2026-09-09"),
+        (9, "Paradiso", 1, 25.00, "2026-09-10"),
     ]
     b_lines=[]
     for title,price,pages,date,avail,cat in books:
