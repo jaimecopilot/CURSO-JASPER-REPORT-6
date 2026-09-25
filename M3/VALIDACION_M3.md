@@ -139,89 +139,112 @@ La propia auditoría detectó durante esta revisión una referencia de explicaci
 - `PRACTICA_M3.md`: **7496 líneas**, 43 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
 - Partes B de 3.1 y 3.6 ahora reproducen el **JRXML completo real**, no fragmentos minificados.
 
+## Tercera pasada: auditoría pedagógica de las explicaciones JRXML
+
+Tras la inspección visual completa posterior al cierre anterior se detectó un problema adicional de **calidad pedagógica**, no de compilación: las Partes B de 3.2-3.5 todavía conservaban explicaciones genéricas heredadas del generador antiguo.
+
+Se encontraron y corrigieron:
+
+- 59 explicaciones que describían indiscriminadamente cualquier CDATA como «proteger una consulta o expresión», aunque algunas líneas eran textos estáticos o `textFieldExpression`;
+- 48 explicaciones demasiado genéricas del tipo «Completa la definición declarativa del informe» para atributos concretos como `pageWidth`, `columnWidth`, márgenes, `language`, etc.;
+- 5 explicaciones residuales «Continúa la definición declarativa del informe», de las cuales cuatro correspondían simplemente a líneas en blanco y una al alias SQL `fecha_publicacion AS fechaPublicacion`.
+
+Las Partes B de **3.1 a 3.6** se regeneraron a partir del JRXML ejecutable real. Cada fila de explicación identifica ahora el significado concreto de la línea: namespace, XSD, dimensiones, márgenes, consulta, selección XPath/JSON, fields, propiedades de mapeo, bandas, elementos, textos y expresiones.
+
+La auditoría automática quedó endurecida para impedir que reaparezcan esas frases genéricas y para rechazar líneas de código de más de 200 caracteres.
+
+## Markdown final
+
+- `TEORIA_M3.md`: **1600 líneas**, 63 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
+- `PRACTICA_M3.md`: **7488 líneas**, 43 bloques fenced, 0 `<div>`, 0 `<span>`, 0 tablas HTML de presentación.
+- 0 explicaciones JRXML con las tres frases genéricas prohibidas.
+- Parte B de cada punto 3.1-3.6 coincide literalmente con su JRXML ejecutable.
+
 ## Validación end-to-end final
 
 Run:
 
-**36103965988 - SUCCESS**
+**36109042394 - SUCCESS**
 
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36103965988
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36109042394
 
 Jobs:
 
 | Checkpoint | Job | Resultado |
 |---|---:|---|
-| 3.1 | 107972297841 | PASS |
-| 3.2 | 107972297847 | PASS |
-| 3.3 | 107972297862 | PASS |
-| 3.4 | 107972297689 | PASS |
-| 3.5 | 107972297829 | PASS |
-| 3.6 | 107972297954 | PASS |
+| 3.1 | 107988068059 | PASS |
+| 3.2 | 107988067975 | PASS |
+| 3.3 | 107988068003 | PASS |
+| 3.4 | 107988067859 | PASS |
+| 3.5 | 107988068087 | PASS |
+| 3.6 | 107988067997 | PASS |
 
-El workflow compila Java 8 con Maven, inicializa SQLite, compila JRXML, llena los informes con datos reales, exporta PDF, verifica firma `%PDF-` y comprueba los contadores esperados.
+El workflow vuelve a compilar Java 8 con Maven, inicializa SQLite, compila los JRXML, llena los informes, exporta los PDF ejecutables y comprueba los contadores esperados.
 
 ## Auditoría documental y PDF final
 
 Run:
 
-**36103965812 - SUCCESS**
+**36109067840 - SUCCESS**
 
-https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36103965812
+https://github.com/jaimecopilot/CURSO-JASPER-REPORT-6/actions/runs/36109067840
 
-Todos sus pasos terminaron en SUCCESS:
+Todos los pasos terminaron en SUCCESS:
 
-1. dependencias;
-2. auditoría código/documentación;
-3. render y preflight;
-4. publicación de PDF versionados;
-5. publicación de artefactos de auditoría.
+1. instalación de dependencias;
+2. auditoría automática de código y paridad documental;
+3. generación y preflight de los PDF docentes;
+4. publicación de los PDF versionados en `main`;
+5. publicación del artefacto de auditoría.
 
 ### PDF definitivos
 
 - `TEORIA_M3.pdf`: **32 páginas A4**  
-  SHA-256: `20771a64e335228395ef34808a1606429c5ea32fbc17ddb43ab54b23615358f2`
-- `PRACTICA_M3.pdf`: **128 páginas A4**  
-  SHA-256: `121a31a63217661410ebd17c173531e6650e3537883711fca2e3a2538546933b`
+  SHA-256: `87a690f36e91f40afa6100abf495e1a1c8777463aada89ddf22ed127d452fd78`
+- `PRACTICA_M3.pdf`: **127 páginas A4**  
+  SHA-256: `c1df54d5121a133c7bba7847fa81728db5b99fc31c5cee121e83d790ed4bcfcc`
 
-Commit que versiona los PDF finales:
+Commit que versiona estos PDF:
 
-`e53f87d9e178bc25d658506a0c9a3ab1490200e7` — **Regenera PDFs M3 con patrón visual M2 [skip ci]**
+`b8fef587f9b04767c7f41de15a74cddda234d1f1` — **Regenera PDFs M3 con patrón visual M2 [skip ci]**
 
-### Preflight
+### Preflight final
 
 - 0 páginas vacías;
-- 0 páginas sin cuerpo;
+- 0 páginas sin contenido de cuerpo;
 - 0 bloques fuera del MediaBox;
 - 0 glifos de sustitución;
-- A4 en todas las páginas.
+- A4 en todas las páginas;
+- 0 fugas de HTML/Markdown visibles.
 
-### Revisión visual completa
+### Revisión visual final
 
-Se rasterizaron y revisaron las **32 páginas de teoría** y las **128 páginas de prácticas**.
+La práctica completa de 127 páginas fue rasterizada y revisada mediante contact sheets en la pasada inmediatamente anterior. La última corrección solo alteró el texto de las páginas **12, 35, 55, 75 y 97**; una comparación página a página confirmó que las otras 122 páginas son textualmente idénticas.
 
-Para la práctica, las 128 páginas del render final son pixel a pixel idénticas al render completo que se revisó inmediatamente antes; solo cambió metadato/binario del PDF entre ejecuciones.
+Las cinco páginas modificadas se volvieron a rasterizar a resolución ampliada y se inspeccionaron después de la corrección. No presentan clipping, solapamientos ni filas fusionadas.
 
-En teoría, entre ambas ejecuciones solo cambió visualmente la página 20 por la precisión añadida sobre `JsonDataSource`; esa página se volvió a renderizar e inspeccionar a resolución ampliada.
+La teoría conserva las mismas 32 páginas y no recibió cambios de contenido en esta última pasada.
 
-La antigua línea gigante del punto 3.6 ya no existe. En el PDF final, la `Línea 34` de esa Parte B es una declaración normal:
+La antigua anomalía que inició esta revisión queda definitivamente resuelta: en el punto 3.6 la **Línea 34** es una fila normal y legible:
 
 `<field name="precio_medio" class="java.lang.Double"/>`
 
-y las líneas siguientes continúan separadamente con `primera_venta`, `ultima_venta`, bandas y elementos.
+No existe ya una línea gigante que contenga `columnHeader + detail`.
 
-## Cierre
+## Checklist de cierre definitivo
 
-- [x] código fuente revisado nuevamente;
-- [x] ejemplos teóricos revisados;
-- [x] retos resueltos revisados contra los datos reales;
+- [x] código fuente 3.1-3.6 revisado;
+- [x] ejemplos teóricos revisados contra APIs y esquema reales;
+- [x] retos recalculados contra los datos seed;
 - [x] Partes A/B/C/D revisadas;
-- [x] código fuente legible y sin líneas gigantes;
-- [x] paridad MD ↔ fuentes ejecutables;
-- [x] auditoría permanente incorporada al CI;
+- [x] Partes B 3.1-3.6 sincronizadas con el JRXML real;
+- [x] explicaciones JRXML genéricas/incorrectas eliminadas;
+- [x] auditoría CI endurecida contra regresiones;
 - [x] 6/6 checkpoints PASS END-TO-END;
-- [x] PDF regenerados;
-- [x] PDF preflight PASS;
+- [x] PDF docentes regenerados;
+- [x] preflight PDF PASS;
 - [x] revisión visual completa;
-- [x] línea 34 de 3.6 corregida.
+- [x] páginas modificadas en la última pasada reinspeccionadas;
+- [x] línea 34 del punto 3.6 corregida y verificada.
 
-**M3 queda cerrado tras esta segunda auditoría integral.**
+**M3 queda cerrado tras la revisión integral de código, contenido y maquetación.**
