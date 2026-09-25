@@ -7427,73 +7427,48 @@ EditorialReportsJava/
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir un campo calculado que muestre el número de días entre la primera y la última venta de cada libro. El campo debe llamarse `dias_venta` y mostrar el valor calculado.
+**Enunciado:** añadir una variable calculada que muestre el número de días entre la primera y la última venta. La solución debe respetar el orden válido del JRXML y aprovechar el espacio libre de la segunda fila sin aumentar innecesariamente la banda Detail.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` y abrir la pestaña Source.
 
-**Paso 2.** Hacer clic sobre la pestaña Source en la parte inferior del editor central.
+**Paso 2.** Localizar la última declaración de field: `<field name="ultima_venta" class="java.lang.String"/>`.
 
-**Paso 3.** Localizar la línea que contiene `<field name="primera_venta" class="java.lang.String"/>` y pulsar Enter al final.
+**Paso 3.** Justo después de esa línea, y antes de `<background>`, escribir `<variable name="DiasVenta" class="java.lang.Long">`.
 
-**Paso 4.** Escribir exactamente `<variable name="DiasVenta" class="java.lang.Integer">` y pulsar Enter.
+**Paso 4.** Escribir exactamente `<variableExpression><![CDATA[$F{primera_venta} == null || $F{ultima_venta} == null ? null : java.lang.Long.valueOf(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta})))]]></variableExpression>`.
 
-**Paso 5.** Escribir exactamente `<variableExpression><![CDATA[$F{primera_venta} == null ? null : Integer.valueOf((int) java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta})))]]></variableExpression>` y pulsar Enter.
+**Paso 5.** Escribir `</variable>`, guardar y compilar. La variable se coloca después de todos los fields porque las declaraciones de fields deben preceder a las variables en la estructura JRXML.
 
-**Paso 6.** Escribir exactamente `</variable>` y pulsar Enter.
+**Paso 6.** Volver a Design y seleccionar Column Header.
 
-**Paso 7.** Pulsar Ctrl+S para guardar el archivo.
+**Paso 7.** Añadir un Static Text en X=450, Y=25, Width=105, Height=15, texto `Días`, Bold y alineación Center.
 
-**Paso 8.** Pulsar Ctrl+Mayús+B para compilar el informe.
+**Paso 8.** Seleccionar Detail 1. Mantener `Band height = 40`; no es necesario ampliarla.
 
-**Paso 9.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+**Paso 9.** Añadir un Text Field en X=450, Y=22, Width=105, Height=18.
 
-**Paso 10.** Hacer clic sobre el nodo Detail 1 en el panel Outline.
+**Paso 10.** Establecer `Text Field Expression = $V{DiasVenta}`, `Blank When Null = true`, tamaño 9 y alineación Center.
 
-**Paso 11.** Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `55` y pulsar Enter.
+**Paso 11.** Guardar, compilar y ejecutar `GeneradorInformeVentas.java`.
 
-**Paso 12.** Hacer clic sobre la pestaña Elements en el panel Palette.
-
-**Paso 13.** Hacer clic sobre el icono Text Field.
-
-**Paso 14.** Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=450, y=35.
-
-**Paso 15.** Hacer clic sobre el campo X en el panel Properties, escribir `450` y pulsar Enter.
-
-**Paso 16.** Hacer clic sobre el campo Y, escribir `35` y pulsar Enter.
-
-**Paso 17.** Hacer clic sobre el campo Width, escribir `105` y pulsar Enter.
-
-**Paso 18.** Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-
-**Paso 19.** Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{DiasVenta}` y pulsar Enter.
-
-**Paso 20.** Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-
-**Paso 21.** Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
-
-**Paso 22.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 23.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 24.** Hacer clic con el botón derecho sobre `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 25.** Abrir el archivo `output/informe_ventas.pdf` y verificar que cada libro muestra el número de días entre la primera y la última venta.
+**Paso 12.** Abrir `output/informe_ventas.pdf` y verificar los valores. Los libros sin ventas dejan la celda Días en blanco.
 
 **Simulación ASCII del PDF tras el reto**
 
 ```text
-║  Título                    │Unid.│ Importe total │Precio │Días║
-║  Cien años de soledad      │  8  │    159,60 €   │19,95 €│  4 ║
-║  Rayuela                   │  6  │    135,00 €   │22,50 €│  4 ║
-║  La casa de los espíritus  │  5  │    117,00 €   │23,40 €│  0 ║
-║  ...                                                     ║
+║  Título                    │Unid.│ Importe total │Precio │
+║  Primera venta │Última venta│Periodo de ventas│ Días   ║
+║  Cien años de soledad      │  8  │    159,60 €   │19,95 €│
+║  2026-09-01    │2026-09-05  │09-01 → 09-05     │   4    ║
+║  Rayuela                   │  6  │    135,00 €   │22,50 €│
+║  2026-09-03    │2026-09-07  │09-03 → 09-07     │   4    ║
+║  La casa de los espíritus  │  5  │    117,00 €   │23,40 €│
+║  2026-09-08    │2026-09-08  │09-08 → 09-08     │   0    ║
 ```
 
-
-**Resultado del reto:** la variable `DiasVenta` usa `java.time.LocalDate.parse` y `ChronoUnit.DAYS.between`, disponibles en Java 8. Devuelve `null` cuando no existe una primera venta y, en los libros con ventas, muestra el número de días entre la primera y la última fecha sin introducir una excepción comprobada en la expresión JRXML.
+**Resultado del reto:** `DiasVenta` es una variable `Long` calculada con `LocalDate.parse` y `ChronoUnit.DAYS.between`, APIs disponibles en Java 8. La expresión comprueba ambas fechas antes de calcular. La variable se declara después de todos los fields y antes de las bandas. El nuevo campo utiliza el espacio X=450..555 que quedó libre en la segunda fila del checkpoint base.
 
 ---
-
 ## Analogía final con el contexto de la editorial
 
 Los campos son los datos que el editor extrae de la base de datos para el resumen de ventas. Cada campo tiene un nombre y un tipo que determinan cómo se comporta en el informe. El nombre del campo es la clave que el editor utiliza para localizar el dato en el `ResultSet`. El tipo del campo es la etiqueta que indica cómo interpretar el valor. La propiedad `isBlankWhenNull` es la decisión del editor de dejar en blanco las celdas sin datos. La expresión condicional es la decisión de mostrar un texto alternativo. La documentación de los campos es la ficha técnica que el editor guarda para el mantenimiento. La correcta declaración de campos es la base sobre la que se construye un informe que funciona y que se puede mantener a lo largo del tiempo.
