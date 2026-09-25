@@ -7,6 +7,7 @@ echo ================================================================
 echo   CURSO PROFESIONAL JASPERREPORTS 6.20.0 COMMUNITY
 echo   PREPARACION AUTOMATICA DEL ENTORNO - WINDOWS x64
 echo   Autor: Jaime Gallo
+echo   Revision instalador: 2026-09-25 - descarga robusta JSS 6.20.0
 echo ================================================================
 echo.
 echo Se instalaran/prepararan:
