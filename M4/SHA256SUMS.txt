@@ -1,0 +1,2 @@
+084b89a65bbc150ac781f5c43c748039426b73cf209204432abc9417c4e33c83  M4/_pdf_build/TEORIA_M4.pdf
+74fd0bae0bafd5d499afafc066ed942672c5d5bfeb044fd18c41ac170f19e0e2  M4/_pdf_build/PRACTICA_M4.pdf
