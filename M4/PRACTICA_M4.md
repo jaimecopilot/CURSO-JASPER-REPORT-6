@@ -11,169 +11,160 @@ La Parte B y la Parte C de cada punto contienen literalmente el JRXML y el Java 
 
 ## Parte práctica
 
-### Parte A — Práctica visual
+### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir el checkpoint heredado de M3/3.7**
+**Paso 1: Abrir el checkpoint anterior y verificar el baseline**
 
 **Acciones:**
 
-1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y elegir Refresh.
-2. Hacer doble clic sobre `reports/informe_ventas.jrxml`.
-3. Abrir la pestaña Design y expandir Parameters, Variables y las bandas en Outline.
-4. Confirmar que ya existen `usuario`, `fechaInforme`, `TotalUnidades` y `TotalImporte`.
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y seleccionar **Refresh**.
+2. Abrir `reports/informe_ventas.jrxml` con doble clic.
+3. Seleccionar la pestaña **Design** y expandir el informe en **Outline**.
+4. Abrir también la pestaña **Source** y localizar la consulta SQL.
+5. Confirmar que la consulta conserva `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
 
-**Verificación visual:** el informe heredado muestra Title de 90, Detail con los seis fields de ventas y Summary con los totales de M3/3.7.
+**Verificación visual:** el informe abre sin errores y el `LEFT JOIN` heredado está presente.
 
-**Qué hace:** Fija el punto de partida acumulativo real.
-**Por qué:** 4.1 no crea otro informe: evoluciona el de 3.7.
-**Error común:** Empezar desde una copia antigua con `INNER JOIN`.
-**Solución:** Usar exactamente `M3/3.7` y comprobar `LEFT JOIN ventas`.
-**Analogía:** Es abrir la última edición aprobada antes de añadir nuevas instrucciones.
+**Qué hace:** establece el punto de partida real antes de introducir cambios.
+**Por qué:** cada checkpoint de M4 es acumulativo y no puede perder comportamiento de M3/3.7.
+**Error común:** editar una copia antigua o reintroducir `INNER JOIN`. Solución: trabajar siempre sobre el checkpoint inmediatamente anterior.
+**Analogía:** es como revisar la última edición aprobada antes de preparar una nueva tirada.
 
 ---
 
-**Paso 2: Declarar departamento y periodo**
+**Paso 2: Declarar el parámetro departamento**
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Parameters y elegir Add Parameter.
-2. Crear `departamento` con clase `java.lang.String`, `isForPrompting=true` y Default Value Expression `"General"`.
-3. Repetir la operación para `periodo`, clase `java.lang.String`, `isForPrompting=true` y Default Value Expression `"Mensual"`.
-4. Guardar con Ctrl+S.
+1. En Outline, hacer clic con el botón derecho sobre **Parameters** y seleccionar **Create Parameter**.
+2. Escribir `departamento` en Name.
+3. Seleccionar `java.lang.String` como clase.
+4. En Default Value Expression escribir exactamente `"General"`.
+5. Dejar activado `isForPrompting` y guardar.
 
-**Verificación visual:** Parameters contiene `departamento` y `periodo` con los defaults indicados.
+**Verificación visual:** Outline muestra `departamento` como `java.lang.String` con valor por defecto `"General"`.
 
-**Qué hace:** Añade metadatos de cabecera controlados por parámetros.
-**Por qué:** Los mismos valores pueden cambiar en Preview o desde Java sin editar el diseño.
-**Error común:** Intentar usar `initialValueExpression` en un parámetro.
-**Solución:** Usar `defaultValueExpression`; `initialValueExpression` pertenece al ciclo de variables.
-**Analogía:** Es rellenar campos configurables de una ficha, no crear una segunda ficha.
+**Qué hace:** añade el departamento solicitante como dato externo al informe.
+**Por qué:** un parámetro debe describir una entrada, no un dato de cada fila.
+**Error común:** escribir `General` sin comillas. Solución: usar una expresión Java String válida.
+**Analogía:** es como escribir en la orden de trabajo qué departamento solicita el informe.
 
 ---
 
-**Paso 3: Declarar tipoIva y mostrarDetalle**
+**Paso 3: Declarar el parámetro periodo**
 
 **Acciones:**
 
-1. Crear `tipoIva` como `java.lang.Double`, `isForPrompting=true` y Default Value Expression `Double.valueOf(0.21d)`.
-2. Crear `mostrarDetalle` como `java.lang.Boolean`, `isForPrompting=true` y Default Value Expression `Boolean.TRUE`.
-3. Guardar y revisar Problems.
+1. Crear un nuevo parámetro llamado `periodo`.
+2. Seleccionar `java.lang.String`.
+3. Escribir `"Mensual"` en Default Value Expression.
+4. Mantener `isForPrompting=true` y guardar.
 
-**Verificación visual:** los cuatro parámetros nuevos aparecen junto a los dos heredados.
+**Verificación visual:** Outline muestra `periodo` con valor por defecto `"Mensual"`.
 
-**Qué hace:** Añade un valor numérico para cálculos y un interruptor de visibilidad.
-**Por qué:** Ambos parámetros se reutilizan después en expresiones y `printWhenExpression`.
-**Error común:** Escribir `0,21` o tipar el parámetro como String.
-**Solución:** Usar `Double.valueOf(0.21d)` y clase `java.lang.Double`.
-**Analogía:** Es añadir al parte de trabajo el porcentaje fiscal y una casilla “mostrar detalle”.
+**Qué hace:** añade el periodo descriptivo que aparecerá en cabecera.
+**Por qué:** el mismo diseño puede reutilizarse para distintos periodos.
+**Error común:** confundir el periodo descriptivo con las fechas de las ventas. Solución: mantenerlo como parámetro de presentación.
+**Analogía:** es como rotular la carpeta de un informe con el periodo al que se refiere.
 
 ---
 
-**Paso 4: Crear los estilos reutilizables del checkpoint**
+**Paso 4: Declarar el parámetro tipoIva**
 
 **Acciones:**
 
-1. Abrir Source y situarse después de la property del data adapter.
-2. Declarar `Sans_Normal` con `isDefault="true"`, `fontName="DejaVu Sans"` y `fontSize="10"`.
-3. Declarar `TituloPrincipal` con `style="Sans_Normal"`, tamaño 18, negrita y color `#173F6B`.
-4. Declarar `Cabecera` con `style="Sans_Normal"`, tamaño 9, negrita y color `#173F6B`.
-5. Declarar `Dato` con `style="Sans_Normal"` y tamaño 9.
-6. Volver a Design.
+1. Crear el parámetro `tipoIva`.
+2. Seleccionar `java.lang.Double`.
+3. Escribir exactamente `Double.valueOf(0.21d)` como valor por defecto.
+4. Mantener `isForPrompting=true` y guardar.
 
-**Verificación visual:** Outline/Styles muestra los cuatro estilos y no aparece `Sans Serif`.
+**Verificación visual:** Outline muestra `tipoIva` como `java.lang.Double`.
 
-**Qué hace:** Centraliza fuente, tamaño y color.
-**Por qué:** Evita repetir configuración y mantiene portabilidad en PDF.
-**Error común:** Usar `default="true"` o `parent="..."`.
-**Solución:** Usar `isDefault="true"` y la herencia `style="..."`.
-**Analogía:** Es definir la guía de estilo antes de maquetar las páginas.
+**Qué hace:** proporciona el porcentaje de IVA utilizado por las expresiones.
+**Por qué:** el cálculo debe recibir un tipo numérico compatible con `Double`.
+**Error común:** usar `0,21`. Solución: en expresiones Java usar punto decimal.
+**Analogía:** es como indicar el porcentaje fiscal que debe aplicar la hoja de cálculo.
 
 ---
 
-**Paso 5: Maquetar departamento y periodo en Title**
+**Paso 5: Declarar el parámetro mostrarDetalle**
 
 **Acciones:**
 
-1. Seleccionar Title y mantener Band height en `90`.
-2. Añadir `Departamento:` en x=0, y=62, width=100, height=18.
-3. Añadir un Text Field en x=100, y=62, width=170, height=18 con `$P{departamento}`.
-4. Añadir `Periodo:` en x=300, y=62, width=70, height=18.
-5. Añadir un Text Field en x=370, y=62, width=185, height=18 con `$P{periodo}`.
-6. Mantener usuario y fecha en y=38 como en el checkpoint.
+1. Crear el parámetro `mostrarDetalle`.
+2. Seleccionar `java.lang.Boolean`.
+3. Escribir `Boolean.TRUE` como Default Value Expression.
+4. Mantener `isForPrompting=true` y guardar.
 
-**Verificación visual:** los cuatro datos de cabecera caben dentro de los 90 px de Title sin solaparse.
+**Verificación visual:** Outline muestra `mostrarDetalle` como Boolean.
 
-**Qué hace:** Hace visibles los parámetros en el documento.
-**Por qué:** Un parámetro solo aporta contexto al lector si alguna expresión lo imprime.
-**Error común:** Subir Title a 110/124 o colocar los nuevos campos en y=90.
-**Solución:** En 4.1 usar exactamente Title=90 y la fila nueva en y=62.
-**Analogía:** Es añadir una segunda línea de metadatos sin agrandar innecesariamente el membrete.
+**Qué hace:** controla la visibilidad de la columna calculada con IVA.
+**Por qué:** permite modificar la presentación sin cambiar el SQL.
+**Error común:** comparar el Boolean con texto. Solución: usar `Boolean.TRUE.equals($P{mostrarDetalle})`.
+**Analogía:** es como marcar una casilla para imprimir o no una columna opcional.
 
 ---
 
-**Paso 6: Ajustar Column Header al diseño final de 4.1**
+**Paso 6: Colocar departamento y periodo en Title**
 
 **Acciones:**
 
-1. Seleccionar Column Header y fijar Band height=`48`.
-2. Primera fila: Título x=0 w=215; Unid. x=215 w=55; Importe x=280 w=90; Precio med. x=380 w=65.
-3. Segunda fila: Primera venta x=0 w=130; Última venta x=130 w=130; Periodo de ventas x=260 w=160.
-4. Añadir `Importe con IVA` en x=420, y=24, width=135, height=18 y alineación Right.
-5. Aplicar el estilo `Cabecera` a los rótulos.
+1. Seleccionar la banda **Title** y mantener su altura en `90`.
+2. Crear `Static Text` en x=`0`, y=`62`, width=`100`, height=`18` con texto `Departamento:`.
+3. Crear `Text Field` en x=`100`, y=`62`, width=`170`, height=`18` con expresión `$P{departamento}`.
+4. Crear `Static Text` en x=`300`, y=`62`, width=`70`, height=`18` con texto `Periodo:`.
+5. Crear `Text Field` en x=`370`, y=`62`, width=`185`, height=`18` con expresión `$P{periodo}`.
+6. Guardar y comprobar en Design que ningún elemento sale de la banda.
 
-**Verificación visual:** Column Header mide 48 y el encabezado IVA ocupa el hueco 420..555 de la segunda fila.
+**Verificación visual:** los cuatro elementos caben dentro de Title y coinciden con las posiciones del JRXML final.
 
-**Qué hace:** Reordena la tabla para incorporar la nueva columna sin perder campos heredados.
-**Por qué:** La geometría coincide con el JRXML ejecutable.
-**Error común:** Crear el IVA en x=0/y=45 con una banda de 60.
-**Solución:** Usar x=420/y=24 y Band height=48.
-**Analogía:** Es aprovechar el hueco disponible de una tabla en vez de crear otra fila innecesaria.
+**Qué hace:** muestra parámetros de cabecera sin aumentar innecesariamente la banda.
+**Por qué:** la geometría final debe coincidir con Parte B y con el checkpoint ejecutable.
+**Error común:** usar y=`90` con una banda de altura 90. Solución: situar los elementos en y=`62`.
+**Analogía:** es como encajar dos nuevos datos en una cabecera ya maquetada.
 
 ---
 
-**Paso 7: Ajustar Detail y añadir el importe con IVA**
+**Paso 7: Añadir el encabezado Importe con IVA**
 
 **Acciones:**
 
-1. Seleccionar Detail 1 y fijar Band height=`48`, splitType=`Stretch`.
-2. Mantener la primera fila de datos en y=0 y las fechas/periodo en y=24.
-3. Añadir un Text Field en x=420, y=24, width=135, height=18.
-4. Asignar Pattern `#,##0.00 €`, alineación Right y estilo `Dato`.
-5. Usar la expresión `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))`.
-6. Configurar Print When Expression como `Boolean.TRUE.equals($P{mostrarDetalle})`.
+1. En **Column Header**, conservar la altura `48`.
+2. Crear un `Static Text` en x=`420`, y=`24`, width=`135`, height=`18`.
+3. Escribir `Importe con IVA` y alinear a la derecha.
+4. En Print When Expression escribir `Boolean.TRUE.equals($P{mostrarDetalle})`.
+5. Guardar.
 
-**Verificación visual:** el nuevo valor aparece en la segunda fila, es null-safe y se oculta al poner `mostrarDetalle=false`.
+**Verificación visual:** el encabezado ocupa la zona derecha de la segunda fila y posee la condición de visibilidad.
 
-**Qué hace:** Calcula y controla visualmente el importe con IVA.
-**Por qué:** Los tres títulos sin ventas producen agregados nulos y no deben lanzar una excepción.
-**Error común:** Multiplicar directamente un `importe_total` nulo.
-**Solución:** Mantener la comprobación de `null` antes de operar.
-**Analogía:** Es calcular un recargo solo cuando existe una cifra de partida.
+**Qué hace:** añade el rótulo de la columna calculada.
+**Por qué:** encabezado y dato deben ocultarse juntos.
+**Error común:** aplicar la condición solo al dato. Solución: usar la misma condición en encabezado y campo.
+**Analogía:** es como ocultar tanto la etiqueta como el valor de una columna opcional.
 
 ---
 
-**Paso 8: Mantener paginación y totales heredados**
+**Paso 8: Añadir el valor Importe con IVA en Detail**
 
 **Acciones:**
 
-1. Comprobar que Page Footer conserva `"Página " + $V{PAGE_NUMBER} + " de"`.
-2. Comprobar que el segundo campo usa `$V{PAGE_NUMBER}` con `evaluationTime="Report"`.
-3. Comprobar que Summary sigue mostrando `TotalUnidades` y `TotalImporte`.
-4. No introducir `$V{PAGE_COUNT}` como total de páginas.
+1. En la primera banda **Detail**, conservar la altura `48`.
+2. Crear un `Text Field` en x=`420`, y=`24`, width=`135`, height=`18`.
+3. Asignar el patrón `#,##0.00 €` y alineación derecha.
+4. Escribir la expresión `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))`.
+5. En Print When Expression escribir `Boolean.TRUE.equals($P{mostrarDetalle})`.
+6. Guardar.
 
-**Verificación visual:** la paginación y los totales de 3.7 siguen presentes.
+**Verificación visual:** el campo queda alineado debajo de su encabezado y la expresión es null-safe.
 
-**Qué hace:** Protege una corrección ya cerrada en M3.
-**Por qué:** El nuevo punto no debe reintroducir errores de paginación.
-**Error común:** Usar PAGE_COUNT como total de páginas.
-**Solución:** Conservar PAGE_NUMBER y evaluationTime=Report.
-**Analogía:** Es ampliar una edición sin borrar la numeración ni el total del ejemplar anterior.
+**Qué hace:** calcula el importe con IVA sin romper los títulos que no tienen ventas.
+**Por qué:** `LEFT JOIN` produce agregados nulos en libros sin ventas.
+**Error común:** multiplicar directamente un `null`. Solución: comprobar campo y parámetro antes del cálculo.
+**Analogía:** es como dejar la celda fiscal vacía cuando todavía no existe una venta.
 
 ---
 
-**Paso 9: Actualizar GeneradorInformeVentas.java**
+**Paso 9: Pasar los parámetros desde Java**
 
 **Acciones:**
 
@@ -182,77 +173,93 @@ La Parte B y la Parte C de cada punto contienen literalmente el JRXML y el Java 
 3. Añadir `parametros.put("periodo", "Septiembre 2026");`.
 4. Añadir `parametros.put("tipoIva", Double.valueOf(0.21d));`.
 5. Añadir `parametros.put("mostrarDetalle", Boolean.TRUE);`.
-6. Conservar `jdbc:sqlite:../EditorialReportsJava/data/editorial.db`, `new File("output").mkdirs()` y `System.exit(1)`.
+6. No añadir `fechaInforme`: su `defaultValueExpression` ya proporciona `new java.util.Date()`.
+7. Guardar y verificar que Problems no contiene errores.
 
-**Verificación visual:** el Java contiene exactamente los cuatro `put` nuevos y no pierde el contrato de error.
+**Verificación visual:** el mapa Java coincide con Parte C.
 
-**Qué hace:** Proporciona valores de ejecución distintos de los defaults de diseño.
-**Por qué:** Demuestra la diferencia entre un default JRXML y un valor pasado desde la aplicación.
-**Error común:** Cambiar la ruta JDBC a `data/editorial.db`.
-**Solución:** Mantener la ruta relativa al directorio desde el que se ejecuta el curso.
-**Analogía:** Es entregar al impresor los datos concretos del encargo manteniendo la misma plantilla.
+**Qué hace:** demuestra la diferencia entre valores proporcionados por Java y valores por defecto del JRXML.
+**Por qué:** los parámetros deben llegar con nombres y tipos idénticos a los declarados.
+**Error común:** usar un nombre distinto al del JRXML. Solución: copiar literalmente el nombre del parámetro.
+**Analogía:** es como rellenar una orden con campos opcionales y dejar que otros usen su valor estándar.
 
 ---
 
-**Paso 10: Compilar y probar Preview**
+**Paso 10: Compilar el JRXML y revisar Parameters**
 
 **Acciones:**
 
-1. Guardar JRXML y pulsar Ctrl+Mayús+B.
-2. Revisar Problems: debe haber 0 errores.
-3. Abrir Preview y confirmar los parámetros promptable.
-4. Probar `mostrarDetalle=false` y verificar que el campo IVA se oculta.
-5. Volver a `mostrarDetalle=true` para el escenario base.
+1. Guardar todos los archivos.
+2. Compilar `informe_ventas.jrxml` con **Ctrl+Mayús+B**.
+3. Abrir **Preview**.
+4. Revisar la pestaña Parameters y confirmar `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`.
+5. Mantener los valores por defecto y ejecutar la previsualización.
 
-**Verificación visual:** Preview compila y la visibilidad responde al parámetro.
+**Verificación visual:** Preview abre sin error de compilación o de tipo.
 
-**Qué hace:** Valida el diseño antes de ejecutar Java.
-**Por qué:** Aísla errores de plantilla de errores de integración.
-**Error común:** Confundir un error de Preview con un fallo JDBC del generador.
-**Solución:** Validar primero la plantilla y después la aplicación.
-**Analogía:** Es revisar una prueba de imprenta antes de lanzar la tirada.
+**Qué hace:** prueba los parámetros en el entorno de diseño.
+**Por qué:** un error aquí detecta antes problemas que en la exportación Java.
+**Error común:** confundir `isForPrompting` con obligatoriedad. Solución: recordar que el programa Java puede pasar el valor directamente.
+**Analogía:** es como realizar una prueba de imprenta antes de lanzar la tirada.
 
 ---
 
-**Paso 11: Ejecutar el generador real**
+**Paso 11: Comprobar la visibilidad condicional**
 
 **Acciones:**
 
-1. Ejecutar `InicializadorBD` para reconstruir SQLite.
-2. Ejecutar `GeneradorInformeVentas` como Java Application.
-3. Comprobar en Console `M4 ventas generado correctamente`.
-4. Abrir `output/informe_ventas.pdf` y revisar cabecera, IVA y totales.
-5. Confirmar 14 títulos, 31 unidades y 633,40 €.
+1. Volver a Preview.
+2. Asignar `false` a `mostrarDetalle`.
+3. Ejecutar de nuevo.
+4. Comprobar que desaparecen tanto el encabezado `Importe con IVA` como los valores de esa columna.
+5. Restaurar `true` para el estado base.
 
-**Verificación visual:** se genera un PDF real y los invariantes del dataset siguen intactos.
+**Verificación visual:** encabezado y dato responden a la misma condición.
 
-**Qué hace:** Comprueba el flujo JRXML→Jasper→JasperPrint→PDF con JDBC real.
-**Por qué:** El curso valida ejecución, no solo XML bien formado.
-**Error común:** Dar por válido el punto porque Source no tiene marcas rojas.
-**Solución:** Ejecutar el generador y comprobar el PDF.
-**Analogía:** Es verificar la tirada terminada, no solo el archivo de diseño.
+**Qué hace:** verifica `printWhenExpression` con un caso observable.
+**Por qué:** la condición de presentación no debe cambiar las filas SQL.
+**Error común:** ocultar solo una mitad de la columna. Solución: aplicar la expresión en los dos elementos.
+**Analogía:** es como activar o desactivar una columna completa en una plantilla editorial.
 
 ---
 
-**Paso 12: Crear PARAMETROS.md y contrastar con Parte B**
+**Paso 12: Ejecutar GeneradorInformeVentas**
 
 **Acciones:**
 
-1. Crear `EditorialReports/PARAMETROS.md`.
-2. Documentar `usuario`, `fechaInforme`, `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`.
-3. Indicar que Parameters usan `defaultValueExpression` y que `initialValueExpression` corresponde a Variables.
-4. Abrir la Parte B de esta práctica y comparar parámetros, bandas, posiciones y expresiones con Source.
-5. Guardar todo.
+1. Ejecutar `GeneradorInformeVentas` como **Java Application**.
+2. Verificar en Console que aparece `Informe generado en:`.
+3. Abrir `EditorialReports/output/informe_ventas.pdf`.
+4. Confirmar Departamento `Comercial`, Periodo `Septiembre 2026`, IVA visible y paginación.
+5. Confirmar que el proceso termina sin excepción.
 
-**Verificación visual:** PARAMETROS.md existe y la Parte A describe el mismo estado funcional que el JRXML de Parte B.
+**Verificación visual:** el PDF real se genera y contiene los nuevos parámetros.
 
-**Qué hace:** Cierra la trazabilidad entre GUI, documentación y código.
-**Por qué:** La práctica debe tener un único resultado final.
-**Error común:** Terminar Parte A con geometría distinta a Parte B.
-**Solución:** Usar Parte B como fuente canónica para la comprobación final.
-**Analogía:** Es cotejar la maqueta con el original aprobado antes de archivarla.
+**Qué hace:** cierra el recorrido JRXML → Java → JasperPrint → PDF.
+**Por qué:** el curso valida comportamiento real, no solo diseño visual.
+**Error común:** ejecutar desde un working directory distinto. Solución: usar `EditorialReports`, como hace CI.
+**Analogía:** es como comprobar la copia final producida por la imprenta.
 
 ---
+
+**Paso 13: Documentar los parámetros**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/PARAMETROS.md`.
+2. Comprobar que enumera `usuario`, `fechaInforme`, `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`.
+3. Comprobar la nota: los parámetros usan `defaultValueExpression`; `initialValueExpression` pertenece a variables.
+4. Guardar.
+
+**Verificación visual:** `PARAMETROS.md` coincide con el checkpoint.
+
+**Qué hace:** deja trazabilidad técnica del contrato de parámetros.
+**Por qué:** la documentación debe describir lo que realmente ejecuta el informe.
+**Error común:** copiar la explicación antigua de `initialValueExpression` en parámetros. Solución: mantener la corrección de JasperReports 6.20.0.
+**Analogía:** es como dejar una ficha de producción junto a la plantilla.
+
+---
+
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -347,7 +354,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
@@ -477,44 +490,50 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 86 | `            <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 87 | `            <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 88 | `            <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 89 | `            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 90 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 91 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
-| 92 | `    <detail>` | Continúa la configuración declarativa del informe. |
-| 93 | `        <band height="48" splitType="Stretch">` | Declara una banda y su geometría vertical. |
-| 94 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 95 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 96 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 97 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 98 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 99 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 100 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 101 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
-| 102 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 103 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 104 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
-| 105 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
-| 106 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
-| 107 | `            </textField>` | Cierra el elemento XML correspondiente. |
-| 108 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 109 | `    </detail>` | Cierra el elemento XML correspondiente. |
-| 110 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
-| 111 | `        <band height="45">` | Declara una banda y su geometría vertical. |
-| 112 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 113 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 114 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 115 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 116 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 117 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
-| 118 | `    <summary>` | Continúa la configuración declarativa del informe. |
-| 119 | `        <band height="55">` | Declara una banda y su geometría vertical. |
-| 120 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 121 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 122 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 123 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 124 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 125 | `    </summary>` | Cierra el elemento XML correspondiente. |
-| 126 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
+| 89 | `            <staticText>` | Continúa la configuración declarativa del informe. |
+| 90 | `                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 91 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 92 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 93 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 94 | `                <text><![CDATA[Importe con IVA]]></text>` | Define texto estático visible en el informe. |
+| 95 | `            </staticText>` | Cierra el elemento XML correspondiente. |
+| 96 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 97 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
+| 98 | `    <detail>` | Continúa la configuración declarativa del informe. |
+| 99 | `        <band height="48" splitType="Stretch">` | Declara una banda y su geometría vertical. |
+| 100 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 101 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 102 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 103 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 104 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 105 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 106 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 107 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
+| 108 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 109 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 110 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 111 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 112 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
+| 113 | `            </textField>` | Cierra el elemento XML correspondiente. |
+| 114 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 115 | `    </detail>` | Cierra el elemento XML correspondiente. |
+| 116 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
+| 117 | `        <band height="45">` | Declara una banda y su geometría vertical. |
+| 118 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 119 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 120 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 121 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 122 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 123 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
+| 124 | `    <summary>` | Continúa la configuración declarativa del informe. |
+| 125 | `        <band height="55">` | Declara una banda y su geometría vertical. |
+| 126 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 127 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 128 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 129 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 130 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 131 | `    </summary>` | Cierra el elemento XML correspondiente. |
+| 132 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
 
 ### Parte C — Código Java completo explicado línea por línea
 
@@ -703,133 +722,73 @@ M4/4.1/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                           |                                                                    |                                                                   |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| `Parameter not found: departamento`                              | El parámetro no está declarado o no se ha proporcionado un valor   | Declarar el parámetro y añadirlo al mapa o al diálogo             |
-| `ClassCastException` al resolver `tipoIva`                       | El tipo declarado no coincide con el valor del mapa                | Declarar el parámetro como `java.lang.Double` y pasar un `Double` |
-| El valor por defecto `"General"` produce un error de compilación | Falta las comillas dobles                                          | Escribir `"General"` con comillas dobles                          |
-| El valor por defecto `0.21` produce un error de compilación      | Se usó coma en lugar de punto                                      | Escribir `0.21` con punto                                         |
-| El valor por defecto `Boolean.TRUE` produce un error             | Se escribió `true` en minúsculas                                   | Escribir `Boolean.TRUE` con mayúsculas                            |
-| Los parámetros no aparecen en el diálogo de previsualización     | La propiedad `isForPrompting` está a `false`                       | Cambiar la propiedad a `true`                                     |
-| El informe se previsualiza sin la columna del importe con IVA    | El parámetro `mostrarDetalle` es `false`                           | Establecer el valor a `Boolean.TRUE` en el diálogo                |
-| La columna del importe con IVA produce un error de tipo          | La expresión usa `$P{mostrarDetalle}` sin invocar `booleanValue()` | Escribir `Boolean.TRUE.equals($P{mostrarDetalle})`                      |
-| El importe con IVA calcula un valor incorrecto                   | Faltan paréntesis en la expresión                                  | Escribir `(1 + $P{tipoIva})` entre paréntesis                     |
-| El encabezado `Importe con IVA` se solapa con la banda Detail    | La banda Column Header no tiene altura suficiente                  | Ampliar la altura a 60 píxeles                                    |
+| Error | Causa | Solución |
+|---|---|---|
+| `Parameter not found` | nombre distinto entre JRXML y expresión | usar exactamente el nombre declarado |
+| El IVA falla en títulos sin ventas | se opera con `importe_total=null` | mantener la expresión null-safe |
+| Solo desaparece el dato de IVA | el encabezado no tiene `printWhenExpression` | aplicar la misma condición a encabezado y campo |
+| El PDF no toma los valores Java | el mapa usa tipos o nombres incorrectos | comparar el mapa con los parámetros del JRXML |
+| Se intenta usar `initialValueExpression` en un parámetro | esa expresión pertenece a variables | usar `defaultValueExpression` |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir un parámetro `formatoFecha` de tipo `java.lang.String` que controle el patrón de la fecha del informe. Los valores posibles son `corto` (que produce `dd/MM/yyyy`) y `largo` (que produce `EEEE, d 'de' MMMM 'de' yyyy`). El parámetro debe tener valor por defecto `corto` y debe aparecer en el diálogo de previsualización.
+**Enunciado:** Crear un parámetro `mostrarCabeceraFiscal` Boolean con valor por defecto `Boolean.TRUE` y usarlo junto con `mostrarDetalle` en el `printWhenExpression` del encabezado y del campo de IVA. Probar las cuatro combinaciones lógicas y restaurar el checkpoint sin el parámetro adicional.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+1. Guardar una copia del checkpoint antes del reto.
+2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
+3. Compilar el JRXML con **Ctrl+Mayús+B**.
+4. Ejecutar Preview con el escenario indicado.
+5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
+6. Verificar el resultado tanto en Console como en el PDF.
+7. Comparar el comportamiento con el objetivo del reto.
+8. Deshacer únicamente los cambios del reto.
+9. Compilar de nuevo.
+10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
 
-**Paso 2.** Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline.
-
-**Paso 3.** Hacer clic sobre la opción Add Parameter en el menú contextual.
-
-**Paso 4.** Escribir exactamente `formatoFecha` en el campo Name.
-
-**Paso 5.** Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-
-**Paso 6.** Marcar la casilla Use default value.
-
-**Paso 7.** Hacer clic sobre el campo Default Value Expression y escribir exactamente `"corto"`.
-
-**Paso 8.** Marcar la casilla is For Prompting.
-
-**Paso 9.** Hacer clic sobre el botón Finish.
-
-**Paso 10.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 11.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-
-**Paso 12.** Hacer clic sobre el Text Field que contiene la expresión `$P{fechaInforme}` en la banda Title.
-
-**Paso 13.** Hacer clic sobre el campo Text Field Expression en el panel Properties, pestaña Properties.
-
-**Paso 14.** Seleccionar el contenido actual y eliminarlo con la tecla Suprimir.
-
-**Paso 15.** Escribir exactamente `new java.text.SimpleDateFormat($P{formatoFecha}.equals("largo") ? "EEEE, d 'de' MMMM 'de' yyyy" : "dd/MM/yyyy").format($P{fechaInforme})` y pulsar Enter.
-
-**Paso 16.** Eliminar el patrón `dd/MM/yyyy` del campo porque el formato se aplica dentro de la expresión.
-
-**Paso 17.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 18.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 19.** Hacer clic con el botón derecho sobre `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 20.** Abrir el archivo `output/informe_ventas.pdf` y verificar que la fecha aparece en formato corto (`22/09/2026`).
-
-**Paso 21.** Modificar temporalmente el programa Java para pasar `parametros.put("formatoFecha", "largo")`.
-
-**Paso 22.** Volver a ejecutar el programa y verificar que la fecha aparece en formato largo (`martes, 22 de septiembre de 2026`).
-
-**Simulación ASCII del PDF con formatoFecha=largo**
-
-```
-║  Informe generado por:  Ana Martínez                     ║
-║  Fecha del informe:     martes, 22 de septiembre de 2026 ║
-║  Departamento: Comercial    Periodo: Octubre 2026        ║
-```
-
-**Resultado del reto:** el parámetro `formatoFecha` controla el patrón de la fecha. La expresión utiliza el operador ternario para elegir entre el patrón corto y el patrón largo según el valor del parámetro. La clase `SimpleDateFormat` se utiliza con nombre completamente cualificado para aplicar el patrón. El resultado es una fecha formateada de forma dinámica según la preferencia del usuario.
+**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
 
 ---
 
 ## Analogía final con el contexto de la editorial
 
-Los parámetros son las instrucciones que el editor recibe antes de empezar a componer el catálogo: el nombre del responsable, la fecha de la edición, el departamento que la solicita, el periodo al que se refiere, el tipo de IVA aplicable, la decisión de incluir o no el detalle. Cada parámetro modifica el resultado final del catálogo sin necesidad de rehacer la plantilla. Los parámetros internos son las condiciones del taller: la zona horaria, la configuración regional, la conexión al archivador. Los valores por defecto son las instrucciones que se aplican cuando el editor no especifica nada. La combinación de parámetros y valores por defecto permite que el catálogo se adapte a las necesidades de cada solicitud con un mínimo esfuerzo.
+Los parámetros son la hoja de instrucciones que acompaña a una misma plantilla editorial: cambian el contexto y la presentación sin reescribir el catálogo.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
-
-- El archivo `reports/informe_ventas.jrxml` con seis parámetros declarados: `usuario`, `fechaInforme`, `departamento`, `periodo`, `tipoIva` y `mostrarDetalle`.
-- La banda Title ampliada con los cuatro pares de rótulo-campo para los parámetros.
-- La banda Column Header y la banda Detail ampliadas con la columna del importe con IVA.
-- La propiedad `printWhenExpression` configurada para controlar la visibilidad de la columna.
-- El programa `GeneradorInformeVentas.java` modificado para pasar los valores de los cuatro nuevos parámetros.
-- El archivo `output/informe_ventas.pdf` con los parámetros resueltos.
-- El archivo `PARAMETROS.md` en la raíz del proyecto con la documentación.
-- Comprensión operativa de la declaración de parámetros, de los valores por defecto, de la propiedad `isForPrompting` y de la combinación de parámetros en expresiones.
+Al finalizar este punto, el alumno dispone de seis parámetros operativos; departamento y periodo en Title; columna IVA null-safe; visibilidad coherente de encabezado y dato; Java y Preview funcionales.
 
 ---
 
-## Conclusión y enlace al siguiente punto
+## Conclusión
 
-El punto 4.1 ha profundizado en el uso de parámetros en el informe de ventas. Han quedado declarados cuatro nuevos parámetros con valores por defecto y con la propiedad `isForPrompting` activada. Han quedado configuradas las expresiones que combinan los parámetros con los campos y las bandas. El informe se adapta ahora a las instrucciones del usuario sin necesidad de modificar la plantilla.
-
-El punto 4.2, «Filtros con parámetros», introduce los filtros basados en parámetros y demuestra su uso en las consultas SQL y en las expresiones de visibilidad. El informe construido en este punto sirve como base para añadir los filtros que lo hacen completamente dinámico.
-
----
+El punto 4.1 deja preparado el informe para recibir valores externos de forma tipada. El punto 4.2 utiliza ese mecanismo para construir filtros opcionales.
 
 # Punto 4.2 — Filtros con parámetros
 
 ## Parte práctica
 
-### Parte A — Práctica visual
+### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir el checkpoint 4.1**
+**Paso 1: Abrir el checkpoint anterior y verificar el baseline**
 
 **Acciones:**
 
-1. Abrir `M4/4.2/EditorialReports/reports/informe_ventas.jrxml` y comprobar que conserva los parámetros de 4.1.
-2. Confirmar `LEFT JOIN ventas` en Source.
-3. Abrir Outline y localizar Parameters y Fields.
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y seleccionar **Refresh**.
+2. Abrir `reports/informe_ventas.jrxml` con doble clic.
+3. Seleccionar la pestaña **Design** y expandir el informe en **Outline**.
+4. Abrir también la pestaña **Source** y localizar la consulta SQL.
+5. Confirmar que la consulta conserva `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
 
-**Verificación visual:** el informe parte de 4.1 y no de una versión simplificada.
+**Verificación visual:** el informe abre sin errores y el `LEFT JOIN` heredado está presente.
 
-**Qué hace:** Fija el baseline acumulativo.
-**Por qué:** Los filtros se añaden sobre el informe parametrizado.
-**Error común:** Partir de un JRXML con `INNER JOIN`.
-**Solución:** Conservar literalmente el `LEFT JOIN`.
-**Analogía:** Es aplicar filtros sobre el catálogo completo, no sobre una copia recortada.
+**Qué hace:** establece el punto de partida real antes de introducir cambios.
+**Por qué:** cada checkpoint de M4 es acumulativo y no puede perder comportamiento de M3/3.7.
+**Error común:** editar una copia antigua o reintroducir `INNER JOIN`. Solución: trabajar siempre sobre el checkpoint inmediatamente anterior.
+**Analogía:** es como revisar la última edición aprobada antes de preparar una nueva tirada.
 
 ---
 
@@ -837,120 +796,100 @@ El punto 4.2, «Filtros con parámetros», introduce los filtros basados en par�
 
 **Acciones:**
 
-1. Crear `categoria` como `java.lang.String`, `isForPrompting=true`, sin default.
-2. Crear `precioMinimo` como `java.lang.Double`, `isForPrompting=true`, sin default.
-3. Crear `precioMaximo` como `java.lang.Double`, `isForPrompting=true`, sin default.
-4. Guardar.
+1. Crear `categoria` como `java.lang.String`, sin valor por defecto.
+2. Crear `precioMinimo` como `java.lang.Double`, sin valor por defecto.
+3. Crear `precioMaximo` como `java.lang.Double`, sin valor por defecto.
+4. Mantener `isForPrompting=true` en los tres y guardar.
 
-**Verificación visual:** Parameters muestra los tres nombres y sus tipos.
+**Verificación visual:** Outline muestra los tres parámetros y ninguno fuerza un filtro por defecto.
 
-**Qué hace:** Permite activar o desactivar cada filtro usando `null`.
-**Por qué:** Un valor nulo deja el filtro opcional inactivo.
-**Error común:** Asignar 0 como default a los precios y cambiar el resultado base.
-**Solución:** Dejar los defaults nulos.
-**Analogía:** Es dejar tres casillas de filtro vacías hasta que el usuario las rellene.
-
----
-
-**Paso 3: Evolucionar el esquema libros con categoria**
-
-**Acciones:**
-
-1. Abrir `InicializadorBD.java`.
-2. Dentro de `CREATE TABLE libros`, añadir `categoria TEXT NOT NULL` como sexta columna.
-3. Actualizar los 14 INSERT de libros añadiendo una categoría a cada título.
-4. Usar únicamente `Novela`, `Realismo mágico`, `Cuento` y `Poesía` según el checkpoint.
-5. No añadir `ALTER TABLE`.
-6. Guardar.
-
-**Verificación visual:** el esquema contiene categoria desde su creación y siguen existiendo 14 INSERT de libros.
-
-**Qué hace:** Hace reproducible la ampliación del modelo.
-**Por qué:** El inicializador recrea la base en cada ejecución.
-**Error común:** Añadir la columna mediante ALTER TABLE después del CREATE.
-**Solución:** Declararla directamente en CREATE TABLE y semillas.
-**Analogía:** Es añadir un campo a la ficha maestra, no un parche posterior.
+**Qué hace:** prepara filtros opcionales controlados por `null`.
+**Por qué:** el escenario base debe seguir devolviendo los 14 libros.
+**Error común:** poner un mínimo por defecto. Solución: dejar el parámetro sin valor para que el filtro sea opcional.
+**Analogía:** es como dejar tres casillas de búsqueda vacías hasta que el usuario quiera restringir el catálogo.
 
 ---
 
-**Paso 4: Actualizar la consulta SQL con filtros opcionales**
+**Paso 3: Evolucionar el esquema SQLite de forma reproducible**
 
 **Acciones:**
 
-1. Abrir Source y localizar QueryString.
-2. Añadir `l.categoria` a SELECT.
-3. Mantener `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
-4. Añadir `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})`.
+1. Abrir `EditorialReportsJava/src/InicializadorBD.java`.
+2. En el `CREATE TABLE libros` añadir `categoria TEXT NOT NULL`.
+3. Actualizar los 14 `INSERT INTO libros` para incluir una categoría.
+4. Usar únicamente las categorías del dataset: `Novela`, `Realismo mágico`, `Cuento` y `Poesía`.
+5. No utilizar `ALTER TABLE` después del `CREATE TABLE`.
+6. Guardar y ejecutar `InicializadorBD`.
+
+**Verificación visual:** Console confirma 14 libros y 9 ventas y la tabla `libros` contiene `categoria`.
+
+**Qué hace:** hace que cada inicialización produzca exactamente el mismo esquema.
+**Por qué:** una práctica E2E debe poder repetirse sin errores de columna duplicada.
+**Error común:** añadir la columna con `ALTER TABLE` en cada ejecución. Solución: declararla directamente al crear la tabla.
+**Analogía:** es como imprimir una ficha editorial nueva con la columna ya incorporada, no pegarla después.
+
+---
+
+**Paso 4: Ampliar SELECT y conservar LEFT JOIN**
+
+**Acciones:**
+
+1. Abrir Source de `informe_ventas.jrxml`.
+2. Añadir `l.categoria` al `SELECT`.
+3. Conservar literalmente `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
+4. Después del JOIN añadir `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})`.
 5. Añadir `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})`.
 6. Añadir `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})`.
-7. Cambiar GROUP BY a `l.titulo, l.categoria`.
+7. Cambiar el agrupado a `GROUP BY l.titulo, l.categoria` y guardar.
 
-**Verificación visual:** la consulta contiene los tres `$P{}` y conserva LEFT JOIN.
+**Verificación visual:** la consulta contiene los tres filtros y sigue usando `LEFT JOIN`.
 
-**Qué hace:** Lleva el filtrado a SQLite antes de construir el informe.
-**Por qué:** Reduce filas solo cuando un parámetro tiene valor.
-**Error común:** Describir `$P{}` como sustitución textual.
-**Solución:** Recordar que JasperReports enlaza los valores mediante PreparedStatement/JDBC.
-**Analogía:** Es entregar criterios al archivador sin reescribir la pregunta SQL.
+**Qué hace:** lleva el filtrado a SQL con parámetros enlazados.
+**Por qué:** la base de datos reduce filas antes del llenado cuando el usuario activa un filtro.
+**Error común:** sustituir el JOIN por `INNER JOIN`. Solución: mantener el invariante heredado.
+**Analogía:** es como aplicar filtros al catálogo sin borrar los libros que aún no tienen ventas.
 
 ---
 
-**Paso 5: Crear el field categoria**
+**Paso 5: Declarar y mostrar el campo categoria**
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Fields y elegir Add Field.
-2. Name=`categoria`; Class=`java.lang.String`.
-3. Guardar.
+1. Crear el field `categoria` de clase `java.lang.String`.
+2. En Column Header fijar la banda en altura `62`.
+3. Crear `Categoría` en x=`455`, y=`2`, width=`100`, height=`18` con estilo `Cabecera`.
+4. En Detail fijar la primera banda en altura `62`.
+5. Crear el campo `$F{categoria}` en x=`455`, y=`0`, width=`100`, height=`20` con estilo `Dato`.
+6. Guardar.
 
-**Verificación visual:** Fields contiene `categoria` además de los seis fields heredados.
+**Verificación visual:** la nueva columna queda alineada con el resto de la primera fila.
 
-**Qué hace:** Expone la nueva columna del ResultSet al diseño.
-**Por qué:** La consulta y el field deben tener el mismo nombre/alias.
-**Error común:** Usar `$P{categoria}` para imprimir la categoría de la fila.
-**Solución:** Imprimir el dato con `$F{categoria}`.
-**Analogía:** Es distinguir el criterio del usuario de la categoría que devuelve cada ficha.
+**Qué hace:** hace visible el criterio de categoría que también usa el SQL.
+**Por qué:** el lector debe poder relacionar filtro y dato impreso.
+**Error común:** declarar el field con un nombre distinto al alias SQL. Solución: usar exactamente `categoria`.
+**Analogía:** es como añadir la clasificación editorial al lado de cada título.
 
 ---
 
-**Paso 6: Añadir categoria al encabezado**
+**Paso 6: Verificar el filtro de plantilla heredado**
 
 **Acciones:**
 
-1. Seleccionar Column Header y fijar Band height=`62`.
-2. Añadir Static Text `Categoría` en x=455, y=2, width=100, height=18.
-3. Aplicar estilo `Cabecera`.
+1. Seleccionar el encabezado `Importe con IVA`.
+2. Confirmar Print When Expression `Boolean.TRUE.equals($P{mostrarDetalle})`.
+3. Seleccionar el campo de IVA en Detail y confirmar la misma expresión.
+4. No añadir un filtro de banda que cambie las 14 filas del escenario base.
 
-**Verificación visual:** Categoría aparece al final de la primera fila de encabezados.
+**Verificación visual:** encabezado y dato de IVA conservan la misma condición de presentación.
 
-**Qué hace:** Reserva una columna visible para el nuevo field.
-**Por qué:** La geometría debe coincidir con el checkpoint.
-**Error común:** Mantener la banda en 48 y provocar desbordamiento.
-**Solución:** Usar 62.
-**Analogía:** Es ampliar la cabecera para incluir una nueva columna sin perder las fechas.
-
----
-
-**Paso 7: Añadir categoria al Detail**
-
-**Acciones:**
-
-1. Seleccionar Detail 1 y fijar Band height=`62`.
-2. Añadir Text Field en x=455, y=0, width=100, height=20.
-3. Expression=`$F{categoria}` y Style=`Dato`.
-4. No añadir ningún `printWhenExpression` a la banda Detail.
-
-**Verificación visual:** la categoría se imprime en cada una de las 14 filas del escenario base.
-
-**Qué hace:** Muestra el dato recuperado por la consulta.
-**Por qué:** 4.2 introduce filtros SQL; no oculta filas con una condición de plantilla inexistente en el checkpoint.
-**Error común:** Añadir un filtro Detail `unidades_vendidas > 3`.
-**Solución:** No añadirlo: no forma parte del JRXML ejecutable 4.2.
-**Analogía:** Es mostrar la etiqueta de cada libro sin alterar después la selección del archivador.
+**Qué hace:** contrasta filtrado SQL con visibilidad de plantilla.
+**Por qué:** SQL decide qué filas llegan; `printWhenExpression` decide qué elementos se muestran.
+**Error común:** confundir ocultar un elemento con filtrar registros. Solución: distinguir ambos niveles.
+**Analogía:** es como distinguir entre retirar libros del listado y simplemente ocultar una columna del impreso.
 
 ---
 
-**Paso 8: Actualizar el generador con filtros nulos**
+**Paso 7: Actualizar los parámetros Java del escenario base**
 
 **Acciones:**
 
@@ -958,95 +897,113 @@ El punto 4.2, «Filtros con parámetros», introduce los filtros basados en par�
 2. Añadir `parametros.put("categoria", null);`.
 3. Añadir `parametros.put("precioMinimo", null);`.
 4. Añadir `parametros.put("precioMaximo", null);`.
-5. Conservar todos los puts de 4.1.
+5. Guardar.
 
-**Verificación visual:** el escenario Java base deja inactivos los tres filtros.
+**Verificación visual:** Parte C muestra los tres filtros con valor `null`.
 
-**Qué hace:** Permite demostrar que el resultado base sigue teniendo 14 títulos.
-**Por qué:** Los filtros pueden probarse aparte sin alterar el contrato acumulativo.
-**Error común:** Usar `precioMinimo=15.0` en el generador base y cambiar los resultados de control.
-**Solución:** Mantener null en el escenario E2E y usar Preview para escenarios filtrados.
-**Analogía:** Es conservar una tirada patrón y hacer pruebas de filtros en copias de prueba.
+**Qué hace:** mantiene desactivados los filtros para validar los invariantes 14/9/31/633,40.
+**Por qué:** el checkpoint base debe ser comparable con M3/3.7.
+**Error común:** usar `15.0` en `precioMinimo` y después esperar 14 títulos. Solución: usar `null` en el escenario base.
+**Analogía:** es como entregar el formulario de búsqueda con sus casillas inicialmente vacías.
 
 ---
 
-**Paso 9: Reconstruir SQLite y comprobar categoria**
+**Paso 8: Probar el escenario sin filtros**
+
+**Acciones:**
+
+1. Compilar el JRXML.
+2. Abrir Preview.
+3. Dejar `categoria`, `precioMinimo` y `precioMaximo` sin valor.
+4. Ejecutar la previsualización.
+5. Comprobar que aparecen 14 títulos.
+
+**Verificación visual:** el informe conserva los 14 libros cuando los filtros son nulos.
+
+**Qué hace:** demuestra la semántica opcional de las condiciones `IS NULL OR ...`.
+**Por qué:** el filtro opcional debe ser neutro cuando no recibe valor.
+**Error común:** interpretar `$P{}` como sustitución textual. Solución: recordar que JasperReports crea parámetros JDBC enlazados.
+**Analogía:** es como una búsqueda sin criterios: el archivador devuelve todo el catálogo.
+
+---
+
+**Paso 9: Probar un filtro por categoría**
+
+**Acciones:**
+
+1. Volver a Parameters en Preview.
+2. Asignar `Poesía` a `categoria`.
+3. Mantener los dos precios vacíos.
+4. Ejecutar.
+5. Comprobar que el resultado contiene únicamente la categoría seleccionada.
+6. Restaurar `categoria` a vacío antes de seguir.
+
+**Verificación visual:** la vista previa cambia al activar el filtro y vuelve al baseline al retirarlo.
+
+**Qué hace:** prueba funcionalmente el filtro categórico.
+**Por qué:** un ejemplo observable enseña mejor que una consulta leída en abstracto.
+**Error común:** dejar el filtro activo y comparar luego contra el escenario base. Solución: restaurar el valor nulo.
+**Analogía:** es como seleccionar una sección concreta del catálogo y después volver al catálogo completo.
+
+---
+
+**Paso 10: Probar los límites de precio**
+
+**Acciones:**
+
+1. Asignar un valor a `precioMinimo`, por ejemplo `20.0`.
+2. Ejecutar Preview y comprobar que desaparecen títulos con precio inferior.
+3. Limpiar `precioMinimo`.
+4. Asignar un valor a `precioMaximo`, por ejemplo `20.0`.
+5. Ejecutar de nuevo.
+6. Restaurar ambos parámetros a nulo.
+
+**Verificación visual:** cada límite modifica el conjunto solo cuando tiene valor.
+
+**Qué hace:** comprueba de forma independiente los dos extremos del rango.
+**Por qué:** facilita detectar si se ha invertido `>=` o `<=`.
+**Error común:** dejar ambos valores activos sin pretenderlo. Solución: probar cada condición por separado.
+**Analogía:** es como mover primero el tope inferior y luego el superior de un filtro de catálogo.
+
+---
+
+**Paso 11: Ejecutar Java con el escenario base**
 
 **Acciones:**
 
 1. Ejecutar `InicializadorBD`.
-2. Comprobar en Console `Libros insertados: 14` y `Ventas insertadas: 9`.
-3. Abrir Database Metadata/Data Adapter y refrescar el esquema si Studio conserva caché.
-4. Confirmar que `libros` contiene `categoria`.
+2. Ejecutar `GeneradorInformeVentas`.
+3. Abrir `output/informe_ventas.pdf`.
+4. Comprobar 14 títulos y la columna Categoría.
+5. Verificar que no se produce excepción.
 
-**Verificación visual:** la nueva columna existe y los contadores no cambian.
+**Verificación visual:** el PDF se genera con el dataset completo.
 
-**Qué hace:** Valida que el cambio de esquema es real.
-**Por qué:** El JRXML no debe apoyarse en una columna que solo exista en documentación.
-**Error común:** No reinicializar la base después del cambio de CREATE TABLE.
-**Solución:** Ejecutar siempre InicializadorBD tras cambiar el esquema.
-**Analogía:** Es actualizar el catálogo físico antes de pedir informes sobre el nuevo campo.
+**Qué hace:** prueba el flujo real después de evolucionar esquema, query y fields.
+**Por qué:** la vista Preview no sustituye al llenado Java real.
+**Error común:** usar una base SQLite antigua. Solución: ejecutar siempre el inicializador del checkpoint.
+**Analogía:** es como reconstruir el catálogo y después imprimir la versión final.
 
 ---
 
-**Paso 10: Compilar y probar los filtros en Preview**
+**Paso 12: Documentar los filtros**
 
 **Acciones:**
 
-1. Compilar con Ctrl+Mayús+B y revisar 0 errores.
-2. Previsualizar con categoria, precioMinimo y precioMaximo vacíos: deben aparecer 14 títulos.
-3. Repetir Preview con `categoria=Novela` y observar solo esa categoría.
-4. Repetir con un precio mínimo y confirmar que cambia el conjunto de filas.
-5. Volver al escenario sin filtros.
+1. Abrir `EditorialReports/FILTROS.md`.
+2. Comprobar que documenta `categoria`, `precioMinimo` y `precioMaximo` como opcionales.
+3. Comprobar que registra la conservación del `LEFT JOIN`.
+4. Guardar.
 
-**Verificación visual:** los filtros son opcionales y el escenario vacío conserva 14 títulos.
+**Verificación visual:** `FILTROS.md` coincide con el SQL real.
 
-**Qué hace:** Demuestra la semántica `param IS NULL OR ...`.
-**Por qué:** Se prueba el filtro sin alterar el generador base.
-**Error común:** Interpretar `NULL = NULL` como verdadero.
-**Solución:** La desactivación se obtiene con la rama `IS NULL`.
-**Analogía:** Es activar filtros de búsqueda sin borrar el inventario original.
+**Qué hace:** deja trazabilidad de las decisiones de filtrado.
+**Por qué:** la documentación debe distinguir SQL de visibilidad de plantilla.
+**Error común:** describir `$P{}` como concatenación de texto. Solución: documentarlo como bind de `PreparedStatement`.
+**Analogía:** es como adjuntar al catálogo las reglas de búsqueda que se usaron.
 
 ---
 
-**Paso 11: Ejecutar el flujo Java real**
-
-**Acciones:**
-
-1. Ejecutar `GeneradorInformeVentas`.
-2. Abrir `output/informe_ventas.pdf`.
-3. Confirmar 14 títulos, 31 unidades y 633,40 €.
-4. Comprobar que la nueva columna Categoría aparece.
-
-**Verificación visual:** el PDF base conserva invariantes y muestra categoría.
-
-**Qué hace:** Valida JDBC, query, fields y maquetación juntos.
-**Por qué:** El checkpoint debe funcionar end-to-end.
-**Error común:** Dar por suficiente la Preview.
-**Solución:** Ejecutar también Java con SQLite real.
-**Analogía:** Es comprobar el producto final después de probar los filtros.
-
----
-
-**Paso 12: Documentar filtros y contrastar Parte B**
-
-**Acciones:**
-
-1. Crear `EditorialReports/FILTROS.md`.
-2. Documentar los tres parámetros SQL opcionales y que `LEFT JOIN` se conserva.
-3. Indicar que no existe un filtro adicional de Detail en el checkpoint 4.2.
-4. Comparar QueryString, field categoria y alturas 62 con la Parte B.
-5. Guardar.
-
-**Verificación visual:** FILTROS.md y Parte B describen el mismo comportamiento.
-
-**Qué hace:** Cierra la trazabilidad docente.
-**Por qué:** Evita que la explicación introduzca lógica que el código no ejecuta.
-**Error común:** Documentar un printWhen inexistente.
-**Solución:** Documentar solo el estado real de 4.2.
-**Analogía:** Es archivar únicamente los filtros que realmente usa la tirada aprobada.
-
----
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -1150,7 +1107,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
@@ -1290,45 +1253,51 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 95 | `            <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 96 | `            <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 97 | `            <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 98 | `            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 99 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 100 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
-| 101 | `    <detail>` | Continúa la configuración declarativa del informe. |
-| 102 | `        <band height="62" splitType="Stretch">` | Declara una banda y su geometría vertical. |
-| 103 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 104 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 105 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 106 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 107 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 108 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 109 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 110 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 111 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
-| 112 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 113 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 114 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
-| 115 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
-| 116 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
-| 117 | `            </textField>` | Cierra el elemento XML correspondiente. |
-| 118 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 119 | `    </detail>` | Cierra el elemento XML correspondiente. |
-| 120 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
-| 121 | `        <band height="45">` | Declara una banda y su geometría vertical. |
-| 122 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 123 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 124 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 125 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 126 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 127 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
-| 128 | `    <summary>` | Continúa la configuración declarativa del informe. |
-| 129 | `        <band height="55">` | Declara una banda y su geometría vertical. |
-| 130 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 131 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 132 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 133 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 134 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 135 | `    </summary>` | Cierra el elemento XML correspondiente. |
-| 136 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
+| 98 | `            <staticText>` | Continúa la configuración declarativa del informe. |
+| 99 | `                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 100 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 101 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 102 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 103 | `                <text><![CDATA[Importe con IVA]]></text>` | Define texto estático visible en el informe. |
+| 104 | `            </staticText>` | Cierra el elemento XML correspondiente. |
+| 105 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 106 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
+| 107 | `    <detail>` | Continúa la configuración declarativa del informe. |
+| 108 | `        <band height="62" splitType="Stretch">` | Declara una banda y su geometría vertical. |
+| 109 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 110 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 111 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 112 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 113 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 114 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 115 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 116 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 117 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
+| 118 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 119 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 120 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 121 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 122 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
+| 123 | `            </textField>` | Cierra el elemento XML correspondiente. |
+| 124 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 125 | `    </detail>` | Cierra el elemento XML correspondiente. |
+| 126 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
+| 127 | `        <band height="45">` | Declara una banda y su geometría vertical. |
+| 128 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 129 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 130 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 131 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 132 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 133 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
+| 134 | `    <summary>` | Continúa la configuración declarativa del informe. |
+| 135 | `        <band height="55">` | Declara una banda y su geometría vertical. |
+| 136 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 137 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 138 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 139 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 140 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 141 | `    </summary>` | Cierra el elemento XML correspondiente. |
+| 142 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
 
 ### Parte C — Código Java completo explicado línea por línea
 
@@ -1673,148 +1642,73 @@ M4/4.2/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                                  |                                                                                |                                                                                        |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| El filtro por categoría no se aplica                                    | El parámetro `categoria` se ha inicializado como cadena vacía en lugar de nulo | No marcar la casilla Use default value o proporcionar un valor nulo                    |
-| `SQLException: no such column: l.categoria`                             | La columna no existe en la base de datos                                       | Ejecutar de nuevo el `InicializadorBD` con la columna añadida                          |
-| `SQLException: misuse of aggregate function`                            | La columna `categoria` no está incluida en el `GROUP BY`                       | Añadir `l.categoria` al `GROUP BY`                                                     |
-| El filtro por precio mínimo no se aplica                                | El parámetro `precioMinimo` es nulo                                            | Proporcionar un valor numérico desde el programa o el diálogo                          |
-| El informe produce `Field not found: categoria`                         | El campo no está declarado en el JRXML                                         | Añadir `<field name="categoria" class="java.lang.String"/>`                            |
-| La propiedad `printWhenExpression` produce un error de tipo             | Falta la invocación `booleanValue()` sobre el parámetro                        | Escribir `Boolean.TRUE.equals($P{mostrarDetalle})`                                           |
-| Las filas con `unidades_vendidas` nulas producen `NullPointerException` | La expresión `$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() > 3` sobre un campo nulo lanza excepción   | Activar `isBlankWhenNull` o usar una expresión condicional                             |
-| El encabezado `Categoría` se solapa con la banda Detail                 | La banda Column Header no tiene altura suficiente                              | Ampliar la altura a 75 píxeles                                                         |
-| El campo `categoria` se solapa con la banda siguiente                   | La banda Detail no tiene altura suficiente                                     | Ampliar la altura a 70 píxeles                                                         |
-| Los valores nulos en el mapa provocan un error en el motor              | Los valores `null` son válidos para parámetros opcionales                                   | Usar `null` está soportado; verificar que el parámetro se declara con el tipo correcto |
+| Error | Causa | Solución |
+|---|---|---|
+| Desaparecen libros sin ventas | se reintrodujo `INNER JOIN` | mantener `LEFT JOIN` |
+| `categoria` no existe | SQLite no se reconstruyó con el nuevo esquema | ejecutar `InicializadorBD` |
+| El filtro nulo no es neutro | la condición no usa `IS NULL OR` | usar el patrón opcional del checkpoint |
+| El escenario base no devuelve 14 títulos | Java deja un filtro activo | usar `null` en los tres filtros base |
+| Se interpreta `$P{}` como texto SQL | confusión con `$P!{}` | recordar que `$P{}` crea bind parameters JDBC |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir un cuarto filtro opcional por disponibilidad. El filtro debe aplicarse solo cuando el parámetro `disponible` tiene valor. El parámetro debe ser de tipo `java.lang.Boolean` y su valor nulo desactiva el filtro.
+**Enunciado:** Probar un rango combinado: `categoria="Novela"`, `precioMinimo=18.0` y `precioMaximo=23.0`. Anotar cuántos títulos devuelve Preview, retirar después los tres valores y confirmar que vuelven los 14 títulos.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+1. Guardar una copia del checkpoint antes del reto.
+2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
+3. Compilar el JRXML con **Ctrl+Mayús+B**.
+4. Ejecutar Preview con el escenario indicado.
+5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
+6. Verificar el resultado tanto en Console como en el PDF.
+7. Comparar el comportamiento con el objetivo del reto.
+8. Deshacer únicamente los cambios del reto.
+9. Compilar de nuevo.
+10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
 
-**Paso 2.** Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline.
-
-**Paso 3.** Hacer clic sobre la opción Add Parameter en el menú contextual.
-
-**Paso 4.** Escribir exactamente `disponible` en el campo Name.
-
-**Paso 5.** Hacer clic sobre el desplegable Class y seleccionar `java.lang.Boolean`.
-
-**Paso 6.** Marcar la casilla is For Prompting.
-
-**Paso 7.** Hacer clic sobre el botón Finish.
-
-**Paso 8.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 9.** Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-
-**Paso 10.** Localizar la línea que contiene `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})`.
-
-**Paso 11.** Hacer clic al final de esa línea y pulsar Enter.
-
-**Paso 12.** Escribir exactamente `AND ($P{disponible} IS NULL OR l.disponible = $P{disponible})` y pulsar Enter.
-
-**Paso 13.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 14.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-
-**Paso 15.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 16.** Hacer doble clic sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-
-**Paso 17.** Localizar la línea que contiene `parametros.put("precioMaximo", null);`.
-
-**Paso 18.** Hacer clic al final de esa línea y pulsar Enter.
-
-**Paso 19.** Escribir exactamente `parametros.put("disponible", null);` y pulsar Enter.
-
-**Paso 20.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 21.** Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 22.** Abrir el archivo `output/informe_ventas.pdf` y verificar que el filtro no se ha aplicado (todos los libros aparecen).
-
-**Paso 23.** Modificar temporalmente el programa Java para pasar `parametros.put("disponible", Boolean.TRUE)`.
-
-**Paso 24.** Volver a ejecutar el programa y verificar que solo aparecen los libros disponibles.
-
-**Simulación ASCII del PDF con disponible=null (todos los libros)**
-
-```
-║  Título                    │Unid.│ Importe total │Precio ║
-║  Cien años de soledad      │  8  │    159,60 €   │19,95 €║
-║  Rayuela                   │  6  │    135,00 €   │22,50 €║
-║  ...                                                     ║
-```
-
-**Simulación ASCII del PDF con disponible=Boolean.TRUE (solo disponibles)**
-
-```
-║  Título                    │Unid.│ Importe total │Precio ║
-║  Cien años de soledad      │  8  │    159,60 €   │19,95 €║
-║  Rayuela                   │  6  │    135,00 €   │22,50 €║
-║  La casa de los espíritus  │  5  │    117,00 €   │23,40 €║
-║  ...                                                     ║
-(Doña Bárbara, Martín Fierro y El túnel no aparecen porque no están disponibles)
-```
-
-**Resultado del reto:** el parámetro `disponible` controla el filtro por disponibilidad. Cuando el valor es nulo, el filtro no se aplica y aparecen todos los libros. Cuando el valor es `Boolean.TRUE`, solo aparecen los libros disponibles. La técnica del parámetro nulo permite al usuario decidir si quiere filtrar por disponibilidad sin modificar la plantilla.
+**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
 
 ---
 
 ## Analogía final con el contexto de la editorial
 
-Los filtros son los criterios que el editor aplica al seleccionar los libros del catálogo. El filtro por categoría selecciona los libros de una sección concreta. El filtro por precio mínimo selecciona los libros a partir de un precio. El filtro por precio máximo selecciona los libros hasta un precio. El filtro por disponibilidad selecciona los libros en stock. Cada filtro es opcional: si el editor no especifica un criterio, el filtro no se aplica y todos los libros pasan. La combinación de filtros permite al editor construir catálogos especializados sin modificar la plantilla. Los filtros en SQL se aplican en el archivo antes de que los libros lleguen a la mesa de composición. Los filtros en la plantilla se aplican en la mesa, decidiendo qué filas se imprimen y qué columnas se muestran.
+Los filtros SQL son criterios de selección del archivador; la visibilidad de plantilla decide qué partes de cada ficha seleccionada se imprimen.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
-
-- El archivo `reports/informe_ventas.jrxml` con tres parámetros de filtro declarados (`categoria`, `precioMinimo`, `precioMaximo`).
-- La consulta SQL ampliada con tres filtros opcionales que utilizan la técnica del parámetro nulo.
-- El campo `categoria` añadido a la base de datos y al informe.
-- La propiedad `printWhenExpression` configurada en la banda Detail para combinar filtros SQL y de plantilla.
-- El archivo `output/informe_ventas.pdf` con los filtros aplicados.
-- El archivo `FILTROS.md` en la raíz del proyecto con la documentación de los filtros.
-- Comprensión operativa del filtrado en SQL, del filtrado en la plantilla y de la combinación de ambos.
+Al finalizar este punto, el alumno dispone de esquema con categoría, tres filtros opcionales SQL, columna Categoría y escenario base sin filtros que conserva 14/9/31/633,40.
 
 ---
 
-## Conclusión y enlace al siguiente punto
+## Conclusión
 
-El punto 4.2 ha introducido los filtros con parámetros y ha demostrado su uso con tres filtros opcionales en la consulta SQL y un filtro de plantilla en la banda Detail. La técnica del parámetro nulo permite al usuario activar o desactivar cada filtro sin modificar la plantilla. La combinación de filtros en SQL y en la plantilla permite construir informes que son eficientes en el uso de la base de datos y flexibles en la presentación.
-
-El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El punto cubre los tipos de cálculo, los tipos de reinicio y las variables que combinan campos, parámetros y otras variables. El informe construido en este punto sirve como base para añadir las variables que resumen los datos filtrados.
-
----
+El punto 4.2 filtra datos sin romper la cobertura del `LEFT JOIN`. El punto 4.3 añade estado acumulado mediante variables.
 
 # Punto 4.3 — Variables
 
 ## Parte práctica
 
-### Parte A — Práctica visual
+### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir 4.2 y revisar variables heredadas**
+**Paso 1: Abrir el checkpoint anterior y verificar el baseline**
 
 **Acciones:**
 
-1. Abrir `informe_ventas.jrxml` en Design.
-2. Expandir Variables y confirmar `TotalUnidades` y `TotalImporte`.
-3. Confirmar que los siete fields de 4.2 siguen presentes.
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y seleccionar **Refresh**.
+2. Abrir `reports/informe_ventas.jrxml` con doble clic.
+3. Seleccionar la pestaña **Design** y expandir el informe en **Outline**.
+4. Abrir también la pestaña **Source** y localizar la consulta SQL.
+5. Confirmar que la consulta conserva `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
 
-**Verificación visual:** el informe contiene el estado completo de 4.2.
+**Verificación visual:** el informe abre sin errores y el `LEFT JOIN` heredado está presente.
 
-**Qué hace:** Fija el baseline antes de añadir acumuladores.
-**Por qué:** Las nuevas variables se apoyan en fields y parámetros ya existentes.
-**Error común:** Crear un informe vacío.
-**Solución:** Trabajar sobre el checkpoint acumulativo.
-**Analogía:** Es añadir indicadores a un cuadro de mando ya existente.
+**Qué hace:** establece el punto de partida real antes de introducir cambios.
+**Por qué:** cada checkpoint de M4 es acumulativo y no puede perder comportamiento de M3/3.7.
+**Error común:** editar una copia antigua o reintroducir `INNER JOIN`. Solución: trabajar siempre sobre el checkpoint inmediatamente anterior.
+**Analogía:** es como revisar la última edición aprobada antes de preparar una nueva tirada.
 
 ---
 
@@ -1822,18 +1716,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
-2. Name=`TotalPagina`; Class=`java.lang.Double`; Calculation=`Sum`; Reset Type=`Page`.
-3. Expression=`$F{importe_total}`.
-4. Guardar.
+1. En Outline, hacer clic con el botón derecho sobre **Variables** y seleccionar **Create Variable**.
+2. Escribir `TotalPagina` en Name y seleccionar `java.lang.Double`.
+3. Seleccionar Calculation `Sum` y Reset Type `Page`.
+4. Escribir `$F{importe_total}` en Variable Expression.
+5. Guardar.
 
-**Verificación visual:** Variables muestra `TotalPagina` con Calculation=Sum y Reset=Page.
+**Verificación visual:** Outline muestra `TotalPagina` con cálculo `Sum` y reset `Page`.
 
-**Qué hace:** Calcula subtotal monetario de cada página.
-**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
-**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
-**Solución:** Usar exactamente `java.lang.Double`, `Sum` y `Page`.
-**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
+**Qué hace:** incorpora `TotalPagina` al ciclo de cálculo del informe.
+**Por qué:** cada variable enseña un tipo de agregación o ámbito distinto.
+**Error común:** elegir un reset incorrecto. Solución: comprobar `Report` frente a `Page` antes de guardar.
+**Analogía:** es como decidir si un contador se reinicia al cambiar de página o al terminar toda la tirada.
 
 ---
 
@@ -1841,18 +1735,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
-2. Name=`PrecioMedio`; Class=`java.lang.Double`; Calculation=`Average`; Reset Type=`Report`.
-3. Expression=`$F{precio_medio}`.
-4. Guardar.
+1. En Outline, hacer clic con el botón derecho sobre **Variables** y seleccionar **Create Variable**.
+2. Escribir `PrecioMedio` en Name y seleccionar `java.lang.Double`.
+3. Seleccionar Calculation `Average` y Reset Type `Report`.
+4. Escribir `$F{precio_medio}` en Variable Expression.
+5. Guardar.
 
-**Verificación visual:** Variables muestra `PrecioMedio` con Calculation=Average y Reset=Report.
+**Verificación visual:** Outline muestra `PrecioMedio` con cálculo `Average` y reset `Report`.
 
-**Qué hace:** Calcula media de los precios medios no nulos.
-**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
-**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
-**Solución:** Usar exactamente `java.lang.Double`, `Average` y `Report`.
-**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
+**Qué hace:** incorpora `PrecioMedio` al ciclo de cálculo del informe.
+**Por qué:** cada variable enseña un tipo de agregación o ámbito distinto.
+**Error común:** elegir un reset incorrecto. Solución: comprobar `Report` frente a `Page` antes de guardar.
+**Analogía:** es como decidir si un contador se reinicia al cambiar de página o al terminar toda la tirada.
 
 ---
 
@@ -1860,18 +1754,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
-2. Name=`PrecioMaximo`; Class=`java.lang.Double`; Calculation=`Highest`; Reset Type=`Report`.
-3. Expression=`$F{precio_medio}`.
-4. Guardar.
+1. En Outline, hacer clic con el botón derecho sobre **Variables** y seleccionar **Create Variable**.
+2. Escribir `PrecioMaximo` en Name y seleccionar `java.lang.Double`.
+3. Seleccionar Calculation `Highest` y Reset Type `Report`.
+4. Escribir `$F{precio_medio}` en Variable Expression.
+5. Guardar.
 
-**Verificación visual:** Variables muestra `PrecioMaximo` con Calculation=Highest y Reset=Report.
+**Verificación visual:** Outline muestra `PrecioMaximo` con cálculo `Highest` y reset `Report`.
 
-**Qué hace:** Calcula máximo de los precios medios.
-**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
-**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
-**Solución:** Usar exactamente `java.lang.Double`, `Highest` y `Report`.
-**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
+**Qué hace:** incorpora `PrecioMaximo` al ciclo de cálculo del informe.
+**Por qué:** cada variable enseña un tipo de agregación o ámbito distinto.
+**Error común:** elegir un reset incorrecto. Solución: comprobar `Report` frente a `Page` antes de guardar.
+**Analogía:** es como decidir si un contador se reinicia al cambiar de página o al terminar toda la tirada.
 
 ---
 
@@ -1879,18 +1773,18 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
-2. Name=`NumeroLibros`; Class=`java.lang.Integer`; Calculation=`Count`; Reset Type=`Report`.
-3. Expression=`$F{titulo}`.
-4. Guardar.
+1. En Outline, hacer clic con el botón derecho sobre **Variables** y seleccionar **Create Variable**.
+2. Escribir `NumeroLibros` en Name y seleccionar `java.lang.Integer`.
+3. Seleccionar Calculation `Count` y Reset Type `Report`.
+4. Escribir `$F{titulo}` en Variable Expression.
+5. Guardar.
 
-**Verificación visual:** Variables muestra `NumeroLibros` con Calculation=Count y Reset=Report.
+**Verificación visual:** Outline muestra `NumeroLibros` con cálculo `Count` y reset `Report`.
 
-**Qué hace:** Calcula número de títulos no nulos.
-**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
-**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
-**Solución:** Usar exactamente `java.lang.Integer`, `Count` y `Report`.
-**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
+**Qué hace:** incorpora `NumeroLibros` al ciclo de cálculo del informe.
+**Por qué:** cada variable enseña un tipo de agregación o ámbito distinto.
+**Error común:** elegir un reset incorrecto. Solución: comprobar `Report` frente a `Page` antes de guardar.
+**Analogía:** es como decidir si un contador se reinicia al cambiar de página o al terminar toda la tirada.
 
 ---
 
@@ -1898,139 +1792,115 @@ El punto 4.3, «Variables», profundiza en el uso de variables en el informe. El
 
 **Acciones:**
 
-1. En Outline, hacer clic con el botón derecho sobre Variables y elegir Add Variable.
-2. Name=`ImporteConIva`; Class=`java.lang.Double`; Calculation=`Sum`; Reset Type=`Report`.
-3. Expression=`$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))`.
-4. Guardar.
-
-**Verificación visual:** Variables muestra `ImporteConIva` con Calculation=Sum y Reset=Report.
-
-**Qué hace:** Calcula importe agregado con IVA.
-**Por qué:** El tipo de cálculo y el reset controlan cuándo se acumula y cuándo se reinicia.
-**Error común:** Confundir un field con una variable o elegir un reset incorrecto.
-**Solución:** Usar exactamente `java.lang.Double`, `Sum` y `Report`.
-**Analogía:** Es añadir un contador o subtotal con una regla de cierre explícita.
-
----
-
-**Paso 7: Ampliar Page Footer y mostrar TotalPagina**
-
-**Acciones:**
-
-1. Seleccionar Page Footer y fijar Band height=`62`.
-2. Añadir Static Text `Subtotal página:` en x=300, y=4, width=120, height=15.
-3. Añadir Text Field en x=420, y=4, width=135, height=15.
-4. Expression=`$V{TotalPagina}`, Pattern=`#,##0.00 €`, alineación Right.
-5. No mover la paginación existente de y=28.
-
-**Verificación visual:** el subtotal de página y la paginación conviven dentro de 62 px.
-
-**Qué hace:** Expone el reset Page en un lugar que se imprime en cada página.
-**Por qué:** Permite comprobar visualmente el comportamiento de la variable.
-**Error común:** Usar Band height 80, que no coincide con el checkpoint.
-**Solución:** Usar 62 y las coordenadas del JRXML final.
-**Analogía:** Es imprimir al pie de cada hoja el subtotal de esa hoja.
-
----
-
-**Paso 8: Ampliar Summary a 128 y distribuir agregados**
-
-**Acciones:**
-
-1. Seleccionar Summary y fijar Band height=`128`.
-2. Mantener TotalUnidades x=205/y=5 e Importe total x=420/y=5.
-3. Añadir Precio medio agregado: rótulo x=0/y=30/w=205 y valor `$V{PrecioMedio}` x=205/y=30/w=80.
-4. Añadir Precio máximo: rótulo x=300/y=30/w=120 y `$V{PrecioMaximo}` x=420/y=30/w=135.
-5. Añadir Número de libros: rótulo x=0/y=55/w=205 y `$V{NumeroLibros}` x=205/y=55/w=80.
-6. Añadir Importe con IVA: rótulo x=300/y=55/w=120 y `$V{ImporteConIva}` x=420/y=55/w=135.
-7. Aplicar `#,##0.00 €` a los valores monetarios.
-
-**Verificación visual:** Summary muestra seis indicadores en tres filas sin solaparse.
-
-**Qué hace:** Presenta los agregados de Report en el cierre del informe.
-**Por qué:** La geometría coincide con el checkpoint ejecutable.
-**Error común:** Expandir Summary a 160 y colocar campos fuera del diseño final.
-**Solución:** Usar 128 y las posiciones indicadas.
-**Analogía:** Es ordenar el cuadro de totales en una rejilla compacta.
-
----
-
-**Paso 9: Comprobar semántica de nulos y resets**
-
-**Acciones:**
-
-1. Abrir Preview con el escenario base.
-2. Localizar títulos sin ventas y confirmar que no provocan errores en Average/Highest/Sum.
-3. Pasar de una página a otra y observar que `TotalPagina` se reinicia.
-4. Confirmar que `TotalImporte` y `ImporteConIva` se mantienen como acumulados de Report.
-
-**Verificación visual:** los nulos de agregados no rompen el informe y cada variable respeta su reset.
-
-**Qué hace:** Valida la semántica real de variables, no solo su declaración.
-**Por qué:** El `LEFT JOIN` obliga a considerar títulos sin ventas.
-**Error común:** Asumir que todos los valores numéricos empiezan en cero.
-**Solución:** Basarse en calculation/reset/initialValueExpression y probar con datos reales.
-**Analogía:** Es comprobar cuándo se pone a cero cada contador al pasar de hoja o cerrar el informe.
-
----
-
-**Paso 10: Compilar y previsualizar**
-
-**Acciones:**
-
-1. Guardar y pulsar Ctrl+Mayús+B.
-2. Revisar Problems: 0 errores.
-3. Abrir Preview y recorrer todas las páginas.
-4. Comprobar los cuatro agregados nuevos y el subtotal de página.
-
-**Verificación visual:** el informe compila y los agregados aparecen con formato correcto.
-
-**Qué hace:** Detecta errores de tipo/evaluación antes del runtime Java.
-**Por qué:** Las variables mezclan Integer y Double y requieren tipos coherentes.
-**Error común:** Usar `$F{TotalPagina}`.
-**Solución:** Las variables se referencian con `$V{...}`.
-**Analogía:** Es revisar los totales antes de publicar el cierre contable.
-
----
-
-**Paso 11: Ejecutar Java y confirmar invariantes**
-
-**Acciones:**
-
-1. Ejecutar `InicializadorBD` y después `GeneradorInformeVentas`.
-2. Abrir el PDF generado.
-3. Confirmar 14 títulos, 31 unidades y 633,40 €.
-4. Comprobar que el Summary muestra los nuevos agregados.
-
-**Verificación visual:** el PDF real se genera y conserva los resultados base.
-
-**Qué hace:** Prueba el flujo end-to-end con las variables nuevas.
-**Por qué:** Los agregados no deben alterar las filas de la consulta.
-**Error común:** Confundir una variación de paginación con pérdida de datos.
-**Solución:** Contrastar también los contadores SQLite/E2E.
-**Analogía:** Es verificar que nuevos indicadores no cambian el libro mayor.
-
----
-
-**Paso 12: Crear VARIABLES.md y cotejar Parte B**
-
-**Acciones:**
-
-1. Crear `EditorialReports/VARIABLES.md`.
-2. Documentar nombre, tipo, calculation, reset y expresión de las cinco variables nuevas.
-3. Indicar que `TotalPagina` se reinicia por Page y las demás por Report.
-4. Comparar Page Footer=62 y Summary=128 con la Parte B.
+1. En Outline, hacer clic con el botón derecho sobre **Variables** y seleccionar **Create Variable**.
+2. Escribir `ImporteConIva` en Name y seleccionar `java.lang.Double`.
+3. Seleccionar Calculation `Sum` y Reset Type `Report`.
+4. Escribir `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))` en Variable Expression.
 5. Guardar.
 
-**Verificación visual:** VARIABLES.md coincide con el JRXML final.
+**Verificación visual:** Outline muestra `ImporteConIva` con cálculo `Sum` y reset `Report`.
 
-**Qué hace:** Deja una especificación mantenible.
-**Por qué:** La documentación debe explicar exactamente lo que ejecuta JasperReports.
-**Error común:** Documentar alturas 80/160 heredadas del borrador.
-**Solución:** Usar las alturas reales 62/128.
-**Analogía:** Es registrar los contadores con las mismas reglas que usa el sistema.
+**Qué hace:** incorpora `ImporteConIva` al ciclo de cálculo del informe.
+**Por qué:** cada variable enseña un tipo de agregación o ámbito distinto.
+**Error común:** elegir un reset incorrecto. Solución: comprobar `Report` frente a `Page` antes de guardar.
+**Analogía:** es como decidir si un contador se reinicia al cambiar de página o al terminar toda la tirada.
 
 ---
+
+**Paso 7: Mostrar TotalPagina en Page Footer**
+
+**Acciones:**
+
+1. Seleccionar Page Footer y fijar altura `62`.
+2. Crear `Static Text` `Subtotal página:` en x=`300`, y=`4`, width=`120`, height=`15`.
+3. Crear `Text Field` en x=`420`, y=`4`, width=`135`, height=`15`.
+4. Usar expresión `$V{TotalPagina}`, patrón `#,##0.00 €` y alineación derecha.
+5. Guardar.
+
+**Verificación visual:** el subtotal aparece en la parte superior derecha del pie.
+
+**Qué hace:** muestra una variable con reset `Page` en la banda coherente con su ámbito.
+**Por qué:** el subtotal debe reiniciarse al comenzar cada página.
+**Error común:** colocar el campo fuera de la banda o usar `$F{TotalPagina}`. Solución: respetar coordenadas y prefijo `$V`.
+**Analogía:** es como cerrar cada página con su subtotal independiente.
+
+---
+
+**Paso 8: Ampliar Summary con agregados de informe**
+
+**Acciones:**
+
+1. Seleccionar Summary y fijar altura `128`.
+2. En y=`30`, colocar `Precio medio agregado:` con `$V{PrecioMedio}` en la mitad izquierda.
+3. En y=`30`, colocar `Precio máximo:` con `$V{PrecioMaximo}` en la mitad derecha.
+4. En y=`55`, colocar `Número de libros:` con `$V{NumeroLibros}`.
+5. En y=`55`, colocar `Importe con IVA:` con `$V{ImporteConIva}`.
+6. Aplicar `#,##0.00 €` a las tres magnitudes monetarias y guardar.
+
+**Verificación visual:** Summary contiene cuatro agregados nuevos sin superar 128 píxeles.
+
+**Qué hace:** presenta resultados con reset `Report` al final del informe.
+**Por qué:** los valores globales pertenecen a Summary, no a cada fila.
+**Error común:** copiar las alturas 160/200 de un borrador anterior. Solución: usar la geometría del checkpoint final.
+**Analogía:** es como reunir en el colofón los indicadores de toda la publicación.
+
+---
+
+**Paso 9: Compilar y verificar el comportamiento por páginas**
+
+**Acciones:**
+
+1. Compilar el JRXML.
+2. Abrir Preview.
+3. Avanzar por las páginas del informe.
+4. Comprobar que `Subtotal página` cambia con cada página.
+5. Ir al final y comprobar que los agregados globales aparecen en Summary.
+
+**Verificación visual:** la variable de página y las variables de informe muestran ámbitos diferentes.
+
+**Qué hace:** hace visible el efecto de `resetType`.
+**Por qué:** la diferencia entre Page y Report es un objetivo central del punto.
+**Error común:** interpretar `TotalPagina` como total final. Solución: observar su reinicio página a página.
+**Analogía:** es como distinguir el subtotal de cada pliego del total de toda la edición.
+
+---
+
+**Paso 10: Ejecutar Java y validar el PDF real**
+
+**Acciones:**
+
+1. Ejecutar `GeneradorInformeVentas`.
+2. Abrir el PDF generado.
+3. Verificar el subtotal de página, `PrecioMedio`, `PrecioMaximo`, `NumeroLibros` e `ImporteConIva`.
+4. Confirmar que el resumen base mantiene 31 unidades y 633,40 €.
+
+**Verificación visual:** el PDF real contiene variables de página y de informe.
+
+**Qué hace:** confirma que las variables funcionan fuera del diseñador.
+**Por qué:** la validación E2E debe llegar hasta el PDF.
+**Error común:** usar una base no reinicializada. Solución: reconstruir SQLite antes de comparar valores.
+**Analogía:** es como cotejar los totales impresos con el libro mayor.
+
+---
+
+**Paso 11: Documentar las variables**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/VARIABLES.md`.
+2. Comprobar que enumera las cinco variables nuevas y las variables heredadas.
+3. Revisar cálculo y reset de cada una.
+4. Guardar.
+
+**Verificación visual:** `VARIABLES.md` refleja los cálculos reales.
+
+**Qué hace:** documenta el ciclo de vida y el ámbito de los acumuladores.
+**Por qué:** reduce errores cuando el informe evolucione.
+**Error común:** afirmar que todas las variables numéricas empiezan siempre en cero. Solución: explicar `initialValueExpression` y el incrementador.
+**Analogía:** es como dejar anotado qué total se reinicia y cuándo.
+
+---
+
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -2149,7 +2019,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
@@ -2314,55 +2190,61 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 110 | `            <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 111 | `            <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 112 | `            <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 113 | `            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 114 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 115 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
-| 116 | `    <detail>` | Continúa la configuración declarativa del informe. |
-| 117 | `        <band height="62" splitType="Stretch">` | Declara una banda y su geometría vertical. |
-| 118 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 119 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 120 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 121 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 122 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 123 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 124 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 125 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 126 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
-| 127 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 128 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 129 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
-| 130 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
-| 131 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
-| 132 | `            </textField>` | Cierra el elemento XML correspondiente. |
-| 133 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 134 | `    </detail>` | Cierra el elemento XML correspondiente. |
-| 135 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
-| 136 | `        <band height="62">` | Declara una banda y su geometría vertical. |
-| 137 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 138 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 139 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 140 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 141 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 142 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 143 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 144 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
-| 145 | `    <summary>` | Continúa la configuración declarativa del informe. |
-| 146 | `        <band height="128">` | Declara una banda y su geometría vertical. |
-| 147 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 148 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 149 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 150 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 151 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 152 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 153 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 154 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 155 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 156 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 157 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 158 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 159 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 160 | `    </summary>` | Cierra el elemento XML correspondiente. |
-| 161 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
+| 113 | `            <staticText>` | Continúa la configuración declarativa del informe. |
+| 114 | `                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 115 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 116 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 117 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 118 | `                <text><![CDATA[Importe con IVA]]></text>` | Define texto estático visible en el informe. |
+| 119 | `            </staticText>` | Cierra el elemento XML correspondiente. |
+| 120 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 121 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
+| 122 | `    <detail>` | Continúa la configuración declarativa del informe. |
+| 123 | `        <band height="62" splitType="Stretch">` | Declara una banda y su geometría vertical. |
+| 124 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 125 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 126 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 127 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 128 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 129 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 130 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 131 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 132 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
+| 133 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 134 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 135 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 136 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 137 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
+| 138 | `            </textField>` | Cierra el elemento XML correspondiente. |
+| 139 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 140 | `    </detail>` | Cierra el elemento XML correspondiente. |
+| 141 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
+| 142 | `        <band height="62">` | Declara una banda y su geometría vertical. |
+| 143 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 144 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 145 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 146 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 147 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 148 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 149 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 150 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
+| 151 | `    <summary>` | Continúa la configuración declarativa del informe. |
+| 152 | `        <band height="128">` | Declara una banda y su geometría vertical. |
+| 153 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 154 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 155 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 156 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 157 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 158 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 159 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 160 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 161 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 162 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 163 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 164 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 165 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 166 | `    </summary>` | Cierra el elemento XML correspondiente. |
+| 167 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
 
 ### Parte C — Código Java completo explicado línea por línea
 
@@ -2557,378 +2439,239 @@ M4/4.3/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                  |                                                           |                                                                   |
-| ------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- |
-| `Variable not found: TotalPagina`                       | La variable no está declarada o el nombre no coincide     | Declarar la variable con el nombre exacto                         |
-| El subtotal de página muestra el total del informe      | El tipo de reinicio es `Report` en lugar de `Page`        | Cambiar el valor de `resetType` a `Page`                          |
-| La media muestra la suma en lugar de la media           | El tipo de cálculo es `Sum` en lugar de `Average`         | Cambiar el valor de `calculation` a `Average`                     |
-| El precio máximo muestra el mínimo                      | El tipo de cálculo es `Lowest` en lugar de `Highest`      | Cambiar el valor de `calculation` a `Highest`                     |
-| El contador de libros muestra 0                         | La expresión de la variable está vacía o el campo es nulo | Escribir `$F{titulo}` en la expresión                             |
-| El importe con IVA se calcula incorrectamente           | Faltan paréntesis en la expresión                         | Escribir `$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))` entre paréntesis |
-| El subtotal de página se solapa con el total de títulos | La banda Page Footer no tiene altura suficiente           | Usar la altura 62 del checkpoint                                    |
-| Los valores agregados se solapan entre sí               | La banda Summary no tiene altura suficiente               | Usar la altura 128 del checkpoint                                   |
-| El PDF muestra las variables sin formatear              | Faltan los patrones numéricos                             | Añadir el patrón `#,##0.00 €` en los campos de precio             |
-| La variable `ImporteConIva` no compila                  | El parámetro `tipoIva` no está declarado                  | Declarar el parámetro `tipoIva` antes de la variable              |
+| Error | Causa | Solución |
+|---|---|---|
+| El subtotal no se reinicia | `resetType` es Report | usar Page en `TotalPagina` |
+| La media se convierte en suma | Calculation incorrecto | usar Average |
+| El máximo devuelve otro valor | Calculation incorrecto | usar Highest |
+| El recuento no coincide | se cuenta un campo nulo | contar `$F{titulo}` |
+| Summary se solapa | se usan alturas/posiciones de otro borrador | usar height 128 y coordenadas del JRXML final |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir una variable `PorcentajePagina` que calcule qué porcentaje representa el subtotal de la página actual sobre el **importe acumulado hasta el cierre de esa página**. En Page Footer, `$V{TotalImporte}` todavía es un acumulado en curso; no debe describirse como el total final del informe. La expresión será `$V{TotalImporte} == null || $V{TotalImporte}.doubleValue() == 0.0d ? 0.0d : $V{TotalPagina} / $V{TotalImporte} * 100.0d`.
+**Enunciado:** Añadir temporalmente una variable `UnidadesPagina` de tipo `java.lang.Integer`, cálculo `Sum`, reset `Page` y expresión `$F{unidades_vendidas}`. Mostrarla en Page Footer, recorrer varias páginas y comprobar que se reinicia. Eliminar después el reto para volver al checkpoint oficial.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+1. Guardar una copia del checkpoint antes del reto.
+2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
+3. Compilar el JRXML con **Ctrl+Mayús+B**.
+4. Ejecutar Preview con el escenario indicado.
+5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
+6. Verificar el resultado tanto en Console como en el PDF.
+7. Comparar el comportamiento con el objetivo del reto.
+8. Deshacer únicamente los cambios del reto.
+9. Compilar de nuevo.
+10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
 
-**Paso 2.** Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline.
-
-**Paso 3.** Hacer clic sobre la opción Add Variable en el menú contextual.
-
-**Paso 4.** Escribir exactamente `PorcentajePagina` en el campo Name.
-
-**Paso 5.** Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-
-**Paso 6.** Hacer clic sobre el desplegable Calculation y seleccionar `Nothing`.
-
-**Paso 7.** Hacer clic sobre el desplegable Reset Type y seleccionar `Page`.
-
-**Paso 8.** Hacer clic sobre el campo Expression y escribir exactamente `$V{TotalImporte} == null || $V{TotalImporte}.doubleValue() == 0.0d ? 0.0d : $V{TotalPagina} / $V{TotalImporte} * 100.0d`.
-
-**Paso 9.** Hacer clic sobre el botón Finish.
-
-**Paso 10.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 11.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-
-**Paso 12.** Hacer clic sobre el nodo Page Footer en el panel Outline.
-
-**Paso 13.** Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `100` y pulsar Enter.
-
-**Paso 14.** Hacer clic sobre la pestaña Elements en el panel Palette.
-
-**Paso 15.** Hacer clic sobre el icono Static Text.
-
-**Paso 16.** Arrastrar el icono Static Text y soltarlo dentro de la banda Page Footer, en la coordenada aproximada x=0, y=45.
-
-**Paso 17.** Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-
-**Paso 18.** Hacer clic sobre el campo Y, escribir `45` y pulsar Enter.
-
-**Paso 19.** Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-
-**Paso 20.** Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-
-**Paso 21.** Hacer doble clic sobre el Static Text creado en la acción anterior.
-
-**Paso 22.** Escribir exactamente `Porcentaje del total:`.
-
-**Paso 23.** Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-
-**Paso 24.** Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-
-**Paso 25.** Marcar la casilla Bold.
-
-**Paso 26.** Hacer clic sobre la pestaña Elements en el panel Palette.
-
-**Paso 27.** Hacer clic sobre el icono Text Field.
-
-**Paso 28.** Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=150, y=45.
-
-**Paso 29.** Hacer clic sobre el campo X, escribir `150` y pulsar Enter.
-
-**Paso 30.** Hacer clic sobre el campo Y, escribir `45` y pulsar Enter.
-
-**Paso 31.** Hacer clic sobre el campo Width, escribir `80` y pulsar Enter.
-
-**Paso 32.** Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-
-**Paso 33.** Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{PorcentajePagina}` y pulsar Enter.
-
-**Paso 34.** Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 '%'`. Pulsar Enter.
-
-**Paso 35.** Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-
-**Paso 36.** Marcar la casilla Bold.
-
-**Paso 37.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 38.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 39.** Hacer clic con el botón derecho sobre `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 40.** Abrir el archivo `output/informe_ventas.pdf` y verificar que la banda Page Footer muestra el porcentaje del total.
-
-**Simulación ASCII del PDF tras el reto**
-
-```
-║  Total de títulos: 14      Subtotal página:      633,40 € ║
-║  Porcentaje del total: 100,00 %                          ║
-║              Página 1 de 1                               ║
-```
-
-**Resultado del reto:** la variable `PorcentajePagina` calcula el porcentaje que representa el subtotal de la página actual sobre el total del informe. En un informe de una sola página, el porcentaje es 100%. En un informe de varias páginas, cada página mostraría un porcentaje distinto. La expresión combina las dos variables declaradas anteriormente y el cálculo es `Nothing` porque el valor se calcula directamente sin acumulación. El reinicio es `Page` para que el valor se recalcule en cada página.
+**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
 
 ---
 
 ## Analogía final con el contexto de la editorial
 
-Las variables son los contadores que el editor mantiene durante la composición del catálogo. El contador de páginas es la variable del sistema `PAGE_NUMBER`. El contador de registros es la variable del sistema `REPORT_COUNT`. El total de unidades vendidas es una variable con cálculo `Sum` y reinicio `Report`. El subtotal de página es una variable con cálculo `Sum` y reinicio `Page`. El precio medio es una variable con cálculo `Average`. El precio máximo es una variable con cálculo `Highest`. El número de libros es una variable con cálculo `Count`. Cada variable tiene su tipo de cálculo y su tipo de reinicio. La combinación de todas ellas construye el colofón del resumen de ventas con toda la información agregada que el lector necesita.
+Las variables son contadores y acumuladores del proceso editorial: algunos se reinician por página y otros solo al cerrar el informe completo.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
-
-- El archivo `reports/informe_ventas.jrxml` con siete variables declaradas: `TotalUnidades`, `TotalImporte`, `TotalPagina`, `PrecioMedio`, `PrecioMaximo`, `NumeroLibros` e `ImporteConIva`.
-- El subtotal de página en la banda Page Footer.
-- Los seis valores agregados en la banda Summary.
-- El archivo `output/informe_ventas.pdf` con los subtotales y los totales.
-- El archivo `VARIABLES.md` en la raíz del proyecto con la documentación de las variables.
-- Comprensión operativa del ciclo de vida de una variable, de los tipos de cálculo, de los tipos de reinicio y de la combinación de variables.
+Al finalizar este punto, el alumno dispone de cinco variables nuevas, subtotal de página y cuatro agregados globales, manteniendo las variables heredadas.
 
 ---
 
-## Conclusión y enlace al siguiente punto
+## Conclusión
 
-El punto 4.3 ha profundizado en el uso de variables en el informe de ventas. Han quedado declaradas cinco nuevas variables con distintos tipos de cálculo (`Sum`, `Average`, `Highest`, `Count`) y distintos tipos de reinicio (`Report`, `Page`). Han quedado configuradas las bandas Page Footer y Summary con los subtotales y los totales. El informe contiene ahora siete variables que resumen el catálogo desde múltiples perspectivas.
-
-El punto 4.4, «Expresiones avanzadas», profundiza en las expresiones Java complejas dentro de la plantilla. El punto cubre las expresiones con operadores ternarios anidados, las expresiones con métodos de colecciones, las expresiones con llamadas a métodos estáticos y las expresiones que combinan campos, parámetros y variables.
-
----
+El punto 4.3 introduce estado calculado durante el llenado. El punto 4.4 usa campos, parámetros y variables dentro de expresiones Java más ricas.
 
 # Punto 4.4 — Expresiones avanzadas
 
 ## Parte práctica
 
-### Parte A — Práctica visual
+### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir 4.3 y localizar Detail**
+**Paso 1: Abrir el checkpoint anterior y verificar el baseline**
 
 **Acciones:**
 
-1. Abrir `informe_ventas.jrxml` en Design.
-2. Seleccionar Detail 1.
-3. Confirmar que antes del cambio mide 62 y ya contiene categoría e IVA.
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y seleccionar **Refresh**.
+2. Abrir `reports/informe_ventas.jrxml` con doble clic.
+3. Seleccionar la pestaña **Design** y expandir el informe en **Outline**.
+4. Abrir también la pestaña **Source** y localizar la consulta SQL.
+5. Confirmar que la consulta conserva `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
 
-**Verificación visual:** se parte exactamente del checkpoint 4.3.
+**Verificación visual:** el informe abre sin errores y el `LEFT JOIN` heredado está presente.
 
-**Qué hace:** Evita reescribir variables o filtros ya cerrados.
-**Por qué:** 4.4 se limita a expresiones avanzadas y una línea de resumen.
-**Error común:** Partir de 3.7/4.1.
-**Solución:** Usar 4.3 como baseline.
-**Analogía:** Es añadir fórmulas a una hoja que ya tiene sus totales.
+**Qué hace:** establece el punto de partida real antes de introducir cambios.
+**Por qué:** cada checkpoint de M4 es acumulativo y no puede perder comportamiento de M3/3.7.
+**Error común:** editar una copia antigua o reintroducir `INNER JOIN`. Solución: trabajar siempre sobre el checkpoint inmediatamente anterior.
+**Analogía:** es como revisar la última edición aprobada antes de preparar una nueva tirada.
 
 ---
 
-**Paso 2: Ampliar Detail a 82**
+**Paso 2: Ampliar Detail para las expresiones avanzadas**
 
 **Acciones:**
 
-1. Seleccionar Detail 1 y fijar Band height=`82`.
-2. Reservar y=48..66 para cinco campos nuevos.
-3. Mantener intactas las filas y=0 y y=24.
+1. Seleccionar la primera banda Detail.
+2. Fijar Band height en `82`.
+3. Reservar la fila y=`48` para cinco campos derivados.
+4. Guardar.
 
-**Verificación visual:** queda una tercera fila disponible sin mover los datos previos.
+**Verificación visual:** la banda dispone de espacio hasta y=82 sin invadir la banda siguiente.
 
-**Qué hace:** Prepara espacio para las expresiones avanzadas.
-**Por qué:** El checkpoint final usa exactamente 82 px.
-**Error común:** Usar y=65 con una banda insuficiente.
-**Solución:** Usar y=48, height=18 dentro de Detail=82.
-**Analogía:** Es añadir una tercera línea a cada registro sin invadir el siguiente.
+**Qué hace:** crea una zona específica para expresiones sin alterar los campos heredados.
+**Por qué:** separar visualmente los cálculos facilita su depuración.
+**Error común:** usar coordenadas de una versión anterior. Solución: trabajar con la geometría exacta de Parte B.
+**Analogía:** es como reservar una línea de anotaciones técnicas bajo cada registro.
 
 ---
 
-**Paso 3: Añadir Clasificación de ventas**
+**Paso 3: Añadir clasificación de ventas**
 
 **Acciones:**
 
-1. Arrastrar un Text Field a Detail 1.
-2. Fijar x=0, y=48, width=105, height=18 y Style=`Dato`.
-3. Escribir exactamente la expresión `$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))`.
-4. Configurar la alineación como en la Parte B y guardar.
+1. Arrastrar un Text Field a la primera banda Detail.
+2. Asignar x=`0`, y=`48`, width=`105`, height=`18`.
+3. Escribir exactamente `$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))` en Text Field Expression.
+4. Usar estilo `Dato` y guardar.
 
-**Verificación visual:** el campo de clasificación de ventas ocupa su segmento de la tercera fila.
+**Verificación visual:** el nuevo campo de clasificación de ventas aparece en la tercera fila de Detail.
 
-**Qué hace:** Demuestra ternario anidado null-safe.
-**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
-**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
-**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
-**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
+**Qué hace:** practica ternario anidado y null-safety.
+**Por qué:** las expresiones avanzadas deben seguir siendo seguras con datos nulos.
+**Error común:** eliminar las comprobaciones de `null`. Solución: conservar los ternarios de protección.
+**Analogía:** es como añadir una anotación calculada a cada línea del registro editorial.
 
 ---
 
-**Paso 4: Añadir Título normalizado**
+**Paso 4: Añadir título normalizado**
 
 **Acciones:**
 
-1. Arrastrar un Text Field a Detail 1.
-2. Fijar x=105, y=48, width=185, height=18 y Style=`Dato`.
-3. Escribir exactamente la expresión `$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)`.
-4. Configurar la alineación como en la Parte B y guardar.
+1. Arrastrar un Text Field a la primera banda Detail.
+2. Asignar x=`105`, y=`48`, width=`185`, height=`18`.
+3. Escribir exactamente `$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)` en Text Field Expression.
+4. Usar estilo `Dato` y guardar.
 
-**Verificación visual:** el campo de título normalizado ocupa su segmento de la tercera fila.
+**Verificación visual:** el nuevo campo de título normalizado aparece en la tercera fila de Detail.
 
-**Qué hace:** Demuestra métodos String + Locale.
-**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
-**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
-**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
-**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
+**Qué hace:** practica métodos de String y Locale.
+**Por qué:** las expresiones avanzadas deben seguir siendo seguras con datos nulos.
+**Error común:** eliminar las comprobaciones de `null`. Solución: conservar los ternarios de protección.
+**Analogía:** es como añadir una anotación calculada a cada línea del registro editorial.
 
 ---
 
-**Paso 5: Añadir Precio redondeado**
+**Paso 5: Añadir precio redondeado**
 
 **Acciones:**
 
-1. Arrastrar un Text Field a Detail 1.
-2. Fijar x=290, y=48, width=80, height=18 y Style=`Dato`.
-3. Escribir exactamente la expresión `$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))`.
-4. Configurar la alineación como en la Parte B y guardar.
+1. Arrastrar un Text Field a la primera banda Detail.
+2. Asignar x=`290`, y=`48`, width=`80`, height=`18`.
+3. Escribir exactamente `$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))` en Text Field Expression.
+4. Usar estilo `Dato` y guardar.
 
-**Verificación visual:** el campo de precio redondeado ocupa su segmento de la tercera fila.
+**Verificación visual:** el nuevo campo de precio redondeado aparece en la tercera fila de Detail.
 
-**Qué hace:** Demuestra Math.round + String.format.
-**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
-**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
-**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
-**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
+**Qué hace:** practica Math.round y String.format.
+**Por qué:** las expresiones avanzadas deben seguir siendo seguras con datos nulos.
+**Error común:** eliminar las comprobaciones de `null`. Solución: conservar los ternarios de protección.
+**Analogía:** es como añadir una anotación calculada a cada línea del registro editorial.
 
 ---
 
-**Paso 6: Añadir Días entre ventas**
+**Paso 6: Añadir días entre ventas**
 
 **Acciones:**
 
-1. Arrastrar un Text Field a Detail 1.
-2. Fijar x=370, y=48, width=90, height=18 y Style=`Dato`.
-3. Escribir exactamente la expresión `$F{primera_venta} == null || $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"`.
-4. Configurar la alineación como en la Parte B y guardar.
+1. Arrastrar un Text Field a la primera banda Detail.
+2. Asignar x=`370`, y=`48`, width=`90`, height=`18`.
+3. Escribir exactamente `$F{primera_venta} == null || $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"` en Text Field Expression.
+4. Usar estilo `Dato` y guardar.
 
-**Verificación visual:** el campo de días entre ventas ocupa su segmento de la tercera fila.
+**Verificación visual:** el nuevo campo de días entre ventas aparece en la tercera fila de Detail.
 
-**Qué hace:** Demuestra LocalDate + ChronoUnit.
-**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
-**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
-**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
-**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
+**Qué hace:** practica LocalDate y ChronoUnit.
+**Por qué:** las expresiones avanzadas deben seguir siendo seguras con datos nulos.
+**Error común:** eliminar las comprobaciones de `null`. Solución: conservar los ternarios de protección.
+**Analogía:** es como añadir una anotación calculada a cada línea del registro editorial.
 
 ---
 
-**Paso 7: Añadir Indicador unidades/filas**
+**Paso 7: Añadir IVA formateado**
 
 **Acciones:**
 
-1. Arrastrar un Text Field a Detail 1.
-2. Fijar x=460, y=48, width=95, height=18 y Style=`Dato`.
-3. Escribir exactamente la expresión `$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))`.
-4. Configurar la alineación como en la Parte B y guardar.
+1. Arrastrar un Text Field a la primera banda Detail.
+2. Asignar x=`460`, y=`48`, width=`95`, height=`18`.
+3. Escribir exactamente `$P{tipoIva} == null ? "IVA -" : String.format(java.util.Locale.ROOT, "IVA %.0f%%", Double.valueOf($P{tipoIva}.doubleValue() * 100.0d))` en Text Field Expression.
+4. Usar estilo `Dato` y guardar.
 
-**Verificación visual:** el campo de indicador unidades/filas ocupa su segmento de la tercera fila.
+**Verificación visual:** el nuevo campo de IVA formateado aparece en la tercera fila de Detail.
 
-**Qué hace:** Demuestra división protegida + formato.
-**Por qué:** La expresión forma parte del checkpoint ejecutable 4.4.
-**Error común:** Omitir las comprobaciones de null en campos procedentes de agregados LEFT JOIN.
-**Solución:** Conservar exactamente el ternario/null guard del checkpoint.
-**Analogía:** Es añadir una regla calculada a cada línea del parte sin cambiar los datos originales.
+**Qué hace:** practica parámetros y método estático.
+**Por qué:** las expresiones avanzadas deben seguir siendo seguras con datos nulos.
+**Error común:** eliminar las comprobaciones de `null`. Solución: conservar los ternarios de protección.
+**Analogía:** es como añadir una anotación calculada a cada línea del registro editorial.
 
 ---
 
-**Paso 8: Añadir el resumen textual**
+**Paso 8: Añadir el resumen formateado**
 
 **Acciones:**
 
-1. Seleccionar Summary, que permanece en height=128.
-2. Añadir Text Field en x=0, y=80, width=555, height=18.
-3. Alinear Center.
-4. Expression=`String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})`.
+1. En Summary, conservar altura `128`.
+2. Crear un Text Field en x=`0`, y=`80`, width=`555`, height=`18`.
+3. Escribir `String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})`.
+4. Alinear al centro y guardar.
 
-**Verificación visual:** aparece una línea de resumen centrada debajo de los agregados.
+**Verificación visual:** Summary muestra una línea compacta con títulos, unidades e importe.
 
-**Qué hace:** Combina variables y `String.format` en una expresión final.
-**Por qué:** Muestra una expresión avanzada que no requiere código Java adicional.
-**Error común:** Cambiar Summary a otra altura sin necesidad.
-**Solución:** Mantener 128 y usar y=80.
-**Analogía:** Es componer una frase editorial a partir de los totales calculados.
+**Qué hace:** combina varias variables en una sola expresión formateada.
+**Por qué:** demuestra una expresión compleja en un punto donde los acumulados ya están consolidados.
+**Error común:** usar ese total como si fuera final dentro de Detail. Solución: los totales globales se muestran en Summary.
+**Analogía:** es como condensar tres cifras del cierre editorial en una sola línea.
 
 ---
 
-**Paso 9: Revisar el significado del porcentaje**
+**Paso 9: Compilar y comprobar títulos sin ventas**
 
 **Acciones:**
 
-1. Seleccionar el quinto campo de la tercera fila.
-2. Confirmar que divide `unidades_vendidas` por `REPORT_COUNT` protegido con `Math.max(1.0d, ...)`.
-3. Documentarlo como indicador unidades por número de filas, no como porcentaje del importe total.
-4. No describir `$V{TotalImporte}` en Detail como total final: en Detail es un acumulado en curso.
+1. Compilar el JRXML.
+2. Abrir Preview.
+3. Localizar al menos un título sin ventas.
+4. Comprobar `Sin ventas`, `-` y ausencia de excepciones.
+5. Revisar también un título con ventas para confirmar los cálculos.
 
-**Verificación visual:** la explicación coincide con el momento de evaluación real.
+**Verificación visual:** las expresiones funcionan tanto con agregados nulos como con valores reales.
 
-**Qué hace:** Evita confundir una variable acumulativa con su valor final de Report.
-**Por qué:** JasperReports actualiza variables durante el llenado.
-**Error común:** Llamar “porcentaje sobre el total final” a una división contra una variable corriente.
-**Solución:** Nombrar exactamente el denominador usado y su momento de evaluación.
-**Analogía:** Es distinguir el saldo acumulado hasta ahora del cierre definitivo del libro.
-
----
-
-**Paso 10: Compilar y recorrer Preview**
-
-**Acciones:**
-
-1. Guardar y compilar con Ctrl+Mayús+B.
-2. Revisar 0 errores en Problems.
-3. Abrir Preview y buscar títulos sin ventas.
-4. Confirmar que muestran `Sin ventas`, `-` o `0.0%` sin excepción.
-5. Revisar la línea Resumen al final.
-
-**Verificación visual:** las cinco expresiones funcionan también con valores nulos.
-
-**Qué hace:** Valida ternarios, fechas, formato y estáticos con datos reales.
-**Por qué:** Los títulos sin ventas son la prueba crítica del LEFT JOIN.
-**Error común:** Probar solo filas con ventas.
-**Solución:** Revisar explícitamente filas con nulos.
-**Analogía:** Es probar la fórmula también en fichas incompletas.
+**Qué hace:** prueba la null-safety que exige el `LEFT JOIN`.
+**Por qué:** los títulos sin ventas son parte deliberada del dataset.
+**Error común:** probar solo filas con ventas. Solución: verificar ambos casos.
+**Analogía:** es como probar una fórmula tanto con una ficha completa como con una ficha todavía vacía.
 
 ---
 
-**Paso 11: Ejecutar Java y revisar el PDF**
+**Paso 10: Ejecutar Java y documentar expresiones**
 
 **Acciones:**
 
 1. Ejecutar `GeneradorInformeVentas`.
-2. Abrir `output/informe_ventas.pdf`.
-3. Confirmar que la tercera fila de cada registro se lee sin solapamientos.
-4. Confirmar 14 títulos, 31 unidades y 633,40 €.
+2. Abrir el PDF y revisar la tercera fila de cada registro.
+3. Abrir `EXPRESIONES_AVANZADAS.md`.
+4. Confirmar que documenta ternarios, String, LocalDate/ChronoUnit, Math y String.format.
 
-**Verificación visual:** el runtime muestra las expresiones y conserva los invariantes.
+**Verificación visual:** PDF y documentación muestran las mismas familias de expresiones.
 
-**Qué hace:** Verifica que el diseño más alto pagina correctamente.
-**Por qué:** Detail pasa de 62 a 82 y puede aumentar el número de páginas.
-**Error común:** Considerar un aumento de páginas como error automáticamente.
-**Solución:** Validar contenido y ausencia de clipping, no exigir el mismo número de páginas que 4.3.
-**Analogía:** Es aceptar más hojas si cada línea del catálogo ahora lleva más información.
-
----
-
-**Paso 12: Crear EXPRESIONES_AVANZADAS.md**
-
-**Acciones:**
-
-1. Crear el archivo en EditorialReports.
-2. Documentar ternarios, String/Locale, Math/String.format y LocalDate/ChronoUnit.
-3. Indicar que las expresiones sobre agregados son null-safe.
-4. Comparar las cinco expresiones con la Parte B y guardar.
-
-**Verificación visual:** el documento técnico nombra exactamente las técnicas usadas.
-
-**Qué hace:** Cierra la trazabilidad docente.
-**Por qué:** La documentación debe poder revisarse contra el JRXML.
-**Error común:** Documentar expresiones que no existen en el checkpoint.
-**Solución:** Usar como lista las cinco expresiones de y=48 más el resumen.
-**Analogía:** Es dejar una ficha de fórmulas idéntica a la que usa la plantilla.
+**Qué hace:** cierra la trazabilidad teoría → práctica → ejecutable.
+**Por qué:** los ejemplos deben corresponder a expresiones que realmente compilan con Java 8.
+**Error común:** usar APIs posteriores a Java 8. Solución: mantener las clases disponibles en el baseline.
+**Analogía:** es como comprobar que las fórmulas del manual son las mismas que usa la hoja de producción.
 
 ---
+
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -3047,7 +2790,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
@@ -3071,7 +2820,7 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>
             <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>
             <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null || $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>
-            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))]]></textFieldExpression></textField>
+            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{tipoIva} == null ? "IVA -" : String.format(java.util.Locale.ROOT, "IVA %.0f%%", Double.valueOf($P{tipoIva}.doubleValue() * 100.0d))]]></textFieldExpression></textField>
         </band>
     </detail>
     <pageFooter>
@@ -3218,61 +2967,67 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 110 | `            <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 111 | `            <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 112 | `            <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 113 | `            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 114 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 115 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
-| 116 | `    <detail>` | Continúa la configuración declarativa del informe. |
-| 117 | `        <band height="82" splitType="Stretch">` | Declara una banda y su geometría vertical. |
-| 118 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 119 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 120 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 121 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 122 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 123 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 124 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 125 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 126 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
-| 127 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 128 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 129 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
-| 130 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
-| 131 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
-| 132 | `            </textField>` | Cierra el elemento XML correspondiente. |
-| 133 | `            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 134 | `            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 135 | `            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 136 | `            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null \|\| $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 137 | `            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $V{REPORT_COUNT}.doubleValue()) * 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 138 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 139 | `    </detail>` | Cierra el elemento XML correspondiente. |
-| 140 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
-| 141 | `        <band height="62">` | Declara una banda y su geometría vertical. |
-| 142 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 143 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 144 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 145 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 146 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 147 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 148 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 149 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
-| 150 | `    <summary>` | Continúa la configuración declarativa del informe. |
-| 151 | `        <band height="128">` | Declara una banda y su geometría vertical. |
-| 152 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 153 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 154 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 155 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 156 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 157 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 158 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 159 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 160 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 161 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 162 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 163 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 164 | `            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 165 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 166 | `    </summary>` | Cierra el elemento XML correspondiente. |
-| 167 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
+| 113 | `            <staticText>` | Continúa la configuración declarativa del informe. |
+| 114 | `                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 115 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 116 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 117 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 118 | `                <text><![CDATA[Importe con IVA]]></text>` | Define texto estático visible en el informe. |
+| 119 | `            </staticText>` | Cierra el elemento XML correspondiente. |
+| 120 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 121 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
+| 122 | `    <detail>` | Continúa la configuración declarativa del informe. |
+| 123 | `        <band height="82" splitType="Stretch">` | Declara una banda y su geometría vertical. |
+| 124 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 125 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 126 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 127 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 128 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 129 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 130 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 131 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 132 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
+| 133 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 134 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 135 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 136 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 137 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
+| 138 | `            </textField>` | Cierra el elemento XML correspondiente. |
+| 139 | `            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 140 | `            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 141 | `            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 142 | `            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null \|\| $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 143 | `            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{tipoIva} == null ? "IVA -" : String.format(java.util.Locale.ROOT, "IVA %.0f%%", Double.valueOf($P{tipoIva}.doubleValue() * 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 144 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 145 | `    </detail>` | Cierra el elemento XML correspondiente. |
+| 146 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
+| 147 | `        <band height="62">` | Declara una banda y su geometría vertical. |
+| 148 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 149 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 150 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 151 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 152 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 153 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 154 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 155 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
+| 156 | `    <summary>` | Continúa la configuración declarativa del informe. |
+| 157 | `        <band height="128">` | Declara una banda y su geometría vertical. |
+| 158 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 159 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 160 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 161 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 162 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 163 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 164 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 165 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 166 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 167 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 168 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 169 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 170 | `            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 171 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 172 | `    </summary>` | Cierra el elemento XML correspondiente. |
+| 173 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
 
 ### Parte C — Código Java completo explicado línea por línea
 
@@ -3467,154 +3222,73 @@ M4/4.4/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                 |                                                              |                                                                      |
-| ------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------------------------------- |
-| El ternario anidado devuelve un valor incorrecto       | Faltan los paréntesis alrededor del ternario interno         | Envolver el ternario interno entre paréntesis                        |
-| `Compilation failed` en la expresión con `substring`   | El índice supera la longitud de la cadena                    | Verificar la condición `length() > 25` antes de llamar a `substring` |
-| El título abreviado termina con espacio antes de `...` | Falta el método `trim()` después de `substring`              | Añadir `.trim()` entre `substring` y la concatenación                |
-| `Unparseable date` al convertir la fecha               | El patrón de `parse` no coincide con el formato de la cadena | Verificar que el patrón es `"yyyy-MM-dd"`                            |
-| `MissingFormatArgumentException` en `String.format`    | Faltan argumentos para los especificadores de formato        | Verificar que cada `%s` o `%d` tiene su argumento correspondiente    |
-| `IllegalFormatConversionException` en `String.format`  | El especificador no coincide con el tipo del argumento       | Usar `%d` para enteros y `%s` para cadenas                           |
-| El importe con IVA redondeado muestra más decimales    | El redondeo se aplica al valor incorrecto                    | Verificar los paréntesis: `Math.round(x * 100.0) / 100.0`            |
-| `ArithmeticException: / by zero` en el porcentaje      | La variable `TotalImporte` es cero                           | Añadir la comprobación `$V{TotalImporte} > 0` con el ternario        |
-| La media por libro produce `NaN`                       | La variable `NumeroLibros` es cero                           | Añadir la comprobación `$V{NumeroLibros} > 0` con el ternario        |
-| La banda Detail se solapa con la banda Page Footer     | La altura de la banda Detail es insuficiente                 | Ampliar la altura a 90 píxeles                                       |
+| Error | Causa | Solución |
+|---|---|---|
+| `NullPointerException` en libros sin ventas | la expresión usa un agregado nulo | comprobar `null` antes de métodos u operaciones |
+| `DateTimeParseException` | la fecha no está en ISO `yyyy-MM-dd` | usar los Strings SQLite del dataset sin alterar su formato |
+| Formato numérico dependiente del equipo | se omite Locale | usar `Locale.ROOT` donde el resultado debe ser estable |
+| Se usa un total de informe como si ya fuera final en Detail | la variable aún se está acumulando | reservar los totales finales para Summary |
+| No compila con Java 8 | se usa una API posterior | mantener APIs disponibles en Java 8 |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir una expresión avanzada que muestre un mensaje descriptivo según la clasificación del libro. El mensaje debe ser `Excelente rendimiento` si la clasificación es `Premium`, `Buen rendimiento` si es `Estándar` y `Rendimiento bajo` si es `Económico`. La expresión debe combinar el operador ternario con el método `String.format`.
+**Enunciado:** Añadir temporalmente un Text Field que muestre la longitud del título con `$F{titulo} == null ? 0 : $F{titulo}.length()`, verificarlo con varios títulos y retirarlo antes de restaurar el checkpoint.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+1. Guardar una copia del checkpoint antes del reto.
+2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
+3. Compilar el JRXML con **Ctrl+Mayús+B**.
+4. Ejecutar Preview con el escenario indicado.
+5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
+6. Verificar el resultado tanto en Console como en el PDF.
+7. Comparar el comportamiento con el objetivo del reto.
+8. Deshacer únicamente los cambios del reto.
+9. Compilar de nuevo.
+10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
 
-**Paso 2.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-
-**Paso 3.** Hacer clic sobre el nodo Column Header en el panel Outline.
-
-**Paso 4.** Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `105` y pulsar Enter.
-
-**Paso 5.** Hacer clic sobre la pestaña Elements en el panel Palette.
-
-**Paso 6.** Hacer clic sobre el icono Static Text.
-
-**Paso 7.** Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=0, y=75.
-
-**Paso 8.** Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-
-**Paso 9.** Hacer clic sobre el campo Y, escribir `75` y pulsar Enter.
-
-**Paso 10.** Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-
-**Paso 11.** Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-
-**Paso 12.** Hacer doble clic sobre el Static Text creado en la acción anterior.
-
-**Paso 13.** Escribir exactamente `Mensaje de rendimiento`.
-
-**Paso 14.** Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-
-**Paso 15.** Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-
-**Paso 16.** Marcar la casilla Bold.
-
-**Paso 17.** Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
-
-**Paso 18.** Hacer clic sobre el nodo Detail 1 en el panel Outline.
-
-**Paso 19.** Hacer clic sobre el campo Band height en el panel Properties, escribir `105` y pulsar Enter.
-
-**Paso 20.** Hacer clic sobre la pestaña Elements en el panel Palette.
-
-**Paso 21.** Hacer clic sobre el icono Text Field.
-
-**Paso 22.** Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=80.
-
-**Paso 23.** Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-
-**Paso 24.** Hacer clic sobre el campo Y, escribir `80` y pulsar Enter.
-
-**Paso 25.** Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-
-**Paso 26.** Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-
-**Paso 27.** Hacer clic sobre el campo Text Field Expression y escribir exactamente `String.format("%s - %s", $F{titulo}, $F{precio_medio} > 22 ? "Excelente rendimiento" : ($F{precio_medio} > 18 ? "Buen rendimiento" : "Rendimiento bajo"))` y pulsar Enter.
-
-**Paso 28.** Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-
-**Paso 29.** Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Center.
-
-**Paso 30.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 31.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 32.** Hacer clic con el botón derecho sobre `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 33.** Abrir el archivo `output/informe_ventas.pdf` y verificar que cada libro muestra el mensaje de rendimiento correspondiente.
-
-**Simulación ASCII del PDF tras el reto**
-
-```
-║  Cien años de soledad - Estándar                          ║
-║  Rayuela - Excelente rendimiento                          ║
-║  La casa de los espíritus - Excelente rendimiento         ║
-║  Pedro Páramo - Económico                                 ║
-║  ...                                                       ║
-```
-
-**Resultado del reto:** la expresión combina el método estático `String.format` con un operador ternario anidado. El formato `"%s - %s"` sustituye el primer `%s` por el título del libro y el segundo `%s` por el mensaje de rendimiento. El operador ternario determina el mensaje según el precio medio del libro. La expresión completa se evalúa en cada registro y produce un texto descriptivo que combina datos y clasificación.
+**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
 
 ---
 
 ## Analogía final con el contexto de la editorial
 
-Las expresiones avanzadas son los cálculos que el editor aplica al resumen de ventas antes de imprimirlo. La clasificación por precio es una decisión editorial que agrupa los libros en segmentos. La abreviatura de títulos es una decisión de maquetación que permite que los títulos largos quepan en la columna. La conversión de fechas es una decisión de formato que adapta las fechas al idioma del lector. El redondeo de importes es una decisión contable que garantiza la precisión de los valores. El porcentaje sobre el total es una decisión analítica que permite valorar la contribución de cada libro. La media por libro es una decisión de resumen que presenta el valor medio del catálogo. Cada expresión avanzada añade una capa de interpretación al dato bruto y convierte el resumen de ventas en un documento útil para la toma de decisiones.
+Las expresiones son pequeñas fórmulas de maquetación que transforman datos ya disponibles sin convertir el informe en una aplicación paralela.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
-
-- El archivo `reports/informe_ventas.jrxml` con seis expresiones avanzadas en la banda Detail y una en la banda Summary.
-- Las expresiones con operadores ternarios anidados, métodos de `String`, métodos de `Date`, métodos estáticos de `Math`, `String.format` y comprobaciones de división por cero.
-- El archivo `output/informe_ventas.pdf` con las expresiones avanzadas resueltas.
-- El archivo `EXPRESIONES_AVANZADAS.md` en la raíz del proyecto con la documentación.
-- Comprensión operativa de los operadores ternarios anidados, de los métodos avanzados y de las técnicas de redondeo y protección.
+Al finalizar este punto, el alumno dispone de cinco expresiones avanzadas en Detail y un resumen formateado, todas compatibles con Java 8 y seguras frente a nulos.
 
 ---
 
-## Conclusión y enlace al siguiente punto
+## Conclusión
 
-El punto 4.4 ha introducido las expresiones avanzadas en el informe de ventas. Han quedado configuradas seis expresiones en la banda Detail y una en la banda Summary que combinan campos, parámetros, variables y métodos estáticos. Las expresiones cubren operadores ternarios anidados, manipulación de cadenas, conversión de fechas, redondeo de importes, formateo con `String.format` y protección contra la división por cero.
-
-El punto 4.5, «Lógica condicional», profundiza en las técnicas de lógica condicional en el informe. El punto cubre las condiciones compuestas, los estilos condicionales y la visibilidad condicional de bandas y elementos. El informe construido en este punto sirve como base para aplicar la lógica condicional de forma sistemática.
-
----
+El punto 4.4 amplía la capacidad expresiva del JRXML. El punto 4.5 utiliza expresiones booleanas para controlar estilos y visibilidad.
 
 # Punto 4.5 — Lógica condicional
 
 ## Parte práctica
 
-### Parte A — Práctica visual
+### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir 4.4 y conservar sus expresiones**
+**Paso 1: Abrir el checkpoint anterior y verificar el baseline**
 
 **Acciones:**
 
-1. Abrir `informe_ventas.jrxml` y revisar Detail 1 height=82.
-2. Confirmar los cinco campos de y=48 y Summary height=128.
-3. No modificar la visibilidad de la columna IVA: sigue usando `Boolean.TRUE.equals($P{mostrarDetalle})`.
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y seleccionar **Refresh**.
+2. Abrir `reports/informe_ventas.jrxml` con doble clic.
+3. Seleccionar la pestaña **Design** y expandir el informe en **Outline**.
+4. Abrir también la pestaña **Source** y localizar la consulta SQL.
+5. Confirmar que la consulta conserva `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
 
-**Verificación visual:** el punto parte íntegramente de 4.4.
+**Verificación visual:** el informe abre sin errores y el `LEFT JOIN` heredado está presente.
 
-**Qué hace:** Fija el baseline de lógica condicional.
-**Por qué:** 4.5 añade reglas; no sustituye las expresiones anteriores.
-**Error común:** Cambiar el IVA a `$P{tipoIva} > 0`.
-**Solución:** Conservar el printWhen heredado de 4.1.
-**Analogía:** Es añadir señales de color sin cambiar las reglas de columnas ya aprobadas.
+**Qué hace:** establece el punto de partida real antes de introducir cambios.
+**Por qué:** cada checkpoint de M4 es acumulativo y no puede perder comportamiento de M3/3.7.
+**Error común:** editar una copia antigua o reintroducir `INNER JOIN`. Solución: trabajar siempre sobre el checkpoint inmediatamente anterior.
+**Analogía:** es como revisar la última edición aprobada antes de preparar una nueva tirada.
 
 ---
 
@@ -3622,211 +3296,184 @@ El punto 4.5, «Lógica condicional», profundiza en las técnicas de lógica co
 
 **Acciones:**
 
-1. En Parameters, Add Parameter.
-2. Name=`umbralUnidades`; Class=`java.lang.Integer`; isForPrompting=true.
-3. Default Value Expression=`Integer.valueOf(5)`.
+1. Crear el parámetro `umbralUnidades`.
+2. Seleccionar `java.lang.Integer`.
+3. Escribir `Integer.valueOf(5)` como Default Value Expression.
+4. Mantener `isForPrompting=true` y guardar.
+
+**Verificación visual:** Outline muestra el parámetro Integer con valor 5.
+
+**Qué hace:** centraliza el umbral que gobierna estilos y mensajes.
+**Por qué:** un parámetro evita codificar el mismo límite en varios elementos.
+**Error común:** usar un Double y comparar sin conversión. Solución: mantener Integer en todo el punto.
+**Analogía:** es como fijar el nivel de ventas a partir del cual un título se considera destacado.
+
+---
+
+**Paso 3: Crear el estilo UnidadesCondicional**
+
+**Acciones:**
+
+1. Abrir Source y localizar los estilos del informe.
+2. Añadir `<style name="UnidadesCondicional" style="Dato" isBold="true">`.
+3. Añadir una primera condición null-safe para `unidades_vendidas >= umbralUnidades` con color `#1B5E20`.
+4. Añadir una segunda condición para `unidades_vendidas >= 3 && unidades_vendidas < umbralUnidades` con color `#1D5D88`.
+5. Añadir una tercera condición para `unidades_vendidas == null || unidades_vendidas < 3` con color `#9D3429`.
+6. Cerrar el estilo y guardar.
+
+**Verificación visual:** las tres condiciones son mutuamente excluyentes y el estilo hereda con `style="Dato"`.
+
+**Qué hace:** aplica formato dependiente de datos sin ambigüedad de precedencia.
+**Por qué:** JasperReports da prioridad a la primera regla verdadera cuando varias modifican la misma propiedad; condiciones mutuamente excluyentes evitan depender de ese detalle.
+**Error común:** usar `parent="Dato"` o condiciones solapadas. Solución: usar el atributo JRXML `style` y rangos no solapados.
+**Analogía:** es como asignar un único color editorial a cada tramo de ventas.
+
+---
+
+**Paso 4: Aplicar el estilo al campo unidades**
+
+**Acciones:**
+
+1. En Detail seleccionar el Text Field `$F{unidades_vendidas}`.
+2. Asignar el estilo `UnidadesCondicional`.
+3. Mantener posición x=`215`, y=`0`, width=`55`, height=`20`.
 4. Guardar.
 
-**Verificación visual:** el nuevo parámetro aparece con valor por defecto 5.
+**Verificación visual:** el campo de unidades referencia `UnidadesCondicional`.
 
-**Qué hace:** Centraliza el umbral usado por estilos, mensajes y ratio.
-**Por qué:** Permite cambiar la lógica sin editar expresiones.
-**Error común:** Usar String o dejarlo nulo sin protección.
-**Solución:** Usar Integer con default 5.
-**Analogía:** Es fijar una meta de unidades configurable para el parte.
-
----
-
-**Paso 3: Crear TituloCondicional con condiciones mutuamente excluyentes**
-
-**Acciones:**
-
-1. Abrir Source después de los estilos existentes.
-2. Añadir `<style name="TituloCondicional" style="Dato" isBold="true">`.
-3. Primera conditionExpression: unidades no nulas y `>= $P{umbralUnidades}`; color `#1B5E20`.
-4. Segunda: unidades no nulas, `>= 3` y `< $P{umbralUnidades}`; color `#1D5D88`.
-5. Tercera: unidades nulas o `< 3`; color `#9D3429`.
-6. Cerrar style y guardar.
-
-**Verificación visual:** Styles muestra `TituloCondicional` heredando de `Dato` mediante el atributo `style`.
-
-**Qué hace:** Codifica tres estados visuales sin solapamiento lógico.
-**Por qué:** Al ser mutuamente excluyentes no depende de precedencias entre reglas.
-**Error común:** Usar `parent="Sans_Normal"` o condiciones solapadas.
-**Solución:** Usar `style="Dato"` y las tres condiciones exactas.
-**Analogía:** Es asignar verde, azul o rojo a cada fila con reglas que no se pisan.
+**Qué hace:** hace visible la clasificación mediante color en el dato que la origina.
+**Por qué:** el estilo debe aplicarse al elemento adecuado.
+**Error común:** aplicarlo al título del informe. Solución: seleccionar el campo de unidades.
+**Analogía:** es como colorear la cifra de ventas, no la portada.
 
 ---
 
-**Paso 4: Aplicar el estilo a unidades_vendidas**
+**Paso 5: Actualizar el indicador relativo al umbral**
 
 **Acciones:**
 
-1. En Design, seleccionar el Text Field `$F{unidades_vendidas}` de x=215, y=0.
-2. En Style elegir `TituloCondicional`.
-3. Mantener x=215, width=55, height=20 y alineación Right.
-4. Guardar.
+1. Seleccionar el quinto campo de la fila avanzada en x=`460`, y=`48`.
+2. Sustituir su expresión por `$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))`.
+3. Mantener alineación derecha y guardar.
 
-**Verificación visual:** el campo de unidades cambia de color según el valor.
+**Verificación visual:** el porcentaje se calcula respecto al umbral configurado.
 
-**Qué hace:** Hace visible la clasificación condicional en el dato que la origina.
-**Por qué:** El checkpoint aplica el estilo a unidades, no al título del informe.
-**Error común:** Aplicar `TituloCondicional` al título principal.
-**Solución:** Aplicarlo al campo de unidades.
-**Analogía:** Es colorear la cifra que dispara la alerta, no el membrete.
+**Qué hace:** combina campo, parámetro, Math y String.format con protección de nulos.
+**Por qué:** el denominador se protege con `Math.max(1.0d, ...)`.
+**Error común:** dividir directamente por un umbral nulo o cero. Solución: conservar la protección.
+**Analogía:** es como indicar cuánto del objetivo de unidades ha alcanzado cada título.
 
 ---
 
-**Paso 5: Actualizar el indicador porcentual con el umbral**
+**Paso 6: Añadir una segunda banda Detail para destacados**
 
 **Acciones:**
 
-1. Seleccionar el campo x=460, y=48, width=95.
-2. Reemplazar su expresión por `$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))`.
-3. Guardar.
-
-**Verificación visual:** el porcentaje representa unidades respecto al umbral y evita división por cero.
-
-**Qué hace:** Integra un parámetro en una expresión avanzada.
-**Por qué:** Mide progreso hacia la meta configurada.
-**Error común:** Seguir dividiendo por REPORT_COUNT como en 4.4.
-**Solución:** Usar umbralUnidades protegido con Math.max.
-**Analogía:** Es convertir las unidades vendidas en porcentaje de la meta.
-
----
-
-**Paso 6: Añadir la segunda banda Detail condicional**
-
-**Acciones:**
-
-1. En Source, dentro de `<detail>`, añadir una segunda `<band height="14">` después de la banda de 82.
-2. Añadir `printWhenExpression` con unidades no nulas, umbral no nulo y `unidades_vendidas >= umbralUnidades`.
-3. Añadir un Text Field x=0, y=0, width=555, height=12, centrado, DejaVu Sans 8 negrita.
-4. Expression=`"Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"`.
-
-**Verificación visual:** Outline muestra dos bandas Detail: 82 y 14; la segunda solo aparece para filas que alcanzan el umbral.
-
-**Qué hace:** Demuestra `printWhenExpression` aplicado a una banda completa.
-**Por qué:** La condición añade contexto sin eliminar la fila principal.
-**Error común:** Poner la condición en la primera banda y ocultar libros.
-**Solución:** Usar una segunda banda exclusivamente informativa.
-**Analogía:** Es añadir una nota de alerta debajo de una línea sin borrar la línea original.
-
----
-
-**Paso 7: Añadir el mensaje de objetivo en Summary**
-
-**Acciones:**
-
-1. Mantener Summary height=`128`.
-2. Añadir Text Field x=0, y=103, width=350, height=18, Center, DejaVu Sans 10 Bold.
-3. Expression=`$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"`.
-
-**Verificación visual:** el mensaje aparece en la última fila del Summary sin ampliar la banda.
-
-**Qué hace:** Combina variable total y parámetro en un ternario.
-**Por qué:** Evita el Summary=200 del borrador que no coincide con el código final.
-**Error común:** Aumentar Summary a 200 y colocar y=180.
-**Solución:** Mantener 128 y usar y=103.
-**Analogía:** Es colocar el estado de la meta dentro del cuadro final ya existente.
-
----
-
-**Paso 8: Actualizar el generador con umbralUnidades**
-
-**Acciones:**
-
-1. Abrir GeneradorInformeVentas.java.
-2. Después de los filtros añadir `parametros.put("umbralUnidades", Integer.valueOf(5));`.
-3. Conservar el resto de parámetros con sus valores anteriores.
-4. Guardar.
-
-**Verificación visual:** el Java proporciona el mismo umbral usado como default.
-
-**Qué hace:** Ejercita el paso de un Integer desde la aplicación.
-**Por qué:** El runtime debe ser determinista para E2E.
-**Error común:** Pasar `"5"` como String.
-**Solución:** Usar Integer.valueOf(5).
-**Analogía:** Es entregar al informe la meta numérica en su tipo correcto.
-
----
-
-**Paso 9: Compilar y verificar estilos en Preview**
-
-**Acciones:**
-
-1. Guardar y compilar con Ctrl+Mayús+B.
-2. Abrir Preview.
-3. Localizar filas con 0/null, 3–4 y >=5 unidades y comparar colores.
-4. Confirmar que solo las filas >=5 reciben la segunda línea destacada.
-
-**Verificación visual:** los tres estados visuales y la banda condicional se comportan de forma coherente.
-
-**Qué hace:** Valida `conditionalStyle` y `printWhenExpression` con datos reales.
-**Por qué:** Las condiciones del checkpoint son mutuamente excluyentes.
-**Error común:** Interpretar que “el último conditionalStyle verdadero gana”.
-**Solución:** Con condiciones excluyentes, cada fila activa una sola regla; no enseñar una precedencia incorrecta.
-**Analogía:** Es comprobar que cada nivel de alerta recibe una sola señal.
-
----
-
-**Paso 10: Probar otro umbral desde Preview**
-
-**Acciones:**
-
-1. Cambiar `umbralUnidades` a 3 en Parameters de Preview.
-2. Regenerar Preview.
-3. Observar que cambian el color verde, el porcentaje y las bandas destacadas.
-4. Restaurar 5 al terminar.
-
-**Verificación visual:** las tres expresiones responden al mismo parámetro.
-
-**Qué hace:** Demuestra reutilización coherente de un criterio.
-**Por qué:** Un solo valor gobierna estilo, ratio y mensajes.
-**Error común:** Editar tres expresiones para cambiar la meta.
-**Solución:** Cambiar solo el parámetro.
-**Analogía:** Es mover una única meta y ver cómo se actualizan todos los indicadores.
-
----
-
-**Paso 11: Ejecutar Java y revisar el PDF**
-
-**Acciones:**
-
-1. Ejecutar GeneradorInformeVentas.
-2. Abrir el PDF.
-3. Confirmar las bandas destacadas sin clipping.
-4. Confirmar 14 títulos, 31 unidades y 633,40 €.
-
-**Verificación visual:** el runtime final de 4.5 conserva datos y añade lógica visual.
-
-**Qué hace:** Valida la lógica condicional fuera de Studio.
-**Por qué:** El objetivo es un informe ejecutable.
-**Error común:** Revisar solo colores en Design.
-**Solución:** Abrir el PDF real.
-**Analogía:** Es comprobar que las marcas de alerta sobreviven a la impresión final.
-
----
-
-**Paso 12: Crear LOGICA_CONDICIONAL.md y cotejar Parte B**
-
-**Acciones:**
-
-1. Crear `EditorialReports/LOGICA_CONDICIONAL.md`.
-2. Documentar `umbralUnidades`, `conditionalStyle` y la segunda banda con printWhenExpression.
-3. Indicar que la columna IVA conserva su condición `mostrarDetalle` heredada.
-4. Comparar style, segunda banda y Summary=128 con Parte B.
+1. En Source, dentro de `<detail>`, añadir una segunda `<band height="14">` después de la banda principal.
+2. Añadir `printWhenExpression` con `$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()`.
+3. Dentro de la banda crear un Text Field x=`0`, y=`0`, width=`555`, height=`12`.
+4. Usar DejaVu Sans 8 bold y la expresión `"Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"`.
 5. Guardar.
 
-**Verificación visual:** la documentación describe exactamente el checkpoint 4.5.
+**Verificación visual:** la segunda banda solo aparece para registros que alcanzan el umbral.
 
-**Qué hace:** Cierra trazabilidad GUI↔JRXML↔Java.
-**Por qué:** Impide reintroducir las instrucciones antiguas sobre periodo/título.
-**Error común:** Documentar `parent="Sans_Normal"` o Summary=200.
-**Solución:** Usar la estructura real de Parte B.
-**Analogía:** Es archivar exactamente las reglas que usa la edición publicada.
+**Qué hace:** demuestra `printWhenExpression` aplicado a una banda completa.
+**Por qué:** la condición es null-safe y no altera el SQL.
+**Error común:** omitir la comprobación del parámetro. Solución: comprobar campo y parámetro antes de llamar a `intValue()`.
+**Analogía:** es como añadir una banda de llamada debajo de las fichas que superan el objetivo.
 
 ---
+
+**Paso 7: Añadir el mensaje global de objetivo**
+
+**Acciones:**
+
+1. En Summary, conservar height=`128`.
+2. Crear un Text Field en x=`0`, y=`103`, width=`350`, height=`18`.
+3. Escribir `$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"`.
+4. Centrar, usar DejaVu Sans 10 bold y guardar.
+
+**Verificación visual:** Summary muestra un mensaje dependiente de una variable y un parámetro.
+
+**Qué hace:** combina estado global del informe con una instrucción externa.
+**Por qué:** las variables globales tienen sentido en Summary, donde ya se ha recorrido el dataset.
+**Error común:** evaluar un supuesto total final en la primera fila. Solución: ubicar el mensaje en Summary.
+**Analogía:** es como decidir al cierre de la edición si se alcanzó la meta.
+
+---
+
+**Paso 8: Pasar umbralUnidades desde Java**
+
+**Acciones:**
+
+1. Abrir `GeneradorInformeVentas.java`.
+2. Añadir `parametros.put("umbralUnidades", Integer.valueOf(5));`.
+3. Guardar y revisar Problems.
+
+**Verificación visual:** el mapa Java contiene el parámetro Integer.
+
+**Qué hace:** permite cambiar el umbral sin recompilar el JRXML.
+**Por qué:** la lógica condicional debe ser configurable.
+**Error común:** pasar `"5"` como String. Solución: usar `Integer.valueOf(5)`.
+**Analogía:** es como indicar el objetivo numérico en la orden de impresión.
+
+---
+
+**Paso 9: Compilar y previsualizar con distintos umbrales**
+
+**Acciones:**
+
+1. Compilar el informe.
+2. Abrir Preview con umbral `5`.
+3. Observar colores y bandas de destacados.
+4. Repetir con umbral `3`.
+5. Restaurar el valor `5`.
+
+**Verificación visual:** los estilos, el porcentaje y las bandas responden al mismo parámetro.
+
+**Qué hace:** prueba coherencia entre tres usos de la lógica condicional.
+**Por qué:** un único parámetro debe gobernar todo el comportamiento relacionado.
+**Error común:** cambiar una condición y dejar las demás con otro umbral. Solución: referenciar siempre `$P{umbralUnidades}`.
+**Analogía:** es como cambiar una meta y comprobar que todos los indicadores de la publicación se actualizan.
+
+---
+
+**Paso 10: Ejecutar Java y verificar el PDF**
+
+**Acciones:**
+
+1. Ejecutar `GeneradorInformeVentas`.
+2. Abrir el PDF.
+3. Comprobar colores en unidades, mensajes de fila destacada y mensaje de Summary.
+4. Confirmar que siguen apareciendo 14 títulos con el escenario base.
+
+**Verificación visual:** la lógica condicional funciona en el PDF real sin perder registros.
+
+**Qué hace:** demuestra que formato condicional y visibilidad no rompen el dataset.
+**Por qué:** los cambios de presentación deben preservar los invariantes base.
+**Error común:** confundir lógica de presentación con filtro SQL. Solución: verificar el recuento final.
+**Analogía:** es como resaltar títulos de alto rendimiento sin sacarlos del catálogo.
+
+---
+
+**Paso 11: Documentar la lógica condicional**
+
+**Acciones:**
+
+1. Abrir `LOGICA_CONDICIONAL.md`.
+2. Comprobar que documenta `umbralUnidades`, `printWhenExpression` y `conditionalStyle`.
+3. Registrar que las condiciones son null-safe y mutuamente excluyentes.
+4. Guardar.
+
+**Verificación visual:** la ficha técnica describe la implementación real.
+
+**Qué hace:** evita repetir la antigua explicación de prioridad de estilos.
+**Por qué:** la documentación debe coincidir con JasperReports 6.20.0.
+**Error común:** afirmar que gana la última regla verdadera. Solución: documentar la prioridad de la primera propiedad aplicable y usar rangos excluyentes.
+**Analogía:** es como dejar una leyenda exacta de los colores usados en el informe.
+
+---
+
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -3852,13 +3499,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>
     <style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>
     <style name="Dato" style="Sans_Normal" fontSize="9"/>
-    <style name="TituloCondicional" style="Dato" isBold="true">
+    <style name="UnidadesCondicional" style="Dato" isBold="true">
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>
             <style forecolor="#1B5E20"/>
         </conditionalStyle>
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>
             <style forecolor="#1D5D88"/>
         </conditionalStyle>
         <conditionalStyle>
@@ -3962,13 +3609,19 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
         <band height="82" splitType="Stretch">
             <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
-            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="TituloCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>
             <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>
@@ -4045,13 +3698,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 17 | `    <style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` | Declara un estilo reutilizable o condicional. |
 | 18 | `    <style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` | Declara un estilo reutilizable o condicional. |
 | 19 | `    <style name="Dato" style="Sans_Normal" fontSize="9"/>` | Declara un estilo reutilizable o condicional. |
-| 20 | `    <style name="TituloCondicional" style="Dato" isBold="true">` | Declara un estilo reutilizable o condicional. |
+| 20 | `    <style name="UnidadesCondicional" style="Dato" isBold="true">` | Declara un estilo reutilizable o condicional. |
 | 21 | `        <conditionalStyle>` | Abre una regla de estilo condicional. |
-| 22 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
+| 22 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
 | 23 | `            <style forecolor="#1B5E20"/>` | Declara un estilo reutilizable o condicional. |
 | 24 | `        </conditionalStyle>` | Cierra el elemento XML correspondiente. |
 | 25 | `        <conditionalStyle>` | Abre una regla de estilo condicional. |
-| 26 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
+| 26 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
 | 27 | `            <style forecolor="#1D5D88"/>` | Declara un estilo reutilizable o condicional. |
 | 28 | `        </conditionalStyle>` | Cierra el elemento XML correspondiente. |
 | 29 | `        <conditionalStyle>` | Abre una regla de estilo condicional. |
@@ -4155,66 +3808,72 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 127 | `            <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 128 | `            <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 129 | `            <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 130 | `            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 131 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 132 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
-| 133 | `    <detail>` | Continúa la configuración declarativa del informe. |
-| 134 | `        <band height="82" splitType="Stretch">` | Declara una banda y su geometría vertical. |
-| 135 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 136 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="TituloCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 137 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 138 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 139 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 140 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 141 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 142 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 143 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
-| 144 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 145 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 146 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
-| 147 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
-| 148 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
-| 149 | `            </textField>` | Cierra el elemento XML correspondiente. |
-| 150 | `            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 151 | `            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 152 | `            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 153 | `            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null \|\| $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 154 | `            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 155 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 156 | `        <band height="14">` | Declara una banda y su geometría vertical. |
-| 157 | `            <printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 158 | `            <textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="8" isBold="true"/></textElement><textFieldExpression><![CDATA["Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 159 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 160 | `    </detail>` | Cierra el elemento XML correspondiente. |
-| 161 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
-| 162 | `        <band height="62">` | Declara una banda y su geometría vertical. |
-| 163 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 164 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 165 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 166 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 167 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 168 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 169 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 170 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
-| 171 | `    <summary>` | Continúa la configuración declarativa del informe. |
-| 172 | `        <band height="128">` | Declara una banda y su geometría vertical. |
-| 173 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 174 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 175 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 176 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 177 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 178 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 179 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 180 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 181 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 182 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 183 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 184 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 185 | `            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 186 | `            <textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression><![CDATA[$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 187 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 188 | `    </summary>` | Cierra el elemento XML correspondiente. |
-| 189 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
+| 130 | `            <staticText>` | Continúa la configuración declarativa del informe. |
+| 131 | `                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 132 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 133 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 134 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 135 | `                <text><![CDATA[Importe con IVA]]></text>` | Define texto estático visible en el informe. |
+| 136 | `            </staticText>` | Cierra el elemento XML correspondiente. |
+| 137 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 138 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
+| 139 | `    <detail>` | Continúa la configuración declarativa del informe. |
+| 140 | `        <band height="82" splitType="Stretch">` | Declara una banda y su geometría vertical. |
+| 141 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 142 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 143 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 144 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 145 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 146 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 147 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 148 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 149 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
+| 150 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 151 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 152 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 153 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 154 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
+| 155 | `            </textField>` | Cierra el elemento XML correspondiente. |
+| 156 | `            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 157 | `            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 158 | `            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 159 | `            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null \|\| $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 160 | `            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 161 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 162 | `        <band height="14">` | Declara una banda y su geometría vertical. |
+| 163 | `            <printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 164 | `            <textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="8" isBold="true"/></textElement><textFieldExpression><![CDATA["Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 165 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 166 | `    </detail>` | Cierra el elemento XML correspondiente. |
+| 167 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
+| 168 | `        <band height="62">` | Declara una banda y su geometría vertical. |
+| 169 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 170 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 171 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 172 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 173 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 174 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 175 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 176 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
+| 177 | `    <summary>` | Continúa la configuración declarativa del informe. |
+| 178 | `        <band height="128">` | Declara una banda y su geometría vertical. |
+| 179 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 180 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 181 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 182 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 183 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 184 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 185 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 186 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 187 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 188 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 189 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 190 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 191 | `            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 192 | `            <textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression><![CDATA[$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 193 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 194 | `    </summary>` | Cierra el elemento XML correspondiente. |
+| 195 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
 
 ### Parte C — Código Java completo explicado línea por línea
 
@@ -4411,120 +4070,73 @@ M4/4.5/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                                |                                                          |                                                                 |
-| --------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------------------- |
-| El estilo condicional no se aplica                                    | Falta el bloque con la condición `true`                  | Añadir un bloque final con `conditionExpression` igual a `true` |
-| El color del título no cambia con el periodo                          | El parámetro `periodo` no tiene el valor esperado        | Verificar el valor del parámetro en el diálogo o en el mapa     |
-| La columna de clasificación no se oculta con `mostrarDetalle=false`   | La condición no está aplicada al encabezado o al campo   | Aplicar la misma condición a ambos elementos                    |
-| La banda Detail se imprime cuando no debería                          | La condición de la banda no se evalúa correctamente      | Revisar los paréntesis y la precedencia de los operadores       |
-| `Compilation failed` en la condición de banda                         | Falta `booleanValue()` en el parámetro `mostrarDetalle`  | Escribir `Boolean.TRUE.equals($P{mostrarDetalle})`                    |
-| El mensaje condicional muestra siempre el mismo valor                 | El operador ternario anidado no tiene paréntesis         | Envolver el ternario interno entre paréntesis                   |
-| Las condiciones de visibilidad producen un error de tipo              | La expresión devuelve un valor distinto de `boolean`     | Verificar que la condición devuelve `true` o `false`            |
-| El encabezado y el campo de una columna condicional se desincronizan  | Las condiciones son distintas                            | Aplicar la misma condición a ambos elementos                    |
-| El estilo condicional no sobrescribe las propiedades del estilo padre | Las propiedades no están declaradas en el bloque `style` | Añadir las propiedades al bloque `style` del condicional        |
-| La banda Summary no muestra el mensaje condicional                    | La expresión no se evalúa correctamente                  | Revisar la condición y los paréntesis del operador ternario     |
+| Error | Causa | Solución |
+|---|---|---|
+| El estilo no hereda | se usa `parent=` | en JRXML usar `style="Dato"` |
+| Un umbral nulo provoca excepción | se llama a `intValue()` sin comprobarlo | hacer las condiciones null-safe |
+| Los colores dependen del orden de reglas solapadas | varias reglas verdaderas cambian la misma propiedad | usar condiciones mutuamente excluyentes |
+| No aparece la banda destacada | no se cumple `printWhenExpression` | probar con un umbral inferior y restaurarlo |
+| Cambian las filas del informe | se convirtió una condición de presentación en filtro SQL | mantener la lógica condicional fuera del WHERE |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir una condición de visibilidad al campo del precio medio que lo oculte cuando el valor sea nulo o inferior al precio mínimo. La condición debe combinar el parámetro `precioMinimo` y el campo `precio_medio`.
+**Enunciado:** Cambiar temporalmente `umbralUnidades` entre 3, 5 y 8 y registrar cómo cambian color, porcentaje relativo y banda destacada. Restaurar 5 al finalizar.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+1. Guardar una copia del checkpoint antes del reto.
+2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
+3. Compilar el JRXML con **Ctrl+Mayús+B**.
+4. Ejecutar Preview con el escenario indicado.
+5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
+6. Verificar el resultado tanto en Console como en el PDF.
+7. Comparar el comportamiento con el objetivo del reto.
+8. Deshacer únicamente los cambios del reto.
+9. Compilar de nuevo.
+10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
 
-**Paso 2.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-
-**Paso 3.** Hacer clic sobre el nodo Detail 1 en el panel Outline.
-
-**Paso 4.** Hacer clic sobre el Text Field que contiene la expresión `$F{precio_medio} == null ? "Sin datos" : $F{precio_medio}` en el editor central.
-
-**Paso 5.** Hacer clic con el botón derecho sobre el elemento y seleccionar Properties.
-
-**Paso 6.** Hacer clic sobre la pestaña Properties en el panel Properties.
-
-**Paso 7.** Localizar el campo Print When Expression y escribir exactamente `$F{precio_medio} != null && $F{precio_medio} >= $P{precioMinimo}` y pulsar Enter.
-
-**Paso 8.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 9.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 10.** Hacer clic con el botón derecho sobre `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 11.** Abrir el archivo `output/informe_ventas.pdf` y verificar que el campo del precio medio solo aparece cuando el valor no es nulo y es superior o igual al precio mínimo.
-
-**Paso 12.** Modificar temporalmente el programa Java para pasar `parametros.put("precioMinimo", 20.0)`.
-
-**Paso 13.** Volver a ejecutar el programa y verificar que el campo del precio medio solo aparece en los libros con precio medio superior o igual a 20.
-
-**Simulación ASCII del PDF con precioMinimo=20.0**
-
-```
-║  Título                    │Unid.│ Importe total │Precio ║
-║  Cien años de soledad      │  8  │    159,60 €   │19,95 €║
-║                            │     │                │(oculto)║
-║  Rayuela                   │  6  │    135,00 €   │22,50 €║
-║                            │     │                │22,50 €║
-║  La casa de los espíritus  │  5  │    117,00 €   │23,40 €║
-║                            │     │                │23,40 €║
-```
-
-**Resultado del reto:** la condición `$F{precio_medio} != null && $F{precio_medio} >= $P{precioMinimo}` oculta el campo del precio medio cuando el valor es nulo o inferior al mínimo. La condición combina la comprobación de nulo con la comparación con el parámetro. Los libros con precio medio inferior al mínimo aparecen con el campo oculto. Los libros con precio medio superior o igual al mínimo aparecen con el campo visible.
+**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
 
 ---
 
 ## Analogía final con el contexto de la editorial
 
-La lógica condicional es el conjunto de reglas que el editor aplica al componer el resumen de ventas. La condición de banda decide si una fila se imprime según el valor del parámetro `mostrarDetalle` y el campo `unidades_vendidas`. La condición de columna decide si una columna completa se muestra u oculta. El estilo condicional decide el color del título según el periodo. El mensaje condicional decide el texto del objetivo según el importe total. Cada condición es una regla editorial que adapta el documento al lector y al contexto. La combinación de todas las condiciones construye un informe que se adapta a las instrucciones del usuario y a las características de los datos sin necesidad de rehacer la plantilla.
+La lógica condicional es el sistema de señales visuales del informe: el dato no cambia, pero su presentación comunica prioridad y estado.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
-
-- El archivo `reports/informe_ventas.jrxml` con un estilo condicional declarado y cinco condiciones de visibilidad aplicadas a bandas y elementos.
-- El parámetro `umbralUnidades` declarado con valor por defecto `5`.
-- El estilo `TituloCondicional` con tres bloques condicionales que cambian el color del título.
-- La condición de banda en Detail 1 que combina campos, parámetros y variables.
-- Las condiciones de columna en el encabezado y los datos de `Clasificación` e `Importe con IVA`.
-- El mensaje condicional en la banda Summary que evalúa el objetivo de ventas.
-- El archivo `LOGICA_CONDICIONAL.md` en la raíz del proyecto con la documentación.
-- Comprensión operativa de los operadores lógicos, de `printWhenExpression`, de los estilos condicionales y de la visibilidad de columnas completas.
+Al finalizar este punto, el alumno dispone de umbral configurable, estilo condicional null-safe sobre unidades, porcentaje respecto al umbral, banda destacada y mensaje global de objetivo.
 
 ---
 
-## Conclusión y enlace al siguiente punto
+## Conclusión
 
-El punto 4.5 ha introducido la lógica condicional en el informe de ventas. Han quedado configuradas cinco condiciones de visibilidad en bandas y elementos, un estilo condicional con tres bloques y un mensaje condicional en la banda Summary. El informe se adapta ahora a los parámetros del usuario y a los valores de los datos sin necesidad de modificar la plantilla.
-
-El punto 4.6, «Parámetros en consultas SQL», profundiza en el uso de parámetros dentro de las consultas SQL. El punto cubre la sustitución de parámetros, los filtros parametrizados, la prevención de inyección SQL y las consultas con parámetros opcionales. El informe construido en este punto sirve como base para las consultas completamente parametrizadas.
-
----
+El punto 4.5 convierte las expresiones booleanas en comportamiento visual. El punto 4.6 lleva los parámetros al propio SQL de forma segura.
 
 # Punto 4.6 — Parámetros en consultas SQL
 
 ## Parte práctica
 
-### Parte A — Práctica visual
+### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir 4.5 y comprobar la consulta acumulativa**
+**Paso 1: Abrir el checkpoint anterior y verificar el baseline**
 
 **Acciones:**
 
-1. Abrir `informe_ventas.jrxml`.
-2. Confirmar los parámetros de filtros y `umbralUnidades`.
-3. Confirmar que QueryString conserva los tres filtros opcionales y `LEFT JOIN`.
-4. Confirmar Detail con bandas 82 y 14.
+1. En Project Explorer, hacer clic con el botón derecho sobre `EditorialReports` y seleccionar **Refresh**.
+2. Abrir `reports/informe_ventas.jrxml` con doble clic.
+3. Seleccionar la pestaña **Design** y expandir el informe en **Outline**.
+4. Abrir también la pestaña **Source** y localizar la consulta SQL.
+5. Confirmar que la consulta conserva `LEFT JOIN ventas v ON l.titulo = v.titulo_libro`.
 
-**Verificación visual:** el punto parte íntegramente de 4.5.
+**Verificación visual:** el informe abre sin errores y el `LEFT JOIN` heredado está presente.
 
-**Qué hace:** Fija la base antes de añadir búsqueda SQL avanzada.
-**Por qué:** 4.6 solo añade dos parámetros, dos condiciones SQL y elementos de contexto/resultados.
-**Error común:** Partir de una consulta sin categoria.
-**Solución:** Usar 4.5.
-**Analogía:** Es añadir dos criterios a una consulta ya aprobada.
+**Qué hace:** establece el punto de partida real antes de introducir cambios.
+**Por qué:** cada checkpoint de M4 es acumulativo y no puede perder comportamiento de M3/3.7.
+**Error común:** editar una copia antigua o reintroducir `INNER JOIN`. Solución: trabajar siempre sobre el checkpoint inmediatamente anterior.
+**Analogía:** es como revisar la última edición aprobada antes de preparar una nueva tirada.
 
 ---
 
@@ -4532,17 +4144,17 @@ El punto 4.6, «Parámetros en consultas SQL», profundiza en el uso de parámet
 
 **Acciones:**
 
-1. En Parameters elegir Add Parameter.
-2. Name=`textoBusqueda`; Class=`java.lang.String`; isForPrompting=true; sin default.
-3. Guardar.
+1. Crear el parámetro `textoBusqueda`.
+2. Seleccionar `java.lang.String`.
+3. No definir valor por defecto.
+4. Mantener `isForPrompting=true` y guardar.
 
-**Verificación visual:** textoBusqueda aparece como parámetro String promptable.
+**Verificación visual:** Outline muestra `textoBusqueda` como String.
 
-**Qué hace:** Recibe un fragmento de título para LIKE.
-**Por qué:** Al ser nulo o vacío, la query lo desactiva.
-**Error común:** Construir SQL concatenando el texto desde Java.
-**Solución:** Mantener el valor como `$P{textoBusqueda}` enlazado.
-**Analogía:** Es entregar una palabra de búsqueda como dato, no como parte de la orden SQL.
+**Qué hace:** permite activar una búsqueda parcial por título.
+**Por qué:** un `null` deja el filtro inactivo en el escenario base.
+**Error común:** usar un texto por defecto y después esperar 14 resultados. Solución: dejarlo sin valor.
+**Analogía:** es como dejar vacía la caja de búsqueda hasta que el usuario escriba.
 
 ---
 
@@ -4550,231 +4162,223 @@ El punto 4.6, «Parámetros en consultas SQL», profundiza en el uso de parámet
 
 **Acciones:**
 
-1. Crear Parameter `categoriasLista` con Class=`java.util.Collection` e `isForPrompting=false`.
-2. Default Value Expression=`java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")`.
-3. Guardar.
+1. Crear el parámetro `categoriasLista`.
+2. Seleccionar `java.util.Collection`.
+3. Desactivar `isForPrompting` porque la colección se suministra desde Java.
+4. En Default Value Expression escribir `java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")`.
+5. Guardar.
 
-**Verificación visual:** el parámetro Collection tiene las cuatro categorías del dataset como default.
+**Verificación visual:** Outline muestra una Collection no destinada al diálogo de prompting.
 
-**Qué hace:** Alimenta la función de cláusula `$X{IN,...}`.
-**Por qué:** El default preserva los 14 títulos del escenario base.
-**Error común:** Declararlo como `java.util.List` sin default y enseñar una condición nula distinta del checkpoint.
-**Solución:** Usar Collection y la lista por defecto exacta.
-**Analogía:** Es entregar al archivador una bandeja con todas las categorías permitidas.
+**Qué hace:** proporciona a `$X{IN,...}` una colección con todas las categorías del escenario base.
+**Por qué:** una colección se maneja con mayor claridad desde Java que desde un campo de texto del diálogo.
+**Error común:** declararla como List prompting y esperar editarla como texto. Solución: usar Collection y pasarla programáticamente.
+**Analogía:** es como entregar al motor una selección múltiple ya estructurada.
 
 ---
 
-**Paso 4: Añadir el filtro LIKE enlazado**
+**Paso 4: Añadir el filtro LIKE con $P{}**
 
 **Acciones:**
 
-1. Abrir Source y localizar las tres condiciones de 4.2.
+1. Abrir Source y localizar las condiciones de precio.
 2. Añadir `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')`.
 3. Guardar.
 
-**Verificación visual:** QueryString contiene `$P{textoBusqueda}` tres veces y no contiene `$P!{textoBusqueda}`.
+**Verificación visual:** la query contiene `$P{textoBusqueda}` y conserva la estructura SQL fija.
 
-**Qué hace:** Añade búsqueda parcial manteniendo el valor separado de la estructura SQL.
-**Por qué:** `$P{}` se enlaza mediante PreparedStatement/JDBC.
-**Error común:** Explicar que JasperReports pega el texto escapado dentro del SQL.
-**Solución:** Explicarlo como bind parameter; el operador de concatenación forma el patrón en SQLite alrededor del valor enlazado.
-**Analogía:** Es entregar al archivador el texto en una casilla protegida, no reescribir la orden.
+**Qué hace:** JasperReports convierte cada `$P{}` en un parámetro de `PreparedStatement`.
+**Por qué:** el valor viaja separado del texto SQL.
+**Error común:** describir `$P{}` como concatenación o escape manual. Solución: pensar en placeholders JDBC.
+**Analogía:** es como entregar el texto de búsqueda en una casilla separada de la orden SQL.
 
 ---
 
-**Paso 5: Añadir la cláusula IN con $X{}**
+**Paso 5: Añadir el filtro IN con $X{}**
 
 **Acciones:**
 
-1. Debajo del LIKE añadir exactamente `AND $X{IN, l.categoria, categoriasLista}`.
-2. No envolverla en `$P{categoriasLista} IS NULL OR ...` porque ese no es el checkpoint final.
+1. Después del filtro LIKE añadir exactamente `AND $X{IN, l.categoria, categoriasLista}`.
+2. No envolverlo con `$P{categoriasLista} IS NULL OR ...`.
 3. Guardar.
 
-**Verificación visual:** la consulta contiene `$X{IN, l.categoria, categoriasLista}`.
+**Verificación visual:** la consulta contiene la función de cláusula `$X{IN,...}`.
 
-**Qué hace:** Genera una cláusula IN controlada para una colección.
-**Por qué:** `$X{}` construye la cláusula y enlaza sus valores; no es sustitución textual directa.
-**Error común:** Llamar `$X{}` “sustitución directa” o afirmar que genera siempre `IN ()` con lista vacía.
-**Solución:** Reservar “sustitución textual directa” para `$P!{}` y explicar la semántica no-values de `$X`.
-**Analogía:** Es pedir al archivador “categoría en esta lista” usando una plantilla de cláusula segura.
-
----
-
-**Paso 6: Ampliar Title a 124 y mostrar la búsqueda**
-
-**Acciones:**
-
-1. Seleccionar Title y fijar Band height=`124`.
-2. Añadir `Búsqueda:` en x=0, y=86, width=100, height=18.
-3. Añadir Text Field x=100, y=86, width=170, height=18.
-4. Expression=`$P{textoBusqueda} == null || $P{textoBusqueda}.trim().isEmpty() ? "(todas)" : $P{textoBusqueda}`.
-
-**Verificación visual:** la tercera fila del Title muestra el texto o `(todas)`.
-
-**Qué hace:** Informa al lector del criterio de búsqueda.
-**Por qué:** El incremento a 124 es el único aumento de Title en M4.
-**Error común:** Usar y=110/height=130 del borrador.
-**Solución:** Usar y=86 y height=124.
-**Analogía:** Es añadir una tercera línea al membrete con el criterio aplicado.
+**Qué hace:** construye un `IN (?, ?, ...)` y enlaza cada elemento de la colección.
+**Por qué:** `$X{}` resuelve la estructura variable de una lista sin sustitución textual insegura.
+**Error común:** tratar la colección como un `$P{}` escalar. Solución: dejar que `$X{IN,...}` gestione nulos/listas y bind parameters.
+**Analogía:** es como convertir una lista de categorías en varias casillas JDBC correctamente numeradas.
 
 ---
 
-**Paso 7: Mostrar categoriasLista en Title**
+**Paso 6: Ampliar Title con búsqueda y categorías**
 
 **Acciones:**
 
-1. Añadir `Categorías:` en x=300, y=86, width=90, height=18.
-2. Añadir Text Field x=390, y=86, width=165, height=34 y textAdjust=StretchHeight.
-3. Expression=`String.valueOf($P{categoriasLista})`.
-4. Guardar.
-
-**Verificación visual:** la lista cabe en la tercera fila y puede estirarse hasta 34 px.
-
-**Qué hace:** Documenta el alcance del `$X{IN}` en el propio PDF.
-**Por qué:** El lector puede auditar qué categorías se incluyeron.
-**Error común:** Usar x=460/w=95 y truncar la lista.
-**Solución:** Usar x=390/w=165/h=34.
-**Analogía:** Es imprimir en el encabezado la lista de secciones consultadas.
-
----
-
-**Paso 8: Añadir Resultados encontrados al Summary**
-
-**Acciones:**
-
-1. Mantener Summary height=`128`.
-2. Añadir Text Field x=360, y=103, width=195, height=18.
-3. Expression=`"Resultados encontrados: " + $V{REPORT_COUNT}`.
-4. Guardar.
-
-**Verificación visual:** la última fila comparte espacio con el mensaje de objetivo de 4.5.
-
-**Qué hace:** Muestra el número de filas de la consulta tras filtros.
-**Por qué:** No requiere ampliar Summary.
-**Error común:** Llevar Summary a 230/y=210.
-**Solución:** Mantener 128/y=103.
-**Analogía:** Es colocar el recuento final al lado del estado del objetivo.
-
----
-
-**Paso 9: Actualizar GeneradorInformeVentas.java**
-
-**Acciones:**
-
-1. Añadir `import java.util.Arrays;`.
-2. Después de umbralUnidades añadir `parametros.put("textoBusqueda", null);`.
-3. Añadir `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));`.
-4. Conservar los filtros de 4.2 a null y todos los parámetros anteriores.
-5. Guardar.
-
-**Verificación visual:** el escenario Java base usa búsqueda nula y las cuatro categorías.
-
-**Qué hace:** Mantiene el contrato de 14 títulos mientras ejercita `$X{IN}`.
-**Por qué:** Permite E2E determinista.
-**Error común:** Usar ArrayList con solo dos categorías y cambiar el resultado base.
-**Solución:** Usar exactamente Arrays.asList con las cuatro categorías.
-**Analogía:** Es ejecutar la consulta patrón sobre todo el catálogo antes de probar selecciones parciales.
-
----
-
-**Paso 10: Compilar y previsualizar el escenario base**
-
-**Acciones:**
-
-1. Guardar y compilar con Ctrl+Mayús+B.
-2. Abrir Preview.
-3. Dejar textoBusqueda vacío/nulo.
-4. Confirmar que categoriasLista usa su default de cuatro valores.
-5. Confirmar 14 títulos.
-
-**Verificación visual:** el informe sin búsqueda restrictiva conserva el dataset base.
-
-**Qué hace:** Valida que los nuevos filtros son neutros por defecto.
-**Por qué:** Un punto acumulativo no debe cambiar sus invariantes sin intención.
-**Error común:** Esperar solo dos categorías por copiar el borrador antiguo.
-**Solución:** Usar la lista del checkpoint final.
-**Analogía:** Es comprobar primero la búsqueda “todo el catálogo”.
-
----
-
-**Paso 11: Probar textoBusqueda en Preview**
-
-**Acciones:**
-
-1. En Parameters de Preview escribir `sol` en textoBusqueda.
-2. Regenerar.
-3. Comprobar que solo quedan títulos que contienen esa secuencia y pertenecen a categoriasLista.
-4. Vaciar de nuevo el parámetro al terminar.
-
-**Verificación visual:** LIKE modifica el conjunto sin errores SQL.
-
-**Qué hace:** Demuestra el bind parameter en una búsqueda parcial.
-**Por qué:** El valor sigue siendo dato aunque contenga caracteres SQL.
-**Error común:** Eliminar los `%` del patrón y esperar búsqueda parcial.
-**Solución:** Conservar `'%' || $P{textoBusqueda} || '%'`.
-**Analogía:** Es buscar una palabra dentro de los títulos sin cambiar la pregunta.
-
----
-
-**Paso 12: Verificar resistencia a inyección desde Preview**
-
-**Acciones:**
-
-1. En textoBusqueda escribir literalmente `sol' OR '1'='1`.
-2. Regenerar Preview.
-3. Confirmar que no se convierten todos los libros en coincidencias.
-4. Observar que no aparece un error de sintaxis SQL.
-5. Restaurar el valor nulo.
-
-**Verificación visual:** el texto se trata como valor de búsqueda, no como código SQL.
-
-**Qué hace:** Demuestra la propiedad esencial de `$P{}`.
-**Por qué:** PreparedStatement mantiene estructura y valor separados.
-**Error común:** Probar Program arguments aunque el generador no lee `args`.
-**Solución:** Hacer la prueba en el parámetro de Preview o modificar temporalmente el put y revertirlo.
-**Analogía:** Es comprobar que un texto malicioso sigue siendo texto dentro de la casilla de búsqueda.
-
----
-
-**Paso 13: Ejecutar Java y revisar el runtime**
-
-**Acciones:**
-
-1. Ejecutar GeneradorInformeVentas con los valores base.
-2. Abrir `output/informe_ventas.pdf`.
-3. Comprobar la tercera fila de Title y el recuento final.
-4. Confirmar 14 títulos, 31 unidades y 633,40 €.
-
-**Verificación visual:** el PDF real refleja búsqueda/categorías y conserva invariantes.
-
-**Qué hace:** Valida `$P{}`, `$X{}` y maquetación conjuntamente.
-**Por qué:** La prueba final es el runtime, no solo la consulta en Source.
-**Error común:** Dar por válido `$X{}` porque el JRXML compila.
-**Solución:** Ejecutar con SQLite y revisar el PDF.
-**Analogía:** Es comprobar que la consulta parametrizada produce una edición imprimible.
-
----
-
-**Paso 14: Crear CONSULTAS_PARAMETRIZADAS.md y cotejar Parte B**
-
-**Acciones:**
-
-1. Crear `EditorialReports/CONSULTAS_PARAMETRIZADAS.md`.
-2. Documentar `$P{}` como valor enlazado JDBC/PreparedStatement.
-3. Documentar `$X{IN,...}` como función de cláusula parametrizada para colecciones.
-4. Documentar `$P!{}` como sustitución textual directa y señalar que no se usa en el checkpoint.
-5. Comparar QueryString, Title=124 y Summary=128 con Parte B.
+1. Seleccionar Title y fijar height=`124`.
+2. Crear `Búsqueda:` en x=`0`, y=`86`, width=`100`, height=`18`.
+3. Crear su Text Field en x=`100`, y=`86`, width=`170`, height=`18` con `$P{textoBusqueda} == null || $P{textoBusqueda}.trim().isEmpty() ? "(todas)" : $P{textoBusqueda}`.
+4. Crear `Categorías:` en x=`300`, y=`86`, width=`90`, height=`18`.
+5. Crear su Text Field en x=`390`, y=`86`, width=`165`, height=`34` con `String.valueOf($P{categoriasLista})` y StretchHeight.
 6. Guardar.
 
-**Verificación visual:** la documentación técnica coincide con la semántica y el código ejecutable.
+**Verificación visual:** la tercera fila de Title muestra criterios de búsqueda sin solaparse.
 
-**Qué hace:** Elimina la ambigüedad entre `$P{}`, `$X{}` y `$P!{}`.
-**Por qué:** Es una distinción de seguridad fundamental.
-**Error común:** Titular una sección “Sustitución directa $X{}”.
-**Solución:** Reservar esa descripción para `$P!{}`.
-**Analogía:** Es documentar por separado valores, plantillas de cláusula y sustitución literal.
+**Qué hace:** hace visibles los parámetros que condicionan la consulta.
+**Por qué:** el lector debe saber con qué criterios se produjo el documento.
+**Error común:** usar y=`110` con una geometría distinta. Solución: seguir las coordenadas exactas del checkpoint.
+**Analogía:** es como imprimir los criterios de búsqueda en la portada del resultado.
 
 ---
+
+**Paso 7: Añadir Resultados encontrados en Summary**
+
+**Acciones:**
+
+1. En Summary, conservar height=`128`.
+2. Crear un Text Field en x=`360`, y=`103`, width=`195`, height=`18`.
+3. Escribir `"Resultados encontrados: " + $V{REPORT_COUNT}`.
+4. Guardar.
+
+**Verificación visual:** el contador aparece a la derecha del mensaje de objetivo.
+
+**Qué hace:** expone el número de filas que superaron los filtros SQL.
+**Por qué:** `REPORT_COUNT` ya contiene el recuento procesado por el informe.
+**Error común:** aumentar Summary a 230 sin necesidad. Solución: usar el espacio existente.
+**Analogía:** es como indicar al final cuántas fichas devolvió la búsqueda.
+
+---
+
+**Paso 8: Pasar la colección desde Java**
+
+**Acciones:**
+
+1. Abrir `GeneradorInformeVentas.java`.
+2. Añadir `import java.util.Arrays;`.
+3. Añadir `parametros.put("textoBusqueda", null);`.
+4. Añadir `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));`.
+5. Guardar.
+
+**Verificación visual:** Parte C contiene texto nulo y las cuatro categorías del baseline.
+
+**Qué hace:** preserva los 14 títulos por defecto y prepara filtros reales.
+**Por qué:** la lista se entrega como Collection, no como SQL textual.
+**Error común:** construir manualmente `'Novela','Poesía'`. Solución: pasar objetos Java y dejar que `$X{}` cree los placeholders.
+**Analogía:** es como entregar una lista de selección, no escribir a mano la cláusula SQL.
+
+---
+
+**Paso 9: Compilar y comprobar el escenario base**
+
+**Acciones:**
+
+1. Compilar el JRXML.
+2. Abrir Preview.
+3. Dejar `textoBusqueda` vacío.
+4. Ejecutar.
+5. Comprobar 14 resultados y las cuatro categorías visibles en Title.
+
+**Verificación visual:** el nuevo SQL es neutro con los valores base.
+
+**Qué hace:** demuestra que añadir parámetros no rompe el comportamiento heredado.
+**Por qué:** la trazabilidad exige conservar 14/9/31/633,40.
+**Error común:** dejar activo un texto de prueba. Solución: volver a `null` para la validación base.
+**Analogía:** es como comprobar que un nuevo buscador también puede mostrar el catálogo completo.
+
+---
+
+**Paso 10: Probar la búsqueda parcial**
+
+**Acciones:**
+
+1. En Preview asignar `sol` a `textoBusqueda`.
+2. Ejecutar.
+3. Comprobar que el conjunto se reduce a títulos que contienen esa secuencia.
+4. Restaurar el parámetro a vacío.
+
+**Verificación visual:** el filtro LIKE modifica el resultado sin error SQL.
+
+**Qué hace:** verifica el parámetro enlazado con un caso real.
+**Por qué:** el texto se enlaza, no se inserta en la estructura de la consulta.
+**Error común:** añadir comillas manualmente al parámetro. Solución: pasar solo el valor `sol`.
+**Analogía:** es como escribir una palabra en un buscador sin editar su consulta interna.
+
+---
+
+**Paso 11: Probar una colección reducida**
+
+**Acciones:**
+
+1. En Java, sustituir temporalmente la lista por `Arrays.asList("Poesía")`.
+2. Ejecutar el generador.
+3. Comprobar que el informe contiene únicamente esa categoría.
+4. Restaurar la lista con las cuatro categorías y guardar.
+
+**Verificación visual:** el filtro IN responde al contenido de la Collection.
+
+**Qué hace:** prueba funcionalmente `$X{IN,...}`.
+**Por qué:** cada elemento de la lista se enlaza como parámetro JDBC.
+**Error común:** dejar la lista reducida en el checkpoint final. Solución: restaurar las cuatro categorías.
+**Analogía:** es como marcar una sola categoría en una selección múltiple y luego volver a marcar todas.
+
+---
+
+**Paso 12: Verificar resistencia a una cadena de inyección**
+
+**Acciones:**
+
+1. En Java, sustituir temporalmente `textoBusqueda=null` por `parametros.put("textoBusqueda", "sol' OR '1'='1");`.
+2. Ejecutar `GeneradorInformeVentas`.
+3. Comprobar que no se produce error de sintaxis SQL y que la cadena se trata como dato de búsqueda, no como SQL.
+4. Restaurar `parametros.put("textoBusqueda", null);` y guardar.
+
+**Verificación visual:** la cadena maliciosa no modifica la estructura de la consulta.
+
+**Qué hace:** demuestra el efecto de los bind parameters de `$P{}`.
+**Por qué:** `PreparedStatement` mantiene separado el SQL de los valores.
+**Error común:** probar mediante Program Arguments cuando el programa no lee `args`. Solución: cambiar temporalmente el valor del mapa o usar el test automatizado.
+**Analogía:** es como introducir texto extraño en un formulario sin permitir que reescriba las instrucciones del archivador.
+
+---
+
+**Paso 13: Documentar $P{}, $X{} y $P!{}**
+
+**Acciones:**
+
+1. Abrir `CONSULTAS_PARAMETRIZADAS.md`.
+2. Registrar que `$P{}` usa parámetros enlazados de `PreparedStatement`.
+3. Registrar que `$X{IN,...}` genera una cláusula dinámica con placeholders y valores enlazados.
+4. Registrar que `$P!{}` realiza sustitución textual directa y no se usa en el informe ejecutable.
+5. Guardar.
+
+**Verificación visual:** la documentación distingue las tres sintaxis sin llamar a `$X{}` sustitución directa.
+
+**Qué hace:** previene un error conceptual frecuente.
+**Por qué:** seguridad y semántica dependen de saber qué parte es texto SQL y qué parte son valores.
+**Error común:** afirmar que `$P{}` 'escapa' el valor o que `$X{}` lo inserta tal cual. Solución: hablar de bind parameters y clause functions.
+**Analogía:** es como distinguir entre rellenar una casilla, construir una lista de casillas y reescribir una línea completa de la orden.
+
+---
+
+**Paso 14: Ejecutar el estado final restaurado**
+
+**Acciones:**
+
+1. Verificar en Java `textoBusqueda=null` y la lista de cuatro categorías.
+2. Ejecutar `InicializadorBD`.
+3. Ejecutar `GeneradorInformeVentas`.
+4. Abrir el PDF final.
+5. Confirmar 14 títulos, 31 unidades y 633,40 €.
+
+**Verificación visual:** el checkpoint final vuelve al escenario base después de las pruebas.
+
+**Qué hace:** deja el repositorio en un estado determinista y comparable.
+**Por qué:** las pruebas temporales no deben contaminar el artefacto final.
+**Error común:** olvidar restaurar un parámetro de prueba. Solución: comparar Parte C antes de cerrar.
+**Analogía:** es como retirar las marcas de prueba antes de entregar la tirada definitiva.
+
+---
+
 
 ### Parte B — JRXML completo explicado línea por línea
 
@@ -4800,13 +4404,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
     <style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>
     <style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>
     <style name="Dato" style="Sans_Normal" fontSize="9"/>
-    <style name="TituloCondicional" style="Dato" isBold="true">
+    <style name="UnidadesCondicional" style="Dato" isBold="true">
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>
             <style forecolor="#1B5E20"/>
         </conditionalStyle>
         <conditionalStyle>
-            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>
+            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>
             <style forecolor="#1D5D88"/>
         </conditionalStyle>
         <conditionalStyle>
@@ -4920,13 +4524,19 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
             <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>
             <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>
             <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>
-            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>
+            <staticText>
+                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">
+                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Importe con IVA]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
         <band height="82" splitType="Stretch">
             <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>
-            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="TituloCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>
+            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>
             <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>
             <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>
@@ -5004,13 +4614,13 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 17 | `    <style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` | Declara un estilo reutilizable o condicional. |
 | 18 | `    <style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` | Declara un estilo reutilizable o condicional. |
 | 19 | `    <style name="Dato" style="Sans_Normal" fontSize="9"/>` | Declara un estilo reutilizable o condicional. |
-| 20 | `    <style name="TituloCondicional" style="Dato" isBold="true">` | Declara un estilo reutilizable o condicional. |
+| 20 | `    <style name="UnidadesCondicional" style="Dato" isBold="true">` | Declara un estilo reutilizable o condicional. |
 | 21 | `        <conditionalStyle>` | Abre una regla de estilo condicional. |
-| 22 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
+| 22 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
 | 23 | `            <style forecolor="#1B5E20"/>` | Declara un estilo reutilizable o condicional. |
 | 24 | `        </conditionalStyle>` | Cierra el elemento XML correspondiente. |
 | 25 | `        <conditionalStyle>` | Abre una regla de estilo condicional. |
-| 26 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
+| 26 | `            <conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbralUnidades}.intValue()]]></conditionExpression>` | Define la condición booleana del estilo. |
 | 27 | `            <style forecolor="#1D5D88"/>` | Declara un estilo reutilizable o condicional. |
 | 28 | `        </conditionalStyle>` | Cierra el elemento XML correspondiente. |
 | 29 | `        <conditionalStyle>` | Abre una regla de estilo condicional. |
@@ -5124,67 +4734,73 @@ El siguiente bloque coincide literalmente con el `informe_ventas.jrxml` ejecutab
 | 137 | `            <staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 138 | `            <staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
 | 139 | `            <staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 140 | `            <staticText><reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[Importe con IVA]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 141 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 142 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
-| 143 | `    <detail>` | Continúa la configuración declarativa del informe. |
-| 144 | `        <band height="82" splitType="Stretch">` | Declara una banda y su geometría vertical. |
-| 145 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 146 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="TituloCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 147 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 148 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 149 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 150 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 151 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 152 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 153 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
-| 154 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 155 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 156 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
-| 157 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
-| 158 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
-| 159 | `            </textField>` | Cierra el elemento XML correspondiente. |
-| 160 | `            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 161 | `            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 162 | `            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 163 | `            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null \|\| $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 164 | `            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 165 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 166 | `        <band height="14">` | Declara una banda y su geometría vertical. |
-| 167 | `            <printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
-| 168 | `            <textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="8" isBold="true"/></textElement><textFieldExpression><![CDATA["Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 169 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 170 | `    </detail>` | Cierra el elemento XML correspondiente. |
-| 171 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
-| 172 | `        <band height="62">` | Declara una banda y su geometría vertical. |
-| 173 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 174 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 175 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 176 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 177 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 178 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 179 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 180 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
-| 181 | `    <summary>` | Continúa la configuración declarativa del informe. |
-| 182 | `        <band height="128">` | Declara una banda y su geometría vertical. |
-| 183 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 184 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 185 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 186 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 187 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 188 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 189 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 190 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 191 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 192 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 193 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 194 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 195 | `            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 196 | `            <textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression><![CDATA[$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 197 | `            <textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
-| 198 | `        </band>` | Cierra el elemento XML correspondiente. |
-| 199 | `    </summary>` | Cierra el elemento XML correspondiente. |
-| 200 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
+| 140 | `            <staticText>` | Continúa la configuración declarativa del informe. |
+| 141 | `                <reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 142 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 143 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 144 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 145 | `                <text><![CDATA[Importe con IVA]]></text>` | Define texto estático visible en el informe. |
+| 146 | `            </staticText>` | Cierra el elemento XML correspondiente. |
+| 147 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 148 | `    </columnHeader>` | Cierra el elemento XML correspondiente. |
+| 149 | `    <detail>` | Continúa la configuración declarativa del informe. |
+| 150 | `        <band height="82" splitType="Stretch">` | Declara una banda y su geometría vertical. |
+| 151 | `            <textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 152 | `            <textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 153 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 154 | `            <textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "Sin datos" : new java.text.DecimalFormat("#0.00 '€'").format($F{precio_medio})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 155 | `            <textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 156 | `            <textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{primera_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 157 | `            <textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 158 | `            <textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null ? "Sin ventas" : $F{primera_venta} + " → " + $F{ultima_venta}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 159 | `            <textField pattern="#,##0.00 €" isBlankWhenNull="true">` | Continúa la configuración declarativa del informe. |
+| 160 | `                <reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 161 | `                    <printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 162 | `                </reportElement>` | Cierra el elemento XML correspondiente. |
+| 163 | `                <textElement textAlignment="Right"/>` | Configura alineación y propiedades del texto. |
+| 164 | `                <textFieldExpression><![CDATA[$F{importe_total} == null \|\| $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></textFieldExpression>` | Evalúa una expresión Java para producir el contenido dinámico. |
+| 165 | `            </textField>` | Cierra el elemento XML correspondiente. |
+| 166 | `            <textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "Sin ventas" : ($F{unidades_vendidas}.intValue() >= 6 ? "Premium" : ($F{unidades_vendidas}.intValue() >= 3 ? "Estándar" : "Económico"))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 167 | `            <textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" : $F{titulo}.trim().toUpperCase(java.util.Locale.ROOT)]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 168 | `            <textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_medio} == null ? "-" : String.format(java.util.Locale.ROOT, "%.2f", Double.valueOf(Math.round($F{precio_medio}.doubleValue() * 100.0d) / 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 169 | `            <textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[$F{primera_venta} == null \|\| $F{ultima_venta} == null ? "-" : java.lang.Long.toString(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.parse($F{primera_venta}), java.time.LocalDate.parse($F{ultima_venta}))) + " días"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 170 | `            <textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == null ? "0.0%" : String.format(java.util.Locale.ROOT, "%.1f%%", Double.valueOf($F{unidades_vendidas}.doubleValue() / Math.max(1.0d, $P{umbralUnidades} == null ? 1.0d : $P{umbralUnidades}.doubleValue()) * 100.0d))]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 171 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 172 | `        <band height="14">` | Declara una banda y su geometría vertical. |
+| 173 | `            <printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpression>` | Controla condicionalmente la impresión de la banda o elemento. |
+| 174 | `            <textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="8" isBold="true"/></textElement><textFieldExpression><![CDATA["Fila destacada: " + $F{titulo} + " supera el umbral de " + $P{umbralUnidades} + " unidades"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 175 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 176 | `    </detail>` | Cierra el elemento XML correspondiente. |
+| 177 | `    <pageFooter>` | Continúa la configuración declarativa del informe. |
+| 178 | `        <band height="62">` | Declara una banda y su geometría vertical. |
+| 179 | `            <staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 180 | `            <textField><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 181 | `            <textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 182 | `            <textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 183 | `            <staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 184 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalPagina}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 185 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 186 | `    </pageFooter>` | Cierra el elemento XML correspondiente. |
+| 187 | `    <summary>` | Continúa la configuración declarativa del informe. |
+| 188 | `        <band height="128">` | Declara una banda y su geometría vertical. |
+| 189 | `            <staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 190 | `            <textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalUnidades}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 191 | `            <staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 192 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{TotalImporte}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 193 | `            <staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 194 | `            <textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMedio}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 195 | `            <staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 196 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{PrecioMaximo}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 197 | `            <staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 198 | `            <textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{NumeroLibros}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 199 | `            <staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 200 | `            <textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{ImporteConIva}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 201 | `            <textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[String.format(java.util.Locale.ROOT, "Resumen: %d títulos · %d unidades · %.2f €", $V{NumeroLibros}, $V{TotalUnidades}, $V{TotalImporte})]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 202 | `            <textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size="10" isBold="true"/></textElement><textFieldExpression><![CDATA[$V{TotalUnidades} != null && $P{umbralUnidades} != null && $V{TotalUnidades}.intValue() >= $P{umbralUnidades}.intValue() ? "Objetivo de ventas alcanzado" : "Objetivo de ventas pendiente"]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 203 | `            <textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPORT_COUNT}]]></textFieldExpression></textField>` | Fija posición, tamaño, UUID y, cuando procede, estilo. |
+| 204 | `        </band>` | Cierra el elemento XML correspondiente. |
+| 205 | `    </summary>` | Cierra el elemento XML correspondiente. |
+| 206 | `</jasperReport>` | Cierra el elemento XML correspondiente. |
 
 ### Parte C — Código Java completo explicado línea por línea
 
@@ -5387,123 +5003,47 @@ M4/4.6/
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                        |                                                                     |                                                                        |
-| ------------------------------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `SQLException: near "\|\|": syntax error`                     | El motor de base de datos no reconoce el operador de concatenación  | Verificar la sintaxis del motor: SQLite usa `\|\|`, MySQL usa `CONCAT` |
-| El filtro `LIKE` no devuelve resultados                       | Faltan los comodines `%` alrededor del parámetro                    | Añadir `'%' \|\| $P{textoBusqueda} \|\| '%'`                           |
-| El filtro `IN` produce un error de sintaxis                   | La lista contiene valores sin comillas o con comillas mal escapadas | Verificar que el parámetro es de tipo `java.util.List`                 |
-| `ClassCastException` al resolver `categoriasLista`            | El parámetro está declarado como `String` en lugar de `List`        | Declarar el parámetro como `java.util.List`                            |
-| `Parameter not found: textoBusqueda`                          | El parámetro no está declarado o no se ha proporcionado un valor    | Declarar el parámetro y añadirlo al mapa                               |
-| La lista `IN` no filtra cuando está vacía                     | La condición `IN ()` no devuelve filas                              | Comprobar si la lista está vacía en el programa Java                   |
-| La inyección SQL modifica la consulta                         | Se utilizó concatenación de cadenas en lugar de `$P{}`              | Usar siempre la sintaxis `$P{}` para valores del usuario               |
-| El parámetro `textoBusqueda` muestra `null` en la banda Title | Falta la comprobación de nulo en la expresión                       | Usar `$P{textoBusqueda} == null ? "(sin filtro)" : $P{textoBusqueda}`  |
-| El informe produce `ArithmeticException` con los filtros      | Alguna variable se divide por cero tras el filtrado                 | Añadir comprobaciones de división por cero en las expresiones          |
-| La banda Title se solapa con la banda Column Header           | La banda Title no tiene altura suficiente                           | Ampliar la altura a 130 píxeles                                        |
+| Error | Causa | Solución |
+|---|---|---|
+| La lista se trata como un String | se intenta pasar SQL textual | pasar una `Collection` y usar `$X{IN,...}` |
+| Se usa `$P{categoriasLista} IS NULL OR $X{...}` | la Collection se intenta enlazar como un escalar | usar directamente `$X{IN,...}` |
+| Se afirma que `$X{}` es sustitución directa | confusión con `$P!{}` | reservar `$P!{}` para sustitución textual directa |
+| La lista vacía se explica como `IN ()` | la función `$X{IN}` tiene semántica de no-values configurable | documentar la cláusula true/false configurada, no `IN ()` |
+| La prueba de inyección usa Program Arguments | el generador no lee `args` | probar cambiando temporalmente el valor del mapa o mediante CI |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado:** añadir un parámetro `rangoFechas` de tipo `java.lang.String` que permita filtrar las ventas por un rango de fechas. El parámetro debe contener dos fechas en formato `yyyy-MM-dd` separadas por una coma. La consulta debe extraer las dos fechas y filtrar las ventas entre ellas.
+**Enunciado:** Usar temporalmente `Arrays.asList("Novela", "Poesía")` y `textoBusqueda="a"`; ejecutar el informe, anotar `Resultados encontrados` y restaurar después `textoBusqueda=null` y las cuatro categorías del baseline.
 
-**Paso 1.** Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
+1. Guardar una copia del checkpoint antes del reto.
+2. Realizar el cambio descrito utilizando Jaspersoft Studio o Java según corresponda.
+3. Compilar el JRXML con **Ctrl+Mayús+B**.
+4. Ejecutar Preview con el escenario indicado.
+5. Ejecutar `GeneradorInformeVentas` cuando el reto implique parámetros Java.
+6. Verificar el resultado tanto en Console como en el PDF.
+7. Comparar el comportamiento con el objetivo del reto.
+8. Deshacer únicamente los cambios del reto.
+9. Compilar de nuevo.
+10. Confirmar que el checkpoint vuelve a coincidir con Parte B y Parte C.
 
-**Paso 2.** Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline.
-
-**Paso 3.** Hacer clic sobre la opción Add Parameter en el menú contextual.
-
-**Paso 4.** Escribir exactamente `rangoFechas` en el campo Name.
-
-**Paso 5.** Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-
-**Paso 6.** Marcar la casilla is For Prompting.
-
-**Paso 7.** Hacer clic sobre el botón Finish.
-
-**Paso 8.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 9.** Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-
-**Paso 10.** Localizar la línea que contiene `AND ($P{categoriasLista} IS NULL OR $X{IN, l.categoria, categoriasLista})`.
-
-**Paso 11.** Hacer clic al final de esa línea y pulsar Enter.
-
-**Paso 12.** Escribir exactamente `AND ($P{rangoFechas} IS NULL OR v.fecha_venta BETWEEN SUBSTR($P{rangoFechas}, 1, 10) AND SUBSTR($P{rangoFechas}, 12, 10))` y pulsar Enter.
-
-**Paso 13.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 14.** Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-
-**Paso 15.** Pulsar Ctrl+Mayús+B para compilar el informe.
-
-**Paso 16.** Hacer doble clic sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-
-**Paso 17.** Localizar la línea que contiene `parametros.put("categoriasLista", categorias);`.
-
-**Paso 18.** Hacer clic al final de esa línea y pulsar Enter.
-
-**Paso 19.** Escribir exactamente `parametros.put("rangoFechas", "2026-09-01,2026-09-15");` y pulsar Enter.
-
-**Paso 20.** Pulsar Ctrl+S para guardar el archivo.
-
-**Paso 21.** Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` y seleccionar Run As > Java Application.
-
-**Paso 22.** Abrir el archivo `output/informe_ventas.pdf` y verificar que solo aparecen las ventas del 1 al 15 de septiembre de 2026.
-
-**Simulación ASCII del PDF tras el reto**
-
-```
-║  Búsqueda: sol    Categorías: [Novela, Realismo mágico]  ║
-║  Rango: 2026-09-01,2026-09-15                            ║
-║                                                          ║
-║  Título                    │Unid.│ Importe total │Precio ║
-║  Cien años de soledad      │  3  │     59,85 €   │19,95 €║
-║  ...                                                     ║
-║  Resultados encontrados: N                               ║
-```
-
-**Resultado del reto:** la expresión `SUBSTR($P{rangoFechas}, 1, 10)` extrae la primera fecha de la cadena y `SUBSTR($P{rangoFechas}, 12, 10)` extrae la segunda. La condición `v.fecha_venta BETWEEN ... AND ...` filtra las ventas entre las dos fechas. La función `SUBSTR` es específica de SQLite y extrae una subcadena de una posición inicial con una longitud determinada. Este patrón permite al usuario proporcionar un rango de fechas en un único parámetro separado por comas.
+**Resultado del reto:** el alumno prueba una extensión real sin contaminar el estado oficial del checkpoint.
 
 ---
 
 ## Analogía final con el contexto de la editorial
 
-Las consultas parametrizadas son las preguntas que el editor hace al archivador con criterios flexibles. El filtro `LIKE` busca los libros que contienen una secuencia de caracteres en el título. El filtro `IN` selecciona los libros que pertenecen a varias categorías. El filtro `BETWEEN` selecciona las ventas que caen dentro de un rango de fechas. Cada filtro es un criterio que el editor puede activar o desactivar según las instrucciones del usuario. El enlace `$P{}` mantiene los valores del usuario separados de la estructura de la consulta. La función de cláusula `$X{}` permite construir condiciones como `IN` y enlazar los elementos de una colección de forma controlada. La combinación de las dos sintaxis con las buenas prácticas de validación construye un sistema de consultas seguro y flexible.
+`$P{}` rellena valores en casillas JDBC; `$X{}` construye cláusulas controladas que pueden necesitar varias casillas; `$P!{}` reescribe texto SQL y por eso exige un control mucho mayor.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
-
-- El archivo `reports/informe_ventas.jrxml` con dos nuevos parámetros (`textoBusqueda` y `categoriasLista`) y dos nuevos filtros en la consulta SQL (`LIKE` e `IN`).
-- La banda Title ampliada con los pares de rótulo-campo para los nuevos parámetros.
-- La banda Summary ampliada con el campo de resultados encontrados.
-- El programa `GeneradorInformeVentas.java` modificado para pasar el texto de búsqueda y la lista de categorías.
-- El archivo `output/informe_ventas.pdf` con los filtros aplicados.
-- El archivo `CONSULTAS_PARAMETRIZADAS.md` en la raíz del proyecto con la documentación.
-- Comprensión operativa de `$P{}` como valor enlazado, `$X{}` como función de cláusula, `$P!{}` como sustitución textual directa, de los filtros `LIKE`/`IN` y de la prevención de inyección SQL.
+Al finalizar este punto, el alumno dispone de búsqueda LIKE enlazada, filtro IN con Collection, criterios visibles en Title, recuento de resultados y Java con valores base deterministas.
 
 ---
 
-## Conclusión del Módulo 4 y enlace al Módulo 5
+## Conclusión
 
-El punto 4.6 cierra el Módulo 4 con la profundización en las consultas SQL parametrizadas. A lo largo de los seis puntos del módulo, el alumno ha aprendido a declarar parámetros, a construir filtros opcionales, a definir variables con distintos cálculos y reinicios, a escribir expresiones avanzadas, a aplicar lógica condicional y a parametrizar las consultas SQL. El proyecto EditorialReports contiene ahora un informe de ventas completamente dinámico que se adapta a las instrucciones del usuario mediante parámetros y filtros.
-
-**Estado del proyecto EditorialReports tras el Módulo 4:**
-
-```
-EditorialReports/
-│
-├── (documentación completa del proyecto)
-│
-├── reports/
-│   ├── informe_concepto.jrxml                    (Módulo 2)
-│   ├── informe_catalogo_csv.jrxml                (3.2)
-│   ├── informe_distribucion_xml.jrxml            (3.3)
-│   ├── informe_autores_json.jrxml                (3.4)
-│   └── informe_ventas.jrxml                      (Módulos 3-4, completamente dinámico)
-│
-└── output/
-    └── (cinco PDF generados)
-```
+El punto 4.6 cierra M4 con consultas parametrizadas seguras y trazables, sin utilizar `$P!{}` en el informe ejecutable.

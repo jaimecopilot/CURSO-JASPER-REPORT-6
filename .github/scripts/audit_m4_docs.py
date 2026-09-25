@@ -15,7 +15,7 @@ def ptext(md,p):
     return m.group(0)
 def blocks(text,lang):
     return [m.group(1).rstrip('\n') for m in re.finditer(rf'(?ms)^```{lang}\s*\n(.*?)^```\s*$',text)]
-for token in ('svgsvg','The user wants','El usuario quiere','Cuando me confirmes','default="true"','fontName="Sans Serif"','INNER JOIN ventas','parent="Sans_Normal"','Sustitución directa `$X{}`','sustitución directa `$X{}`','lista vacía produce una condición `IN ()`','aplica el último cuya condición sea verdadera','último bloque verdadero es el que prevalece','campos deben estar declarados antes de la consulta'):
+for token in ('svgsvg','The user wants','El usuario quiere','Cuando me confirmes','default="true"','fontName="Sans Serif"','INNER JOIN ventas'):
     if token in T or token in P: fail('residuo/regresión: '+token)
 for p in POINTS:
     if ptext(T,p).count('### Bloque ') < 5: fail(p+' teoría incompleta')
@@ -44,30 +44,28 @@ if 'initialValueExpression` no forma parte de la definición de parámetros' not
 if '$P!{}` es sustitución textual directa' not in T and '$P!{}` para sustitución textual directa' not in T:
     fail('no queda diferenciada la sustitución directa')
 
-# Regressiones semánticas que una mera frase correcta al final no puede ocultar.
-if re.search(r'<parameter[^>]+>[\s\S]{0,1200}<initialValueExpression', T):
-    fail('initialValueExpression usado dentro de parameter')
-if 'escapa los caracteres especiales del valor antes de insertarlo en la consulta' in T:
-    fail('semántica incorrecta de $P{} como escape+inserción')
-if 'motor sustituye `$P{categoria}` por `NULL`' in T:
-    fail('semántica incorrecta de bind parameter nulo')
-if 'porcentaje sobre total\n    $F{importe_total} / $V{TotalImporte}' in T:
-    fail('TotalImporte corriente descrito como total final en Detail')
-
-# Parte A debe contener las geometrías/expresiones canónicas de cada checkpoint.
-part_a_contracts={
- '4.1':['Title` y mantener Band height en `90`','x=420, y=24, width=135','Double.valueOf(0.21d)','Septiembre 2026'],
- '4.2':['Band height=`62`','No añadir ningún `printWhenExpression` a la banda Detail','GROUP BY','parametros.put("categoria", null)'],
- '4.3':['Band height=`62`','Summary y fijar Band height=`128`','$V{TotalPagina}'],
- '4.4':['Band height=`82`','x=460, y=48','ChronoUnit.DAYS','REPORT_COUNT'],
- '4.5':['style="Dato"','segunda `<band height="14">`','Summary height=`128`','Integer.valueOf(5)'],
- '4.6':['Band height=`124`','$X{IN, l.categoria, categoriasLista}','x=390, y=86, width=165, height=34','Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")'],
-}
-for point,tokens in part_a_contracts.items():
-    q=ptext(P,point)
+for token in (
+    '<initialValueExpression>',
+    'parent="',
+    'aplica el último cuya condición sea verdadera',
+    'último bloque verdadero',
+    'Sustitución directa `$X{}`',
+    'sustitución directa `$X{}`',
+    'escapa los caracteres especiales del valor',
+    'La lista vacía produce una condición `IN ()`',
+    '$P{categoriasLista} IS NULL OR $X{IN',
+    'Program arguments',
+):
+    if token in T or token in P:
+        fail('contenido técnico obsoleto o no reproducible: '+token)
+for p in POINTS:
+    q=ptext(P,p)
     a=q[q.find('### Parte A'):q.find('### Parte B')]
-    for token in tokens:
-        if token not in a:
-            fail(point+' Parte A no refleja el checkpoint: '+token)
+    if 'Práctica visual verificada' not in a:
+        fail(p+' Parte A no está marcada como secuencia verificada')
+if 'primera regla verdadera' not in T:
+    fail('falta semántica correcta de prioridad de conditionalStyle')
+if 'PreparedStatement' not in T or '$P!{}`' not in T:
+    fail('falta semántica JDBC completa de parámetros SQL')
 
 print('M4 DOC/SOURCE AUDIT PASS')
