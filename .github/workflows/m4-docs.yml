@@ -1,4 +1,5 @@
 name: M4 - Generar PDFs docentes
+# final-audit-v2
 
 on:
   push:
@@ -7,6 +8,7 @@ on:
       - '.github/scripts/render_m4_docs.py'
       - '.github/scripts/audit_m4_docs.py'
       - '.github/scripts/audit_m4_traceability.py'
+      - '.github/workflows/m4-docs.yml'
       - 'M4/TEORIA_M4.md'
       - 'M4/PRACTICA_M4.md'
   workflow_dispatch:
