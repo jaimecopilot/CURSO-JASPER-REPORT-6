@@ -407,6 +407,31 @@ def corrected_theory(point, sec):
   summary=summary.replace('- La compilación genera artefactos adicionales con el sufijo `_table_N`.','- La tabla se compila dentro de `informe_ventas.jasper`; no genera un `.jasper` independiente.')
   summary=summary.replace('`jr:table`','`c:table`')
   summary=summary.replace('Los estilos se declaran con `jr:tableStyle` y sus bloques `box`, `columnHeaderStyle` y `detailCellStyle`.','Los estilos son estilos JasperReports normales aplicados a `c:columnHeader` y `c:detailCell`.')
+  contract='''#### Contrato ejecutable de `DatasetTopVentas`
+
+La tabla del checkpoint 5.2 no recorre el dataset principal. Usa el subdataset real `DatasetTopVentas`, que recibe el parámetro `tituloLibro` y devuelve exactamente tres fields: `fecha_venta`, `cantidad` y `precio_unitario`.
+
+```xml
+<subDataset name="DatasetTopVentas">
+    <parameter name="tituloLibro" class="java.lang.String"/>
+    <queryString language="sql"><![CDATA[
+        SELECT fecha_venta, cantidad, precio_unitario
+        FROM ventas
+        WHERE titulo_libro = $P{tituloLibro}
+        ORDER BY cantidad DESC, fecha_venta
+        LIMIT 3
+    ]]></queryString>
+    <field name="fecha_venta" class="java.lang.String"/>
+    <field name="cantidad" class="java.lang.Integer"/>
+    <field name="precio_unitario" class="java.lang.Double"/>
+</subDataset>
+```
+
+El `datasetRun` de `c:table` pasa `$F{titulo}` a `tituloLibro` y reutiliza `$P{REPORT_CONNECTION}`. Por tanto, cada fila del informe maestro obtiene su propio Top 3 sin alterar la consulta principal. Los encabezados usan `M5TableHeader` y las celdas de detalle `M5TableDetail`.
+
+Este contrato conecta directamente la teoría con la Parte A, el JRXML completo de Parte B y la ejecución de Parte C: si cambia el nombre del subdataset, del parámetro o de cualquiera de los fields, la tabla deja de reproducir el checkpoint validado.'''
+  theory=theory.rstrip()+'\n\n'+contract
+  summary=summary.rstrip()+'\n\n- La tabla ejecutable usa `DatasetTopVentas`, recibe `tituloLibro` y presenta `fecha_venta`, `cantidad` y `precio_unitario`.'
  if point=='5.3':
   for old,new in [('GrupoCategoria','CategoriaGroup'),('SubtotalCategoria','GrupoImporte'),('ContadorCategoria','GrupoLibros')]:
    theory=theory.replace(old,new); summary=summary.replace(old,new)
