@@ -1,4 +1,5 @@
 name: M6 - Validacion end-to-end
+# Final M6 challenge coverage: protected PDF, dual XLSX, HTML link, ODT and centralized config.
 
 on:
   push:
