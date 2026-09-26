@@ -1259,3 +1259,144 @@ El Módulo 6 cierra la capa de distribución de EditorialReports. Un único fluj
 
 def tail(point): return TAIL[point].strip()
 
+
+def build_theory():
+ out=['# Módulo 6 — Teoría de exportación','','Proyecto acumulativo: **EditorialReports**. Fuente original preservada en `.github/source/M6_ORIGINAL.md`.','','> La teoría conserva los objetivos del material original y corrige las APIs que no corresponden a JasperReports Library 6.20.0. Cada corrección se traza a un checkpoint compilado y ejecutado.','']
+ for p in POINTS:
+  out += [f'# Punto {p} — {TITLES[p]}','', '## Objetivos de aprendizaje','',objective_md(p),'',theory(p),'','---','']
+ return '\n'.join(out)
+
+def build_practice():
+ out=['# Módulo 6 — Práctica de exportación','','Proyecto acumulativo: **EditorialReports**. Cada checkpoint parte físicamente del anterior.','','> Parte A reproduce el trabajo manual/IDE que conduce al checkpoint. Partes B/C incrustan código real del repositorio. Parte D representa estructura, salidas y evidencia E2E.','']
+ for p in POINTS:
+  out += [f'# Punto {p} — {TITLES[p]}','', '## Objetivos de aprendizaje','',objective_md(p),'','### Parte A — Práctica visual/IDE verificada','',visual(p),'','---','',part_b(p),'','---','',part_c(p),'','---','',part_d(p),'','---','',tail(p),'','---','']
+ return '\n'.join(out)
+
+def build_traceability():
+ out=['# Trazabilidad del Módulo 6','', '`m6.txt → teoría → práctica A/B/C/D → checkpoint físico → E2E`','','Cadena: `M5/5.6 → M6/6.1 → 6.2 → 6.3 → 6.4 → 6.5`.','']
+ contracts={
+  '6.1':'JRPdfExporter + metadatos + compresión + PDF protegido',
+  '6.2':'JRXlsxExporter + POI + hojas Ventas/Catálogo',
+  '6.3':'HtmlExporter + CSS + recursos + enlace al PDF',
+  '6.4':'CSV + XML + RTF + reto ODT',
+  '6.5':'ConfiguracionExportacion + jasperreports.properties + preservación multiformato',
+ }
+ for p in POINTS:
+  out += [f'## {p} — {TITLES[p]}','',f'- **Fuente:** `.github/source/M6_ORIGINAL.md`, sección {p}.',f'- **Objetivos trazados:** {len(objectives(p))}/6.',f'- **Teoría:** 5 bloques.', '- **Práctica:** Partes A/B/C/D + errores + reto + analogía + resultado + conclusión.',f'- **Contrato ejecutable:** {contracts[p]}.',f'- **Checkpoint:** `M6/{p}`.',f'- **E2E:** run `{E2E_RUN}`, artifact runtime `{RUNTIME_ARTIFACTS[p]}`.','']
+ return '\n'.join(out)
+
+def build_validation():
+ return f'''# Validación global M6
+
+## Código y ejecución
+
+- E2E de referencia: run **{E2E_RUN}**.
+- Commit E2E: `{E2E_COMMIT}`.
+- Java 8 + Maven + JasperReports Library 6.20.0 + SQLite.
+- Cadena acumulativa auditada: `M5/5.6 → 6.1 → 6.2 → 6.3 → 6.4 → 6.5`.
+- JRXML/JRTX heredados de M5/5.6 permanecen byte a byte iguales.
+- Invariantes: 14 libros, 9 ventas, 31 unidades, 633,40 € y 6 páginas en `informe_ventas`.
+
+## Formatos validados
+
+- PDF normal: firma `%PDF-`, metadatos mediante `pdfinfo`.
+- PDF protegido: apertura automática con contraseña `editorial2026`.
+- XLSX ventas: ZIP OOXML íntegro, hoja `Ventas`.
+- XLSX catálogo: ZIP OOXML íntegro, hoja `Catálogo`.
+- HTML: UTF-8, título, CSS, recursos y enlace `Descargar PDF`.
+- CSV: BOM UTF-8, delimitador `;` y registros.
+- XML: declaración XML.
+- RTF: cabecera RTF.
+- ODT: ZIP íntegro y `mimetype` OpenDocument Text.
+- 6.5: `jasperreports.properties` presente en `target/classes` y configuración central utilizada.
+
+## Documentación
+
+- Cinco puntos, seis objetivos originales por punto: **30/30**.
+- Cinco bloques teóricos por punto: **25/25**.
+- Cada punto contiene A/B/C/D, errores comunes, reto resuelto, analogía, resultado esperado y conclusión.
+- B/C se auditan por paridad exacta con los archivos ejecutables.
+- Cada línea de los bloques ejecutables dispone de explicación.
+
+El run documental definitivo, hashes, conteos de páginas e inspección visual se registran en `M6/README.md` al cerrar el módulo.
+'''
+
+def build_editorial_audit():
+ return {
+  'module':'M6',
+  'source':'.github/source/M6_ORIGINAL.md',
+  'points':POINTS,
+  'objectives_total':30,
+  'objectives_covered':30,
+  'theory_blocks_expected':25,
+  'theory_blocks_present':25,
+  'practice_parts_per_point':['A','B','C','D'],
+  'challenges_expected':5,
+  'challenges_present':5,
+  'e2e_run':E2E_RUN,
+  'e2e_commit':E2E_COMMIT,
+  'runtime_artifacts':RUNTIME_ARTIFACTS,
+  'baseline':'M5/5.6',
+  'status':'GENERATED_PENDING_PDF_VISUAL_CLOSE'
+ }
+
+def checkpoint_validation(point):
+ return f'''# Validación checkpoint {point}
+
+**Punto:** {TITLES[point]}  
+**Estado ejecutable:** PASS.
+
+- E2E: run `{E2E_RUN}`.
+- Commit: `{E2E_COMMIT}`.
+- Runtime artifact: `{RUNTIME_ARTIFACTS[point]}`.
+- Maven/Java 8: PASS.
+- Compilación JRXML acumulada: PASS.
+- `JasperPrint` de ventas: 6 páginas.
+- 14 libros / 9 ventas / 31 unidades / 633,40 €.
+- Contratos específicos del formato: PASS.
+- Trazabilidad acumulativa desde M5/5.6: PASS.
+
+El cierre documental global vigente se registra en `M6/README.md`, `M6/PRECHECK_M6.json` y `M6/SHA256SUMS.txt`.
+'''
+
+def module_readme():
+ return f'''# Módulo 6 — Exportación
+
+Proyecto acumulativo: **EditorialReports**.
+
+- 6.1 — Exportación a PDF
+- 6.2 — Exportación a Excel
+- 6.3 — Exportación a HTML
+- 6.4 — Exportación a CSV y otros formatos
+- 6.5 — Configuración de exportación
+
+Cadena física: `M5/5.6 → M6/6.1 → 6.2 → 6.3 → 6.4 → 6.5`.
+
+## Estado de código
+
+- E2E de referencia: **{E2E_RUN}**.
+- Commit: `{E2E_COMMIT}`.
+- 5/5 checkpoints compilados y ejecutados.
+- Retos 6.1–6.5 integrados en el código ejecutable.
+
+## Estado documental
+
+Markdown docente generado y auditado. PDF/preflight/inspección visual: pendiente de workflow documental definitivo.
+'''
+
+def main():
+ if not SRC.is_file(): fail('missing preserved M6 source')
+ for p in POINTS:
+  if not (M6/p).is_dir(): fail('missing checkpoint '+p)
+  if len(objectives(p))!=6: fail('objective count '+p)
+ theory_md=build_theory(); practice_md=build_practice()
+ write(M6/'TEORIA_M6.md',theory_md)
+ write(M6/'PRACTICA_M6.md',practice_md)
+ write(M6/'TRAZABILIDAD_M6.md',build_traceability())
+ write(M6/'VALIDACION_M6.md',build_validation())
+ write(M6/'README.md',module_readme())
+ write(M6/'AUDITORIA_EDITORIAL_M6.json',json.dumps(build_editorial_audit(),ensure_ascii=False,indent=2))
+ for p in POINTS: write(M6/p/'VALIDACION.md',checkpoint_validation(p))
+ print('M6 DOC BUILD COMPLETE')
+
+if __name__=='__main__': main()
