@@ -30,15 +30,4 @@
 - B/C se auditan por paridad exacta con los archivos ejecutables.
 - Cada línea de los bloques ejecutables dispone de explicación.
 
-## Cierre documental definitivo
-
-- Workflow documental: **36249410328 — SUCCESS**.
-- Artifact: **10908269446** (`M6-documentacion-final`).
-- Commit documental generado: `3a25df960dde4aabe2119489be40ba8183221f9f`.
-- `TEORIA_M6.pdf`: **12 páginas A4**, SHA-256 `c2fde5381fba61a2d1c71bdb3d36d52f96fe236250730cd78689c4c8769460c6`.
-- `PRACTICA_M6.pdf`: **225 páginas A4**, SHA-256 `f0cfa3f946ceae07efb0c2d20ee2f3277569721fdc40b6cf0b7362a52356f01d`.
-- Preflight: **0 incidencias**, **0 glifos de sustitución**.
-- Inspección visual distribuida: **PASS**.
-- CSS del renderer M6: paridad exigida con el baseline M5.
-
-**Estado final: M6 CERRADO / PASS E2E / PASS DOCUMENTACIÓN / PASS VISUAL.**
+El run documental definitivo, hashes, conteos de páginas e inspección visual se registran en `M6/README.md` al cerrar el módulo.

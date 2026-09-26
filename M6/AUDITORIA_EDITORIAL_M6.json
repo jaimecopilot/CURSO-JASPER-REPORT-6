@@ -30,24 +30,5 @@
     "6.5": 10908427540
   },
   "baseline": "M5/5.6",
-  "status": "CLOSED_PASS",
-  "docs_run": 36249410328,
-  "docs_artifact": 10908269446,
-  "docs_commit": "3a25df960dde4aabe2119489be40ba8183221f9f",
-  "pdf": {
-    "teoria": {
-      "pages": 12,
-      "sha256": "c2fde5381fba61a2d1c71bdb3d36d52f96fe236250730cd78689c4c8769460c6"
-    },
-    "practica": {
-      "pages": 225,
-      "sha256": "f0cfa3f946ceae07efb0c2d20ee2f3277569721fdc40b6cf0b7362a52356f01d"
-    }
-  },
-  "pdf_preflight": {
-    "issues": 0,
-    "replacement_glyphs": 0
-  },
-  "visual_inspection": "PASS",
-  "visual_baseline": "M5 renderer CSS"
+  "status": "GENERATED_PENDING_PDF_VISUAL_CLOSE"
 }

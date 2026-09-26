@@ -923,7 +923,7 @@ Proyecto acumulativo: **EditorialReports**. Cada checkpoint parte físicamente d
 
 **Línea 114:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 115:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
+**Línea 115:** `l.categoria,` → Aporta el valor literal `l.categoria,` al elemento XML/POM actualmente abierto.
 
 **Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
@@ -1885,11 +1885,11 @@ public class GeneradorInformeVentas {
 
 **Línea 59:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 60:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 60:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 61:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 62:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 62:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 63:** `configuracion.setMetadataTitle("Informe de Ventas - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -1905,23 +1905,23 @@ public class GeneradorInformeVentas {
 
 **Línea 69:** `configuracion.setCompressed(Boolean.TRUE);` → Activa la compresión del PDF mediante la configuración del exportador.
 
-**Línea 70:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 70:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 71:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 71:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 72:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 72:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 73:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 73:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 74:** `}` → Cierra el método `main`.
 
 **Línea 75:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 76:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 76:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdfProtegido`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 77:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 78:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 78:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 79:** `configuracion.setMetadataTitle("Informe de Ventas Protegido - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -1933,13 +1933,13 @@ public class GeneradorInformeVentas {
 
 **Línea 83:** `configuracion.setAllowedPermissionsHint("PRINTING|COPY|SCREENREADERS");` → Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.
 
-**Línea 84:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 84:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 85:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 85:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 86:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 86:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 87:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 87:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 88:** `}` → Cierra el método `main`.
 
@@ -2967,7 +2967,7 @@ El PDF normal es la tirada estándar y el PDF protegido es la misma tirada bajo 
 
 **Línea 114:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 115:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
+**Línea 115:** `l.categoria,` → Aporta el valor literal `l.categoria,` al elemento XML/POM actualmente abierto.
 
 **Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
@@ -3963,25 +3963,25 @@ public class GeneradorInformeVentas {
 
 **Línea 56:** `exportarPdfProtegido(documento, rutaPdfProtegido);` → Genera una segunda salida PDF cifrada para validar contraseñas y permisos sin alterar el PDF normal.
 
-**Línea 57:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 57:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Exporta el `JasperPrint` de ventas a `informe_ventas.xlsx` usando el nombre de hoja `Ventas`.
 
-**Línea 58:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 58:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Abre `data/catalogo.csv` como datasource JasperReports en UTF-8 para llenar el informe de catálogo sin JDBC.
 
 **Línea 59:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
 **Línea 60:** `catalogoDataSource.setFieldDelimiter(',');` → Configura punto y coma como delimitador de campos CSV.
 
-**Línea 61:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 61:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Indica que la primera fila del CSV contiene los nombres de los fields del informe de catálogo.
 
-**Línea 62:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 62:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Inicia el llenado del informe de catálogo y guarda el resultado paginado en `documentoCatalogo`.
 
-**Línea 63:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 63:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Completa `fillReport` pasando el catálogo compilado, un mapa de parámetros vacío y el `JRCsvDataSource`.
 
-**Línea 64:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 64:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 65:** `} finally {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 65:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
 
-**Línea 66:** `catalogoDataSource.close();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 66:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
 **Línea 67:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
@@ -4013,11 +4013,11 @@ public class GeneradorInformeVentas {
 
 **Línea 81:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 82:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 82:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 83:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 84:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 84:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 85:** `configuracion.setMetadataTitle("Informe de Ventas - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -4033,23 +4033,23 @@ public class GeneradorInformeVentas {
 
 **Línea 91:** `configuracion.setCompressed(Boolean.TRUE);` → Activa la compresión del PDF mediante la configuración del exportador.
 
-**Línea 92:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 92:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 93:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 93:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 94:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 94:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 95:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 95:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 96:** `}` → Cierra el método `main`.
 
 **Línea 97:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 98:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 98:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdfProtegido`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 99:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 100:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 100:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 101:** `configuracion.setMetadataTitle("Informe de Ventas Protegido - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -4061,19 +4061,19 @@ public class GeneradorInformeVentas {
 
 **Línea 105:** `configuracion.setAllowedPermissionsHint("PRINTING|COPY|SCREENREADERS");` → Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.
 
-**Línea 106:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 106:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 107:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 107:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 108:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 108:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 109:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 109:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 110:** `}` → Cierra el método `main`.
 
 **Línea 111:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 112:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 112:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Declara el helper privado `exportarXlsx`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 113:** `JRXlsxExporter exportador = new JRXlsxExporter();` → Crea el exportador OOXML que escribirá el libro XLSX.
 
@@ -4095,15 +4095,15 @@ public class GeneradorInformeVentas {
 
 **Línea 122:** `libro.setCreateCustomPalette(Boolean.TRUE);` → Activa la paleta personalizada del exportador XLSX para reproducir mejor los colores.
 
-**Línea 123:** `exportador.setConfiguration(informe);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 123:** `exportador.setConfiguration(informe);` → Aplica la configuración de informe XLSX: hoja, cuadrícula, bloqueo, tipos y paginación.
 
-**Línea 124:** `exportador.setConfiguration(libro);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 124:** `exportador.setConfiguration(libro);` → Aplica además la configuración global del libro XLSX, incluida la paleta personalizada.
 
-**Línea 125:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 125:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 126:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 126:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 127:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 127:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 128:** `}` → Cierra el método `main`.
 
@@ -4160,29 +4160,29 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara o abre el elemento `project` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 1:** `<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Abre el documento Maven `project` y declara los namespaces del modelo POM.
 
 **Línea 2:** `xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 3:** `<modelVersion>4.0.0</modelVersion>` → Declara o abre el elemento `modelVersion` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 3:** `<modelVersion>4.0.0</modelVersion>` → Declara la versión 4.0.0 del modelo de proyecto Maven.
 
-**Línea 4:** `<groupId>es.jaimegallo.editorialreports</groupId>` → Declara o abre el elemento `groupId` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 4:** `<groupId>es.jaimegallo.editorialreports</groupId>` → Identifica el grupo Maven del proyecto EditorialReports.
 
-**Línea 5:** `<artifactId>editorial-reports-m3</artifactId>` → Declara o abre el elemento `artifactId` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 5:** `<artifactId>editorial-reports-m3</artifactId>` → Define el identificador del artefacto Maven que se compila y empaqueta.
 
-**Línea 6:** `<version>1.0-SNAPSHOT</version>` → Declara o abre el elemento `version` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 6:** `<version>1.0-SNAPSHOT</version>` → Fija la versión del artefacto Maven.
 
-**Línea 7:** `<properties>` → Declara o abre el elemento `properties` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 7:** `<properties>` → Abre el bloque de propiedades Maven usado para codificación y nivel del compilador Java.
 
-**Línea 8:** `<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>` → Declara o abre el elemento `project.build.sourceEncoding` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 8:** `<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>` → Fija UTF-8 como codificación fuente del proyecto Maven.
 
-**Línea 9:** `<maven.compiler.source>8</maven.compiler.source>` → Declara o abre el elemento `maven.compiler.source` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 9:** `<maven.compiler.source>8</maven.compiler.source>` → Fija Java 8 como nivel de lenguaje de compilación.
 
-**Línea 10:** `<maven.compiler.target>8</maven.compiler.target>` → Declara o abre el elemento `maven.compiler.target` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 10:** `<maven.compiler.target>8</maven.compiler.target>` → Fija Java 8 como bytecode objetivo.
 
 **Línea 11:** `</properties>` → Cierra `properties` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 12:** `<repositories>` → Declara o abre el elemento `repositories` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 12:** `<repositories>` → Abre la lista de repositorios adicionales desde los que Maven puede resolver dependencias.
 
 **Línea 13:** `<repository><id>jaspersoft-third-party</id><url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url></repository>` → Composición de la línea: encadena además <repository>, <id>, <url> dentro de la misma jerarquía.
 
@@ -4190,7 +4190,7 @@ public class GeneradorInformeVentas {
 
 **Línea 15:** `</repositories>` → Cierra `repositories` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 16:** `<dependencies>` → Declara o abre el elemento `dependencies` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 16:** `<dependencies>` → Abre la colección de dependencias runtime/compilación, incluida JasperReports y POI.
 
 **Línea 17:** `<dependency><groupId>net.sf.jasperreports</groupId><artifactId>jasperreports</artifactId><version>6.20.0</version></dependency>` → Composición de la línea: encadena además <dependency>, <groupId>, <artifactId>, <version> dentro de la misma jerarquía.
 
@@ -4208,11 +4208,11 @@ public class GeneradorInformeVentas {
 
 **Línea 24:** `</dependencies>` → Cierra `dependencies` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<build>` → Declara o abre el elemento `build` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 25:** `<build>` → Abre la configuración de construcción Maven.
 
-**Línea 26:** `<sourceDirectory>src</sourceDirectory>` → Declara o abre el elemento `sourceDirectory` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 26:** `<sourceDirectory>src</sourceDirectory>` → Indica que las clases Java fuente del proyecto están directamente en la carpeta `src`.
 
-**Línea 27:** `<plugins>` → Declara o abre el elemento `plugins` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 27:** `<plugins>` → Abre la lista de plugins Maven usados durante la construcción.
 
 **Línea 28:** `<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.11.0</version></plugin>` → Composición de la línea: encadena además <plugin>, <groupId>, <artifactId>, <version> dentro de la misma jerarquía.
 
@@ -5247,7 +5247,7 @@ Son dos libros contables producidos por la misma cadena: uno resume ventas y otr
 
 **Línea 114:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 115:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
+**Línea 115:** `l.categoria,` → Aporta el valor literal `l.categoria,` al elemento XML/POM actualmente abierto.
 
 **Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
@@ -6290,35 +6290,35 @@ public class GeneradorInformeVentas {
 
 **Línea 64:** `exportarPdfProtegido(documento, rutaPdfProtegido);` → Genera una segunda salida PDF cifrada para validar contraseñas y permisos sin alterar el PDF normal.
 
-**Línea 65:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 65:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Exporta el `JasperPrint` de ventas a `informe_ventas.xlsx` usando el nombre de hoja `Ventas`.
 
-**Línea 66:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 66:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Abre `data/catalogo.csv` como datasource JasperReports en UTF-8 para llenar el informe de catálogo sin JDBC.
 
 **Línea 67:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
 **Línea 68:** `catalogoDataSource.setFieldDelimiter(',');` → Configura punto y coma como delimitador de campos CSV.
 
-**Línea 69:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 69:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Indica que la primera fila del CSV contiene los nombres de los fields del informe de catálogo.
 
-**Línea 70:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 70:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Inicia el llenado del informe de catálogo y guarda el resultado paginado en `documentoCatalogo`.
 
-**Línea 71:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 71:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Completa `fillReport` pasando el catálogo compilado, un mapa de parámetros vacío y el `JRCsvDataSource`.
 
-**Línea 72:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 72:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 73:** `} finally {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 73:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
 
-**Línea 74:** `catalogoDataSource.close();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 74:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
 **Línea 75:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 76:** `new File("output/images").mkdirs();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 76:** `new File("output/images").mkdirs();` → Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.
 
-**Línea 77:** `new File("output/styles").mkdirs();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 77:** `new File("output/styles").mkdirs();` → Crea la carpeta publicada de estilos que debe acompañar a `informe_ventas.html`.
 
 **Línea 78:** `Files.copy(Paths.get("resources/styles/editorial.css"), Paths.get("output/styles/editorial.css"),` → Copia la hoja CSS fuente a la carpeta publicada junto al HTML, sustituyéndola si ya existe.
 
-**Línea 79:** `StandardCopyOption.REPLACE_EXISTING);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 79:** `StandardCopyOption.REPLACE_EXISTING);` → Finaliza la copia del CSS indicando que una versión anterior debe reemplazarse para mantener la salida sincronizada.
 
 **Línea 80:** `exportarHtml(documento, rutaHtml);` → Reutiliza el mismo `JasperPrint` para generar la salida HTML y sus recursos.
 
@@ -6352,11 +6352,11 @@ public class GeneradorInformeVentas {
 
 **Línea 95:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 96:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 96:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 97:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 98:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 98:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 99:** `configuracion.setMetadataTitle("Informe de Ventas - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -6372,23 +6372,23 @@ public class GeneradorInformeVentas {
 
 **Línea 105:** `configuracion.setCompressed(Boolean.TRUE);` → Activa la compresión del PDF mediante la configuración del exportador.
 
-**Línea 106:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 106:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 107:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 107:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 108:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 108:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 109:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 109:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 110:** `}` → Cierra el método `main`.
 
 **Línea 111:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 112:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 112:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdfProtegido`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 113:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 114:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 114:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 115:** `configuracion.setMetadataTitle("Informe de Ventas Protegido - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -6400,19 +6400,19 @@ public class GeneradorInformeVentas {
 
 **Línea 119:** `configuracion.setAllowedPermissionsHint("PRINTING|COPY|SCREENREADERS");` → Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.
 
-**Línea 120:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 120:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 121:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 121:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 122:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 122:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 123:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 123:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 124:** `}` → Cierra el método `main`.
 
 **Línea 125:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 126:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 126:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Declara el helper privado `exportarXlsx`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 127:** `JRXlsxExporter exportador = new JRXlsxExporter();` → Crea el exportador OOXML que escribirá el libro XLSX.
 
@@ -6434,33 +6434,33 @@ public class GeneradorInformeVentas {
 
 **Línea 136:** `libro.setCreateCustomPalette(Boolean.TRUE);` → Activa la paleta personalizada del exportador XLSX para reproducir mejor los colores.
 
-**Línea 137:** `exportador.setConfiguration(informe);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 137:** `exportador.setConfiguration(informe);` → Aplica la configuración de informe XLSX: hoja, cuadrícula, bloqueo, tipos y paginación.
 
-**Línea 138:** `exportador.setConfiguration(libro);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 138:** `exportador.setConfiguration(libro);` → Aplica además la configuración global del libro XLSX, incluida la paleta personalizada.
 
-**Línea 139:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 139:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 140:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 140:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 141:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 141:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 142:** `}` → Cierra el método `main`.
 
 **Línea 143:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 144:** `private static void exportarHtml(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 144:** `private static void exportarHtml(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarHtml`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 145:** `HtmlExporter exportador = new HtmlExporter();` → Crea el exportador HTML vigente en JasperReports 6.20.0.
 
-**Línea 146:** `SimpleHtmlExporterConfiguration configuracion = new SimpleHtmlExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 146:** `SimpleHtmlExporterConfiguration configuracion = new SimpleHtmlExporterConfiguration();` → Crea el objeto `SimpleHtmlExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 147:** `configuracion.setHtmlHeader("<html><head><meta charset='UTF-8'>"` → Define la cabecera HTML, incluyendo UTF-8, título y enlace a la hoja CSS externa.
 
-**Línea 148:** `+ "<title>Informe de Ventas - EditorialReports</title>"` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 148:** `+ "<title>Informe de Ventas - EditorialReports</title>"` → Añade a la cabecera HTML el título visible en la pestaña/metadata del navegador.
 
-**Línea 149:** `+ "<link rel='stylesheet' href='styles/editorial.css'>"` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 149:** `+ "<link rel='stylesheet' href='styles/editorial.css'>"` → Añade a la cabecera HTML el enlace relativo a `styles/editorial.css`.
 
-**Línea 150:** `+ "</head><body><a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 150:** `+ "</head><body><a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");` → Añade el enlace del reto `Descargar PDF`, apuntando al PDF generado en la misma carpeta `output`.
 
 **Línea 151:** `configuracion.setHtmlFooter("</body></html>");` → Define el cierre de `body` y `html` del documento exportado.
 
@@ -6470,13 +6470,13 @@ public class GeneradorInformeVentas {
 
 **Línea 154:** `salida.setImageHandler(new FileHtmlResourceHandler(new File("output/images"), "images/{0}"));` → Asocia un gestor de recursos para escribir imágenes en disco y generar sus URI relativas.
 
-**Línea 155:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 155:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 156:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 156:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 157:** `exportador.setExporterOutput(salida);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 157:** `exportador.setExporterOutput(salida);` → Conecta al exportador el objeto `salida` previamente configurado con codificación y/o recursos.
 
-**Línea 158:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 158:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 159:** `}` → Cierra el método `main`.
 
@@ -7595,7 +7595,7 @@ HTML es la edición navegable del catálogo y el enlace al PDF es la puerta haci
 
 **Línea 114:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 115:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
+**Línea 115:** `l.categoria,` → Aporta el valor literal `l.categoria,` al elemento XML/POM actualmente abierto.
 
 **Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
@@ -8714,35 +8714,35 @@ public class GeneradorInformeVentas {
 
 **Línea 75:** `exportarPdfProtegido(documento, rutaPdfProtegido);` → Genera una segunda salida PDF cifrada para validar contraseñas y permisos sin alterar el PDF normal.
 
-**Línea 76:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 76:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Exporta el `JasperPrint` de ventas a `informe_ventas.xlsx` usando el nombre de hoja `Ventas`.
 
-**Línea 77:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 77:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Abre `data/catalogo.csv` como datasource JasperReports en UTF-8 para llenar el informe de catálogo sin JDBC.
 
 **Línea 78:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
 **Línea 79:** `catalogoDataSource.setFieldDelimiter(',');` → Configura punto y coma como delimitador de campos CSV.
 
-**Línea 80:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 80:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Indica que la primera fila del CSV contiene los nombres de los fields del informe de catálogo.
 
-**Línea 81:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 81:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Inicia el llenado del informe de catálogo y guarda el resultado paginado en `documentoCatalogo`.
 
-**Línea 82:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 82:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Completa `fillReport` pasando el catálogo compilado, un mapa de parámetros vacío y el `JRCsvDataSource`.
 
-**Línea 83:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 83:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 84:** `} finally {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 84:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
 
-**Línea 85:** `catalogoDataSource.close();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 85:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
 **Línea 86:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 87:** `new File("output/images").mkdirs();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 87:** `new File("output/images").mkdirs();` → Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.
 
-**Línea 88:** `new File("output/styles").mkdirs();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 88:** `new File("output/styles").mkdirs();` → Crea la carpeta publicada de estilos que debe acompañar a `informe_ventas.html`.
 
 **Línea 89:** `Files.copy(Paths.get("resources/styles/editorial.css"), Paths.get("output/styles/editorial.css"),` → Copia la hoja CSS fuente a la carpeta publicada junto al HTML, sustituyéndola si ya existe.
 
-**Línea 90:** `StandardCopyOption.REPLACE_EXISTING);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 90:** `StandardCopyOption.REPLACE_EXISTING);` → Finaliza la copia del CSS indicando que una versión anterior debe reemplazarse para mantener la salida sincronizada.
 
 **Línea 91:** `exportarHtml(documento, rutaHtml);` → Reutiliza el mismo `JasperPrint` para generar la salida HTML y sus recursos.
 
@@ -8752,7 +8752,7 @@ public class GeneradorInformeVentas {
 
 **Línea 94:** `exportarRtf(documento, rutaRtf);` → Exporta el documento a RTF para procesadores de texto.
 
-**Línea 95:** `exportarOdt(documento, rutaOdt);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 95:** `exportarOdt(documento, rutaOdt);` → Reutiliza el `JasperPrint` de ventas para generar el reto ODT en `output/informe_ventas.odt`.
 
 **Línea 96:** `System.out.println("Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
@@ -8792,11 +8792,11 @@ public class GeneradorInformeVentas {
 
 **Línea 114:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 115:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 115:** `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 116:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 117:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 117:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 118:** `configuracion.setMetadataTitle("Informe de Ventas - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -8812,23 +8812,23 @@ public class GeneradorInformeVentas {
 
 **Línea 124:** `configuracion.setCompressed(Boolean.TRUE);` → Activa la compresión del PDF mediante la configuración del exportador.
 
-**Línea 125:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 125:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 126:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 126:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 127:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 127:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 128:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 128:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 129:** `}` → Cierra el método `main`.
 
 **Línea 130:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 131:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 131:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdfProtegido`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 132:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 133:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 133:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 134:** `configuracion.setMetadataTitle("Informe de Ventas Protegido - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -8840,19 +8840,19 @@ public class GeneradorInformeVentas {
 
 **Línea 138:** `configuracion.setAllowedPermissionsHint("PRINTING|COPY|SCREENREADERS");` → Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.
 
-**Línea 139:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 139:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 140:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 140:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 141:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 141:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 142:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 142:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 143:** `}` → Cierra el método `main`.
 
 **Línea 144:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 145:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 145:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Declara el helper privado `exportarXlsx`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 146:** `JRXlsxExporter exportador = new JRXlsxExporter();` → Crea el exportador OOXML que escribirá el libro XLSX.
 
@@ -8874,33 +8874,33 @@ public class GeneradorInformeVentas {
 
 **Línea 155:** `libro.setCreateCustomPalette(Boolean.TRUE);` → Activa la paleta personalizada del exportador XLSX para reproducir mejor los colores.
 
-**Línea 156:** `exportador.setConfiguration(informe);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 156:** `exportador.setConfiguration(informe);` → Aplica la configuración de informe XLSX: hoja, cuadrícula, bloqueo, tipos y paginación.
 
-**Línea 157:** `exportador.setConfiguration(libro);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 157:** `exportador.setConfiguration(libro);` → Aplica además la configuración global del libro XLSX, incluida la paleta personalizada.
 
-**Línea 158:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 158:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 159:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 159:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 160:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 160:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 161:** `}` → Cierra el método `main`.
 
 **Línea 162:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 163:** `private static void exportarHtml(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 163:** `private static void exportarHtml(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarHtml`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 164:** `HtmlExporter exportador = new HtmlExporter();` → Crea el exportador HTML vigente en JasperReports 6.20.0.
 
-**Línea 165:** `SimpleHtmlExporterConfiguration configuracion = new SimpleHtmlExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 165:** `SimpleHtmlExporterConfiguration configuracion = new SimpleHtmlExporterConfiguration();` → Crea el objeto `SimpleHtmlExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 166:** `configuracion.setHtmlHeader("<html><head><meta charset='UTF-8'>"` → Define la cabecera HTML, incluyendo UTF-8, título y enlace a la hoja CSS externa.
 
-**Línea 167:** `+ "<title>Informe de Ventas - EditorialReports</title>"` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 167:** `+ "<title>Informe de Ventas - EditorialReports</title>"` → Añade a la cabecera HTML el título visible en la pestaña/metadata del navegador.
 
-**Línea 168:** `+ "<link rel='stylesheet' href='styles/editorial.css'>"` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 168:** `+ "<link rel='stylesheet' href='styles/editorial.css'>"` → Añade a la cabecera HTML el enlace relativo a `styles/editorial.css`.
 
-**Línea 169:** `+ "</head><body><a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 169:** `+ "</head><body><a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");` → Añade el enlace del reto `Descargar PDF`, apuntando al PDF generado en la misma carpeta `output`.
 
 **Línea 170:** `configuracion.setHtmlFooter("</body></html>");` → Define el cierre de `body` y `html` del documento exportado.
 
@@ -8910,23 +8910,23 @@ public class GeneradorInformeVentas {
 
 **Línea 173:** `salida.setImageHandler(new FileHtmlResourceHandler(new File("output/images"), "images/{0}"));` → Asocia un gestor de recursos para escribir imágenes en disco y generar sus URI relativas.
 
-**Línea 174:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 174:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 175:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 175:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 176:** `exportador.setExporterOutput(salida);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 176:** `exportador.setExporterOutput(salida);` → Conecta al exportador el objeto `salida` previamente configurado con codificación y/o recursos.
 
-**Línea 177:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 177:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 178:** `}` → Cierra el método `main`.
 
 **Línea 179:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 180:** `private static void exportarCsv(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 180:** `private static void exportarCsv(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarCsv`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 181:** `JRCsvExporter exportador = new JRCsvExporter();` → Crea el exportador CSV orientado a texto delimitado.
 
-**Línea 182:** `SimpleCsvExporterConfiguration configuracion = new SimpleCsvExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 182:** `SimpleCsvExporterConfiguration configuracion = new SimpleCsvExporterConfiguration();` → Crea el objeto `SimpleCsvExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 183:** `configuracion.setFieldDelimiter(";");` → Configura punto y coma como delimitador de campos CSV.
 
@@ -8934,19 +8934,19 @@ public class GeneradorInformeVentas {
 
 **Línea 185:** `configuracion.setWriteBOM(Boolean.TRUE);` → Activa el BOM UTF-8 para facilitar la detección de codificación en aplicaciones de escritorio.
 
-**Línea 186:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 186:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 187:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 187:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
 **Línea 188:** `exportador.setExporterOutput(new SimpleWriterExporterOutput(ruta, "UTF-8"));` → Crea una salida textual con UTF-8 para el formato correspondiente.
 
-**Línea 189:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 189:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 190:** `}` → Cierra el método `main`.
 
 **Línea 191:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 192:** `private static void exportarXml(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 192:** `private static void exportarXml(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarXml`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 193:** `JRXmlExporter exportador = new JRXmlExporter();` → Crea el exportador que serializa el `JasperPrint` a XML.
 
@@ -8954,39 +8954,39 @@ public class GeneradorInformeVentas {
 
 **Línea 195:** `salida.setEmbeddingImages(Boolean.TRUE);` → Solicita que los recursos gráficos de la salida XML queden embebidos.
 
-**Línea 196:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 196:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 197:** `exportador.setExporterOutput(salida);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 197:** `exportador.setExporterOutput(salida);` → Conecta al exportador el objeto `salida` previamente configurado con codificación y/o recursos.
 
-**Línea 198:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 198:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 199:** `}` → Cierra el método `main`.
 
 **Línea 200:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 201:** `private static void exportarRtf(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 201:** `private static void exportarRtf(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarRtf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 202:** `JRRtfExporter exportador = new JRRtfExporter();` → Crea el exportador RTF.
 
-**Línea 203:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 203:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
 **Línea 204:** `exportador.setExporterOutput(new SimpleWriterExporterOutput(ruta, "UTF-8"));` → Crea una salida textual con UTF-8 para el formato correspondiente.
 
-**Línea 205:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 205:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 206:** `}` → Cierra el método `main`.
 
 **Línea 207:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 208:** `private static void exportarOdt(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 208:** `private static void exportarOdt(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarOdt`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
-**Línea 209:** `JROdtExporter exportador = new JROdtExporter();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 209:** `JROdtExporter exportador = new JROdtExporter();` → Crea `JROdtExporter` del paquete Oasis para producir un OpenDocument Text real.
 
-**Línea 210:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 210:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 211:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 211:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 212:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 212:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 213:** `}` → Cierra el método `main`.
 
@@ -10038,7 +10038,7 @@ CSV, XML, RTF y ODT son distintas rutas de distribución del mismo catálogo: da
 
 **Línea 114:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 115:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
+**Línea 115:** `l.categoria,` → Aporta el valor literal `l.categoria,` al elemento XML/POM actualmente abierto.
 
 **Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
@@ -11132,39 +11132,39 @@ public class GeneradorInformeVentas {
 
 **Línea 75:** `exportarPdf(documento, rutaPdf, ConfiguracionExportacion.getConfiguracionPdf(` → Invoca la exportación PDF normal usando el `JasperPrint` ya llenado y la ruta principal de salida.
 
-**Línea 76:** `"Informe de Ventas - EditorialReports", "Departamento Comercial"));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 76:** `"Informe de Ventas - EditorialReports", "Departamento Comercial"));` → Completa la llamada a la fábrica PDF pasando el título y el autor que deben aparecer en los metadatos.
 
 **Línea 77:** `exportarPdfProtegido(documento, rutaPdfProtegido);` → Genera una segunda salida PDF cifrada para validar contraseñas y permisos sin alterar el PDF normal.
 
-**Línea 78:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 78:** `exportarXlsx(documento, rutaXlsx, "Ventas");` → Exporta el `JasperPrint` de ventas a `informe_ventas.xlsx` usando el nombre de hoja `Ventas`.
 
-**Línea 79:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 79:** `JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");` → Abre `data/catalogo.csv` como datasource JasperReports en UTF-8 para llenar el informe de catálogo sin JDBC.
 
 **Línea 80:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
 **Línea 81:** `catalogoDataSource.setFieldDelimiter(',');` → Configura punto y coma como delimitador de campos CSV.
 
-**Línea 82:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 82:** `catalogoDataSource.setUseFirstRowAsHeader(true);` → Indica que la primera fila del CSV contiene los nombres de los fields del informe de catálogo.
 
-**Línea 83:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 83:** `JasperPrint documentoCatalogo = JasperFillManager.fillReport(` → Inicia el llenado del informe de catálogo y guarda el resultado paginado en `documentoCatalogo`.
 
-**Línea 84:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 84:** `rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);` → Completa `fillReport` pasando el catálogo compilado, un mapa de parámetros vacío y el `JRCsvDataSource`.
 
-**Línea 85:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 85:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 86:** `} finally {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 86:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
 
-**Línea 87:** `catalogoDataSource.close();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 87:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
 **Línea 88:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 89:** `new File("output/images").mkdirs();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 89:** `new File("output/images").mkdirs();` → Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.
 
-**Línea 90:** `new File("output/styles").mkdirs();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 90:** `new File("output/styles").mkdirs();` → Crea la carpeta publicada de estilos que debe acompañar a `informe_ventas.html`.
 
 **Línea 91:** `Files.copy(Paths.get("resources/styles/editorial.css"), Paths.get("output/styles/editorial.css"),` → Copia la hoja CSS fuente a la carpeta publicada junto al HTML, sustituyéndola si ya existe.
 
-**Línea 92:** `StandardCopyOption.REPLACE_EXISTING);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 92:** `StandardCopyOption.REPLACE_EXISTING);` → Finaliza la copia del CSS indicando que una versión anterior debe reemplazarse para mantener la salida sincronizada.
 
 **Línea 93:** `exportarHtml(documento, rutaHtml);` → Reutiliza el mismo `JasperPrint` para generar la salida HTML y sus recursos.
 
@@ -11174,7 +11174,7 @@ public class GeneradorInformeVentas {
 
 **Línea 96:** `exportarRtf(documento, rutaRtf);` → Exporta el documento a RTF para procesadores de texto.
 
-**Línea 97:** `exportarOdt(documento, rutaOdt);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 97:** `exportarOdt(documento, rutaOdt);` → Reutiliza el `JasperPrint` de ventas para generar el reto ODT en `output/informe_ventas.odt`.
 
 **Línea 98:** `System.out.println("Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
@@ -11214,27 +11214,27 @@ public class GeneradorInformeVentas {
 
 **Línea 116:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 117:** `private static void exportarPdf(JasperPrint documento, String ruta, SimplePdfExporterConfiguration configuracion) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 117:** `private static void exportarPdf(JasperPrint documento, String ruta, SimplePdfExporterConfiguration configuracion) throws Exception {` → Declara el helper privado `exportarPdf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 118:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 119:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 119:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 120:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 120:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 121:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 121:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 122:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 122:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 123:** `}` → Cierra el método `main`.
 
 **Línea 124:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 125:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 125:** `private static void exportarPdfProtegido(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarPdfProtegido`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 126:** `JRPdfExporter exportador = new JRPdfExporter();` → Crea el exportador PDF avanzado que admite configuración documental y de seguridad.
 
-**Línea 127:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 127:** `SimplePdfExporterConfiguration configuracion = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 128:** `configuracion.setMetadataTitle("Informe de Ventas Protegido - EditorialReports");` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -11246,19 +11246,19 @@ public class GeneradorInformeVentas {
 
 **Línea 132:** `configuracion.setAllowedPermissionsHint("PRINTING|COPY|SCREENREADERS");` → Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.
 
-**Línea 133:** `exportador.setConfiguration(configuracion);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 133:** `exportador.setConfiguration(configuracion);` → Asocia al exportador la configuración específica preparada en las líneas anteriores.
 
-**Línea 134:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 134:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 135:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 135:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 136:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 136:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 137:** `}` → Cierra el método `main`.
 
 **Línea 138:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 139:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 139:** `private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {` → Declara el helper privado `exportarXlsx`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 140:** `JRXlsxExporter exportador = new JRXlsxExporter();` → Crea el exportador OOXML que escribirá el libro XLSX.
 
@@ -11266,17 +11266,17 @@ public class GeneradorInformeVentas {
 
 **Línea 142:** `exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionXlsxExportador());` → Obtiene la configuración global del exportador XLSX.
 
-**Línea 143:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 143:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 144:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 144:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 145:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 145:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 146:** `}` → Cierra el método `main`.
 
 **Línea 147:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 148:** `private static void exportarHtml(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 148:** `private static void exportarHtml(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarHtml`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 149:** `HtmlExporter exportador = new HtmlExporter();` → Crea el exportador HTML vigente en JasperReports 6.20.0.
 
@@ -11286,33 +11286,33 @@ public class GeneradorInformeVentas {
 
 **Línea 152:** `exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionHtml("Informe de Ventas - EditorialReports"));` → Obtiene la cabecera, pie y separador HTML centralizados.
 
-**Línea 153:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 153:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 154:** `exportador.setExporterOutput(salida);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 154:** `exportador.setExporterOutput(salida);` → Conecta al exportador el objeto `salida` previamente configurado con codificación y/o recursos.
 
-**Línea 155:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 155:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 156:** `}` → Cierra el método `main`.
 
 **Línea 157:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 158:** `private static void exportarCsv(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 158:** `private static void exportarCsv(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarCsv`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 159:** `JRCsvExporter exportador = new JRCsvExporter();` → Crea el exportador CSV orientado a texto delimitado.
 
 **Línea 160:** `exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionCsv());` → Obtiene delimitadores y BOM CSV desde la clase de configuración central.
 
-**Línea 161:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 161:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
 **Línea 162:** `exportador.setExporterOutput(new SimpleWriterExporterOutput(ruta, "UTF-8"));` → Crea una salida textual con UTF-8 para el formato correspondiente.
 
-**Línea 163:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 163:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 164:** `}` → Cierra el método `main`.
 
 **Línea 165:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 166:** `private static void exportarXml(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 166:** `private static void exportarXml(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarXml`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 167:** `JRXmlExporter exportador = new JRXmlExporter();` → Crea el exportador que serializa el `JasperPrint` a XML.
 
@@ -11320,41 +11320,41 @@ public class GeneradorInformeVentas {
 
 **Línea 169:** `salida.setEmbeddingImages(Boolean.TRUE);` → Solicita que los recursos gráficos de la salida XML queden embebidos.
 
-**Línea 170:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 170:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 171:** `exportador.setExporterOutput(salida);` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 171:** `exportador.setExporterOutput(salida);` → Conecta al exportador el objeto `salida` previamente configurado con codificación y/o recursos.
 
-**Línea 172:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 172:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 173:** `}` → Cierra el método `main`.
 
 **Línea 174:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 175:** `private static void exportarRtf(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 175:** `private static void exportarRtf(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarRtf`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
 **Línea 176:** `JRRtfExporter exportador = new JRRtfExporter();` → Crea el exportador RTF.
 
 **Línea 177:** `exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionRtf());` → Obtiene la configuración RTF centralizada antes de escribir la salida textual.
 
-**Línea 178:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 178:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
 **Línea 179:** `exportador.setExporterOutput(new SimpleWriterExporterOutput(ruta, "UTF-8"));` → Crea una salida textual con UTF-8 para el formato correspondiente.
 
-**Línea 180:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 180:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 181:** `}` → Cierra el método `main`.
 
 **Línea 182:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 183:** `private static void exportarOdt(JasperPrint documento, String ruta) throws Exception {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 183:** `private static void exportarOdt(JasperPrint documento, String ruta) throws Exception {` → Declara el helper privado `exportarOdt`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.
 
-**Línea 184:** `JROdtExporter exportador = new JROdtExporter();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 184:** `JROdtExporter exportador = new JROdtExporter();` → Crea `JROdtExporter` del paquete Oasis para producir un OpenDocument Text real.
 
-**Línea 185:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 185:** `exportador.setExporterInput(new SimpleExporterInput(documento));` → Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.
 
-**Línea 186:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 186:** `exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));` → Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.
 
-**Línea 187:** `exportador.exportReport();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 187:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
 **Línea 188:** `}` → Cierra el método `main`.
 
@@ -11417,29 +11417,29 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara o abre el elemento `project` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 1:** `<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Abre el documento Maven `project` y declara los namespaces del modelo POM.
 
 **Línea 2:** `xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 3:** `<modelVersion>4.0.0</modelVersion>` → Declara o abre el elemento `modelVersion` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 3:** `<modelVersion>4.0.0</modelVersion>` → Declara la versión 4.0.0 del modelo de proyecto Maven.
 
-**Línea 4:** `<groupId>es.jaimegallo.editorialreports</groupId>` → Declara o abre el elemento `groupId` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 4:** `<groupId>es.jaimegallo.editorialreports</groupId>` → Identifica el grupo Maven del proyecto EditorialReports.
 
-**Línea 5:** `<artifactId>editorial-reports-m3</artifactId>` → Declara o abre el elemento `artifactId` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 5:** `<artifactId>editorial-reports-m3</artifactId>` → Define el identificador del artefacto Maven que se compila y empaqueta.
 
-**Línea 6:** `<version>1.0-SNAPSHOT</version>` → Declara o abre el elemento `version` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 6:** `<version>1.0-SNAPSHOT</version>` → Fija la versión del artefacto Maven.
 
-**Línea 7:** `<properties>` → Declara o abre el elemento `properties` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 7:** `<properties>` → Abre el bloque de propiedades Maven usado para codificación y nivel del compilador Java.
 
-**Línea 8:** `<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>` → Declara o abre el elemento `project.build.sourceEncoding` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 8:** `<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>` → Fija UTF-8 como codificación fuente del proyecto Maven.
 
-**Línea 9:** `<maven.compiler.source>8</maven.compiler.source>` → Declara o abre el elemento `maven.compiler.source` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 9:** `<maven.compiler.source>8</maven.compiler.source>` → Fija Java 8 como nivel de lenguaje de compilación.
 
-**Línea 10:** `<maven.compiler.target>8</maven.compiler.target>` → Declara o abre el elemento `maven.compiler.target` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 10:** `<maven.compiler.target>8</maven.compiler.target>` → Fija Java 8 como bytecode objetivo.
 
 **Línea 11:** `</properties>` → Cierra `properties` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 12:** `<repositories>` → Declara o abre el elemento `repositories` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 12:** `<repositories>` → Abre la lista de repositorios adicionales desde los que Maven puede resolver dependencias.
 
 **Línea 13:** `<repository><id>jaspersoft-third-party</id><url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url></repository>` → Composición de la línea: encadena además <repository>, <id>, <url> dentro de la misma jerarquía.
 
@@ -11447,7 +11447,7 @@ public class GeneradorInformeVentas {
 
 **Línea 15:** `</repositories>` → Cierra `repositories` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 16:** `<dependencies>` → Declara o abre el elemento `dependencies` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 16:** `<dependencies>` → Abre la colección de dependencias runtime/compilación, incluida JasperReports y POI.
 
 **Línea 17:** `<dependency><groupId>net.sf.jasperreports</groupId><artifactId>jasperreports</artifactId><version>6.20.0</version></dependency>` → Composición de la línea: encadena además <dependency>, <groupId>, <artifactId>, <version> dentro de la misma jerarquía.
 
@@ -11465,15 +11465,15 @@ public class GeneradorInformeVentas {
 
 **Línea 24:** `</dependencies>` → Cierra `dependencies` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<build>` → Declara o abre el elemento `build` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 25:** `<build>` → Abre la configuración de construcción Maven.
 
-**Línea 26:** `<sourceDirectory>src</sourceDirectory>` → Declara o abre el elemento `sourceDirectory` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 26:** `<sourceDirectory>src</sourceDirectory>` → Indica que las clases Java fuente del proyecto están directamente en la carpeta `src`.
 
-**Línea 27:** `<resources>` → Declara o abre el elemento `resources` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 27:** `<resources>` → Abre la configuración de recursos que Maven copiará al classpath.
 
-**Línea 28:** `<resource>` → Declara o abre el elemento `resource` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 28:** `<resource>` → Declara una fuente de recursos adicional para el empaquetado.
 
-**Línea 29:** `<directory>src</directory>` → Declara o abre el elemento `directory` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 29:** `<directory>src</directory>` → Usa `src` como origen de recursos para incluir `jasperreports.properties` en `target/classes`.
 
 **Línea 30:** `<excludes><exclude>**/*.java</exclude></excludes>` → Composición de la línea: encadena además <excludes>, <exclude> dentro de la misma jerarquía.
 
@@ -11481,7 +11481,7 @@ public class GeneradorInformeVentas {
 
 **Línea 32:** `</resources>` → Cierra `resources` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 33:** `<plugins>` → Declara o abre el elemento `plugins` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.
+**Línea 33:** `<plugins>` → Abre la lista de plugins Maven usados durante la construcción.
 
 **Línea 34:** `<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.11.0</version></plugin>` → Composición de la línea: encadena además <plugin>, <groupId>, <artifactId>, <version> dentro de la misma jerarquía.
 
@@ -11583,9 +11583,9 @@ public class ConfiguracionExportacion {
 
 **Línea 8:** `public class ConfiguracionExportacion {` → Declara la clase ejecutable `ConfiguracionExportacion` que encapsula el generador del informe.
 
-**Línea 9:** `public static SimplePdfExporterConfiguration getConfiguracionPdf(String titulo, String autor) {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 9:** `public static SimplePdfExporterConfiguration getConfiguracionPdf(String titulo, String autor) {` → Declara el método fábrica `getConfiguracionPdf` que construye y devuelve una configuración reutilizable para el formato correspondiente.
 
-**Línea 10:** `SimplePdfExporterConfiguration c = new SimplePdfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 10:** `SimplePdfExporterConfiguration c = new SimplePdfExporterConfiguration();` → Crea el objeto `SimplePdfExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 11:** `c.setMetadataTitle(titulo);` → Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.
 
@@ -11597,13 +11597,13 @@ public class ConfiguracionExportacion {
 
 **Línea 15:** `c.setCompressed(Boolean.TRUE);` → Activa la compresión del PDF mediante la configuración del exportador.
 
-**Línea 16:** `return c;` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 16:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
 **Línea 17:** `}` → Cierra el método `main`.
 
 **Línea 18:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 19:** `public static SimpleXlsxReportConfiguration getConfiguracionXlsxReport(String nombreHoja) {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 19:** `public static SimpleXlsxReportConfiguration getConfiguracionXlsxReport(String nombreHoja) {` → Declara el método fábrica `getConfiguracionXlsxReport` que construye y devuelve una configuración reutilizable para el formato correspondiente.
 
 **Línea 20:** `SimpleXlsxReportConfiguration c = new SimpleXlsxReportConfiguration();` → Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.
 
@@ -11619,47 +11619,47 @@ public class ConfiguracionExportacion {
 
 **Línea 26:** `c.setOnePagePerSheet(Boolean.FALSE);` → Mantiene el informe en una misma hoja lógica en lugar de crear una hoja por página.
 
-**Línea 27:** `return c;` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 27:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
 **Línea 28:** `}` → Cierra el método `main`.
 
 **Línea 29:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 30:** `public static SimpleXlsxExporterConfiguration getConfiguracionXlsxExportador() {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 30:** `public static SimpleXlsxExporterConfiguration getConfiguracionXlsxExportador() {` → Declara el método fábrica `getConfiguracionXlsxExportador` que construye y devuelve una configuración reutilizable para el formato correspondiente.
 
 **Línea 31:** `SimpleXlsxExporterConfiguration c = new SimpleXlsxExporterConfiguration();` → Crea la configuración propia del libro/exportador XLSX.
 
 **Línea 32:** `c.setCreateCustomPalette(Boolean.TRUE);` → Activa la paleta personalizada del exportador XLSX para reproducir mejor los colores.
 
-**Línea 33:** `return c;` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 33:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
 **Línea 34:** `}` → Cierra el método `main`.
 
 **Línea 35:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 36:** `public static SimpleHtmlExporterConfiguration getConfiguracionHtml(String titulo) {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 36:** `public static SimpleHtmlExporterConfiguration getConfiguracionHtml(String titulo) {` → Declara el método fábrica `getConfiguracionHtml` que construye y devuelve una configuración reutilizable para el formato correspondiente.
 
-**Línea 37:** `SimpleHtmlExporterConfiguration c = new SimpleHtmlExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 37:** `SimpleHtmlExporterConfiguration c = new SimpleHtmlExporterConfiguration();` → Crea el objeto `SimpleHtmlExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 38:** `c.setHtmlHeader("<html><head><meta charset='UTF-8'><title>" + titulo` → Define la cabecera HTML, incluyendo UTF-8, título y enlace a la hoja CSS externa.
 
-**Línea 39:** `+ "</title><link rel='stylesheet' href='styles/editorial.css'></head><body>"` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 39:** `+ "</title><link rel='stylesheet' href='styles/editorial.css'></head><body>"` → Continúa la expresión Java anterior concatenando o añadiendo el fragmento `"</title><link rel='stylesheet' href='styles/editorial.css'></head><body>"`.
 
-**Línea 40:** `+ "<a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 40:** `+ "<a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");` → Añade el enlace del reto `Descargar PDF`, apuntando al PDF generado en la misma carpeta `output`.
 
 **Línea 41:** `c.setHtmlFooter("</body></html>");` → Define el cierre de `body` y `html` del documento exportado.
 
 **Línea 42:** `c.setBetweenPagesHtml("<hr class='salto-pagina'/>");` → Inserta el separador HTML que representa el cambio entre páginas del `JasperPrint`.
 
-**Línea 43:** `return c;` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 43:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
 **Línea 44:** `}` → Cierra el método `main`.
 
 **Línea 45:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 46:** `public static SimpleCsvExporterConfiguration getConfiguracionCsv() {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 46:** `public static SimpleCsvExporterConfiguration getConfiguracionCsv() {` → Declara el método fábrica `getConfiguracionCsv` que construye y devuelve una configuración reutilizable para el formato correspondiente.
 
-**Línea 47:** `SimpleCsvExporterConfiguration c = new SimpleCsvExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 47:** `SimpleCsvExporterConfiguration c = new SimpleCsvExporterConfiguration();` → Crea el objeto `SimpleCsvExporterConfiguration` que recibirá las opciones específicas de esta exportación.
 
 **Línea 48:** `c.setFieldDelimiter(";");` → Configura punto y coma como delimitador de campos CSV.
 
@@ -11667,15 +11667,15 @@ public class ConfiguracionExportacion {
 
 **Línea 50:** `c.setWriteBOM(Boolean.TRUE);` → Activa el BOM UTF-8 para facilitar la detección de codificación en aplicaciones de escritorio.
 
-**Línea 51:** `return c;` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 51:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
 **Línea 52:** `}` → Cierra el método `main`.
 
 **Línea 53:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 54:** `public static SimpleRtfExporterConfiguration getConfiguracionRtf() {` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 54:** `public static SimpleRtfExporterConfiguration getConfiguracionRtf() {` → Declara el método fábrica `getConfiguracionRtf` que construye y devuelve una configuración reutilizable para el formato correspondiente.
 
-**Línea 55:** `return new SimpleRtfExporterConfiguration();` → Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.
+**Línea 55:** `return new SimpleRtfExporterConfiguration();` → Devuelve una configuración RTF nueva; la codificación seguirá definiéndose correctamente en el writer de salida.
 
 **Línea 56:** `}` → Cierra el método `main`.
 
