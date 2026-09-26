@@ -1050,3 +1050,124 @@ def part_d(point):
 **Invariantes:** 14 libros, 9 ventas, 31 unidades, 633,40 € y 6 páginas en `informe_ventas`.
 '''
 
+
+TAIL={
+'6.1':r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `cannot find symbol: JRPdfExporter` | Falta el import | Importar `net.sf.jasperreports.engine.export.JRPdfExporter` |
+| El PDF no contiene metadatos | No se asignó configuración | Aplicar `SimplePdfExporterConfiguration` con `setConfiguration` |
+| `setTitle` / `setAuthor` no compilan | API incorrecta | Usar `setMetadataTitle` / `setMetadataAuthor` |
+| El PDF protegido no solicita contraseña | No se activó cifrado | Usar `setEncrypted(Boolean.TRUE)` y `setUserPassword` |
+| El archivo no se genera | Falta `output` o `exportReport()` | Crear la carpeta y ejecutar el exportador |
+
+## Reto resuelto paso a paso
+
+**Enunciado original:** proteger el PDF con contraseña `editorial2026` y permitir impresión/copia.
+
+1. Se crea `informe_ventas_protegido.pdf` como salida separada.
+2. Se activa `setEncrypted(Boolean.TRUE)`.
+3. Se configura `setUserPassword("editorial2026")`.
+4. Se configura una contraseña de propietario independiente.
+5. Se aplican `PRINTING|COPY|SCREENREADERS` con `setAllowedPermissionsHint`.
+6. El mismo `JasperPrint` de seis páginas alimenta ambos PDFs.
+7. El E2E abre el PDF protegido con `pdfinfo -upw editorial2026`.
+
+**Resultado del reto:** la contraseña documentada abre un PDF real y protegido.
+
+## Analogía final con el contexto de la editorial
+
+El PDF normal es la tirada estándar y el PDF protegido es la misma tirada bajo control de acceso. Los metadatos son la ficha técnica del documento.
+
+## Resultado esperado
+
+- `informe_ventas.pdf` con metadatos y compresión.
+- `informe_ventas_protegido.pdf` cifrado.
+- `EXPORTACION_PDF.md` coherente con la API real.
+- JRXML/JRTX idénticos a M5/5.6.
+- Seis páginas y datos heredados intactos.
+
+## Conclusión y enlace al siguiente punto
+
+6.1 separa llenado y exportación y deja preparada la arquitectura para reutilizar el mismo `JasperPrint` en los formatos siguientes.
+''',
+'6.2':r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `NoClassDefFoundError` de POI | POI no está en Maven | Añadir `poi` y `poi-ooxml` 5.1.0 |
+| `setSheetNames` no compila | Se usa la clase de configuración equivocada | Usar `SimpleXlsxReportConfiguration` |
+| La hoja se llama `Sheet1` | No se aplicó el nombre | Pasar `nombreHoja` a `setSheetNames` |
+| El catálogo queda vacío | Se intenta llenar con JDBC | Usar `JRCsvDataSource` sobre `data/catalogo.csv` |
+| El XLSX está corrupto | Salida incompleta | Revisar `exportReport()` y dependencias |
+
+## Reto resuelto paso a paso
+
+**Enunciado original:** generar además un Excel del catálogo con hoja `Catálogo`.
+
+1. Se compila `informe_catalogo_csv.jrxml`.
+2. Se crea `JRCsvDataSource` sobre `data/catalogo.csv` en UTF-8.
+3. Se configura coma como delimitador y primera fila como cabecera.
+4. Se llena el informe de catálogo con su datasource real.
+5. `exportarXlsx` recibe el nombre de hoja como parámetro.
+6. Ventas se exporta con hoja `Ventas`.
+7. Catálogo se exporta con hoja `Catálogo`.
+8. El E2E abre ambos OOXML y verifica los nombres en `xl/workbook.xml`.
+
+**Resultado del reto:** los dos XLSX se generan en la misma ejecución y contienen las hojas correctas.
+
+## Analogía final con el contexto de la editorial
+
+Son dos libros contables producidos por la misma cadena: uno resume ventas y otro publica el catálogo.
+
+## Resultado esperado
+
+- PDF normal/protegido heredados.
+- `informe_ventas.xlsx` con hoja `Ventas`.
+- `informe_catalogo.xlsx` con hoja `Catálogo`.
+- POI 5.1.0 resuelto por Maven.
+- `EXPORTACION_EXCEL.md` trazado al código.
+
+## Conclusión y enlace al siguiente punto
+
+6.2 añade XLSX con configuración correcta de hoja/libro y demuestra el uso de un segundo origen de datos real para el reto de catálogo.
+''',
+'6.3':r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `JRHtmlExporter` no existe | Clase antigua/incorrecta | Usar `HtmlExporter` |
+| CSS no carga | Ruta relativa incorrecta | Copiar a `output/styles/editorial.css` |
+| Imágenes rotas | Handler mal configurado | Usar `FileHtmlResourceHandler` en el output |
+| Falta el enlace al PDF | La cabecera no lo contiene | Incluir `href='informe_ventas.pdf'` |
+| Acentos incorrectos | Salida sin UTF-8 | Crear `SimpleHtmlExporterOutput` con UTF-8 |
+
+## Reto resuelto paso a paso
+
+**Enunciado original:** añadir un enlace `Descargar PDF` en la cabecera HTML.
+
+1. La cabecera importa `styles/editorial.css`.
+2. Se añade `<a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>`.
+3. El CSS define `.enlace-pdf`.
+4. PDF y HTML se escriben en `output`, por lo que la URI relativa es válida.
+5. El E2E verifica `href='informe_ventas.pdf'` y el texto `Descargar PDF`.
+
+**Resultado del reto:** el HTML ofrece acceso directo al PDF de la misma ejecución.
+
+## Analogía final con el contexto de la editorial
+
+HTML es la edición navegable del catálogo y el enlace al PDF es la puerta hacia su versión imprimible.
+
+## Resultado esperado
+
+- `informe_ventas.html` válido.
+- `output/styles/editorial.css` y `output/images/`.
+- enlace `Descargar PDF` presente.
+- PDF/XLSX anteriores conservados.
+- `EXPORTACION_HTML.md` coherente con `HtmlExporter` y el handler.
+
+## Conclusión y enlace al siguiente punto
+
+6.3 añade una salida web con recursos externos y preserva el acceso a la versión PDF del mismo informe.
+'''
