@@ -72,12 +72,9 @@ jobs:
             echo "Documentación M5 ya coincide."
           else
             git commit -m "Genera documentacion validada del Modulo 5 [skip ci]"
-            if ! git diff --quiet; then
-              echo "Se detectaron cambios tracked no intencionados tras el commit generado; se descartan antes del rebase."
-              git status --short
-              git reset --hard HEAD
-            fi
-            git pull --rebase --autostash origin main
+            # El runner puede marcar .bat como modificado por la política CRLF de .gitattributes.
+            # Esos cambios de worktree no forman parte del commit documental y no bloquean el push.
+            git status --short
             git push origin HEAD:main
           fi
 
