@@ -402,11 +402,11 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 30:** `<band height="18">` → Define una banda de `18` puntos, reservando ese espacio para sus elementos.
 
-**Línea 31:** `<staticText><reportElement x="0" y="0" width="245" height="18" style="SubHeader"/><text><![CDATA[Fecha]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 31:** `<staticText><reportElement x="0" y="0" width="245" height="18" style="SubHeader"/><text><![CDATA[Fecha]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=245, alto=18 y aplica el estilo SubHeader; muestra el literal 'Fecha'.
 
-**Línea 32:** `<staticText><reportElement x="245" y="0" width="100" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 32:** `<staticText><reportElement x="245" y="0" width="100" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=245, y=0, ancho=100, alto=18 y aplica el estilo SubHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Cantidad'.
 
-**Línea 33:** `<staticText><reportElement x="345" y="0" width="210" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Precio unitario]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 33:** `<staticText><reportElement x="345" y="0" width="210" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Precio unitario]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=345, y=0, ancho=210, alto=18 y aplica el estilo SubHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Precio unitario'.
 
 **Línea 34:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -416,11 +416,11 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 37:** `<band height="18">` → Define una banda de `18` puntos, reservando ese espacio para sus elementos.
 
-**Línea 38:** `<textField><reportElement x="0" y="0" width="245" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpression></textField>` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 38:** `<textField><reportElement x="0" y="0" width="245" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpression></textField>` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=245, alto=18; evalúa la expresión usando field fecha_venta.
 
-**Línea 39:** `<textField><reportElement x="245" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression></textField>` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 39:** `<textField><reportElement x="245" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression></textField>` → Composición de la línea: crea un textField dinámico; lo posiciona en x=245, y=0, ancho=100, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando field cantidad.
 
-**Línea 40:** `<textField pattern="#,##0.00 €"><reportElement x="345" y="0" width="210" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_unitario}]]></t...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 40:** `<textField pattern="#,##0.00 €"><reportElement x="345" y="0" width="210" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_unitario}]]></t...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=345, y=0, ancho=210, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_unitario.
 
 **Línea 41:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -880,7 +880,7 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 107:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 108:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
+**Línea 108:** `<background><band height="0"/></background>` → Composición de la línea: encadena además <background>, <band> dentro de la misma jerarquía.
 
 **Línea 109:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
@@ -896,29 +896,29 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 115:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 116:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 116:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=38, ancho=110, alto=18; muestra el literal 'Generado por:'.
 
-**Línea 117:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 117:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=110, y=38, ancho=160, alto=18; evalúa la expresión usando parámetro usuario.
 
-**Línea 118:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 118:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=38, ancho=80, alto=18; muestra el literal 'Fecha:'.
 
-**Línea 119:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 119:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Composición de la línea: crea un textField dinámico con patrón dd/MM/yyyy; lo posiciona en x=380, y=38, ancho=175, alto=18; evalúa la expresión usando parámetro fechaInforme.
 
-**Línea 120:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 120:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=62, ancho=100, alto=18; muestra el literal 'Departamento:'.
 
-**Línea 121:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 121:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=62, ancho=170, alto=18; evalúa la expresión usando parámetro departamento.
 
-**Línea 122:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 122:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=62, ancho=70, alto=18; muestra el literal 'Periodo:'.
 
-**Línea 123:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 123:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=62, ancho=185, alto=18; evalúa la expresión usando parámetro periodo.
 
-**Línea 124:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 124:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=86, ancho=100, alto=18; muestra el literal 'Búsqueda:'.
 
-**Línea 125:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 125:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=86, ancho=170, alto=18; evalúa la expresión usando parámetro textoBusqueda, parámetro textoBusqueda, parámetro textoBusqueda.
 
-**Línea 126:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 126:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=86, ancho=90, alto=18; muestra el literal 'Categorías:'.
 
-**Línea 127:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 127:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=390, y=86, ancho=165, alto=34; evalúa la expresión usando parámetro categoriasLista.
 
 **Línea 128:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -928,21 +928,21 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 131:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 132:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 132:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=2, ancho=215, alto=18 y aplica el estilo Cabecera; muestra el literal 'Título'.
 
-**Línea 133:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 133:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=215, y=2, ancho=55, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Unid.'.
 
-**Línea 134:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 134:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=280, y=2, ancho=90, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Importe'.
 
-**Línea 135:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 135:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=380, y=2, ancho=65, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio med.'.
 
-**Línea 136:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 136:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=455, y=2, ancho=100, alto=18 y aplica el estilo Cabecera; muestra el literal 'Categoría'.
 
-**Línea 137:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 137:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Primera venta'.
 
-**Línea 138:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 138:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Última venta'.
 
-**Línea 139:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 139:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Composición de la línea: crea un texto literal; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Cabecera; muestra el literal 'Periodo de ventas'.
 
 **Línea 140:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
@@ -966,21 +966,21 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 150:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 151:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 151:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=215, alto=20 y aplica el estilo Dato; evalúa la expresión usando field titulo.
 
-**Línea 152:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 152:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=215, y=0, ancho=55, alto=20 y aplica el estilo UnidadesCondicional; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas.
 
-**Línea 153:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 153:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=280, y=0, ancho=90, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field importe_total.
 
-**Línea 154:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 154:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=380, y=0, ancho=65, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 155:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 155:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=455, y=0, ancho=100, alto=20 y aplica el estilo Dato; evalúa la expresión usando field categoria.
 
-**Línea 156:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 156:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field primera_venta.
 
-**Línea 157:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 157:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field ultima_venta.
 
-**Línea 158:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 158:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field primera_venta, field ultima_venta.
 
 **Línea 159:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
@@ -996,15 +996,15 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 165:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 166:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 166:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=48, ancho=105, alto=18 y aplica el estilo Dato; evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas.
 
-**Línea 167:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 167:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=105, y=48, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando field titulo, field titulo.
 
-**Línea 168:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 168:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=290, y=48, ancho=80, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 169:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 169:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=48, ancho=90, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field ultima_venta, field primera_venta, field ultima_venta.
 
-**Línea 170:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 170:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=460, y=48, ancho=95, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
 **Línea 171:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -1012,7 +1012,7 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 173:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 174:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 174:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=555, alto=12; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 8, negrita); evalúa la expresión usando field titulo, parámetro umbralUnidades.
 
 **Línea 175:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -1052,17 +1052,17 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 193:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 194:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 194:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=4, ancho=120, alto=15; muestra el literal 'Total de títulos:'.
 
-**Línea 195:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 195:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=120, y=4, ancho=60, alto=15; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 196:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 196:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=190, y=28, ancho=180, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 197:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 197:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=375, y=28, ancho=35, alto=15; evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 198:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 198:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=4, ancho=120, alto=15; muestra el literal 'Subtotal página:'.
 
-**Línea 199:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 199:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=4, ancho=135, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalPagina.
 
 **Línea 200:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -1072,35 +1072,35 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Línea 203:** `<band height="128">` → Define una banda de `128` puntos, reservando ese espacio para sus elementos.
 
-**Línea 204:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 204:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=5, ancho=205, alto=18; muestra el literal 'Total de unidades vendidas:'.
 
-**Línea 205:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 205:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=5, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalUnidades.
 
-**Línea 206:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 206:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=5, ancho=120, alto=18; muestra el literal 'Importe total:'.
 
-**Línea 207:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 207:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=5, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalImporte.
 
-**Línea 208:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 208:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=30, ancho=205, alto=18; muestra el literal 'Precio medio agregado:'.
 
-**Línea 209:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 209:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=205, y=30, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMedio.
 
-**Línea 210:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 210:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=30, ancho=120, alto=18; muestra el literal 'Precio máximo:'.
 
-**Línea 211:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 211:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=30, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMaximo.
 
-**Línea 212:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 212:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=55, ancho=205, alto=18; muestra el literal 'Número de libros:'.
 
-**Línea 213:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 213:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=55, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable NumeroLibros.
 
-**Línea 214:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 214:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=55, ancho=120, alto=18; muestra el literal 'Importe con IVA:'.
 
-**Línea 215:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 215:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=55, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteConIva.
 
-**Línea 216:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 216:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=80, ancho=555, alto=18; configura la alineación del texto (horizontal Center); evalúa la expresión usando variable NumeroLibros, variable TotalUnidades, variable TotalImporte.
 
-**Línea 217:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 217:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=103, ancho=350, alto=18; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 10, negrita); evalúa la expresión usando parámetro umbralUnidades, parámetro umbralUnidades, variable TotalUnidades, variable TotalUnidades.
 
-**Línea 218:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 218:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=360, y=103, ancho=195, alto=18; evalúa la expresión usando variable REPORT_COUNT.
 
 **Línea 219:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -2355,7 +2355,7 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 124:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 125:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
+**Línea 125:** `<background><band height="0"/></background>` → Composición de la línea: encadena además <background>, <band> dentro de la misma jerarquía.
 
 **Línea 126:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
@@ -2371,29 +2371,29 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 132:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 133:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 133:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=38, ancho=110, alto=18; muestra el literal 'Generado por:'.
 
-**Línea 134:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 134:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=110, y=38, ancho=160, alto=18; evalúa la expresión usando parámetro usuario.
 
-**Línea 135:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 135:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=38, ancho=80, alto=18; muestra el literal 'Fecha:'.
 
-**Línea 136:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 136:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Composición de la línea: crea un textField dinámico con patrón dd/MM/yyyy; lo posiciona en x=380, y=38, ancho=175, alto=18; evalúa la expresión usando parámetro fechaInforme.
 
-**Línea 137:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 137:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=62, ancho=100, alto=18; muestra el literal 'Departamento:'.
 
-**Línea 138:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 138:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=62, ancho=170, alto=18; evalúa la expresión usando parámetro departamento.
 
-**Línea 139:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 139:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=62, ancho=70, alto=18; muestra el literal 'Periodo:'.
 
-**Línea 140:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 140:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=62, ancho=185, alto=18; evalúa la expresión usando parámetro periodo.
 
-**Línea 141:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 141:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=86, ancho=100, alto=18; muestra el literal 'Búsqueda:'.
 
-**Línea 142:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 142:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=86, ancho=170, alto=18; evalúa la expresión usando parámetro textoBusqueda, parámetro textoBusqueda, parámetro textoBusqueda.
 
-**Línea 143:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 143:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=86, ancho=90, alto=18; muestra el literal 'Categorías:'.
 
-**Línea 144:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 144:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=390, y=86, ancho=165, alto=34; evalúa la expresión usando parámetro categoriasLista.
 
 **Línea 145:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -2403,21 +2403,21 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 148:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 149:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 149:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=2, ancho=215, alto=18 y aplica el estilo Cabecera; muestra el literal 'Título'.
 
-**Línea 150:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 150:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=215, y=2, ancho=55, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Unid.'.
 
-**Línea 151:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 151:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=280, y=2, ancho=90, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Importe'.
 
-**Línea 152:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 152:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=380, y=2, ancho=65, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio med.'.
 
-**Línea 153:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 153:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=455, y=2, ancho=100, alto=18 y aplica el estilo Cabecera; muestra el literal 'Categoría'.
 
-**Línea 154:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 154:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Primera venta'.
 
-**Línea 155:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 155:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Última venta'.
 
-**Línea 156:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 156:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Composición de la línea: crea un texto literal; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Cabecera; muestra el literal 'Periodo de ventas'.
 
 **Línea 157:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
@@ -2441,21 +2441,21 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 167:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=215, alto=20 y aplica el estilo Dato; evalúa la expresión usando field titulo.
 
-**Línea 169:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 169:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=215, y=0, ancho=55, alto=20 y aplica el estilo UnidadesCondicional; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas.
 
-**Línea 170:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 170:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=280, y=0, ancho=90, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field importe_total.
 
-**Línea 171:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 171:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=380, y=0, ancho=65, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=455, y=0, ancho=100, alto=20 y aplica el estilo Dato; evalúa la expresión usando field categoria.
 
-**Línea 173:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 173:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field primera_venta.
 
-**Línea 174:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 174:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field ultima_venta.
 
-**Línea 175:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 175:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field primera_venta, field ultima_venta.
 
 **Línea 176:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
@@ -2471,15 +2471,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 182:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 183:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 183:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=48, ancho=105, alto=18 y aplica el estilo Dato; evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas.
 
-**Línea 184:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 184:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=105, y=48, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando field titulo, field titulo.
 
-**Línea 185:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 185:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=290, y=48, ancho=80, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 186:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 186:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=48, ancho=90, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field ultima_venta, field primera_venta, field ultima_venta.
 
-**Línea 187:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 187:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=460, y=48, ancho=95, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
 **Línea 188:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -2487,7 +2487,7 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 190:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 191:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 191:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=555, alto=12; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 8, negrita); evalúa la expresión usando field titulo, parámetro umbralUnidades.
 
 **Línea 192:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -2555,25 +2555,25 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 224:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 225:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 225:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=255, alto=20 y aplica el estilo M5TableHeader; muestra el literal 'Fecha'; define una celda de cabecera de la tabla.
 
-**Línea 226:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 226:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=255, alto=18 y aplica el estilo M5TableDetail; evalúa la expresión usando field fecha_venta; define una celda repetida de detalle de la tabla.
 
 **Línea 227:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 228:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 229:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 229:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Cantidad'; define una celda de cabecera de la tabla.
 
-**Línea 230:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 230:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field cantidad; define una celda repetida de detalle de la tabla.
 
 **Línea 231:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 232:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 233:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 233:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=200, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Precio unitario'; define una celda de cabecera de la tabla.
 
-**Línea 234:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 234:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=200, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_unitario; define una celda repetida de detalle de la tabla.
 
 **Línea 235:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -2589,17 +2589,17 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 241:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 242:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 242:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=4, ancho=120, alto=15; muestra el literal 'Total de títulos:'.
 
-**Línea 243:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 243:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=120, y=4, ancho=60, alto=15; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 244:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 244:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=190, y=28, ancho=180, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 245:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 245:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=375, y=28, ancho=35, alto=15; evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 246:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 246:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=4, ancho=120, alto=15; muestra el literal 'Subtotal página:'.
 
-**Línea 247:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 247:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=4, ancho=135, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalPagina.
 
 **Línea 248:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -2609,35 +2609,35 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Línea 251:** `<band height="128">` → Define una banda de `128` puntos, reservando ese espacio para sus elementos.
 
-**Línea 252:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 252:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=5, ancho=205, alto=18; muestra el literal 'Total de unidades vendidas:'.
 
-**Línea 253:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 253:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=5, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalUnidades.
 
-**Línea 254:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 254:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=5, ancho=120, alto=18; muestra el literal 'Importe total:'.
 
-**Línea 255:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 255:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=5, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalImporte.
 
-**Línea 256:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 256:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=30, ancho=205, alto=18; muestra el literal 'Precio medio agregado:'.
 
-**Línea 257:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 257:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=205, y=30, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMedio.
 
-**Línea 258:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 258:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=30, ancho=120, alto=18; muestra el literal 'Precio máximo:'.
 
-**Línea 259:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 259:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=30, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMaximo.
 
-**Línea 260:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 260:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=55, ancho=205, alto=18; muestra el literal 'Número de libros:'.
 
-**Línea 261:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 261:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=55, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable NumeroLibros.
 
-**Línea 262:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 262:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=55, ancho=120, alto=18; muestra el literal 'Importe con IVA:'.
 
-**Línea 263:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 263:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=55, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteConIva.
 
-**Línea 264:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 264:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=80, ancho=555, alto=18; configura la alineación del texto (horizontal Center); evalúa la expresión usando variable NumeroLibros, variable TotalUnidades, variable TotalImporte.
 
-**Línea 265:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 265:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=103, ancho=350, alto=18; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 10, negrita); evalúa la expresión usando parámetro umbralUnidades, parámetro umbralUnidades, variable TotalUnidades, variable TotalUnidades.
 
-**Línea 266:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 266:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=360, y=103, ancho=195, alto=18; evalúa la expresión usando variable REPORT_COUNT.
 
 **Línea 267:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -3936,7 +3936,7 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 137:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 138:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 138:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=2, ancho=555, alto=22 y aplica el estilo Cabecera; evalúa la expresión usando field categoria.
 
 **Línea 139:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -3946,11 +3946,11 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 142:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 143:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 143:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=3, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoLibros.
 
-**Línea 144:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 144:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=185, y=3, ancho=180, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoUnidades, variable GrupoUnidades.
 
-**Línea 145:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 145:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=365, y=3, ancho=190, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable GrupoImporte, variable GrupoImporte.
 
 **Línea 146:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -3958,7 +3958,7 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 148:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 149:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
+**Línea 149:** `<background><band height="0"/></background>` → Composición de la línea: encadena además <background>, <band> dentro de la misma jerarquía.
 
 **Línea 150:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
@@ -3974,29 +3974,29 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 156:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 157:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 157:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=38, ancho=110, alto=18; muestra el literal 'Generado por:'.
 
-**Línea 158:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 158:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=110, y=38, ancho=160, alto=18; evalúa la expresión usando parámetro usuario.
 
-**Línea 159:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 159:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=38, ancho=80, alto=18; muestra el literal 'Fecha:'.
 
-**Línea 160:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 160:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Composición de la línea: crea un textField dinámico con patrón dd/MM/yyyy; lo posiciona en x=380, y=38, ancho=175, alto=18; evalúa la expresión usando parámetro fechaInforme.
 
-**Línea 161:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 161:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=62, ancho=100, alto=18; muestra el literal 'Departamento:'.
 
-**Línea 162:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 162:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=62, ancho=170, alto=18; evalúa la expresión usando parámetro departamento.
 
-**Línea 163:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 163:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=62, ancho=70, alto=18; muestra el literal 'Periodo:'.
 
-**Línea 164:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 164:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=62, ancho=185, alto=18; evalúa la expresión usando parámetro periodo.
 
-**Línea 165:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 165:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=86, ancho=100, alto=18; muestra el literal 'Búsqueda:'.
 
-**Línea 166:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 166:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=86, ancho=170, alto=18; evalúa la expresión usando parámetro textoBusqueda, parámetro textoBusqueda, parámetro textoBusqueda.
 
-**Línea 167:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 167:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=86, ancho=90, alto=18; muestra el literal 'Categorías:'.
 
-**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=390, y=86, ancho=165, alto=34; evalúa la expresión usando parámetro categoriasLista.
 
 **Línea 169:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -4006,21 +4006,21 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 172:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 173:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 173:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=2, ancho=215, alto=18 y aplica el estilo Cabecera; muestra el literal 'Título'.
 
-**Línea 174:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 174:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=215, y=2, ancho=55, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Unid.'.
 
-**Línea 175:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 175:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=280, y=2, ancho=90, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Importe'.
 
-**Línea 176:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 176:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=380, y=2, ancho=65, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio med.'.
 
-**Línea 177:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 177:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=455, y=2, ancho=100, alto=18 y aplica el estilo Cabecera; muestra el literal 'Categoría'.
 
-**Línea 178:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 178:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Primera venta'.
 
-**Línea 179:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 179:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Última venta'.
 
-**Línea 180:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 180:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Composición de la línea: crea un texto literal; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Cabecera; muestra el literal 'Periodo de ventas'.
 
 **Línea 181:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
@@ -4044,21 +4044,21 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 191:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 192:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 192:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=215, alto=20 y aplica el estilo Dato; evalúa la expresión usando field titulo.
 
-**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=215, y=0, ancho=55, alto=20 y aplica el estilo UnidadesCondicional; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas.
 
-**Línea 194:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 194:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=280, y=0, ancho=90, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field importe_total.
 
-**Línea 195:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 195:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=380, y=0, ancho=65, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=455, y=0, ancho=100, alto=20 y aplica el estilo Dato; evalúa la expresión usando field categoria.
 
-**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field primera_venta.
 
-**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field ultima_venta.
 
-**Línea 199:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 199:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field primera_venta, field ultima_venta.
 
 **Línea 200:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
@@ -4074,15 +4074,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 206:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 207:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 207:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=48, ancho=105, alto=18 y aplica el estilo Dato; evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas.
 
-**Línea 208:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 208:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=105, y=48, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando field titulo, field titulo.
 
-**Línea 209:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 209:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=290, y=48, ancho=80, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 210:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 210:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=48, ancho=90, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field ultima_venta, field primera_venta, field ultima_venta.
 
-**Línea 211:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 211:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=460, y=48, ancho=95, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
 **Línea 212:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -4090,7 +4090,7 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 214:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 215:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 215:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=555, alto=12; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 8, negrita); evalúa la expresión usando field titulo, parámetro umbralUnidades.
 
 **Línea 216:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -4158,25 +4158,25 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 248:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 249:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 249:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=255, alto=20 y aplica el estilo M5TableHeader; muestra el literal 'Fecha'; define una celda de cabecera de la tabla.
 
-**Línea 250:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 250:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=255, alto=18 y aplica el estilo M5TableDetail; evalúa la expresión usando field fecha_venta; define una celda repetida de detalle de la tabla.
 
 **Línea 251:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 252:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 253:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 253:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Cantidad'; define una celda de cabecera de la tabla.
 
-**Línea 254:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 254:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field cantidad; define una celda repetida de detalle de la tabla.
 
 **Línea 255:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 256:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 257:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 257:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=200, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Precio unitario'; define una celda de cabecera de la tabla.
 
-**Línea 258:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 258:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=200, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_unitario; define una celda repetida de detalle de la tabla.
 
 **Línea 259:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -4192,17 +4192,17 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 265:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 266:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 266:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=4, ancho=120, alto=15; muestra el literal 'Total de títulos:'.
 
-**Línea 267:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 267:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=120, y=4, ancho=60, alto=15; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 268:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 268:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=190, y=28, ancho=180, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 269:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 269:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=375, y=28, ancho=35, alto=15; evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 270:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 270:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=4, ancho=120, alto=15; muestra el literal 'Subtotal página:'.
 
-**Línea 271:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 271:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=4, ancho=135, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalPagina.
 
 **Línea 272:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -4212,35 +4212,35 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Línea 275:** `<band height="128">` → Define una banda de `128` puntos, reservando ese espacio para sus elementos.
 
-**Línea 276:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 276:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=5, ancho=205, alto=18; muestra el literal 'Total de unidades vendidas:'.
 
-**Línea 277:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 277:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=5, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalUnidades.
 
-**Línea 278:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 278:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=5, ancho=120, alto=18; muestra el literal 'Importe total:'.
 
-**Línea 279:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 279:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=5, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalImporte.
 
-**Línea 280:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 280:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=30, ancho=205, alto=18; muestra el literal 'Precio medio agregado:'.
 
-**Línea 281:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 281:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=205, y=30, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMedio.
 
-**Línea 282:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 282:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=30, ancho=120, alto=18; muestra el literal 'Precio máximo:'.
 
-**Línea 283:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 283:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=30, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMaximo.
 
-**Línea 284:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 284:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=55, ancho=205, alto=18; muestra el literal 'Número de libros:'.
 
-**Línea 285:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 285:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=55, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable NumeroLibros.
 
-**Línea 286:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 286:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=55, ancho=120, alto=18; muestra el literal 'Importe con IVA:'.
 
-**Línea 287:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 287:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=55, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteConIva.
 
-**Línea 288:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 288:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=80, ancho=555, alto=18; configura la alineación del texto (horizontal Center); evalúa la expresión usando variable NumeroLibros, variable TotalUnidades, variable TotalImporte.
 
-**Línea 289:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 289:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=103, ancho=350, alto=18; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 10, negrita); evalúa la expresión usando parámetro umbralUnidades, parámetro umbralUnidades, variable TotalUnidades, variable TotalUnidades.
 
-**Línea 290:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 290:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=360, y=103, ancho=195, alto=18; evalúa la expresión usando variable REPORT_COUNT.
 
 **Línea 291:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5536,7 +5536,7 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 151:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 152:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 152:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=2, ancho=555, alto=22 y aplica el estilo Cabecera; evalúa la expresión usando field categoria.
 
 **Línea 153:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5546,11 +5546,11 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 156:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 157:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 157:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=3, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoLibros.
 
-**Línea 158:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 158:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=185, y=3, ancho=180, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoUnidades, variable GrupoUnidades.
 
-**Línea 159:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 159:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=365, y=3, ancho=190, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable GrupoImporte, variable GrupoImporte.
 
 **Línea 160:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5558,7 +5558,7 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 162:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 163:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
+**Línea 163:** `<background><band height="0"/></background>` → Composición de la línea: encadena además <background>, <band> dentro de la misma jerarquía.
 
 **Línea 164:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
@@ -5574,29 +5574,29 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 170:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 171:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 171:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=38, ancho=110, alto=18; muestra el literal 'Generado por:'.
 
-**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=110, y=38, ancho=160, alto=18; evalúa la expresión usando parámetro usuario.
 
-**Línea 173:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 173:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=38, ancho=80, alto=18; muestra el literal 'Fecha:'.
 
-**Línea 174:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 174:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Composición de la línea: crea un textField dinámico con patrón dd/MM/yyyy; lo posiciona en x=380, y=38, ancho=175, alto=18; evalúa la expresión usando parámetro fechaInforme.
 
-**Línea 175:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 175:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=62, ancho=100, alto=18; muestra el literal 'Departamento:'.
 
-**Línea 176:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 176:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=62, ancho=170, alto=18; evalúa la expresión usando parámetro departamento.
 
-**Línea 177:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 177:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=62, ancho=70, alto=18; muestra el literal 'Periodo:'.
 
-**Línea 178:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 178:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=62, ancho=185, alto=18; evalúa la expresión usando parámetro periodo.
 
-**Línea 179:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 179:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=86, ancho=100, alto=18; muestra el literal 'Búsqueda:'.
 
-**Línea 180:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 180:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=86, ancho=170, alto=18; evalúa la expresión usando parámetro textoBusqueda, parámetro textoBusqueda, parámetro textoBusqueda.
 
-**Línea 181:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 181:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=86, ancho=90, alto=18; muestra el literal 'Categorías:'.
 
-**Línea 182:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 182:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=390, y=86, ancho=165, alto=34; evalúa la expresión usando parámetro categoriasLista.
 
 **Línea 183:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5606,21 +5606,21 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 186:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 187:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 187:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=2, ancho=215, alto=18 y aplica el estilo Cabecera; muestra el literal 'Título'.
 
-**Línea 188:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 188:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=215, y=2, ancho=55, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Unid.'.
 
-**Línea 189:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 189:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=280, y=2, ancho=90, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Importe'.
 
-**Línea 190:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 190:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=380, y=2, ancho=65, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio med.'.
 
-**Línea 191:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 191:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=455, y=2, ancho=100, alto=18 y aplica el estilo Cabecera; muestra el literal 'Categoría'.
 
-**Línea 192:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 192:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Primera venta'.
 
-**Línea 193:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 193:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Última venta'.
 
-**Línea 194:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 194:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Composición de la línea: crea un texto literal; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Cabecera; muestra el literal 'Periodo de ventas'.
 
 **Línea 195:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
@@ -5644,21 +5644,21 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 205:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 206:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 206:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=215, alto=20 y aplica el estilo Dato; evalúa la expresión usando field titulo.
 
-**Línea 207:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 207:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=215, y=0, ancho=55, alto=20 y aplica el estilo UnidadesCondicional; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas.
 
-**Línea 208:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 208:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=280, y=0, ancho=90, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field importe_total.
 
-**Línea 209:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 209:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=380, y=0, ancho=65, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 210:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 210:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=455, y=0, ancho=100, alto=20 y aplica el estilo Dato; evalúa la expresión usando field categoria.
 
-**Línea 211:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 211:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field primera_venta.
 
-**Línea 212:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 212:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field ultima_venta.
 
-**Línea 213:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 213:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field primera_venta, field ultima_venta.
 
 **Línea 214:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
@@ -5674,15 +5674,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 220:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 221:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 221:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=48, ancho=105, alto=18 y aplica el estilo Dato; evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas.
 
-**Línea 222:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 222:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=105, y=48, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando field titulo, field titulo.
 
-**Línea 223:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 223:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=290, y=48, ancho=80, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 224:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 224:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=48, ancho=90, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field ultima_venta, field primera_venta, field ultima_venta.
 
-**Línea 225:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 225:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=460, y=48, ancho=95, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
 **Línea 226:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5690,7 +5690,7 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 228:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 229:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 229:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=555, alto=12; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 8, negrita); evalúa la expresión usando field titulo, parámetro umbralUnidades.
 
 **Línea 230:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5758,25 +5758,25 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 262:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 263:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 263:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=255, alto=20 y aplica el estilo M5TableHeader; muestra el literal 'Fecha'; define una celda de cabecera de la tabla.
 
-**Línea 264:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 264:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=255, alto=18 y aplica el estilo M5TableDetail; evalúa la expresión usando field fecha_venta; define una celda repetida de detalle de la tabla.
 
 **Línea 265:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 266:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 267:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 267:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Cantidad'; define una celda de cabecera de la tabla.
 
-**Línea 268:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 268:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field cantidad; define una celda repetida de detalle de la tabla.
 
 **Línea 269:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 270:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 271:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 271:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=200, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Precio unitario'; define una celda de cabecera de la tabla.
 
-**Línea 272:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 272:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=200, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_unitario; define una celda repetida de detalle de la tabla.
 
 **Línea 273:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5792,17 +5792,17 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 279:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 280:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 280:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=4, ancho=120, alto=15; muestra el literal 'Total de títulos:'.
 
-**Línea 281:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 281:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=120, y=4, ancho=60, alto=15; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 282:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 282:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=190, y=28, ancho=180, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 283:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 283:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=375, y=28, ancho=35, alto=15; evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 284:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 284:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=4, ancho=120, alto=15; muestra el literal 'Subtotal página:'.
 
-**Línea 285:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 285:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=4, ancho=135, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalPagina.
 
 **Línea 286:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -5812,37 +5812,37 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 289:** `<band height="430">` → Define una banda de `430` puntos, reservando ese espacio para sus elementos.
 
-**Línea 290:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 290:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=5, ancho=205, alto=18; muestra el literal 'Total de unidades vendidas:'.
 
-**Línea 291:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 291:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=5, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalUnidades.
 
-**Línea 292:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 292:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=5, ancho=120, alto=18; muestra el literal 'Importe total:'.
 
-**Línea 293:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 293:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=5, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalImporte.
 
-**Línea 294:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 294:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=30, ancho=205, alto=18; muestra el literal 'Precio medio agregado:'.
 
-**Línea 295:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 295:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=205, y=30, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMedio.
 
-**Línea 296:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 296:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=30, ancho=120, alto=18; muestra el literal 'Precio máximo:'.
 
-**Línea 297:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 297:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=30, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMaximo.
 
-**Línea 298:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 298:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=55, ancho=205, alto=18; muestra el literal 'Número de libros:'.
 
-**Línea 299:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 299:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=55, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable NumeroLibros.
 
-**Línea 300:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 300:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=55, ancho=120, alto=18; muestra el literal 'Importe con IVA:'.
 
-**Línea 301:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 301:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=55, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteConIva.
 
-**Línea 302:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 302:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=80, ancho=555, alto=18; configura la alineación del texto (horizontal Center); evalúa la expresión usando variable NumeroLibros, variable TotalUnidades, variable TotalImporte.
 
-**Línea 303:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 303:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=103, ancho=350, alto=18; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 10, negrita); evalúa la expresión usando parámetro umbralUnidades, parámetro umbralUnidades, variable TotalUnidades, variable TotalUnidades.
 
-**Línea 304:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 304:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=360, y=103, ancho=195, alto=18; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 305:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 305:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=140, ancho=555, alto=20 y aplica el estilo Cabecera; muestra el literal 'Ventas por categoría — importe'.
 
 **Línea 306:** `<barChart>` → Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.
 
@@ -5850,7 +5850,7 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 308:** `<reportElement x="0" y="165" width="555" height="250"/>` → Posiciona el elemento en x=0, y=165, con ancho 555 y alto 250.
 
-**Línea 309:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Abre la definición del título del gráfico.
+**Línea 309:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Composición de la línea: encadena además <chartTitle>, <titleExpression> dentro de la misma jerarquía.
 
 **Línea 310:** `<chartSubtitle/>` → Declara el subtítulo del gráfico; en este checkpoint queda vacío.
 
@@ -5888,9 +5888,9 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Línea 327:** `<itemLabel/>` → Habilita el bloque de configuración de etiquetas de los ítems/barras.
 
-**Línea 328:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Abre el formato del eje de categorías (eje X).
+**Línea 328:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Composición de la línea: encadena además <categoryAxisFormat>, <axisFormat> dentro de la misma jerarquía.
 
-**Línea 329:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Abre el formato del eje de valores (eje Y).
+**Línea 329:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Composición de la línea: encadena además <valueAxisFormat>, <axisFormat> dentro de la misma jerarquía.
 
 **Línea 330:** `</barPlot>` → Cierra `barPlot` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7438,7 +7438,7 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 171:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 172:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 172:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=2, ancho=555, alto=22 y aplica el estilo Cabecera; evalúa la expresión usando field categoria.
 
 **Línea 173:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7448,11 +7448,11 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 176:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 177:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 177:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=3, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoLibros.
 
-**Línea 178:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 178:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=185, y=3, ancho=180, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoUnidades, variable GrupoUnidades.
 
-**Línea 179:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 179:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=365, y=3, ancho=190, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable GrupoImporte, variable GrupoImporte.
 
 **Línea 180:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7460,7 +7460,7 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 182:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 183:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
+**Línea 183:** `<background><band height="0"/></background>` → Composición de la línea: encadena además <background>, <band> dentro de la misma jerarquía.
 
 **Línea 184:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
@@ -7476,29 +7476,29 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 190:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 191:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 191:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=38, ancho=110, alto=18; muestra el literal 'Generado por:'.
 
-**Línea 192:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 192:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=110, y=38, ancho=160, alto=18; evalúa la expresión usando parámetro usuario.
 
-**Línea 193:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 193:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=38, ancho=80, alto=18; muestra el literal 'Fecha:'.
 
-**Línea 194:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 194:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Composición de la línea: crea un textField dinámico con patrón dd/MM/yyyy; lo posiciona en x=380, y=38, ancho=175, alto=18; evalúa la expresión usando parámetro fechaInforme.
 
-**Línea 195:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 195:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=62, ancho=100, alto=18; muestra el literal 'Departamento:'.
 
-**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=62, ancho=170, alto=18; evalúa la expresión usando parámetro departamento.
 
-**Línea 197:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 197:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=62, ancho=70, alto=18; muestra el literal 'Periodo:'.
 
-**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=62, ancho=185, alto=18; evalúa la expresión usando parámetro periodo.
 
-**Línea 199:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 199:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=86, ancho=100, alto=18; muestra el literal 'Búsqueda:'.
 
-**Línea 200:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 200:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=86, ancho=170, alto=18; evalúa la expresión usando parámetro textoBusqueda, parámetro textoBusqueda, parámetro textoBusqueda.
 
-**Línea 201:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 201:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=86, ancho=90, alto=18; muestra el literal 'Categorías:'.
 
-**Línea 202:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 202:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=390, y=86, ancho=165, alto=34; evalúa la expresión usando parámetro categoriasLista.
 
 **Línea 203:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7508,21 +7508,21 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 206:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 207:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 207:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=2, ancho=215, alto=18 y aplica el estilo Cabecera; muestra el literal 'Título'.
 
-**Línea 208:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 208:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=215, y=2, ancho=55, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Unid.'.
 
-**Línea 209:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 209:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=280, y=2, ancho=90, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Importe'.
 
-**Línea 210:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 210:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=380, y=2, ancho=65, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio med.'.
 
-**Línea 211:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 211:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=455, y=2, ancho=100, alto=18 y aplica el estilo Cabecera; muestra el literal 'Categoría'.
 
-**Línea 212:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 212:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Primera venta'.
 
-**Línea 213:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 213:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Última venta'.
 
-**Línea 214:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 214:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Composición de la línea: crea un texto literal; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Cabecera; muestra el literal 'Periodo de ventas'.
 
 **Línea 215:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
@@ -7546,21 +7546,21 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 225:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 226:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 226:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=215, alto=20 y aplica el estilo Dato; evalúa la expresión usando field titulo.
 
-**Línea 227:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 227:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=215, y=0, ancho=55, alto=20 y aplica el estilo UnidadesCondicional; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas.
 
-**Línea 228:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 228:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=280, y=0, ancho=90, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field importe_total.
 
-**Línea 229:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 229:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=380, y=0, ancho=65, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=455, y=0, ancho=100, alto=20 y aplica el estilo Dato; evalúa la expresión usando field categoria.
 
-**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field primera_venta.
 
-**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field ultima_venta.
 
-**Línea 233:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 233:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field primera_venta, field ultima_venta.
 
 **Línea 234:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
@@ -7576,15 +7576,15 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 240:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 241:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 241:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=48, ancho=105, alto=18 y aplica el estilo Dato; evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas.
 
-**Línea 242:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 242:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=105, y=48, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando field titulo, field titulo.
 
-**Línea 243:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 243:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=290, y=48, ancho=80, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 244:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 244:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=48, ancho=90, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field ultima_venta, field primera_venta, field ultima_venta.
 
-**Línea 245:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 245:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=460, y=48, ancho=95, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
 **Línea 246:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7592,7 +7592,7 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 248:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 249:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 249:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=555, alto=12; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 8, negrita); evalúa la expresión usando field titulo, parámetro umbralUnidades.
 
 **Línea 250:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7660,25 +7660,25 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 282:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 283:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 283:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=255, alto=20 y aplica el estilo M5TableHeader; muestra el literal 'Fecha'; define una celda de cabecera de la tabla.
 
-**Línea 284:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 284:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=255, alto=18 y aplica el estilo M5TableDetail; evalúa la expresión usando field fecha_venta; define una celda repetida de detalle de la tabla.
 
 **Línea 285:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 286:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 287:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 287:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Cantidad'; define una celda de cabecera de la tabla.
 
-**Línea 288:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 288:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field cantidad; define una celda repetida de detalle de la tabla.
 
 **Línea 289:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 290:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 291:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
+**Línea 291:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=200, alto=20 y aplica el estilo M5TableHeader; configura la alineación del texto (horizontal Right); muestra el literal 'Precio unitario'; define una celda de cabecera de la tabla.
 
-**Línea 292:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
+**Línea 292:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=200, alto=18 y aplica el estilo M5TableDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_unitario; define una celda repetida de detalle de la tabla.
 
 **Línea 293:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7694,17 +7694,17 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 299:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 300:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 300:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=4, ancho=120, alto=15; muestra el literal 'Total de títulos:'.
 
-**Línea 301:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 301:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=120, y=4, ancho=60, alto=15; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 302:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 302:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=190, y=28, ancho=180, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 303:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 303:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=375, y=28, ancho=35, alto=15; evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 304:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 304:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=4, ancho=120, alto=15; muestra el literal 'Subtotal página:'.
 
-**Línea 305:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 305:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=4, ancho=135, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalPagina.
 
 **Línea 306:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -7714,37 +7714,37 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 309:** `<band height="700">` → Define una banda de `700` puntos, reservando ese espacio para sus elementos.
 
-**Línea 310:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 310:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=5, ancho=205, alto=18; muestra el literal 'Total de unidades vendidas:'.
 
-**Línea 311:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 311:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=5, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalUnidades.
 
-**Línea 312:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 312:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=5, ancho=120, alto=18; muestra el literal 'Importe total:'.
 
-**Línea 313:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 313:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=5, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalImporte.
 
-**Línea 314:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 314:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=30, ancho=205, alto=18; muestra el literal 'Precio medio agregado:'.
 
-**Línea 315:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 315:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=205, y=30, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMedio.
 
-**Línea 316:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 316:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=30, ancho=120, alto=18; muestra el literal 'Precio máximo:'.
 
-**Línea 317:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 317:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=30, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMaximo.
 
-**Línea 318:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 318:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=55, ancho=205, alto=18; muestra el literal 'Número de libros:'.
 
-**Línea 319:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 319:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=55, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable NumeroLibros.
 
-**Línea 320:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 320:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=55, ancho=120, alto=18; muestra el literal 'Importe con IVA:'.
 
-**Línea 321:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 321:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=55, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteConIva.
 
-**Línea 322:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 322:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=80, ancho=555, alto=18; configura la alineación del texto (horizontal Center); evalúa la expresión usando variable NumeroLibros, variable TotalUnidades, variable TotalImporte.
 
-**Línea 323:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 323:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=103, ancho=350, alto=18; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 10, negrita); evalúa la expresión usando parámetro umbralUnidades, parámetro umbralUnidades, variable TotalUnidades, variable TotalUnidades.
 
-**Línea 324:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 324:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=360, y=103, ancho=195, alto=18; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 325:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 325:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=140, ancho=555, alto=20 y aplica el estilo Cabecera; muestra el literal 'Ventas por categoría — importe'.
 
 **Línea 326:** `<barChart>` → Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.
 
@@ -7752,7 +7752,7 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 328:** `<reportElement x="0" y="165" width="555" height="250"/>` → Posiciona el elemento en x=0, y=165, con ancho 555 y alto 250.
 
-**Línea 329:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Abre la definición del título del gráfico.
+**Línea 329:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Composición de la línea: encadena además <chartTitle>, <titleExpression> dentro de la misma jerarquía.
 
 **Línea 330:** `<chartSubtitle/>` → Declara el subtítulo del gráfico; en este checkpoint queda vacío.
 
@@ -7790,15 +7790,15 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 347:** `<itemLabel/>` → Habilita el bloque de configuración de etiquetas de los ítems/barras.
 
-**Línea 348:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Abre el formato del eje de categorías (eje X).
+**Línea 348:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Composición de la línea: encadena además <categoryAxisFormat>, <axisFormat> dentro de la misma jerarquía.
 
-**Línea 349:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Abre el formato del eje de valores (eje Y).
+**Línea 349:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Composición de la línea: encadena además <valueAxisFormat>, <axisFormat> dentro de la misma jerarquía.
 
 **Línea 350:** `</barPlot>` → Cierra `barPlot` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 351:** `</barChart>` → Finaliza el gráfico de barras.
 
-**Línea 352:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 352:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=430, ancho=555, alto=20 y aplica el estilo Cabecera; muestra el literal 'Ventas por categoría y año'.
 
 **Línea 353:** `<crosstab>` → Abre la tabla cruzada nativa que genera dinámicamente la matriz de filas, columnas, medidas y totales.
 
@@ -7820,35 +7820,35 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 **Línea 362:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → Declara el grupo de filas `CategoriaCross`, ancho `150` y total en `End`.
 
-**Línea 363:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
+**Línea 363:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Composición de la línea: define la clave de agrupación del bucket desde field categoria_cross; encadena además <bucket> dentro de la misma jerarquía.
 
-**Línea 364:** `<crosstabRowHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExpressi...` → Abre la cabecera que identifica cada grupo de fila del crosstab.
+**Línea 364:** `<crosstabRowHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=150, alto=34 y aplica el estilo M5CrossHeader; configura la alineación del texto (vertical Middle); evalúa la expresión usando variable CategoriaCross; abre el contenido de celda con estilo M5CrossHeader; define la cabecera de fila del crosstab.
 
-**Línea 365:** `<crosstabTotalRowHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![CDAT...` → Abre la cabecera de la fila de total del crosstab.
+**Línea 365:** `<crosstabTotalRowHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![CDAT...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=150, alto=34 y aplica el estilo M5CrossTotal; configura la alineación del texto (vertical Middle); muestra el literal 'TOTAL'; abre el contenido de celda con estilo M5CrossTotal; define la cabecera de total de fila.
 
 **Línea 366:** `</rowGroup>` → Cierra `rowGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 367:** `<columnGroup name="AnioCross" height="28" totalPosition="End">` → Declara el grupo de columnas `AnioCross`, altura `28` y total en `End`.
 
-**Línea 368:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
+**Línea 368:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Composición de la línea: define la clave de agrupación del bucket desde field anio_cross; encadena además <bucket> dentro de la misma jerarquía.
 
-**Línea 369:** `<crosstabColumnHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignment="M...` → Abre la cabecera que identifica cada grupo de columna del crosstab.
+**Línea 369:** `<crosstabColumnHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignment="M...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=28 y aplica el estilo M5CrossHeader; configura la alineación del texto (horizontal Center, vertical Middle); evalúa la expresión usando variable AnioCross; abre el contenido de celda con estilo M5CrossHeader; define la cabecera de columna del crosstab.
 
-**Línea 370:** `<crosstabTotalColumnHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Abre la cabecera de la columna de total del crosstab.
+**Línea 370:** `<crosstabTotalColumnHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=28 y aplica el estilo M5CrossTotal; configura la alineación del texto (horizontal Center, vertical Middle); muestra el literal 'TOTAL'; abre el contenido de celda con estilo M5CrossTotal; define la cabecera de total de columna.
 
 **Línea 371:** `</columnGroup>` → Cierra `columnGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 372:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Declara la medida `ImporteCross` de tipo `java.lang.Double` con cálculo `Sum`.
+**Línea 372:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Composición de la línea: aporta a la medida el valor de field importe_cross; encadena además <measure> dentro de la misma jerarquía.
 
-**Línea 373:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Declara la medida `VentasCross` de tipo `java.lang.Integer` con cálculo `Sum`.
+**Línea 373:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Composición de la línea: aporta a la medida el valor de field ventas_cross; encadena además <measure> dentro de la misma jerarquía.
 
-**Línea 374:** `<crosstabCell width="100" height="34"><cellContents style="M5CrossDetail"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement textAl...` → Declara la celda de detalle de cada intersección fila × columna, con ancho `100` y alto `34`.
+**Línea 374:** `<crosstabCell width="100" height="34"><cellContents style="M5CrossDetail"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement textAl...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrossDetail; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrossDetail; define la celda de detalle del crosstab.
 
-**Línea 375:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" he...` → Declara la celda de total de fila para `CategoriaCross`, con ancho `100` y alto `34`.
+**Línea 375:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" he...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrossTotal; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrossTotal; define una celda de total de fila para CategoriaCross.
 
-**Línea 376:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" heig...` → Declara la celda de total de columna para `AnioCross`, con ancho `100` y alto `34`.
+**Línea 376:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" heig...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrossTotal; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrossTotal; define una celda de total de columna para AnioCross.
 
-**Línea 377:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportEleme...` → Declara la celda de total general de `CategoriaCross` × `AnioCross`, con ancho `100` y alto `34`.
+**Línea 377:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportEleme...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrossTotal; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrossTotal; define la celda de total general.
 
 **Línea 378:** `</crosstab>` → Finaliza la tabla cruzada.
 
@@ -9301,7 +9301,7 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 172:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 173:** `<textField><reportElement x="0" y="2" width="555" height="22" style="M5GrupoCabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]></textFieldExpression></text...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 173:** `<textField><reportElement x="0" y="2" width="555" height="22" style="M5GrupoCabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]></textFieldExpression></text...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=2, ancho=555, alto=22 y aplica el estilo M5GrupoCabecera; evalúa la expresión usando field categoria.
 
 **Línea 174:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9311,11 +9311,11 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 177:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 178:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 178:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=3, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoLibros.
 
-**Línea 179:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 179:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=185, y=3, ancho=180, alto=18 y aplica el estilo Dato; evalúa la expresión usando variable GrupoUnidades, variable GrupoUnidades.
 
-**Línea 180:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 180:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=365, y=3, ancho=190, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable GrupoImporte, variable GrupoImporte.
 
 **Línea 181:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9323,7 +9323,7 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 183:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 184:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
+**Línea 184:** `<background><band height="0"/></background>` → Composición de la línea: encadena además <background>, <band> dentro de la misma jerarquía.
 
 **Línea 185:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
@@ -9339,29 +9339,29 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 191:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 192:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 192:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=38, ancho=110, alto=18; muestra el literal 'Generado por:'.
 
-**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=110, y=38, ancho=160, alto=18; evalúa la expresión usando parámetro usuario.
 
-**Línea 194:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 194:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=38, ancho=80, alto=18; muestra el literal 'Fecha:'.
 
-**Línea 195:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 195:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Composición de la línea: crea un textField dinámico con patrón dd/MM/yyyy; lo posiciona en x=380, y=38, ancho=175, alto=18; evalúa la expresión usando parámetro fechaInforme.
 
-**Línea 196:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 196:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=62, ancho=100, alto=18; muestra el literal 'Departamento:'.
 
-**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=62, ancho=170, alto=18; evalúa la expresión usando parámetro departamento.
 
-**Línea 198:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 198:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=62, ancho=70, alto=18; muestra el literal 'Periodo:'.
 
-**Línea 199:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 199:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=62, ancho=185, alto=18; evalúa la expresión usando parámetro periodo.
 
-**Línea 200:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 200:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=86, ancho=100, alto=18; muestra el literal 'Búsqueda:'.
 
-**Línea 201:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 201:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=100, y=86, ancho=170, alto=18; evalúa la expresión usando parámetro textoBusqueda, parámetro textoBusqueda, parámetro textoBusqueda.
 
-**Línea 202:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 202:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=86, ancho=90, alto=18; muestra el literal 'Categorías:'.
 
-**Línea 203:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 203:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=390, y=86, ancho=165, alto=34; evalúa la expresión usando parámetro categoriasLista.
 
 **Línea 204:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9371,21 +9371,21 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 207:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 208:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 208:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=2, ancho=215, alto=18 y aplica el estilo Cabecera; muestra el literal 'Título'.
 
-**Línea 209:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 209:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=215, y=2, ancho=55, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Unid.'.
 
-**Línea 210:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 210:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=280, y=2, ancho=90, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Importe'.
 
-**Línea 211:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 211:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Composición de la línea: crea un texto literal; lo posiciona en x=380, y=2, ancho=65, alto=18 y aplica el estilo Cabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio med.'.
 
-**Línea 212:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 212:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=455, y=2, ancho=100, alto=18 y aplica el estilo Cabecera; muestra el literal 'Categoría'.
 
-**Línea 213:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 213:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Primera venta'.
 
-**Línea 214:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 214:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Cabecera; muestra el literal 'Última venta'.
 
-**Línea 215:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 215:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Composición de la línea: crea un texto literal; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Cabecera; muestra el literal 'Periodo de ventas'.
 
 **Línea 216:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
@@ -9409,21 +9409,21 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 226:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 227:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 227:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=215, alto=20 y aplica el estilo Dato; evalúa la expresión usando field titulo.
 
-**Línea 228:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 228:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=215, y=0, ancho=55, alto=20 y aplica el estilo UnidadesCondicional; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas.
 
-**Línea 229:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 229:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=280, y=0, ancho=90, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field importe_total.
 
-**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=380, y=0, ancho=65, alto=20 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=455, y=0, ancho=100, alto=20 y aplica el estilo Dato; evalúa la expresión usando field categoria.
 
-**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field primera_venta.
 
-**Línea 233:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 233:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=130, y=24, ancho=130, alto=18 y aplica el estilo Dato; evalúa la expresión usando field ultima_venta.
 
-**Línea 234:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 234:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=260, y=24, ancho=160, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field primera_venta, field ultima_venta.
 
 **Línea 235:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
@@ -9439,15 +9439,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 241:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 242:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 242:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=48, ancho=105, alto=18 y aplica el estilo Dato; evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas.
 
-**Línea 243:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 243:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=105, y=48, ancho=185, alto=18 y aplica el estilo Dato; evalúa la expresión usando field titulo, field titulo.
 
-**Línea 244:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 244:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=290, y=48, ancho=80, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_medio, field precio_medio.
 
-**Línea 245:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 245:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=370, y=48, ancho=90, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Center); evalúa la expresión usando field primera_venta, field ultima_venta, field primera_venta, field ultima_venta.
 
-**Línea 246:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 246:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=460, y=48, ancho=95, alto=18 y aplica el estilo Dato; configura la alineación del texto (horizontal Right); evalúa la expresión usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
 **Línea 247:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9455,7 +9455,7 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 249:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 250:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 250:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=555, alto=12; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 8, negrita); evalúa la expresión usando field titulo, parámetro umbralUnidades.
 
 **Línea 251:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9523,25 +9523,25 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 283:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 284:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TablaCabecera`.
+**Línea 284:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=255, alto=20 y aplica el estilo M5TablaCabecera; muestra el literal 'Fecha'; define una celda de cabecera de la tabla.
 
-**Línea 285:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpres...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TablaDetalle`.
+**Línea 285:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpres...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=255, alto=18 y aplica el estilo M5TablaDetalle; evalúa la expresión usando field fecha_venta; define una celda repetida de detalle de la tabla.
 
 **Línea 286:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 287:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 288:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TablaCabecera`.
+**Línea 288:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=20 y aplica el estilo M5TablaCabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Cantidad'; define una celda de cabecera de la tabla.
 
-**Línea 289:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TablaDetalle`.
+**Línea 289:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=18 y aplica el estilo M5TablaDetalle; configura la alineación del texto (horizontal Right); evalúa la expresión usando field cantidad; define una celda repetida de detalle de la tabla.
 
 **Línea 290:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 291:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 292:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio uni...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TablaCabecera`.
+**Línea 292:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio uni...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=200, alto=20 y aplica el estilo M5TablaCabecera; configura la alineación del texto (horizontal Right); muestra el literal 'Precio unitario'; define una celda de cabecera de la tabla.
 
-**Línea 293:** `<c:detailCell style="M5TablaDetalle" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFie...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TablaDetalle`.
+**Línea 293:** `<c:detailCell style="M5TablaDetalle" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFie...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=200, alto=18 y aplica el estilo M5TablaDetalle; configura la alineación del texto (horizontal Right); evalúa la expresión usando field precio_unitario; define una celda repetida de detalle de la tabla.
 
 **Línea 294:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9557,17 +9557,17 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 300:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 301:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 301:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=4, ancho=120, alto=15; muestra el literal 'Total de títulos:'.
 
-**Línea 302:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 302:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=120, y=4, ancho=60, alto=15; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 303:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 303:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=190, y=28, ancho=180, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 304:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 304:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=375, y=28, ancho=35, alto=15; evalúa la expresión usando variable PAGE_NUMBER.
 
-**Línea 305:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 305:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=4, ancho=120, alto=15; muestra el literal 'Subtotal página:'.
 
-**Línea 306:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 306:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=4, ancho=135, alto=15; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalPagina.
 
 **Línea 307:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
@@ -9577,37 +9577,37 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 310:** `<band height="700">` → Define una banda de `700` puntos, reservando ese espacio para sus elementos.
 
-**Línea 311:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 311:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=5, ancho=205, alto=18; muestra el literal 'Total de unidades vendidas:'.
 
-**Línea 312:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 312:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=5, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalUnidades.
 
-**Línea 313:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 313:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=5, ancho=120, alto=18; muestra el literal 'Importe total:'.
 
-**Línea 314:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 314:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=5, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable TotalImporte.
 
-**Línea 315:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 315:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=30, ancho=205, alto=18; muestra el literal 'Precio medio agregado:'.
 
-**Línea 316:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 316:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=205, y=30, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMedio.
 
-**Línea 317:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 317:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=30, ancho=120, alto=18; muestra el literal 'Precio máximo:'.
 
-**Línea 318:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 318:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=30, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable PrecioMaximo.
 
-**Línea 319:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 319:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=55, ancho=205, alto=18; muestra el literal 'Número de libros:'.
 
-**Línea 320:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 320:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=205, y=55, ancho=80, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable NumeroLibros.
 
-**Línea 321:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 321:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=300, y=55, ancho=120, alto=18; muestra el literal 'Importe con IVA:'.
 
-**Línea 322:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 322:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=420, y=55, ancho=135, alto=18; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteConIva.
 
-**Línea 323:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 323:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=80, ancho=555, alto=18; configura la alineación del texto (horizontal Center); evalúa la expresión usando variable NumeroLibros, variable TotalUnidades, variable TotalImporte.
 
-**Línea 324:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 324:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=103, ancho=350, alto=18; configura la alineación del texto (horizontal Center); configura la fuente (familia DejaVu Sans, tamaño 10, negrita); evalúa la expresión usando parámetro umbralUnidades, parámetro umbralUnidades, variable TotalUnidades, variable TotalUnidades.
 
-**Línea 325:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
+**Línea 325:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=360, y=103, ancho=195, alto=18; evalúa la expresión usando variable REPORT_COUNT.
 
-**Línea 326:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 326:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=140, ancho=555, alto=20 y aplica el estilo Cabecera; muestra el literal 'Ventas por categoría — importe'.
 
 **Línea 327:** `<barChart>` → Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.
 
@@ -9615,7 +9615,7 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 329:** `<reportElement x="0" y="165" width="555" height="250"/>` → Posiciona el elemento en x=0, y=165, con ancho 555 y alto 250.
 
-**Línea 330:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Abre la definición del título del gráfico.
+**Línea 330:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Composición de la línea: encadena además <chartTitle>, <titleExpression> dentro de la misma jerarquía.
 
 **Línea 331:** `<chartSubtitle/>` → Declara el subtítulo del gráfico; en este checkpoint queda vacío.
 
@@ -9653,15 +9653,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 348:** `<itemLabel/>` → Habilita el bloque de configuración de etiquetas de los ítems/barras.
 
-**Línea 349:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Abre el formato del eje de categorías (eje X).
+**Línea 349:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Composición de la línea: encadena además <categoryAxisFormat>, <axisFormat> dentro de la misma jerarquía.
 
-**Línea 350:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Abre el formato del eje de valores (eje Y).
+**Línea 350:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Composición de la línea: encadena además <valueAxisFormat>, <axisFormat> dentro de la misma jerarquía.
 
 **Línea 351:** `</barPlot>` → Cierra `barPlot` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 352:** `</barChart>` → Finaliza el gráfico de barras.
 
-**Línea 353:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
+**Línea 353:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=430, ancho=555, alto=20 y aplica el estilo Cabecera; muestra el literal 'Ventas por categoría y año'.
 
 **Línea 354:** `<crosstab>` → Abre la tabla cruzada nativa que genera dinámicamente la matriz de filas, columnas, medidas y totales.
 
@@ -9683,35 +9683,35 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Línea 363:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → Declara el grupo de filas `CategoriaCross`, ancho `150` y total en `End`.
 
-**Línea 364:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
+**Línea 364:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Composición de la línea: define la clave de agrupación del bucket desde field categoria_cross; encadena además <bucket> dentro de la misma jerarquía.
 
-**Línea 365:** `<crosstabRowHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExp...` → Abre la cabecera que identifica cada grupo de fila del crosstab.
+**Línea 365:** `<crosstabRowHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExp...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=150, alto=34 y aplica el estilo M5CrosstabCabecera; configura la alineación del texto (vertical Middle); evalúa la expresión usando variable CategoriaCross; abre el contenido de celda con estilo M5CrosstabCabecera; define la cabecera de fila del crosstab.
 
-**Línea 366:** `<crosstabTotalRowHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![C...` → Abre la cabecera de la fila de total del crosstab.
+**Línea 366:** `<crosstabTotalRowHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![C...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=150, alto=34 y aplica el estilo M5CrosstabTotal; configura la alineación del texto (vertical Middle); muestra el literal 'TOTAL'; abre el contenido de celda con estilo M5CrosstabTotal; define la cabecera de total de fila.
 
 **Línea 367:** `</rowGroup>` → Cierra `rowGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
 **Línea 368:** `<columnGroup name="AnioCross" height="28" totalPosition="End">` → Declara el grupo de columnas `AnioCross`, altura `28` y total en `End`.
 
-**Línea 369:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
+**Línea 369:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Composición de la línea: define la clave de agrupación del bucket desde field anio_cross; encadena además <bucket> dentro de la misma jerarquía.
 
-**Línea 370:** `<crosstabColumnHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Abre la cabecera que identifica cada grupo de columna del crosstab.
+**Línea 370:** `<crosstabColumnHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Composición de la línea: crea un textField dinámico; lo posiciona en x=0, y=0, ancho=100, alto=28 y aplica el estilo M5CrosstabCabecera; configura la alineación del texto (horizontal Center, vertical Middle); evalúa la expresión usando variable AnioCross; abre el contenido de celda con estilo M5CrosstabCabecera; define la cabecera de columna del crosstab.
 
-**Línea 371:** `<crosstabTotalColumnHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlig...` → Abre la cabecera de la columna de total del crosstab.
+**Línea 371:** `<crosstabTotalColumnHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlig...` → Composición de la línea: crea un texto literal; lo posiciona en x=0, y=0, ancho=100, alto=28 y aplica el estilo M5CrosstabTotal; configura la alineación del texto (horizontal Center, vertical Middle); muestra el literal 'TOTAL'; abre el contenido de celda con estilo M5CrosstabTotal; define la cabecera de total de columna.
 
 **Línea 372:** `</columnGroup>` → Cierra `columnGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 373:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Declara la medida `ImporteCross` de tipo `java.lang.Double` con cálculo `Sum`.
+**Línea 373:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Composición de la línea: aporta a la medida el valor de field importe_cross; encadena además <measure> dentro de la misma jerarquía.
 
-**Línea 374:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Declara la medida `VentasCross` de tipo `java.lang.Integer` con cálculo `Sum`.
+**Línea 374:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Composición de la línea: aporta a la medida el valor de field ventas_cross; encadena además <measure> dentro de la misma jerarquía.
 
-**Línea 375:** `<crosstabCell width="100" height="34"><cellContents style="M5CrosstabDetalle"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement te...` → Declara la celda de detalle de cada intersección fila × columna, con ancho `100` y alto `34`.
+**Línea 375:** `<crosstabCell width="100" height="34"><cellContents style="M5CrosstabDetalle"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement te...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrosstabDetalle; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrosstabDetalle; define la celda de detalle del crosstab.
 
-**Línea 376:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100"...` → Declara la celda de total de fila para `CategoriaCross`, con ancho `100` y alto `34`.
+**Línea 376:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100"...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrosstabTotal; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrosstabTotal; define una celda de total de fila para CategoriaCross.
 
-**Línea 377:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" h...` → Declara la celda de total de columna para `AnioCross`, con ancho `100` y alto `34`.
+**Línea 377:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" h...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrosstabTotal; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrosstabTotal; define una celda de total de columna para AnioCross.
 
-**Línea 378:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportEl...` → Declara la celda de total general de `CategoriaCross` × `AnioCross`, con ancho `100` y alto `34`.
+**Línea 378:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportEl...` → Composición de la línea: crea un textField dinámico con patrón #,##0.00 €; lo posiciona en x=0, y=0, ancho=100, alto=34 y aplica el estilo M5CrosstabTotal; configura la alineación del texto (horizontal Right); evalúa la expresión usando variable ImporteCross, variable VentasCross; abre el contenido de celda con estilo M5CrosstabTotal; define la celda de total general.
 
 **Línea 379:** `</crosstab>` → Finaliza la tabla cruzada.
 
