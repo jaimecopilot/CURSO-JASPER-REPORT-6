@@ -1197,6 +1197,215 @@ def corrected_54_part_a():
 **Verificación visual:** GRAFICOS.md describe la implementación ejecutable.
 '''
 
+
+def corrected_56_part_a():
+ return r'''**Paso 1: Verificar el checkpoint 5.5 como base**
+
+**Acciones:**
+
+1. Abrir `M5/5.6/EditorialReports/reports/informe_ventas.jrxml`.
+2. Confirmar subreporte, tabla, `CategoriaGroup`, gráfico y crosstab.
+3. Guardar sin eliminar recursos heredados.
+
+**Verificación visual:** 5.6 conserva todo el diseño avanzado acumulado.
+
+---
+
+**Paso 2: Crear la carpeta de estilos**
+
+**Acciones:**
+
+1. En `EditorialReports`, crear `resources/styles` si no existe.
+2. Crear dentro el archivo `EditorialStyles.jrtx`.
+3. Guardar.
+
+**Verificación visual:** Project Explorer muestra `resources/styles/EditorialStyles.jrtx`.
+
+**Qué hace:** separa los estilos reutilizables del JRXML.
+**Por qué:** la plantilla debe poder cargarse con una ruta relativa estable.
+
+---
+
+**Paso 3: Configurar el namespace JRTX correcto**
+
+**Acciones:**
+
+1. Abrir Source de `EditorialStyles.jrtx`.
+2. Usar como raíz `jasperTemplate`.
+3. Configurar namespace `http://jasperreports.sourceforge.net/jasperreports/template`.
+4. Configurar el schema `http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd`.
+5. Guardar.
+
+**Verificación visual:** el archivo no usa el namespace raíz de `jasperReport`.
+
+**Qué hace:** declara una plantilla de estilos válida para JasperReports 6.20.0.
+**Error común:** crear un JRXML de informe en lugar de un JRTX.
+
+---
+
+**Paso 4: Declarar los siete estilos del checkpoint**
+
+**Acciones:**
+
+1. Crear `M5TituloPrincipal` con DejaVu Sans 18, negrita y `#173F6B`.
+2. Crear `M5GrupoCabecera` con tamaño 10, negrita, fondo `#D6EAF8`.
+3. Crear `M5TablaCabecera` con tamaño 9, negrita, fondo `#EAF2F8`.
+4. Crear `M5TablaDetalle` con tamaño 9.
+5. Crear `M5CrosstabCabecera` con tamaño 9, negrita y fondo `#EAF2F8`.
+6. Crear `M5CrosstabDetalle` con fondo blanco.
+7. Crear `M5CrosstabTotal` con negrita y fondo `#D6EAF8`.
+8. Guardar.
+
+**Verificación visual:** la plantilla contiene exactamente siete estilos M5.
+
+**Qué hace:** externaliza los estilos que el checkpoint aplica realmente.
+**Error común:** añadir un segundo estilo por defecto. Solución: la plantilla del checkpoint no declara `isDefault="true"`.
+
+---
+
+**Paso 5: Importar la plantilla en el JRXML**
+
+**Acciones:**
+
+1. Volver a `informe_ventas.jrxml`.
+2. Antes de los estilos locales, añadir `<template><![CDATA["resources/styles/EditorialStyles.jrtx"]]></template>`.
+3. Guardar.
+
+**Verificación visual:** Source muestra el template antes de las declaraciones locales.
+
+**Qué hace:** carga los siete estilos externos.
+**Por qué:** las referencias de estilo deben poder resolverse al compilar.
+
+---
+
+**Paso 6: Aplicar `M5TituloPrincipal`**
+
+**Acciones:**
+
+1. Localizar el `reportElement` del título principal.
+2. Cambiar su atributo a `style="M5TituloPrincipal"`.
+3. Mantener geometría x=0, y=4, width=555, height=28.
+4. Guardar.
+
+**Verificación visual:** el título usa el estilo importado.
+
+---
+
+**Paso 7: Aplicar `M5GrupoCabecera`**
+
+**Acciones:**
+
+1. Localizar el Text Field del Group Header de `CategoriaGroup`.
+2. Cambiar su `reportElement` a `style="M5GrupoCabecera"`.
+3. Mantener la expresión de categoría.
+4. Guardar.
+
+**Verificación visual:** la cabecera de grupo usa el estilo externo.
+
+---
+
+**Paso 8: Aplicar los estilos de tabla**
+
+**Acciones:**
+
+1. Localizar el componente `c:table`.
+2. Sustituir los headers por `style="M5TablaCabecera"`.
+3. Sustituir los detalles por `style="M5TablaDetalle"`.
+4. Mantener anchos, heights, fields y datasetRun.
+5. Guardar.
+
+**Verificación visual:** las tres columnas usan los dos estilos de la plantilla.
+
+**Qué hace:** externaliza el aspecto sin alterar los datos de la tabla.
+
+---
+
+**Paso 9: Aplicar los estilos del crosstab**
+
+**Acciones:**
+
+1. Localizar `crosstabRowHeader` y `crosstabColumnHeader`.
+2. Usar `M5CrosstabCabecera` en sus `cellContents`.
+3. Usar `M5CrosstabDetalle` en la celda de detalle.
+4. Usar `M5CrosstabTotal` en headers y celdas de total.
+5. Guardar.
+
+**Verificación visual:** el crosstab conserva medidas y grupos; sólo cambian los nombres de estilo.
+
+---
+
+**Paso 10: Mantener los estilos locales heredados**
+
+**Acciones:**
+
+1. Confirmar que `Sans_Normal`, `Cabecera`, `Dato` y `UnidadesCondicional` siguen en el JRXML.
+2. Confirmar que `Sans_Normal` sigue siendo el único estilo por defecto.
+3. No duplicar ese default en el JRTX.
+4. Guardar.
+
+**Verificación visual:** estilos locales y externos coexisten sin conflicto.
+
+**Qué hace:** evita una migración destructiva del informe.
+**Por qué:** 5.6 demuestra reutilización gradual, no reescritura total.
+
+---
+
+**Paso 11: Validar la plantilla y el informe**
+
+**Acciones:**
+
+1. Guardar JRTX y JRXML.
+2. Abrir Problems.
+3. Confirmar que no aparece `Could not load template`.
+4. Confirmar que no aparece `Duplicate default style`.
+5. Confirmar que todos los nombres `M5*` se resuelven.
+
+**Verificación visual:** Studio valida ambos archivos.
+
+---
+
+**Paso 12: Compilar y previsualizar**
+
+**Acciones:**
+
+1. Compilar `informe_ventas.jrxml`.
+2. Abrir Preview.
+3. Comprobar título, cabecera de grupo, tabla y crosstab.
+4. Confirmar que el gráfico y el resto del informe no cambian funcionalmente.
+
+**Verificación visual:** la nueva identidad visual se aplica sin pérdidas de contenido.
+
+---
+
+**Paso 13: Ejecutar desde Java**
+
+**Acciones:**
+
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que el checkpoint 5.6 genera 6 páginas.
+4. Confirmar 14 libros, 9 ventas, 31 unidades y 633,40 €.
+
+**Verificación visual:** el PDF se genera con la plantilla cargada.
+
+**Qué hace:** demuestra que la ruta JRTX funciona también fuera de Preview.
+
+---
+
+**Paso 14: Documentar `PLANTILLAS.md`**
+
+**Acciones:**
+
+1. Registrar la ruta `resources/styles/EditorialStyles.jrtx`.
+2. Listar los siete estilos.
+3. Indicar dónde se aplica cada estilo.
+4. Registrar el elemento `template` del JRXML.
+5. Indicar que los estilos locales heredados siguen disponibles.
+6. Guardar.
+
+**Verificación visual:** PLANTILLAS.md coincide con JRTX y JRXML ejecutables.
+'''
+
 def corrected_55_part_a():
  return r'''**Paso 1: Verificar el punto de partida acumulativo**
 
@@ -1653,6 +1862,8 @@ def extract_part_a(sec,point):
   return corrected_54_part_a().strip()
  if point=='5.5':
   return corrected_55_part_a().strip()
+ if point=='5.6':
+  return corrected_56_part_a().strip()
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
  if a<0 or b<0: fail('part A '+point)
  x=sec[a:b]
