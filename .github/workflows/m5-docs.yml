@@ -72,7 +72,8 @@ jobs:
             echo "Documentación M5 ya coincide."
           else
             git commit -m "Genera documentacion validada del Modulo 5 [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
 
       - name: Publicar documentación final
