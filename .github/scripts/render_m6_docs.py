@@ -421,6 +421,9 @@ def preflight(pdf_path: Path):
                 issues.append(f"page {i+1}: block outside MediaBox {x0:.1f},{y0:.1f},{x1:.1f},{y1:.1f}")
                 break
     alltext="\n".join(p.get_text("text") for p in doc)
+    for token in ["EXECUTABLE_START","EXECUTABLE_END","<!--","-->"]:
+        if token in alltext:
+            issues.append("internal render marker visible: "+token)
     return {"pages":len(doc),"issues":issues,"replacement_glyphs":alltext.count("�"),"text_chars":len(alltext)}
 
 
