@@ -45,6 +45,8 @@ def clean_common(s):
  s=re.sub(r'\n(?:ok|Cuando me confirmes[^\n]*|The user wants me[^\n]*|Let me build[^\n]*)\s*\n','\n',s,flags=re.I)
  s=s.replace('fontName="Sans Serif"','fontName="DejaVu Sans"')
  s=s.replace('default="true"','isDefault="true"')
+ s=s.replace('<jr:','<c:').replace('</jr:','</c:').replace('xmlns:jr=','xmlns:c=')
+ s=s.replace('<c:tableStyle columnHeaderStyle="TextoTablaCabecera"/>','<c:columnHeader style="TextoTablaCabecera" height="20">...</c:columnHeader>')
  s=s.replace('648,40','633,40').replace('648.40','633.40').replace('784,56','766,41')
  s=s.replace('jdbc:sqlite:data/editorial.db','jdbc:sqlite:../EditorialReportsJava/data/editorial.db')
  s=s.replace('<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports">',
@@ -213,6 +215,7 @@ def corrected_56_theory(sec):
  sec=sec.replace('xmlns="http://jasperreports.sourceforge.net/jasperreports"\n                xmlns:xsi=', 'xmlns="http://jasperreports.sourceforge.net/jasperreports/template"\n                xmlns:xsi=')
  # Strengthen namespace explanation if original says same namespace as report.
  sec=sec.replace('El espacio de nombres es el mismo que el del informe.', 'La plantilla usa el namespace específico `http://jasperreports.sourceforge.net/jasperreports/template`, distinto del namespace raíz de un JRXML de informe.')
+ sec=sec.replace('Los componentes como `table`, `chart` y `crosstab` admiten sus propios bloques de estilo que pueden referenciar estilos de la plantilla. La aplicación de estilos de plantilla a componentes requiere que el componente declare el estilo en su bloque correspondiente.', 'Los componentes reutilizan estilos JasperReports en sus elementos internos. En una tabla se aplica el estilo a `c:columnHeader` o `c:detailCell`; en un crosstab, a `cellContents`. No existe un bloque genérico `tableStyle` o `crosstabStyle` en JasperReports 6.20.0.')
  return sec
 
 def corrected_theory(point, sec):
@@ -266,6 +269,26 @@ def clean_practice_text(s, point):
  s=s.replace('El artefacto de la tabla debe estar presente junto al `.jasper` del informe.','La definición compilada de la tabla debe estar dentro de `informe_ventas.jasper`.')
  s=s.replace('El artefacto del gráfico debe estar presente junto al `.jasper` del informe.','La definición compilada del gráfico debe estar dentro de `informe_ventas.jasper`.')
  s=s.replace('El artefacto del crosstab debe estar presente junto al `.jasper` del informe.','La definición compilada del crosstab debe estar dentro de `informe_ventas.jasper`.')
+ if point=='5.2':
+  s=re.sub(r'\*\*Paso 13: Añadir el estilo de la tabla\*\*.*?(?=\n---)', '''**Paso 13: Declarar y aplicar los estilos reales de la tabla**
+
+**Acciones:**
+
+1. En Source, subir a la zona de estilos del informe, antes de los parámetros.
+2. Añadir `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>`.
+3. Añadir `<style name="M5TableDetail" style="Dato"/>`.
+4. Volver al componente `<c:table>`.
+5. En cada `<c:columnHeader>` añadir `style="M5TableHeader"`.
+6. En cada `<c:detailCell>` añadir `style="M5TableDetail"`.
+7. Pulsar Ctrl+S y volver a Design.
+
+**Verificación visual:** el encabezado usa fondo azul claro y las celdas conservan la tipografía del informe.
+
+**Qué hace:** aplica estilos JasperReports normales a las celdas del componente table.
+**Por qué:** JasperReports 6.20.0 no utiliza un elemento `tableStyle` dentro del componente.
+**Error común:** inventar un bloque `tableStyle`. Solución: declarar estilos del informe y referenciarlos desde `c:columnHeader` y `c:detailCell`.
+**Analogía:** es como definir una hoja de estilo y asignarla a cada tipo de celda.
+''',s,flags=re.S)
  # Chart XML in source UI: use native 6.20 names.
  s=s.replace('<chart:barChart','<barChart').replace('</chart:barChart>','</barChart>')
  s=s.replace('<chart:categoryDataset>','<categoryDataset>').replace('</chart:categoryDataset>','</categoryDataset>')
@@ -553,7 +576,7 @@ def main():
  if not S1.exists() or not S2.exists(): fail('M5 original source missing')
  theory=build_theory(); practice=build_practice()
  # Global hygiene.
- banned=['svgsvg','Cuando me confirmes','The user wants me','fontName="Sans Serif"','default="true"','648,40','648.40','informe_ventas_table_1.jasper','informe_ventas_chart_1.jasper','informe_ventas_crosstab_1.jasper','<chart:barChart','<jr:tableStyle','<crosstabStyle>']
+ banned=['svgsvg','Cuando me confirmes','The user wants me','fontName="Sans Serif"','default="true"','648,40','648.40','informe_ventas_table_1.jasper','informe_ventas_chart_1.jasper','informe_ventas_crosstab_1.jasper','<chart:barChart','<jr:tableStyle','<c:tableStyle','<crosstabStyle>']
  for token in banned:
   if token in theory or token in practice: fail('banned token in docs: '+token)
  for n in range(1,7):
