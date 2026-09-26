@@ -54,6 +54,68 @@ legacy55=[
 for tok in legacy55:
  if tok in a55: fail('5.5 visual legacy token '+tok)
 
+
+# Point-by-point regression guards: visual instructions must match executable checkpoints.
+def point_section(doc, point, next_point=None):
+ start=doc.index('# Punto '+point+' —')
+ end=doc.index('# Punto '+next_point+' —',start) if next_point else len(doc)
+ return doc[start:end]
+
+def part_a(doc, point, next_point=None):
+ sec=point_section(doc,point,next_point)
+ return sec[sec.index('### Parte A'):sec.index('### Parte B')]
+
+guards={
+ '5.1':{
+  'required':['subinforme_ventas_detalle.jrxml','subinforme_ventas_detalle.jasper','tituloLibro','Band height=`88`','y=`22`'],
+  'banned':['subreporte_ventas_detalle.jasper','subreporte_ventas.jasper']
+ },
+ '5.2':{
+  'required':['DatasetTopVentas','M5TableHeader','M5TableDetail','Band height = `104`','width 255','width 100','width 200'],
+  'banned':['tabla integrada en informe_ventas.jasper junto','_table_1.jasper independiente debe']
+ },
+ '5.3':{
+  'required':['CategoriaGroup','GrupoUnidades','GrupoImporte','GrupoLibros','isStartNewPage=false','minHeightToStartNewPage=80'],
+  'banned':['GrupoCategoria','SubtotalCategoria','ContadorCategoria','isStartNewPage=true','minHeightToStartNewPage=60']
+ },
+ '5.4':{
+  'required':['DatasetVentasPorCategoria','importe_categoria','Band height = `430`','Y=`140`','y=`165`','<barChart>','<itemLabel/>'],
+  'banned':['importe_grafico','chartTitle position="Top"','seriesColor','Band height = `540`','Y=`230`','y=`255`']
+ },
+ '5.5':{
+  'required':['DatasetCrosstabVentas','CategoriaCross','AnioCross','ImporteCross','VentasCross','M5CrossHeader','M5CrossDetail','M5CrossTotal'],
+  'banned':['name="Categoria"','name="Anio"','name="ImporteTotal"','name="NumVentas"','height="1050"','y="800"','y="825"']
+ },
+ '5.6':{
+  'required':['EditorialStyles.jrtx','jasperreports/template','M5TituloPrincipal','M5GrupoCabecera','M5TablaCabecera','M5TablaDetalle','M5CrosstabCabecera','M5CrosstabDetalle','M5CrosstabTotal'],
+  'banned':['EditorialStyles_Print.jrtx que herede','crear un segundo estilo por defecto']
+ }
+}
+for p in ['5.1','5.2','5.3','5.4','5.5','5.6']:
+ nxt=None if p=='5.6' else '5.'+str(int(p.split('.')[1])+1)
+ a=part_a(P,p,nxt)
+ for tok in guards[p]['required']:
+  if tok not in a: fail(p+' visual missing '+tok)
+ for tok in guards[p]['banned']:
+  if tok in a: fail(p+' visual legacy token '+tok)
+
+# Theory must not retain legacy identifiers from the original draft.
+theory_checks={
+ '5.1':(['subinforme_ventas_detalle.jasper'],['subreporte_ventas.jasper','subreporte_ventas_detalle.jasper']),
+ '5.2':(['`c:table`'],['`jr:tableStyle`']),
+ '5.3':(['CategoriaGroup','GrupoImporte','GrupoLibros'],['GrupoCategoria','SubtotalCategoria','ContadorCategoria','isStartNewPage="true"']),
+ '5.4':(['importe_categoria'],['importe_grafico']),
+ '5.5':(['CategoriaCross','AnioCross','ImporteCross'],['Se declara con `componentElement` y el elemento `crosstab`.']),
+ '5.6':(['M5TituloPrincipal','M5CrosstabTotal'],['Las bandas admiten el atributo `style`'])
+}
+for p,(required,banned_tokens) in theory_checks.items():
+ nxt=None if p=='5.6' else '5.'+str(int(p.split('.')[1])+1)
+ ts=point_section(T,p,nxt)
+ for tok in required:
+  if tok not in ts: fail(p+' theory missing '+tok)
+ for tok in banned_tokens:
+  if tok in ts: fail(p+' theory legacy token '+tok)
+
 # Theory coverage: 5 blocks per point, total 30.
 if len(re.findall(r'^### Bloque [1-5] ',T,flags=re.M))!=30: fail('theory block count')
 if len(re.findall(r'^- ',T,flags=re.M)) < 36: fail('objectives coverage')
