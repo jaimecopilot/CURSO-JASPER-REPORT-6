@@ -175,7 +175,7 @@ Este ejemplo permite distinguir claramente errores de dominio, de diseño y de e
 
 - Comprender las diferencias entre los formatos XLS y XLSX.
 - Utilizar el exportador JRXlsxExporter para generar archivos Excel modernos.
-- Configurar las propiedades del exportador mediante SimpleXlsxExporterConfiguration.
+- Configurar XLSX mediante SimpleXlsxReportConfiguration y SimpleXlsxExporterConfiguration, separando opciones del informe y del libro.
 - Ajustar el nombre de la hoja, el ancho de columnas y las celdas combinadas.
 - Aplicar formato a las celdas exportadas.
 - Documentar la exportación a Excel del proyecto EditorialReports.
@@ -344,7 +344,7 @@ Este enfoque ayuda a separar dos preguntas: “¿el archivo XLSX es técnicament
 ## Objetivos de aprendizaje
 
 - Comprender el papel del exportador HTML y sus limitaciones respecto a PDF.
-- Configurar el exportador JRHtmlExporter con SimpleHtmlExporterConfiguration.
+- Configurar el exportador HtmlExporter de JasperReports 6.20.0 con SimpleHtmlExporterConfiguration y SimpleHtmlExporterOutput.
 - Exportar las imágenes del informe a un directorio y referenciarlas desde el HTML.
 - Añadir cabecera, pie y separador de páginas al archivo HTML.
 - Integrar el HTML generado con una hoja de estilos CSS externa.
@@ -514,7 +514,7 @@ Así, 6.3 no enseña simplemente a “guardar como HTML”. Enseña que el forma
 
 - Comprender las características del formato CSV y sus limitaciones.
 - Utilizar el exportador JRCsvExporter con SimpleCsvExporterConfiguration.
-- Configurar el separador de campos y la codificación del archivo CSV.
+- Configurar el separador CSV mediante SimpleCsvExporterConfiguration y la codificación UTF-8 mediante SimpleWriterExporterOutput.
 - Exportar a formato XML con JRXmlExporter y a RTF con JRRtfExporter.
 - Combinar varios exportadores en una misma ejecución del programa.
 - Documentar la exportación a CSV, XML y RTF del proyecto EditorialReports.

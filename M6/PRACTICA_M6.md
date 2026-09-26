@@ -1871,15 +1871,15 @@ public class GeneradorInformeVentas {
 
 **Línea 52:** `System.out.println("M6 checkpoint generado correctamente");` → Escribe en la consola la evidencia `"M6 checkpoint generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 53:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 53:** `}` → Cierra el bloque try-with-resources.
 
-**Línea 54:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
+**Línea 54:** `} catch (Exception e) {` → Cierra el bloque `try` y abre el bloque `catch` que tratará la excepción indicada.
 
 **Línea 55:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
 **Línea 56:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 57:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
+**Línea 57:** `}` → Cierra el bloque `catch`.
 
 **Línea 58:** `}` → Cierra el método `main`.
 
@@ -1913,7 +1913,7 @@ public class GeneradorInformeVentas {
 
 **Línea 73:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 74:** `}` → Cierra el método `main`.
+**Línea 74:** `}` → Cierra el método `exportarPdf`.
 
 **Línea 75:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -1941,7 +1941,7 @@ public class GeneradorInformeVentas {
 
 **Línea 87:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 88:** `}` → Cierra el método `main`.
+**Línea 88:** `}` → Cierra el método `exportarPdfProtegido`.
 
 **Línea 89:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -2058,7 +2058,7 @@ El PDF normal es la tirada estándar y el PDF protegido es la misma tirada bajo 
 
 - Comprender las diferencias entre los formatos XLS y XLSX.
 - Utilizar el exportador JRXlsxExporter para generar archivos Excel modernos.
-- Configurar las propiedades del exportador mediante SimpleXlsxExporterConfiguration.
+- Configurar XLSX mediante SimpleXlsxReportConfiguration y SimpleXlsxExporterConfiguration, separando opciones del informe y del libro.
 - Ajustar el nombre de la hoja, el ancho de columnas y las celdas combinadas.
 - Aplicar formato a las celdas exportadas.
 - Documentar la exportación a Excel del proyecto EditorialReports.
@@ -3979,11 +3979,11 @@ public class GeneradorInformeVentas {
 
 **Línea 64:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 65:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
+**Línea 65:** `} finally {` → Cierra el bloque `try` y abre el bloque `finally`, que se ejecutará exista o no una excepción.
 
 **Línea 66:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
-**Línea 67:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 67:** `}` → Cierra el bloque `finally`.
 
 **Línea 68:** `System.out.println("Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
@@ -3999,15 +3999,15 @@ public class GeneradorInformeVentas {
 
 **Línea 74:** `System.out.println("M6 checkpoint generado correctamente");` → Escribe en la consola la evidencia `"M6 checkpoint generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 75:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 75:** `}` → Cierra el bloque try-with-resources.
 
-**Línea 76:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
+**Línea 76:** `} catch (Exception e) {` → Cierra el bloque `try` y abre el bloque `catch` que tratará la excepción indicada.
 
 **Línea 77:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
 **Línea 78:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 79:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
+**Línea 79:** `}` → Cierra el bloque `catch`.
 
 **Línea 80:** `}` → Cierra el método `main`.
 
@@ -4041,7 +4041,7 @@ public class GeneradorInformeVentas {
 
 **Línea 95:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 96:** `}` → Cierra el método `main`.
+**Línea 96:** `}` → Cierra el método `exportarPdf`.
 
 **Línea 97:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -4069,7 +4069,7 @@ public class GeneradorInformeVentas {
 
 **Línea 109:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 110:** `}` → Cierra el método `main`.
+**Línea 110:** `}` → Cierra el método `exportarPdfProtegido`.
 
 **Línea 111:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -4079,7 +4079,7 @@ public class GeneradorInformeVentas {
 
 **Línea 114:** `SimpleXlsxReportConfiguration informe = new SimpleXlsxReportConfiguration();` → Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.
 
-**Línea 115:** `informe.setSheetNames(new String[]{nombreHoja});` → Asigna el nombre `Ventas` a la hoja; el E2E lo comprueba dentro de `xl/workbook.xml`.
+**Línea 115:** `informe.setSheetNames(new String[]{nombreHoja});` → Asigna dinámicamente a la hoja el valor recibido en `nombreHoja`; el mismo método sirve para `Ventas` y `Catálogo`.
 
 **Línea 116:** `informe.setShowGridLines(Boolean.FALSE);` → Desactiva la cuadrícula predeterminada de la hoja Excel.
 
@@ -4105,7 +4105,7 @@ public class GeneradorInformeVentas {
 
 **Línea 127:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 128:** `}` → Cierra el método `main`.
+**Línea 128:** `}` → Cierra el método `exportarXlsx`.
 
 **Línea 129:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -4337,7 +4337,7 @@ Son dos libros contables producidos por la misma cadena: uno resume ventas y otr
 ## Objetivos de aprendizaje
 
 - Comprender el papel del exportador HTML y sus limitaciones respecto a PDF.
-- Configurar el exportador JRHtmlExporter con SimpleHtmlExporterConfiguration.
+- Configurar el exportador HtmlExporter de JasperReports 6.20.0 con SimpleHtmlExporterConfiguration y SimpleHtmlExporterOutput.
 - Exportar las imágenes del informe a un directorio y referenciarlas desde el HTML.
 - Añadir cabecera, pie y separador de páginas al archivo HTML.
 - Integrar el HTML generado con una hoja de estilos CSS externa.
@@ -6306,11 +6306,11 @@ public class GeneradorInformeVentas {
 
 **Línea 72:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 73:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
+**Línea 73:** `} finally {` → Cierra el bloque `try` y abre el bloque `finally`, que se ejecutará exista o no una excepción.
 
 **Línea 74:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
-**Línea 75:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 75:** `}` → Cierra el bloque `finally`.
 
 **Línea 76:** `new File("output/images").mkdirs();` → Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.
 
@@ -6338,15 +6338,15 @@ public class GeneradorInformeVentas {
 
 **Línea 88:** `System.out.println("M6 checkpoint generado correctamente");` → Escribe en la consola la evidencia `"M6 checkpoint generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 89:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 89:** `}` → Cierra el bloque try-with-resources.
 
-**Línea 90:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
+**Línea 90:** `} catch (Exception e) {` → Cierra el bloque `try` y abre el bloque `catch` que tratará la excepción indicada.
 
 **Línea 91:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
 **Línea 92:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 93:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
+**Línea 93:** `}` → Cierra el bloque `catch`.
 
 **Línea 94:** `}` → Cierra el método `main`.
 
@@ -6380,7 +6380,7 @@ public class GeneradorInformeVentas {
 
 **Línea 109:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 110:** `}` → Cierra el método `main`.
+**Línea 110:** `}` → Cierra el método `exportarPdf`.
 
 **Línea 111:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -6408,7 +6408,7 @@ public class GeneradorInformeVentas {
 
 **Línea 123:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 124:** `}` → Cierra el método `main`.
+**Línea 124:** `}` → Cierra el método `exportarPdfProtegido`.
 
 **Línea 125:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -6418,7 +6418,7 @@ public class GeneradorInformeVentas {
 
 **Línea 128:** `SimpleXlsxReportConfiguration informe = new SimpleXlsxReportConfiguration();` → Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.
 
-**Línea 129:** `informe.setSheetNames(new String[]{nombreHoja});` → Asigna el nombre `Ventas` a la hoja; el E2E lo comprueba dentro de `xl/workbook.xml`.
+**Línea 129:** `informe.setSheetNames(new String[]{nombreHoja});` → Asigna dinámicamente a la hoja el valor recibido en `nombreHoja`; el mismo método sirve para `Ventas` y `Catálogo`.
 
 **Línea 130:** `informe.setShowGridLines(Boolean.FALSE);` → Desactiva la cuadrícula predeterminada de la hoja Excel.
 
@@ -6444,7 +6444,7 @@ public class GeneradorInformeVentas {
 
 **Línea 141:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 142:** `}` → Cierra el método `main`.
+**Línea 142:** `}` → Cierra el método `exportarXlsx`.
 
 **Línea 143:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -6478,7 +6478,7 @@ public class GeneradorInformeVentas {
 
 **Línea 158:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 159:** `}` → Cierra el método `main`.
+**Línea 159:** `}` → Cierra el método `exportarHtml`.
 
 **Línea 160:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -6682,7 +6682,7 @@ HTML es la edición navegable del catálogo y el enlace al PDF es la puerta haci
 
 - Comprender las características del formato CSV y sus limitaciones.
 - Utilizar el exportador JRCsvExporter con SimpleCsvExporterConfiguration.
-- Configurar el separador de campos y la codificación del archivo CSV.
+- Configurar el separador CSV mediante SimpleCsvExporterConfiguration y la codificación UTF-8 mediante SimpleWriterExporterOutput.
 - Exportar a formato XML con JRXmlExporter y a RTF con JRRtfExporter.
 - Combinar varios exportadores en una misma ejecución del programa.
 - Documentar la exportación a CSV, XML y RTF del proyecto EditorialReports.
@@ -8730,11 +8730,11 @@ public class GeneradorInformeVentas {
 
 **Línea 83:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 84:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
+**Línea 84:** `} finally {` → Cierra el bloque `try` y abre el bloque `finally`, que se ejecutará exista o no una excepción.
 
 **Línea 85:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
-**Línea 86:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 86:** `}` → Cierra el bloque `finally`.
 
 **Línea 87:** `new File("output/images").mkdirs();` → Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.
 
@@ -8778,15 +8778,15 @@ public class GeneradorInformeVentas {
 
 **Línea 107:** `System.out.println("M6 checkpoint generado correctamente");` → Escribe en la consola la evidencia `"M6 checkpoint generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 108:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 108:** `}` → Cierra el bloque try-with-resources.
 
-**Línea 109:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
+**Línea 109:** `} catch (Exception e) {` → Cierra el bloque `try` y abre el bloque `catch` que tratará la excepción indicada.
 
 **Línea 110:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
 **Línea 111:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 112:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
+**Línea 112:** `}` → Cierra el bloque `catch`.
 
 **Línea 113:** `}` → Cierra el método `main`.
 
@@ -8820,7 +8820,7 @@ public class GeneradorInformeVentas {
 
 **Línea 128:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 129:** `}` → Cierra el método `main`.
+**Línea 129:** `}` → Cierra el método `exportarPdf`.
 
 **Línea 130:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8848,7 +8848,7 @@ public class GeneradorInformeVentas {
 
 **Línea 142:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 143:** `}` → Cierra el método `main`.
+**Línea 143:** `}` → Cierra el método `exportarPdfProtegido`.
 
 **Línea 144:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8858,7 +8858,7 @@ public class GeneradorInformeVentas {
 
 **Línea 147:** `SimpleXlsxReportConfiguration informe = new SimpleXlsxReportConfiguration();` → Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.
 
-**Línea 148:** `informe.setSheetNames(new String[]{nombreHoja});` → Asigna el nombre `Ventas` a la hoja; el E2E lo comprueba dentro de `xl/workbook.xml`.
+**Línea 148:** `informe.setSheetNames(new String[]{nombreHoja});` → Asigna dinámicamente a la hoja el valor recibido en `nombreHoja`; el mismo método sirve para `Ventas` y `Catálogo`.
 
 **Línea 149:** `informe.setShowGridLines(Boolean.FALSE);` → Desactiva la cuadrícula predeterminada de la hoja Excel.
 
@@ -8884,7 +8884,7 @@ public class GeneradorInformeVentas {
 
 **Línea 160:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 161:** `}` → Cierra el método `main`.
+**Línea 161:** `}` → Cierra el método `exportarXlsx`.
 
 **Línea 162:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8918,7 +8918,7 @@ public class GeneradorInformeVentas {
 
 **Línea 177:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 178:** `}` → Cierra el método `main`.
+**Línea 178:** `}` → Cierra el método `exportarHtml`.
 
 **Línea 179:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8942,7 +8942,7 @@ public class GeneradorInformeVentas {
 
 **Línea 189:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 190:** `}` → Cierra el método `main`.
+**Línea 190:** `}` → Cierra el método `exportarCsv`.
 
 **Línea 191:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8960,7 +8960,7 @@ public class GeneradorInformeVentas {
 
 **Línea 198:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 199:** `}` → Cierra el método `main`.
+**Línea 199:** `}` → Cierra el método `exportarXml`.
 
 **Línea 200:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8974,7 +8974,7 @@ public class GeneradorInformeVentas {
 
 **Línea 205:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 206:** `}` → Cierra el método `main`.
+**Línea 206:** `}` → Cierra el método `exportarRtf`.
 
 **Línea 207:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -8988,7 +8988,7 @@ public class GeneradorInformeVentas {
 
 **Línea 212:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 213:** `}` → Cierra el método `main`.
+**Línea 213:** `}` → Cierra el método `exportarOdt`.
 
 **Línea 214:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11152,11 +11152,11 @@ public class GeneradorInformeVentas {
 
 **Línea 85:** `exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");` → Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.
 
-**Línea 86:** `} finally {` → Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.
+**Línea 86:** `} finally {` → Cierra el bloque `try` y abre el bloque `finally`, que se ejecutará exista o no una excepción.
 
 **Línea 87:** `catalogoDataSource.close();` → Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.
 
-**Línea 88:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 88:** `}` → Cierra el bloque `finally`.
 
 **Línea 89:** `new File("output/images").mkdirs();` → Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.
 
@@ -11200,15 +11200,15 @@ public class GeneradorInformeVentas {
 
 **Línea 109:** `System.out.println("M6 checkpoint generado correctamente");` → Escribe en la consola la evidencia `"M6 checkpoint generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 110:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
+**Línea 110:** `}` → Cierra el bloque try-with-resources.
 
-**Línea 111:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
+**Línea 111:** `} catch (Exception e) {` → Cierra el bloque `try` y abre el bloque `catch` que tratará la excepción indicada.
 
 **Línea 112:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
 **Línea 113:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 114:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
+**Línea 114:** `}` → Cierra el bloque `catch`.
 
 **Línea 115:** `}` → Cierra el método `main`.
 
@@ -11226,7 +11226,7 @@ public class GeneradorInformeVentas {
 
 **Línea 122:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 123:** `}` → Cierra el método `main`.
+**Línea 123:** `}` → Cierra el método `exportarPdf`.
 
 **Línea 124:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11254,7 +11254,7 @@ public class GeneradorInformeVentas {
 
 **Línea 136:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 137:** `}` → Cierra el método `main`.
+**Línea 137:** `}` → Cierra el método `exportarPdfProtegido`.
 
 **Línea 138:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11272,7 +11272,7 @@ public class GeneradorInformeVentas {
 
 **Línea 145:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 146:** `}` → Cierra el método `main`.
+**Línea 146:** `}` → Cierra el método `exportarXlsx`.
 
 **Línea 147:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11292,7 +11292,7 @@ public class GeneradorInformeVentas {
 
 **Línea 155:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 156:** `}` → Cierra el método `main`.
+**Línea 156:** `}` → Cierra el método `exportarHtml`.
 
 **Línea 157:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11308,7 +11308,7 @@ public class GeneradorInformeVentas {
 
 **Línea 163:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 164:** `}` → Cierra el método `main`.
+**Línea 164:** `}` → Cierra el método `exportarCsv`.
 
 **Línea 165:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11326,7 +11326,7 @@ public class GeneradorInformeVentas {
 
 **Línea 172:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 173:** `}` → Cierra el método `main`.
+**Línea 173:** `}` → Cierra el método `exportarXml`.
 
 **Línea 174:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11342,7 +11342,7 @@ public class GeneradorInformeVentas {
 
 **Línea 180:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 181:** `}` → Cierra el método `main`.
+**Línea 181:** `}` → Cierra el método `exportarRtf`.
 
 **Línea 182:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11356,7 +11356,7 @@ public class GeneradorInformeVentas {
 
 **Línea 187:** `exportador.exportReport();` → Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.
 
-**Línea 188:** `}` → Cierra el método `main`.
+**Línea 188:** `}` → Cierra el método `exportarOdt`.
 
 **Línea 189:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11599,7 +11599,7 @@ public class ConfiguracionExportacion {
 
 **Línea 16:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
-**Línea 17:** `}` → Cierra el método `main`.
+**Línea 17:** `}` → Cierra el método `getConfiguracionPdf`.
 
 **Línea 18:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11607,7 +11607,7 @@ public class ConfiguracionExportacion {
 
 **Línea 20:** `SimpleXlsxReportConfiguration c = new SimpleXlsxReportConfiguration();` → Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.
 
-**Línea 21:** `c.setSheetNames(new String[]{nombreHoja});` → Asigna el nombre `Ventas` a la hoja; el E2E lo comprueba dentro de `xl/workbook.xml`.
+**Línea 21:** `c.setSheetNames(new String[]{nombreHoja});` → Asigna dinámicamente a la hoja el valor recibido en `nombreHoja`; el mismo método sirve para `Ventas` y `Catálogo`.
 
 **Línea 22:** `c.setShowGridLines(Boolean.FALSE);` → Desactiva la cuadrícula predeterminada de la hoja Excel.
 
@@ -11621,7 +11621,7 @@ public class ConfiguracionExportacion {
 
 **Línea 27:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
-**Línea 28:** `}` → Cierra el método `main`.
+**Línea 28:** `}` → Cierra el método `getConfiguracionXlsxReport`.
 
 **Línea 29:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11633,7 +11633,7 @@ public class ConfiguracionExportacion {
 
 **Línea 33:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
-**Línea 34:** `}` → Cierra el método `main`.
+**Línea 34:** `}` → Cierra el método `getConfiguracionXlsxExportador`.
 
 **Línea 35:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11653,7 +11653,7 @@ public class ConfiguracionExportacion {
 
 **Línea 43:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
-**Línea 44:** `}` → Cierra el método `main`.
+**Línea 44:** `}` → Cierra el método `getConfiguracionHtml`.
 
 **Línea 45:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11669,7 +11669,7 @@ public class ConfiguracionExportacion {
 
 **Línea 51:** `return c;` → Devuelve al llamador la configuración ya preparada por el método fábrica.
 
-**Línea 52:** `}` → Cierra el método `main`.
+**Línea 52:** `}` → Cierra el método `getConfiguracionCsv`.
 
 **Línea 53:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
@@ -11677,9 +11677,9 @@ public class ConfiguracionExportacion {
 
 **Línea 55:** `return new SimpleRtfExporterConfiguration();` → Devuelve una configuración RTF nueva; la codificación seguirá definiéndose correctamente en el writer de salida.
 
-**Línea 56:** `}` → Cierra el método `main`.
+**Línea 56:** `}` → Cierra el método `getConfiguracionRtf`.
 
-**Línea 57:** `}` → Cierra la clase `GeneradorInformeVentas`.
+**Línea 57:** `}` → Cierra la clase `ConfiguracionExportacion`.
 
 ---
 
