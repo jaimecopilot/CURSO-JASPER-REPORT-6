@@ -314,7 +314,7 @@ El `barPlot` del checkpoint mantiene una configuración deliberadamente sencilla
 
 No se introduce `seriesColor` directamente dentro de `barPlot` porque esa no es la estructura usada por el checkpoint. Tampoco se añade `position="Top"` a `chartTitle`. La práctica visual debe llevar exactamente al XML que se compila en la Parte B.
 
-La compilación del informe maestro incorpora el gráfico en `reports/informe_ventas.jasper`. No se produce un `informe_ventas_chart_1.jasper` adicional. El E2E verifica explícitamente la ausencia de ese falso artefacto, compila todos los JRXML acumulados, inicializa SQLite, llena el informe y comprueba que el PDF de 5.4 tiene seis páginas.
+La compilación del informe maestro incorpora el gráfico en `reports/informe_ventas.jasper`. No se produce un `.jasper` auxiliar separado para el gráfico. El E2E verifica explícitamente la ausencia de ese falso artefacto, compila todos los JRXML acumulados, inicializa SQLite, llena el informe y comprueba que el PDF de 5.4 tiene seis páginas.
 
 ```text
 Summary height = 430
