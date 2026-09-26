@@ -459,6 +459,33 @@ Este contrato conecta directamente la teoría con la Parte A, el JRXML completo 
   theory=theory[:x]+corrected_55_block5().rstrip()
   summary=summary.replace('- Los estilos se declaran con `crosstabStyle` y sus bloques `box`, `cellStyle`, `rowHeaderStyle` y `columnHeaderStyle`.','- Los estilos son estilos JasperReports normales aplicados a `cellContents`.')
   summary=summary.replace('- La compilación genera artefactos con el sufijo `_crosstab_N`.','- El crosstab se compila dentro de `informe_ventas.jasper`; no genera un `.jasper` independiente.')
+  contract='''#### Contrato ejecutable de las dos medidas del crosstab
+
+El checkpoint 5.5 usa dos medidas reales y complementarias. `ImporteCross` suma el field `importe_cross`, mientras `VentasCross` suma el contador unitario `ventas_cross`. Ambas se calculan para la misma combinación `CategoriaCross × AnioCross`.
+
+```xml
+<measure name="ImporteCross" class="java.lang.Double" calculation="Sum">
+    <measureExpression><![CDATA[$F{importe_cross}]]></measureExpression>
+</measure>
+<measure name="VentasCross" class="java.lang.Integer" calculation="Sum">
+    <measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression>
+</measure>
+```
+
+La celda de detalle muestra las dos variables generadas por JasperReports: `$V{ImporteCross}` con formato monetario y `$V{VentasCross} + " ventas"`. El mismo patrón se repite en el total de fila, el total de columna y el total general.
+
+```text
+detalle                     -> ImporteCross + VentasCross
+rowTotalGroup               -> total por CategoriaCross
+columnTotalGroup            -> total por AnioCross
+rowTotalGroup + columnTotal -> total general
+```
+
+Esto significa que `VentasCross` no es una segunda tabla ni una segunda `crosstabCell` independiente: es una segunda medida dentro de las mismas celdas. La fuente `DatasetCrosstabVentas` aporta `ventas_cross = 1` por venta y la medida `Sum` convierte esos unos en el número de operaciones de cada cruce.
+
+El contrato completo del checkpoint queda, por tanto, formado por `DatasetCrosstabVentas`, los grupos `CategoriaCross` y `AnioCross`, y las medidas `ImporteCross` y `VentasCross`. Esos mismos nombres aparecen en la Parte A, en el JRXML byte a byte de Parte B y en la ejecución E2E.'''
+  theory=theory.rstrip()+'\n\n'+contract
+  summary=summary.rstrip()+'\n\n- El crosstab ejecutable calcula simultáneamente `ImporteCross` y `VentasCross` para detalle y totales.'
  if point=='5.6':
   theory=corrected_56_theory(theory)
   summary=corrected_56_theory(summary)
