@@ -25,6 +25,28 @@ for n in range(1,7):
  a=sec[sec.index('### Parte A'):sec.index('### Parte B')]
  steps=len(re.findall(r'^\*\*Paso \d+',a,flags=re.M))
  if steps<12: fail(p+' visual steps '+str(steps))
+
+# Regression guard for 5.5 visual practice: it must lead to the executable checkpoint.
+s55=P.index('# Punto 5.5 —'); e55=P.index('# Punto 5.6 —',s55)
+sec55=P[s55:e55]
+a55=sec55[sec55.index('### Parte A'):sec55.index('### Parte B')]
+required55=[
+ 'DatasetCrosstabVentas','categoria_cross','anio_cross','importe_cross','ventas_cross',
+ 'CategoriaCross','AnioCross','ImporteCross','VentasCross',
+ 'M5CrossHeader','M5CrossDetail','M5CrossTotal',
+ 'Band height en `700`','Y=`430`','Y=`455`','Height=`225`',
+ '`informe_ventas.jasper`','`_crosstab_1.jasper` independiente'
+]
+for tok in required55:
+ if tok not in a55: fail('5.5 visual missing '+tok)
+legacy55=[
+ 'name="Categoria"','name="Anio"','name="ImporteTotal"','name="NumVentas"',
+ '$F{categoria}',' $F{anio}','importe_total','num_ventas',
+ 'height="1050"','y="800"','y="825"'
+]
+for tok in legacy55:
+ if tok in a55: fail('5.5 visual legacy token '+tok)
+
 # Theory coverage: 5 blocks per point, total 30.
 if len(re.findall(r'^### Bloque [1-5] ',T,flags=re.M))!=30: fail('theory block count')
 if len(re.findall(r'^- ',T,flags=re.M)) < 36: fail('objectives coverage')
