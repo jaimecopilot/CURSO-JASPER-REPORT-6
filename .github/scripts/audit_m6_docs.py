@@ -74,25 +74,38 @@ for i,p in enumerate(POINTS):
 
 # Exact executable parity and line explanation coverage.
 ticks=chr(96)*3
-pattern='<!-- EXECUTABLE_START ([^ ]+) -->\\s*'+re.escape(ticks)+'(?:xml|java|css|properties)\\n(.*?)\\n'+re.escape(ticks)+'\\s*<!-- EXECUTABLE_END \\\\1 -->'
+pattern=(
+    '<!-- EXECUTABLE_START ([^ ]+) -->\\s*'
+    +re.escape(ticks)
+    +'(?:xml|java|css|properties)\\n(.*?)\\n'
+    +re.escape(ticks)
+    +'\\s*<!-- EXECUTABLE_END ([^ ]+) -->'
+)
 pat=re.compile(pattern,re.S)
 matches=list(pat.finditer(P))
-if len(matches) < 18:
-    fail('embedded executable block count '+str(len(matches)))
+if len(matches) != 25:
+    fail('embedded executable block count '+str(len(matches))+' expected 25')
 for i,m in enumerate(matches):
-    rel=m.group(1); embedded=m.group(2).rstrip()
-    f=ROOT/rel
-    if not f.is_file(): fail('missing executable '+rel)
-    if embedded != read(f).rstrip(): fail('parity '+rel)
+    start_rel=m.group(1)
+    end_rel=m.group(3)
+    if start_rel != end_rel:
+        fail('marker mismatch '+start_rel+' != '+end_rel)
+    embedded=m.group(2).rstrip()
+    f=ROOT/start_rel
+    if not f.is_file():
+        fail('missing executable '+start_rel)
+    if embedded != read(f).rstrip():
+        fail('parity '+start_rel)
     n=len(embedded.splitlines())
     end=matches[i+1].start() if i+1<len(matches) else len(P)
     tail=P[m.end():end]
     covered=set()
     for lm in re.finditer(r'\*\*Línea(?:s)?\s+(\d+)(?:-(\d+))?:\*\*',tail):
-        a=int(lm.group(1)); b=int(lm.group(2) or a)
-        covered.update(range(a,b+1))
+        x=int(lm.group(1)); y=int(lm.group(2) or x)
+        covered.update(range(x,y+1))
     missing=[x for x in range(1,n+1) if x not in covered]
-    if missing: fail('line coverage '+rel+' '+str(missing[:20]))
+    if missing:
+        fail('line coverage '+start_rel+' '+str(missing[:20]))
 
 # Export module must not mutate the closed M5 design.
 base=read(ROOT/'M5/5.6/EditorialReports/reports/informe_ventas.jrxml')
