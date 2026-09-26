@@ -1820,6 +1820,78 @@ def corrected_55_part_a():
 **Error común:** documentar los nombres antiguos de campos o medidas. Solución: usar los contratos `*_cross` y `*Cross` del JRXML ejecutable.
 '''
 
+
+def corrected_53_tail():
+ return r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `Group not found: CategoriaGroup` | Una variable referencia un nombre de grupo distinto | Usar `resetGroup="CategoriaGroup"` |
+| El grupo no cambia al cambiar la categoría | La expresión de grupo no usa `$F{categoria}` | Revisar `groupExpression` |
+| Los acumulados se mezclan entre categorías | Falta `resetType="Group"` o el resetGroup correcto | Configurar las tres variables contra `CategoriaGroup` |
+| El número de libros no coincide | `GrupoLibros` no usa `Count` sobre `$F{titulo}` | Revisar cálculo y expresión |
+| Las unidades no se totalizan | `GrupoUnidades` no usa `Sum` | Sumar `$F{unidades_vendidas}` |
+| El importe no se totaliza | `GrupoImporte` no usa `Sum` | Sumar `$F{importe_total}` |
+| Cada categoría fuerza una página nueva | Se ha activado `isStartNewPage` | Mantener `isStartNewPage="false"` |
+| El encabezado no se repite cuando un grupo cruza página | `isReprintHeaderOnEachPage` está desactivado | Mantenerlo en `true` |
+
+---
+
+## Reto resuelto paso a paso
+
+**Enunciado original conservado:** añadir un segundo grupo anidado por año de publicación dentro de la agrupación por categoría.
+
+**Corrección técnica:** el dataset principal del checkpoint 5.3 no expone originalmente el año como field independiente. Antes de crear el grupo anidado hay que ampliar la consulta y declarar ese field.
+
+**Paso 1.** Añadir a la consulta principal una expresión de año, por ejemplo `substr(l.fecha_publicacion, 1, 4) AS anio_publicacion`, si la columna `fecha_publicacion` existe en el esquema de trabajo.
+
+**Paso 2.** Declarar `<field name="anio_publicacion" class="java.lang.String"/>`.
+
+**Paso 3.** Crear un grupo llamado `GrupoAnio`.
+
+**Paso 4.** Usar `$F{anio_publicacion}` como Group Expression.
+
+**Paso 5.** Añadir Group Header y Group Footer para `GrupoAnio`.
+
+**Paso 6.** Situar `GrupoAnio` dentro del flujo de `CategoriaGroup`, de modo que el cambio de categoría siga siendo la agrupación exterior.
+
+**Paso 7.** Crear, si se necesita un contador propio, una variable con `resetType="Group"` y `resetGroup="GrupoAnio"`.
+
+**Paso 8.** Compilar y comprobar que no aparece `Field not found: anio_publicacion`.
+
+**Paso 9.** Ejecutar el informe y comprobar que los años quedan anidados dentro de cada categoría.
+
+**Resultado del reto:** se conserva la intención pedagógica del material original, pero se hace explícito el contrato de datos necesario para que el grupo anidado pueda compilar.
+
+---
+
+## Analogía final con el contexto de la editorial
+
+`CategoriaGroup` funciona como una sección del catálogo: cada categoría abre una cabecera y cierra con tres indicadores —libros, unidades e importe—. Las variables de grupo son contadores y acumuladores que se ponen a cero cada vez que comienza una nueva sección.
+
+---
+
+## Resultado esperado
+
+Al finalizar 5.3:
+
+- `reports/informe_ventas.jrxml` contiene el grupo `CategoriaGroup`.
+- La expresión de grupo es `$F{categoria}`.
+- `isStartNewPage="false"`, `isReprintHeaderOnEachPage="true"` y `minHeightToStartNewPage="80"`.
+- Las variables son `GrupoLibros`, `GrupoUnidades` y `GrupoImporte`.
+- Las tres variables usan `resetType="Group"` y `resetGroup="CategoriaGroup"`.
+- El Group Header tiene altura 28 y el Group Footer altura 34.
+- El subreporte y la tabla heredados de 5.1 y 5.2 permanecen intactos.
+- `output/informe_ventas.pdf` tiene 5 páginas en la evidencia E2E final.
+- Se conservan 14 libros, 9 ventas, 31 unidades y 633,40 €.
+
+---
+
+## Conclusión y enlace al siguiente punto
+
+El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los componentes anteriores. El informe agrupa por categoría en flujo continuo, reimprime la cabecera cuando es necesario y resume libros, unidades e importe en el pie del grupo. El punto 5.4 reutiliza esta base para incorporar un gráfico de ventas por categoría.
+'''
+
 def corrected_55_tail():
  return r'''## Errores comunes del ejercicio completo
 
@@ -1919,6 +1991,8 @@ def extract_part_a(sec,point):
  return clean_practice_text(x,point).strip()
 
 def extract_tail(sec,point):
+ if point=='5.3':
+  return corrected_53_tail().strip()
  if point=='5.5':
   return corrected_55_tail().strip()
  a=sec.find('## Errores comunes del ejercicio completo')
