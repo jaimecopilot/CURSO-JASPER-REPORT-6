@@ -394,83 +394,97 @@ ODT       ZIP íntegro + mimetype OpenDocument Text
 A la vez, el workflow comprueba SQLite y las seis páginas de `informe_ventas`. `EXPORTACION_OTROS.md` documenta las decisiones corregidas y el JRXML/JRTX continúan byte a byte iguales a M5/5.6.
 '''
 
-THEORY['6.5']=r'''### Bloque 1 — Por qué centralizar la configuración
+THEORY['6.5']=r'''### Bloque 1 — JasperReportsContext como contexto global del motor
 
-Después de cuatro puntos, `GeneradorInformeVentas` conoce todos los exportadores y contiene muchas opciones específicas. El objetivo de 6.5 es separar políticas reutilizables de la lógica de orquestación. `ConfiguracionExportacion.java` encapsula la creación de las configuraciones; `GeneradorInformeVentas` conserva rutas, `JasperPrint` y orden de exportación.
-
-~~~text
-GeneradorInformeVentas
-       │
-       ├── solicita configuración PDF
-       ├── solicita configuración XLSX
-       ├── solicita configuración HTML
-       ├── solicita configuración CSV
-       └── solicita configuración RTF
-                │
-                ▼
-       ConfiguracionExportacion
-~~~
-
-Esta refactorización no cambia el JRXML ni las salidas esperadas. El E2E vuelve a generar todos los formatos para demostrar que la centralización no introduce regresiones.
-
-### Bloque 2 — ReportConfiguration frente a ExporterConfiguration
-
-XLSX muestra por qué una clase central no debe ocultar las categorías de configuración. Las opciones de una hoja concreta pertenecen a `SimpleXlsxReportConfiguration`; las del libro/exportador pertenecen a `SimpleXlsxExporterConfiguration`. Por eso la clase ofrece dos métodos.
+`JasperReportsContext` es la interfaz que concentra propiedades y servicios compartidos por JasperReports. Cuando una operación no recibe un contexto específico, la biblioteca trabaja con el contexto por defecto. La implementación `DefaultJasperReportsContext` expone `getInstance()` y permite consultar o modificar propiedades mediante `getProperty` y `setProperty`. Para aislar cambios sin alterar globalmente el singleton puede utilizarse un `SimpleJasperReportsContext` cuyo padre sea el contexto por defecto.
 
 ~~~java
-public static SimpleXlsxReportConfiguration getConfiguracionXlsxReport(String nombreHoja)
-public static SimpleXlsxExporterConfiguration getConfiguracionXlsxExportador()
+JasperReportsContext contexto = DefaultJasperReportsContext.getInstance();
+String comprimido = contexto.getProperty(
+        "net.sf.jasperreports.export.pdf.compressed");
 ~~~
 
-El generador aplica ambas con `setConfiguration`. Esta separación conserva el modelo de la API y hace explícito qué propiedades pueden depender del informe. Es una corrección frente al origen, que trataba todas las opciones como una única configuración.
+**Línea 1:** obtiene el contexto compartido que JasperReports usa como referencia global cuando no se proporciona otro explícitamente.
 
-PDF, HTML y CSV tienen sus propios tipos de configuración. RTF usa una configuración vacía en el checkpoint porque la codificación se sigue definiendo en `SimpleWriterExporterOutput`.
+**Líneas 2-3:** consulta desde ese contexto el valor efectivo de una propiedad de exportación PDF.
 
-### Bloque 3 — jasperreports.properties y classpath
+El contexto es importante porque separa el alcance global de la configuración específica de un exportador. Un valor leído por el contexto puede proceder de recursos del classpath o de propiedades inicializadas por el motor; después una configuración concreta como `SimplePdfExporterConfiguration` puede fijar explícitamente una opción para una exportación determinada.
 
-JasperReports puede leer propiedades globales desde `jasperreports.properties` cuando el archivo está disponible en el classpath. El checkpoint crea el archivo dentro de `EditorialReportsJava/src` y modifica Maven para copiar los recursos no Java de esa carpeta a `target/classes`.
+En EditorialReports no se necesita crear un contexto personalizado para cada salida, porque las políticas específicas se expresan con las clases `Simple*Configuration`. Sin embargo, comprender `JasperReportsContext` explica de dónde proceden los valores globales y por qué `jasperreports.properties` debe llegar al classpath.
+
+### Bloque 2 — Propiedades del sistema y configuración externa a la aplicación
+
+Las propiedades de sistema de Java permiten aportar valores a la JVM sin modificar el código fuente. Se pueden establecer al arrancar con la sintaxis `-Dclave=valor` o mediante `System.setProperty` antes de inicializar el comportamiento que dependa de ellas. Son útiles para parámetros de despliegue que deben cambiar entre entornos.
+
+~~~java
+System.setProperty(
+        "net.sf.jasperreports.export.pdf.compressed",
+        "true");
+~~~
+
+**Líneas 1-3:** establece en la JVM una propiedad antes de la exportación. Esta técnica tiene alcance de proceso y debe usarse con cuidado en aplicaciones que ejecutan muchos informes simultáneamente.
+
+En Jaspersoft Studio/Eclipse el mismo experimento puede realizarse desde **Run Configurations → Arguments → VM arguments** añadiendo una opción `-D...`. Para que el checkpoint final sea reproducible, M6 no depende de que el alumno conserve una opción manual del IDE: las decisiones permanentes quedan registradas en el repositorio mediante `jasperreports.properties` y las clases de configuración Java.
+
+La distinción es pedagógicamente importante: una propiedad del sistema pertenece al entorno de ejecución; una propiedad de classpath pertenece al artefacto desplegado; una configuración de exportador pertenece a una operación concreta.
+
+### Bloque 3 — jasperreports.properties en el classpath
+
+JasperReports puede cargar propiedades globales desde `jasperreports.properties` disponible en el classpath. El checkpoint 6.5 crea el fichero dentro de `EditorialReportsJava/src` y modifica Maven para copiar recursos no Java desde esa carpeta a `target/classes`.
 
 ~~~properties
 net.sf.jasperreports.export.pdf.compressed=true
 net.sf.jasperreports.export.csv.field.delimiter=;
 ~~~
 
-El E2E exige que `target/classes/jasperreports.properties` exista después de `mvn package`. Así se prueba la premisa de la explicación: no basta con crear el fichero en el árbol fuente si el runtime nunca puede cargarlo.
+**Línea 1:** define un valor global de compresión PDF.
 
-Las propiedades globales ofrecen valores predeterminados; la configuración específica aplicada a un exportador puede concretar o sobrescribir comportamiento para una operación determinada.
+**Línea 2:** define punto y coma como valor global asociado al delimitador CSV.
 
-### Bloque 4 — Métodos de fábrica del proyecto
+No basta con que el archivo exista visualmente en `src`. Si Maven no lo copia al classpath, el runtime no puede resolverlo como recurso. Por eso el `pom.xml` declara `src` como recurso y excluye `**/*.java`: las clases siguen compilándose normalmente y el properties se copia a `target/classes`.
 
-`ConfiguracionExportacion` actúa como una fábrica estática sencilla. Los métodos reciben únicamente los datos variables —por ejemplo título, autor o nombre de hoja— y fijan las convenciones del proyecto.
+El E2E valida exactamente esa premisa comprobando la existencia de `EditorialReportsJava/target/classes/jasperreports.properties` después de `mvn package`.
+
+### Bloque 4 — ConfiguracionExportacion como política reutilizable por formato
+
+Las propiedades globales no sustituyen a las configuraciones específicas. `ConfiguracionExportacion.java` actúa como fábrica estática de políticas explícitas para PDF, XLSX, HTML, CSV y RTF. Los métodos reciben únicamente los valores variables, como título, autor o nombre de hoja.
 
 ~~~java
 SimplePdfExporterConfiguration c =
     ConfiguracionExportacion.getConfiguracionPdf(
         "Informe de Ventas - EditorialReports",
-        "Departamento Comercial"
-    );
+        "Departamento Comercial");
 ~~~
 
-El PDF centraliza metadatos y compresión. XLSX centraliza opciones de hoja y libro. HTML centraliza cabecera, pie y separador. CSV centraliza delimitadores y BOM. RTF devuelve la configuración del exportador mientras la salida conserva UTF-8.
+PDF centraliza metadatos y compresión. XLSX mantiene separados `SimpleXlsxReportConfiguration` y `SimpleXlsxExporterConfiguration` porque representan niveles diferentes de la API. HTML centraliza cabecera, pie, CSS, separación entre páginas y conserva el reto `Descargar PDF`. CSV centraliza delimitadores y BOM. RTF centraliza su objeto de configuración, mientras UTF-8 permanece correctamente en `SimpleWriterExporterOutput`.
 
-El objetivo no es crear una abstracción universal sobre JasperReports, sino reducir duplicación manteniendo visibles los tipos reales de la biblioteca.
+Esta separación reduce duplicación sin ocultar las clases reales de JasperReports. También permite que el generador se lea como una orquestación: llena el documento una vez y solicita una configuración reutilizable para cada salida.
 
-### Bloque 5 — Cierre técnico y trazabilidad del módulo
+### Bloque 5 — Jerarquía, precedencia y cierre técnico del módulo
 
-El checkpoint 6.5 añade tres elementos físicos: `CONFIGURACION_EXPORTACION.md`, `ConfiguracionExportacion.java` y `jasperreports.properties`; modifica `GeneradorInformeVentas.java` y `pom.xml`. Ningún archivo heredado se elimina.
+M6 combina tres niveles de configuración sin confundir sus alcances. Las propiedades de JVM son externas al artefacto; `jasperreports.properties` aporta valores globales desde el classpath; `JasperReportsContext` permite consultar o modificar propiedades en tiempo de ejecución; y las configuraciones de cada exportador fijan decisiones específicas para una operación concreta.
 
 ~~~text
-M5/5.6
-  └─ 6.1 PDF
-      └─ 6.2 XLSX
-          └─ 6.3 HTML
-              └─ 6.4 CSV/XML/RTF
-                  └─ 6.5 configuración central
+Entorno JVM (-D / System.setProperty)
+              │
+              ▼
+jasperreports.properties en classpath
+              │
+              ▼
+JasperReportsContext
+              │
+              ▼
+Simple*ReportConfiguration / Simple*ExporterConfiguration
+              │
+              ▼
+exportReport()
 ~~~
 
-La validación automática busca las llamadas a los métodos centrales, comprueba que el properties llega al classpath y vuelve a validar todos los formatos. Los invariantes siguen siendo 14 libros, 9 ventas, 31 unidades y 633,40 €, con seis páginas en el informe de ventas.
+El checkpoint final añade `ConfiguracionExportacion.java` y `jasperreports.properties`, modifica `pom.xml` para empaquetar recursos y refactoriza `GeneradorInformeVentas.java`. No modifica el JRXML ni el JRTX cerrado en M5.
 
-Con este punto, la fuente original del M6 queda implementada en una forma compatible con JasperReports 6.20.0: se preservan los objetivos —exportar y centralizar configuración— y se corrigen las APIs que no compilaban tal como estaban escritas.
+La validación vuelve a generar PDF normal/protegido, XLSX de ventas y catálogo, HTML con enlace al PDF, CSV, XML, RTF y ODT. El E2E comprueba además que la clase central se usa realmente y que el properties está en `target/classes`. Los invariantes continúan siendo 14 libros, 9 ventas, 31 unidades, 633,40 € y seis páginas.
+
+Así se cubren los seis objetivos originales: comprender el contexto, utilizar propiedades de sistema como mecanismo de entorno, crear propiedades por defecto, centralizar opciones, combinar niveles de configuración y documentar el resultado.
 '''
 
 def theory(point):
