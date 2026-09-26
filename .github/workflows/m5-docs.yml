@@ -73,10 +73,9 @@ jobs:
           else
             git commit -m "Genera documentacion validada del Modulo 5 [skip ci]"
             if ! git diff --quiet; then
-              echo "Se detectaron cambios tracked posteriores al commit; se incorporan al mismo commit generado."
+              echo "Se detectaron cambios tracked no intencionados tras el commit generado; se descartan antes del rebase."
               git status --short
-              git add -u
-              git commit --amend --no-edit
+              git reset --hard HEAD
             fi
             git pull --rebase origin main
             git push origin HEAD:main
