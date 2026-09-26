@@ -1050,9 +1050,9 @@ def explain_line(line,lang):
  return base
 
 def _java_block_desc(x):
- m=re.match(r'public class\\s+([A-Za-z0-9_]+)\\s*\\{',x)
+ m=re.match(r'public class\s+([A-Za-z0-9_]+)\s*\{',x)
  if m: return 'la clase `'+m.group(1)+'`'
- m=re.match(r'(?:public|private|protected)\\s+(?:static\\s+)?[^=]+?\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*\\([^;]*\\)\\s*(?:throws\\s+[^\\{]+)?\\{',x)
+ m=re.match(r'(?:public|private|protected)\s+(?:static\s+)?[^=]+?\s+([A-Za-z_][A-Za-z0-9_]*)\s*\([^;]*\)\s*(?:throws\s+[^\{]+)?\{',x)
  if m: return 'el método `'+m.group(1)+'`'
  if x.startswith('try ('): return 'el bloque try-with-resources'
  if x=='try {': return 'el bloque `try`'
