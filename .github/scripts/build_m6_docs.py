@@ -7,9 +7,9 @@ M6=ROOT/'M6'
 SRC=ROOT/'.github/source/M6_ORIGINAL.md'
 POINTS=['6.1','6.2','6.3','6.4','6.5']
 TITLES={'6.1':'Exportación a PDF','6.2':'Exportación a Excel','6.3':'Exportación a HTML','6.4':'Exportación a CSV y otros formatos','6.5':'Configuración de exportación'}
-E2E_RUN=36244885806
-E2E_COMMIT='57cc64e5e4933f9bc98991ce7ccf53a3c9e0b278'
-RUNTIME_ARTIFACTS={'6.1':10907251080,'6.2':10907480612,'6.3':10907261136,'6.4':10907355945,'6.5':10907087383}
+E2E_RUN=36249131955
+E2E_COMMIT='12a0eba90859a92b12578d59ae592ad17dac5fb6'
+RUNTIME_ARTIFACTS={'6.1':10908358174,'6.2':10907873672,'6.3':10907968651,'6.4':10908577199,'6.5':10908427540}
 
 def fail(m): raise SystemExit('M6 DOC BUILD FAIL: '+m)
 def read(p): return Path(p).read_text(encoding='utf-8')
