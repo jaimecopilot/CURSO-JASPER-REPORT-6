@@ -171,7 +171,10 @@ def normalize_markdown_for_render(md_text: str) -> str:
 
 def markdown_to_soup(md_text: str) -> BeautifulSoup:
     # Strip known source-only placeholders/artifacts before conversion.
-    md_text = re.sub(r"(?mi)^\s*svgsvg\s*$", "", md_text)
+    md_text = re.sub(r"(?mi)^\\s*svgsvg\\s*$", "", md_text)
+    # EXECUTABLE_START/END markers are required in Markdown for parity audits,
+    # but they are internal metadata and must never be visible in the teaching PDF.
+    md_text = re.sub(r"(?mi)^\\s*<!--\\s*EXECUTABLE_(?:START|END)\\s+[^>]+-->\\s*$", "", md_text)
     md_text = normalize_markdown_for_render(md_text)
     md = mistune.create_markdown(plugins=["table", "strikethrough", "task_lists", "url"])
     html = md(md_text)
