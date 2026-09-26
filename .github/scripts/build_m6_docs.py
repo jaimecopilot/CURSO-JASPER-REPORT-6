@@ -357,11 +357,11 @@ exportador.setExporterOutput(new SimpleWriterExporterOutput(rutaRtf, "UTF-8"));
 exportador.exportReport();
 ~~~
 
-La fuente original trasladaba la codificación a una configuración RTF. La implementación corregida la aplica al writer. El E2E verifica la cabecera RTF del archivo.
+La fuente original trasladaba la codificación a una configuración RTF. La implementación corregida la aplica al writer. El E2E verifica la cabecera RTF del archivo. Como reto acumulativo, el punto añade `net.sf.jasperreports.engine.export.oasis.JROdtExporter` para producir `output/informe_ventas.odt` a partir del mismo `JasperPrint`.
 
 ### Bloque 4 — Un JasperPrint, varios formatos
 
-Al llegar a 6.4 una sola ejecución de `GeneradorInformeVentas` produce PDF, PDF protegido, XLSX, HTML, CSV, XML y RTF. Todos parten del mismo objeto `documento`.
+Al llegar a 6.4 una sola ejecución de `GeneradorInformeVentas` produce PDF, PDF protegido, XLSX, HTML, CSV, XML, RTF y ODT. Todos parten del mismo objeto `documento`.
 
 ~~~text
                      ┌─ PDF
@@ -370,14 +370,15 @@ JasperPrint ─────────┼─ XLSX
                      ├─ HTML + recursos
                      ├─ CSV
                      ├─ XML
-                     └─ RTF
+                     ├─ RTF
+                     └─ ODT
 ~~~
 
 Esta arquitectura es más eficiente que volver a llenar el informe para cada formato. Los parámetros, consulta y totales son idénticos para todas las salidas. Si una exportación lanza excepción, el `catch` final registra la traza y `System.exit(1)` hace visible el fallo en CI.
 
 ### Bloque 5 — Contratos de archivo y E2E multiformato
 
-Cada formato necesita una evidencia distinta. El workflow aplica contratos estructurales: PDF con firma PDF, XLSX como ZIP OOXML y hoja `Ventas`, HTML con etiquetas y CSS, CSV con BOM/delimitador, XML con declaración XML y RTF con su firma.
+Cada formato necesita una evidencia distinta. El workflow aplica contratos estructurales: PDF con firma PDF, XLSX como ZIP OOXML y hojas `Ventas`/`Catálogo`, HTML con etiquetas y CSS, CSV con BOM/delimitador, XML con declaración XML, RTF con su firma y ODT como paquete OpenDocument válido.
 
 ~~~text
 Formato   Evidencia mínima
@@ -387,6 +388,7 @@ HTML      charset + título + CSS + cierre
 CSV       BOM UTF-8 + ; + registros
 XML       declaración XML
 RTF       cabecera RTF
+ODT       ZIP íntegro + mimetype OpenDocument Text
 ~~~
 
 A la vez, el workflow comprueba SQLite y las seis páginas de `informe_ventas`. `EXPORTACION_OTROS.md` documenta las decisiones corregidas y el JRXML/JRTX continúan byte a byte iguales a M5/5.6.
