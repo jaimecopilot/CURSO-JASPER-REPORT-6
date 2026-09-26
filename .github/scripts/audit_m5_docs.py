@@ -37,11 +37,19 @@ for n in range(1,7):
   if marker not in sec: fail(p+' missing '+marker)
  # Source has detailed visual practice; keep at least 12 top-level visual steps.
  a=sec[sec.index('### Parte A'):sec.index('### Parte B')]
- steps=len(re.findall(r'^\*\*Paso \d+',a,flags=re.M))
-
+ steps=len(re.findall(r'^\\*\\*Paso \\d+',a,flags=re.M))
  if steps<12: fail(p+' visual steps '+str(steps))
  # Every visual step follows the same pedagogical contract used by the closed M4.
- sm=list(re.finditer(r'(?m)^\*\*Paso \d+:[^\n]*\*\*\s*
+ sm=list(re.finditer(r'(?m)^\\*\\*Paso \\d+:[^\\n]*\\*\\*',a))
+ for i,m in enumerate(sm):
+  e=sm[i+1].start() if i+1<len(sm) else len(a)
+  step_block=a[m.start():e]
+  for ped in ['**Verificación visual:**','**Qué hace:**','**Por qué:**','**Error común:**','**Analogía:**']:
+   if ped not in step_block: fail(p+' visual step missing '+ped+' at '+m.group(0))
+ # Part D must be checkpoint-specific, not a generic placeholder.
+ d=sec[sec.index('### Parte D'):sec.index('## Errores comunes')]
+ for dmark in ['#### D.1 — Vista de diseño en Jaspersoft Studio','#### D.2 — Jerarquía de Outline y contratos de Source','#### D.3 — Documento PDF y ejecución end-to-end','#### D.4 — Árbol acumulativo del checkpoint','run 36237682524']:
+  if dmark not in d: fail(p+' Part D missing '+dmark)
 
 # Regression guard for 5.5 visual practice: it must lead to the executable checkpoint.
 s55=P.index('# Punto 5.5 —'); e55=P.index('# Punto 5.6 —',s55)
