@@ -19,6 +19,6 @@
 
 ## Documentación
 
-El cierre documental global del M5 se validó en el run **36237682222 — SUCCESS**. La teoría, práctica y PDFs docentes están trazados al código ejecutable; la inspección visual y el preflight final no detectaron incidencias.
+El cierre documental global vigente se registra en `M5/README.md`. Los conteos y el preflight del render se registran en `M5/PRECHECK_M5.json`, y los hashes exactos en `M5/SHA256SUMS.txt`. La teoría, la práctica y los PDFs docentes están trazados al código ejecutable.
 
 Este checkpoint queda cerrado como parte de la cadena `M4/4.6 → M5/5.1 → 5.2 → 5.3 → 5.4 → 5.5 → 5.6`.
