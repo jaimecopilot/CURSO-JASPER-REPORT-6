@@ -112,20 +112,23 @@ jobs:
           n=order.index(cp)
 
           if n >= 1:
-              x=root/'output/informe_ventas.xlsx'
-              assert x.is_file() and x.stat().st_size>0
-              assert x.read_bytes()[:2] == b'PK'
-              with zipfile.ZipFile(x) as z:
-                  assert z.testzip() is None
-                  wb=ET.fromstring(z.read('xl/workbook.xml'))
-                  ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
-                  names=[e.attrib['name'] for e in wb.findall('.//m:sheet',ns)]
-                  assert 'Ventas' in names, names
+              for file_name,sheet_name in [('informe_ventas.xlsx','Ventas'),('informe_catalogo.xlsx','Catálogo')]:
+                  x=root/'output'/file_name
+                  assert x.is_file() and x.stat().st_size>0
+                  assert x.read_bytes()[:2] == b'PK'
+                  with zipfile.ZipFile(x) as z:
+                      assert z.testzip() is None
+                      wb=ET.fromstring(z.read('xl/workbook.xml'))
+                      ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+                      names=[e.attrib['name'] for e in wb.findall('.//m:sheet',ns)]
+                      assert sheet_name in names, (file_name,names)
           if n >= 2:
               h=(root/'output/informe_ventas.html').read_text(encoding='utf-8')
               assert '<meta charset=' in h.lower()
               assert 'Informe de Ventas - EditorialReports' in h
               assert 'styles/editorial.css' in h
+              assert "href='informe_ventas.pdf'" in h
+              assert 'Descargar PDF' in h
               assert '</html>' in h.lower()
               assert (root/'output/styles/editorial.css').is_file()
               assert (root/'output/images').is_dir()
@@ -138,6 +141,11 @@ jobs:
               assert x.lstrip().startswith(b'<?xml')
               r=(root/'output/informe_ventas.rtf').read_bytes()
               assert r.lstrip().startswith(b'{\\rtf')
+              o=root/'output/informe_ventas.odt'
+              assert o.is_file() and o.stat().st_size>0 and o.read_bytes()[:2] == b'PK'
+              with zipfile.ZipFile(o) as z:
+                  assert z.testzip() is None
+                  assert z.read('mimetype') == b'application/vnd.oasis.opendocument.text'
           if n >= 4:
               assert pathlib.Path('../EditorialReportsJava/src/ConfiguracionExportacion.java').is_file()
               assert pathlib.Path('../EditorialReportsJava/target/classes/jasperreports.properties').is_file()
