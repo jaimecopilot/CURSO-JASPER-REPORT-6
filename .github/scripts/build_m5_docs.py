@@ -298,6 +298,23 @@ def corrected_theory(point, sec):
   summary=corrected_56_theory(summary)
   theory=theory.replace('Los estilos de la plantilla pueden aplicarse a elementos, bandas y componentes.','Los estilos de la plantilla se aplican a elementos y a las celdas internas de componentes.').replace(' Las bandas admiten el atributo `style` en el elemento `band`.','')
   summary=summary.replace('Los estilos de la plantilla pueden aplicarse a elementos, bandas y componentes.','Los estilos de la plantilla se aplican a elementos y a las celdas internas de componentes.').replace(' Las bandas admiten el atributo `style` en el elemento `band`.','')
+  contract='''#### Contrato real de estilos del checkpoint 5.6
+
+La plantilla ejecutable es `resources/styles/EditorialStyles.jrtx` y expone siete estilos que el JRXML referencia por nombre. Este contrato es importante: cambiar un nombre en el JRTX sin cambiar el JRXML provoca que el estilo no pueda resolverse al compilar.
+
+| Estilo | Aplicación en `informe_ventas.jrxml` |
+|---|---|
+| `M5TituloPrincipal` | título principal del informe |
+| `M5GrupoCabecera` | cabecera de `CategoriaGroup` |
+| `M5TablaCabecera` | `c:columnHeader` de la tabla |
+| `M5TablaDetalle` | `c:detailCell` de la tabla |
+| `M5CrosstabCabecera` | cabeceras de fila y columna del crosstab |
+| `M5CrosstabDetalle` | celda de detalle del crosstab |
+| `M5CrosstabTotal` | cabeceras y celdas de total del crosstab |
+
+Los estilos locales heredados siguen coexistiendo con los externos; `Sans_Normal` continúa siendo el único estilo por defecto del informe. La plantilla no introduce un segundo `isDefault="true"`.'''
+  theory=theory.rstrip()+'\n\n'+contract
+  summary=summary.rstrip()+'\n\n- El contrato ejecutable de la plantilla usa `M5TituloPrincipal`, `M5GrupoCabecera`, `M5TablaCabecera`, `M5TablaDetalle`, `M5CrosstabCabecera`, `M5CrosstabDetalle` y `M5CrosstabTotal`.'
  # Point 5.1 and 5.3 mostly preserve source but use current typography/values.
  return theory.strip()+'\n\n'+summary.strip()
 
