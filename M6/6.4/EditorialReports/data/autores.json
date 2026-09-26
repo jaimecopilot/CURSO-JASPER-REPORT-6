@@ -1,0 +1,46 @@
+{
+  "autores": [
+    {
+      "nombre": "Gabriel García Márquez",
+      "nacionalidad": "Colombiana",
+      "nacimiento": "1927-03-06",
+      "premios": 1,
+      "vivo": false
+    },
+    {
+      "nombre": "Julio Cortázar",
+      "nacionalidad": "Argentina",
+      "nacimiento": "1914-08-26",
+      "premios": 0,
+      "vivo": false
+    },
+    {
+      "nombre": "Jorge Luis Borges",
+      "nacionalidad": "Argentina",
+      "nacimiento": "1899-08-24",
+      "premios": 2,
+      "vivo": false
+    },
+    {
+      "nombre": "Juan Rulfo",
+      "nacionalidad": "Mexicana",
+      "nacimiento": "1917-05-16",
+      "premios": 1,
+      "vivo": false
+    },
+    {
+      "nombre": "Isabel Allende",
+      "nacionalidad": "Chilena",
+      "nacimiento": "1942-08-02",
+      "premios": 2,
+      "vivo": true
+    },
+    {
+      "nombre": "Mario Vargas Llosa",
+      "nacionalidad": "Peruana",
+      "nacimiento": "1936-03-28",
+      "premios": 3,
+      "vivo": false
+    }
+  ]
+}
