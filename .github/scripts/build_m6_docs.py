@@ -646,6 +646,10 @@ Este pequeño requisito demuestra una idea mayor: los formatos no tienen por qu�
 El E2E busca tanto el texto del enlace como su `href`. Si el generador centralizado de 6.5 olvidara conservar la cabecera personalizada, esa prueba detectaría la regresión. De hecho, la revalidación final se diseñó precisamente para asegurar que la refactorización no eliminara el reto HTML.
 
 Una validación manual posterior debería abrir el HTML desde su carpeta de salida, comprobar estilos, saltos y enlace. Pero la prueba automática ya garantiza que la estructura necesaria existe y que el PDF destino se genera en la misma ejecución.
+
+Un último aspecto es la portabilidad del conjunto publicado. Si sólo se copia `informe_ventas.html` y se olvidan `styles` o `images`, el archivo deja de ser autocontenido desde el punto de vista operativo. Por eso el artifact del checkpoint conserva la estructura de directorios y no trata el HTML como una única salida aislada. En un despliegue web real esa misma idea puede traducirse a un paquete estático, un directorio servido por un reverse proxy o recursos almacenados en una CDN.
+
+La codificación también debe mantenerse coherente de extremo a extremo. La cabecera declara UTF-8 y `SimpleHtmlExporterOutput` escribe UTF-8. Si ambas decisiones divergieran, caracteres como tildes, eñes o el símbolo del euro podrían interpretarse de forma distinta por el navegador. La práctica demuestra que configuración documental, writer y recursos forman un único contrato de publicación.
 '''
 
 
@@ -700,6 +704,10 @@ En un sistema productivo podría ser necesario un comportamiento más transaccio
 El curso utiliza logs de consola y artifacts de GitHub Actions como observabilidad básica. Cada ruta generada se imprime y el workflow publica los archivos incluso cuando un job falla, gracias al paso de artifacts con `if: always()`. Esto facilita diagnosticar un formato concreto sin perder la evidencia de los anteriores.
 
 La matriz de contratos estructurales permite aplicar una prueba adecuada a cada formato. No tendría sentido verificar RTF buscando `%PDF-` ni validar CSV como ZIP. Diseñar pruebas específicas del formato es parte del aprendizaje del módulo, no un detalle auxiliar de CI.
+
+También hay diferencias de semántica que la extensión del archivo no revela. CSV carece de tipos explícitos y depende del consumidor para interpretar números y fechas; XML posee estructura jerárquica; RTF y ODT buscan conservar propiedades de documento; PDF prioriza una representación paginada. La elección de formato debe partir del uso previsto y no de la idea de que todas las salidas son equivalentes.
+
+Cuando un sistema entrega varios formatos al mismo usuario conviene documentar qué garantías ofrece cada uno. El PDF puede ser la copia oficial imprimible, XLSX el soporte de análisis, CSV el intercambio tabular, HTML la publicación navegable y ODT/RTF las versiones editables. El módulo introduce precisamente esa lectura funcional de la exportación multiformato.
 '''
 
 THEORY_DEEPEN['6.5']=r'''
