@@ -2322,6 +2322,120 @@ def _expr_refs(x):
    refs.append(label+' '+m)
  return ', '.join(refs)
 
+
+def _composite_xml_explanation(x):
+ tags=re.findall(r'<(?!/|!|\?)([A-Za-z0-9_:.-]+)\b',x)
+ if len(tags)<2:
+  return None
+ parts=[]
+ if 'staticText' in tags:
+  parts.append('crea un texto literal')
+ if 'textField' in tags:
+  pattern=_xml_attr(x,'pattern')
+  parts.append('crea un textField dinámico'+((f' con patrón {pattern}') if pattern else ''))
+ if 'reportElement' in tags:
+  xx=_xml_attr(x,'x'); yy=_xml_attr(x,'y'); w=_xml_attr(x,'width'); h=_xml_attr(x,'height'); style=_xml_attr(x,'style')
+  geom=f'lo posiciona en x={xx}, y={yy}, ancho={w}, alto={h}'
+  if style: geom+=f' y aplica el estilo {style}'
+  parts.append(geom)
+ if 'textElement' in tags:
+  ha=_xml_attr(x,'textAlignment'); va=_xml_attr(x,'verticalAlignment')
+  vals=[]
+  if ha: vals.append('horizontal '+ha)
+  if va: vals.append('vertical '+va)
+  parts.append('configura la alineación del texto'+((' ('+', '.join(vals)+')') if vals else ''))
+ if 'font' in tags:
+  fam=_xml_attr(x,'fontName'); size=_xml_attr(x,'size')
+  info=[]
+  if fam: info.append('familia '+fam)
+  if size: info.append('tamaño '+size)
+  if _xml_attr(x,'isBold')=='true': info.append('negrita')
+  parts.append('configura la fuente'+((' ('+', '.join(info)+')') if info else ''))
+ if 'text' in tags:
+  m=re.search(r'<text><!\[CDATA\[(.*?)\]\]></text>',x)
+  parts.append('muestra el literal '+repr(m.group(1)) if m else 'define el texto literal visible')
+ if 'textFieldExpression' in tags:
+  refs=_expr_refs(x)
+  m=re.search(r'<textFieldExpression><!\[CDATA\[(.*?)\]\]></textFieldExpression>',x)
+  expr=m.group(1) if m else None
+  if refs:
+   parts.append('evalúa la expresión usando '+refs)
+  elif expr:
+   parts.append('evalúa la expresión '+repr(expr))
+  else:
+   parts.append('evalúa la expresión Java del campo')
+ if 'printWhenExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('decide la impresión mediante '+(refs if refs else 'una condición booleana'))
+ if 'groupExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('define la clave del grupo mediante '+(refs if refs else 'la expresión indicada'))
+ if 'variableExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('alimenta la variable desde '+(refs if refs else 'la expresión indicada'))
+ if 'subreportParameterExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('calcula el parámetro del subreporte desde '+(refs if refs else 'la expresión indicada'))
+ if 'datasetParameterExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('calcula el parámetro del subdataset desde '+(refs if refs else 'la expresión indicada'))
+ if 'connectionExpression' in tags:
+  parts.append('reutiliza REPORT_CONNECTION como conexión JDBC')
+ if 'subreportExpression' in tags:
+  parts.append('selecciona el .jasper del subinforme que se ejecutará')
+ if 'seriesExpression' in tags:
+  parts.append('define el nombre de la serie del gráfico')
+ if 'categoryExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('define la categoría del gráfico desde '+(refs if refs else 'la expresión indicada'))
+ if 'valueExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('define el valor numérico del gráfico desde '+(refs if refs else 'la expresión indicada'))
+ if 'bucketExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('define la clave de agrupación del bucket desde '+(refs if refs else 'la expresión indicada'))
+ if 'measureExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('aporta a la medida el valor de '+(refs if refs else 'la expresión indicada'))
+ if 'conditionExpression' in tags:
+  refs=_expr_refs(x)
+  parts.append('activa el estilo condicional según '+(refs if refs else 'la condición indicada'))
+ if 'cellContents' in tags:
+  style=_xml_attr(x,'style')
+  parts.append('abre el contenido de celda'+((f' con estilo {style}') if style else ''))
+ if 'c:columnHeader' in tags:
+  parts.append('define una celda de cabecera de la tabla')
+ if 'c:detailCell' in tags:
+  parts.append('define una celda repetida de detalle de la tabla')
+ if 'crosstabRowHeader' in tags:
+  parts.append('define la cabecera de fila del crosstab')
+ if 'crosstabColumnHeader' in tags:
+  parts.append('define la cabecera de columna del crosstab')
+ if 'crosstabTotalRowHeader' in tags:
+  parts.append('define la cabecera de total de fila')
+ if 'crosstabTotalColumnHeader' in tags:
+  parts.append('define la cabecera de total de columna')
+ if 'crosstabCell' in tags:
+  row=_xml_attr(x,'rowTotalGroup'); col=_xml_attr(x,'columnTotalGroup')
+  if row and col: parts.append('define la celda de total general')
+  elif row: parts.append('define una celda de total de fila para '+row)
+  elif col: parts.append('define una celda de total de columna para '+col)
+  else: parts.append('define la celda de detalle del crosstab')
+ # If a compact line includes wrappers not explicitly described, make their hierarchy visible too.
+ described={'staticText','textField','reportElement','textElement','font','text','textFieldExpression',
+            'printWhenExpression','groupExpression','variableExpression','subreportParameterExpression',
+            'datasetParameterExpression','connectionExpression','subreportExpression','seriesExpression',
+            'categoryExpression','valueExpression','bucketExpression','measureExpression','conditionExpression',
+            'cellContents','c:columnHeader','c:detailCell','crosstabRowHeader','crosstabColumnHeader',
+            'crosstabTotalRowHeader','crosstabTotalColumnHeader','crosstabCell'}
+ extras=[]
+ for t in tags:
+  if t not in described and t not in extras:
+   extras.append(t)
+ if extras:
+  parts.append('encadena además '+', '.join('<'+t+'>' for t in extras)+' dentro de la misma jerarquía')
+ return 'Composición de la línea: '+'; '.join(parts)+'.'
+
 def explain_line(line,lang):
  x=line.strip()
  indent=len(line)-len(line.lstrip())
@@ -2406,6 +2520,9 @@ def explain_line(line,lang):
   return 'Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.'
 
  # JRXML/JRTX
+ composite=_composite_xml_explanation(x)
+ if composite:
+  return composite
  if x.startswith('<?xml'):
   return 'Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.'
  if x.startswith('<jasperReport'):
