@@ -558,3 +558,173 @@ def annotated_code(label,path,lang):
   out.append(f'**Línea {i}:** `{frag}` → {explain_line(line,lang)}')
  return '\n\n'.join(out)
 
+
+ANALOGY={
+ '6.1':'es como configurar la prensa PDF antes de lanzar la tirada definitiva.',
+ '6.2':'es como preparar dos libros contables con hojas identificadas y editables.',
+ '6.3':'es como publicar el catálogo en la intranet junto con sus recursos y un acceso a la versión imprimible.',
+ '6.4':'es como entregar el mismo catálogo a distintos departamentos en el formato de intercambio que cada uno utiliza.',
+ '6.5':'es como reunir en un manual único las reglas de producción para que todas las salidas se configuren de forma coherente.'
+}
+
+def vstep(point,n,title,actions,verify,what=None,why=None,error=None,analogy=None):
+ a='\n'.join(str(i+1)+'. '+x for i,x in enumerate(actions))
+ return f'''**Paso {n}: {title}**
+
+**Acciones:**
+
+{a}
+
+**Verificación visual:** {verify}
+
+**Qué hace:** {what or ('completa la operación «'+title+'» en el checkpoint '+point+'.')}
+
+**Por qué:** {why or ('la Parte A debe conducir al mismo estado que el código ejecutable de las Partes B/C y el checkpoint '+point+'.')}
+
+**Error común:** {error or ('usar un nombre, ruta, clase o método distinto del documentado. Solución: contrastar Source con la Parte C ejecutable de '+point+'.')}
+
+**Analogía:** {analogy or ANALOGY[point]}
+'''
+
+def visual_61():
+ p='6.1'; out=[]
+ out.append(vstep(p,1,'Abrir el generador heredado de M5',[
+  'En Project Explorer, expandir `M6/6.1/EditorialReportsJava/src`.',
+  'Abrir `GeneradorInformeVentas.java`.',
+  'Confirmar que sigue compilando `subinforme_ventas_detalle.jrxml` e `informe_ventas.jrxml` y que llena un único `JasperPrint documento`.'
+ ],'el editor muestra la lógica heredada y `documento` se crea antes de cualquier exportación.'))
+ out.append(vstep(p,2,'Sustituir la exportación PDF simple por el exportador avanzado',[
+  'Añadir imports para `JRPdfExporter`, `SimpleExporterInput`, `SimpleOutputStreamExporterOutput` y `SimplePdfExporterConfiguration`.',
+  'Eliminar la llamada simple de exportación del informe de ventas si aún existiera.',
+  'Mantener los generadores heredados sin cambios.'
+ ],'Problems no muestra imports sin resolver y la clase referencia `JRPdfExporter`.'))
+ out.append(vstep(p,3,'Declarar las dos rutas PDF',[
+  'Mantener `String rutaPdf = "output/informe_ventas.pdf";`.',
+  'Añadir `String rutaPdfProtegido = "output/informe_ventas_protegido.pdf";`.',
+  'Conservar `new File("output").mkdirs();` antes de exportar.'
+ ],'Source contiene las dos rutas exactamente con esos nombres.'))
+ out.append(vstep(p,4,'Crear el método exportarPdf',[
+  'Añadir `private static void exportarPdf(JasperPrint documento, String ruta) throws Exception`.',
+  'Crear dentro un `JRPdfExporter` y un `SimplePdfExporterConfiguration`.',
+  'No abrir una nueva conexión ni volver a ejecutar `fillReport`.'
+ ],'el método recibe el `JasperPrint` ya llenado y una ruta de salida.'))
+ out.append(vstep(p,5,'Configurar metadatos y compresión',[
+  'Usar `setMetadataTitle`, `setMetadataAuthor`, `setMetadataSubject`, `setMetadataKeywords` y `setMetadataCreator`.',
+  'Añadir `setDisplayMetadataTitle(Boolean.TRUE)`.',
+  'Añadir `setCompressed(Boolean.TRUE)`.',
+  'No utilizar `setTitle`, `setAuthor` ni `setCharacterEncoding` sobre `SimplePdfExporterConfiguration`.'
+ ],'Source muestra exactamente la API que compila con JasperReports 6.20.0.'))
+ out.append(vstep(p,6,'Asignar configuración, entrada y salida',[
+  'Llamar a `exportador.setConfiguration(configuracion)`.',
+  'Usar `new SimpleExporterInput(documento)` como entrada.',
+  'Usar `new SimpleOutputStreamExporterOutput(ruta)` como salida.',
+  'Finalizar con `exportador.exportReport()`.'
+ ],'el método `exportarPdf` contiene las cuatro operaciones en ese orden lógico.'))
+ out.append(vstep(p,7,'Crear el método exportarPdfProtegido',[
+  'Añadir un segundo método que reciba `JasperPrint documento` y `String ruta`.',
+  'Crear un `JRPdfExporter` y una `SimplePdfExporterConfiguration` independientes.',
+  'Fijar el título `Informe de Ventas Protegido - EditorialReports`.'
+ ],'existen dos métodos PDF separados, uno normal y otro de seguridad.'))
+ out.append(vstep(p,8,'Configurar cifrado, contraseñas y permisos',[
+  'Activar `setEncrypted(Boolean.TRUE)`.',
+  'Configurar `setUserPassword("editorial2026")`.',
+  'Configurar `setOwnerPassword("editorial-admin")`.',
+  'Aplicar `setAllowedPermissionsHint("PRINTING|COPY|SCREENREADERS")`.'
+ ],'la configuración protegida contiene las cuatro propiedades y no usa las APIs obsoletas del origen.'))
+ out.append(vstep(p,9,'Invocar ambas exportaciones sobre el mismo JasperPrint',[
+  'Después de `fillReport`, llamar a `exportarPdf(documento, rutaPdf)`.',
+  'A continuación llamar a `exportarPdfProtegido(documento, rutaPdfProtegido)`.',
+  'Mantener la misma conexión y el mismo mapa de parámetros heredado.'
+ ],'las dos llamadas están dentro del mismo `try (Connection conexion...)`.'))
+ out.append(vstep(p,10,'Compilar el proyecto Java',[
+  'Guardar la clase.',
+  'Ejecutar `mvn clean package` desde `EditorialReportsJava` o Build Project en el IDE.',
+  'Revisar Problems/Console y corregir cualquier `cannot find symbol` antes de continuar.'
+ ],'la compilación termina sin errores.'))
+ out.append(vstep(p,11,'Ejecutar y comprobar el PDF normal',[
+  'Ejecutar `GeneradorInformeVentas` como Java Application desde `EditorialReports`.',
+  'Abrir `output/informe_ventas.pdf`.',
+  'Comprobar que conserva las 6 páginas del cierre M5.',
+  'Revisar en Propiedades los metadatos de título, autor y creador.'
+ ],'el PDF normal se abre sin contraseña y conserva el contenido completo.'))
+ out.append(vstep(p,12,'Comprobar el PDF protegido',[
+  'Abrir `output/informe_ventas_protegido.pdf`.',
+  'Introducir la contraseña `editorial2026`.',
+  'Comprobar que el documento se abre y mantiene el mismo contenido del informe.'
+ ],'el lector solicita la contraseña documentada y el archivo se abre con ella.'))
+ out.append(vstep(p,13,'Documentar la exportación PDF',[
+  'Crear/abrir `EditorialReports/EXPORTACION_PDF.md`.',
+  'Registrar API avanzada, metadatos, compresión, cifrado, contraseñas y permisos.',
+  'Registrar las dos rutas de salida y la corrección de las APIs que aparecían en la fuente original.'
+ ],'Project Explorer muestra `EXPORTACION_PDF.md` y su contenido coincide con el código.'))
+ return '\n\n---\n\n'.join(out)
+
+def visual_62():
+ p='6.2'; out=[]
+ out.append(vstep(p,1,'Abrir el checkpoint 6.2 y comprobar la herencia 6.1',[
+  'Abrir `M6/6.2/EditorialReportsJava/src/GeneradorInformeVentas.java`.',
+  'Confirmar las dos exportaciones PDF de 6.1.',
+  'Abrir `pom.xml` en paralelo.'
+ ],'el Java conserva PDF normal/protegido y el POM contiene JasperReports 6.20.0.'))
+ out.append(vstep(p,2,'Añadir Apache POI al POM',[
+  'Añadir dependencia `org.apache.poi:poi:5.1.0`.',
+  'Añadir dependencia `org.apache.poi:poi-ooxml:5.1.0`.',
+  'Guardar el POM y actualizar el proyecto Maven.'
+ ],'Maven resuelve POI y POI-OOXML sin dependencias faltantes.'))
+ out.append(vstep(p,3,'Añadir imports XLSX y JRCsvDataSource',[
+  'Importar `JRXlsxExporter`.',
+  'Importar `SimpleXlsxReportConfiguration` y `SimpleXlsxExporterConfiguration`.',
+  'Importar `JRCsvDataSource` para el reto de catálogo.'
+ ],'Problems no muestra imports sin resolver.'))
+ out.append(vstep(p,4,'Declarar rutas de ventas y catálogo',[
+  'Añadir `rutaXlsx = "output/informe_ventas.xlsx"`.',
+  'Añadir rutas JRXML/JASPER para `informe_catalogo_csv`.',
+  'Añadir `rutaXlsxCatalogo = "output/informe_catalogo.xlsx"`.'
+ ],'Source contiene las cuatro rutas y conserva las rutas PDF.'))
+ out.append(vstep(p,5,'Compilar también el informe de catálogo',[
+  'Después de compilar el subinforme y `informe_ventas`, compilar `rutaCatalogoJrxml` a `rutaCatalogoJasper`.',
+  'No modificar `informe_catalogo_csv.jrxml`.'
+ ],'la ejecución crea `reports/informe_catalogo_csv.jasper`.'))
+ out.append(vstep(p,6,'Crear exportarXlsx con nombre de hoja',[
+  'Declarar `exportarXlsx(JasperPrint documento, String ruta, String nombreHoja)`.',
+  'Crear `JRXlsxExporter`.',
+  'Crear `SimpleXlsxReportConfiguration` y asignar `new String[]{nombreHoja}` a `setSheetNames`.'
+ ],'el método no tiene el nombre de hoja `Ventas` codificado internamente.'))
+ out.append(vstep(p,7,'Configurar la hoja XLSX',[
+  'Aplicar `setShowGridLines(Boolean.FALSE)`.',
+  'Aplicar `setCellLocked(Boolean.FALSE)` y `setCellHidden(Boolean.FALSE)`.',
+  'Aplicar `setDetectCellType(Boolean.TRUE)` y `setOnePagePerSheet(Boolean.FALSE)`.'
+ ],'todas las opciones de hoja pertenecen a `SimpleXlsxReportConfiguration`.'))
+ out.append(vstep(p,8,'Configurar el libro XLSX y exportar',[
+  'Crear `SimpleXlsxExporterConfiguration libro`.',
+  'Aplicar `libro.setCreateCustomPalette(Boolean.TRUE)`.',
+  'Asignar ambas configuraciones al exportador, después input y output, y llamar a `exportReport()`.'
+ ],'la paleta está en `SimpleXlsxExporterConfiguration`, separada de la configuración de hoja.'))
+ out.append(vstep(p,9,'Exportar el informe de ventas',[
+  'Dentro del mismo bloque de conexión, llamar a `exportarXlsx(documento, rutaXlsx, "Ventas")`.',
+  'No volver a llenar `informe_ventas`.'
+ ],'la primera salida XLSX reutiliza el `JasperPrint documento`.'))
+ out.append(vstep(p,10,'Resolver el reto del catálogo con su fuente CSV real',[
+  'Crear `JRCsvDataSource` sobre `data/catalogo.csv` con UTF-8.',
+  'Configurar delimitador coma y primera fila como cabecera.',
+  'Llenar `rutaCatalogoJasper` con ese datasource y un mapa vacío.',
+  'Exportar ese `JasperPrint` a `rutaXlsxCatalogo` con hoja `Catálogo`.',
+  'Cerrar el datasource en `finally`.'
+ ],'Source reproduce el mismo origen CSV que `GeneradorCatalogoCSV`; no intenta llenar el catálogo con JDBC.'))
+ out.append(vstep(p,11,'Compilar y ejecutar',[
+  'Guardar Java y POM.',
+  'Ejecutar `mvn clean package`.',
+  'Ejecutar `GeneradorInformeVentas`.'
+ ],'Console termina con el mensaje de checkpoint correcto y sin excepciones.'))
+ out.append(vstep(p,12,'Validar los dos libros Excel',[
+  'Abrir `output/informe_ventas.xlsx` y comprobar la hoja `Ventas`.',
+  'Abrir `output/informe_catalogo.xlsx` y comprobar la hoja `Catálogo`.',
+  'Verificar que ambos archivos contienen datos y se abren sin reparación.'
+ ],'las dos hojas tienen los nombres exigidos por la práctica y el reto.'))
+ out.append(vstep(p,13,'Documentar XLSX',[
+  'Crear/abrir `EXPORTACION_EXCEL.md`.',
+  'Documentar la separación ReportConfiguration/ExporterConfiguration.',
+  'Registrar POI 5.1.0 y las dos salidas `Ventas`/`Catálogo`.'
+ ],'la documentación coincide con el POM y el Java ejecutable.'))
+ return '\n\n---\n\n'.join(out)
+
