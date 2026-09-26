@@ -224,6 +224,9 @@ def corrected_theory(point, sec):
  if min(a,b,c)<0: fail('theory boundaries '+point)
  theory=clean_common(sec[a:b])
  summary=clean_common(sec[b:c])
+ if point=='5.1':
+  theory=theory.replace('reports/subreporte_ventas.jasper','reports/subinforme_ventas_detalle.jasper').replace('reports/subreporte_ventas_detalle.jasper','reports/subinforme_ventas_detalle.jasper')
+  summary=summary.replace('reports/subreporte_ventas.jasper','reports/subinforme_ventas_detalle.jasper').replace('reports/subreporte_ventas_detalle.jasper','reports/subinforme_ventas_detalle.jasper')
  if point=='5.2':
   theory=replace_block(theory,'### Bloque 4 — Estilos de la tabla','### Bloque 5 — Compilación y artefactos de la tabla',corrected_52_block4())
   theory=replace_block(theory,'### Bloque 5 — Compilación y artefactos de la tabla','',corrected_52_block5()) if False else theory
@@ -232,8 +235,15 @@ def corrected_theory(point, sec):
   if x<0: fail('5.2 block5 missing')
   theory=theory[:x]+corrected_52_block5().rstrip()
   summary=summary.replace('- La compilación genera artefactos adicionales con el sufijo `_table_N`.','- La tabla se compila dentro de `informe_ventas.jasper`; no genera un `.jasper` independiente.')
+  summary=summary.replace('`jr:table`','`c:table`')
+  summary=summary.replace('Los estilos se declaran con `jr:tableStyle` y sus bloques `box`, `columnHeaderStyle` y `detailCellStyle`.','Los estilos son estilos JasperReports normales aplicados a `c:columnHeader` y `c:detailCell`.')
+ if point=='5.3':
+  for old,new in [('GrupoCategoria','CategoriaGroup'),('SubtotalCategoria','GrupoImporte'),('ContadorCategoria','GrupoLibros')]:
+   theory=theory.replace(old,new); summary=summary.replace(old,new)
+  theory=theory.replace('isStartNewPage="true"','isStartNewPage="false"').replace('minHeightToStartNewPage="60"','minHeightToStartNewPage="80"')
+  summary=summary.replace('isStartNewPage="true"','isStartNewPage="false"').replace('minHeightToStartNewPage="60"','minHeightToStartNewPage="80"')
  if point=='5.4':
-  theory='## Parte teórica\n\n'+theory_54()
+  theory='## Parte teórica\n\n'+theory_54().replace('importe_grafico','importe_categoria')
   summary='''## Resumen rápido de la teoría
 
 - Los gráficos clásicos de JasperReports 6.20.0 usan elementos nativos como `barChart`.
@@ -243,6 +253,11 @@ def corrected_theory(point, sec):
 - Título, leyenda y plot se configuran dentro del gráfico.
 - El gráfico queda integrado en `informe_ventas.jasper`; no genera un `_chart_N.jasper` separado.'''
  if point=='5.5':
+  theory=theory.replace('se declara dentro de una banda del informe mediante el elemento `componentElement` que contiene un elemento `crosstab`','se declara directamente dentro de una banda mediante el elemento nativo `crosstab`')
+  theory=theory.replace('<componentElement>\n','').replace('</componentElement>\n','').replace('</componentElement>','')
+  summary=summary.replace('Se declara con `componentElement` y el elemento `crosstab`.','Se declara directamente con el elemento nativo `crosstab`.')
+  for old,new in [('ImporteTotal','ImporteCross'),('importe_total','importe_cross'),('Categoria','CategoriaCross'),('categoria','categoria_cross'),('Anio','AnioCross'),('anio','anio_cross')]:
+   theory=theory.replace(old,new); summary=summary.replace(old,new)
   h='### Bloque 5 — Estilos y compilación del crosstab'; x=theory.find(h)
   if x<0: fail('5.5 block5 missing')
   theory=theory[:x]+corrected_55_block5().rstrip()
@@ -251,6 +266,8 @@ def corrected_theory(point, sec):
  if point=='5.6':
   theory=corrected_56_theory(theory)
   summary=corrected_56_theory(summary)
+  theory=theory.replace('Los estilos de la plantilla pueden aplicarse a elementos, bandas y componentes.','Los estilos de la plantilla se aplican a elementos y a las celdas internas de componentes.').replace(' Las bandas admiten el atributo `style` en el elemento `band`.','')
+  summary=summary.replace('Los estilos de la plantilla pueden aplicarse a elementos, bandas y componentes.','Los estilos de la plantilla se aplican a elementos y a las celdas internas de componentes.').replace(' Las bandas admiten el atributo `style` en el elemento `band`.','')
  # Point 5.1 and 5.3 mostly preserve source but use current typography/values.
  return theory.strip()+'\n\n'+summary.strip()
 
