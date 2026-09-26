@@ -2,23 +2,25 @@
   "TEORIA_M5": {
     "pdf": "M5/_pdf_build/TEORIA_M5.pdf",
     "preflight": {
-      "pages": 24,
+      "pages": 28,
       "issues": [],
       "replacement_glyphs": 0,
-      "text_chars": 86226
+      "text_chars": 86814
     },
     "audit_pages": [
       1,
-      2,
+      3,
       6,
-      9,
+      7,
+      8,
       12,
-      15,
-      16,
+      14,
       18,
       20,
-      23,
-      24
+      21,
+      24,
+      27,
+      28
     ],
     "contacts": [
       "M5/_pdf_build/contact_teoria_01.jpg",
@@ -28,27 +30,27 @@
   "PRACTICA_M5": {
     "pdf": "M5/_pdf_build/PRACTICA_M5.pdf",
     "preflight": {
-      "pages": 181,
+      "pages": 184,
       "issues": [],
       "replacement_glyphs": 0,
-      "text_chars": 689377
+      "text_chars": 689190
     },
     "audit_pages": [
       1,
-      2,
-      9,
-      24,
+      3,
+      10,
+      25,
       28,
-      29,
+      30,
       46,
-      58,
-      85,
-      91,
-      115,
-      136,
-      147,
-      180,
-      181
+      59,
+      87,
+      92,
+      118,
+      138,
+      150,
+      183,
+      184
     ],
     "contacts": [
       "M5/_pdf_build/contact_practica_01.jpg",
