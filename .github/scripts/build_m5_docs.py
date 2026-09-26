@@ -2155,7 +2155,7 @@ La ejecución inicial `36225835677` también fue SUCCESS y queda como evidencia 
 
 ## Documentación final
 
-Workflow documental final: **36237682222 — SUCCESS**.
+El workflow documental vigente debe terminar en **SUCCESS**. El identificador exacto del run de cierre se registra en `M5/README.md` después de la inspección visual.
 
 - `TEORIA_M5.md` y `PRACTICA_M5.md` generados desde las fuentes originales preservadas y los checkpoints ejecutables.
 - 36 objetivos originales cubiertos.
@@ -2167,14 +2167,12 @@ Workflow documental final: **36237682222 — SUCCESS**.
 
 ## PDFs docentes finales
 
-- `TEORIA_M5.pdf`: **28 páginas**, A4, preflight sin incidencias.
-- `PRACTICA_M5.pdf`: **184 páginas**, A4, preflight sin incidencias.
+- Los conteos de páginas A4 y el preflight del render vigente se registran en `M5/PRECHECK_M5.json`.
 - Glifos de reemplazo: 0.
 - Páginas sin cuerpo: 0.
 - Bloques fuera de MediaBox: 0.
 - Portada, cabeceras y pies identifican correctamente **Módulo 5 — Diseño avanzado**.
-- Inspección visual distribuida realizada sobre portada, teoría 5.1–5.6, prácticas, código, crosstab, cierres y páginas finales, sin recortes, solapes ni texto roto.
-- Los renders del artefacto final son visualmente idénticos al render previamente inspeccionado en toda la teoría y en una muestra distribuida de la práctica.
+- La inspección visual distribuida se realiza sobre el artefacto final después del render y su resultado de cierre se registra en `M5/README.md`.
 
 Los SHA-256 exactos de los PDFs producidos por cada render se registran en `M5/SHA256SUMS.txt`. Se mantienen fuera del texto generado porque el contenedor PDF puede incorporar metadatos variables aunque el render visual sea idéntico.
 
@@ -2193,7 +2191,7 @@ Los SHA-256 exactos de los PDFs producidos por cada render se registran en `M5/S
 
 ## Criterio de cierre
 
-M5 queda cerrado cuando código, trazabilidad, documentación Markdown y PDFs corresponden al mismo estado. Con los runs `36237682524` y `36237682222`, los preflights y la inspección visual, ese criterio se cumple.
+M5 queda cerrado cuando código, trazabilidad, documentación Markdown y PDFs corresponden al mismo estado. El código queda respaldado por el run E2E `36237682524`; el run documental definitivo, preflight e inspección visual se consignan en `M5/README.md`.
 '''
 
 def audit_parity(practice):
@@ -2234,12 +2232,9 @@ def main():
   'embedded_executable_blocks':seen,
   'e2e_run_inicial':36225835677,
   'e2e_run_final':36237682524,
-  'docs_run_final':36237682222,
-  'pdfs':{
-   'teoria':{'paginas':28,'sha256_manifest':'M5/SHA256SUMS.txt'},
-   'practica':{'paginas':184,'sha256_manifest':'M5/SHA256SUMS.txt'}
-  },
-  'inspeccion_visual':'PASS',
+  'pdf_precheck':'M5/PRECHECK_M5.json',
+  'sha256_manifest':'M5/SHA256SUMS.txt',
+  'inspeccion_visual_cierre':'M5/README.md',
   'invariantes':{'libros':14,'ventas':9,'unidades':31,'importe':633.40}
  }
  write(M5/'AUDITORIA_EDITORIAL_M5.json',json.dumps(audit,ensure_ascii=False,indent=2))
