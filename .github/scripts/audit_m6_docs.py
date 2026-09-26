@@ -52,7 +52,7 @@ for i,p in enumerate(POINTS):
         fail(p+' theory blocks')
     if len(re.findall(r'^- ',ts,flags=re.M)) < 6:
         fail(p+' objectives missing')
-    if len(re.findall(r'\b\w+\b',ts,flags=re.UNICODE)) < 550:
+    if len(re.findall(r'\b\w+\b',ts,flags=re.UNICODE)) < 1600:
         fail(p+' theory too thin')
     for marker in ['### Parte A','### Parte B','### Parte C','### Parte D','## Errores comunes','## Reto resuelto','## Analogía final','## Resultado esperado','## Conclusión']:
         if marker not in ps: fail(p+' missing '+marker)
