@@ -649,6 +649,114 @@ Una validación manual posterior debería abrir el HTML desde su carpeta de sali
 '''
 
 
+
+THEORY_DEEPEN['6.4']=r'''
+#### Profundización del bloque 1 — CSV como formato de intercambio y sus pérdidas deliberadas
+
+CSV no intenta conservar páginas, fuentes, bordes o gráficos. Su objetivo es producir un flujo tabular que pueda ser leído por hojas de cálculo, procesos ETL, scripts o sistemas externos. Esta diferencia de propósito explica por qué una exportación CSV no debe juzgarse con el mismo criterio visual que el PDF.
+
+El delimitador de campos depende del ecosistema. En muchos entornos europeos se utiliza punto y coma porque la coma se reserva para decimales. El checkpoint fija `;` y un salto de línea como separador de registros. La elección debe ser conocida por el consumidor; un CSV no lleva un esquema capaz de describir automáticamente todos estos detalles.
+
+El BOM UTF-8 es una decisión de interoperabilidad. UTF-8 no necesita BOM desde el punto de vista del estándar, pero algunas aplicaciones de escritorio lo utilizan para detectar la codificación. `setWriteBOM(Boolean.TRUE)` resuelve esa necesidad concreta sin desplazar la codificación al objeto equivocado: la escritura UTF-8 se define en `SimpleWriterExporterOutput`.
+
+La exportación parte del `JasperPrint`, no directamente de una consulta SQL. Por ello el contenido CSV representa aquello que JasperReports considera exportable del documento. Cuando un proyecto necesita un fichero de datos puro y estable como interfaz de integración, puede ser más apropiado generar ese contrato directamente desde el dominio. En este curso interesa comparar formatos partiendo del mismo documento.
+
+#### Profundización del bloque 2 — XML de JasperPrint frente a XML de negocio
+
+El XML generado por `JRXmlExporter` describe el documento resultante de JasperReports. No debe confundirse con `distribucion.xml` ni con un XML diseñado como contrato de negocio. Un XML de negocio modela conceptos como libros, autores o entregas; el XML de exportación conserva la estructura necesaria para representar el informe.
+
+Esta distinción evita una decisión arquitectónica equivocada: utilizar el XML exportado como si fuera una API estable para otros sistemas. Puede ser útil para inspección, archivado técnico o procesos que conozcan el modelo JasperReports, pero un servicio externo normalmente debería consumir un esquema propio del dominio.
+
+`SimpleXmlExporterOutput` define ruta y codificación. `setEmbeddingImages(Boolean.TRUE)` indica que los recursos gráficos deben viajar embebidos cuando el exportador lo permita, simplificando el transporte del resultado. El E2E comprueba que el documento sea un XML real al exigir la declaración inicial y un archivo no vacío.
+
+En una validación más estricta podría parsearse completamente el XML, contar páginas o buscar elementos concretos. El curso combina la prueba estructural con el control de que el `JasperPrint` origen tiene seis páginas y conserva los invariantes de negocio.
+
+#### Profundización del bloque 3 — RTF, procesadores de texto y fidelidad esperable
+
+RTF está orientado a procesadores de texto y posee un modelo de maquetación diferente al de PDF. JasperReports intenta trasladar textos, estilos y estructura, pero no debe prometerse una reproducción exacta de cada coordenada. La utilidad principal es ofrecer un documento que el destinatario pueda abrir y editar con herramientas de oficina.
+
+`JRRtfExporter` utiliza una salida de escritor. La codificación se configura en `SimpleWriterExporterOutput`, no en una propiedad inventada de la configuración RTF. Esta decisión es coherente con el modelo de JasperReports: el exporter configuration decide opciones del formato; el writer decide cómo se codifican los caracteres al escribir texto.
+
+La prueba automática busca la cabecera RTF. Es una comprobación sencilla pero significativa: evita aceptar un archivo vacío o un texto cualquiera con extensión `.rtf`. La ejecución completa confirma además que el exportador pudo recorrer el documento real, incluidos los componentes avanzados heredados de M5.
+
+RTF se mantiene durante 6.5 aunque la configuración se centralice. La clase fábrica devuelve `SimpleRtfExporterConfiguration` y el generador conserva el writer UTF-8. Esto demuestra que refactorizar configuración no debe cambiar el contrato del archivo producido.
+
+#### Profundización del bloque 4 — ODT como paquete OpenDocument
+
+El reto ODT introduce `net.sf.jasperreports.engine.export.oasis.JROdtExporter`. Un archivo ODT no es un flujo de texto simple: es un paquete ZIP con documentos XML, estilos y un archivo `mimetype` que identifica `application/vnd.oasis.opendocument.text`. Por eso el workflow valida el paquete como ZIP y comprueba ese mimetype.
+
+El uso del paquete `oasis` en el nombre completo de la clase es relevante. Importar una clase desde un paquete distinto aunque tenga un nombre parecido provoca un fallo de compilación. El curso deja la referencia explícita en teoría, práctica y Java para evitar que el alumno copie una importación histórica o aproximada.
+
+ODT cubre una necesidad distinta a RTF. Ambos pueden abrirse en procesadores de texto, pero ODT pertenece al estándar OpenDocument y empaqueta sus recursos de forma estructurada. En organizaciones que trabajan con LibreOffice o requieren formatos abiertos, puede ser una salida preferible.
+
+La exportación sigue reutilizando el mismo `JasperPrint`. No se vuelve a ejecutar la base de datos para ODT. Esta constancia permite comparar resultados y mantiene alineados todos los formatos del módulo.
+
+#### Profundización del bloque 5 — Orquestación multiformato, atomicidad y observabilidad
+
+Generar varios formatos en una sola ejecución plantea una cuestión operativa: ¿qué sucede si el quinto exportador falla después de que los cuatro anteriores hayan creado sus archivos? El checkpoint utiliza una estrategia simple: cualquier excepción termina el proceso con código 1. Los archivos ya creados pueden permanecer en `output`, pero CI no considera la ejecución satisfactoria.
+
+En un sistema productivo podría ser necesario un comportamiento más transaccional: escribir primero en un directorio temporal, validar todos los formatos y publicar el conjunto sólo cuando cada exportación haya terminado correctamente. Otra opción es permitir éxitos parciales y registrar un estado por formato. La política depende del contrato del servicio.
+
+El curso utiliza logs de consola y artifacts de GitHub Actions como observabilidad básica. Cada ruta generada se imprime y el workflow publica los archivos incluso cuando un job falla, gracias al paso de artifacts con `if: always()`. Esto facilita diagnosticar un formato concreto sin perder la evidencia de los anteriores.
+
+La matriz de contratos estructurales permite aplicar una prueba adecuada a cada formato. No tendría sentido verificar RTF buscando `%PDF-` ni validar CSV como ZIP. Diseñar pruebas específicas del formato es parte del aprendizaje del módulo, no un detalle auxiliar de CI.
+'''
+
+THEORY_DEEPEN['6.5']=r'''
+#### Profundización del bloque 1 — Alcance de la configuración y responsabilidad arquitectónica
+
+Centralizar configuración no significa trasladar toda la aplicación a una clase estática. El objetivo es reunir decisiones repetitivas que pertenecen a la política de exportación: compresión PDF, metadatos comunes, opciones XLSX, cabecera HTML, delimitadores CSV o configuración RTF. Las rutas de archivos, los datos y el orden de ejecución siguen perteneciendo al generador.
+
+Esta separación reduce duplicación y hace visibles los puntos de variación. Si cambia el autor corporativo de los PDFs, existe un lugar claro para modificarlo. Si el XLSX debe mostrar cuadrícula en otro proyecto, se cambia la fábrica correspondiente sin tocar la lógica de fill. El beneficio aumenta cuando varios informes comparten la misma política.
+
+Una clase de métodos estáticos es suficiente para el alcance docente, pero no es la única arquitectura posible. En una aplicación mayor podría inyectarse un servicio de configuración, cargar propiedades externas o construir perfiles por cliente. Lo importante es separar responsabilidades y mantener los tipos reales de JasperReports en lugar de ocultarlos detrás de una abstracción que impida usar capacidades específicas.
+
+El E2E busca expresamente llamadas a `ConfiguracionExportacion`. De ese modo se demuestra que la clase central no es un archivo decorativo añadido al árbol: el generador la utiliza de verdad.
+
+#### Profundización del bloque 2 — Jerarquía de configuración y precedencia
+
+JasperReports admite valores procedentes de distintas capas: propiedades disponibles en el contexto, archivos del classpath y configuraciones pasadas directamente al exportador. Cuanto más específica es la configuración, más fácil resulta razonar sobre una exportación concreta; cuanto más global es, menos código se repite.
+
+`jasperreports.properties` resulta apropiado para defaults transversales que deben estar disponibles para la librería. La clase `ConfiguracionExportacion` es apropiada para políticas del proyecto que se construyen con valores dinámicos, como el título o el nombre de hoja. El generador decide qué configuración aplica a cada salida.
+
+No conviene asumir una regla de precedencia sin verificar la propiedad concreta y la versión de la librería. Por eso el curso no intenta trasladar todas las opciones a `jasperreports.properties`. Sólo coloca defaults sencillos y mantiene explícitas en Java las decisiones que forman parte del ejercicio.
+
+La separación XLSX sigue siendo un buen ejemplo: el método `getConfiguracionXlsxReport` devuelve un `SimpleXlsxReportConfiguration` y `getConfiguracionXlsxExportador` devuelve un `SimpleXlsxExporterConfiguration`. La centralización no borra la distinción de ámbitos estudiada en 6.2.
+
+#### Profundización del bloque 3 — Classpath, Maven resources y por qué “tener el archivo” no basta
+
+JasperReports busca `jasperreports.properties` en el classpath. Colocarlo en el repositorio no garantiza que esté disponible durante la ejecución. El proyecto de este curso utiliza `src` como carpeta de fuentes Java; por eso el `pom.xml` añade una sección `resources` que copia los archivos no Java desde esa carpeta a `target/classes`.
+
+Este detalle es un buen ejemplo de trazabilidad entre construcción y runtime. El código Java puede compilar aunque el properties no se copie. El fallo aparecería sólo cuando se esperara que JasperReports leyera esos defaults. El E2E evita esa ambigüedad comprobando físicamente `target/classes/jasperreports.properties` después de `mvn package`.
+
+El mismo principio se aplica a otros recursos: plantillas, imágenes, mensajes o certificados deben estar disponibles en la ruta que el runtime realmente utiliza, no sólo en una carpeta que resulta cómoda para el desarrollador.
+
+En proyectos Maven convencionales se utilizaría normalmente `src/main/java` y `src/main/resources`. EditorialReports conserva la estructura simplificada heredada del curso y adapta el build de forma explícita. La práctica explica el porqué para que el alumno pueda trasladar la idea a estructuras estándar.
+
+#### Profundización del bloque 4 — Configuración dinámica, entornos y secretos
+
+No todas las opciones deberían codificarse como constantes. El título documental o el nombre de hoja pueden depender del informe; rutas y políticas pueden variar entre desarrollo y producción. Contraseñas de usuario o propietario, en particular, no deberían quedar embebidas en código fuente en una aplicación real.
+
+El checkpoint mantiene credenciales conocidas únicamente porque necesita una demostración reproducible de cifrado. En producción, esos valores deberían llegar desde un almacén de secretos, variables de entorno o configuración segura. Centralizar la construcción de configuraciones facilita introducir esa fuente externa más adelante sin modificar cada exportador.
+
+Las propiedades del sistema de Java ofrecen otro mecanismo de entorno. Un proceso puede arrancar con flags `-D...` y JasperReports puede consultar determinados valores a través de su contexto. Esta técnica es útil para defaults operativos, aunque debe documentarse para evitar que una aplicación cambie de comportamiento de forma invisible.
+
+La regla práctica es separar aquello que define el código del producto de aquello que define el despliegue. El módulo muestra ambos mecanismos, pero no obliga a concentrarlos todos en el mismo nivel.
+
+#### Profundización del bloque 5 — Refactorización segura y pruebas de regresión
+
+Una refactorización se considera correcta cuando cambia la estructura interna sin cambiar el comportamiento observable que debe conservarse. En 6.5 se mueve configuración desde `GeneradorInformeVentas` hacia `ConfiguracionExportacion` y se incorpora `jasperreports.properties` al classpath. Los formatos que funcionaban en 6.4 deben seguir funcionando.
+
+Por eso el E2E de 6.5 no se limita a compilar la nueva clase. Regenera PDF normal/protegido, XLSX de ventas y catálogo, HTML con CSS y enlace al PDF, CSV, XML, RTF y ODT. También conserva los invariantes de datos y las seis páginas del `JasperPrint`. Cualquier pérdida causada por la refactorización aparece como una regresión.
+
+El reto HTML fue especialmente útil: una primera centralización podía haber reemplazado una cabecera personalizada y perder el enlace `Descargar PDF`. La prueba final exige que el enlace continúe presente dentro de la configuración central. Este tipo de caso demuestra por qué las pruebas deben cubrir requisitos y no sólo clases.
+
+La cadena acumulativa ofrece una segunda defensa. `audit_m6_traceability.py` conoce qué archivos puede añadir o modificar cada punto. Si 6.5 eliminara un recurso heredado o cambiara el JRXML, el módulo dejaría de cumplir su contrato aunque los exportadores siguieran compilando.
+
+El resultado final es una arquitectura más mantenible sin sacrificar evidencia. Configuración, código, properties, outputs, documentación y tests describen el mismo estado y pueden reconstruirse desde el repositorio.
+'''
+
+
 def theory(point):
  return (THEORY[point]+'\n\n'+THEORY_DEEPEN.get(point,'')).replace('~~~','```').strip()
 
