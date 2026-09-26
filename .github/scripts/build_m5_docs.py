@@ -316,6 +316,249 @@ def clean_practice_text(s, point):
  return s
 
 
+
+def corrected_51_part_a():
+ return r'''**Paso 1: Abrir el checkpoint 5.1 y verificar la herencia de M4**
+
+**Acciones:**
+
+1. Abrir `M5/5.1/EditorialReports/reports/informe_ventas.jrxml`.
+2. En Outline, comprobar que siguen presentes parámetros, variables, Detail, Page Footer y Summary heredados.
+3. Guardar sin eliminar ningún elemento existente.
+
+**Verificación visual:** el informe de ventas conserva la estructura del cierre 4.6.
+
+**Qué hace:** fija el baseline acumulativo.
+**Por qué:** 5.1 añade un subreporte sin sustituir el informe maestro.
+**Error común:** partir de un JRXML vacío. Solución: trabajar sobre el checkpoint heredado.
+
+---
+
+**Paso 2: Crear `subinforme_ventas_detalle.jrxml`**
+
+**Acciones:**
+
+1. En `EditorialReports/reports`, crear un Jasper Report llamado `subinforme_ventas_detalle`.
+2. Establecer márgenes a 0 y ancho de columna 555.
+3. Mantener únicamente Column Header y Detail como bandas de contenido.
+4. Guardar.
+
+**Verificación visual:** Project Explorer muestra `reports/subinforme_ventas_detalle.jrxml`.
+
+**Qué hace:** crea el informe hijo exacto del checkpoint.
+**Por qué:** cada libro del maestro ejecutará este informe con su título.
+**Error común:** llamarlo `subreporte_ventas_detalle`. Solución: usar exactamente `subinforme_ventas_detalle`.
+
+---
+
+**Paso 3: Declarar estilos y parámetro del subinforme**
+
+**Acciones:**
+
+1. En Source, declarar `SubBase` como estilo por defecto con DejaVu Sans 8.
+2. Declarar `SubHeader` heredando de `SubBase`.
+3. Añadir `<parameter name="tituloLibro" class="java.lang.String"/>`.
+4. Guardar.
+
+**Verificación visual:** Source contiene los dos estilos y el parámetro `tituloLibro`.
+
+**Qué hace:** prepara tipografía y contrato de entrada.
+**Por qué:** el maestro filtrará las ventas mediante ese parámetro.
+**Error común:** cambiar el nombre del parámetro. Solución: mantener `tituloLibro` en maestro y subinforme.
+
+---
+
+**Paso 4: Configurar la consulta SQL**
+
+**Acciones:**
+
+1. Abrir Dataset and Query.
+2. Usar la conexión SQLite del proyecto.
+3. Introducir la consulta que selecciona `fecha_venta`, `cantidad` y `precio_unitario` desde `ventas`.
+4. Filtrar con `WHERE titulo_libro = $P{tituloLibro}`.
+5. Ordenar por `fecha_venta`.
+6. Guardar.
+
+**Verificación visual:** la consulta devuelve únicamente ventas del libro recibido.
+
+**Qué hace:** filtra el detalle por título.
+**Por qué:** cada ejecución del subreporte pertenece a una fila concreta del maestro.
+**Error común:** omitir el WHERE y repetir todas las ventas para cada libro.
+
+---
+
+**Paso 5: Declarar los tres fields**
+
+**Acciones:**
+
+1. Declarar `fecha_venta` como String.
+2. Declarar `cantidad` como Integer.
+3. Declarar `precio_unitario` como Double.
+4. Guardar.
+
+**Verificación visual:** Outline muestra exactamente esos tres fields.
+
+**Qué hace:** define el contrato de datos del subinforme.
+**Por qué:** las expresiones de Detail dependen de esos tipos.
+**Error común:** declarar `precio_unitario` como String y perder el formato numérico.
+
+---
+
+**Paso 6: Construir Column Header**
+
+**Acciones:**
+
+1. Establecer la banda Column Header a 18.
+2. Crear encabezado `Fecha` de ancho 245.
+3. Crear encabezado `Cantidad` de ancho 100 y alineación derecha.
+4. Crear encabezado `Precio unitario` de ancho 210 y alineación derecha.
+5. Aplicar `SubHeader`.
+6. Guardar.
+
+**Verificación visual:** los tres encabezados ocupan exactamente 555 píxeles.
+
+**Qué hace:** define la cabecera del detalle.
+**Por qué:** coincide con la geometría ejecutable.
+**Error común:** usar anchos que superen el columnWidth.
+
+---
+
+**Paso 7: Construir Detail**
+
+**Acciones:**
+
+1. Establecer Detail a 18.
+2. Añadir `$F{fecha_venta}` con ancho 245.
+3. Añadir `$F{cantidad}` con ancho 100 y alineación derecha.
+4. Añadir `$F{precio_unitario}` con ancho 210, alineación derecha y patrón `#,##0.00 €`.
+5. Guardar.
+
+**Verificación visual:** cada fila reproduce las tres columnas de la consulta.
+
+**Qué hace:** emite una línea por venta.
+**Por qué:** el subinforme debe ser compacto para incrustarse en el maestro.
+**Error común:** añadir Summary o Title innecesarios.
+
+---
+
+**Paso 8: Compilar el subinforme**
+
+**Acciones:**
+
+1. Pulsar Ctrl+S.
+2. Compilar `subinforme_ventas_detalle.jrxml`.
+3. Refrescar `reports`.
+4. Confirmar `subinforme_ventas_detalle.jasper`.
+
+**Verificación visual:** JRXML y JASPER aparecen con el mismo nombre base.
+
+**Qué hace:** genera el artefacto que cargará el maestro.
+**Por qué:** `subreportExpression` referencia el archivo compilado.
+**Error común:** compilar un nombre distinto y provocar `Could not load subreport`.
+
+---
+
+**Paso 9: Crear la banda de detalle adicional en el maestro**
+
+**Acciones:**
+
+1. Volver a `informe_ventas.jrxml`.
+2. En Detail, conservar las bandas heredadas.
+3. Añadir una banda de altura 88 con `splitType="Stretch"`.
+4. Añadir `printWhenExpression` para mostrarla sólo cuando `unidades_vendidas != null`.
+5. Guardar.
+
+**Verificación visual:** Detail incorpora una nueva banda sin modificar las anteriores.
+
+**Qué hace:** reserva el área del subreporte.
+**Por qué:** el checkpoint mantiene la lógica null-safe heredada.
+**Error común:** aumentar una banda antigua y desordenar el layout.
+
+---
+
+**Paso 10: Añadir el rótulo `Detalle de ventas`**
+
+**Acciones:**
+
+1. En la nueva banda, crear un Static Text en x=0, y=2, width=555, height=16.
+2. Aplicar el estilo `Cabecera`.
+3. Escribir `Detalle de ventas`.
+4. Guardar.
+
+**Verificación visual:** el rótulo aparece encima del subreporte.
+
+**Qué hace:** identifica la sección insertada.
+**Por qué:** separa el detalle de ventas del resto de información del libro.
+
+---
+
+**Paso 11: Insertar y configurar el subreport**
+
+**Acciones:**
+
+1. Insertar Subreport en x=0, y=22, width=555, height=60.
+2. Activar `isRemoveLineWhenBlank="true"`.
+3. Añadir `subreportParameter` llamado `tituloLibro` con expresión `$F{titulo}`.
+4. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+5. Establecer `subreportExpression` a `"reports/subinforme_ventas_detalle.jasper"`.
+6. Guardar.
+
+**Verificación visual:** Source contiene exactamente el parámetro, la conexión y la ruta del subinforme ejecutable.
+
+**Qué hace:** conecta maestro e hijo.
+**Por qué:** el subreporte reutiliza la conexión del maestro y recibe el título de la fila actual.
+**Error común:** usar `reports/subreporte_ventas_detalle.jasper`. Solución: usar `subinforme_ventas_detalle.jasper`.
+
+---
+
+**Paso 12: Validar en Preview**
+
+**Acciones:**
+
+1. Compilar maestro y subinforme.
+2. Abrir Preview.
+3. Comprobar que sólo los libros con ventas muestran el detalle.
+4. Comprobar fecha, cantidad y precio unitario.
+
+**Verificación visual:** cada libro con ventas muestra su propio bloque de detalle.
+
+**Qué hace:** valida el enlace maestro-detalle dentro de Studio.
+**Por qué:** detecta errores de ruta, parámetro o conexión antes de Java.
+
+---
+
+**Paso 13: Ejecutar desde Java**
+
+**Acciones:**
+
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Comprobar que finaliza sin excepción.
+3. Abrir `output/informe_ventas.pdf`.
+4. Confirmar que el checkpoint 5.1 genera 4 páginas.
+
+**Verificación visual:** el PDF contiene el subreporte y conserva los totales del informe.
+
+**Qué hace:** valida compilación, fill y export real.
+**Por qué:** Preview no sustituye la prueba E2E.
+
+---
+
+**Paso 14: Documentar `SUBREPORTES.md`**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/SUBREPORTES.md`.
+2. Registrar maestro = `reports/informe_ventas.jrxml`.
+3. Registrar hijo = `reports/subinforme_ventas_detalle.jrxml`.
+4. Registrar parámetro `tituloLibro` y conexión compartida.
+5. Guardar.
+
+**Verificación visual:** la documentación usa los mismos nombres que el checkpoint.
+
+**Qué hace:** deja trazabilidad del diseño maestro-detalle.
+**Por qué:** evita recuperar nombres obsoletos en puntos posteriores.
+'''
+
 def corrected_55_part_a():
  return r'''**Paso 1: Verificar el punto de partida acumulativo**
 
@@ -762,6 +1005,8 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 '''
 
 def extract_part_a(sec,point):
+ if point=='5.1':
+  return corrected_51_part_a().strip()
  if point=='5.5':
   return corrected_55_part_a().strip()
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
