@@ -105,7 +105,7 @@ h1,h2,h3,h4 { break-after:avoid-page; }
 img { max-width:100%; height:auto; }
 '''
 
-POINT_RE = re.compile(r"\b(?:PUNTO|Punto)\s+5\.[1-6]\b", re.I)
+POINT_RE = re.compile(r"\\b(?:PUNTO|Punto)\\s+6\\.[1-5]\\b", re.I)
 LINE_RE = re.compile(r"^(L[ií]nea(?:s)?\s+[^:]+):?$", re.I)
 
 
@@ -322,10 +322,10 @@ def html_document(md_text: str, kind: str) -> str:
     soup = markdown_to_soup(md_text)
     kind_es = "PRÁCTICAS" if kind == "practica" else "TEORÍA"
     kind_title = "Prácticas" if kind == "practica" else "Teoría"
-    header = f"CURSO: Curso Profesional de JasperReports 6.20.0 Community · MÓDULO 6. Diseño avanzado - {kind_es} · AUTOR: JAIME GALLO"
+    header = f"CURSO: Curso Profesional de JasperReports 6.20.0 Community · MÓDULO 6. Exportación - {kind_es} · AUTOR: JAIME GALLO"
     foot = f"EditorialReports · Módulo 6 · {kind_title}"
     cover = f'''<div class="coursehead">{header}</div><div class="footleft">{foot}</div>
-<div class="cover"><h1>Curso Profesional de JasperReports<br>6.20.0 Community</h1><h2>Módulo 6 — Diseño avanzado</h2><div class="badge">{kind_es}</div><div class="author">AUTOR: JAIME GALLO</div><div class="tech">JasperReports Library 6.20.0 Community · Jaspersoft Studio 6.20.0 Community Edition · Java 8 · Maven · SQLite · CSV · XML · JSON · Proyecto EditorialReports</div></div>'''
+<div class="cover"><h1>Curso Profesional de JasperReports<br>6.20.0 Community</h1><h2>Módulo 6 — Exportación</h2><div class="badge">{kind_es}</div><div class="author">AUTOR: JAIME GALLO</div><div class="tech">JasperReports Library 6.20.0 Community · Jaspersoft Studio 6.20.0 Community Edition · Java 8 · Maven · SQLite · CSV · XML · JSON · Proyecto EditorialReports</div></div>'''
     return '<!doctype html><html lang="es"><head><meta charset="utf-8"><title>M6</title><style>'+CSS+'</style></head><body>'+cover+str(soup)+'</body></html>'
 
 
@@ -341,9 +341,9 @@ def create_contact_sheets(pdf_path: Path, out_dir: Path, label: str):
     doc = fitz.open(pdf_path)
     points=[]
     if label == "practica":
-        needles=["Punto 5.1", "Parte B", "Parte C", "Punto 5.2", "Punto 5.3", "Punto 5.4", "Punto 5.5", "Punto 5.6", "Punto 5.7", "Reto resuelto", "Resultado esperado"]
+        needles=["Punto 6.1", "Parte B", "Parte C", "Punto 6.2", "Punto 6.3", "Punto 6.4", "Punto 6.5", "Reto resuelto", "Resultado esperado"]
     else:
-        needles=["Punto 5.1", "Punto 5.2", "Punto 5.3", "Punto 5.4", "Punto 5.5", "Punto 5.6", "Punto 5.7", "Resumen rápido"]
+        needles=["Punto 6.1", "Punto 6.2", "Punto 6.3", "Punto 6.4", "Punto 6.5", "Resumen rápido"]
     points=[0]
     for n in needles:
         p=find_page(doc,n)
