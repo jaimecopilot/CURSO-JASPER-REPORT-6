@@ -87,9 +87,9 @@ jobs:
           grep -q 'System.exit(1);' ../EditorialReportsJava/src/GeneradorInformeVentas.java
 
           # M6 no modifica el diseño del informe: JRXML/JRTX/data heredados son idénticos.
-          cmp reports/informe_ventas.jrxml ../../../../M5/5.6/EditorialReports/reports/informe_ventas.jrxml
-          cmp reports/subinforme_ventas_detalle.jrxml ../../../../M5/5.6/EditorialReports/reports/subinforme_ventas_detalle.jrxml
-          cmp resources/styles/EditorialStyles.jrtx ../../../../M5/5.6/EditorialReports/resources/styles/EditorialStyles.jrtx
+          cmp reports/informe_ventas.jrxml ../../../M5/5.6/EditorialReports/reports/informe_ventas.jrxml
+          cmp reports/subinforme_ventas_detalle.jrxml ../../../M5/5.6/EditorialReports/reports/subinforme_ventas_detalle.jrxml
+          cmp resources/styles/EditorialStyles.jrtx ../../../M5/5.6/EditorialReports/resources/styles/EditorialStyles.jrtx
 
           CHECKPOINT="${{ matrix.checkpoint }}" python3 - <<'PY'
           import os, sqlite3, pathlib, zipfile, xml.etree.ElementTree as ET
