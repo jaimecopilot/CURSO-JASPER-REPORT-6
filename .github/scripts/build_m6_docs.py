@@ -487,8 +487,64 @@ La validación vuelve a generar PDF normal/protegido, XLSX de ventas y catálogo
 Así se cubren los seis objetivos originales: comprender el contexto, utilizar propiedades de sistema como mecanismo de entorno, crear propiedades por defecto, centralizar opciones, combinar niveles de configuración y documentar el resultado.
 '''
 
+
+THEORY_DEEPEN={}
+
+THEORY_DEEPEN['6.1']=r'''
+#### Profundización del bloque 1 — Cuándo usar la vía simple y cuándo el exportador avanzado
+
+La existencia de dos vías de exportación no es redundante. `JasperExportManager` es una fachada de conveniencia: recibe un `JasperPrint` y resuelve una salida PDF con valores por defecto. Resulta adecuada en utilidades pequeñas, prototipos o procesos en los que la única decisión es la ruta de destino. En una aplicación empresarial, sin embargo, aparecen requisitos que no pertenecen al diseño visual del JRXML: título documental, autor, compresión, cifrado, contraseña, permisos o políticas distintas para copias internas y externas. Esos requisitos justifican `JRPdfExporter`.
+
+La diferencia arquitectónica puede leerse como una progresión de responsabilidades. El JRXML define qué contiene el informe y cómo se presenta. `JasperFillManager` combina diseño, parámetros y datos y produce el `JasperPrint`. El exportador decide cómo serializar ese documento a un formato de distribución. Si una propiedad sólo afecta al fichero PDF y no al significado del informe, debe permanecer en la capa de exportación. Esta separación evita introducir en la plantilla decisiones que dependen del canal de entrega.
+
+También cambia el tipo de destino. Una aplicación de escritorio puede escribir directamente en un archivo; un servicio web puede exportar a un `OutputStream` asociado a la respuesta HTTP; otro proceso puede necesitar un `byte[]` para firmarlo, cifrarlo externamente o almacenarlo en una base documental. La práctica usa archivos porque son fáciles de inspeccionar y conservar como evidencia, pero el modelo conceptual es el mismo.
+
+En EditorialReports se mantiene un único llenado y se obtienen dos PDFs a partir del mismo `JasperPrint`: uno normal con metadatos verificables y otro protegido. Esta decisión demuestra que el documento de negocio no cambia por variar la política de distribución. Si ambos PDFs mostraran datos distintos, el problema estaría antes del exportador y no en la configuración PDF.
+
+#### Profundización del bloque 2 — Metadatos como contrato documental
+
+Los metadatos PDF tienen valor operativo además de descriptivo. En un repositorio documental permiten clasificar, buscar y presentar un archivo sin analizar visualmente todas sus páginas. El título debería describir el documento y no la ruta física del fichero; el autor identifica al área responsable; el asunto resume el propósito; las palabras clave facilitan indexación; el creador identifica la herramienta que produjo el artefacto.
+
+Conviene distinguir estos metadatos de los textos impresos en las páginas. Cambiar `setMetadataTitle` no modifica el título visual del informe, porque ese título ya fue renderizado dentro del `JasperPrint`. Del mismo modo, cambiar el texto del título en el JRXML no obliga a que las propiedades del PDF se actualicen automáticamente. En sistemas reales ambas capas pueden mantenerse coordinadas mediante parámetros o una clase de configuración común, pero conceptualmente siguen siendo independientes.
+
+El checkpoint prueba esa independencia. El documento conserva seis páginas y el mismo diseño de M5, mientras `pdfinfo` encuentra el título, autor y creador configurados. Esta prueba es más fuerte que buscar las cadenas dentro del Java: confirma que la librería las escribió efectivamente en la estructura PDF.
+
+La API específica `setMetadataTitle`, `setMetadataAuthor` y métodos equivalentes evita una ambigüedad frecuente al consultar ejemplos de versiones distintas. La fuente original utilizaba métodos que no pertenecen a `SimplePdfExporterConfiguration` en 6.20.0. En el curso se conserva la intención, pero la evidencia compilada tiene prioridad sobre la sintaxis histórica o aproximada.
+
+#### Profundización del bloque 3 — Modelo de seguridad y límites de los permisos
+
+Un PDF protegido combina dos conceptos: cifrado para controlar el acceso y permisos para indicar qué operaciones puede realizar un lector autorizado. La contraseña de usuario se relaciona con la apertura del documento. La contraseña de propietario protege la capacidad de modificar restricciones. Los permisos especifican acciones admitidas, como imprimir, copiar o utilizar lectores de pantalla.
+
+No debe confundirse esta protección con un sistema completo de gestión de derechos digitales. Una contraseña PDF protege el documento dentro de las capacidades del estándar y del lector que lo interpreta, pero no sustituye controles de acceso de servidor, auditoría de descargas, expiración o clasificación de información. En una aplicación empresarial la seguridad suele comenzar antes: autorización para solicitar el informe, transporte HTTPS, almacenamiento protegido y políticas de retención.
+
+El curso utiliza una contraseña conocida porque el objetivo es demostrar de forma automatizable que la protección existe. El workflow abre el fichero con `pdfinfo -upw editorial2026`. Si el archivo se hubiese generado sin cifrado, con otra contraseña o estuviera corrupto, la prueba no cumpliría el contrato.
+
+También es importante la accesibilidad. El hint `SCREENREADERS` evita enseñar una política de seguridad que bloquee indiscriminadamente tecnologías de asistencia. El reto profesional consiste en equilibrar restricciones con el uso legítimo del documento. Los permisos deben responder al caso de negocio y no copiarse de forma automática entre todos los informes.
+
+#### Profundización del bloque 4 — Reutilización, memoria y tratamiento de errores
+
+Reutilizar un `JasperPrint` tiene dos ventajas. La primera es coherencia: todos los formatos proceden exactamente de los mismos datos, parámetros y evaluación de expresiones. La segunda es coste: una consulta, un cálculo de grupos, subreportes, gráficos y crosstabs puede ser sensiblemente más caro que serializar el resultado varias veces. M6 aprovecha el trabajo realizado durante el fill y desplaza la variación al último tramo del pipeline.
+
+Esa reutilización también tiene implicaciones de memoria. `JasperPrint` contiene todas las páginas ya resueltas. En informes pequeños es natural mantenerlo en memoria mientras se generan varias salidas. En informes muy grandes habría que estudiar virtualización, procesamiento por lotes o políticas de generación distintas. El curso no introduce esa complejidad porque el catálogo es pequeño, pero conviene reconocer que “llenar una vez” no significa que el coste de memoria sea siempre irrelevante.
+
+El bloque `try/catch` y `System.exit(1)` forman parte del contrato de ejecución. Una excepción de exportación no debe convertirse en un mensaje de consola seguido de código de salida cero, porque CI interpretaría falsamente que el trabajo terminó bien. Del mismo modo, crear previamente `output` evita confundir un fallo de directorio inexistente con un problema de JasperReports.
+
+La secuencia correcta es deliberada: compilar subreporte, compilar maestro, construir parámetros, abrir conexión, llenar, exportar y validar. Cada fase deja una evidencia distinta y permite localizar con precisión dónde se rompe el proceso.
+
+#### Profundización del bloque 5 — Validación de un PDF más allá de “existe el archivo”
+
+Una validación profesional no debería aceptar un archivo únicamente porque `File.exists()` sea verdadero. Un proceso podría crear un fichero vacío, truncado o con una extensión equivocada. Por eso el E2E comprueba primero la firma `%PDF-` y después utiliza `pdfinfo`, una herramienta independiente del código Java que generó el archivo.
+
+La firma confirma que el contenido tiene estructura PDF. `pdfinfo` obliga a que el documento sea parseable y, además, permite observar páginas y metadatos. Para la versión protegida se suministra la contraseña de usuario documentada. Esta combinación cubre varias clases de error sin necesidad de inspección manual.
+
+En un sistema productivo podrían añadirse controles de tamaño mínimo, número de páginas esperado, presencia de texto, firma digital, PDF/A o comparación visual de páginas críticas. El curso mantiene el alcance en los requisitos del punto 6.1 y añade los invariantes heredados del proyecto para demostrar que la exportación no ha alterado el informe.
+
+La trazabilidad física complementa esas pruebas. `audit_m6_traceability.py` compara los checkpoints y no permite que el módulo de exportación cambie silenciosamente el JRXML o el JRTX ya cerrado en M5. De este modo, cuando aparece una diferencia en el PDF de M6, se sabe que procede de la exportación o de la configuración y no de un rediseño oculto.
+'''
+
+
 def theory(point):
- return THEORY[point].replace('~~~','```').strip()
+ return (THEORY[point]+'\n\n'+THEORY_DEEPEN.get(point,'')).replace('~~~','```').strip()
 
 # Reuse the mature M5 line explainer and extend it with M6 exporter semantics.
 _spec=importlib.util.spec_from_file_location('m5docs',ROOT/'.github/scripts/build_m5_docs.py')
