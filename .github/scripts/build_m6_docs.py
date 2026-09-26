@@ -540,6 +540,16 @@ La firma confirma que el contenido tiene estructura PDF. `pdfinfo` obliga a que 
 En un sistema productivo podrían añadirse controles de tamaño mínimo, número de páginas esperado, presencia de texto, firma digital, PDF/A o comparación visual de páginas críticas. El curso mantiene el alcance en los requisitos del punto 6.1 y añade los invariantes heredados del proyecto para demostrar que la exportación no ha alterado el informe.
 
 La trazabilidad física complementa esas pruebas. `audit_m6_traceability.py` compara los checkpoints y no permite que el módulo de exportación cambie silenciosamente el JRXML o el JRTX ya cerrado en M5. De este modo, cuando aparece una diferencia en el PDF de M6, se sabe que procede de la exportación o de la configuración y no de un rediseño oculto.
+
+#### Caso profesional — Diseñar un servicio PDF verificable
+
+Imaginemos que EditorialReports deja de ejecutarse manualmente y pasa a formar parte de una aplicación interna. El usuario solicita “Informe de ventas”, la aplicación llena el JasperReport y debe ofrecer una copia para lectura normal y otra protegida para intercambio externo. El diseño estudiado en 6.1 sigue siendo válido porque el generador puede separar el `JasperPrint` de la política de salida.
+
+La aplicación podría recibir el período y el usuario como parámetros, construir el documento una sola vez y seleccionar un perfil PDF. El perfil interno conservaría metadatos y compresión sin contraseña; el externo activaría cifrado y permisos restringidos. El código de negocio no necesitaría duplicar consultas ni mantener dos JRXML. Esta reutilización reduce el riesgo de que dos “versiones del mismo informe” terminen mostrando cifras distintas.
+
+La aceptación del servicio debería comprobar varias capas. Primero, que el llenado produce el número esperado de páginas y los invariantes de datos. Segundo, que el fichero tiene estructura PDF y puede ser leído por una herramienta independiente. Tercero, que los metadatos identifican correctamente el documento. Cuarto, que las restricciones de la copia protegida se aplican y la contraseña documentada permite abrirla. Finalmente, una revisión visual distribuida confirma que el exportador no ha introducido problemas de fuentes o representación.
+
+Este ejemplo permite distinguir claramente errores de dominio, de diseño y de exportación. Si el total es incorrecto en todos los formatos, hay que investigar consulta, parámetros o expresiones. Si sólo falla el PDF protegido, la investigación debe centrarse en `JRPdfExporter` y su configuración. Si el archivo es correcto pero la aplicación no puede entregarlo, el problema está en la capa de publicación. Esa capacidad de aislar responsabilidades es uno de los objetivos profesionales del módulo.
 '''
 
 
@@ -594,6 +604,18 @@ En una validación más extensa podrían inspeccionarse también `xl/worksheets/
 Es igualmente importante mantener la trazabilidad con el `pom.xml`. Si se eliminan `poi` o `poi-ooxml` y el proyecto deja de disponer de las clases necesarias en tiempo de ejecución, el E2E debe fallar. De este modo, dependencias, código y artefacto final forman una cadena única.
 
 La comparación acumulativa 6.1→6.2 permite además atribuir el cambio: se añaden las dependencias, el código XLSX, la documentación y el segundo libro del reto, mientras el JRXML principal permanece intacto. Esta disciplina evita resolver un problema de exportación mediante modificaciones silenciosas del informe.
+
+#### Caso profesional — Diseñar un informe que también sea útil en Excel
+
+Cuando un informe se sabe desde el principio que tendrá salida PDF y XLSX, conviene alinear los elementos de detalle con una rejilla consistente. Dos campos que visualmente parecen alineados pero comienzan con una diferencia mínima pueden obligar al exportador a crear columnas adicionales. El resultado puede ser correcto pero incómodo para filtrar o copiar.
+
+Eso no significa que el diseño deba renunciar a la presentación. Significa que la exportabilidad se convierte en un requisito de arquitectura del informe. Los encabezados principales pueden conservarse para PDF y la zona tabular puede mantenerse rigurosamente alineada. JasperReports dispone además de propiedades específicas para controlar determinados comportamientos de exportación cuando un proyecto necesita una optimización mayor.
+
+El segundo XLSX del reto demuestra otro patrón habitual: no todo libro Excel tiene que proceder del mismo informe. El informe de ventas conserva componentes complejos, mientras el catálogo parte de una fuente CSV y posee una estructura más directamente tabular. Un servicio real puede elegir diferentes JasperReports según el objetivo del formato y aun así reutilizar la misma política de exportación.
+
+La validación debería comprobar no sólo que Excel abre el archivo. Para un contrato empresarial pueden verificarse nombres de hoja, número mínimo de filas, presencia de columnas clave, tipos numéricos, formatos de fecha y ausencia de hojas inesperadas. El curso valida el paquete OOXML y los nombres de hoja porque son requisitos deterministas del ejercicio.
+
+Este enfoque ayuda a separar dos preguntas: “¿el archivo XLSX es técnicamente válido?” y “¿es útil para el usuario que lo va a analizar?”. La primera se automatiza; la segunda combina requisitos de negocio e inspección funcional. Un buen proyecto necesita ambas.
 '''
 
 THEORY_DEEPEN['6.3']=r'''
@@ -650,6 +672,18 @@ Una validación manual posterior debería abrir el HTML desde su carpeta de sali
 Un último aspecto es la portabilidad del conjunto publicado. Si sólo se copia `informe_ventas.html` y se olvidan `styles` o `images`, el archivo deja de ser autocontenido desde el punto de vista operativo. Por eso el artifact del checkpoint conserva la estructura de directorios y no trata el HTML como una única salida aislada. En un despliegue web real esa misma idea puede traducirse a un paquete estático, un directorio servido por un reverse proxy o recursos almacenados en una CDN.
 
 La codificación también debe mantenerse coherente de extremo a extremo. La cabecera declara UTF-8 y `SimpleHtmlExporterOutput` escribe UTF-8. Si ambas decisiones divergieran, caracteres como tildes, eñes o el símbolo del euro podrían interpretarse de forma distinta por el navegador. La práctica demuestra que configuración documental, writer y recursos forman un único contrato de publicación.
+
+#### Caso profesional — Publicar el informe en una intranet
+
+Supongamos que el departamento comercial quiere consultar el informe desde una intranet y descargar la copia PDF si necesita imprimirla. El flujo de 6.3 encaja directamente: se genera el PDF, después el HTML, se publica el CSS y el enlace relativo conecta ambos formatos.
+
+Para que el despliegue sea fiable, el directorio completo debe tratarse como una unidad. El servidor web tendría que publicar `informe_ventas.html`, `informe_ventas.pdf`, `styles/editorial.css` y cualquier recurso de `images` manteniendo sus rutas relativas. Si el equipo de operaciones mueve sólo el HTML a otra carpeta, el Java habrá terminado correctamente pero la experiencia web quedará rota.
+
+En una aplicación real sería razonable añadir pruebas HTTP después del despliegue: solicitar el HTML, comprobar código 200, recuperar el CSS, seguir el enlace PDF y verificar el tipo MIME. Esas pruebas pertenecen a la capa de despliegue, mientras el E2E actual se concentra en el paquete de archivos producido por JasperReports.
+
+El HTML también plantea decisiones de accesibilidad. La estructura generada por un motor orientado a informes puede no equivaler a una página semántica diseñada manualmente. Si la accesibilidad web es un requisito central, conviene inspeccionar encabezados, orden de lectura, alternativas de imagen y navegación con teclado. La posibilidad de ofrecer simultáneamente PDF no elimina esa obligación.
+
+Así, 6.3 no enseña simplemente a “guardar como HTML”. Enseña que el formato web introduce recursos, rutas y un entorno de ejecución diferente. El exportador es sólo una pieza del proceso de publicación.
 '''
 
 
@@ -708,6 +742,18 @@ La matriz de contratos estructurales permite aplicar una prueba adecuada a cada 
 También hay diferencias de semántica que la extensión del archivo no revela. CSV carece de tipos explícitos y depende del consumidor para interpretar números y fechas; XML posee estructura jerárquica; RTF y ODT buscan conservar propiedades de documento; PDF prioriza una representación paginada. La elección de formato debe partir del uso previsto y no de la idea de que todas las salidas son equivalentes.
 
 Cuando un sistema entrega varios formatos al mismo usuario conviene documentar qué garantías ofrece cada uno. El PDF puede ser la copia oficial imprimible, XLSX el soporte de análisis, CSV el intercambio tabular, HTML la publicación navegable y ODT/RTF las versiones editables. El módulo introduce precisamente esa lectura funcional de la exportación multiformato.
+
+#### Caso profesional — Elegir el formato por consumidor y no por costumbre
+
+Una misma información puede tener destinatarios con necesidades incompatibles. Dirección puede querer un PDF estable para archivo; comercial, un XLSX con datos explotables; integración, un CSV sencillo; la intranet, HTML; un usuario de LibreOffice, ODT. Producir todos los formatos indiscriminadamente también tiene coste, por lo que el sistema debería conocer qué salidas necesita cada proceso.
+
+La fidelidad debe definirse según el formato. Para PDF, fidelidad suele significar paginación y apariencia. Para XLSX, conservar valores, estructura y capacidad de cálculo puede ser más importante que la posición exacta. Para CSV, lo esencial es que delimitadores, codificación y registros sean inequívocos. Para XML, la estructura debe poder parsearse. Para RTF/ODT, el usuario espera un documento editable y razonablemente semejante al original.
+
+Estos criterios permiten diseñar pruebas de aceptación más útiles. Un test que compare únicamente tamaños de archivo puede pasar aunque falten datos. Un test que busque una firma valida el contenedor pero no el contenido. El curso combina estructura del formato con invariantes del origen; en un proyecto real se añadirían valores de negocio concretos según el contrato de cada salida.
+
+También conviene observar el tiempo y el consumo de memoria. Exportar siete formatos secuencialmente desde un mismo `JasperPrint` evita repetir el fill, pero añade trabajo de serialización y varios archivos. Un servicio con alta concurrencia puede decidir generar sólo formatos solicitados, cachear resultados o ejecutar determinadas conversiones de forma asíncrona.
+
+El principio final es que multiformato no significa “copias idénticas en extensiones distintas”. Significa ofrecer representaciones coherentes del mismo estado de negocio, adaptadas a consumidores diferentes y verificadas con contratos apropiados.
 '''
 
 THEORY_DEEPEN['6.5']=r'''
@@ -762,6 +808,18 @@ El reto HTML fue especialmente útil: una primera centralización podía haber r
 La cadena acumulativa ofrece una segunda defensa. `audit_m6_traceability.py` conoce qué archivos puede añadir o modificar cada punto. Si 6.5 eliminara un recurso heredado o cambiara el JRXML, el módulo dejaría de cumplir su contrato aunque los exportadores siguieran compilando.
 
 El resultado final es una arquitectura más mantenible sin sacrificar evidencia. Configuración, código, properties, outputs, documentación y tests describen el mismo estado y pueden reconstruirse desde el repositorio.
+
+#### Caso profesional — Evolucionar la política de exportación sin romper informes
+
+Una ventaja práctica de la centralización aparece cuando cambia una norma corporativa. Imaginemos que todos los PDFs deben incluir un nuevo creador documental, que los XLSX deben mostrar cuadrícula o que el separador CSV cambia para una integración concreta. Si cada generador configura sus exportadores de forma independiente, localizar todas las variantes es difícil y es fácil dejar un informe con la política anterior.
+
+`ConfiguracionExportacion` ofrece un punto de evolución controlado. Un cambio en la fábrica se propaga a los consumidores que la utilizan, pero precisamente por eso necesita pruebas de regresión. Una modificación aparentemente pequeña puede afectar a todos los informes de una aplicación. La centralización reduce duplicación; no elimina la necesidad de validar.
+
+Los valores dependientes del entorno deberían mantenerse fuera de la clase cuando corresponda. Una contraseña, una ruta de publicación o una opción experimental pueden recibirse desde variables de entorno o un sistema de configuración. La fábrica puede transformar esos valores en objetos JasperReports sin convertirse en almacén de secretos.
+
+También es útil probar la configuración de forma aislada. Un test unitario podría llamar a `getConfiguracionPdf` y comprobar sus propiedades; otro podría verificar que `getConfiguracionXlsxReport("Ventas")` conserva el nombre de hoja esperado. Esos tests serían rápidos y complementarían el E2E, que sigue siendo imprescindible para saber que JasperReports interpreta las opciones y genera archivos reales.
+
+El patrón estudiado en 6.5 es, por tanto, una pequeña aplicación de diseño de software: separar política de orquestación, mantener configuración global cuando aporta valor, permitir excepciones específicas y proteger la refactorización con pruebas que observan el comportamiento final.
 '''
 
 
