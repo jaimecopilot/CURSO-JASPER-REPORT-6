@@ -31,8 +31,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** 5.1 añade un subreporte sin sustituir el informe maestro.
 **Error común:** partir de un JRXML vacío. Solución: trabajar sobre el checkpoint heredado.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 2: Crear `subinforme_ventas_detalle.jrxml`**
 
 **Acciones:**
@@ -48,8 +49,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** cada libro del maestro ejecutará este informe con su título.
 **Error común:** llamarlo `subreporte_ventas_detalle`. Solución: usar exactamente `subinforme_ventas_detalle`.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 3: Declarar estilos y parámetro del subinforme**
 
 **Acciones:**
@@ -65,8 +67,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** el maestro filtrará las ventas mediante ese parámetro.
 **Error común:** cambiar el nombre del parámetro. Solución: mantener `tituloLibro` en maestro y subinforme.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 4: Configurar la consulta SQL**
 
 **Acciones:**
@@ -84,8 +87,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** cada ejecución del subreporte pertenece a una fila concreta del maestro.
 **Error común:** omitir el WHERE y repetir todas las ventas para cada libro.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 5: Declarar los tres fields**
 
 **Acciones:**
@@ -101,8 +105,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** las expresiones de Detail dependen de esos tipos.
 **Error común:** declarar `precio_unitario` como String y perder el formato numérico.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 6: Construir Column Header**
 
 **Acciones:**
@@ -120,8 +125,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** coincide con la geometría ejecutable.
 **Error común:** usar anchos que superen el columnWidth.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 7: Construir Detail**
 
 **Acciones:**
@@ -138,8 +144,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** el subinforme debe ser compacto para incrustarse en el maestro.
 **Error común:** añadir Summary o Title innecesarios.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 8: Compilar el subinforme**
 
 **Acciones:**
@@ -155,8 +162,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** `subreportExpression` referencia el archivo compilado.
 **Error común:** compilar un nombre distinto y provocar `Could not load subreport`.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 9: Crear la banda de detalle adicional en el maestro**
 
 **Acciones:**
@@ -173,8 +181,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** el checkpoint mantiene la lógica null-safe heredada.
 **Error común:** aumentar una banda antigua y desordenar el layout.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 10: Añadir el rótulo `Detalle de ventas`**
 
 **Acciones:**
@@ -189,8 +198,11 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Qué hace:** identifica la sección insertada.
 **Por qué:** separa el detalle de ventas del resto de información del libro.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.1.
 
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
+
+---
 **Paso 11: Insertar y configurar el subreport**
 
 **Acciones:**
@@ -208,8 +220,9 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Por qué:** el subreporte reutiliza la conexión del maestro y recibe el título de la fila actual.
 **Error común:** usar `reports/subreporte_ventas_detalle.jasper`. Solución: usar `subinforme_ventas_detalle.jasper`.
 
----
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
+---
 **Paso 12: Validar en Preview**
 
 **Acciones:**
@@ -224,8 +237,11 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Qué hace:** valida el enlace maestro-detalle dentro de Studio.
 **Por qué:** detecta errores de ruta, parámetro o conexión antes de Java.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.1.
 
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
+
+---
 **Paso 13: Ejecutar desde Java**
 
 **Acciones:**
@@ -240,8 +256,11 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 **Qué hace:** valida compilación, fill y export real.
 **Por qué:** Preview no sustituye la prueba E2E.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.1.
 
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
+
+---
 **Paso 14: Documentar `SUBREPORTES.md`**
 
 **Acciones:**
@@ -256,6 +275,10 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 **Qué hace:** deja trazabilidad del diseño maestro-detalle.
 **Por qué:** evita recuperar nombres obsoletos en puntos posteriores.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.1.
+
+**Analogía:** es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.
 
 ---
 
@@ -319,91 +342,91 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="subinforme_ventas_detalle"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="subinforme_ventas_detalle"` → Asigna al documento JasperReports el nombre interno `subinforme_ventas_detalle`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="555"` → Fija el ancho físico de página en `555` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="0"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="0"` → Fija el margen izquierdo del informe en `0` puntos.
 
-**Línea 11:** `rightMargin="0"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="0"` → Fija el margen derecho del informe en `0` puntos.
 
-**Línea 12:** `topMargin="0"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="0"` → Fija el margen superior del informe en `0` puntos.
 
-**Línea 13:** `bottomMargin="0">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="0">` → Fija el margen inferior del informe en `0` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 15:** `<style name="SubBase" isDefault="true" fontName="DejaVu Sans" fontSize="8"/>` → Declara un estilo reutilizable.
+**Línea 15:** `<style name="SubBase" isDefault="true" fontName="DejaVu Sans" fontSize="8"/>` → Declara el estilo `SubBase`; es el estilo por defecto, fuente DejaVu Sans, tamaño 8.
 
-**Línea 16:** `<style name="SubHeader" style="SubBase" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 16:** `<style name="SubHeader" style="SubBase" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `SubHeader`; hereda de SubBase, fondo #EAF2F8.
 
-**Línea 17:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara un parámetro y su tipo Java.
+**Línea 17:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara el parámetro `tituloLibro` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 18:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 18:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 19:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 19:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 20:** `SELECT fecha_venta, cantidad, precio_unitario` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 20:** `SELECT fecha_venta, cantidad, precio_unitario` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 21:** `FROM ventas` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 21:** `FROM ventas` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 22:** `WHERE titulo_libro = $P{tituloLibro}` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 22:** `WHERE titulo_libro = $P{tituloLibro}` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 23:** `ORDER BY fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 23:** `ORDER BY fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 24:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 24:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 25:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 25:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 26:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 26:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara el field `fecha_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 27:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 27:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara el field `cantidad` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 28:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 28:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara el field `precio_unitario` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 29:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 29:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 30:** `<band height="18">` → Define una banda y su altura.
+**Línea 30:** `<band height="18">` → Define una banda de `18` puntos, reservando ese espacio para sus elementos.
 
-**Línea 31:** `<staticText><reportElement x="0" y="0" width="245" height="18" style="SubHeader"/><text><![CDATA[Fecha]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 31:** `<staticText><reportElement x="0" y="0" width="245" height="18" style="SubHeader"/><text><![CDATA[Fecha]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 32:** `<staticText><reportElement x="245" y="0" width="100" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 32:** `<staticText><reportElement x="245" y="0" width="100" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 33:** `<staticText><reportElement x="345" y="0" width="210" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Precio unitario]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 33:** `<staticText><reportElement x="345" y="0" width="210" height="18" style="SubHeader"/><textElement textAlignment="Right"/><text><![CDATA[Precio unitario]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 34:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 34:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 35:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 35:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 36:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 36:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 37:** `<band height="18">` → Define una banda y su altura.
+**Línea 37:** `<band height="18">` → Define una banda de `18` puntos, reservando ese espacio para sus elementos.
 
-**Línea 38:** `<textField><reportElement x="0" y="0" width="245" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpression></textField>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 38:** `<textField><reportElement x="0" y="0" width="245" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpression></textField>` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 39:** `<textField><reportElement x="245" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression></textField>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 39:** `<textField><reportElement x="245" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression></textField>` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 40:** `<textField pattern="#,##0.00 €"><reportElement x="345" y="0" width="210" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_unitario}]]></t...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 40:** `<textField pattern="#,##0.00 €"><reportElement x="345" y="0" width="210" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{precio_unitario}]]></t...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 41:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 41:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 42:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 42:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 43:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 43:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -643,447 +666,447 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="informe_ventas"` → Asigna al documento JasperReports el nombre interno `informe_ventas`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="595"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="595"` → Fija el ancho físico de página en `595` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="20"` → Fija el margen izquierdo del informe en `20` puntos.
 
-**Línea 11:** `rightMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="20"` → Fija el margen derecho del informe en `20` puntos.
 
-**Línea 12:** `topMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="20"` → Fija el margen superior del informe en `20` puntos.
 
-**Línea 13:** `bottomMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="20"` → Fija el margen inferior del informe en `20` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Asigna el UUID de diseño `3d2c2bd7-3b93-4da9-8b60-6b3c45674c91` para identificar de forma estable el informe en Studio.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo reutilizable.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo `Sans_Normal`; es el estilo por defecto, fuente DejaVu Sans, tamaño 10.
 
-**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `TituloPrincipal`; hereda de Sans_Normal, tamaño 18.
 
-**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `Cabecera`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara el estilo `Dato`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara un estilo reutilizable.
+**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara el estilo `UnidadesCondicional`; hereda de Dato.
 
-**Línea 21:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 21:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara un estilo reutilizable.
+**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara el estilo `None`.
 
-**Línea 24:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 24:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 25:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara un estilo reutilizable.
+**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara el estilo `None`.
 
-**Línea 28:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 28:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 29:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 29:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas.
 
-**Línea 31:** `<style forecolor="#9D3429"/>` → Declara un estilo reutilizable.
+**Línea 31:** `<style forecolor="#9D3429"/>` → Declara el estilo `None`.
 
-**Línea 32:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 32:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 33:** `</style>` → Cierra el elemento XML correspondiente.
+**Línea 33:** `</style>` → Cierra `style` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 34:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 34:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `usuario` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 35:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 35:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara el parámetro `fechaInforme` con tipo `java.util.Date` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 36:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 36:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 37:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 37:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 38:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 38:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `departamento` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 39:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 39:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 40:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 40:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 41:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 41:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `periodo` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 42:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 42:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 43:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 43:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 44:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 44:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara el parámetro `tipoIva` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 45:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 45:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 46:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 46:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 47:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 47:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara el parámetro `mostrarDetalle` con tipo `java.lang.Boolean` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 48:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 48:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 49:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 49:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 50:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 50:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `categoria` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 51:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 51:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMinimo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 52:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 52:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMaximo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 53:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 53:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara el parámetro `umbralUnidades` con tipo `java.lang.Integer` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 54:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 54:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 55:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 55:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 56:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 56:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `textoBusqueda` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 57:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara un parámetro y su tipo Java.
+**Línea 57:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara el parámetro `categoriasLista` con tipo `java.util.Collection` como parámetro interno no solicitado al usuario.
 
-**Línea 58:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 58:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 59:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 59:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 60:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 60:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 61:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 61:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 62:** `SELECT l.titulo,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 62:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 63:** `l.categoria,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 63:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
 
-**Línea 64:** `SUM(v.cantidad) AS unidades_vendidas,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 64:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
-**Línea 65:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 65:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_total`, que después coincide con un field del subdataset.
 
-**Línea 66:** `AVG(v.precio_unitario) AS precio_medio,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 66:** `AVG(v.precio_unitario) AS precio_medio,` → Calcula o selecciona un valor SQL y lo expone con el alias `precio_medio`, que después coincide con un field del subdataset.
 
-**Línea 67:** `MIN(v.fecha_venta) AS primera_venta,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 67:** `MIN(v.fecha_venta) AS primera_venta,` → Calcula o selecciona un valor SQL y lo expone con el alias `primera_venta`, que después coincide con un field del subdataset.
 
-**Línea 68:** `MAX(v.fecha_venta) AS ultima_venta` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 68:** `MAX(v.fecha_venta) AS ultima_venta` → Calcula o selecciona un valor SQL y lo expone con el alias `ultima_venta`, que después coincide con un field del subdataset.
 
-**Línea 69:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 69:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 70:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 70:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 71:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 71:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 72:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 72:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 73:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 73:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 74:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 74:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 75:** `AND $X{IN, l.categoria, categoriasLista}` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 75:** `AND $X{IN, l.categoria, categoriasLista}` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 76:** `GROUP BY l.titulo, l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 76:** `GROUP BY l.titulo, l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 77:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 77:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 78:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 78:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 79:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 79:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 80:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 80:** `<field name="titulo" class="java.lang.String"/>` → Declara el field `titulo` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 81:** `<field name="categoria" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 81:** `<field name="categoria" class="java.lang.String"/>` → Declara el field `categoria` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 82:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 82:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara el field `unidades_vendidas` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 83:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 83:** `<field name="importe_total" class="java.lang.Double"/>` → Declara el field `importe_total` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 84:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 84:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara el field `precio_medio` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 85:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 85:** `<field name="primera_venta" class="java.lang.String"/>` → Declara el field `primera_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 86:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 86:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara el field `ultima_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 87:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 87:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara la variable `TotalUnidades` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 88:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 88:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 89:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 89:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 90:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 90:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `TotalImporte` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 91:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 91:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 92:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 92:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 93:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 93:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara la variable `TotalPagina` con cálculo `Sum` y reinicio `Page`.
 
-**Línea 94:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 94:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 95:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 95:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 96:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 96:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara la variable `PrecioMedio` con cálculo `Average` y reinicio `Report`.
 
-**Línea 97:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 97:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 98:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 98:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 99:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 99:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara la variable `PrecioMaximo` con cálculo `Highest` y reinicio `Report`.
 
-**Línea 100:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 100:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 101:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 101:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 102:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 102:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara la variable `NumeroLibros` con cálculo `Count` y reinicio `Report`.
 
-**Línea 103:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 103:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 104:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 104:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 105:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 105:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `ImporteConIva` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 106:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Expresión Java evaluada por JasperReports.
+**Línea 106:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 107:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 107:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 108:** `<background><band height="0"/></background>` → Define una banda y su altura.
+**Línea 108:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
 
-**Línea 109:** `<title>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 109:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
-**Línea 110:** `<band height="124">` → Define una banda y su altura.
+**Línea 110:** `<band height="124">` → Define una banda de `124` puntos, reservando ese espacio para sus elementos.
 
-**Línea 111:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 111:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 112:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 112:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Posiciona el elemento en x=0, y=4, con ancho 555 y alto 28, aplicando el estilo `TituloPrincipal`.
 
-**Línea 113:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 113:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Configura el formato interno del texto: alineación horizontal Center, alineación vertical Middle.
 
-**Línea 114:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 114:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal visible: `Informe de Ventas - Agregación por Título`.
 
-**Línea 115:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 115:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 116:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 116:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 117:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 117:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 118:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 118:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 119:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 119:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 120:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 120:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 121:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 121:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 122:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 122:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 123:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 123:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 124:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 124:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 125:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 125:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 126:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 126:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 127:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 127:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 128:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 128:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 129:** `</title>` → Cierra el elemento XML correspondiente.
+**Línea 129:** `</title>` → Cierra `title` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 130:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 130:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 131:** `<band height="62">` → Define una banda y su altura.
+**Línea 131:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 132:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 132:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 133:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 133:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 134:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 134:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 135:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 135:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 136:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 136:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 137:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 137:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 138:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 138:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 139:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 139:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 140:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 140:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 141:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 141:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Cabecera`.
 
-**Línea 142:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 142:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 143:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 143:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 144:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 144:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 145:** `<text><![CDATA[Importe con IVA]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 145:** `<text><![CDATA[Importe con IVA]]></text>` → Define el texto literal visible: `Importe con IVA`.
 
-**Línea 146:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 146:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 147:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 147:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 148:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 148:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 149:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 149:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 150:** `<band height="82" splitType="Stretch">` → Define una banda y su altura.
+**Línea 150:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 151:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 151:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 152:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 152:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 153:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 153:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 154:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 154:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 155:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 155:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 156:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 156:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 157:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 157:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 158:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 158:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 159:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 159:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 160:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 160:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Dato`.
 
-**Línea 161:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 161:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 162:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 162:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 163:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 163:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 164:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Expresión Java evaluada por JasperReports.
+**Línea 164:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Calcula el valor mostrado por el textField mediante una expresión Java que usa field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 165:** `</textField>` → Cierra el elemento XML correspondiente.
+**Línea 165:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 166:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 166:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 167:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 167:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 168:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 168:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 169:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 169:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 170:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 170:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 171:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 171:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 172:** `<band height="14">` → Define una banda y su altura.
+**Línea 172:** `<band height="14">` → Define una banda de `14` puntos, reservando ese espacio para sus elementos.
 
-**Línea 173:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Expresión Java evaluada por JasperReports.
+**Línea 173:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 174:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 174:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 175:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 175:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 176:** `<band height="88" splitType="Stretch">` → Define una banda y su altura.
+**Línea 176:** `<band height="88" splitType="Stretch">` → Define una banda de `88` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 177:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 177:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 178:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 178:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 179:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 179:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 180:** `<text><![CDATA[Detalle de ventas]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 180:** `<text><![CDATA[Detalle de ventas]]></text>` → Define el texto literal visible: `Detalle de ventas`.
 
-**Línea 181:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 181:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 182:** `<subreport>` → Declara o configura el subreporte maestro-detalle.
+**Línea 182:** `<subreport>` → Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.
 
-**Línea 183:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 183:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 60, y elimina su línea cuando queda vacío.
 
-**Línea 184:** `<subreportParameter name="tituloLibro">` → Declara o configura el subreporte maestro-detalle.
+**Línea 184:** `<subreportParameter name="tituloLibro">` → Declara el parámetro del subreporte `tituloLibro` que recibirá un valor del informe maestro.
 
-**Línea 185:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 185:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Calcula el valor enviado al parámetro del subreporte a partir de field titulo.
 
-**Línea 186:** `</subreportParameter>` → Cierra el elemento XML correspondiente.
+**Línea 186:** `</subreportParameter>` → Cierra `subreportParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 187:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 187:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 188:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 188:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.
 
-**Línea 189:** `</subreport>` → Cierra el elemento XML correspondiente.
+**Línea 189:** `</subreport>` → Finaliza el componente de subreporte.
 
-**Línea 190:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 190:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 191:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 191:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 192:** `<pageFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 192:** `<pageFooter>` → Abre Page Footer, emitido al pie de cada página.
 
-**Línea 193:** `<band height="62">` → Define una banda y su altura.
+**Línea 193:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 194:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 194:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 195:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 195:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 196:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 196:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 197:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 197:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 198:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 198:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 199:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 199:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 200:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 200:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 201:** `</pageFooter>` → Cierra el elemento XML correspondiente.
+**Línea 201:** `</pageFooter>` → Cierra `pageFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 202:** `<summary>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 202:** `<summary>` → Abre Summary, emitido una sola vez después del último registro.
 
-**Línea 203:** `<band height="128">` → Define una banda y su altura.
+**Línea 203:** `<band height="128">` → Define una banda de `128` puntos, reservando ese espacio para sus elementos.
 
-**Línea 204:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 204:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 205:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 205:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 206:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 206:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 207:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 207:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 208:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 208:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 209:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 209:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 210:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 210:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 211:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 211:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 212:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 212:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 213:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 213:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 214:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 214:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 215:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 215:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 216:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 216:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 217:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 217:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 218:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 218:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 219:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 219:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 220:** `</summary>` → Cierra el elemento XML correspondiente.
+**Línea 220:** `</summary>` → Finaliza la sección Summary.
 
-**Línea 221:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 221:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -1159,115 +1182,115 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `import java.io.File;` → Importa una clase utilizada por el generador.
+**Línea 1:** `import java.io.File;` → Importa `java.io.File` para gestionar rutas y crear la carpeta de salida.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase utilizada por el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa `java.sql.Connection` para representar la conexión JDBC abierta contra SQLite.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase utilizada por el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa `java.sql.DriverManager` para abrir la conexión JDBC a partir de la URL SQLite.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase utilizada por el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa `java.util.HashMap` para crear la implementación mutable del mapa de parámetros.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase utilizada por el generador.
+**Línea 5:** `import java.util.Map;` → Importa `java.util.Map` para tipar el mapa de parámetros que recibe JasperReports.
 
-**Línea 6:** `import java.util.Arrays;` → Importa una clase utilizada por el generador.
+**Línea 6:** `import java.util.Arrays;` → Importa `java.util.Arrays` para construir la colección de categorías usada por el parámetro de lista.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase utilizada por el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa `net.sf.jasperreports.engine.JasperCompileManager` para compilar los JRXML a artefactos .jasper.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase utilizada por el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa `net.sf.jasperreports.engine.JasperExportManager` para exportar el JasperPrint resultante a PDF.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase utilizada por el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa `net.sf.jasperreports.engine.JasperFillManager` para llenar el informe compilado con parámetros y conexión.
 
-**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase utilizada por el generador.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa `net.sf.jasperreports.engine.JasperPrint` para representar en memoria el documento ya paginado por JasperReports.
 
-**Línea 11:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 11:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 12:** `public class GeneradorInformeVentas {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 12:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable `GeneradorInformeVentas` que encapsula el generador del informe.
 
-**Línea 13:** `public static void main(String[] args) {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 13:** `public static void main(String[] args) {` → Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.
 
-**Línea 14:** `try {` → Controla recursos o tratamiento de excepciones.
+**Línea 14:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
-**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara `rutaJrxml` con ruta del JRXML maestro que se compilará; el valor configurado es `"reports/informe_ventas.jrxml"`.
 
-**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara `rutaJasper` con ruta del .jasper maestro que producirá la compilación; el valor configurado es `"reports/informe_ventas.jasper"`.
 
-**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara una ruta o valor de configuración local.
+**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara `rutaPdf` con ruta del PDF final exportado; el valor configurado es `"output/informe_ventas.pdf"`.
 
-**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara una ruta o valor de configuración local.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara `urlBD` con URL JDBC de la base SQLite; el valor configurado es `"jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
 
-**Línea 19:** `new File("output").mkdirs();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 19:** `new File("output").mkdirs();` → Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.
 
-**Línea 20:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 20:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara `rutaSubJrxml` con ruta del JRXML del subinforme de detalle; el valor configurado es `"reports/subinforme_ventas_detalle.jrxml"`.
 
-**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara `rutaSubJasper` con ruta del .jasper del subinforme compilado; el valor configurado es `"reports/subinforme_ventas_detalle.jasper"`.
 
-**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila el JRXML indicado en `rutaSubJrxml` y escribe el artefacto compilado en `rutaSubJasper`.
 
-**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML indicado en `rutaJrxml` y escribe el artefacto compilado en `rutaJasper`.
 
-**Línea 25:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 25:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.
 
-**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Añade un valor al mapa de parámetros del informe.
+**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Asigna al parámetro JasperReports `usuario` el valor Java `"Ana Martínez"` antes del llenado.
 
-**Línea 28:** `parametros.put("departamento", "Comercial");` → Añade un valor al mapa de parámetros del informe.
+**Línea 28:** `parametros.put("departamento", "Comercial");` → Asigna al parámetro JasperReports `departamento` el valor Java `"Comercial"` antes del llenado.
 
-**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Añade un valor al mapa de parámetros del informe.
+**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Asigna al parámetro JasperReports `periodo` el valor Java `"Septiembre 2026"` antes del llenado.
 
-**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Añade un valor al mapa de parámetros del informe.
+**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Asigna al parámetro JasperReports `tipoIva` el valor Java `Double.valueOf(0.21d)` antes del llenado.
 
-**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Añade un valor al mapa de parámetros del informe.
+**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Asigna al parámetro JasperReports `mostrarDetalle` el valor Java `Boolean.TRUE` antes del llenado.
 
-**Línea 32:** `parametros.put("categoria", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 32:** `parametros.put("categoria", null);` → Asigna al parámetro JasperReports `categoria` el valor Java `null` antes del llenado.
 
-**Línea 33:** `parametros.put("precioMinimo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 33:** `parametros.put("precioMinimo", null);` → Asigna al parámetro JasperReports `precioMinimo` el valor Java `null` antes del llenado.
 
-**Línea 34:** `parametros.put("precioMaximo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 34:** `parametros.put("precioMaximo", null);` → Asigna al parámetro JasperReports `precioMaximo` el valor Java `null` antes del llenado.
 
-**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Añade un valor al mapa de parámetros del informe.
+**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Asigna al parámetro JasperReports `umbralUnidades` el valor Java `Integer.valueOf(5)` antes del llenado.
 
-**Línea 36:** `parametros.put("textoBusqueda", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 36:** `parametros.put("textoBusqueda", null);` → Asigna al parámetro JasperReports `textoBusqueda` el valor Java `null` antes del llenado.
 
-**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Añade un valor al mapa de parámetros del informe.
+**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Asigna al parámetro JasperReports `categoriasLista` el valor Java `Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")` antes del llenado.
 
-**Línea 38:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 38:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite usada durante el llenado.
+**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.
 
-**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Llena el informe con parámetros y la conexión JDBC.
+**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.
 
-**Línea 41:** `rutaJasper,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 41:** `rutaJasper,` → Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.
 
-**Línea 42:** `parametros,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 42:** `parametros,` → Pasa como segundo argumento el mapa con todos los parámetros del informe.
 
-**Línea 43:** `conexion);` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 43:** `conexion);` → Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.
 
-**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.
 
-**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
-**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Escribe en la consola la evidencia `"Paginas del documento: " + documento.getPages().size()`, que queda registrada por el workflow E2E.
 
-**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Escribe en la consola la evidencia `"Parametro usuario: " + parametros.get("usuario")`, que queda registrada por el workflow E2E.
 
-**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Escribe en la consola la evidencia `"M5 ventas generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 49:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 49:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 50:** `} catch (Exception e) {` → Controla recursos o tratamiento de excepciones.
+**Línea 50:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
 
-**Línea 51:** `e.printStackTrace();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 51:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
-**Línea 52:** `System.exit(1);` → Propaga el fallo al sistema/CI con código de salida no cero.
+**Línea 52:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 53:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 53:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
 
-**Línea 54:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 54:** `}` → Cierra el método `main`.
 
-**Línea 55:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 55:** `}` → Cierra la clase `GeneradorInformeVentas`.
 
 ---
 
@@ -1470,8 +1493,11 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Qué hace:** fija 5.1 como base.
 **Por qué:** 5.2 añade una tabla sin sustituir el subreporte.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
 
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 2: Declarar los estilos de tabla**
 
 **Acciones:**
@@ -1487,8 +1513,9 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Por qué:** JasperReports 6.20.0 no usa un bloque `tableStyle` dentro del componente.
 **Error común:** inventar `tableStyle`. Solución: aplicar estilos normales a `c:columnHeader` y `c:detailCell`.
 
----
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
 
+---
 **Paso 3: Crear `DatasetTopVentas`**
 
 **Acciones:**
@@ -1506,8 +1533,11 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Qué hace:** obtiene las tres ventas de mayor cantidad para el libro actual.
 **Por qué:** la tabla tiene un dataset independiente del informe principal.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
 
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 4: Añadir una banda de 104 píxeles en Detail**
 
 **Acciones:**
@@ -1522,8 +1552,11 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Qué hace:** reserva el espacio de la tabla.
 **Por qué:** evita superponer componentes heredados.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
 
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 5: Añadir el rótulo de la tabla**
 
 **Acciones:**
@@ -1535,8 +1568,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Verificación visual:** el rótulo aparece encima del componente.
 
----
+**Qué hace:** completa la operación «Añadir el rótulo de la tabla» dentro del flujo visual del checkpoint 5.2.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 6: Insertar `componentElement` y `c:table`**
 
 **Acciones:**
@@ -1551,8 +1591,11 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Qué hace:** crea el componente de tabla real.
 **Por qué:** la tabla sí pertenece al namespace de componentes.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
 
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 7: Asociar `DatasetTopVentas`**
 
 **Acciones:**
@@ -1568,8 +1611,11 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Qué hace:** ejecuta el dataset de la tabla para cada libro.
 **Por qué:** reutiliza la misma conexión del informe.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
 
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 8: Crear la columna Fecha**
 
 **Acciones:**
@@ -1582,8 +1628,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Verificación visual:** la primera columna ocupa 255 píxeles.
 
----
+**Qué hace:** completa la operación «Crear la columna Fecha» dentro del flujo visual del checkpoint 5.2.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 9: Crear la columna Cantidad**
 
 **Acciones:**
@@ -1596,8 +1649,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Verificación visual:** la segunda columna muestra cantidades alineadas.
 
----
+**Qué hace:** completa la operación «Crear la columna Cantidad» dentro del flujo visual del checkpoint 5.2.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 10: Crear la columna Precio unitario**
 
 **Acciones:**
@@ -1610,8 +1670,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Verificación visual:** 255 + 100 + 200 = 555 píxeles.
 
----
+**Qué hace:** completa la operación «Crear la columna Precio unitario» dentro del flujo visual del checkpoint 5.2.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 11: Validar la estructura en Source**
 
 **Acciones:**
@@ -1624,8 +1691,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Verificación visual:** Problems está limpio y la tabla cuelga de la banda correcta.
 
----
+**Qué hace:** completa la operación «Validar la estructura en Source» dentro del flujo visual del checkpoint 5.2.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 12: Compilar el informe**
 
 **Acciones:**
@@ -1640,8 +1714,11 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 **Qué hace:** valida el modelo real de compilación.
 **Por qué:** la tabla no produce un artefacto compilado separado.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
 
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 13: Previsualizar y ejecutar**
 
 **Acciones:**
@@ -1654,8 +1731,15 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Verificación visual:** el PDF conserva el subreporte y añade la tabla.
 
----
+**Qué hace:** completa la operación «Previsualizar y ejecutar» dentro del flujo visual del checkpoint 5.2.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
+
+---
 **Paso 14: Documentar `TABLAS.md`**
 
 **Acciones:**
@@ -1668,6 +1752,14 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 6. Guardar.
 
 **Verificación visual:** la documentación coincide con el JRXML del checkpoint.
+
+**Qué hace:** completa la operación «Documentar `TABLAS.md`» dentro del flujo visual del checkpoint 5.2.
+
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.2.
+
+**Analogía:** es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.
 
 ---
 
@@ -1957,543 +2049,543 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="informe_ventas"` → Asigna al documento JasperReports el nombre interno `informe_ventas`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="595"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="595"` → Fija el ancho físico de página en `595` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="20"` → Fija el margen izquierdo del informe en `20` puntos.
 
-**Línea 11:** `rightMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="20"` → Fija el margen derecho del informe en `20` puntos.
 
-**Línea 12:** `topMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="20"` → Fija el margen superior del informe en `20` puntos.
 
-**Línea 13:** `bottomMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="20"` → Fija el margen inferior del informe en `20` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Asigna el UUID de diseño `3d2c2bd7-3b93-4da9-8b60-6b3c45674c91` para identificar de forma estable el informe en Studio.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo reutilizable.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo `Sans_Normal`; es el estilo por defecto, fuente DejaVu Sans, tamaño 10.
 
-**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `TituloPrincipal`; hereda de Sans_Normal, tamaño 18.
 
-**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `Cabecera`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara el estilo `Dato`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara un estilo reutilizable.
+**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara el estilo `UnidadesCondicional`; hereda de Dato.
 
-**Línea 21:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 21:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara un estilo reutilizable.
+**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara el estilo `None`.
 
-**Línea 24:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 24:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 25:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara un estilo reutilizable.
+**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara el estilo `None`.
 
-**Línea 28:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 28:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 29:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 29:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas.
 
-**Línea 31:** `<style forecolor="#9D3429"/>` → Declara un estilo reutilizable.
+**Línea 31:** `<style forecolor="#9D3429"/>` → Declara el estilo `None`.
 
-**Línea 32:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 32:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 33:** `</style>` → Cierra el elemento XML correspondiente.
+**Línea 33:** `</style>` → Cierra `style` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5TableHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara un estilo reutilizable.
+**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara el estilo `M5TableDetail`; hereda de Dato.
 
-**Línea 36:** `<subDataset name="DatasetTopVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 36:** `<subDataset name="DatasetTopVentas">` → Declara el subdataset `DatasetTopVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 37:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara un parámetro y su tipo Java.
+**Línea 37:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara el parámetro `tituloLibro` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 38:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 38:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 39:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 39:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 40:** `SELECT fecha_venta, cantidad, precio_unitario` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 40:** `SELECT fecha_venta, cantidad, precio_unitario` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 41:** `FROM ventas` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 41:** `FROM ventas` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 42:** `WHERE titulo_libro = $P{tituloLibro}` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 42:** `WHERE titulo_libro = $P{tituloLibro}` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 43:** `ORDER BY cantidad DESC, fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 43:** `ORDER BY cantidad DESC, fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 44:** `LIMIT 3` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 44:** `LIMIT 3` → Cláusula SQL `LIMIT`: limita el número de filas devueltas.
 
-**Línea 45:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 45:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 46:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 46:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 47:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 47:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara el field `fecha_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 48:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 48:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara el field `cantidad` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 49:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 49:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara el field `precio_unitario` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 50:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 50:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 51:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 51:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `usuario` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 52:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 52:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara el parámetro `fechaInforme` con tipo `java.util.Date` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 53:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 53:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 54:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 54:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 55:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 55:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `departamento` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 56:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 56:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 57:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 57:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 58:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 58:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `periodo` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 59:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 59:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 60:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 60:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 61:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 61:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara el parámetro `tipoIva` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 62:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 62:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 63:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 63:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 64:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 64:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara el parámetro `mostrarDetalle` con tipo `java.lang.Boolean` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 65:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 65:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 66:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 66:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 67:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 67:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `categoria` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 68:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 68:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMinimo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 69:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 69:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMaximo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 70:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 70:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara el parámetro `umbralUnidades` con tipo `java.lang.Integer` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 71:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 71:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 72:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 72:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 73:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 73:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `textoBusqueda` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 74:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara un parámetro y su tipo Java.
+**Línea 74:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara el parámetro `categoriasLista` con tipo `java.util.Collection` como parámetro interno no solicitado al usuario.
 
-**Línea 75:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 75:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 76:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 76:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 77:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 77:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 78:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 78:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 79:** `SELECT l.titulo,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 79:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 80:** `l.categoria,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 80:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
 
-**Línea 81:** `SUM(v.cantidad) AS unidades_vendidas,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 81:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
-**Línea 82:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 82:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_total`, que después coincide con un field del subdataset.
 
-**Línea 83:** `AVG(v.precio_unitario) AS precio_medio,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 83:** `AVG(v.precio_unitario) AS precio_medio,` → Calcula o selecciona un valor SQL y lo expone con el alias `precio_medio`, que después coincide con un field del subdataset.
 
-**Línea 84:** `MIN(v.fecha_venta) AS primera_venta,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 84:** `MIN(v.fecha_venta) AS primera_venta,` → Calcula o selecciona un valor SQL y lo expone con el alias `primera_venta`, que después coincide con un field del subdataset.
 
-**Línea 85:** `MAX(v.fecha_venta) AS ultima_venta` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 85:** `MAX(v.fecha_venta) AS ultima_venta` → Calcula o selecciona un valor SQL y lo expone con el alias `ultima_venta`, que después coincide con un field del subdataset.
 
-**Línea 86:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 86:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 87:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 87:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 88:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 88:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 89:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 89:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 90:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 90:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 91:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 91:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 92:** `AND $X{IN, l.categoria, categoriasLista}` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 92:** `AND $X{IN, l.categoria, categoriasLista}` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 93:** `GROUP BY l.titulo, l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 93:** `GROUP BY l.titulo, l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 94:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 94:** `ORDER BY COALESCE(importe_total, 0) DESC, l.titulo` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 95:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 95:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 96:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 96:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 97:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 97:** `<field name="titulo" class="java.lang.String"/>` → Declara el field `titulo` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 98:** `<field name="categoria" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 98:** `<field name="categoria" class="java.lang.String"/>` → Declara el field `categoria` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 99:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 99:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara el field `unidades_vendidas` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 100:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 100:** `<field name="importe_total" class="java.lang.Double"/>` → Declara el field `importe_total` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 101:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 101:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara el field `precio_medio` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 102:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 102:** `<field name="primera_venta" class="java.lang.String"/>` → Declara el field `primera_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 103:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 103:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara el field `ultima_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 104:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 104:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara la variable `TotalUnidades` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 105:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 105:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 106:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 106:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 107:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 107:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `TotalImporte` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 108:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 108:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 109:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 109:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 110:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 110:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara la variable `TotalPagina` con cálculo `Sum` y reinicio `Page`.
 
-**Línea 111:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 111:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 112:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 112:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 113:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 113:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara la variable `PrecioMedio` con cálculo `Average` y reinicio `Report`.
 
-**Línea 114:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 114:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 115:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 115:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 116:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 116:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara la variable `PrecioMaximo` con cálculo `Highest` y reinicio `Report`.
 
-**Línea 117:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 117:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 118:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 118:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 119:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 119:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara la variable `NumeroLibros` con cálculo `Count` y reinicio `Report`.
 
-**Línea 120:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 120:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 121:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 121:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 122:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 122:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `ImporteConIva` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 123:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Expresión Java evaluada por JasperReports.
+**Línea 123:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 124:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 124:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 125:** `<background><band height="0"/></background>` → Define una banda y su altura.
+**Línea 125:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
 
-**Línea 126:** `<title>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 126:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
-**Línea 127:** `<band height="124">` → Define una banda y su altura.
+**Línea 127:** `<band height="124">` → Define una banda de `124` puntos, reservando ese espacio para sus elementos.
 
-**Línea 128:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 128:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 129:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 129:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Posiciona el elemento en x=0, y=4, con ancho 555 y alto 28, aplicando el estilo `TituloPrincipal`.
 
-**Línea 130:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 130:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Configura el formato interno del texto: alineación horizontal Center, alineación vertical Middle.
 
-**Línea 131:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 131:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal visible: `Informe de Ventas - Agregación por Título`.
 
-**Línea 132:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 132:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 133:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 133:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 134:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 134:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 135:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 135:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 136:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 136:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 137:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 137:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 138:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 138:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 139:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 139:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 140:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 140:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 141:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 141:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 142:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 142:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 143:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 143:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 144:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 144:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 145:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 145:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 146:** `</title>` → Cierra el elemento XML correspondiente.
+**Línea 146:** `</title>` → Cierra `title` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 147:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 147:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 148:** `<band height="62">` → Define una banda y su altura.
+**Línea 148:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 149:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 149:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 150:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 150:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 151:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 151:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 152:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 152:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 153:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 153:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 154:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 154:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 155:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 155:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 156:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 156:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 157:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 157:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 158:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 158:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Cabecera`.
 
-**Línea 159:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 159:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 160:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 160:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 161:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 161:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 162:** `<text><![CDATA[Importe con IVA]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 162:** `<text><![CDATA[Importe con IVA]]></text>` → Define el texto literal visible: `Importe con IVA`.
 
-**Línea 163:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 163:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 164:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 164:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 165:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 165:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 166:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 166:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 167:** `<band height="82" splitType="Stretch">` → Define una banda y su altura.
+**Línea 167:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 169:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 169:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 170:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 170:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 171:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 171:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 173:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 173:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 174:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 174:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 175:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 175:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 176:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 176:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 177:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 177:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Dato`.
 
-**Línea 178:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 178:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 179:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 179:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 180:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 180:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 181:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Expresión Java evaluada por JasperReports.
+**Línea 181:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Calcula el valor mostrado por el textField mediante una expresión Java que usa field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 182:** `</textField>` → Cierra el elemento XML correspondiente.
+**Línea 182:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 183:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 183:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 184:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 184:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 185:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 185:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 186:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 186:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 187:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 187:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 188:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 188:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 189:** `<band height="14">` → Define una banda y su altura.
+**Línea 189:** `<band height="14">` → Define una banda de `14` puntos, reservando ese espacio para sus elementos.
 
-**Línea 190:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Expresión Java evaluada por JasperReports.
+**Línea 190:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 191:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 191:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 192:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 192:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 193:** `<band height="88" splitType="Stretch">` → Define una banda y su altura.
+**Línea 193:** `<band height="88" splitType="Stretch">` → Define una banda de `88` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 194:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 194:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 195:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 195:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 196:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 196:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 197:** `<text><![CDATA[Detalle de ventas]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 197:** `<text><![CDATA[Detalle de ventas]]></text>` → Define el texto literal visible: `Detalle de ventas`.
 
-**Línea 198:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 198:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 199:** `<subreport>` → Declara o configura el subreporte maestro-detalle.
+**Línea 199:** `<subreport>` → Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.
 
-**Línea 200:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 200:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 60, y elimina su línea cuando queda vacío.
 
-**Línea 201:** `<subreportParameter name="tituloLibro">` → Declara o configura el subreporte maestro-detalle.
+**Línea 201:** `<subreportParameter name="tituloLibro">` → Declara el parámetro del subreporte `tituloLibro` que recibirá un valor del informe maestro.
 
-**Línea 202:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 202:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Calcula el valor enviado al parámetro del subreporte a partir de field titulo.
 
-**Línea 203:** `</subreportParameter>` → Cierra el elemento XML correspondiente.
+**Línea 203:** `</subreportParameter>` → Cierra `subreportParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 204:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 204:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 205:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 205:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.
 
-**Línea 206:** `</subreport>` → Cierra el elemento XML correspondiente.
+**Línea 206:** `</subreport>` → Finaliza el componente de subreporte.
 
-**Línea 207:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 207:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 208:** `<band height="104" splitType="Stretch">` → Define una banda y su altura.
+**Línea 208:** `<band height="104" splitType="Stretch">` → Define una banda de `104` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 209:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 209:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 210:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 210:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 211:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 211:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 212:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 212:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Define el texto literal visible: `Top 3 ventas por cantidad`.
 
-**Línea 213:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 213:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 214:** `<componentElement>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 214:** `<componentElement>` → Abre un contenedor de componentes extendidos; en este checkpoint contiene la tabla `c:table`.
 
-**Línea 215:** `<reportElement x="0" y="22" width="555" height="76"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 215:** `<reportElement x="0" y="22" width="555" height="76"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 76.
 
-**Línea 216:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre el componente table del namespace de componentes.
+**Línea 216:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre la tabla del namespace de componentes JasperReports; sus columnas usan un datasetRun independiente.
 
-**Línea 217:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 217:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 218:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 218:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia el componente con el subdataset `DatasetTopVentas` para ejecutar su consulta.
 
-**Línea 219:** `<datasetParameter name="tituloLibro">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 219:** `<datasetParameter name="tituloLibro">` → Declara el parámetro `tituloLibro` que se enviará al subdataset de la tabla.
 
-**Línea 220:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 220:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Calcula el valor enviado al parámetro del subdataset desde field titulo.
 
-**Línea 221:** `</datasetParameter>` → Cierra el elemento XML correspondiente.
+**Línea 221:** `</datasetParameter>` → Cierra `datasetParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 222:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 222:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 223:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 223:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 224:** `<c:column width="255">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 224:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 225:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 225:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 226:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 226:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 227:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 227:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 228:** `<c:column width="100">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 228:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 229:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 229:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 230:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 230:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 231:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 231:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 232:** `<c:column width="200">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 232:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 233:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 233:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 234:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 234:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 235:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 235:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 236:** `</c:table>` → Cierra el elemento XML correspondiente.
+**Línea 236:** `</c:table>` → Finaliza la tabla integrada.
 
-**Línea 237:** `</componentElement>` → Cierra el elemento XML correspondiente.
+**Línea 237:** `</componentElement>` → Cierra `componentElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 238:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 238:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 239:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 239:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 240:** `<pageFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 240:** `<pageFooter>` → Abre Page Footer, emitido al pie de cada página.
 
-**Línea 241:** `<band height="62">` → Define una banda y su altura.
+**Línea 241:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 242:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 242:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 243:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 243:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 244:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 244:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 245:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 245:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 246:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 246:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 247:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 247:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 248:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 248:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 249:** `</pageFooter>` → Cierra el elemento XML correspondiente.
+**Línea 249:** `</pageFooter>` → Cierra `pageFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 250:** `<summary>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 250:** `<summary>` → Abre Summary, emitido una sola vez después del último registro.
 
-**Línea 251:** `<band height="128">` → Define una banda y su altura.
+**Línea 251:** `<band height="128">` → Define una banda de `128` puntos, reservando ese espacio para sus elementos.
 
-**Línea 252:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 252:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 253:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 253:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 254:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 254:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 255:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 255:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 256:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 256:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 257:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 257:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 258:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 258:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 259:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 259:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 260:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 260:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 261:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 261:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 262:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 262:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 263:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 263:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 264:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 264:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 265:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 265:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 266:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 266:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 267:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 267:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 268:** `</summary>` → Cierra el elemento XML correspondiente.
+**Línea 268:** `</summary>` → Finaliza la sección Summary.
 
-**Línea 269:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 269:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -2569,115 +2661,115 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `import java.io.File;` → Importa una clase utilizada por el generador.
+**Línea 1:** `import java.io.File;` → Importa `java.io.File` para gestionar rutas y crear la carpeta de salida.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase utilizada por el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa `java.sql.Connection` para representar la conexión JDBC abierta contra SQLite.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase utilizada por el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa `java.sql.DriverManager` para abrir la conexión JDBC a partir de la URL SQLite.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase utilizada por el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa `java.util.HashMap` para crear la implementación mutable del mapa de parámetros.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase utilizada por el generador.
+**Línea 5:** `import java.util.Map;` → Importa `java.util.Map` para tipar el mapa de parámetros que recibe JasperReports.
 
-**Línea 6:** `import java.util.Arrays;` → Importa una clase utilizada por el generador.
+**Línea 6:** `import java.util.Arrays;` → Importa `java.util.Arrays` para construir la colección de categorías usada por el parámetro de lista.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase utilizada por el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa `net.sf.jasperreports.engine.JasperCompileManager` para compilar los JRXML a artefactos .jasper.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase utilizada por el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa `net.sf.jasperreports.engine.JasperExportManager` para exportar el JasperPrint resultante a PDF.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase utilizada por el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa `net.sf.jasperreports.engine.JasperFillManager` para llenar el informe compilado con parámetros y conexión.
 
-**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase utilizada por el generador.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa `net.sf.jasperreports.engine.JasperPrint` para representar en memoria el documento ya paginado por JasperReports.
 
-**Línea 11:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 11:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 12:** `public class GeneradorInformeVentas {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 12:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable `GeneradorInformeVentas` que encapsula el generador del informe.
 
-**Línea 13:** `public static void main(String[] args) {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 13:** `public static void main(String[] args) {` → Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.
 
-**Línea 14:** `try {` → Controla recursos o tratamiento de excepciones.
+**Línea 14:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
-**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara `rutaJrxml` con ruta del JRXML maestro que se compilará; el valor configurado es `"reports/informe_ventas.jrxml"`.
 
-**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara `rutaJasper` con ruta del .jasper maestro que producirá la compilación; el valor configurado es `"reports/informe_ventas.jasper"`.
 
-**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara una ruta o valor de configuración local.
+**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara `rutaPdf` con ruta del PDF final exportado; el valor configurado es `"output/informe_ventas.pdf"`.
 
-**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara una ruta o valor de configuración local.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara `urlBD` con URL JDBC de la base SQLite; el valor configurado es `"jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
 
-**Línea 19:** `new File("output").mkdirs();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 19:** `new File("output").mkdirs();` → Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.
 
-**Línea 20:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 20:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara `rutaSubJrxml` con ruta del JRXML del subinforme de detalle; el valor configurado es `"reports/subinforme_ventas_detalle.jrxml"`.
 
-**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara `rutaSubJasper` con ruta del .jasper del subinforme compilado; el valor configurado es `"reports/subinforme_ventas_detalle.jasper"`.
 
-**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila el JRXML indicado en `rutaSubJrxml` y escribe el artefacto compilado en `rutaSubJasper`.
 
-**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML indicado en `rutaJrxml` y escribe el artefacto compilado en `rutaJasper`.
 
-**Línea 25:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 25:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.
 
-**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Añade un valor al mapa de parámetros del informe.
+**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Asigna al parámetro JasperReports `usuario` el valor Java `"Ana Martínez"` antes del llenado.
 
-**Línea 28:** `parametros.put("departamento", "Comercial");` → Añade un valor al mapa de parámetros del informe.
+**Línea 28:** `parametros.put("departamento", "Comercial");` → Asigna al parámetro JasperReports `departamento` el valor Java `"Comercial"` antes del llenado.
 
-**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Añade un valor al mapa de parámetros del informe.
+**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Asigna al parámetro JasperReports `periodo` el valor Java `"Septiembre 2026"` antes del llenado.
 
-**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Añade un valor al mapa de parámetros del informe.
+**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Asigna al parámetro JasperReports `tipoIva` el valor Java `Double.valueOf(0.21d)` antes del llenado.
 
-**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Añade un valor al mapa de parámetros del informe.
+**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Asigna al parámetro JasperReports `mostrarDetalle` el valor Java `Boolean.TRUE` antes del llenado.
 
-**Línea 32:** `parametros.put("categoria", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 32:** `parametros.put("categoria", null);` → Asigna al parámetro JasperReports `categoria` el valor Java `null` antes del llenado.
 
-**Línea 33:** `parametros.put("precioMinimo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 33:** `parametros.put("precioMinimo", null);` → Asigna al parámetro JasperReports `precioMinimo` el valor Java `null` antes del llenado.
 
-**Línea 34:** `parametros.put("precioMaximo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 34:** `parametros.put("precioMaximo", null);` → Asigna al parámetro JasperReports `precioMaximo` el valor Java `null` antes del llenado.
 
-**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Añade un valor al mapa de parámetros del informe.
+**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Asigna al parámetro JasperReports `umbralUnidades` el valor Java `Integer.valueOf(5)` antes del llenado.
 
-**Línea 36:** `parametros.put("textoBusqueda", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 36:** `parametros.put("textoBusqueda", null);` → Asigna al parámetro JasperReports `textoBusqueda` el valor Java `null` antes del llenado.
 
-**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Añade un valor al mapa de parámetros del informe.
+**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Asigna al parámetro JasperReports `categoriasLista` el valor Java `Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")` antes del llenado.
 
-**Línea 38:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 38:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite usada durante el llenado.
+**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.
 
-**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Llena el informe con parámetros y la conexión JDBC.
+**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.
 
-**Línea 41:** `rutaJasper,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 41:** `rutaJasper,` → Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.
 
-**Línea 42:** `parametros,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 42:** `parametros,` → Pasa como segundo argumento el mapa con todos los parámetros del informe.
 
-**Línea 43:** `conexion);` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 43:** `conexion);` → Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.
 
-**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.
 
-**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
-**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Escribe en la consola la evidencia `"Paginas del documento: " + documento.getPages().size()`, que queda registrada por el workflow E2E.
 
-**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Escribe en la consola la evidencia `"Parametro usuario: " + parametros.get("usuario")`, que queda registrada por el workflow E2E.
 
-**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Escribe en la consola la evidencia `"M5 ventas generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 49:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 49:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 50:** `} catch (Exception e) {` → Controla recursos o tratamiento de excepciones.
+**Línea 50:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
 
-**Línea 51:** `e.printStackTrace();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 51:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
-**Línea 52:** `System.exit(1);` → Propaga el fallo al sistema/CI con código de salida no cero.
+**Línea 52:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 53:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 53:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
 
-**Línea 54:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 54:** `}` → Cierra el método `main`.
 
-**Línea 55:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 55:** `}` → Cierra la clase `GeneradorInformeVentas`.
 
 ---
 
@@ -2878,8 +2970,11 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 **Qué hace:** fija la base acumulativa.
 **Por qué:** 5.3 sólo añade agrupación y variables de grupo.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
 
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 2: Crear el grupo `CategoriaGroup`**
 
 **Acciones:**
@@ -2896,8 +2991,9 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 **Por qué:** el checkpoint usa ese nombre exacto en variables y totales.
 **Error común:** crear `GrupoCategoria`. Solución: usar `CategoriaGroup`.
 
----
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
 
+---
 **Paso 3: Configurar las propiedades reales del grupo**
 
 **Acciones:**
@@ -2914,8 +3010,9 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 **Por qué:** reproduce el comportamiento validado.
 **Error común:** usar `isStartNewPage=true` y modificar la paginación del PDF.
 
----
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
 
+---
 **Paso 4: Crear `GrupoUnidades`**
 
 **Acciones:**
@@ -2930,8 +3027,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** la variable aparece asociada al grupo correcto.
 
----
+**Qué hace:** completa la operación «Crear `GrupoUnidades`» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 5: Crear `GrupoImporte`**
 
 **Acciones:**
@@ -2945,8 +3049,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** Source contiene la variable y su resetGroup.
 
----
+**Qué hace:** completa la operación «Crear `GrupoImporte`» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 6: Crear `GrupoLibros`**
 
 **Acciones:**
@@ -2963,8 +3074,11 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 **Qué hace:** cuenta títulos por categoría.
 **Por qué:** el pie muestra libros, unidades e importe.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
 
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 7: Construir Group Header**
 
 **Acciones:**
@@ -2977,8 +3091,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** cada categoría comienza con una cabecera azul clara.
 
----
+**Qué hace:** completa la operación «Construir Group Header» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 8: Construir Group Footer**
 
 **Acciones:**
@@ -2991,8 +3112,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** el pie ocupa 555 píxeles y muestra tres resúmenes.
 
----
+**Qué hace:** completa la operación «Construir Group Footer» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 9: Verificar reinicios por grupo**
 
 **Acciones:**
@@ -3005,8 +3133,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** no aparece ningún `resetGroup="GrupoCategoria"`.
 
----
+**Qué hace:** completa la operación «Verificar reinicios por grupo» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 10: Comprobar que la tabla y el subreporte siguen intactos**
 
 **Acciones:**
@@ -3019,8 +3154,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** 5.3 es estrictamente acumulativo.
 
----
+**Qué hace:** completa la operación «Comprobar que la tabla y el subreporte siguen intactos» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 11: Compilar en Studio**
 
 **Acciones:**
@@ -3035,8 +3177,11 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 **Qué hace:** valida nombres de grupo y variables.
 **Error común:** dejar una variable con resetGroup antiguo.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 12: Previsualizar la agrupación**
 
 **Acciones:**
@@ -3048,8 +3193,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** las categorías se agrupan en flujo continuo.
 
----
+**Qué hace:** completa la operación «Previsualizar la agrupación» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 13: Ejecutar el generador Java**
 
 **Acciones:**
@@ -3061,8 +3213,15 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 **Verificación visual:** el PDF mantiene invariantes y añade agrupaciones.
 
----
+**Qué hace:** completa la operación «Ejecutar el generador Java» dentro del flujo visual del checkpoint 5.3.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
+
+---
 **Paso 14: Documentar `AGRUPACIONES.md`**
 
 **Acciones:**
@@ -3074,6 +3233,14 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 5. Guardar.
 
 **Verificación visual:** la documentación coincide con Source y el checkpoint.
+
+**Qué hace:** completa la operación «Documentar `AGRUPACIONES.md`» dentro del flujo visual del checkpoint 5.3.
+
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.3.
+
+**Analogía:** es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.
 
 ---
 
@@ -3387,591 +3554,591 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="informe_ventas"` → Asigna al documento JasperReports el nombre interno `informe_ventas`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="595"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="595"` → Fija el ancho físico de página en `595` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="20"` → Fija el margen izquierdo del informe en `20` puntos.
 
-**Línea 11:** `rightMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="20"` → Fija el margen derecho del informe en `20` puntos.
 
-**Línea 12:** `topMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="20"` → Fija el margen superior del informe en `20` puntos.
 
-**Línea 13:** `bottomMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="20"` → Fija el margen inferior del informe en `20` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Asigna el UUID de diseño `3d2c2bd7-3b93-4da9-8b60-6b3c45674c91` para identificar de forma estable el informe en Studio.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo reutilizable.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo `Sans_Normal`; es el estilo por defecto, fuente DejaVu Sans, tamaño 10.
 
-**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `TituloPrincipal`; hereda de Sans_Normal, tamaño 18.
 
-**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `Cabecera`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara el estilo `Dato`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara un estilo reutilizable.
+**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara el estilo `UnidadesCondicional`; hereda de Dato.
 
-**Línea 21:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 21:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara un estilo reutilizable.
+**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara el estilo `None`.
 
-**Línea 24:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 24:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 25:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara un estilo reutilizable.
+**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara el estilo `None`.
 
-**Línea 28:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 28:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 29:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 29:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas.
 
-**Línea 31:** `<style forecolor="#9D3429"/>` → Declara un estilo reutilizable.
+**Línea 31:** `<style forecolor="#9D3429"/>` → Declara el estilo `None`.
 
-**Línea 32:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 32:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 33:** `</style>` → Cierra el elemento XML correspondiente.
+**Línea 33:** `</style>` → Cierra `style` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5TableHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara un estilo reutilizable.
+**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara el estilo `M5TableDetail`; hereda de Dato.
 
-**Línea 36:** `<subDataset name="DatasetTopVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 36:** `<subDataset name="DatasetTopVentas">` → Declara el subdataset `DatasetTopVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 37:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara un parámetro y su tipo Java.
+**Línea 37:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara el parámetro `tituloLibro` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 38:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 38:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 39:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 39:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 40:** `SELECT fecha_venta, cantidad, precio_unitario` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 40:** `SELECT fecha_venta, cantidad, precio_unitario` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 41:** `FROM ventas` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 41:** `FROM ventas` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 42:** `WHERE titulo_libro = $P{tituloLibro}` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 42:** `WHERE titulo_libro = $P{tituloLibro}` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 43:** `ORDER BY cantidad DESC, fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 43:** `ORDER BY cantidad DESC, fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 44:** `LIMIT 3` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 44:** `LIMIT 3` → Cláusula SQL `LIMIT`: limita el número de filas devueltas.
 
-**Línea 45:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 45:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 46:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 46:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 47:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 47:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara el field `fecha_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 48:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 48:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara el field `cantidad` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 49:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 49:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara el field `precio_unitario` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 50:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 50:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 51:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 51:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `usuario` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 52:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 52:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara el parámetro `fechaInforme` con tipo `java.util.Date` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 53:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 53:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 54:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 54:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 55:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 55:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `departamento` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 56:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 56:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 57:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 57:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 58:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 58:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `periodo` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 59:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 59:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 60:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 60:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 61:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 61:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara el parámetro `tipoIva` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 62:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 62:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 63:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 63:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 64:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 64:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara el parámetro `mostrarDetalle` con tipo `java.lang.Boolean` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 65:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 65:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 66:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 66:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 67:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 67:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `categoria` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 68:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 68:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMinimo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 69:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 69:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMaximo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 70:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 70:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara el parámetro `umbralUnidades` con tipo `java.lang.Integer` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 71:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 71:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 72:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 72:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 73:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 73:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `textoBusqueda` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 74:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara un parámetro y su tipo Java.
+**Línea 74:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara el parámetro `categoriasLista` con tipo `java.util.Collection` como parámetro interno no solicitado al usuario.
 
-**Línea 75:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 75:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 76:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 76:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 77:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 77:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 78:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 78:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 79:** `SELECT l.titulo,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 79:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 80:** `l.categoria,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 80:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
 
-**Línea 81:** `SUM(v.cantidad) AS unidades_vendidas,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 81:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
-**Línea 82:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 82:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_total`, que después coincide con un field del subdataset.
 
-**Línea 83:** `AVG(v.precio_unitario) AS precio_medio,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 83:** `AVG(v.precio_unitario) AS precio_medio,` → Calcula o selecciona un valor SQL y lo expone con el alias `precio_medio`, que después coincide con un field del subdataset.
 
-**Línea 84:** `MIN(v.fecha_venta) AS primera_venta,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 84:** `MIN(v.fecha_venta) AS primera_venta,` → Calcula o selecciona un valor SQL y lo expone con el alias `primera_venta`, que después coincide con un field del subdataset.
 
-**Línea 85:** `MAX(v.fecha_venta) AS ultima_venta` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 85:** `MAX(v.fecha_venta) AS ultima_venta` → Calcula o selecciona un valor SQL y lo expone con el alias `ultima_venta`, que después coincide con un field del subdataset.
 
-**Línea 86:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 86:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 87:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 87:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 88:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 88:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 89:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 89:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 90:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 90:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 91:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 91:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 92:** `AND $X{IN, l.categoria, categoriasLista}` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 92:** `AND $X{IN, l.categoria, categoriasLista}` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 93:** `GROUP BY l.titulo, l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 93:** `GROUP BY l.titulo, l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 94:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 94:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 95:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 95:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 96:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 96:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 97:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 97:** `<field name="titulo" class="java.lang.String"/>` → Declara el field `titulo` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 98:** `<field name="categoria" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 98:** `<field name="categoria" class="java.lang.String"/>` → Declara el field `categoria` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 99:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 99:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara el field `unidades_vendidas` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 100:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 100:** `<field name="importe_total" class="java.lang.Double"/>` → Declara el field `importe_total` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 101:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 101:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara el field `precio_medio` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 102:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 102:** `<field name="primera_venta" class="java.lang.String"/>` → Declara el field `primera_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 103:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 103:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara el field `ultima_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 104:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 104:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara la variable `TotalUnidades` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 105:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 105:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 106:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 106:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 107:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 107:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `TotalImporte` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 108:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 108:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 109:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 109:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 110:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 110:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara la variable `TotalPagina` con cálculo `Sum` y reinicio `Page`.
 
-**Línea 111:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 111:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 112:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 112:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 113:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 113:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara la variable `PrecioMedio` con cálculo `Average` y reinicio `Report`.
 
-**Línea 114:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 114:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 115:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 115:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 116:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 116:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara la variable `PrecioMaximo` con cálculo `Highest` y reinicio `Report`.
 
-**Línea 117:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 117:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 118:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 118:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 119:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 119:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara la variable `NumeroLibros` con cálculo `Count` y reinicio `Report`.
 
-**Línea 120:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 120:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 121:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 121:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 122:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 122:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `ImporteConIva` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 123:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Expresión Java evaluada por JasperReports.
+**Línea 123:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 124:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 124:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 125:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 125:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoUnidades` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 126:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 126:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 127:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 127:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 128:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 128:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoImporte` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 129:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 129:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 130:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 130:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 131:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 131:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoLibros` con cálculo `Count` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 132:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 132:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 133:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 133:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 134:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara una agrupación del informe.
+**Línea 134:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara el grupo `CategoriaGroup` y sus propiedades de paginación/reimpresión.
 
-**Línea 135:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 135:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Define la clave que decide cuándo cambia el grupo mediante field categoria.
 
-**Línea 136:** `<groupHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 136:** `<groupHeader>` → Abre la cabecera del grupo, que se emite cuando comienza cada nuevo valor de agrupación.
 
-**Línea 137:** `<band height="28">` → Define una banda y su altura.
+**Línea 137:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 138:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 138:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 139:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 139:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 140:** `</groupHeader>` → Cierra el elemento XML correspondiente.
+**Línea 140:** `</groupHeader>` → Cierra `groupHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 141:** `<groupFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 141:** `<groupFooter>` → Abre el pie del grupo, donde se muestran los acumulados justo antes de cambiar de grupo.
 
-**Línea 142:** `<band height="34">` → Define una banda y su altura.
+**Línea 142:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 143:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 143:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 144:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 144:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 145:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 145:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 146:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 146:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 147:** `</groupFooter>` → Cierra el elemento XML correspondiente.
+**Línea 147:** `</groupFooter>` → Cierra `groupFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 148:** `</group>` → Cierra el elemento XML correspondiente.
+**Línea 148:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 149:** `<background><band height="0"/></background>` → Define una banda y su altura.
+**Línea 149:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
 
-**Línea 150:** `<title>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 150:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
-**Línea 151:** `<band height="124">` → Define una banda y su altura.
+**Línea 151:** `<band height="124">` → Define una banda de `124` puntos, reservando ese espacio para sus elementos.
 
-**Línea 152:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 152:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 153:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 153:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Posiciona el elemento en x=0, y=4, con ancho 555 y alto 28, aplicando el estilo `TituloPrincipal`.
 
-**Línea 154:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 154:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Configura el formato interno del texto: alineación horizontal Center, alineación vertical Middle.
 
-**Línea 155:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 155:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal visible: `Informe de Ventas - Agregación por Título`.
 
-**Línea 156:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 156:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 157:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 157:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 158:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 158:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 159:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 159:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 160:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 160:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 161:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 161:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 162:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 162:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 163:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 163:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 164:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 164:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 165:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 165:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 166:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 166:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 167:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 167:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 168:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 169:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 169:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 170:** `</title>` → Cierra el elemento XML correspondiente.
+**Línea 170:** `</title>` → Cierra `title` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 171:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 171:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 172:** `<band height="62">` → Define una banda y su altura.
+**Línea 172:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 173:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 173:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 174:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 174:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 175:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 175:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 176:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 176:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 177:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 177:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 178:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 178:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 179:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 179:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 180:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 180:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 181:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 181:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 182:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 182:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Cabecera`.
 
-**Línea 183:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 183:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 184:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 184:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 185:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 185:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 186:** `<text><![CDATA[Importe con IVA]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 186:** `<text><![CDATA[Importe con IVA]]></text>` → Define el texto literal visible: `Importe con IVA`.
 
-**Línea 187:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 187:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 188:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 188:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 189:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 189:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 190:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 190:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 191:** `<band height="82" splitType="Stretch">` → Define una banda y su altura.
+**Línea 191:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 192:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 192:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 194:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 194:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 195:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 195:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 199:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 199:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 200:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 200:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 201:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 201:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Dato`.
 
-**Línea 202:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 202:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 203:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 203:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 204:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 204:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 205:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Expresión Java evaluada por JasperReports.
+**Línea 205:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Calcula el valor mostrado por el textField mediante una expresión Java que usa field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 206:** `</textField>` → Cierra el elemento XML correspondiente.
+**Línea 206:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 207:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 207:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 208:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 208:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 209:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 209:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 210:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 210:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 211:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 211:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 212:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 212:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 213:** `<band height="14">` → Define una banda y su altura.
+**Línea 213:** `<band height="14">` → Define una banda de `14` puntos, reservando ese espacio para sus elementos.
 
-**Línea 214:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Expresión Java evaluada por JasperReports.
+**Línea 214:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 215:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 215:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 216:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 216:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 217:** `<band height="88" splitType="Stretch">` → Define una banda y su altura.
+**Línea 217:** `<band height="88" splitType="Stretch">` → Define una banda de `88` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 218:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 218:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 219:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 219:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 220:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 220:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 221:** `<text><![CDATA[Detalle de ventas]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 221:** `<text><![CDATA[Detalle de ventas]]></text>` → Define el texto literal visible: `Detalle de ventas`.
 
-**Línea 222:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 222:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 223:** `<subreport>` → Declara o configura el subreporte maestro-detalle.
+**Línea 223:** `<subreport>` → Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.
 
-**Línea 224:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 224:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 60, y elimina su línea cuando queda vacío.
 
-**Línea 225:** `<subreportParameter name="tituloLibro">` → Declara o configura el subreporte maestro-detalle.
+**Línea 225:** `<subreportParameter name="tituloLibro">` → Declara el parámetro del subreporte `tituloLibro` que recibirá un valor del informe maestro.
 
-**Línea 226:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 226:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Calcula el valor enviado al parámetro del subreporte a partir de field titulo.
 
-**Línea 227:** `</subreportParameter>` → Cierra el elemento XML correspondiente.
+**Línea 227:** `</subreportParameter>` → Cierra `subreportParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 228:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 228:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 229:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 229:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.
 
-**Línea 230:** `</subreport>` → Cierra el elemento XML correspondiente.
+**Línea 230:** `</subreport>` → Finaliza el componente de subreporte.
 
-**Línea 231:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 231:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 232:** `<band height="104" splitType="Stretch">` → Define una banda y su altura.
+**Línea 232:** `<band height="104" splitType="Stretch">` → Define una banda de `104` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 233:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 233:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 234:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 234:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 235:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 235:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 236:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 236:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Define el texto literal visible: `Top 3 ventas por cantidad`.
 
-**Línea 237:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 237:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 238:** `<componentElement>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 238:** `<componentElement>` → Abre un contenedor de componentes extendidos; en este checkpoint contiene la tabla `c:table`.
 
-**Línea 239:** `<reportElement x="0" y="22" width="555" height="76"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 239:** `<reportElement x="0" y="22" width="555" height="76"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 76.
 
-**Línea 240:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre el componente table del namespace de componentes.
+**Línea 240:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre la tabla del namespace de componentes JasperReports; sus columnas usan un datasetRun independiente.
 
-**Línea 241:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 241:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 242:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 242:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia el componente con el subdataset `DatasetTopVentas` para ejecutar su consulta.
 
-**Línea 243:** `<datasetParameter name="tituloLibro">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 243:** `<datasetParameter name="tituloLibro">` → Declara el parámetro `tituloLibro` que se enviará al subdataset de la tabla.
 
-**Línea 244:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 244:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Calcula el valor enviado al parámetro del subdataset desde field titulo.
 
-**Línea 245:** `</datasetParameter>` → Cierra el elemento XML correspondiente.
+**Línea 245:** `</datasetParameter>` → Cierra `datasetParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 246:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 246:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 247:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 247:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 248:** `<c:column width="255">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 248:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 249:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 249:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 250:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 250:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 251:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 251:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 252:** `<c:column width="100">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 252:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 253:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 253:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 254:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 254:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 255:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 255:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 256:** `<c:column width="200">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 256:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 257:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 257:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 258:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 258:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 259:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 259:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 260:** `</c:table>` → Cierra el elemento XML correspondiente.
+**Línea 260:** `</c:table>` → Finaliza la tabla integrada.
 
-**Línea 261:** `</componentElement>` → Cierra el elemento XML correspondiente.
+**Línea 261:** `</componentElement>` → Cierra `componentElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 262:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 262:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 263:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 263:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 264:** `<pageFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 264:** `<pageFooter>` → Abre Page Footer, emitido al pie de cada página.
 
-**Línea 265:** `<band height="62">` → Define una banda y su altura.
+**Línea 265:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 266:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 266:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 267:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 267:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 268:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 268:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 269:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 269:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 270:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 270:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 271:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 271:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 272:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 272:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 273:** `</pageFooter>` → Cierra el elemento XML correspondiente.
+**Línea 273:** `</pageFooter>` → Cierra `pageFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 274:** `<summary>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 274:** `<summary>` → Abre Summary, emitido una sola vez después del último registro.
 
-**Línea 275:** `<band height="128">` → Define una banda y su altura.
+**Línea 275:** `<band height="128">` → Define una banda de `128` puntos, reservando ese espacio para sus elementos.
 
-**Línea 276:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 276:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 277:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 277:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 278:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 278:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 279:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 279:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 280:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 280:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 281:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 281:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 282:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 282:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 283:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 283:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 284:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 284:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 285:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 285:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 286:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 286:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 287:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 287:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 288:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 288:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 289:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 289:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 290:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 290:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 291:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 291:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 292:** `</summary>` → Cierra el elemento XML correspondiente.
+**Línea 292:** `</summary>` → Finaliza la sección Summary.
 
-**Línea 293:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 293:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -4047,115 +4214,115 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `import java.io.File;` → Importa una clase utilizada por el generador.
+**Línea 1:** `import java.io.File;` → Importa `java.io.File` para gestionar rutas y crear la carpeta de salida.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase utilizada por el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa `java.sql.Connection` para representar la conexión JDBC abierta contra SQLite.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase utilizada por el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa `java.sql.DriverManager` para abrir la conexión JDBC a partir de la URL SQLite.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase utilizada por el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa `java.util.HashMap` para crear la implementación mutable del mapa de parámetros.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase utilizada por el generador.
+**Línea 5:** `import java.util.Map;` → Importa `java.util.Map` para tipar el mapa de parámetros que recibe JasperReports.
 
-**Línea 6:** `import java.util.Arrays;` → Importa una clase utilizada por el generador.
+**Línea 6:** `import java.util.Arrays;` → Importa `java.util.Arrays` para construir la colección de categorías usada por el parámetro de lista.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase utilizada por el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa `net.sf.jasperreports.engine.JasperCompileManager` para compilar los JRXML a artefactos .jasper.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase utilizada por el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa `net.sf.jasperreports.engine.JasperExportManager` para exportar el JasperPrint resultante a PDF.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase utilizada por el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa `net.sf.jasperreports.engine.JasperFillManager` para llenar el informe compilado con parámetros y conexión.
 
-**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase utilizada por el generador.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa `net.sf.jasperreports.engine.JasperPrint` para representar en memoria el documento ya paginado por JasperReports.
 
-**Línea 11:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 11:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 12:** `public class GeneradorInformeVentas {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 12:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable `GeneradorInformeVentas` que encapsula el generador del informe.
 
-**Línea 13:** `public static void main(String[] args) {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 13:** `public static void main(String[] args) {` → Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.
 
-**Línea 14:** `try {` → Controla recursos o tratamiento de excepciones.
+**Línea 14:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
-**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara `rutaJrxml` con ruta del JRXML maestro que se compilará; el valor configurado es `"reports/informe_ventas.jrxml"`.
 
-**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara `rutaJasper` con ruta del .jasper maestro que producirá la compilación; el valor configurado es `"reports/informe_ventas.jasper"`.
 
-**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara una ruta o valor de configuración local.
+**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara `rutaPdf` con ruta del PDF final exportado; el valor configurado es `"output/informe_ventas.pdf"`.
 
-**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara una ruta o valor de configuración local.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara `urlBD` con URL JDBC de la base SQLite; el valor configurado es `"jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
 
-**Línea 19:** `new File("output").mkdirs();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 19:** `new File("output").mkdirs();` → Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.
 
-**Línea 20:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 20:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara `rutaSubJrxml` con ruta del JRXML del subinforme de detalle; el valor configurado es `"reports/subinforme_ventas_detalle.jrxml"`.
 
-**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara `rutaSubJasper` con ruta del .jasper del subinforme compilado; el valor configurado es `"reports/subinforme_ventas_detalle.jasper"`.
 
-**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila el JRXML indicado en `rutaSubJrxml` y escribe el artefacto compilado en `rutaSubJasper`.
 
-**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML indicado en `rutaJrxml` y escribe el artefacto compilado en `rutaJasper`.
 
-**Línea 25:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 25:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.
 
-**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Añade un valor al mapa de parámetros del informe.
+**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Asigna al parámetro JasperReports `usuario` el valor Java `"Ana Martínez"` antes del llenado.
 
-**Línea 28:** `parametros.put("departamento", "Comercial");` → Añade un valor al mapa de parámetros del informe.
+**Línea 28:** `parametros.put("departamento", "Comercial");` → Asigna al parámetro JasperReports `departamento` el valor Java `"Comercial"` antes del llenado.
 
-**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Añade un valor al mapa de parámetros del informe.
+**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Asigna al parámetro JasperReports `periodo` el valor Java `"Septiembre 2026"` antes del llenado.
 
-**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Añade un valor al mapa de parámetros del informe.
+**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Asigna al parámetro JasperReports `tipoIva` el valor Java `Double.valueOf(0.21d)` antes del llenado.
 
-**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Añade un valor al mapa de parámetros del informe.
+**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Asigna al parámetro JasperReports `mostrarDetalle` el valor Java `Boolean.TRUE` antes del llenado.
 
-**Línea 32:** `parametros.put("categoria", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 32:** `parametros.put("categoria", null);` → Asigna al parámetro JasperReports `categoria` el valor Java `null` antes del llenado.
 
-**Línea 33:** `parametros.put("precioMinimo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 33:** `parametros.put("precioMinimo", null);` → Asigna al parámetro JasperReports `precioMinimo` el valor Java `null` antes del llenado.
 
-**Línea 34:** `parametros.put("precioMaximo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 34:** `parametros.put("precioMaximo", null);` → Asigna al parámetro JasperReports `precioMaximo` el valor Java `null` antes del llenado.
 
-**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Añade un valor al mapa de parámetros del informe.
+**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Asigna al parámetro JasperReports `umbralUnidades` el valor Java `Integer.valueOf(5)` antes del llenado.
 
-**Línea 36:** `parametros.put("textoBusqueda", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 36:** `parametros.put("textoBusqueda", null);` → Asigna al parámetro JasperReports `textoBusqueda` el valor Java `null` antes del llenado.
 
-**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Añade un valor al mapa de parámetros del informe.
+**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Asigna al parámetro JasperReports `categoriasLista` el valor Java `Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")` antes del llenado.
 
-**Línea 38:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 38:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite usada durante el llenado.
+**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.
 
-**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Llena el informe con parámetros y la conexión JDBC.
+**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.
 
-**Línea 41:** `rutaJasper,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 41:** `rutaJasper,` → Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.
 
-**Línea 42:** `parametros,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 42:** `parametros,` → Pasa como segundo argumento el mapa con todos los parámetros del informe.
 
-**Línea 43:** `conexion);` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 43:** `conexion);` → Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.
 
-**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.
 
-**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
-**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Escribe en la consola la evidencia `"Paginas del documento: " + documento.getPages().size()`, que queda registrada por el workflow E2E.
 
-**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Escribe en la consola la evidencia `"Parametro usuario: " + parametros.get("usuario")`, que queda registrada por el workflow E2E.
 
-**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Escribe en la consola la evidencia `"M5 ventas generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 49:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 49:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 50:** `} catch (Exception e) {` → Controla recursos o tratamiento de excepciones.
+**Línea 50:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
 
-**Línea 51:** `e.printStackTrace();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 51:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
-**Línea 52:** `System.exit(1);` → Propaga el fallo al sistema/CI con código de salida no cero.
+**Línea 52:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 53:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 53:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
 
-**Línea 54:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 54:** `}` → Cierra el método `main`.
 
-**Línea 55:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 55:** `}` → Cierra la clase `GeneradorInformeVentas`.
 
 ---
 
@@ -4292,8 +4459,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** 5.4 parte físicamente de 5.3.
 
----
+**Qué hace:** completa la operación «Verificar el checkpoint 5.3 como base» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 2: Crear `DatasetVentasPorCategoria`**
 
 **Acciones:**
@@ -4312,8 +4486,9 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 **Por qué:** el gráfico usa un dataset independiente.
 **Error común:** usar el alias antiguo `importe_grafico`. Solución: usar `importe_categoria`.
 
----
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
 
+---
 **Paso 3: Ajustar Summary a 430**
 
 **Acciones:**
@@ -4328,8 +4503,11 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 **Qué hace:** reserva el espacio exacto del gráfico.
 **Error común:** usar 540 de un borrador anterior.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 4: Añadir el rótulo del gráfico**
 
 **Acciones:**
@@ -4341,8 +4519,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** el rótulo queda encima del gráfico.
 
----
+**Qué hace:** completa la operación «Añadir el rótulo del gráfico» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 5: Insertar el `barChart` nativo**
 
 **Acciones:**
@@ -4357,8 +4542,11 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 **Qué hace:** crea el gráfico real de JasperReports 6.20.0.
 **Error común:** envolverlo en `componentElement` con un namespace inventado.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 6: Configurar título, subtítulo y leyenda**
 
 **Acciones:**
@@ -4373,8 +4561,11 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 **Qué hace:** configura propiedades generales del gráfico.
 **Error común:** escribir `chartTitle position="Top"`. Solución: el checkpoint no usa ese atributo.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 7: Asociar el subdataset**
 
 **Acciones:**
@@ -4386,8 +4577,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** el gráfico reutiliza la conexión JDBC del informe.
 
----
+**Qué hace:** completa la operación «Asociar el subdataset» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 8: Definir la serie categórica**
 
 **Acciones:**
@@ -4403,8 +4601,11 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 **Qué hace:** vincula categorías y valores a las barras.
 **Error común:** referenciar fields del dataset principal.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 9: Configurar `barPlot`**
 
 **Acciones:**
@@ -4421,8 +4622,11 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 **Qué hace:** configura plot, etiquetas y ejes.
 **Error común:** añadir `seriesColor` directamente en `barPlot`. Solución: no introducir elementos que no existen en el checkpoint.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 10: Validar Source contra el checkpoint**
 
 **Acciones:**
@@ -4434,8 +4638,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** la estructura del gráfico es idéntica a la Parte B.
 
----
+**Qué hace:** completa la operación «Validar Source contra el checkpoint» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 11: Compilar el informe**
 
 **Acciones:**
@@ -4448,8 +4659,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** el gráfico queda integrado en el jasper principal.
 
----
+**Qué hace:** completa la operación «Compilar el informe» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 12: Previsualizar**
 
 **Acciones:**
@@ -4461,8 +4679,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** el gráfico aparece después del resumen acumulado.
 
----
+**Qué hace:** completa la operación «Previsualizar» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 13: Ejecutar desde Java**
 
 **Acciones:**
@@ -4474,8 +4699,15 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 **Verificación visual:** el PDF conserva todos los componentes anteriores y añade el gráfico.
 
----
+**Qué hace:** completa la operación «Ejecutar desde Java» dentro del flujo visual del checkpoint 5.4.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
+
+---
 **Paso 14: Documentar `GRAFICOS.md`**
 
 **Acciones:**
@@ -4488,6 +4720,14 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 6. Guardar.
 
 **Verificación visual:** GRAFICOS.md describe la implementación ejecutable.
+
+**Qué hace:** completa la operación «Documentar `GRAFICOS.md`» dentro del flujo visual del checkpoint 5.4.
+
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.4.
+
+**Analogía:** es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.
 
 ---
 
@@ -4842,673 +5082,673 @@ El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los comp
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="informe_ventas"` → Asigna al documento JasperReports el nombre interno `informe_ventas`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="595"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="595"` → Fija el ancho físico de página en `595` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="20"` → Fija el margen izquierdo del informe en `20` puntos.
 
-**Línea 11:** `rightMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="20"` → Fija el margen derecho del informe en `20` puntos.
 
-**Línea 12:** `topMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="20"` → Fija el margen superior del informe en `20` puntos.
 
-**Línea 13:** `bottomMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="20"` → Fija el margen inferior del informe en `20` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Asigna el UUID de diseño `3d2c2bd7-3b93-4da9-8b60-6b3c45674c91` para identificar de forma estable el informe en Studio.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo reutilizable.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo `Sans_Normal`; es el estilo por defecto, fuente DejaVu Sans, tamaño 10.
 
-**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `TituloPrincipal`; hereda de Sans_Normal, tamaño 18.
 
-**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `Cabecera`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara el estilo `Dato`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara un estilo reutilizable.
+**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara el estilo `UnidadesCondicional`; hereda de Dato.
 
-**Línea 21:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 21:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara un estilo reutilizable.
+**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara el estilo `None`.
 
-**Línea 24:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 24:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 25:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara un estilo reutilizable.
+**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara el estilo `None`.
 
-**Línea 28:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 28:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 29:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 29:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas.
 
-**Línea 31:** `<style forecolor="#9D3429"/>` → Declara un estilo reutilizable.
+**Línea 31:** `<style forecolor="#9D3429"/>` → Declara el estilo `None`.
 
-**Línea 32:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 32:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 33:** `</style>` → Cierra el elemento XML correspondiente.
+**Línea 33:** `</style>` → Cierra `style` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5TableHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara un estilo reutilizable.
+**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara el estilo `M5TableDetail`; hereda de Dato.
 
-**Línea 36:** `<subDataset name="DatasetTopVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 36:** `<subDataset name="DatasetTopVentas">` → Declara el subdataset `DatasetTopVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 37:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara un parámetro y su tipo Java.
+**Línea 37:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara el parámetro `tituloLibro` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 38:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 38:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 39:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 39:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 40:** `SELECT fecha_venta, cantidad, precio_unitario` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 40:** `SELECT fecha_venta, cantidad, precio_unitario` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 41:** `FROM ventas` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 41:** `FROM ventas` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 42:** `WHERE titulo_libro = $P{tituloLibro}` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 42:** `WHERE titulo_libro = $P{tituloLibro}` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 43:** `ORDER BY cantidad DESC, fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 43:** `ORDER BY cantidad DESC, fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 44:** `LIMIT 3` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 44:** `LIMIT 3` → Cláusula SQL `LIMIT`: limita el número de filas devueltas.
 
-**Línea 45:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 45:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 46:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 46:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 47:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 47:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara el field `fecha_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 48:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 48:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara el field `cantidad` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 49:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 49:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara el field `precio_unitario` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 50:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 50:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 51:** `<subDataset name="DatasetVentasPorCategoria">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 51:** `<subDataset name="DatasetVentasPorCategoria">` → Declara el subdataset `DatasetVentasPorCategoria`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 52:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 52:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 53:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 53:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 54:** `SELECT l.categoria AS categoria_grafico,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 54:** `SELECT l.categoria AS categoria_grafico,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 55:** `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 55:** `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_categoria`, que después coincide con un field del subdataset.
 
-**Línea 56:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 56:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 57:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 57:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 58:** `GROUP BY l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 58:** `GROUP BY l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 59:** `ORDER BY l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 59:** `ORDER BY l.categoria` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 60:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 60:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 61:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 61:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 62:** `<field name="categoria_grafico" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 62:** `<field name="categoria_grafico" class="java.lang.String"/>` → Declara el field `categoria_grafico` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 63:** `<field name="importe_categoria" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 63:** `<field name="importe_categoria" class="java.lang.Double"/>` → Declara el field `importe_categoria` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 64:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 64:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 65:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 65:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `usuario` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 66:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 66:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara el parámetro `fechaInforme` con tipo `java.util.Date` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 67:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 67:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 68:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 68:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 69:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 69:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `departamento` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 70:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 70:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 71:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 71:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 72:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 72:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `periodo` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 73:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 73:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 74:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 74:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 75:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 75:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara el parámetro `tipoIva` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 76:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 76:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 77:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 77:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 78:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 78:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara el parámetro `mostrarDetalle` con tipo `java.lang.Boolean` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 79:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 79:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 80:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 80:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 81:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 81:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `categoria` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 82:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 82:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMinimo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 83:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 83:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMaximo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 84:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 84:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara el parámetro `umbralUnidades` con tipo `java.lang.Integer` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 85:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 85:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 86:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 86:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 87:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 87:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `textoBusqueda` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 88:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara un parámetro y su tipo Java.
+**Línea 88:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara el parámetro `categoriasLista` con tipo `java.util.Collection` como parámetro interno no solicitado al usuario.
 
-**Línea 89:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 89:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 90:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 90:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 91:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 91:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 92:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 92:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 93:** `SELECT l.titulo,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 93:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 94:** `l.categoria,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 94:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
 
-**Línea 95:** `SUM(v.cantidad) AS unidades_vendidas,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 95:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
-**Línea 96:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 96:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_total`, que después coincide con un field del subdataset.
 
-**Línea 97:** `AVG(v.precio_unitario) AS precio_medio,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 97:** `AVG(v.precio_unitario) AS precio_medio,` → Calcula o selecciona un valor SQL y lo expone con el alias `precio_medio`, que después coincide con un field del subdataset.
 
-**Línea 98:** `MIN(v.fecha_venta) AS primera_venta,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 98:** `MIN(v.fecha_venta) AS primera_venta,` → Calcula o selecciona un valor SQL y lo expone con el alias `primera_venta`, que después coincide con un field del subdataset.
 
-**Línea 99:** `MAX(v.fecha_venta) AS ultima_venta` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 99:** `MAX(v.fecha_venta) AS ultima_venta` → Calcula o selecciona un valor SQL y lo expone con el alias `ultima_venta`, que después coincide con un field del subdataset.
 
-**Línea 100:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 100:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 101:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 101:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 102:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 102:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 103:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 103:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 104:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 104:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 105:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 105:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 106:** `AND $X{IN, l.categoria, categoriasLista}` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 106:** `AND $X{IN, l.categoria, categoriasLista}` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 107:** `GROUP BY l.titulo, l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 107:** `GROUP BY l.titulo, l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 108:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 108:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 109:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 109:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 110:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 110:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 111:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 111:** `<field name="titulo" class="java.lang.String"/>` → Declara el field `titulo` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 112:** `<field name="categoria" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 112:** `<field name="categoria" class="java.lang.String"/>` → Declara el field `categoria` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 113:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 113:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara el field `unidades_vendidas` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 114:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 114:** `<field name="importe_total" class="java.lang.Double"/>` → Declara el field `importe_total` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 115:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 115:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara el field `precio_medio` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 116:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 116:** `<field name="primera_venta" class="java.lang.String"/>` → Declara el field `primera_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 117:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 117:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara el field `ultima_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 118:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 118:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara la variable `TotalUnidades` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 119:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 119:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 120:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 120:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 121:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 121:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `TotalImporte` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 122:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 122:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 123:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 123:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 124:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 124:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara la variable `TotalPagina` con cálculo `Sum` y reinicio `Page`.
 
-**Línea 125:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 125:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 126:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 126:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 127:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 127:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara la variable `PrecioMedio` con cálculo `Average` y reinicio `Report`.
 
-**Línea 128:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 128:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 129:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 129:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 130:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 130:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara la variable `PrecioMaximo` con cálculo `Highest` y reinicio `Report`.
 
-**Línea 131:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 131:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 132:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 132:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 133:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 133:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara la variable `NumeroLibros` con cálculo `Count` y reinicio `Report`.
 
-**Línea 134:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 134:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 135:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 135:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 136:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 136:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `ImporteConIva` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 137:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Expresión Java evaluada por JasperReports.
+**Línea 137:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 138:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 138:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 139:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 139:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoUnidades` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 140:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 140:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 141:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 141:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 142:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 142:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoImporte` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 143:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 143:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 144:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 144:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 145:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 145:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoLibros` con cálculo `Count` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 146:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 146:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 147:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 147:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 148:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara una agrupación del informe.
+**Línea 148:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara el grupo `CategoriaGroup` y sus propiedades de paginación/reimpresión.
 
-**Línea 149:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 149:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Define la clave que decide cuándo cambia el grupo mediante field categoria.
 
-**Línea 150:** `<groupHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 150:** `<groupHeader>` → Abre la cabecera del grupo, que se emite cuando comienza cada nuevo valor de agrupación.
 
-**Línea 151:** `<band height="28">` → Define una banda y su altura.
+**Línea 151:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 152:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 152:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 153:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 153:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 154:** `</groupHeader>` → Cierra el elemento XML correspondiente.
+**Línea 154:** `</groupHeader>` → Cierra `groupHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 155:** `<groupFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 155:** `<groupFooter>` → Abre el pie del grupo, donde se muestran los acumulados justo antes de cambiar de grupo.
 
-**Línea 156:** `<band height="34">` → Define una banda y su altura.
+**Línea 156:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 157:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 157:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 158:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 158:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 159:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 159:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 160:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 160:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 161:** `</groupFooter>` → Cierra el elemento XML correspondiente.
+**Línea 161:** `</groupFooter>` → Cierra `groupFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 162:** `</group>` → Cierra el elemento XML correspondiente.
+**Línea 162:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 163:** `<background><band height="0"/></background>` → Define una banda y su altura.
+**Línea 163:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
 
-**Línea 164:** `<title>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 164:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
-**Línea 165:** `<band height="124">` → Define una banda y su altura.
+**Línea 165:** `<band height="124">` → Define una banda de `124` puntos, reservando ese espacio para sus elementos.
 
-**Línea 166:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 166:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 167:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 167:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Posiciona el elemento en x=0, y=4, con ancho 555 y alto 28, aplicando el estilo `TituloPrincipal`.
 
-**Línea 168:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 168:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Configura el formato interno del texto: alineación horizontal Center, alineación vertical Middle.
 
-**Línea 169:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 169:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal visible: `Informe de Ventas - Agregación por Título`.
 
-**Línea 170:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 170:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 171:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 171:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 172:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 173:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 173:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 174:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 174:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 175:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 175:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 176:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 176:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 177:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 177:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 178:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 178:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 179:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 179:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 180:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 180:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 181:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 181:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 182:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 182:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 183:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 183:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 184:** `</title>` → Cierra el elemento XML correspondiente.
+**Línea 184:** `</title>` → Cierra `title` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 185:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 185:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 186:** `<band height="62">` → Define una banda y su altura.
+**Línea 186:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 187:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 187:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 188:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 188:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 189:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 189:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 190:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 190:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 191:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 191:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 192:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 192:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 193:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 193:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 194:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 194:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 195:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 195:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 196:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 196:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Cabecera`.
 
-**Línea 197:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 197:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 198:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 198:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 199:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 199:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 200:** `<text><![CDATA[Importe con IVA]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 200:** `<text><![CDATA[Importe con IVA]]></text>` → Define el texto literal visible: `Importe con IVA`.
 
-**Línea 201:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 201:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 202:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 202:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 203:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 203:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 204:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 204:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 205:** `<band height="82" splitType="Stretch">` → Define una banda y su altura.
+**Línea 205:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 206:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 206:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 207:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 207:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 208:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 208:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 209:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 209:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 210:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 210:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 211:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 211:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 212:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 212:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 213:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 213:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 214:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 214:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 215:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 215:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Dato`.
 
-**Línea 216:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 216:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 217:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 217:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 218:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 218:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 219:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Expresión Java evaluada por JasperReports.
+**Línea 219:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Calcula el valor mostrado por el textField mediante una expresión Java que usa field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 220:** `</textField>` → Cierra el elemento XML correspondiente.
+**Línea 220:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 221:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 221:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 222:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 222:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 223:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 223:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 224:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 224:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 225:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 225:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 226:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 226:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 227:** `<band height="14">` → Define una banda y su altura.
+**Línea 227:** `<band height="14">` → Define una banda de `14` puntos, reservando ese espacio para sus elementos.
 
-**Línea 228:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Expresión Java evaluada por JasperReports.
+**Línea 228:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 229:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 229:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 230:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 230:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 231:** `<band height="88" splitType="Stretch">` → Define una banda y su altura.
+**Línea 231:** `<band height="88" splitType="Stretch">` → Define una banda de `88` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 232:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 232:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 233:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 233:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 234:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 234:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 235:** `<text><![CDATA[Detalle de ventas]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 235:** `<text><![CDATA[Detalle de ventas]]></text>` → Define el texto literal visible: `Detalle de ventas`.
 
-**Línea 236:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 236:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 237:** `<subreport>` → Declara o configura el subreporte maestro-detalle.
+**Línea 237:** `<subreport>` → Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.
 
-**Línea 238:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 238:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 60, y elimina su línea cuando queda vacío.
 
-**Línea 239:** `<subreportParameter name="tituloLibro">` → Declara o configura el subreporte maestro-detalle.
+**Línea 239:** `<subreportParameter name="tituloLibro">` → Declara el parámetro del subreporte `tituloLibro` que recibirá un valor del informe maestro.
 
-**Línea 240:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 240:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Calcula el valor enviado al parámetro del subreporte a partir de field titulo.
 
-**Línea 241:** `</subreportParameter>` → Cierra el elemento XML correspondiente.
+**Línea 241:** `</subreportParameter>` → Cierra `subreportParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 242:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 242:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 243:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 243:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.
 
-**Línea 244:** `</subreport>` → Cierra el elemento XML correspondiente.
+**Línea 244:** `</subreport>` → Finaliza el componente de subreporte.
 
-**Línea 245:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 245:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 246:** `<band height="104" splitType="Stretch">` → Define una banda y su altura.
+**Línea 246:** `<band height="104" splitType="Stretch">` → Define una banda de `104` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 247:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 247:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 248:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 248:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 249:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 249:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 250:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 250:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Define el texto literal visible: `Top 3 ventas por cantidad`.
 
-**Línea 251:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 251:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 252:** `<componentElement>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 252:** `<componentElement>` → Abre un contenedor de componentes extendidos; en este checkpoint contiene la tabla `c:table`.
 
-**Línea 253:** `<reportElement x="0" y="22" width="555" height="76"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 253:** `<reportElement x="0" y="22" width="555" height="76"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 76.
 
-**Línea 254:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre el componente table del namespace de componentes.
+**Línea 254:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre la tabla del namespace de componentes JasperReports; sus columnas usan un datasetRun independiente.
 
-**Línea 255:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 255:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 256:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 256:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia el componente con el subdataset `DatasetTopVentas` para ejecutar su consulta.
 
-**Línea 257:** `<datasetParameter name="tituloLibro">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 257:** `<datasetParameter name="tituloLibro">` → Declara el parámetro `tituloLibro` que se enviará al subdataset de la tabla.
 
-**Línea 258:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 258:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Calcula el valor enviado al parámetro del subdataset desde field titulo.
 
-**Línea 259:** `</datasetParameter>` → Cierra el elemento XML correspondiente.
+**Línea 259:** `</datasetParameter>` → Cierra `datasetParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 260:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 260:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 261:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 261:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 262:** `<c:column width="255">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 262:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 263:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 263:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 264:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 264:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 265:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 265:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 266:** `<c:column width="100">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 266:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 267:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 267:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 268:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 268:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 269:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 269:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 270:** `<c:column width="200">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 270:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 271:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 271:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 272:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 272:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 273:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 273:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 274:** `</c:table>` → Cierra el elemento XML correspondiente.
+**Línea 274:** `</c:table>` → Finaliza la tabla integrada.
 
-**Línea 275:** `</componentElement>` → Cierra el elemento XML correspondiente.
+**Línea 275:** `</componentElement>` → Cierra `componentElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 276:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 276:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 277:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 277:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 278:** `<pageFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 278:** `<pageFooter>` → Abre Page Footer, emitido al pie de cada página.
 
-**Línea 279:** `<band height="62">` → Define una banda y su altura.
+**Línea 279:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 280:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 280:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 281:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 281:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 282:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 282:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 283:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 283:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 284:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 284:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 285:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 285:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 286:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 286:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 287:** `</pageFooter>` → Cierra el elemento XML correspondiente.
+**Línea 287:** `</pageFooter>` → Cierra `pageFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 288:** `<summary>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 288:** `<summary>` → Abre Summary, emitido una sola vez después del último registro.
 
-**Línea 289:** `<band height="430">` → Define una banda y su altura.
+**Línea 289:** `<band height="430">` → Define una banda de `430` puntos, reservando ese espacio para sus elementos.
 
-**Línea 290:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 290:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 291:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 291:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 292:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 292:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 293:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 293:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 294:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 294:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 295:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 295:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 296:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 296:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 297:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 297:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 298:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 298:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 299:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 299:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 300:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 300:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 301:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 301:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 302:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 302:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 303:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 303:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 304:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 304:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 305:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 305:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 306:** `<barChart>` → Abre un gráfico de barras nativo de JasperReports.
+**Línea 306:** `<barChart>` → Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.
 
-**Línea 307:** `<chart>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 307:** `<chart>` → Abre la configuración común del gráfico: geometría, título, subtítulo y leyenda.
 
-**Línea 308:** `<reportElement x="0" y="165" width="555" height="250"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 308:** `<reportElement x="0" y="165" width="555" height="250"/>` → Posiciona el elemento en x=0, y=165, con ancho 555 y alto 250.
 
-**Línea 309:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 309:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Abre la definición del título del gráfico.
 
-**Línea 310:** `<chartSubtitle/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 310:** `<chartSubtitle/>` → Declara el subtítulo del gráfico; en este checkpoint queda vacío.
 
-**Línea 311:** `<chartLegend position="Bottom"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 311:** `<chartLegend position="Bottom"/>` → Configura la leyenda del gráfico en la posición `Bottom`.
 
-**Línea 312:** `</chart>` → Cierra el elemento XML correspondiente.
+**Línea 312:** `</chart>` → Cierra `chart` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 313:** `<categoryDataset>` → Define el dataset o una serie del gráfico categórico.
+**Línea 313:** `<categoryDataset>` → Abre el dataset categórico que alimenta al gráfico con serie, categoría y valor.
 
-**Línea 314:** `<dataset>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 314:** `<dataset>` → Abre el contenedor de ejecución de datos del componente actual.
 
-**Línea 315:** `<datasetRun subDataset="DatasetVentasPorCategoria">` → Asocia un subdataset con su ejecución concreta.
+**Línea 315:** `<datasetRun subDataset="DatasetVentasPorCategoria">` → Asocia el componente con el subdataset `DatasetVentasPorCategoria` para ejecutar su consulta.
 
-**Línea 316:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 316:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 317:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 317:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 318:** `</dataset>` → Cierra el elemento XML correspondiente.
+**Línea 318:** `</dataset>` → Cierra `dataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 319:** `<categorySeries>` → Define el dataset o una serie del gráfico categórico.
+**Línea 319:** `<categorySeries>` → Abre una serie del dataset categórico; cada fila del subdataset aportará categoría y valor.
 
-**Línea 320:** `<seriesExpression><![CDATA["Importe"]]></seriesExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 320:** `<seriesExpression><![CDATA["Importe"]]></seriesExpression>` → Define el nombre lógico de la serie que aparecerá en la leyenda.
 
-**Línea 321:** `<categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 321:** `<categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>` → Define la categoría del eje X a partir de field categoria_grafico.
 
-**Línea 322:** `<valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 322:** `<valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>` → Define el valor numérico representado por cada barra a partir de field importe_categoria.
 
-**Línea 323:** `</categorySeries>` → Cierra el elemento XML correspondiente.
+**Línea 323:** `</categorySeries>` → Cierra `categorySeries` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 324:** `</categoryDataset>` → Cierra el elemento XML correspondiente.
+**Línea 324:** `</categoryDataset>` → Cierra `categoryDataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 325:** `<barPlot>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 325:** `<barPlot>` → Abre el plot específico del gráfico de barras, donde se configuran etiquetas y ejes.
 
-**Línea 326:** `<plot/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 326:** `<plot/>` → Declara el bloque base del plot; mantiene la configuración visual por defecto del checkpoint.
 
-**Línea 327:** `<itemLabel/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 327:** `<itemLabel/>` → Habilita el bloque de configuración de etiquetas de los ítems/barras.
 
-**Línea 328:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 328:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Abre el formato del eje de categorías (eje X).
 
-**Línea 329:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 329:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Abre el formato del eje de valores (eje Y).
 
-**Línea 330:** `</barPlot>` → Cierra el elemento XML correspondiente.
+**Línea 330:** `</barPlot>` → Cierra `barPlot` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 331:** `</barChart>` → Cierra el elemento XML correspondiente.
+**Línea 331:** `</barChart>` → Finaliza el gráfico de barras.
 
-**Línea 332:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 332:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 333:** `</summary>` → Cierra el elemento XML correspondiente.
+**Línea 333:** `</summary>` → Finaliza la sección Summary.
 
-**Línea 334:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 334:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -5584,115 +5824,115 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `import java.io.File;` → Importa una clase utilizada por el generador.
+**Línea 1:** `import java.io.File;` → Importa `java.io.File` para gestionar rutas y crear la carpeta de salida.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase utilizada por el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa `java.sql.Connection` para representar la conexión JDBC abierta contra SQLite.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase utilizada por el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa `java.sql.DriverManager` para abrir la conexión JDBC a partir de la URL SQLite.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase utilizada por el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa `java.util.HashMap` para crear la implementación mutable del mapa de parámetros.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase utilizada por el generador.
+**Línea 5:** `import java.util.Map;` → Importa `java.util.Map` para tipar el mapa de parámetros que recibe JasperReports.
 
-**Línea 6:** `import java.util.Arrays;` → Importa una clase utilizada por el generador.
+**Línea 6:** `import java.util.Arrays;` → Importa `java.util.Arrays` para construir la colección de categorías usada por el parámetro de lista.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase utilizada por el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa `net.sf.jasperreports.engine.JasperCompileManager` para compilar los JRXML a artefactos .jasper.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase utilizada por el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa `net.sf.jasperreports.engine.JasperExportManager` para exportar el JasperPrint resultante a PDF.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase utilizada por el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa `net.sf.jasperreports.engine.JasperFillManager` para llenar el informe compilado con parámetros y conexión.
 
-**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase utilizada por el generador.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa `net.sf.jasperreports.engine.JasperPrint` para representar en memoria el documento ya paginado por JasperReports.
 
-**Línea 11:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 11:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 12:** `public class GeneradorInformeVentas {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 12:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable `GeneradorInformeVentas` que encapsula el generador del informe.
 
-**Línea 13:** `public static void main(String[] args) {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 13:** `public static void main(String[] args) {` → Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.
 
-**Línea 14:** `try {` → Controla recursos o tratamiento de excepciones.
+**Línea 14:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
-**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara `rutaJrxml` con ruta del JRXML maestro que se compilará; el valor configurado es `"reports/informe_ventas.jrxml"`.
 
-**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara `rutaJasper` con ruta del .jasper maestro que producirá la compilación; el valor configurado es `"reports/informe_ventas.jasper"`.
 
-**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara una ruta o valor de configuración local.
+**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara `rutaPdf` con ruta del PDF final exportado; el valor configurado es `"output/informe_ventas.pdf"`.
 
-**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara una ruta o valor de configuración local.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara `urlBD` con URL JDBC de la base SQLite; el valor configurado es `"jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
 
-**Línea 19:** `new File("output").mkdirs();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 19:** `new File("output").mkdirs();` → Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.
 
-**Línea 20:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 20:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara `rutaSubJrxml` con ruta del JRXML del subinforme de detalle; el valor configurado es `"reports/subinforme_ventas_detalle.jrxml"`.
 
-**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara `rutaSubJasper` con ruta del .jasper del subinforme compilado; el valor configurado es `"reports/subinforme_ventas_detalle.jasper"`.
 
-**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila el JRXML indicado en `rutaSubJrxml` y escribe el artefacto compilado en `rutaSubJasper`.
 
-**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML indicado en `rutaJrxml` y escribe el artefacto compilado en `rutaJasper`.
 
-**Línea 25:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 25:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.
 
-**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Añade un valor al mapa de parámetros del informe.
+**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Asigna al parámetro JasperReports `usuario` el valor Java `"Ana Martínez"` antes del llenado.
 
-**Línea 28:** `parametros.put("departamento", "Comercial");` → Añade un valor al mapa de parámetros del informe.
+**Línea 28:** `parametros.put("departamento", "Comercial");` → Asigna al parámetro JasperReports `departamento` el valor Java `"Comercial"` antes del llenado.
 
-**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Añade un valor al mapa de parámetros del informe.
+**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Asigna al parámetro JasperReports `periodo` el valor Java `"Septiembre 2026"` antes del llenado.
 
-**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Añade un valor al mapa de parámetros del informe.
+**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Asigna al parámetro JasperReports `tipoIva` el valor Java `Double.valueOf(0.21d)` antes del llenado.
 
-**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Añade un valor al mapa de parámetros del informe.
+**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Asigna al parámetro JasperReports `mostrarDetalle` el valor Java `Boolean.TRUE` antes del llenado.
 
-**Línea 32:** `parametros.put("categoria", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 32:** `parametros.put("categoria", null);` → Asigna al parámetro JasperReports `categoria` el valor Java `null` antes del llenado.
 
-**Línea 33:** `parametros.put("precioMinimo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 33:** `parametros.put("precioMinimo", null);` → Asigna al parámetro JasperReports `precioMinimo` el valor Java `null` antes del llenado.
 
-**Línea 34:** `parametros.put("precioMaximo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 34:** `parametros.put("precioMaximo", null);` → Asigna al parámetro JasperReports `precioMaximo` el valor Java `null` antes del llenado.
 
-**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Añade un valor al mapa de parámetros del informe.
+**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Asigna al parámetro JasperReports `umbralUnidades` el valor Java `Integer.valueOf(5)` antes del llenado.
 
-**Línea 36:** `parametros.put("textoBusqueda", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 36:** `parametros.put("textoBusqueda", null);` → Asigna al parámetro JasperReports `textoBusqueda` el valor Java `null` antes del llenado.
 
-**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Añade un valor al mapa de parámetros del informe.
+**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Asigna al parámetro JasperReports `categoriasLista` el valor Java `Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")` antes del llenado.
 
-**Línea 38:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 38:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite usada durante el llenado.
+**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.
 
-**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Llena el informe con parámetros y la conexión JDBC.
+**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.
 
-**Línea 41:** `rutaJasper,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 41:** `rutaJasper,` → Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.
 
-**Línea 42:** `parametros,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 42:** `parametros,` → Pasa como segundo argumento el mapa con todos los parámetros del informe.
 
-**Línea 43:** `conexion);` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 43:** `conexion);` → Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.
 
-**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.
 
-**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
-**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Escribe en la consola la evidencia `"Paginas del documento: " + documento.getPages().size()`, que queda registrada por el workflow E2E.
 
-**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Escribe en la consola la evidencia `"Parametro usuario: " + parametros.get("usuario")`, que queda registrada por el workflow E2E.
 
-**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Escribe en la consola la evidencia `"M5 ventas generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 49:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 49:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 50:** `} catch (Exception e) {` → Controla recursos o tratamiento de excepciones.
+**Línea 50:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
 
-**Línea 51:** `e.printStackTrace();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 51:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
-**Línea 52:** `System.exit(1);` → Propaga el fallo al sistema/CI con código de salida no cero.
+**Línea 52:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 53:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 53:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
 
-**Línea 54:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 54:** `}` → Cierra el método `main`.
 
-**Línea 55:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 55:** `}` → Cierra la clase `GeneradorInformeVentas`.
 
 ---
 
@@ -5902,7 +6142,6 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Analogía:** es añadir una nueva sección al catálogo sin desmontar las anteriores.
 
 ---
-
 **Paso 2: Declarar los estilos del crosstab**
 
 **Acciones:**
@@ -5926,7 +6165,6 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Analogía:** es definir tres formatos de celda y reutilizarlos.
 
 ---
-
 **Paso 3: Crear `DatasetCrosstabVentas`**
 
 **Acciones:**
@@ -5964,7 +6202,6 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Analogía:** es entregar al cuadro de mando los movimientos elementales para que él calcule los totales.
 
 ---
-
 **Paso 4: Ajustar Summary a 700**
 
 **Acciones:**
@@ -5979,8 +6216,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** gráfico y crosstab comparten Summary.
 **Error común:** usar la altura 1050 de un borrador anterior. Solución: mantener 700.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 5: Añadir el rótulo**
 
 **Acciones:**
@@ -5997,8 +6235,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** separa visualmente el gráfico del crosstab.
 **Error común:** colocarlo en y=800. Solución: usar y=430, que es la geometría validada.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 6: Insertar el crosstab**
 
 **Acciones:**
@@ -6014,8 +6253,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** reproduce la geometría del checkpoint.
 **Error común:** envolverlo en un `componentElement` innecesario. Solución: usar el crosstab nativo.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 7: Asociar dataset y conexión**
 
 **Acciones:**
@@ -6041,8 +6281,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** no hace falta una segunda conexión Java.
 **Error común:** omitir `connectionExpression`. Solución: reutilizar `REPORT_CONNECTION`.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 8: Crear el grupo de fila `CategoriaCross`**
 
 **Acciones:**
@@ -6060,8 +6301,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** el totalPosition End crea el total del eje.
 **Error común:** mostrar el field en vez de la variable de grupo. Solución: usar `$V{CategoriaCross}` en el header.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 9: Crear el grupo de columna `AnioCross`**
 
 **Acciones:**
@@ -6079,8 +6321,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** cruza los dos ejes analíticos.
 **Error común:** conservar el nombre genérico Anio. Solución: usar `AnioCross`.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 10: Declarar las dos medidas**
 
 **Acciones:**
@@ -6104,8 +6347,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** `ventas_cross` vale 1 por fila.
 **Error común:** crear una segunda crosstabCell para la segunda medida. Solución: mostrar ambas medidas dentro del mismo cellContents.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 11: Configurar la celda de detalle**
 
 **Acciones:**
@@ -6123,8 +6367,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** ambas medidas pertenecen a la misma categoría y año.
 **Error común:** omitir `cellContents`. Solución: colocar dentro de él todos los elementos visuales.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 12: Añadir el total de fila**
 
 **Acciones:**
@@ -6141,8 +6386,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** completa la lectura horizontal.
 **Error común:** poner el nombre del field en rowTotalGroup. Solución: referenciar el nombre del grupo.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 13: Añadir el total de columna**
 
 **Acciones:**
@@ -6159,8 +6405,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** completa la lectura vertical.
 **Error común:** intercambiar los atributos de total. Solución: revisar el nombre exacto de cada grupo.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 14: Añadir el total general**
 
 **Acciones:**
@@ -6177,8 +6424,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** completa la esquina de totales de la matriz.
 **Error común:** omitir esta celda y dejar la intersección sin valor.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 15: Validar el JRXML en Studio**
 
 **Acciones:**
@@ -6194,8 +6442,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** un XML bien formado puede seguir siendo inválido para JasperReports.
 **Error común:** revisar sólo Source. Solución: comprobar Problems y Design.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 16: Compilar y comprobar el artefacto real**
 
 **Acciones:**
@@ -6212,8 +6461,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** el crosstab es parte del informe principal.
 **Error común:** buscar un jasper auxiliar del crosstab. Solución: comprobar el jasper principal.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 17: Ejecutar y verificar el PDF**
 
 **Acciones:**
@@ -6230,8 +6480,9 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Por qué:** compilar no es suficiente para un cierre E2E.
 **Error común:** validar sólo Preview. Solución: ejecutar también el generador Java.
 
----
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
+---
 **Paso 18: Documentar `CROSSTABS.md`**
 
 **Acciones:**
@@ -6249,6 +6500,8 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 **Qué hace:** mantiene documentación y código sincronizados.
 **Por qué:** evita recuperar en el futuro nombres o artefactos que no existen.
 **Error común:** documentar los nombres antiguos de campos o medidas. Solución: usar los contratos `*_cross` y `*Cross` del JRXML ejecutable.
+
+**Analogía:** es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.
 
 ---
 
@@ -6650,767 +6903,767 @@ El punto 5.5, «Crosstabs», introduce el elemento `crosstab` de JasperReports y
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="informe_ventas"` → Asigna al documento JasperReports el nombre interno `informe_ventas`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="595"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="595"` → Fija el ancho físico de página en `595` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="20"` → Fija el margen izquierdo del informe en `20` puntos.
 
-**Línea 11:** `rightMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="20"` → Fija el margen derecho del informe en `20` puntos.
 
-**Línea 12:** `topMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="20"` → Fija el margen superior del informe en `20` puntos.
 
-**Línea 13:** `bottomMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="20"` → Fija el margen inferior del informe en `20` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Asigna el UUID de diseño `3d2c2bd7-3b93-4da9-8b60-6b3c45674c91` para identificar de forma estable el informe en Studio.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo reutilizable.
+**Línea 16:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo `Sans_Normal`; es el estilo por defecto, fuente DejaVu Sans, tamaño 10.
 
-**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 17:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `TituloPrincipal`; hereda de Sans_Normal, tamaño 18.
 
-**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 18:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `Cabecera`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 19:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara el estilo `Dato`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara un estilo reutilizable.
+**Línea 20:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara el estilo `UnidadesCondicional`; hereda de Dato.
 
-**Línea 21:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 21:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 22:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara un estilo reutilizable.
+**Línea 23:** `<style forecolor="#1B5E20"/>` → Declara el estilo `None`.
 
-**Línea 24:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 24:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 25:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 25:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 26:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara un estilo reutilizable.
+**Línea 27:** `<style forecolor="#1D5D88"/>` → Declara el estilo `None`.
 
-**Línea 28:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 28:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 29:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 29:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 30:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas.
 
-**Línea 31:** `<style forecolor="#9D3429"/>` → Declara un estilo reutilizable.
+**Línea 31:** `<style forecolor="#9D3429"/>` → Declara el estilo `None`.
 
-**Línea 32:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 32:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 33:** `</style>` → Cierra el elemento XML correspondiente.
+**Línea 33:** `</style>` → Cierra `style` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 34:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5TableHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara un estilo reutilizable.
+**Línea 35:** `<style name="M5TableDetail" style="Dato"/>` → Declara el estilo `M5TableDetail`; hereda de Dato.
 
-**Línea 36:** `<style name="M5CrossHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 36:** `<style name="M5CrossHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5CrossHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 37:** `<style name="M5CrossDetail" style="Dato" mode="Opaque" backcolor="#FFFFFF"/>` → Declara un estilo reutilizable.
+**Línea 37:** `<style name="M5CrossDetail" style="Dato" mode="Opaque" backcolor="#FFFFFF"/>` → Declara el estilo `M5CrossDetail`; hereda de Dato, fondo #FFFFFF.
 
-**Línea 38:** `<style name="M5CrossTotal" style="Dato" mode="Opaque" backcolor="#D6EAF8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 38:** `<style name="M5CrossTotal" style="Dato" mode="Opaque" backcolor="#D6EAF8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5CrossTotal`; hereda de Dato, fondo #D6EAF8.
 
-**Línea 39:** `<subDataset name="DatasetTopVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 39:** `<subDataset name="DatasetTopVentas">` → Declara el subdataset `DatasetTopVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 40:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara un parámetro y su tipo Java.
+**Línea 40:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara el parámetro `tituloLibro` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 41:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 41:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 42:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 42:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 43:** `SELECT fecha_venta, cantidad, precio_unitario` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 43:** `SELECT fecha_venta, cantidad, precio_unitario` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 44:** `FROM ventas` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 44:** `FROM ventas` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 45:** `WHERE titulo_libro = $P{tituloLibro}` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 45:** `WHERE titulo_libro = $P{tituloLibro}` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 46:** `ORDER BY cantidad DESC, fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 46:** `ORDER BY cantidad DESC, fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 47:** `LIMIT 3` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 47:** `LIMIT 3` → Cláusula SQL `LIMIT`: limita el número de filas devueltas.
 
-**Línea 48:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 48:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 49:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 49:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 50:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 50:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara el field `fecha_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 51:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 51:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara el field `cantidad` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 52:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 52:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara el field `precio_unitario` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 53:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 53:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 54:** `<subDataset name="DatasetVentasPorCategoria">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 54:** `<subDataset name="DatasetVentasPorCategoria">` → Declara el subdataset `DatasetVentasPorCategoria`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 55:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 55:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 56:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 56:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 57:** `SELECT l.categoria AS categoria_grafico,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 57:** `SELECT l.categoria AS categoria_grafico,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 58:** `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 58:** `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_categoria`, que después coincide con un field del subdataset.
 
-**Línea 59:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 59:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 60:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 60:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 61:** `GROUP BY l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 61:** `GROUP BY l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 62:** `ORDER BY l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 62:** `ORDER BY l.categoria` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 63:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 63:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 64:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 64:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 65:** `<field name="categoria_grafico" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 65:** `<field name="categoria_grafico" class="java.lang.String"/>` → Declara el field `categoria_grafico` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 66:** `<field name="importe_categoria" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 66:** `<field name="importe_categoria" class="java.lang.Double"/>` → Declara el field `importe_categoria` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 67:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 67:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 68:** `<subDataset name="DatasetCrosstabVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 68:** `<subDataset name="DatasetCrosstabVentas">` → Declara el subdataset `DatasetCrosstabVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 69:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 69:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 70:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 70:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 71:** `SELECT l.categoria AS categoria_cross,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 71:** `SELECT l.categoria AS categoria_cross,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 72:** `SUBSTR(v.fecha_venta, 1, 4) AS anio_cross,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 72:** `SUBSTR(v.fecha_venta, 1, 4) AS anio_cross,` → Calcula o selecciona un valor SQL y lo expone con el alias `anio_cross`, que después coincide con un field del subdataset.
 
-**Línea 73:** `(v.cantidad * v.precio_unitario) AS importe_cross,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 73:** `(v.cantidad * v.precio_unitario) AS importe_cross,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_cross`, que después coincide con un field del subdataset.
 
-**Línea 74:** `1 AS ventas_cross` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 74:** `1 AS ventas_cross` → Calcula o selecciona un valor SQL y lo expone con el alias `ventas_cross`, que después coincide con un field del subdataset.
 
-**Línea 75:** `FROM ventas v` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 75:** `FROM ventas v` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 76:** `JOIN libros l ON l.titulo = v.titulo_libro` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 76:** `JOIN libros l ON l.titulo = v.titulo_libro` → Cláusula SQL `JOIN`: une las filas que cumplen la relación indicada.
 
-**Línea 77:** `ORDER BY l.categoria, anio_cross, v.fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 77:** `ORDER BY l.categoria, anio_cross, v.fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 78:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 78:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 79:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 79:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 80:** `<field name="categoria_cross" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 80:** `<field name="categoria_cross" class="java.lang.String"/>` → Declara el field `categoria_cross` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 81:** `<field name="anio_cross" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 81:** `<field name="anio_cross" class="java.lang.String"/>` → Declara el field `anio_cross` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 82:** `<field name="importe_cross" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 82:** `<field name="importe_cross" class="java.lang.Double"/>` → Declara el field `importe_cross` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 83:** `<field name="ventas_cross" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 83:** `<field name="ventas_cross" class="java.lang.Integer"/>` → Declara el field `ventas_cross` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 84:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 84:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 85:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 85:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `usuario` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 86:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 86:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara el parámetro `fechaInforme` con tipo `java.util.Date` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 87:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 87:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 88:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 88:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 89:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 89:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `departamento` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 90:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 90:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 91:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 91:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 92:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 92:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `periodo` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 93:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 93:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 94:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 94:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 95:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 95:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara el parámetro `tipoIva` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 96:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 96:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 97:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 97:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 98:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 98:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara el parámetro `mostrarDetalle` con tipo `java.lang.Boolean` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 99:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 99:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 100:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 100:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 101:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 101:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `categoria` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 102:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 102:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMinimo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 103:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 103:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMaximo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 104:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 104:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara el parámetro `umbralUnidades` con tipo `java.lang.Integer` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 105:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 105:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 106:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 106:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 107:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 107:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `textoBusqueda` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 108:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara un parámetro y su tipo Java.
+**Línea 108:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara el parámetro `categoriasLista` con tipo `java.util.Collection` como parámetro interno no solicitado al usuario.
 
-**Línea 109:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 109:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 110:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 110:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 111:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 111:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 112:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 112:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 113:** `SELECT l.titulo,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 113:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 114:** `l.categoria,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 114:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
 
-**Línea 115:** `SUM(v.cantidad) AS unidades_vendidas,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 115:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
-**Línea 116:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 116:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_total`, que después coincide con un field del subdataset.
 
-**Línea 117:** `AVG(v.precio_unitario) AS precio_medio,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 117:** `AVG(v.precio_unitario) AS precio_medio,` → Calcula o selecciona un valor SQL y lo expone con el alias `precio_medio`, que después coincide con un field del subdataset.
 
-**Línea 118:** `MIN(v.fecha_venta) AS primera_venta,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 118:** `MIN(v.fecha_venta) AS primera_venta,` → Calcula o selecciona un valor SQL y lo expone con el alias `primera_venta`, que después coincide con un field del subdataset.
 
-**Línea 119:** `MAX(v.fecha_venta) AS ultima_venta` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 119:** `MAX(v.fecha_venta) AS ultima_venta` → Calcula o selecciona un valor SQL y lo expone con el alias `ultima_venta`, que después coincide con un field del subdataset.
 
-**Línea 120:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 120:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 121:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 121:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 122:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 122:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 123:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 123:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 124:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 124:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 125:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 125:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 126:** `AND $X{IN, l.categoria, categoriasLista}` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 126:** `AND $X{IN, l.categoria, categoriasLista}` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 127:** `GROUP BY l.titulo, l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 127:** `GROUP BY l.titulo, l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 128:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 128:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 129:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 129:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 130:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 130:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 131:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 131:** `<field name="titulo" class="java.lang.String"/>` → Declara el field `titulo` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 132:** `<field name="categoria" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 132:** `<field name="categoria" class="java.lang.String"/>` → Declara el field `categoria` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 133:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 133:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara el field `unidades_vendidas` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 134:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 134:** `<field name="importe_total" class="java.lang.Double"/>` → Declara el field `importe_total` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 135:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 135:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara el field `precio_medio` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 136:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 136:** `<field name="primera_venta" class="java.lang.String"/>` → Declara el field `primera_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 137:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 137:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara el field `ultima_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 138:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 138:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara la variable `TotalUnidades` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 139:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 139:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 140:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 140:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 141:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 141:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `TotalImporte` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 142:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 142:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 143:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 143:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 144:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 144:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara la variable `TotalPagina` con cálculo `Sum` y reinicio `Page`.
 
-**Línea 145:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 145:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 146:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 146:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 147:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 147:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara la variable `PrecioMedio` con cálculo `Average` y reinicio `Report`.
 
-**Línea 148:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 148:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 149:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 149:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 150:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 150:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara la variable `PrecioMaximo` con cálculo `Highest` y reinicio `Report`.
 
-**Línea 151:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 151:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 152:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 152:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 153:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 153:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara la variable `NumeroLibros` con cálculo `Count` y reinicio `Report`.
 
-**Línea 154:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 154:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 155:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 155:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 156:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 156:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `ImporteConIva` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 157:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Expresión Java evaluada por JasperReports.
+**Línea 157:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 158:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 158:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 159:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 159:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoUnidades` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 160:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 160:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 161:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 161:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 162:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 162:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoImporte` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 163:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 163:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 164:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 164:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 165:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 165:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoLibros` con cálculo `Count` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 166:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 166:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 167:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 167:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 168:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara una agrupación del informe.
+**Línea 168:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara el grupo `CategoriaGroup` y sus propiedades de paginación/reimpresión.
 
-**Línea 169:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 169:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Define la clave que decide cuándo cambia el grupo mediante field categoria.
 
-**Línea 170:** `<groupHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 170:** `<groupHeader>` → Abre la cabecera del grupo, que se emite cuando comienza cada nuevo valor de agrupación.
 
-**Línea 171:** `<band height="28">` → Define una banda y su altura.
+**Línea 171:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 172:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 172:** `<textField><reportElement x="0" y="2" width="555" height="22" mode="Opaque" backcolor="#D6EAF8" style="Cabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]><...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 173:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 173:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 174:** `</groupHeader>` → Cierra el elemento XML correspondiente.
+**Línea 174:** `</groupHeader>` → Cierra `groupHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 175:** `<groupFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 175:** `<groupFooter>` → Abre el pie del grupo, donde se muestran los acumulados justo antes de cambiar de grupo.
 
-**Línea 176:** `<band height="34">` → Define una banda y su altura.
+**Línea 176:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 177:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 177:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 178:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 178:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 179:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 179:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 180:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 180:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 181:** `</groupFooter>` → Cierra el elemento XML correspondiente.
+**Línea 181:** `</groupFooter>` → Cierra `groupFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 182:** `</group>` → Cierra el elemento XML correspondiente.
+**Línea 182:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 183:** `<background><band height="0"/></background>` → Define una banda y su altura.
+**Línea 183:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
 
-**Línea 184:** `<title>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 184:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
-**Línea 185:** `<band height="124">` → Define una banda y su altura.
+**Línea 185:** `<band height="124">` → Define una banda de `124` puntos, reservando ese espacio para sus elementos.
 
-**Línea 186:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 186:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 187:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 187:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="TituloPrincipal"/>` → Posiciona el elemento en x=0, y=4, con ancho 555 y alto 28, aplicando el estilo `TituloPrincipal`.
 
-**Línea 188:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 188:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Configura el formato interno del texto: alineación horizontal Center, alineación vertical Middle.
 
-**Línea 189:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 189:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal visible: `Informe de Ventas - Agregación por Título`.
 
-**Línea 190:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 190:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 191:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 191:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 192:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 192:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 193:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 193:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 194:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 194:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 195:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 195:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 196:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 197:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 197:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 198:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 199:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 199:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 200:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 200:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 201:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 201:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 202:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 202:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 203:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 203:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 204:** `</title>` → Cierra el elemento XML correspondiente.
+**Línea 204:** `</title>` → Cierra `title` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 205:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 205:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 206:** `<band height="62">` → Define una banda y su altura.
+**Línea 206:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 207:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 207:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 208:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 208:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 209:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 209:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 210:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 210:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 211:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 211:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 212:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 212:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 213:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 213:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 214:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 214:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 215:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 215:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 216:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 216:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Cabecera`.
 
-**Línea 217:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 217:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 218:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 218:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 219:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 219:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 220:** `<text><![CDATA[Importe con IVA]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 220:** `<text><![CDATA[Importe con IVA]]></text>` → Define el texto literal visible: `Importe con IVA`.
 
-**Línea 221:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 221:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 222:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 222:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 223:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 223:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 224:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 224:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 225:** `<band height="82" splitType="Stretch">` → Define una banda y su altura.
+**Línea 225:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 226:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 226:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 227:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 227:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 228:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 228:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 229:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 229:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 233:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 233:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 234:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 234:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 235:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 235:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Dato`.
 
-**Línea 236:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 236:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 237:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 237:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 238:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 238:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 239:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Expresión Java evaluada por JasperReports.
+**Línea 239:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Calcula el valor mostrado por el textField mediante una expresión Java que usa field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 240:** `</textField>` → Cierra el elemento XML correspondiente.
+**Línea 240:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 241:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 241:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 242:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 242:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 243:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 243:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 244:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 244:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 245:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 245:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 246:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 246:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 247:** `<band height="14">` → Define una banda y su altura.
+**Línea 247:** `<band height="14">` → Define una banda de `14` puntos, reservando ese espacio para sus elementos.
 
-**Línea 248:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Expresión Java evaluada por JasperReports.
+**Línea 248:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 249:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 249:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 250:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 250:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 251:** `<band height="88" splitType="Stretch">` → Define una banda y su altura.
+**Línea 251:** `<band height="88" splitType="Stretch">` → Define una banda de `88` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 252:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 252:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 253:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 253:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 254:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 254:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 255:** `<text><![CDATA[Detalle de ventas]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 255:** `<text><![CDATA[Detalle de ventas]]></text>` → Define el texto literal visible: `Detalle de ventas`.
 
-**Línea 256:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 256:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 257:** `<subreport>` → Declara o configura el subreporte maestro-detalle.
+**Línea 257:** `<subreport>` → Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.
 
-**Línea 258:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 258:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 60, y elimina su línea cuando queda vacío.
 
-**Línea 259:** `<subreportParameter name="tituloLibro">` → Declara o configura el subreporte maestro-detalle.
+**Línea 259:** `<subreportParameter name="tituloLibro">` → Declara el parámetro del subreporte `tituloLibro` que recibirá un valor del informe maestro.
 
-**Línea 260:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 260:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Calcula el valor enviado al parámetro del subreporte a partir de field titulo.
 
-**Línea 261:** `</subreportParameter>` → Cierra el elemento XML correspondiente.
+**Línea 261:** `</subreportParameter>` → Cierra `subreportParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 262:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 262:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 263:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 263:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.
 
-**Línea 264:** `</subreport>` → Cierra el elemento XML correspondiente.
+**Línea 264:** `</subreport>` → Finaliza el componente de subreporte.
 
-**Línea 265:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 265:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 266:** `<band height="104" splitType="Stretch">` → Define una banda y su altura.
+**Línea 266:** `<band height="104" splitType="Stretch">` → Define una banda de `104` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 267:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 267:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 268:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 268:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 269:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 269:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 270:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 270:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Define el texto literal visible: `Top 3 ventas por cantidad`.
 
-**Línea 271:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 271:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 272:** `<componentElement>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 272:** `<componentElement>` → Abre un contenedor de componentes extendidos; en este checkpoint contiene la tabla `c:table`.
 
-**Línea 273:** `<reportElement x="0" y="22" width="555" height="76"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 273:** `<reportElement x="0" y="22" width="555" height="76"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 76.
 
-**Línea 274:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre el componente table del namespace de componentes.
+**Línea 274:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre la tabla del namespace de componentes JasperReports; sus columnas usan un datasetRun independiente.
 
-**Línea 275:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 275:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 276:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 276:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia el componente con el subdataset `DatasetTopVentas` para ejecutar su consulta.
 
-**Línea 277:** `<datasetParameter name="tituloLibro">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 277:** `<datasetParameter name="tituloLibro">` → Declara el parámetro `tituloLibro` que se enviará al subdataset de la tabla.
 
-**Línea 278:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 278:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Calcula el valor enviado al parámetro del subdataset desde field titulo.
 
-**Línea 279:** `</datasetParameter>` → Cierra el elemento XML correspondiente.
+**Línea 279:** `</datasetParameter>` → Cierra `datasetParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 280:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 280:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 281:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 281:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 282:** `<c:column width="255">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 282:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 283:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 283:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 284:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 284:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpress...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 285:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 285:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 286:** `<c:column width="100">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 286:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 287:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 287:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]><...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 288:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 288:** `<c:detailCell style="M5TableDetail" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 289:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 289:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 290:** `<c:column width="200">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 290:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 291:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 291:** `<c:columnHeader style="M5TableHeader" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio unita...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TableHeader`.
 
-**Línea 292:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 292:** `<c:detailCell style="M5TableDetail" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFiel...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TableDetail`.
 
-**Línea 293:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 293:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 294:** `</c:table>` → Cierra el elemento XML correspondiente.
+**Línea 294:** `</c:table>` → Finaliza la tabla integrada.
 
-**Línea 295:** `</componentElement>` → Cierra el elemento XML correspondiente.
+**Línea 295:** `</componentElement>` → Cierra `componentElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 296:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 296:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 297:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 297:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 298:** `<pageFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 298:** `<pageFooter>` → Abre Page Footer, emitido al pie de cada página.
 
-**Línea 299:** `<band height="62">` → Define una banda y su altura.
+**Línea 299:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 300:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 300:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 301:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 301:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 302:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 302:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 303:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 303:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 304:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 304:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 305:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 305:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 306:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 306:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 307:** `</pageFooter>` → Cierra el elemento XML correspondiente.
+**Línea 307:** `</pageFooter>` → Cierra `pageFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 308:** `<summary>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 308:** `<summary>` → Abre Summary, emitido una sola vez después del último registro.
 
-**Línea 309:** `<band height="700">` → Define una banda y su altura.
+**Línea 309:** `<band height="700">` → Define una banda de `700` puntos, reservando ese espacio para sus elementos.
 
-**Línea 310:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 310:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 311:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 311:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 312:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 312:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 313:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 313:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 314:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 314:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 315:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 315:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 316:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 316:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 317:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 317:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 318:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 318:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 319:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 319:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 320:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 320:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 321:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 321:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 322:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 322:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 323:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 323:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 324:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 324:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 325:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 325:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 326:** `<barChart>` → Abre un gráfico de barras nativo de JasperReports.
+**Línea 326:** `<barChart>` → Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.
 
-**Línea 327:** `<chart>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 327:** `<chart>` → Abre la configuración común del gráfico: geometría, título, subtítulo y leyenda.
 
-**Línea 328:** `<reportElement x="0" y="165" width="555" height="250"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 328:** `<reportElement x="0" y="165" width="555" height="250"/>` → Posiciona el elemento en x=0, y=165, con ancho 555 y alto 250.
 
-**Línea 329:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 329:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Abre la definición del título del gráfico.
 
-**Línea 330:** `<chartSubtitle/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 330:** `<chartSubtitle/>` → Declara el subtítulo del gráfico; en este checkpoint queda vacío.
 
-**Línea 331:** `<chartLegend position="Bottom"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 331:** `<chartLegend position="Bottom"/>` → Configura la leyenda del gráfico en la posición `Bottom`.
 
-**Línea 332:** `</chart>` → Cierra el elemento XML correspondiente.
+**Línea 332:** `</chart>` → Cierra `chart` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 333:** `<categoryDataset>` → Define el dataset o una serie del gráfico categórico.
+**Línea 333:** `<categoryDataset>` → Abre el dataset categórico que alimenta al gráfico con serie, categoría y valor.
 
-**Línea 334:** `<dataset>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 334:** `<dataset>` → Abre el contenedor de ejecución de datos del componente actual.
 
-**Línea 335:** `<datasetRun subDataset="DatasetVentasPorCategoria">` → Asocia un subdataset con su ejecución concreta.
+**Línea 335:** `<datasetRun subDataset="DatasetVentasPorCategoria">` → Asocia el componente con el subdataset `DatasetVentasPorCategoria` para ejecutar su consulta.
 
-**Línea 336:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 336:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 337:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 337:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 338:** `</dataset>` → Cierra el elemento XML correspondiente.
+**Línea 338:** `</dataset>` → Cierra `dataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 339:** `<categorySeries>` → Define el dataset o una serie del gráfico categórico.
+**Línea 339:** `<categorySeries>` → Abre una serie del dataset categórico; cada fila del subdataset aportará categoría y valor.
 
-**Línea 340:** `<seriesExpression><![CDATA["Importe"]]></seriesExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 340:** `<seriesExpression><![CDATA["Importe"]]></seriesExpression>` → Define el nombre lógico de la serie que aparecerá en la leyenda.
 
-**Línea 341:** `<categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 341:** `<categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>` → Define la categoría del eje X a partir de field categoria_grafico.
 
-**Línea 342:** `<valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 342:** `<valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>` → Define el valor numérico representado por cada barra a partir de field importe_categoria.
 
-**Línea 343:** `</categorySeries>` → Cierra el elemento XML correspondiente.
+**Línea 343:** `</categorySeries>` → Cierra `categorySeries` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 344:** `</categoryDataset>` → Cierra el elemento XML correspondiente.
+**Línea 344:** `</categoryDataset>` → Cierra `categoryDataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 345:** `<barPlot>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 345:** `<barPlot>` → Abre el plot específico del gráfico de barras, donde se configuran etiquetas y ejes.
 
-**Línea 346:** `<plot/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 346:** `<plot/>` → Declara el bloque base del plot; mantiene la configuración visual por defecto del checkpoint.
 
-**Línea 347:** `<itemLabel/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 347:** `<itemLabel/>` → Habilita el bloque de configuración de etiquetas de los ítems/barras.
 
-**Línea 348:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 348:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Abre el formato del eje de categorías (eje X).
 
-**Línea 349:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 349:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Abre el formato del eje de valores (eje Y).
 
-**Línea 350:** `</barPlot>` → Cierra el elemento XML correspondiente.
+**Línea 350:** `</barPlot>` → Cierra `barPlot` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 351:** `</barChart>` → Cierra el elemento XML correspondiente.
+**Línea 351:** `</barChart>` → Finaliza el gráfico de barras.
 
-**Línea 352:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 352:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 353:** `<crosstab>` → Declara o configura la tabla cruzada.
+**Línea 353:** `<crosstab>` → Abre la tabla cruzada nativa que genera dinámicamente la matriz de filas, columnas, medidas y totales.
 
-**Línea 354:** `<reportElement x="0" y="455" width="555" height="225"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 354:** `<reportElement x="0" y="455" width="555" height="225"/>` → Posiciona el elemento en x=0, y=455, con ancho 555 y alto 225.
 
-**Línea 355:** `<crosstabDataset>` → Declara o configura la tabla cruzada.
+**Línea 355:** `<crosstabDataset>` → Abre la fuente de datos específica del crosstab.
 
-**Línea 356:** `<dataset>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 356:** `<dataset>` → Abre el contenedor de ejecución de datos del componente actual.
 
-**Línea 357:** `<datasetRun subDataset="DatasetCrosstabVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 357:** `<datasetRun subDataset="DatasetCrosstabVentas">` → Asocia el componente con el subdataset `DatasetCrosstabVentas` para ejecutar su consulta.
 
-**Línea 358:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 358:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 359:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 359:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 360:** `</dataset>` → Cierra el elemento XML correspondiente.
+**Línea 360:** `</dataset>` → Cierra `dataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 361:** `</crosstabDataset>` → Cierra el elemento XML correspondiente.
+**Línea 361:** `</crosstabDataset>` → Cierra `crosstabDataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 362:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → Declara un grupo de fila o columna del crosstab.
+**Línea 362:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → Declara el grupo de filas `CategoriaCross`, ancho `150` y total en `End`.
 
-**Línea 363:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 363:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
 
-**Línea 364:** `<crosstabRowHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExpressi...` → Declara o configura la tabla cruzada.
+**Línea 364:** `<crosstabRowHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExpressi...` → Abre la cabecera que identifica cada grupo de fila del crosstab.
 
-**Línea 365:** `<crosstabTotalRowHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![CDAT...` → Declara o configura la tabla cruzada.
+**Línea 365:** `<crosstabTotalRowHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![CDAT...` → Abre la cabecera de la fila de total del crosstab.
 
-**Línea 366:** `</rowGroup>` → Cierra el elemento XML correspondiente.
+**Línea 366:** `</rowGroup>` → Cierra `rowGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 367:** `<columnGroup name="AnioCross" height="28" totalPosition="End">` → Declara un grupo de fila o columna del crosstab.
+**Línea 367:** `<columnGroup name="AnioCross" height="28" totalPosition="End">` → Declara el grupo de columnas `AnioCross`, altura `28` y total en `End`.
 
-**Línea 368:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 368:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
 
-**Línea 369:** `<crosstabColumnHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignment="M...` → Declara o configura la tabla cruzada.
+**Línea 369:** `<crosstabColumnHeader><cellContents style="M5CrossHeader"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignment="M...` → Abre la cabecera que identifica cada grupo de columna del crosstab.
 
-**Línea 370:** `<crosstabTotalColumnHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Declara o configura la tabla cruzada.
+**Línea 370:** `<crosstabTotalColumnHeader><cellContents style="M5CrossTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Abre la cabecera de la columna de total del crosstab.
 
-**Línea 371:** `</columnGroup>` → Cierra el elemento XML correspondiente.
+**Línea 371:** `</columnGroup>` → Cierra `columnGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 372:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Declara una medida agregada del crosstab.
+**Línea 372:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Declara la medida `ImporteCross` de tipo `java.lang.Double` con cálculo `Sum`.
 
-**Línea 373:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Declara una medida agregada del crosstab.
+**Línea 373:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Declara la medida `VentasCross` de tipo `java.lang.Integer` con cálculo `Sum`.
 
-**Línea 374:** `<crosstabCell width="100" height="34"><cellContents style="M5CrossDetail"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement textAl...` → Declara o configura la tabla cruzada.
+**Línea 374:** `<crosstabCell width="100" height="34"><cellContents style="M5CrossDetail"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement textAl...` → Declara la celda de detalle de cada intersección fila × columna, con ancho `100` y alto `34`.
 
-**Línea 375:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" he...` → Declara o configura la tabla cruzada.
+**Línea 375:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" he...` → Declara la celda de total de fila para `CategoriaCross`, con ancho `100` y alto `34`.
 
-**Línea 376:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" heig...` → Declara o configura la tabla cruzada.
+**Línea 376:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" heig...` → Declara la celda de total de columna para `AnioCross`, con ancho `100` y alto `34`.
 
-**Línea 377:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportEleme...` → Declara o configura la tabla cruzada.
+**Línea 377:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrossTotal"><textField pattern="#,##0.00 €"><reportEleme...` → Declara la celda de total general de `CategoriaCross` × `AnioCross`, con ancho `100` y alto `34`.
 
-**Línea 378:** `</crosstab>` → Cierra el elemento XML correspondiente.
+**Línea 378:** `</crosstab>` → Finaliza la tabla cruzada.
 
-**Línea 379:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 379:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 380:** `</summary>` → Cierra el elemento XML correspondiente.
+**Línea 380:** `</summary>` → Finaliza la sección Summary.
 
-**Línea 381:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 381:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -7486,115 +7739,115 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `import java.io.File;` → Importa una clase utilizada por el generador.
+**Línea 1:** `import java.io.File;` → Importa `java.io.File` para gestionar rutas y crear la carpeta de salida.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase utilizada por el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa `java.sql.Connection` para representar la conexión JDBC abierta contra SQLite.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase utilizada por el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa `java.sql.DriverManager` para abrir la conexión JDBC a partir de la URL SQLite.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase utilizada por el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa `java.util.HashMap` para crear la implementación mutable del mapa de parámetros.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase utilizada por el generador.
+**Línea 5:** `import java.util.Map;` → Importa `java.util.Map` para tipar el mapa de parámetros que recibe JasperReports.
 
-**Línea 6:** `import java.util.Arrays;` → Importa una clase utilizada por el generador.
+**Línea 6:** `import java.util.Arrays;` → Importa `java.util.Arrays` para construir la colección de categorías usada por el parámetro de lista.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase utilizada por el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa `net.sf.jasperreports.engine.JasperCompileManager` para compilar los JRXML a artefactos .jasper.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase utilizada por el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa `net.sf.jasperreports.engine.JasperExportManager` para exportar el JasperPrint resultante a PDF.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase utilizada por el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa `net.sf.jasperreports.engine.JasperFillManager` para llenar el informe compilado con parámetros y conexión.
 
-**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase utilizada por el generador.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa `net.sf.jasperreports.engine.JasperPrint` para representar en memoria el documento ya paginado por JasperReports.
 
-**Línea 11:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 11:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 12:** `public class GeneradorInformeVentas {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 12:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable `GeneradorInformeVentas` que encapsula el generador del informe.
 
-**Línea 13:** `public static void main(String[] args) {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 13:** `public static void main(String[] args) {` → Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.
 
-**Línea 14:** `try {` → Controla recursos o tratamiento de excepciones.
+**Línea 14:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
-**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara `rutaJrxml` con ruta del JRXML maestro que se compilará; el valor configurado es `"reports/informe_ventas.jrxml"`.
 
-**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara `rutaJasper` con ruta del .jasper maestro que producirá la compilación; el valor configurado es `"reports/informe_ventas.jasper"`.
 
-**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara una ruta o valor de configuración local.
+**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara `rutaPdf` con ruta del PDF final exportado; el valor configurado es `"output/informe_ventas.pdf"`.
 
-**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara una ruta o valor de configuración local.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara `urlBD` con URL JDBC de la base SQLite; el valor configurado es `"jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
 
-**Línea 19:** `new File("output").mkdirs();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 19:** `new File("output").mkdirs();` → Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.
 
-**Línea 20:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 20:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara `rutaSubJrxml` con ruta del JRXML del subinforme de detalle; el valor configurado es `"reports/subinforme_ventas_detalle.jrxml"`.
 
-**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara `rutaSubJasper` con ruta del .jasper del subinforme compilado; el valor configurado es `"reports/subinforme_ventas_detalle.jasper"`.
 
-**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila el JRXML indicado en `rutaSubJrxml` y escribe el artefacto compilado en `rutaSubJasper`.
 
-**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML indicado en `rutaJrxml` y escribe el artefacto compilado en `rutaJasper`.
 
-**Línea 25:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 25:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.
 
-**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Añade un valor al mapa de parámetros del informe.
+**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Asigna al parámetro JasperReports `usuario` el valor Java `"Ana Martínez"` antes del llenado.
 
-**Línea 28:** `parametros.put("departamento", "Comercial");` → Añade un valor al mapa de parámetros del informe.
+**Línea 28:** `parametros.put("departamento", "Comercial");` → Asigna al parámetro JasperReports `departamento` el valor Java `"Comercial"` antes del llenado.
 
-**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Añade un valor al mapa de parámetros del informe.
+**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Asigna al parámetro JasperReports `periodo` el valor Java `"Septiembre 2026"` antes del llenado.
 
-**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Añade un valor al mapa de parámetros del informe.
+**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Asigna al parámetro JasperReports `tipoIva` el valor Java `Double.valueOf(0.21d)` antes del llenado.
 
-**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Añade un valor al mapa de parámetros del informe.
+**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Asigna al parámetro JasperReports `mostrarDetalle` el valor Java `Boolean.TRUE` antes del llenado.
 
-**Línea 32:** `parametros.put("categoria", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 32:** `parametros.put("categoria", null);` → Asigna al parámetro JasperReports `categoria` el valor Java `null` antes del llenado.
 
-**Línea 33:** `parametros.put("precioMinimo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 33:** `parametros.put("precioMinimo", null);` → Asigna al parámetro JasperReports `precioMinimo` el valor Java `null` antes del llenado.
 
-**Línea 34:** `parametros.put("precioMaximo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 34:** `parametros.put("precioMaximo", null);` → Asigna al parámetro JasperReports `precioMaximo` el valor Java `null` antes del llenado.
 
-**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Añade un valor al mapa de parámetros del informe.
+**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Asigna al parámetro JasperReports `umbralUnidades` el valor Java `Integer.valueOf(5)` antes del llenado.
 
-**Línea 36:** `parametros.put("textoBusqueda", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 36:** `parametros.put("textoBusqueda", null);` → Asigna al parámetro JasperReports `textoBusqueda` el valor Java `null` antes del llenado.
 
-**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Añade un valor al mapa de parámetros del informe.
+**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Asigna al parámetro JasperReports `categoriasLista` el valor Java `Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")` antes del llenado.
 
-**Línea 38:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 38:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite usada durante el llenado.
+**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.
 
-**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Llena el informe con parámetros y la conexión JDBC.
+**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.
 
-**Línea 41:** `rutaJasper,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 41:** `rutaJasper,` → Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.
 
-**Línea 42:** `parametros,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 42:** `parametros,` → Pasa como segundo argumento el mapa con todos los parámetros del informe.
 
-**Línea 43:** `conexion);` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 43:** `conexion);` → Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.
 
-**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.
 
-**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
-**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Escribe en la consola la evidencia `"Paginas del documento: " + documento.getPages().size()`, que queda registrada por el workflow E2E.
 
-**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Escribe en la consola la evidencia `"Parametro usuario: " + parametros.get("usuario")`, que queda registrada por el workflow E2E.
 
-**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Escribe en la consola la evidencia `"M5 ventas generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 49:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 49:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 50:** `} catch (Exception e) {` → Controla recursos o tratamiento de excepciones.
+**Línea 50:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
 
-**Línea 51:** `e.printStackTrace();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 51:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
-**Línea 52:** `System.exit(1);` → Propaga el fallo al sistema/CI con código de salida no cero.
+**Línea 52:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 53:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 53:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
 
-**Línea 54:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 54:** `}` → Cierra el método `main`.
 
-**Línea 55:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 55:** `}` → Cierra la clase `GeneradorInformeVentas`.
 
 ---
 
@@ -7738,8 +7991,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Verificación visual:** 5.6 conserva todo el diseño avanzado acumulado.
 
----
+**Qué hace:** completa la operación «Verificar el checkpoint 5.5 como base» dentro del flujo visual del checkpoint 5.6.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 2: Crear la carpeta de estilos**
 
 **Acciones:**
@@ -7753,8 +8013,11 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 **Qué hace:** separa los estilos reutilizables del JRXML.
 **Por qué:** la plantilla debe poder cargarse con una ruta relativa estable.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
 
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 3: Configurar el namespace JRTX correcto**
 
 **Acciones:**
@@ -7770,8 +8033,11 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 **Qué hace:** declara una plantilla de estilos válida para JasperReports 6.20.0.
 **Error común:** crear un JRXML de informe en lugar de un JRTX.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 4: Declarar los siete estilos del checkpoint**
 
 **Acciones:**
@@ -7790,8 +8056,11 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 **Qué hace:** externaliza los estilos que el checkpoint aplica realmente.
 **Error común:** añadir un segundo estilo por defecto. Solución: la plantilla del checkpoint no declara `isDefault="true"`.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 5: Importar la plantilla en el JRXML**
 
 **Acciones:**
@@ -7805,8 +8074,11 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 **Qué hace:** carga los siete estilos externos.
 **Por qué:** las referencias de estilo deben poder resolverse al compilar.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
 
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 6: Aplicar `M5TituloPrincipal`**
 
 **Acciones:**
@@ -7818,8 +8090,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Verificación visual:** el título usa el estilo importado.
 
----
+**Qué hace:** completa la operación «Aplicar `M5TituloPrincipal`» dentro del flujo visual del checkpoint 5.6.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 7: Aplicar `M5GrupoCabecera`**
 
 **Acciones:**
@@ -7831,8 +8110,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Verificación visual:** la cabecera de grupo usa el estilo externo.
 
----
+**Qué hace:** completa la operación «Aplicar `M5GrupoCabecera`» dentro del flujo visual del checkpoint 5.6.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 8: Aplicar los estilos de tabla**
 
 **Acciones:**
@@ -7847,8 +8133,13 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Qué hace:** externaliza el aspecto sin alterar los datos de la tabla.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 9: Aplicar los estilos del crosstab**
 
 **Acciones:**
@@ -7861,8 +8152,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Verificación visual:** el crosstab conserva medidas y grupos; sólo cambian los nombres de estilo.
 
----
+**Qué hace:** completa la operación «Aplicar los estilos del crosstab» dentro del flujo visual del checkpoint 5.6.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 10: Mantener los estilos locales heredados**
 
 **Acciones:**
@@ -7877,8 +8175,11 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 **Qué hace:** evita una migración destructiva del informe.
 **Por qué:** 5.6 demuestra reutilización gradual, no reescritura total.
 
----
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
 
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 11: Validar la plantilla y el informe**
 
 **Acciones:**
@@ -7891,8 +8192,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Verificación visual:** Studio valida ambos archivos.
 
----
+**Qué hace:** completa la operación «Validar la plantilla y el informe» dentro del flujo visual del checkpoint 5.6.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 12: Compilar y previsualizar**
 
 **Acciones:**
@@ -7904,8 +8212,15 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Verificación visual:** la nueva identidad visual se aplica sin pérdidas de contenido.
 
----
+**Qué hace:** completa la operación «Compilar y previsualizar» dentro del flujo visual del checkpoint 5.6.
 
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 13: Ejecutar desde Java**
 
 **Acciones:**
@@ -7919,8 +8234,13 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 **Qué hace:** demuestra que la ruta JRTX funciona también fuera de Preview.
 
----
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
 
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
+
+---
 **Paso 14: Documentar `PLANTILLAS.md`**
 
 **Acciones:**
@@ -7933,6 +8253,14 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 6. Guardar.
 
 **Verificación visual:** PLANTILLAS.md coincide con JRTX y JRXML ejecutables.
+
+**Qué hace:** completa la operación «Documentar `PLANTILLAS.md`» dentro del flujo visual del checkpoint 5.6.
+
+**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.
+
+**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint 5.6.
+
+**Analogía:** es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.
 
 ---
 
@@ -7965,29 +8293,29 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template"` → Abre una plantilla externa de estilos `.jrtx`.
+**Línea 2:** `<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template"` → Abre el documento raíz `jasperTemplate` de la plantilla JRTX que contiene estilos reutilizables.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `<style name="M5TituloPrincipal" fontName="DejaVu Sans" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 5:** `<style name="M5TituloPrincipal" fontName="DejaVu Sans" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `M5TituloPrincipal`; fuente DejaVu Sans, tamaño 18.
 
-**Línea 6:** `<style name="M5GrupoCabecera" fontName="DejaVu Sans" fontSize="10" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#D6EAF8"/>` → Declara un estilo reutilizable.
+**Línea 6:** `<style name="M5GrupoCabecera" fontName="DejaVu Sans" fontSize="10" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#D6EAF8"/>` → Declara el estilo `M5GrupoCabecera`; fuente DejaVu Sans, tamaño 10, fondo #D6EAF8.
 
-**Línea 7:** `<style name="M5TablaCabecera" fontName="DejaVu Sans" fontSize="9" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#EAF2F8"/>` → Declara un estilo reutilizable.
+**Línea 7:** `<style name="M5TablaCabecera" fontName="DejaVu Sans" fontSize="9" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#EAF2F8"/>` → Declara el estilo `M5TablaCabecera`; fuente DejaVu Sans, tamaño 9, fondo #EAF2F8.
 
-**Línea 8:** `<style name="M5TablaDetalle" fontName="DejaVu Sans" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 8:** `<style name="M5TablaDetalle" fontName="DejaVu Sans" fontSize="9"/>` → Declara el estilo `M5TablaDetalle`; fuente DejaVu Sans, tamaño 9.
 
-**Línea 9:** `<style name="M5CrosstabCabecera" fontName="DejaVu Sans" fontSize="9" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#EAF2F8"/>` → Declara un estilo reutilizable.
+**Línea 9:** `<style name="M5CrosstabCabecera" fontName="DejaVu Sans" fontSize="9" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#EAF2F8"/>` → Declara el estilo `M5CrosstabCabecera`; fuente DejaVu Sans, tamaño 9, fondo #EAF2F8.
 
-**Línea 10:** `<style name="M5CrosstabDetalle" fontName="DejaVu Sans" fontSize="9" mode="Opaque" backcolor="#FFFFFF"/>` → Declara un estilo reutilizable.
+**Línea 10:** `<style name="M5CrosstabDetalle" fontName="DejaVu Sans" fontSize="9" mode="Opaque" backcolor="#FFFFFF"/>` → Declara el estilo `M5CrosstabDetalle`; fuente DejaVu Sans, tamaño 9, fondo #FFFFFF.
 
-**Línea 11:** `<style name="M5CrosstabTotal" fontName="DejaVu Sans" fontSize="9" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#D6EAF8"/>` → Declara un estilo reutilizable.
+**Línea 11:** `<style name="M5CrosstabTotal" fontName="DejaVu Sans" fontSize="9" isBold="true" forecolor="#173F6B" mode="Opaque" backcolor="#D6EAF8"/>` → Declara el estilo `M5CrosstabTotal`; fuente DejaVu Sans, tamaño 9, fondo #D6EAF8.
 
-**Línea 12:** `</jasperTemplate>` → Cierra el elemento XML correspondiente.
+**Línea 12:** `</jasperTemplate>` → Finaliza la plantilla externa JRTX.
 
 ---
 
@@ -8388,769 +8716,769 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 
 
-**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara la versión y codificación XML.
+**Línea 1:** `<?xml version="1.0" encoding="UTF-8"?>` → Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.
 
-**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el informe JasperReports.
+**Línea 2:** `<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"` → Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.
 
-**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 3:** `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"` → Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.
 
-**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 4:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 5:** `name="informe_ventas"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 5:** `name="informe_ventas"` → Asigna al documento JasperReports el nombre interno `informe_ventas`.
 
-**Línea 6:** `language="java"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 6:** `language="java"` → Configura `language=java` para evaluar expresiones con el lenguaje Java.
 
-**Línea 7:** `pageWidth="595"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 7:** `pageWidth="595"` → Fija el ancho físico de página en `595` puntos.
 
-**Línea 8:** `pageHeight="842"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 8:** `pageHeight="842"` → Fija la altura física de página en `842` puntos.
 
-**Línea 9:** `columnWidth="555"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 9:** `columnWidth="555"` → Fija el ancho útil de la columna de contenido en `555` puntos.
 
-**Línea 10:** `leftMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 10:** `leftMargin="20"` → Fija el margen izquierdo del informe en `20` puntos.
 
-**Línea 11:** `rightMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 11:** `rightMargin="20"` → Fija el margen derecho del informe en `20` puntos.
 
-**Línea 12:** `topMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 12:** `topMargin="20"` → Fija el margen superior del informe en `20` puntos.
 
-**Línea 13:** `bottomMargin="20"` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 13:** `bottomMargin="20"` → Fija el margen inferior del informe en `20` puntos y completa la apertura del elemento raíz.
 
-**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 14:** `uuid="3d2c2bd7-3b93-4da9-8b60-6b3c45674c91">` → Asigna el UUID de diseño `3d2c2bd7-3b93-4da9-8b60-6b3c45674c91` para identificar de forma estable el informe en Studio.
 
-**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 15:** `<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLiteEditorial"/>` → Indica a Jaspersoft Studio que use el Data Adapter `SQLiteEditorial` como conexión de diseño por defecto.
 
-**Línea 16:** `<template><![CDATA["resources/styles/EditorialStyles.jrtx"]]></template>` → Importa una plantilla de estilos externa.
+**Línea 16:** `<template><![CDATA["resources/styles/EditorialStyles.jrtx"]]></template>` → Importa la plantilla externa cuya expresión CDATA devuelve `resources/styles/EditorialStyles.jrtx`.
 
-**Línea 17:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara un estilo reutilizable.
+**Línea 17:** `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>` → Declara el estilo `Sans_Normal`; es el estilo por defecto, fuente DejaVu Sans, tamaño 10.
 
-**Línea 18:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 18:** `<style name="TituloPrincipal" style="Sans_Normal" fontSize="18" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `TituloPrincipal`; hereda de Sans_Normal, tamaño 18.
 
-**Línea 19:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara un estilo reutilizable.
+**Línea 19:** `<style name="Cabecera" style="Sans_Normal" fontSize="9" isBold="true" forecolor="#173F6B"/>` → Declara el estilo `Cabecera`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 20:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara un estilo reutilizable.
+**Línea 20:** `<style name="Dato" style="Sans_Normal" fontSize="9"/>` → Declara el estilo `Dato`; hereda de Sans_Normal, tamaño 9.
 
-**Línea 21:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara un estilo reutilizable.
+**Línea 21:** `<style name="UnidadesCondicional" style="Dato" isBold="true">` → Declara el estilo `UnidadesCondicional`; hereda de Dato.
 
-**Línea 22:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 22:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 23:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 23:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></conditionExpre...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 24:** `<style forecolor="#1B5E20"/>` → Declara un estilo reutilizable.
+**Línea 24:** `<style forecolor="#1B5E20"/>` → Declara el estilo `None`.
 
-**Línea 25:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 25:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 26:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 26:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 27:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 27:** `<conditionExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= 3 && $F{unidades_vendidas}.intValue() < $P{umbra...` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 28:** `<style forecolor="#1D5D88"/>` → Declara un estilo reutilizable.
+**Línea 28:** `<style forecolor="#1D5D88"/>` → Declara el estilo `None`.
 
-**Línea 29:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 29:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 30:** `<conditionalStyle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 30:** `<conditionalStyle>` → Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.
 
-**Línea 31:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 31:** `<conditionExpression><![CDATA[$F{unidades_vendidas} == null || $F{unidades_vendidas}.intValue() < 3]]></conditionExpression>` → Define la condición booleana que activa el estilo condicional usando field unidades_vendidas, field unidades_vendidas.
 
-**Línea 32:** `<style forecolor="#9D3429"/>` → Declara un estilo reutilizable.
+**Línea 32:** `<style forecolor="#9D3429"/>` → Declara el estilo `None`.
 
-**Línea 33:** `</conditionalStyle>` → Cierra el elemento XML correspondiente.
+**Línea 33:** `</conditionalStyle>` → Cierra `conditionalStyle` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 34:** `</style>` → Cierra el elemento XML correspondiente.
+**Línea 34:** `</style>` → Cierra `style` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 35:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 35:** `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5TableHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 36:** `<style name="M5TableDetail" style="Dato"/>` → Declara un estilo reutilizable.
+**Línea 36:** `<style name="M5TableDetail" style="Dato"/>` → Declara el estilo `M5TableDetail`; hereda de Dato.
 
-**Línea 37:** `<style name="M5CrossHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 37:** `<style name="M5CrossHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5CrossHeader`; hereda de Dato, fondo #EAF2F8.
 
-**Línea 38:** `<style name="M5CrossDetail" style="Dato" mode="Opaque" backcolor="#FFFFFF"/>` → Declara un estilo reutilizable.
+**Línea 38:** `<style name="M5CrossDetail" style="Dato" mode="Opaque" backcolor="#FFFFFF"/>` → Declara el estilo `M5CrossDetail`; hereda de Dato, fondo #FFFFFF.
 
-**Línea 39:** `<style name="M5CrossTotal" style="Dato" mode="Opaque" backcolor="#D6EAF8" forecolor="#173F6B" isBold="true"/>` → Declara un estilo reutilizable.
+**Línea 39:** `<style name="M5CrossTotal" style="Dato" mode="Opaque" backcolor="#D6EAF8" forecolor="#173F6B" isBold="true"/>` → Declara el estilo `M5CrossTotal`; hereda de Dato, fondo #D6EAF8.
 
-**Línea 40:** `<subDataset name="DatasetTopVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 40:** `<subDataset name="DatasetTopVentas">` → Declara el subdataset `DatasetTopVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 41:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara un parámetro y su tipo Java.
+**Línea 41:** `<parameter name="tituloLibro" class="java.lang.String"/>` → Declara el parámetro `tituloLibro` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 42:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 42:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 43:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 43:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 44:** `SELECT fecha_venta, cantidad, precio_unitario` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 44:** `SELECT fecha_venta, cantidad, precio_unitario` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 45:** `FROM ventas` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 45:** `FROM ventas` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 46:** `WHERE titulo_libro = $P{tituloLibro}` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 46:** `WHERE titulo_libro = $P{tituloLibro}` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 47:** `ORDER BY cantidad DESC, fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 47:** `ORDER BY cantidad DESC, fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 48:** `LIMIT 3` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 48:** `LIMIT 3` → Cláusula SQL `LIMIT`: limita el número de filas devueltas.
 
-**Línea 49:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 49:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 50:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 50:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 51:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 51:** `<field name="fecha_venta" class="java.lang.String"/>` → Declara el field `fecha_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 52:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 52:** `<field name="cantidad" class="java.lang.Integer"/>` → Declara el field `cantidad` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 53:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 53:** `<field name="precio_unitario" class="java.lang.Double"/>` → Declara el field `precio_unitario` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 54:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 54:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 55:** `<subDataset name="DatasetVentasPorCategoria">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 55:** `<subDataset name="DatasetVentasPorCategoria">` → Declara el subdataset `DatasetVentasPorCategoria`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 56:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 56:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 57:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 57:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 58:** `SELECT l.categoria AS categoria_grafico,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 58:** `SELECT l.categoria AS categoria_grafico,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 59:** `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 59:** `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_categoria`, que después coincide con un field del subdataset.
 
-**Línea 60:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 60:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 61:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 61:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 62:** `GROUP BY l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 62:** `GROUP BY l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 63:** `ORDER BY l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 63:** `ORDER BY l.categoria` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 64:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 64:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 65:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 65:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 66:** `<field name="categoria_grafico" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 66:** `<field name="categoria_grafico" class="java.lang.String"/>` → Declara el field `categoria_grafico` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 67:** `<field name="importe_categoria" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 67:** `<field name="importe_categoria" class="java.lang.Double"/>` → Declara el field `importe_categoria` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 68:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 68:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 69:** `<subDataset name="DatasetCrosstabVentas">` → Declara un dataset auxiliar independiente del dataset principal.
+**Línea 69:** `<subDataset name="DatasetCrosstabVentas">` → Declara el subdataset `DatasetCrosstabVentas`, con consulta y fields propios independientes del dataset principal.
 
-**Línea 70:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 70:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 71:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 71:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 72:** `SELECT l.categoria AS categoria_cross,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 72:** `SELECT l.categoria AS categoria_cross,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 73:** `SUBSTR(v.fecha_venta, 1, 4) AS anio_cross,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 73:** `SUBSTR(v.fecha_venta, 1, 4) AS anio_cross,` → Calcula o selecciona un valor SQL y lo expone con el alias `anio_cross`, que después coincide con un field del subdataset.
 
-**Línea 74:** `(v.cantidad * v.precio_unitario) AS importe_cross,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 74:** `(v.cantidad * v.precio_unitario) AS importe_cross,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_cross`, que después coincide con un field del subdataset.
 
-**Línea 75:** `1 AS ventas_cross` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 75:** `1 AS ventas_cross` → Calcula o selecciona un valor SQL y lo expone con el alias `ventas_cross`, que después coincide con un field del subdataset.
 
-**Línea 76:** `FROM ventas v` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 76:** `FROM ventas v` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 77:** `JOIN libros l ON l.titulo = v.titulo_libro` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 77:** `JOIN libros l ON l.titulo = v.titulo_libro` → Cláusula SQL `JOIN`: une las filas que cumplen la relación indicada.
 
-**Línea 78:** `ORDER BY l.categoria, anio_cross, v.fecha_venta` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 78:** `ORDER BY l.categoria, anio_cross, v.fecha_venta` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 79:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 79:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 80:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 80:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 81:** `<field name="categoria_cross" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 81:** `<field name="categoria_cross" class="java.lang.String"/>` → Declara el field `categoria_cross` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 82:** `<field name="anio_cross" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 82:** `<field name="anio_cross" class="java.lang.String"/>` → Declara el field `anio_cross` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 83:** `<field name="importe_cross" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 83:** `<field name="importe_cross" class="java.lang.Double"/>` → Declara el field `importe_cross` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 84:** `<field name="ventas_cross" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 84:** `<field name="ventas_cross" class="java.lang.Integer"/>` → Declara el field `ventas_cross` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 85:** `</subDataset>` → Cierra el elemento XML correspondiente.
+**Línea 85:** `</subDataset>` → Finaliza el subdataset auxiliar y vuelve al nivel del informe.
 
-**Línea 86:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 86:** `<parameter name="usuario" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `usuario` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 87:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 87:** `<parameter name="fechaInforme" class="java.util.Date" isForPrompting="true">` → Declara el parámetro `fechaInforme` con tipo `java.util.Date` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 88:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 88:** `<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 89:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 89:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 90:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 90:** `<parameter name="departamento" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `departamento` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 91:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 91:** `<defaultValueExpression><![CDATA["General"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 92:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 92:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 93:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 93:** `<parameter name="periodo" class="java.lang.String" isForPrompting="true">` → Declara el parámetro `periodo` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 94:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 94:** `<defaultValueExpression><![CDATA["Mensual"]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 95:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 95:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 96:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 96:** `<parameter name="tipoIva" class="java.lang.Double" isForPrompting="true">` → Declara el parámetro `tipoIva` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 97:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 97:** `<defaultValueExpression><![CDATA[Double.valueOf(0.21d)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 98:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 98:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 99:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 99:** `<parameter name="mostrarDetalle" class="java.lang.Boolean" isForPrompting="true">` → Declara el parámetro `mostrarDetalle` con tipo `java.lang.Boolean` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 100:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 100:** `<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 101:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 101:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 102:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 102:** `<parameter name="categoria" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `categoria` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 103:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 103:** `<parameter name="precioMinimo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMinimo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 104:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 104:** `<parameter name="precioMaximo" class="java.lang.Double" isForPrompting="true"/>` → Declara el parámetro `precioMaximo` con tipo `java.lang.Double` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 105:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara un parámetro y su tipo Java.
+**Línea 105:** `<parameter name="umbralUnidades" class="java.lang.Integer" isForPrompting="true">` → Declara el parámetro `umbralUnidades` con tipo `java.lang.Integer` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 106:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 106:** `<defaultValueExpression><![CDATA[Integer.valueOf(5)]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 107:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 107:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 108:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara un parámetro y su tipo Java.
+**Línea 108:** `<parameter name="textoBusqueda" class="java.lang.String" isForPrompting="true"/>` → Declara el parámetro `textoBusqueda` con tipo `java.lang.String` y lo expone al diálogo de parámetros de Studio.
 
-**Línea 109:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara un parámetro y su tipo Java.
+**Línea 109:** `<parameter name="categoriasLista" class="java.util.Collection" isForPrompting="false">` → Declara el parámetro `categoriasLista` con tipo `java.util.Collection` como parámetro interno no solicitado al usuario.
 
-**Línea 110:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 110:** `<defaultValueExpression><![CDATA[java.util.Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")]]></defaultValueExpression>` → Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.
 
-**Línea 111:** `</parameter>` → Cierra el elemento XML correspondiente.
+**Línea 111:** `</parameter>` → Cierra `parameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 112:** `<queryString language="sql">` → Abre la consulta SQL del dataset actual.
+**Línea 112:** `<queryString language="sql">` → Abre la consulta SQL que JasperReports ejecutará para el dataset actual.
 
-**Línea 113:** `<![CDATA[` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 113:** `<![CDATA[` → Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.
 
-**Línea 114:** `SELECT l.titulo,` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 114:** `SELECT l.titulo,` → Cláusula SQL `SELECT`: selecciona y calcula las columnas que devolverá la consulta.
 
-**Línea 115:** `l.categoria,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 115:** `l.categoria,` → Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.
 
-**Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 116:** `SUM(v.cantidad) AS unidades_vendidas,` → Calcula o selecciona un valor SQL y lo expone con el alias `unidades_vendidas`, que después coincide con un field del subdataset.
 
-**Línea 117:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 117:** `SUM(v.cantidad * v.precio_unitario) AS importe_total,` → Calcula o selecciona un valor SQL y lo expone con el alias `importe_total`, que después coincide con un field del subdataset.
 
-**Línea 118:** `AVG(v.precio_unitario) AS precio_medio,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 118:** `AVG(v.precio_unitario) AS precio_medio,` → Calcula o selecciona un valor SQL y lo expone con el alias `precio_medio`, que después coincide con un field del subdataset.
 
-**Línea 119:** `MIN(v.fecha_venta) AS primera_venta,` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 119:** `MIN(v.fecha_venta) AS primera_venta,` → Calcula o selecciona un valor SQL y lo expone con el alias `primera_venta`, que después coincide con un field del subdataset.
 
-**Línea 120:** `MAX(v.fecha_venta) AS ultima_venta` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 120:** `MAX(v.fecha_venta) AS ultima_venta` → Calcula o selecciona un valor SQL y lo expone con el alias `ultima_venta`, que después coincide con un field del subdataset.
 
-**Línea 121:** `FROM libros l` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 121:** `FROM libros l` → Cláusula SQL `FROM`: define la tabla base de la consulta.
 
-**Línea 122:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 122:** `LEFT JOIN ventas v ON l.titulo = v.titulo_libro` → Cláusula SQL `LEFT JOIN`: une datos conservando las filas del lado izquierdo aunque no tengan ventas.
 
-**Línea 123:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 123:** `WHERE ($P{categoria} IS NULL OR l.categoria = $P{categoria})` → Cláusula SQL `WHERE`: aplica el filtro de filas.
 
-**Línea 124:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 124:** `AND ($P{precioMinimo} IS NULL OR l.precio >= $P{precioMinimo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 125:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 125:** `AND ($P{precioMaximo} IS NULL OR l.precio <= $P{precioMaximo})` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 126:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 126:** `AND ($P{textoBusqueda} IS NULL OR $P{textoBusqueda} = '' OR l.titulo LIKE '%' || $P{textoBusqueda} || '%')` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 127:** `AND $X{IN, l.categoria, categoriasLista}` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 127:** `AND $X{IN, l.categoria, categoriasLista}` → Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.
 
-**Línea 128:** `GROUP BY l.titulo, l.categoria` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 128:** `GROUP BY l.titulo, l.categoria` → Cláusula SQL `GROUP BY`: agrupa las filas antes de evaluar las funciones agregadas.
 
-**Línea 129:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Forma parte de la consulta SQL ejecutada por JasperReports.
+**Línea 129:** `ORDER BY l.categoria, COALESCE(importe_total, 0) DESC, l.titulo` → Cláusula SQL `ORDER BY`: ordena el resultado que recibirá JasperReports.
 
-**Línea 130:** `]]>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 130:** `]]>` → Cierra el bloque CDATA y devuelve el control al parser XML.
 
-**Línea 131:** `</queryString>` → Cierra el elemento XML correspondiente.
+**Línea 131:** `</queryString>` → Cierra la consulta SQL del dataset actual.
 
-**Línea 132:** `<field name="titulo" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 132:** `<field name="titulo" class="java.lang.String"/>` → Declara el field `titulo` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 133:** `<field name="categoria" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 133:** `<field name="categoria" class="java.lang.String"/>` → Declara el field `categoria` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 134:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara un field y su tipo Java.
+**Línea 134:** `<field name="unidades_vendidas" class="java.lang.Integer"/>` → Declara el field `unidades_vendidas` con tipo Java `java.lang.Integer` para mapear una columna del dataset.
 
-**Línea 135:** `<field name="importe_total" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 135:** `<field name="importe_total" class="java.lang.Double"/>` → Declara el field `importe_total` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 136:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara un field y su tipo Java.
+**Línea 136:** `<field name="precio_medio" class="java.lang.Double"/>` → Declara el field `precio_medio` con tipo Java `java.lang.Double` para mapear una columna del dataset.
 
-**Línea 137:** `<field name="primera_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 137:** `<field name="primera_venta" class="java.lang.String"/>` → Declara el field `primera_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 138:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara un field y su tipo Java.
+**Línea 138:** `<field name="ultima_venta" class="java.lang.String"/>` → Declara el field `ultima_venta` con tipo Java `java.lang.String` para mapear una columna del dataset.
 
-**Línea 139:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 139:** `<variable name="TotalUnidades" class="java.lang.Integer" calculation="Sum" resetType="Report">` → Declara la variable `TotalUnidades` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 140:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 140:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 141:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 141:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 142:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 142:** `<variable name="TotalImporte" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `TotalImporte` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 143:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 143:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 144:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 144:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 145:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 145:** `<variable name="TotalPagina" class="java.lang.Double" calculation="Sum" resetType="Page">` → Declara la variable `TotalPagina` con cálculo `Sum` y reinicio `Page`.
 
-**Línea 146:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 146:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 147:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 147:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 148:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 148:** `<variable name="PrecioMedio" class="java.lang.Double" calculation="Average" resetType="Report">` → Declara la variable `PrecioMedio` con cálculo `Average` y reinicio `Report`.
 
-**Línea 149:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 149:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 150:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 150:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 151:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 151:** `<variable name="PrecioMaximo" class="java.lang.Double" calculation="Highest" resetType="Report">` → Declara la variable `PrecioMaximo` con cálculo `Highest` y reinicio `Report`.
 
-**Línea 152:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 152:** `<variableExpression><![CDATA[$F{precio_medio}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field precio_medio.
 
-**Línea 153:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 153:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 154:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 154:** `<variable name="NumeroLibros" class="java.lang.Integer" calculation="Count" resetType="Report">` → Declara la variable `NumeroLibros` con cálculo `Count` y reinicio `Report`.
 
-**Línea 155:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 155:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 156:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 156:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 157:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 157:** `<variable name="ImporteConIva" class="java.lang.Double" calculation="Sum" resetType="Report">` → Declara la variable `ImporteConIva` con cálculo `Sum` y reinicio `Report`.
 
-**Línea 158:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Expresión Java evaluada por JasperReports.
+**Línea 158:** `<variableExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></v...` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 159:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 159:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 160:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 160:** `<variable name="GrupoUnidades" class="java.lang.Integer" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoUnidades` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 161:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 161:** `<variableExpression><![CDATA[$F{unidades_vendidas}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field unidades_vendidas.
 
-**Línea 162:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 162:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 163:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 163:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoImporte` con cálculo `Sum` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 164:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 164:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field importe_total.
 
-**Línea 165:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 165:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 166:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara una variable de JasperReports y su cálculo/reinicio.
+**Línea 166:** `<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">` → Declara la variable `GrupoLibros` con cálculo `Count` y reinicio `Group` asociado a `CategoriaGroup`.
 
-**Línea 167:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 167:** `<variableExpression><![CDATA[$F{titulo}]]></variableExpression>` → Define el valor de entrada que JasperReports evaluará/acumulará para la variable a partir de field titulo.
 
-**Línea 168:** `</variable>` → Cierra el elemento XML correspondiente.
+**Línea 168:** `</variable>` → Cierra `variable` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 169:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara una agrupación del informe.
+**Línea 169:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → Declara el grupo `CategoriaGroup` y sus propiedades de paginación/reimpresión.
 
-**Línea 170:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 170:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → Define la clave que decide cuándo cambia el grupo mediante field categoria.
 
-**Línea 171:** `<groupHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 171:** `<groupHeader>` → Abre la cabecera del grupo, que se emite cuando comienza cada nuevo valor de agrupación.
 
-**Línea 172:** `<band height="28">` → Define una banda y su altura.
+**Línea 172:** `<band height="28">` → Define una banda de `28` puntos, reservando ese espacio para sus elementos.
 
-**Línea 173:** `<textField><reportElement x="0" y="2" width="555" height="22" style="M5GrupoCabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]></textFieldExpression></text...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 173:** `<textField><reportElement x="0" y="2" width="555" height="22" style="M5GrupoCabecera"/><textFieldExpression><![CDATA["Categoría: " + $F{categoria}]]></textFieldExpression></text...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 174:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 174:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 175:** `</groupHeader>` → Cierra el elemento XML correspondiente.
+**Línea 175:** `</groupHeader>` → Cierra `groupHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 176:** `<groupFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 176:** `<groupFooter>` → Abre el pie del grupo, donde se muestran los acumulados justo antes de cambiar de grupo.
 
-**Línea 177:** `<band height="34">` → Define una banda y su altura.
+**Línea 177:** `<band height="34">` → Define una banda de `34` puntos, reservando ese espacio para sus elementos.
 
-**Línea 178:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 178:** `<textField><reportElement x="0" y="3" width="185" height="18" style="Dato"/><textFieldExpression><![CDATA["Libros del grupo: " + $V{GrupoLibros}]]></textFieldExpression></textFi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 179:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 179:** `<textField><reportElement x="185" y="3" width="180" height="18" style="Dato"/><textFieldExpression><![CDATA["Unidades: " + ($V{GrupoUnidades} == null ? 0 : $V{GrupoUnidades})]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 180:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 180:** `<textField><reportElement x="365" y="3" width="190" height="18" style="Dato"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Importe: " + new java.text.Decim...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 181:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 181:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 182:** `</groupFooter>` → Cierra el elemento XML correspondiente.
+**Línea 182:** `</groupFooter>` → Cierra `groupFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 183:** `</group>` → Cierra el elemento XML correspondiente.
+**Línea 183:** `</group>` → Finaliza la definición del grupo y sus bandas asociadas.
 
-**Línea 184:** `<background><band height="0"/></background>` → Define una banda y su altura.
+**Línea 184:** `<background><band height="0"/></background>` → Abre la banda Background, renderizada como fondo de las páginas.
 
-**Línea 185:** `<title>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 185:** `<title>` → Abre la banda Title, emitida una sola vez al inicio del informe.
 
-**Línea 186:** `<band height="124">` → Define una banda y su altura.
+**Línea 186:** `<band height="124">` → Define una banda de `124` puntos, reservando ese espacio para sus elementos.
 
-**Línea 187:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 187:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 188:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="M5TituloPrincipal"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 188:** `<reportElement x="0" y="4" width="555" height="28" uuid="40000000-0000-4000-8000-000000000001" style="M5TituloPrincipal"/>` → Posiciona el elemento en x=0, y=4, con ancho 555 y alto 28, aplicando el estilo `M5TituloPrincipal`.
 
-**Línea 189:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 189:** `<textElement textAlignment="Center" verticalAlignment="Middle"/>` → Configura el formato interno del texto: alineación horizontal Center, alineación vertical Middle.
 
-**Línea 190:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 190:** `<text><![CDATA[Informe de Ventas - Agregación por Título]]></text>` → Define el texto literal visible: `Informe de Ventas - Agregación por Título`.
 
-**Línea 191:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 191:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 192:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 192:** `<staticText><reportElement x="0" y="38" width="110" height="18" uuid="40000000-0000-4000-8000-000000000002"/><text><![CDATA[Generado por:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 193:** `<textField isBlankWhenNull="true"><reportElement x="110" y="38" width="160" height="18" uuid="40000000-0000-4000-8000-000000000003"/><textFieldExpression><![CDATA[$P{usuario}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 194:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 194:** `<staticText><reportElement x="300" y="38" width="80" height="18" uuid="40000000-0000-4000-8000-000000000004"/><text><![CDATA[Fecha:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 195:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 195:** `<textField pattern="dd/MM/yyyy"><reportElement x="380" y="38" width="175" height="18" uuid="40000000-0000-4000-8000-000000000005"/><textFieldExpression><![CDATA[$P{fechaInforme}...` → Abre un textField dinámico con formato `dd/MM/yyyy`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 196:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 196:** `<staticText><reportElement x="0" y="62" width="100" height="18" uuid="40000000-0000-4000-8000-000000000006"/><text><![CDATA[Departamento:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 197:** `<textField isBlankWhenNull="true"><reportElement x="100" y="62" width="170" height="18" uuid="40000000-0000-4000-8000-000000000007"/><textFieldExpression><![CDATA[$P{departament...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 198:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 198:** `<staticText><reportElement x="300" y="62" width="70" height="18" uuid="40000000-0000-4000-8000-000000000008"/><text><![CDATA[Periodo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 199:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 199:** `<textField isBlankWhenNull="true"><reportElement x="370" y="62" width="185" height="18" uuid="40000000-0000-4000-8000-000000000009"/><textFieldExpression><![CDATA[$P{periodo}]]>...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 200:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 200:** `<staticText><reportElement x="0" y="86" width="100" height="18" uuid="40000000-0000-4000-8000-000000000010"/><text><![CDATA[Búsqueda:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 201:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 201:** `<textField isBlankWhenNull="true"><reportElement x="100" y="86" width="170" height="18" uuid="40000000-0000-4000-8000-000000000011"/><textFieldExpression><![CDATA[$P{textoBusque...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 202:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 202:** `<staticText><reportElement x="300" y="86" width="90" height="18" uuid="40000000-0000-4000-8000-000000000012"/><text><![CDATA[Categorías:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 203:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 203:** `<textField textAdjust="StretchHeight"><reportElement x="390" y="86" width="165" height="34" uuid="40000000-0000-4000-8000-000000000013"/><textFieldExpression><![CDATA[String.val...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 204:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 204:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 205:** `</title>` → Cierra el elemento XML correspondiente.
+**Línea 205:** `</title>` → Cierra `title` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 206:** `<columnHeader>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 206:** `<columnHeader>` → Abre Column Header, repetida al comienzo de cada columna/página según la paginación.
 
-**Línea 207:** `<band height="62">` → Define una banda y su altura.
+**Línea 207:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 208:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 208:** `<staticText><reportElement x="0" y="2" width="215" height="18" uuid="41000000-0000-4000-8000-000000000001" style="Cabecera"/><text><![CDATA[Título]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 209:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 209:** `<staticText><reportElement x="215" y="2" width="55" height="18" uuid="41000000-0000-4000-8000-000000000002" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 210:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 210:** `<staticText><reportElement x="280" y="2" width="90" height="18" uuid="41000000-0000-4000-8000-000000000003" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 211:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 211:** `<staticText><reportElement x="380" y="2" width="65" height="18" uuid="41000000-0000-4000-8000-000000000004" style="Cabecera"/><textElement textAlignment="Right"/><text><![CDATA[...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 212:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 212:** `<staticText><reportElement x="455" y="2" width="100" height="18" uuid="41000000-0000-4000-8000-000000000005" style="Cabecera"/><text><![CDATA[Categoría]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 213:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 213:** `<staticText><reportElement x="0" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000006" style="Cabecera"/><text><![CDATA[Primera venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 214:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 214:** `<staticText><reportElement x="130" y="24" width="130" height="18" uuid="41000000-0000-4000-8000-000000000007" style="Cabecera"/><text><![CDATA[Última venta]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 215:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 215:** `<staticText><reportElement x="260" y="24" width="160" height="18" uuid="41000000-0000-4000-8000-000000000008" style="Cabecera"/><text><![CDATA[Periodo de ventas]]></text></stati...` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 216:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 216:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 217:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 217:** `<reportElement x="420" y="24" width="135" height="18" uuid="41000000-0000-4000-8000-000000000009" style="Cabecera">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Cabecera`.
 
-**Línea 218:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 218:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 219:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 219:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 220:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 220:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 221:** `<text><![CDATA[Importe con IVA]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 221:** `<text><![CDATA[Importe con IVA]]></text>` → Define el texto literal visible: `Importe con IVA`.
 
-**Línea 222:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 222:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 223:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 223:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 224:** `</columnHeader>` → Cierra el elemento XML correspondiente.
+**Línea 224:** `</columnHeader>` → Cierra `columnHeader` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 225:** `<detail>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 225:** `<detail>` → Abre Detail, la sección que se repite para cada registro del dataset principal.
 
-**Línea 226:** `<band height="82" splitType="Stretch">` → Define una banda y su altura.
+**Línea 226:** `<band height="82" splitType="Stretch">` → Define una banda de `82` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 227:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 227:** `<textField textAdjust="StretchHeight"><reportElement x="0" y="0" width="215" height="20" uuid="42000000-0000-4000-8000-000000000001" style="Dato"/><textFieldExpression><![CDATA[...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 228:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 228:** `<textField isBlankWhenNull="true"><reportElement x="215" y="0" width="55" height="20" uuid="42000000-0000-4000-8000-000000000002" style="UnidadesCondicional"/><textElement textA...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 229:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 229:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true"><reportElement x="280" y="0" width="90" height="20" uuid="42000000-0000-4000-8000-000000000003" style="Dato"/><textElement...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 230:** `<textField isBlankWhenNull="true"><reportElement x="380" y="0" width="65" height="20" uuid="42000000-0000-4000-8000-000000000004" style="Dato"/><textElement textAlignment="Right...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 231:** `<textField isBlankWhenNull="true"><reportElement x="455" y="0" width="100" height="20" uuid="42000000-0000-4000-8000-000000000005" style="Dato"/><textFieldExpression><![CDATA[$F...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 232:** `<textField isBlankWhenNull="true"><reportElement x="0" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000006" style="Dato"/><textFieldExpression><![CDATA[$F{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 233:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 233:** `<textField isBlankWhenNull="true"><reportElement x="130" y="24" width="130" height="18" uuid="42000000-0000-4000-8000-000000000007" style="Dato"/><textFieldExpression><![CDATA[$...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 234:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 234:** `<textField><reportElement x="260" y="24" width="160" height="18" uuid="42000000-0000-4000-8000-000000000008" style="Dato"/><textElement textAlignment="Center"/><textFieldExpress...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 235:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 235:** `<textField pattern="#,##0.00 €" isBlankWhenNull="true">` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 236:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 236:** `<reportElement x="420" y="24" width="135" height="18" uuid="42000000-0000-4000-8000-000000000009" style="Dato">` → Posiciona el elemento en x=420, y=24, con ancho 135 y alto 18, aplicando el estilo `Dato`.
 
-**Línea 237:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 237:** `<printWhenExpression><![CDATA[Boolean.TRUE.equals($P{mostrarDetalle})]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando parámetro mostrarDetalle.
 
-**Línea 238:** `</reportElement>` → Cierra el elemento XML correspondiente.
+**Línea 238:** `</reportElement>` → Cierra `reportElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 239:** `<textElement textAlignment="Right"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 239:** `<textElement textAlignment="Right"/>` → Configura el formato interno del texto: alineación horizontal Right.
 
-**Línea 240:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Expresión Java evaluada por JasperReports.
+**Línea 240:** `<textFieldExpression><![CDATA[$F{importe_total} == null || $P{tipoIva} == null ? null : Double.valueOf($F{importe_total}.doubleValue() * (1.0d + $P{tipoIva}.doubleValue()))]]></...` → Calcula el valor mostrado por el textField mediante una expresión Java que usa field importe_total, field importe_total, parámetro tipoIva, parámetro tipoIva.
 
-**Línea 241:** `</textField>` → Cierra el elemento XML correspondiente.
+**Línea 241:** `</textField>` → Cierra `textField` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 242:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 242:** `<textField><reportElement x="0" y="48" width="105" height="18" uuid="42000000-0000-4000-8000-000000000010" style="Dato"/><textFieldExpression><![CDATA[$F{unidades_vendidas} == n...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 243:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 243:** `<textField><reportElement x="105" y="48" width="185" height="18" uuid="42000000-0000-4000-8000-000000000011" style="Dato"/><textFieldExpression><![CDATA[$F{titulo} == null ? "" ...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 244:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 244:** `<textField><reportElement x="290" y="48" width="80" height="18" uuid="42000000-0000-4000-8000-000000000012" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 245:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 245:** `<textField><reportElement x="370" y="48" width="90" height="18" uuid="42000000-0000-4000-8000-000000000013" style="Dato"/><textElement textAlignment="Center"/><textFieldExpressi...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 246:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 246:** `<textField><reportElement x="460" y="48" width="95" height="18" uuid="42000000-0000-4000-8000-000000000014" style="Dato"/><textElement textAlignment="Right"/><textFieldExpressio...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 247:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 247:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 248:** `<band height="14">` → Define una banda y su altura.
+**Línea 248:** `<band height="14">` → Define una banda de `14` puntos, reservando ese espacio para sus elementos.
 
-**Línea 249:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Expresión Java evaluada por JasperReports.
+**Línea 249:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null && $P{umbralUnidades} != null && $F{unidades_vendidas}.intValue() >= $P{umbralUnidades}.intValue()]]></printWhenExpre...` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas, field unidades_vendidas, parámetro umbralUnidades, parámetro umbralUnidades.
 
-**Línea 250:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 250:** `<textField><reportElement x="0" y="0" width="555" height="12" uuid="42000000-0000-4000-8000-000000000015"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" size=...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 251:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 251:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 252:** `<band height="88" splitType="Stretch">` → Define una banda y su altura.
+**Línea 252:** `<band height="88" splitType="Stretch">` → Define una banda de `88` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 253:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 253:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 254:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 254:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 255:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 255:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 256:** `<text><![CDATA[Detalle de ventas]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 256:** `<text><![CDATA[Detalle de ventas]]></text>` → Define el texto literal visible: `Detalle de ventas`.
 
-**Línea 257:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 257:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 258:** `<subreport>` → Declara o configura el subreporte maestro-detalle.
+**Línea 258:** `<subreport>` → Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.
 
-**Línea 259:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 259:** `<reportElement x="0" y="22" width="555" height="60" isRemoveLineWhenBlank="true"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 60, y elimina su línea cuando queda vacío.
 
-**Línea 260:** `<subreportParameter name="tituloLibro">` → Declara o configura el subreporte maestro-detalle.
+**Línea 260:** `<subreportParameter name="tituloLibro">` → Declara el parámetro del subreporte `tituloLibro` que recibirá un valor del informe maestro.
 
-**Línea 261:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 261:** `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` → Calcula el valor enviado al parámetro del subreporte a partir de field titulo.
 
-**Línea 262:** `</subreportParameter>` → Cierra el elemento XML correspondiente.
+**Línea 262:** `</subreportParameter>` → Cierra `subreportParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 263:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 263:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 264:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Declara o configura el subreporte maestro-detalle.
+**Línea 264:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.
 
-**Línea 265:** `</subreport>` → Cierra el elemento XML correspondiente.
+**Línea 265:** `</subreport>` → Finaliza el componente de subreporte.
 
-**Línea 266:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 266:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 267:** `<band height="104" splitType="Stretch">` → Define una banda y su altura.
+**Línea 267:** `<band height="104" splitType="Stretch">` → Define una banda de `104` puntos con splitType `Stretch`, reservando ese espacio para sus elementos.
 
-**Línea 268:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Expresión Java evaluada por JasperReports.
+**Línea 268:** `<printWhenExpression><![CDATA[$F{unidades_vendidas} != null]]></printWhenExpression>` → Evalúa una condición booleana para decidir si la banda o elemento se imprime usando field unidades_vendidas.
 
-**Línea 269:** `<staticText>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 269:** `<staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 270:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 270:** `<reportElement x="0" y="2" width="555" height="16" style="Cabecera"/>` → Posiciona el elemento en x=0, y=2, con ancho 555 y alto 16, aplicando el estilo `Cabecera`.
 
-**Línea 271:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 271:** `<text><![CDATA[Top 3 ventas por cantidad]]></text>` → Define el texto literal visible: `Top 3 ventas por cantidad`.
 
-**Línea 272:** `</staticText>` → Cierra el elemento XML correspondiente.
+**Línea 272:** `</staticText>` → Cierra `staticText` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 273:** `<componentElement>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 273:** `<componentElement>` → Abre un contenedor de componentes extendidos; en este checkpoint contiene la tabla `c:table`.
 
-**Línea 274:** `<reportElement x="0" y="22" width="555" height="76"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 274:** `<reportElement x="0" y="22" width="555" height="76"/>` → Posiciona el elemento en x=0, y=22, con ancho 555 y alto 76.
 
-**Línea 275:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre el componente table del namespace de componentes.
+**Línea 275:** `<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"` → Abre la tabla del namespace de componentes JasperReports; sus columnas usan un datasetRun independiente.
 
-**Línea 276:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 276:** `xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">` → Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.
 
-**Línea 277:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 277:** `<datasetRun subDataset="DatasetTopVentas">` → Asocia el componente con el subdataset `DatasetTopVentas` para ejecutar su consulta.
 
-**Línea 278:** `<datasetParameter name="tituloLibro">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 278:** `<datasetParameter name="tituloLibro">` → Declara el parámetro `tituloLibro` que se enviará al subdataset de la tabla.
 
-**Línea 279:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 279:** `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` → Calcula el valor enviado al parámetro del subdataset desde field titulo.
 
-**Línea 280:** `</datasetParameter>` → Cierra el elemento XML correspondiente.
+**Línea 280:** `</datasetParameter>` → Cierra `datasetParameter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 281:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 281:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 282:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 282:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 283:** `<c:column width="255">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 283:** `<c:column width="255">` → Declara una columna de tabla de `255` puntos de ancho.
 
-**Línea 284:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 284:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="255" height="20"/><text><![CDATA[Fecha]]></text></staticText></c:columnHeader>` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TablaCabecera`.
 
-**Línea 285:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpres...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 285:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="255" height="18"/><textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpres...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TablaDetalle`.
 
-**Línea 286:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 286:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 287:** `<c:column width="100">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 287:** `<c:column width="100">` → Declara una columna de tabla de `100` puntos de ancho.
 
-**Línea 288:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 288:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="100" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Cantidad]]...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TablaCabecera`.
 
-**Línea 289:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 289:** `<c:detailCell style="M5TablaDetalle" height="18"><textField><reportElement x="0" y="0" width="100" height="18"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TablaDetalle`.
 
-**Línea 290:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 290:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 291:** `<c:column width="200">` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 291:** `<c:column width="200">` → Declara una columna de tabla de `200` puntos de ancho.
 
-**Línea 292:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio uni...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 292:** `<c:columnHeader style="M5TablaCabecera" height="20"><staticText><reportElement x="0" y="0" width="200" height="20"/><textElement textAlignment="Right"/><text><![CDATA[Precio uni...` → Define la celda de cabecera de la columna con altura `20` y estilo `M5TablaCabecera`.
 
-**Línea 293:** `<c:detailCell style="M5TablaDetalle" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFie...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 293:** `<c:detailCell style="M5TablaDetalle" height="18"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="200" height="18"/><textElement textAlignment="Right"/><textFie...` → Define la celda de detalle repetida por fila con altura `18` y estilo `M5TablaDetalle`.
 
-**Línea 294:** `</c:column>` → Cierra el elemento XML correspondiente.
+**Línea 294:** `</c:column>` → Cierra `c:column` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 295:** `</c:table>` → Cierra el elemento XML correspondiente.
+**Línea 295:** `</c:table>` → Finaliza la tabla integrada.
 
-**Línea 296:** `</componentElement>` → Cierra el elemento XML correspondiente.
+**Línea 296:** `</componentElement>` → Cierra `componentElement` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 297:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 297:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 298:** `</detail>` → Cierra el elemento XML correspondiente.
+**Línea 298:** `</detail>` → Finaliza la sección Detail del informe.
 
-**Línea 299:** `<pageFooter>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 299:** `<pageFooter>` → Abre Page Footer, emitido al pie de cada página.
 
-**Línea 300:** `<band height="62">` → Define una banda y su altura.
+**Línea 300:** `<band height="62">` → Define una banda de `62` puntos, reservando ese espacio para sus elementos.
 
-**Línea 301:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 301:** `<staticText><reportElement x="0" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de títulos:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 302:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 302:** `<textField evaluationTime="Report"><reportElement x="120" y="4" width="60" height="15" uuid="43000000-0000-4000-8000-000000000002"/><textFieldExpression><![CDATA[$V{REPORT_COUNT...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 303:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 303:** `<textField><reportElement x="190" y="28" width="180" height="15" uuid="43000000-0000-4000-8000-000000000003"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 304:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 304:** `<textField evaluationTime="Report"><reportElement x="375" y="28" width="35" height="15" uuid="43000000-0000-4000-8000-000000000004"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 305:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 305:** `<staticText><reportElement x="300" y="4" width="120" height="15" uuid="43000000-0000-4000-8000-000000000005"/><text><![CDATA[Subtotal página:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 306:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 306:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="4" width="135" height="15" uuid="43000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 307:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 307:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 308:** `</pageFooter>` → Cierra el elemento XML correspondiente.
+**Línea 308:** `</pageFooter>` → Cierra `pageFooter` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 309:** `<summary>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 309:** `<summary>` → Abre Summary, emitido una sola vez después del último registro.
 
-**Línea 310:** `<band height="700">` → Define una banda y su altura.
+**Línea 310:** `<band height="700">` → Define una banda de `700` puntos, reservando ese espacio para sus elementos.
 
-**Línea 311:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 311:** `<staticText><reportElement x="0" y="5" width="205" height="18" uuid="44000000-0000-4000-8000-000000000001"/><text><![CDATA[Total de unidades vendidas:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 312:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 312:** `<textField><reportElement x="205" y="5" width="80" height="18" uuid="44000000-0000-4000-8000-000000000002"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V{...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 313:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 313:** `<staticText><reportElement x="300" y="5" width="120" height="18" uuid="44000000-0000-4000-8000-000000000003"/><text><![CDATA[Importe total:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 314:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 314:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="5" width="135" height="18" uuid="44000000-0000-4000-8000-000000000004"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 315:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 315:** `<staticText><reportElement x="0" y="30" width="205" height="18" uuid="44000000-0000-4000-8000-000000000005"/><text><![CDATA[Precio medio agregado:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 316:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 316:** `<textField pattern="#,##0.00 €"><reportElement x="205" y="30" width="80" height="18" uuid="44000000-0000-4000-8000-000000000006"/><textElement textAlignment="Right"/><textFieldE...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 317:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 317:** `<staticText><reportElement x="300" y="30" width="120" height="18" uuid="44000000-0000-4000-8000-000000000007"/><text><![CDATA[Precio máximo:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 318:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 318:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="30" width="135" height="18" uuid="44000000-0000-4000-8000-000000000008"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 319:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 319:** `<staticText><reportElement x="0" y="55" width="205" height="18" uuid="44000000-0000-4000-8000-000000000009"/><text><![CDATA[Número de libros:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 320:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 320:** `<textField><reportElement x="205" y="55" width="80" height="18" uuid="44000000-0000-4000-8000-000000000010"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$V...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 321:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 321:** `<staticText><reportElement x="300" y="55" width="120" height="18" uuid="44000000-0000-4000-8000-000000000011"/><text><![CDATA[Importe con IVA:]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 322:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 322:** `<textField pattern="#,##0.00 €"><reportElement x="420" y="55" width="135" height="18" uuid="44000000-0000-4000-8000-000000000012"/><textElement textAlignment="Right"/><textField...` → Abre un textField dinámico con formato `#,##0.00 €`, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 323:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 323:** `<textField><reportElement x="0" y="80" width="555" height="18" uuid="44000000-0000-4000-8000-000000000013"/><textElement textAlignment="Center"/><textFieldExpression><![CDATA[St...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 324:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 324:** `<textField><reportElement x="0" y="103" width="350" height="18" uuid="44000000-0000-4000-8000-000000000014"/><textElement textAlignment="Center"><font fontName="DejaVu Sans" siz...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 325:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 325:** `<textField><reportElement x="360" y="103" width="195" height="18" uuid="44000000-0000-4000-8000-000000000015"/><textFieldExpression><![CDATA["Resultados encontrados: " + $V{REPO...` → Abre un textField dinámico, cuyo valor se obtiene de su `textFieldExpression`.
 
-**Línea 326:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 326:** `<staticText><reportElement x="0" y="140" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría — importe]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 327:** `<barChart>` → Abre un gráfico de barras nativo de JasperReports.
+**Línea 327:** `<barChart>` → Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.
 
-**Línea 328:** `<chart>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 328:** `<chart>` → Abre la configuración común del gráfico: geometría, título, subtítulo y leyenda.
 
-**Línea 329:** `<reportElement x="0" y="165" width="555" height="250"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 329:** `<reportElement x="0" y="165" width="555" height="250"/>` → Posiciona el elemento en x=0, y=165, con ancho 555 y alto 250.
 
-**Línea 330:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 330:** `<chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>` → Abre la definición del título del gráfico.
 
-**Línea 331:** `<chartSubtitle/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 331:** `<chartSubtitle/>` → Declara el subtítulo del gráfico; en este checkpoint queda vacío.
 
-**Línea 332:** `<chartLegend position="Bottom"/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 332:** `<chartLegend position="Bottom"/>` → Configura la leyenda del gráfico en la posición `Bottom`.
 
-**Línea 333:** `</chart>` → Cierra el elemento XML correspondiente.
+**Línea 333:** `</chart>` → Cierra `chart` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 334:** `<categoryDataset>` → Define el dataset o una serie del gráfico categórico.
+**Línea 334:** `<categoryDataset>` → Abre el dataset categórico que alimenta al gráfico con serie, categoría y valor.
 
-**Línea 335:** `<dataset>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 335:** `<dataset>` → Abre el contenedor de ejecución de datos del componente actual.
 
-**Línea 336:** `<datasetRun subDataset="DatasetVentasPorCategoria">` → Asocia un subdataset con su ejecución concreta.
+**Línea 336:** `<datasetRun subDataset="DatasetVentasPorCategoria">` → Asocia el componente con el subdataset `DatasetVentasPorCategoria` para ejecutar su consulta.
 
-**Línea 337:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 337:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 338:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 338:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 339:** `</dataset>` → Cierra el elemento XML correspondiente.
+**Línea 339:** `</dataset>` → Cierra `dataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 340:** `<categorySeries>` → Define el dataset o una serie del gráfico categórico.
+**Línea 340:** `<categorySeries>` → Abre una serie del dataset categórico; cada fila del subdataset aportará categoría y valor.
 
-**Línea 341:** `<seriesExpression><![CDATA["Importe"]]></seriesExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 341:** `<seriesExpression><![CDATA["Importe"]]></seriesExpression>` → Define el nombre lógico de la serie que aparecerá en la leyenda.
 
-**Línea 342:** `<categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 342:** `<categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>` → Define la categoría del eje X a partir de field categoria_grafico.
 
-**Línea 343:** `<valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 343:** `<valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>` → Define el valor numérico representado por cada barra a partir de field importe_categoria.
 
-**Línea 344:** `</categorySeries>` → Cierra el elemento XML correspondiente.
+**Línea 344:** `</categorySeries>` → Cierra `categorySeries` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 345:** `</categoryDataset>` → Cierra el elemento XML correspondiente.
+**Línea 345:** `</categoryDataset>` → Cierra `categoryDataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 346:** `<barPlot>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 346:** `<barPlot>` → Abre el plot específico del gráfico de barras, donde se configuran etiquetas y ejes.
 
-**Línea 347:** `<plot/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 347:** `<plot/>` → Declara el bloque base del plot; mantiene la configuración visual por defecto del checkpoint.
 
-**Línea 348:** `<itemLabel/>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 348:** `<itemLabel/>` → Habilita el bloque de configuración de etiquetas de los ítems/barras.
 
-**Línea 349:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 349:** `<categoryAxisFormat><axisFormat/></categoryAxisFormat>` → Abre el formato del eje de categorías (eje X).
 
-**Línea 350:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 350:** `<valueAxisFormat><axisFormat/></valueAxisFormat>` → Abre el formato del eje de valores (eje Y).
 
-**Línea 351:** `</barPlot>` → Cierra el elemento XML correspondiente.
+**Línea 351:** `</barPlot>` → Cierra `barPlot` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 352:** `</barChart>` → Cierra el elemento XML correspondiente.
+**Línea 352:** `</barChart>` → Finaliza el gráfico de barras.
 
-**Línea 353:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 353:** `<staticText><reportElement x="0" y="430" width="555" height="20" style="Cabecera"/><text><![CDATA[Ventas por categoría y año]]></text></staticText>` → Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.
 
-**Línea 354:** `<crosstab>` → Declara o configura la tabla cruzada.
+**Línea 354:** `<crosstab>` → Abre la tabla cruzada nativa que genera dinámicamente la matriz de filas, columnas, medidas y totales.
 
-**Línea 355:** `<reportElement x="0" y="455" width="555" height="225"/>` → Fija posición, tamaño y propiedades del elemento visual.
+**Línea 355:** `<reportElement x="0" y="455" width="555" height="225"/>` → Posiciona el elemento en x=0, y=455, con ancho 555 y alto 225.
 
-**Línea 356:** `<crosstabDataset>` → Declara o configura la tabla cruzada.
+**Línea 356:** `<crosstabDataset>` → Abre la fuente de datos específica del crosstab.
 
-**Línea 357:** `<dataset>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 357:** `<dataset>` → Abre el contenedor de ejecución de datos del componente actual.
 
-**Línea 358:** `<datasetRun subDataset="DatasetCrosstabVentas">` → Asocia un subdataset con su ejecución concreta.
+**Línea 358:** `<datasetRun subDataset="DatasetCrosstabVentas">` → Asocia el componente con el subdataset `DatasetCrosstabVentas` para ejecutar su consulta.
 
-**Línea 359:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 359:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.
 
-**Línea 360:** `</datasetRun>` → Cierra el elemento XML correspondiente.
+**Línea 360:** `</datasetRun>` → Cierra `datasetRun` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 361:** `</dataset>` → Cierra el elemento XML correspondiente.
+**Línea 361:** `</dataset>` → Cierra `dataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 362:** `</crosstabDataset>` → Cierra el elemento XML correspondiente.
+**Línea 362:** `</crosstabDataset>` → Cierra `crosstabDataset` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 363:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → Declara un grupo de fila o columna del crosstab.
+**Línea 363:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → Declara el grupo de filas `CategoriaCross`, ancho `150` y total en `End`.
 
-**Línea 364:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 364:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
 
-**Línea 365:** `<crosstabRowHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExp...` → Declara o configura la tabla cruzada.
+**Línea 365:** `<crosstabRowHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><textFieldExp...` → Abre la cabecera que identifica cada grupo de fila del crosstab.
 
-**Línea 366:** `<crosstabTotalRowHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![C...` → Declara o configura la tabla cruzada.
+**Línea 366:** `<crosstabTotalRowHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="150" height="34"/><textElement verticalAlignment="Middle"/><text><![C...` → Abre la cabecera de la fila de total del crosstab.
 
-**Línea 367:** `</rowGroup>` → Cierra el elemento XML correspondiente.
+**Línea 367:** `</rowGroup>` → Cierra `rowGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 368:** `<columnGroup name="AnioCross" height="28" totalPosition="End">` → Declara un grupo de fila o columna del crosstab.
+**Línea 368:** `<columnGroup name="AnioCross" height="28" totalPosition="End">` → Declara el grupo de columnas `AnioCross`, altura `28` y total en `End`.
 
-**Línea 369:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Línea estructural del JRXML/JRTX ejecutable.
+**Línea 369:** `<bucket class="java.lang.String"><bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression></bucket>` → Declara el bucket de agrupación con tipo `java.lang.String`.
 
-**Línea 370:** `<crosstabColumnHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Declara o configura la tabla cruzada.
+**Línea 370:** `<crosstabColumnHeader><cellContents style="M5CrosstabCabecera"><textField><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlignme...` → Abre la cabecera que identifica cada grupo de columna del crosstab.
 
-**Línea 371:** `<crosstabTotalColumnHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlig...` → Declara o configura la tabla cruzada.
+**Línea 371:** `<crosstabTotalColumnHeader><cellContents style="M5CrosstabTotal"><staticText><reportElement x="0" y="0" width="100" height="28"/><textElement textAlignment="Center" verticalAlig...` → Abre la cabecera de la columna de total del crosstab.
 
-**Línea 372:** `</columnGroup>` → Cierra el elemento XML correspondiente.
+**Línea 372:** `</columnGroup>` → Cierra `columnGroup` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 373:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Declara una medida agregada del crosstab.
+**Línea 373:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum"><measureExpression><![CDATA[$F{importe_cross}]]></measureExpression></measure>` → Declara la medida `ImporteCross` de tipo `java.lang.Double` con cálculo `Sum`.
 
-**Línea 374:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Declara una medida agregada del crosstab.
+**Línea 374:** `<measure name="VentasCross" class="java.lang.Integer" calculation="Sum"><measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression></measure>` → Declara la medida `VentasCross` de tipo `java.lang.Integer` con cálculo `Sum`.
 
-**Línea 375:** `<crosstabCell width="100" height="34"><cellContents style="M5CrosstabDetalle"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement te...` → Declara o configura la tabla cruzada.
+**Línea 375:** `<crosstabCell width="100" height="34"><cellContents style="M5CrosstabDetalle"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" height="18"/><textElement te...` → Declara la celda de detalle de cada intersección fila × columna, con ancho `100` y alto `34`.
 
-**Línea 376:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100"...` → Declara o configura la tabla cruzada.
+**Línea 376:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100"...` → Declara la celda de total de fila para `CategoriaCross`, con ancho `100` y alto `34`.
 
-**Línea 377:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" h...` → Declara o configura la tabla cruzada.
+**Línea 377:** `<crosstabCell width="100" height="34" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportElement x="0" y="0" width="100" h...` → Declara la celda de total de columna para `AnioCross`, con ancho `100` y alto `34`.
 
-**Línea 378:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportEl...` → Declara o configura la tabla cruzada.
+**Línea 378:** `<crosstabCell width="100" height="34" rowTotalGroup="CategoriaCross" columnTotalGroup="AnioCross"><cellContents style="M5CrosstabTotal"><textField pattern="#,##0.00 €"><reportEl...` → Declara la celda de total general de `CategoriaCross` × `AnioCross`, con ancho `100` y alto `34`.
 
-**Línea 379:** `</crosstab>` → Cierra el elemento XML correspondiente.
+**Línea 379:** `</crosstab>` → Finaliza la tabla cruzada.
 
-**Línea 380:** `</band>` → Cierra el elemento XML correspondiente.
+**Línea 380:** `</band>` → Cierra `band` y vuelve al elemento padre de la jerarquía JRXML.
 
-**Línea 381:** `</summary>` → Cierra el elemento XML correspondiente.
+**Línea 381:** `</summary>` → Finaliza la sección Summary.
 
-**Línea 382:** `</jasperReport>` → Cierra el elemento XML correspondiente.
+**Línea 382:** `</jasperReport>` → Finaliza la definición completa del informe JasperReports.
 
 ---
 
@@ -9226,115 +9554,115 @@ public class GeneradorInformeVentas {
 
 
 
-**Línea 1:** `import java.io.File;` → Importa una clase utilizada por el generador.
+**Línea 1:** `import java.io.File;` → Importa `java.io.File` para gestionar rutas y crear la carpeta de salida.
 
-**Línea 2:** `import java.sql.Connection;` → Importa una clase utilizada por el generador.
+**Línea 2:** `import java.sql.Connection;` → Importa `java.sql.Connection` para representar la conexión JDBC abierta contra SQLite.
 
-**Línea 3:** `import java.sql.DriverManager;` → Importa una clase utilizada por el generador.
+**Línea 3:** `import java.sql.DriverManager;` → Importa `java.sql.DriverManager` para abrir la conexión JDBC a partir de la URL SQLite.
 
-**Línea 4:** `import java.util.HashMap;` → Importa una clase utilizada por el generador.
+**Línea 4:** `import java.util.HashMap;` → Importa `java.util.HashMap` para crear la implementación mutable del mapa de parámetros.
 
-**Línea 5:** `import java.util.Map;` → Importa una clase utilizada por el generador.
+**Línea 5:** `import java.util.Map;` → Importa `java.util.Map` para tipar el mapa de parámetros que recibe JasperReports.
 
-**Línea 6:** `import java.util.Arrays;` → Importa una clase utilizada por el generador.
+**Línea 6:** `import java.util.Arrays;` → Importa `java.util.Arrays` para construir la colección de categorías usada por el parámetro de lista.
 
-**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa una clase utilizada por el generador.
+**Línea 7:** `import net.sf.jasperreports.engine.JasperCompileManager;` → Importa `net.sf.jasperreports.engine.JasperCompileManager` para compilar los JRXML a artefactos .jasper.
 
-**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa una clase utilizada por el generador.
+**Línea 8:** `import net.sf.jasperreports.engine.JasperExportManager;` → Importa `net.sf.jasperreports.engine.JasperExportManager` para exportar el JasperPrint resultante a PDF.
 
-**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa una clase utilizada por el generador.
+**Línea 9:** `import net.sf.jasperreports.engine.JasperFillManager;` → Importa `net.sf.jasperreports.engine.JasperFillManager` para llenar el informe compilado con parámetros y conexión.
 
-**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa una clase utilizada por el generador.
+**Línea 10:** `import net.sf.jasperreports.engine.JasperPrint;` → Importa `net.sf.jasperreports.engine.JasperPrint` para representar en memoria el documento ya paginado por JasperReports.
 
-**Línea 11:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 11:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 12:** `public class GeneradorInformeVentas {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 12:** `public class GeneradorInformeVentas {` → Declara la clase ejecutable `GeneradorInformeVentas` que encapsula el generador del informe.
 
-**Línea 13:** `public static void main(String[] args) {` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 13:** `public static void main(String[] args) {` → Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.
 
-**Línea 14:** `try {` → Controla recursos o tratamiento de excepciones.
+**Línea 14:** `try {` → Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.
 
-**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 15:** `String rutaJrxml = "reports/informe_ventas.jrxml";` → Declara `rutaJrxml` con ruta del JRXML maestro que se compilará; el valor configurado es `"reports/informe_ventas.jrxml"`.
 
-**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 16:** `String rutaJasper = "reports/informe_ventas.jasper";` → Declara `rutaJasper` con ruta del .jasper maestro que producirá la compilación; el valor configurado es `"reports/informe_ventas.jasper"`.
 
-**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara una ruta o valor de configuración local.
+**Línea 17:** `String rutaPdf = "output/informe_ventas.pdf";` → Declara `rutaPdf` con ruta del PDF final exportado; el valor configurado es `"output/informe_ventas.pdf"`.
 
-**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara una ruta o valor de configuración local.
+**Línea 18:** `String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";` → Declara `urlBD` con URL JDBC de la base SQLite; el valor configurado es `"jdbc:sqlite:../EditorialReportsJava/data/editorial.db"`.
 
-**Línea 19:** `new File("output").mkdirs();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 19:** `new File("output").mkdirs();` → Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.
 
-**Línea 20:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 20:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara una ruta o valor de configuración local.
+**Línea 21:** `String rutaSubJrxml = "reports/subinforme_ventas_detalle.jrxml";` → Declara `rutaSubJrxml` con ruta del JRXML del subinforme de detalle; el valor configurado es `"reports/subinforme_ventas_detalle.jrxml"`.
 
-**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara una ruta o valor de configuración local.
+**Línea 22:** `String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";` → Declara `rutaSubJasper` con ruta del .jasper del subinforme compilado; el valor configurado es `"reports/subinforme_ventas_detalle.jasper"`.
 
-**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 23:** `JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);` → Compila el JRXML indicado en `rutaSubJrxml` y escribe el artefacto compilado en `rutaSubJasper`.
 
-**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila JRXML a un objeto `.jasper` ejecutable.
+**Línea 24:** `JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);` → Compila el JRXML indicado en `rutaJrxml` y escribe el artefacto compilado en `rutaJasper`.
 
-**Línea 25:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 25:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 26:** `Map<String, Object> parametros = new HashMap<String, Object>();` → Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.
 
-**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Añade un valor al mapa de parámetros del informe.
+**Línea 27:** `parametros.put("usuario", "Ana Martínez");` → Asigna al parámetro JasperReports `usuario` el valor Java `"Ana Martínez"` antes del llenado.
 
-**Línea 28:** `parametros.put("departamento", "Comercial");` → Añade un valor al mapa de parámetros del informe.
+**Línea 28:** `parametros.put("departamento", "Comercial");` → Asigna al parámetro JasperReports `departamento` el valor Java `"Comercial"` antes del llenado.
 
-**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Añade un valor al mapa de parámetros del informe.
+**Línea 29:** `parametros.put("periodo", "Septiembre 2026");` → Asigna al parámetro JasperReports `periodo` el valor Java `"Septiembre 2026"` antes del llenado.
 
-**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Añade un valor al mapa de parámetros del informe.
+**Línea 30:** `parametros.put("tipoIva", Double.valueOf(0.21d));` → Asigna al parámetro JasperReports `tipoIva` el valor Java `Double.valueOf(0.21d)` antes del llenado.
 
-**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Añade un valor al mapa de parámetros del informe.
+**Línea 31:** `parametros.put("mostrarDetalle", Boolean.TRUE);` → Asigna al parámetro JasperReports `mostrarDetalle` el valor Java `Boolean.TRUE` antes del llenado.
 
-**Línea 32:** `parametros.put("categoria", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 32:** `parametros.put("categoria", null);` → Asigna al parámetro JasperReports `categoria` el valor Java `null` antes del llenado.
 
-**Línea 33:** `parametros.put("precioMinimo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 33:** `parametros.put("precioMinimo", null);` → Asigna al parámetro JasperReports `precioMinimo` el valor Java `null` antes del llenado.
 
-**Línea 34:** `parametros.put("precioMaximo", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 34:** `parametros.put("precioMaximo", null);` → Asigna al parámetro JasperReports `precioMaximo` el valor Java `null` antes del llenado.
 
-**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Añade un valor al mapa de parámetros del informe.
+**Línea 35:** `parametros.put("umbralUnidades", Integer.valueOf(5));` → Asigna al parámetro JasperReports `umbralUnidades` el valor Java `Integer.valueOf(5)` antes del llenado.
 
-**Línea 36:** `parametros.put("textoBusqueda", null);` → Añade un valor al mapa de parámetros del informe.
+**Línea 36:** `parametros.put("textoBusqueda", null);` → Asigna al parámetro JasperReports `textoBusqueda` el valor Java `null` antes del llenado.
 
-**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Añade un valor al mapa de parámetros del informe.
+**Línea 37:** `parametros.put("categoriasLista", Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía"));` → Asigna al parámetro JasperReports `categoriasLista` el valor Java `Arrays.asList("Novela", "Realismo mágico", "Cuento", "Poesía")` antes del llenado.
 
-**Línea 38:** `` → Línea en blanco para separar bloques lógicos.
+**Línea 38:** `` → Separa visualmente dos bloques lógicos sin modificar la ejecución.
 
-**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite usada durante el llenado.
+**Línea 39:** `try (Connection conexion = DriverManager.getConnection(urlBD)) {` → Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.
 
-**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Llena el informe con parámetros y la conexión JDBC.
+**Línea 40:** `JasperPrint documento = JasperFillManager.fillReport(` → Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.
 
-**Línea 41:** `rutaJasper,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 41:** `rutaJasper,` → Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.
 
-**Línea 42:** `parametros,` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 42:** `parametros,` → Pasa como segundo argumento el mapa con todos los parámetros del informe.
 
-**Línea 43:** `conexion);` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 43:** `conexion);` → Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.
 
-**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint` a PDF.
+**Línea 44:** `JasperExportManager.exportReportToPdfFile(documento, rutaPdf);` → Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.
 
-**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 45:** `System.out.println("Informe generado en: " + new File(rutaPdf).getAbsolutePath());` → Escribe en la consola la evidencia `"Informe generado en: " + new File(rutaPdf).getAbsolutePath()`, que queda registrada por el workflow E2E.
 
-**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 46:** `System.out.println("Paginas del documento: " + documento.getPages().size());` → Escribe en la consola la evidencia `"Paginas del documento: " + documento.getPages().size()`, que queda registrada por el workflow E2E.
 
-**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 47:** `System.out.println("Parametro usuario: " + parametros.get("usuario"));` → Escribe en la consola la evidencia `"Parametro usuario: " + parametros.get("usuario")`, que queda registrada por el workflow E2E.
 
-**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 48:** `System.out.println("M5 ventas generado correctamente");` → Escribe en la consola la evidencia `"M5 ventas generado correctamente"`, que queda registrada por el workflow E2E.
 
-**Línea 49:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 49:** `}` → Cierra el bloque try-with-resources de la conexión JDBC.
 
-**Línea 50:** `} catch (Exception e) {` → Controla recursos o tratamiento de excepciones.
+**Línea 50:** `} catch (Exception e) {` → Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.
 
-**Línea 51:** `e.printStackTrace();` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 51:** `e.printStackTrace();` → Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.
 
-**Línea 52:** `System.exit(1);` → Propaga el fallo al sistema/CI con código de salida no cero.
+**Línea 52:** `System.exit(1);` → Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.
 
-**Línea 53:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 53:** `}` → Cierra el bloque `catch` o el bloque principal de control asociado a `main`.
 
-**Línea 54:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 54:** `}` → Cierra el método `main`.
 
-**Línea 55:** `}` → Forma parte de la lógica Java ejecutable del generador.
+**Línea 55:** `}` → Cierra la clase `GeneradorInformeVentas`.
 
 ---
 
