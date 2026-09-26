@@ -216,16 +216,18 @@ for i,m in enumerate(matches):
     extra=[n for n in covered if n>code_lines]
     if missing or extra:
         fail('line explanation coverage '+m.group(1)+' missing='+str(missing[:20])+' extra='+str(extra[:20]))
-    # Compact JRXML lines may contain several nested elements. Their explanation
-    # must describe the whole composition, not only the first tag.
-    explanations={}
-    for em in re.finditer(r'\*\*Línea\s+(\d+):\*\*.*?→\s*([^\n]+)',tail):
-        explanations[int(em.group(1))]=em.group(2)
-    for n,line in enumerate(m.group(2).splitlines(),1):
-        opening_tags=re.findall(r'<(?!/|!|\?)([A-Za-z0-9_:.-]+)\b',line)
-        if len(opening_tags)>=2:
-            if 'Composición de la línea:' not in explanations.get(n,''):
-                fail('composite line explanation incomplete '+m.group(1)+' line='+str(n))
+    # Compact JRXML/JRTX/XML lines may contain several nested elements. Their
+    # explanation must describe the whole composition, not only the first tag.
+    # Do not apply this XML rule to Java generics such as Map<String, Object>.
+    if m.group(1).lower().endswith(('.jrxml','.jrtx','.xml')):
+        explanations={}
+        for em in re.finditer(r'\*\*Línea\s+(\d+):\*\*.*?→\s*([^\n]+)',tail):
+            explanations[int(em.group(1))]=em.group(2)
+        for n,line in enumerate(m.group(2).splitlines(),1):
+            opening_tags=re.findall(r'<(?!/|!|\?)([A-Za-z0-9_:.-]+)\b',line)
+            if len(opening_tags)>=2:
+                if 'Composición de la línea:' not in explanations.get(n,''):
+                    fail('composite line explanation incomplete '+m.group(1)+' line='+str(n))
 
 
 # 10. Semántica crítica y contadores
