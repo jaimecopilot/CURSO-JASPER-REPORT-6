@@ -41,10 +41,10 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install mistune beautifulsoup4 weasyprint pymupdf pillow
 
-      - name: Construir documentación desde fuente y checkpoints
+      - name: Construir documentación desde fuente y código
         run: python .github/scripts/build_m6_docs.py
 
-      - name: Auditar trazabilidad, paridad y calidad docente
+      - name: Auditar trazabilidad y paridad documental
         run: |
           python .github/scripts/audit_m6_traceability.py
           python .github/scripts/audit_m6_docs.py
@@ -67,7 +67,7 @@ jobs:
           cp M6/_pdf_build/PRACTICA_M6.pdf M6/PRACTICA_M6.pdf
           cp M6/_pdf_build/PRECHECK_M6.json M6/PRECHECK_M6.json
           cp M6/_pdf_build/SHA256SUMS.txt M6/SHA256SUMS.txt
-          git add M6/README.md M6/TEORIA_M6.md M6/PRACTICA_M6.md M6/TRAZABILIDAD_M6.md M6/VALIDACION_M6.md M6/AUDITORIA_EDITORIAL_M6.json M6/TEORIA_M6.pdf M6/PRACTICA_M6.pdf M6/PRECHECK_M6.json M6/SHA256SUMS.txt M6/6.1/VALIDACION.md M6/6.2/VALIDACION.md M6/6.3/VALIDACION.md M6/6.4/VALIDACION.md M6/6.5/VALIDACION.md
+          git add M6/TEORIA_M6.md M6/PRACTICA_M6.md M6/TRAZABILIDAD_M6.md M6/VALIDACION_M6.md M6/AUDITORIA_EDITORIAL_M6.json M6/TEORIA_M6.pdf M6/PRACTICA_M6.pdf M6/PRECHECK_M6.json M6/SHA256SUMS.txt
           if git diff --cached --quiet; then
             echo "Documentación M6 ya coincide."
           else
