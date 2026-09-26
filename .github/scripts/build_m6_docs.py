@@ -1171,3 +1171,91 @@ HTML es la edición navegable del catálogo y el enlace al PDF es la puerta haci
 
 6.3 añade una salida web con recursos externos y preserva el acceso a la versión PDF del mismo informe.
 '''
+
+,
+'6.4':r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| CSV sin UTF-8 | Codificación puesta en la configuración equivocada | Usar `SimpleWriterExporterOutput(ruta, "UTF-8")` |
+| CSV sin delimitadores esperados | Falta configuración | Usar `setFieldDelimiter(";")` y `setRecordDelimiter("\\n")` |
+| XML sin imágenes embebidas | No se configuró el output | Activar `setEmbeddingImages(Boolean.TRUE)` |
+| RTF con caracteres dañados | Writer sin UTF-8 | Usar `SimpleWriterExporterOutput` con UTF-8 |
+| `JROdtExporter` no se resuelve | Import incorrecto | Importar `net.sf.jasperreports.engine.export.oasis.JROdtExporter` |
+
+## Reto resuelto paso a paso
+
+**Enunciado original:** añadir exportación ODT a las salidas CSV/XML/RTF.
+
+1. Se importa `oasis.JROdtExporter`.
+2. Se declara `output/informe_ventas.odt`.
+3. Se crea `exportarOdt(JasperPrint, String)`.
+4. El exportador recibe `SimpleExporterInput(documento)`.
+5. La salida usa `SimpleOutputStreamExporterOutput`.
+6. Se ejecuta después de CSV/XML/RTF sobre el mismo `JasperPrint`.
+7. El E2E comprueba que el ODT es ZIP íntegro y que su entrada `mimetype` vale `application/vnd.oasis.opendocument.text`.
+
+**Resultado del reto:** el ODT es un documento OpenDocument real, no un archivo renombrado.
+
+## Analogía final con el contexto de la editorial
+
+CSV, XML, RTF y ODT son distintas rutas de distribución del mismo catálogo: datos tabulares, integración estructurada y documentos editables.
+
+## Resultado esperado
+
+- CSV con BOM UTF-8 y `;`.
+- XML estructural de JasperPrint.
+- RTF válido en UTF-8.
+- ODT real y abrible en Writer.
+- PDF/XLSX/HTML heredados conservados.
+- `EXPORTACION_OTROS.md` trazado al Java.
+
+## Conclusión y enlace al siguiente punto
+
+6.4 completa la salida multiformato. 6.5 no añade otro diseño: centraliza las políticas de configuración y demuestra que todas las salidas sobreviven a la refactorización.
+''',
+'6.5':r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| `ConfiguracionExportacion` no se encuentra | Clase fuera de `src` o compilación incompleta | Mantenerla en `EditorialReportsJava/src` y ejecutar Maven |
+| El properties no se lee | No llega al classpath | Configurar `<resources>` para copiar no-Java desde `src` |
+| XLSX deja de usar la hoja correcta | Se mezclan tipos de configuración | Mantener métodos Report/Exporter separados |
+| HTML pierde `Descargar PDF` | La fábrica no conserva la cabecera de 6.3 | Incluir el enlace en `getConfiguracionHtml` |
+| RTF intenta usar `setEncoding` en configuración | API incorrecta | Mantener UTF-8 en `SimpleWriterExporterOutput` |
+| Una salida desaparece tras refactorizar | Se eliminó una llamada acumulada | Ejecutar E2E completo 6.5 |
+
+## Reto resuelto paso a paso
+
+**Enunciado original:** añadir `getConfiguracionRtf()` y utilizarlo desde el generador.
+
+1. `ConfiguracionExportacion` importa `SimpleRtfExporterConfiguration`.
+2. Se declara `getConfiguracionRtf()`.
+3. El método devuelve una nueva configuración RTF.
+4. `GeneradorInformeVentas.exportarRtf` la aplica con `setConfiguration`.
+5. UTF-8 se mantiene en `SimpleWriterExporterOutput`, no en la configuración.
+6. Maven compila la clase y el E2E vuelve a validar la cabecera RTF.
+
+**Resultado del reto:** RTF queda integrado en el patrón de configuración central sin usar un método inexistente de codificación.
+
+## Analogía final con el contexto de la editorial
+
+`jasperreports.properties` es el manual general de imprenta; `ConfiguracionExportacion` son las fichas técnicas por formato y `GeneradorInformeVentas` es el operario que aplica esas fichas a cada tirada.
+
+## Resultado esperado
+
+- `ConfiguracionExportacion.java` con PDF, XLSX Report, XLSX Exporter, HTML, CSV y RTF.
+- `jasperreports.properties` disponible en `target/classes`.
+- `GeneradorInformeVentas` usando la configuración central.
+- todos los retos de 6.1–6.4 conservados.
+- PDF normal/protegido, dos XLSX, HTML, CSV, XML, RTF y ODT generados.
+- JRXML/JRTX idénticos a M5/5.6.
+
+## Conclusión del Módulo 6
+
+El Módulo 6 cierra la capa de distribución de EditorialReports. Un único flujo de llenado produce múltiples formatos reales y validados, y las configuraciones comunes quedan centralizadas sin romper el diseño ni los invariantes heredados.
+'''
+}
+
+def tail(point): return TAIL[point].strip()
+
