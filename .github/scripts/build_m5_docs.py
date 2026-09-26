@@ -987,6 +987,216 @@ def corrected_53_part_a():
 **Verificación visual:** la documentación coincide con Source y el checkpoint.
 '''
 
+
+def corrected_54_part_a():
+ return r'''**Paso 1: Verificar el checkpoint 5.3 como base**
+
+**Acciones:**
+
+1. Abrir `M5/5.4/EditorialReports/reports/informe_ventas.jrxml`.
+2. Confirmar en Outline subreporte, tabla y `CategoriaGroup`.
+3. Guardar sin eliminar elementos heredados.
+
+**Verificación visual:** 5.4 parte físicamente de 5.3.
+
+---
+
+**Paso 2: Crear `DatasetVentasPorCategoria`**
+
+**Acciones:**
+
+1. En Source, añadir un `subDataset` llamado `DatasetVentasPorCategoria`.
+2. Usar `SELECT l.categoria AS categoria_grafico`.
+3. Calcular `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria`.
+4. Usar `LEFT JOIN ventas` para conservar categorías sin ventas.
+5. Agrupar y ordenar por `l.categoria`.
+6. Declarar `categoria_grafico` como String e `importe_categoria` como Double.
+7. Guardar.
+
+**Verificación visual:** el dataset contiene exactamente los aliases `categoria_grafico` e `importe_categoria`.
+
+**Qué hace:** prepara una fila agregada por categoría.
+**Por qué:** el gráfico usa un dataset independiente.
+**Error común:** usar el alias antiguo `importe_grafico`. Solución: usar `importe_categoria`.
+
+---
+
+**Paso 3: Ajustar Summary a 430**
+
+**Acciones:**
+
+1. Seleccionar Summary.
+2. Establecer Band height = `430`.
+3. Mantener intactos los elementos de resumen heredados entre y=5 e y=121.
+4. Guardar.
+
+**Verificación visual:** Source contiene `<band height="430">`.
+
+**Qué hace:** reserva el espacio exacto del gráfico.
+**Error común:** usar 540 de un borrador anterior.
+
+---
+
+**Paso 4: Añadir el rótulo del gráfico**
+
+**Acciones:**
+
+1. Insertar Static Text en x=0, y=140, width=555, height=20.
+2. Aplicar `style="Cabecera"`.
+3. Escribir `Ventas por categoría — importe`.
+4. Guardar.
+
+**Verificación visual:** el rótulo queda encima del gráfico.
+
+---
+
+**Paso 5: Insertar el `barChart` nativo**
+
+**Acciones:**
+
+1. Desde Palette, insertar un gráfico de barras.
+2. En Source, confirmar que el elemento es `<barChart>` y no un componente con namespace `chart:`.
+3. Dentro de `<chart>`, fijar `reportElement` en x=0, y=165, width=555, height=250.
+4. Guardar.
+
+**Verificación visual:** Source contiene un `barChart` nativo en la geometría del checkpoint.
+
+**Qué hace:** crea el gráfico real de JasperReports 6.20.0.
+**Error común:** envolverlo en `componentElement` con un namespace inventado.
+
+---
+
+**Paso 6: Configurar título, subtítulo y leyenda**
+
+**Acciones:**
+
+1. Dentro de `<chart>`, añadir `chartTitle` con `"Ventas por categoría"`.
+2. Mantener `<chartSubtitle/>`.
+3. Añadir `<chartLegend position="Bottom"/>`.
+4. Guardar.
+
+**Verificación visual:** título y leyenda están dentro del bloque `chart`.
+
+**Qué hace:** configura propiedades generales del gráfico.
+**Error común:** escribir `chartTitle position="Top"`. Solución: el checkpoint no usa ese atributo.
+
+---
+
+**Paso 7: Asociar el subdataset**
+
+**Acciones:**
+
+1. Dentro de `categoryDataset`, añadir `dataset`.
+2. Crear `datasetRun subDataset="DatasetVentasPorCategoria"`.
+3. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+4. Guardar.
+
+**Verificación visual:** el gráfico reutiliza la conexión JDBC del informe.
+
+---
+
+**Paso 8: Definir la serie categórica**
+
+**Acciones:**
+
+1. Añadir una `categorySeries`.
+2. Usar `"Importe"` como `seriesExpression`.
+3. Usar `$F{categoria_grafico}` como `categoryExpression`.
+4. Usar `$F{importe_categoria}` como `valueExpression`.
+5. Guardar.
+
+**Verificación visual:** la serie usa exactamente los fields del subdataset.
+
+**Qué hace:** vincula categorías y valores a las barras.
+**Error común:** referenciar fields del dataset principal.
+
+---
+
+**Paso 9: Configurar `barPlot`**
+
+**Acciones:**
+
+1. Añadir `<barPlot>` después de `categoryDataset`.
+2. Dentro, mantener `<plot/>`.
+3. Añadir `<itemLabel/>`.
+4. Añadir `<categoryAxisFormat><axisFormat/></categoryAxisFormat>`.
+5. Añadir `<valueAxisFormat><axisFormat/></valueAxisFormat>`.
+6. Guardar.
+
+**Verificación visual:** el bloque coincide con el JRXML ejecutable.
+
+**Qué hace:** configura plot, etiquetas y ejes.
+**Error común:** añadir `seriesColor` directamente en `barPlot`. Solución: no introducir elementos que no existen en el checkpoint.
+
+---
+
+**Paso 10: Validar Source contra el checkpoint**
+
+**Acciones:**
+
+1. Comprobar `barChart → chart → categoryDataset → barPlot`.
+2. Confirmar que no aparece `chartTitle position="Top"`.
+3. Confirmar que no aparece `seriesColor` dentro de `barPlot`.
+4. Abrir Problems y verificar cero errores.
+
+**Verificación visual:** la estructura del gráfico es idéntica a la Parte B.
+
+---
+
+**Paso 11: Compilar el informe**
+
+**Acciones:**
+
+1. Pulsar Ctrl+S.
+2. Compilar `informe_ventas.jrxml`.
+3. Refrescar `reports`.
+4. Confirmar `informe_ventas.jasper`.
+5. No buscar un `_chart_1.jasper` independiente.
+
+**Verificación visual:** el gráfico queda integrado en el jasper principal.
+
+---
+
+**Paso 12: Previsualizar**
+
+**Acciones:**
+
+1. Abrir Preview.
+2. Comprobar el título del gráfico.
+3. Comprobar la leyenda inferior.
+4. Comprobar una barra por categoría.
+
+**Verificación visual:** el gráfico aparece después del resumen acumulado.
+
+---
+
+**Paso 13: Ejecutar desde Java**
+
+**Acciones:**
+
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que el checkpoint 5.4 genera 6 páginas.
+4. Confirmar 14 libros, 9 ventas, 31 unidades y 633,40 €.
+
+**Verificación visual:** el PDF conserva todos los componentes anteriores y añade el gráfico.
+
+---
+
+**Paso 14: Documentar `GRAFICOS.md`**
+
+**Acciones:**
+
+1. Registrar tipo = `barChart`.
+2. Registrar `DatasetVentasPorCategoria`.
+3. Registrar fields `categoria_grafico` e `importe_categoria`.
+4. Registrar título, leyenda Bottom y plot.
+5. Indicar que el gráfico forma parte de `informe_ventas.jasper`.
+6. Guardar.
+
+**Verificación visual:** GRAFICOS.md describe la implementación ejecutable.
+'''
+
 def corrected_55_part_a():
  return r'''**Paso 1: Verificar el punto de partida acumulativo**
 
@@ -1439,6 +1649,8 @@ def extract_part_a(sec,point):
   return corrected_52_part_a().strip()
  if point=='5.3':
   return corrected_53_part_a().strip()
+ if point=='5.4':
+  return corrected_54_part_a().strip()
  if point=='5.5':
   return corrected_55_part_a().strip()
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
