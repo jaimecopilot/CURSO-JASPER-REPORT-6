@@ -105,7 +105,7 @@ theory_checks={
  '5.2':(['`c:table`'],['`jr:tableStyle`']),
  '5.3':(['CategoriaGroup','GrupoImporte','GrupoLibros'],['GrupoCategoria','SubtotalCategoria','ContadorCategoria','isStartNewPage="true"']),
  '5.4':(['importe_categoria'],['importe_grafico']),
- '5.5':(['CategoriaCross','AnioCross','ImporteCross'],['Se declara con `componentElement` y el elemento `crosstab`.']),
+ '5.5':(['CategoriaCross','AnioCross','ImporteCross'],['Se declara con `componentElement` y el elemento `crosstab`.','<componentElement>']),
  '5.6':(['M5TituloPrincipal','M5CrosstabTotal'],['Las bandas admiten el atributo `style`'])
 }
 for p,(required,banned_tokens) in theory_checks.items():
