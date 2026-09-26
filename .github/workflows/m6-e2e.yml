@@ -159,6 +159,9 @@ jobs:
                   'ConfiguracionExportacion.getConfiguracionRtf',
               ]:
                   assert token in j, token
+              cfg=pathlib.Path('../EditorialReportsJava/src/ConfiguracionExportacion.java').read_text(encoding='utf-8')
+              assert "href='informe_ventas.pdf'" in cfg
+              assert 'Descargar PDF' in cfg
           print('M6 structural contracts PASS',cp)
           PY
 
