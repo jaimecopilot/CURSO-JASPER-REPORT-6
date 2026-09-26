@@ -36,7 +36,8 @@ public class ConfiguracionExportacion {
     public static SimpleHtmlExporterConfiguration getConfiguracionHtml(String titulo) {
         SimpleHtmlExporterConfiguration c = new SimpleHtmlExporterConfiguration();
         c.setHtmlHeader("<html><head><meta charset='UTF-8'><title>" + titulo
-                + "</title><link rel='stylesheet' href='styles/editorial.css'></head><body>");
+                + "</title><link rel='stylesheet' href='styles/editorial.css'></head><body>"
+                + "<a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");
         c.setHtmlFooter("</body></html>");
         c.setBetweenPagesHtml("<hr class='salto-pagina'/>");
         return c;
