@@ -9,6 +9,13 @@ def read(p): return Path(p).read_text(encoding='utf-8')
 for name in ['TEORIA_M5.md','PRACTICA_M5.md','TRAZABILIDAD_M5.md','VALIDACION_M5.md','AUDITORIA_EDITORIAL_M5.json']:
  if not (M5/name).is_file(): fail('missing '+name)
 T=read(M5/'TEORIA_M5.md'); P=read(M5/'PRACTICA_M5.md')
+
+R=read(ROOT/'.github/scripts/render_m5_docs.py')
+if 'Módulo 4' in R or '4\\.[1-6]' in R:
+ fail('renderer still contains M4 identity')
+for tok in ['MÓDULO 5. Diseño avanzado','EditorialReports · Módulo 5 ·','Módulo 5 — Diseño avanzado','5\\.[1-6]']:
+ if tok not in R: fail('renderer M5 identity missing '+tok)
+
 banned=['svgsvg','Cuando me confirmes','The user wants me','fontName="Sans Serif"','default="true"','648,40','648.40','informe_ventas_table_1.jasper','informe_ventas_chart_1.jasper','informe_ventas_crosstab_1.jasper','<chart:barChart','<jr:tableStyle','<crosstabStyle>']
 for tok in banned:
  if tok in T or tok in P: fail('banned token '+tok)
