@@ -728,3 +728,225 @@ def visual_62():
  ],'la documentación coincide con el POM y el Java ejecutable.'))
  return '\n\n---\n\n'.join(out)
 
+
+def visual_63():
+ p='6.3'; out=[]
+ out.append(vstep(p,1,'Abrir 6.3 y verificar PDF/XLSX heredados',[
+  'Abrir `GeneradorInformeVentas.java` del checkpoint 6.3.',
+  'Confirmar las exportaciones PDF normal/protegido y los dos XLSX.',
+  'Comprobar que el POM conserva las dependencias POI.'
+ ],'el código acumulado de 6.2 permanece intacto.'))
+ out.append(vstep(p,2,'Añadir imports HTML y de recursos',[
+  'Importar `HtmlExporter` y `FileHtmlResourceHandler`.',
+  'Importar `SimpleHtmlExporterConfiguration` y `SimpleHtmlExporterOutput`.',
+  'Importar `Files`, `Paths` y `StandardCopyOption`.'
+ ],'Problems no muestra clases HTML o NIO sin resolver.'))
+ out.append(vstep(p,3,'Declarar la ruta HTML',[
+  'Añadir `String rutaHtml = "output/informe_ventas.html";` junto a las rutas de salida.',
+  'Mantener las rutas PDF/XLSX anteriores.'
+ ],'Source contiene la nueva ruta HTML y las salidas acumuladas.'))
+ out.append(vstep(p,4,'Crear la hoja CSS fuente',[
+  'Crear `EditorialReports/resources/styles/editorial.css`.',
+  'Añadir reglas para `body`, `.jrPage`, `.salto-pagina` y `.enlace-pdf`.',
+  'Usar DejaVu Sans como primera familia del `font-family`.'
+ ],'Project Explorer muestra el CSS y la regla `.enlace-pdf`.'))
+ out.append(vstep(p,5,'Preparar carpetas y copiar CSS a output',[
+  'Crear `output/images` con `mkdirs()`.',
+  'Crear `output/styles` con `mkdirs()`.',
+  'Copiar `resources/styles/editorial.css` a `output/styles/editorial.css` con `Files.copy(..., REPLACE_EXISTING)`.'
+ ],'al ejecutar, la hoja CSS aparece junto al HTML publicado.'))
+ out.append(vstep(p,6,'Crear el método exportarHtml',[
+  'Declarar `exportarHtml(JasperPrint documento, String ruta)`.',
+  'Crear `HtmlExporter` y `SimpleHtmlExporterConfiguration`.',
+  'No utilizar la clase antigua `JRHtmlExporter`.'
+ ],'Source contiene `HtmlExporter`, que es la clase usada por el checkpoint compilado.'))
+ out.append(vstep(p,7,'Configurar cabecera, pie y separación de páginas',[
+  'En `setHtmlHeader`, incluir `<meta charset=\'UTF-8\'>`, título y enlace `styles/editorial.css`.',
+  'Añadir en la misma cabecera el enlace `Descargar PDF` con `href=\'informe_ventas.pdf\'`.',
+  'Configurar `setHtmlFooter("</body></html>")`.',
+  'Configurar `setBetweenPagesHtml("<hr class=\'salto-pagina\'/>")`.'
+ ],'la cabecera HTML contiene el CSS y el reto del enlace al PDF.'))
+ out.append(vstep(p,8,'Configurar la salida y los recursos de imagen',[
+  'Crear `SimpleHtmlExporterOutput(ruta, "UTF-8")`.',
+  'Asignar `new FileHtmlResourceHandler(new File("output/images"), "images/{0}")` mediante `setImageHandler`.',
+  'Asignar configuración, input y output al exportador.'
+ ],'la ruta física de imágenes y la URI relativa están definidas en el output, no en la configuración HTML.'))
+ out.append(vstep(p,9,'Ejecutar la exportación HTML',[
+  'Finalizar el método con `exportador.exportReport()`.',
+  'Invocar `exportarHtml(documento, rutaHtml)` después de copiar el CSS.',
+  'Mantener el mismo `JasperPrint documento`.'
+ ],'la exportación HTML no vuelve a ejecutar `fillReport`.'))
+ out.append(vstep(p,10,'Compilar y ejecutar',[
+  'Guardar Java y CSS.',
+  'Ejecutar `mvn clean package`.',
+  'Ejecutar `GeneradorInformeVentas` desde `EditorialReports`.'
+ ],'Console informa las salidas PDF, XLSX y HTML sin excepción.'))
+ out.append(vstep(p,11,'Abrir el HTML en navegador',[
+  'Abrir `output/informe_ventas.html`.',
+  'Comprobar título, contenido del informe y separación entre páginas.',
+  'Comprobar que el estilo externo se carga.'
+ ],'el navegador presenta el informe y no muestra recursos rotos.'))
+ out.append(vstep(p,12,'Validar el reto del enlace al PDF',[
+  'Comprobar que aparece `Descargar PDF` al inicio del HTML.',
+  'Hacer clic en el enlace.',
+  'Verificar que abre `output/informe_ventas.pdf`.'
+ ],'el enlace relativo resuelve el PDF generado en la misma carpeta output.'))
+ out.append(vstep(p,13,'Documentar HTML y recursos',[
+  'Crear/abrir `EXPORTACION_HTML.md`.',
+  'Registrar `HtmlExporter`, cabecera/pie, `FileHtmlResourceHandler`, CSS y enlace al PDF.',
+  'Registrar las carpetas `output/images` y `output/styles`.'
+ ],'la documentación coincide con Java, CSS y árbol de salida.'))
+ return '\n\n---\n\n'.join(out)
+
+def visual_64():
+ p='6.4'; out=[]
+ out.append(vstep(p,1,'Abrir 6.4 y comprobar las salidas acumuladas',[
+  'Abrir `GeneradorInformeVentas.java` de 6.4.',
+  'Confirmar PDF, XLSX y HTML heredados.',
+  'No modificar JRXML/JRTX.'
+ ],'el checkpoint parte físicamente de 6.3.'))
+ out.append(vstep(p,2,'Añadir imports CSV, XML, RTF y ODT',[
+  'Importar `JRCsvExporter`, `JRXmlExporter` y `JRRtfExporter`.',
+  'Importar `net.sf.jasperreports.engine.export.oasis.JROdtExporter`.',
+  'Importar `SimpleCsvExporterConfiguration`, `SimpleWriterExporterOutput` y `SimpleXmlExporterOutput`.'
+ ],'Problems resuelve los cuatro exportadores.'))
+ out.append(vstep(p,3,'Declarar las cuatro nuevas rutas',[
+  'Añadir `output/informe_ventas.csv`.',
+  'Añadir `output/informe_ventas.xml`.',
+  'Añadir `output/informe_ventas.rtf`.',
+  'Añadir `output/informe_ventas.odt`.'
+ ],'Source muestra las cuatro rutas después de HTML.'))
+ out.append(vstep(p,4,'Crear exportarCsv',[
+  'Crear `JRCsvExporter` y `SimpleCsvExporterConfiguration`.',
+  'Configurar `setFieldDelimiter(";")`, `setRecordDelimiter("\\n")` y `setWriteBOM(Boolean.TRUE)`.',
+  'Asignar input y `new SimpleWriterExporterOutput(ruta, "UTF-8")`.'
+ ],'la codificación se fija en el output y no mediante `setEncoding` en la configuración CSV.'))
+ out.append(vstep(p,5,'Crear exportarXml',[
+  'Crear `JRXmlExporter`.',
+  'Crear `SimpleXmlExporterOutput(ruta, "UTF-8")`.',
+  'Activar `setEmbeddingImages(Boolean.TRUE)`.',
+  'Asignar input/output y ejecutar.'
+ ],'el método XML utiliza un output específico y conserva UTF-8.'))
+ out.append(vstep(p,6,'Crear exportarRtf',[
+  'Crear `JRRtfExporter`.',
+  'Asignar `SimpleExporterInput(documento)`.',
+  'Usar `SimpleWriterExporterOutput(ruta, "UTF-8")`.',
+  'Ejecutar `exportReport()`.'
+ ],'la codificación RTF queda en el writer output.'))
+ out.append(vstep(p,7,'Resolver el reto ODT con la clase correcta',[
+  'Crear `exportarOdt(JasperPrint documento, String ruta)`.',
+  'Instanciar `JROdtExporter` del paquete `engine.export.oasis`.',
+  'Asignar input y `SimpleOutputStreamExporterOutput(ruta)`.',
+  'Ejecutar `exportReport()`.'
+ ],'Source no usa el paquete incorrecto `engine.export.JROdtExporter`.'))
+ out.append(vstep(p,8,'Invocar las cuatro exportaciones',[
+  'Después de HTML, invocar CSV, XML, RTF y ODT sobre `documento`.',
+  'No repetir el llenado del informe.',
+  'Añadir mensajes de consola para las cuatro rutas.'
+ ],'todas las salidas parten del mismo JasperPrint de seis páginas.'))
+ out.append(vstep(p,9,'Compilar el proyecto',[
+  'Guardar el Java.',
+  'Ejecutar `mvn clean package`.',
+  'Revisar que `JROdtExporter` y los demás exportadores compilan.'
+ ],'Maven termina con BUILD SUCCESS.'))
+ out.append(vstep(p,10,'Ejecutar el generador multiformato',[
+  'Ejecutar `GeneradorInformeVentas`.',
+  'Confirmar en Console PDF/PDF protegido/XLSX/HTML/CSV/XML/RTF/ODT.',
+  'Confirmar `Paginas del documento: 6`.'
+ ],'la ejecución termina con `M6 checkpoint generado correctamente`.'))
+ out.append(vstep(p,11,'Validar CSV y XML',[
+  'Abrir el CSV con un editor capaz de mostrar UTF-8 y verificar punto y coma.',
+  'Comprobar que el CSV contiene más de una línea.',
+  'Abrir el XML y confirmar que comienza con declaración XML.'
+ ],'CSV y XML contienen datos y estructura reconocible.'))
+ out.append(vstep(p,12,'Validar RTF y ODT',[
+  'Abrir RTF con un procesador de texto y comprobar el contenido.',
+  'Abrir ODT con LibreOffice Writer.',
+  'Confirmar que ambos archivos se generan sin reparación.'
+ ],'RTF y ODT son artefactos reales y no simples archivos con extensión cambiada.'))
+ out.append(vstep(p,13,'Documentar formatos adicionales',[
+  'Crear/abrir `EXPORTACION_OTROS.md`.',
+  'Registrar CSV, XML, RTF y ODT con sus clases y rutas.',
+  'Explicar que las codificaciones CSV/RTF pertenecen al output.'
+ ],'la documentación coincide con el checkpoint ejecutable y el reto ODT.'))
+ return '\n\n---\n\n'.join(out)
+
+def visual_65():
+ p='6.5'; out=[]
+ out.append(vstep(p,1,'Abrir el cierre 6.4 como baseline',[
+  'Abrir `GeneradorInformeVentas.java` de 6.5.',
+  'Confirmar que ya genera PDF, XLSX, HTML, CSV, XML, RTF y ODT.',
+  'Mantener intactos JRXML y JRTX.'
+ ],'el contenido de 6.4 está presente antes de refactorizar.'))
+ out.append(vstep(p,2,'Crear ConfiguracionExportacion.java',[
+  'En `EditorialReportsJava/src`, crear `ConfiguracionExportacion.java`.',
+  'Importar las configuraciones PDF, XLSX report/exporter, HTML, CSV y RTF.',
+  'Declarar la clase pública sin estado de instancia.'
+ ],'Project Explorer muestra la nueva clase junto al generador.'))
+ out.append(vstep(p,3,'Centralizar la configuración PDF',[
+  'Crear `getConfiguracionPdf(String titulo, String autor)`.',
+  'Usar `setMetadataTitle`, `setMetadataAuthor`, `setMetadataCreator`, `setDisplayMetadataTitle` y `setCompressed`.',
+  'Devolver el objeto configurado.'
+ ],'el método usa la API específica PDF y compila.'))
+ out.append(vstep(p,4,'Centralizar las dos configuraciones XLSX',[
+  'Crear `getConfiguracionXlsxReport(String nombreHoja)` para hoja, cuadrícula, bloqueo, tipos y paginación.',
+  'Crear `getConfiguracionXlsxExportador()` para `setCreateCustomPalette(Boolean.TRUE)`.',
+  'No mezclar ambos niveles en un único tipo.'
+ ],'la clase devuelve `SimpleXlsxReportConfiguration` y `SimpleXlsxExporterConfiguration` por separado.'))
+ out.append(vstep(p,5,'Centralizar HTML',[
+  'Crear `getConfiguracionHtml(String titulo)`.',
+  'Incluir charset, título, CSS y enlace `Descargar PDF` en la cabecera.',
+  'Configurar footer y separador entre páginas.'
+ ],'el reto HTML sigue presente después de la refactorización.'))
+ out.append(vstep(p,6,'Centralizar CSV y RTF',[
+  'Crear `getConfiguracionCsv()` con delimitadores y BOM.',
+  'Crear `getConfiguracionRtf()` devolviendo `SimpleRtfExporterConfiguration`.',
+  'Mantener UTF-8 del RTF en `SimpleWriterExporterOutput`.'
+ ],'no aparece una llamada inexistente `setEncoding` en la configuración RTF.'))
+ out.append(vstep(p,7,'Crear jasperreports.properties',[
+  'Crear `EditorialReportsJava/src/jasperreports.properties`.',
+  'Añadir `net.sf.jasperreports.export.pdf.compressed=true`.',
+  'Añadir `net.sf.jasperreports.export.csv.field.delimiter=;`.'
+ ],'el archivo contiene las dos propiedades globales exactas.'))
+ out.append(vstep(p,8,'Configurar Maven para copiar recursos de src',[
+  'Abrir `pom.xml`.',
+  'Dentro de `build`, añadir un recurso con `directory` = `src`.',
+  'Excluir `**/*.java` para copiar únicamente recursos no Java.'
+ ],'tras package, `target/classes/jasperreports.properties` existe.'))
+ out.append(vstep(p,9,'Refactorizar PDF y XLSX en GeneradorInformeVentas',[
+  'Hacer que PDF reciba `ConfiguracionExportacion.getConfiguracionPdf(...)`.',
+  'Usar `getConfiguracionXlsxReport(nombreHoja)` y `getConfiguracionXlsxExportador()` en el helper XLSX.',
+  'Mantener las hojas `Ventas` y `Catálogo`.'
+ ],'el generador ya no recrea manualmente esas configuraciones.'))
+ out.append(vstep(p,10,'Refactorizar HTML, CSV y RTF',[
+  'Usar `getConfiguracionHtml(...)` en `HtmlExporter`.',
+  'Usar `getConfiguracionCsv()` en `JRCsvExporter`.',
+  'Usar `getConfiguracionRtf()` en `JRRtfExporter`.',
+  'Mantener ODT sin configuración adicional porque el reto sólo exige la exportación.'
+ ],'Source contiene llamadas a los métodos centrales y conserva todas las salidas.'))
+ out.append(vstep(p,11,'Compilar y verificar el classpath',[
+  'Ejecutar `mvn clean package`.',
+  'Comprobar `target/classes/jasperreports.properties`.',
+  'Resolver cualquier error antes de ejecutar.'
+ ],'Maven termina con éxito y el properties está en el classpath.'))
+ out.append(vstep(p,12,'Ejecutar todo el cierre M6',[
+  'Ejecutar `GeneradorInformeVentas`.',
+  'Confirmar que se regeneran PDF normal/protegido, dos XLSX, HTML, CSV, XML, RTF y ODT.',
+  'Confirmar seis páginas y ausencia de excepciones.'
+ ],'todas las salidas acumuladas siguen funcionando después de centralizar configuración.'))
+ out.append(vstep(p,13,'Verificar que los retos siguen resueltos',[
+  'Abrir PDF protegido con `editorial2026`.',
+  'Confirmar hojas `Ventas` y `Catálogo`.',
+  'Comprobar enlace HTML al PDF y abrir ODT.',
+  'Comprobar acentos del RTF.'
+ ],'la refactorización no rompe ningún reto de 6.1–6.4.'))
+ out.append(vstep(p,14,'Documentar la configuración centralizada',[
+  'Crear/abrir `CONFIGURACION_EXPORTACION.md`.',
+  'Listar los métodos de `ConfiguracionExportacion` y el papel de `jasperreports.properties`.',
+  'Explicar la separación ReportConfiguration/ExporterConfiguration y el classpath Maven.'
+ ],'la documentación refleja exactamente la estructura del checkpoint 6.5.'))
+ return '\n\n---\n\n'.join(out)
+
+def visual(point):
+ return {'6.1':visual_61,'6.2':visual_62,'6.3':visual_63,'6.4':visual_64,'6.5':visual_65}[point]()
+
