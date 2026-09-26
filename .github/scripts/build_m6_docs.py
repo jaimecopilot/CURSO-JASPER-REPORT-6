@@ -562,6 +562,107 @@ def explain_line(line,lang):
   if 'ConfiguracionExportacion.getConfiguracionHtml' in x: return 'Obtiene la cabecera, pie y separador HTML centralizados.'
   if 'ConfiguracionExportacion.getConfiguracionCsv' in x: return 'Obtiene delimitadores y BOM CSV desde la clase de configuración central.'
   if 'ConfiguracionExportacion.getConfiguracionRtf' in x: return 'Obtiene la configuración RTF centralizada antes de escribir la salida textual.'
+
+ if lang=='java':
+  if x.startswith('private static void exportar'):
+   m=re.match(r'private static void (exportar[A-Za-z]+)\((.*)\) throws Exception \{',x)
+   name=m.group(1) if m else 'método de exportación'
+   return 'Declara el helper privado `'+name+'`, que encapsula una exportación concreta y propaga cualquier error al `catch` principal.'
+  if x.startswith('public static Simple') and ' getConfiguracion' in x:
+   m=re.search(r'(getConfiguracion[A-Za-z]+)\(',x)
+   name=m.group(1) if m else 'método de configuración'
+   return 'Declara el método fábrica `'+name+'` que construye y devuelve una configuración reutilizable para el formato correspondiente.'
+  if re.match(r'Simple[A-Za-z]+Configuration\s+(configuracion|c)\s*=\s*new ',x):
+   typ=re.search(r'new\s+([A-Za-z0-9_]+)\(',x)
+   return 'Crea el objeto `'+(typ.group(1) if typ else 'Simple*Configuration')+'` que recibirá las opciones específicas de esta exportación.'
+  if x=='exportador.setConfiguration(configuracion);':
+   return 'Asocia al exportador la configuración específica preparada en las líneas anteriores.'
+  if x=='exportador.setConfiguration(informe);':
+   return 'Aplica la configuración de informe XLSX: hoja, cuadrícula, bloqueo, tipos y paginación.'
+  if x=='exportador.setConfiguration(libro);':
+   return 'Aplica además la configuración global del libro XLSX, incluida la paleta personalizada.'
+  if x=='exportador.setExporterInput(new SimpleExporterInput(documento));':
+   return 'Entrega al exportador el `JasperPrint documento` ya llenado; no se vuelve a consultar la base de datos.'
+  if x=='exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));':
+   return 'Dirige la salida binaria del exportador al archivo indicado por el parámetro `ruta`.'
+  if x=='exportador.setExporterOutput(salida);':
+   return 'Conecta al exportador el objeto `salida` previamente configurado con codificación y/o recursos.'
+  if x=='exportador.exportReport();':
+   return 'Ejecuta la exportación con la entrada, salida y configuración ya asignadas; aquí se materializa el archivo.'
+  if x.startswith('exportarXlsx(documento, rutaXlsx,'):
+   return 'Exporta el `JasperPrint` de ventas a `informe_ventas.xlsx` usando el nombre de hoja `Ventas`.'
+  if x.startswith('exportarXlsx(documentoCatalogo, rutaXlsxCatalogo,'):
+   return 'Exporta el `JasperPrint` del catálogo a `informe_catalogo.xlsx` usando la hoja `Catálogo`.'
+  if x=='exportarOdt(documento, rutaOdt);':
+   return 'Reutiliza el `JasperPrint` de ventas para generar el reto ODT en `output/informe_ventas.odt`.'
+  if x.startswith('JRCsvDataSource catalogoDataSource ='):
+   return 'Abre `data/catalogo.csv` como datasource JasperReports en UTF-8 para llenar el informe de catálogo sin JDBC.'
+  if 'catalogoDataSource.setUseFirstRowAsHeader(true)' in x:
+   return 'Indica que la primera fila del CSV contiene los nombres de los fields del informe de catálogo.'
+  if x.startswith('JasperPrint documentoCatalogo = JasperFillManager.fillReport'):
+   return 'Inicia el llenado del informe de catálogo y guarda el resultado paginado en `documentoCatalogo`.'
+  if x.startswith('rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource'):
+   return 'Completa `fillReport` pasando el catálogo compilado, un mapa de parámetros vacío y el `JRCsvDataSource`.'
+  if x=='} finally {':
+   return 'Abre el bloque `finally` que se ejecutará siempre para liberar el datasource CSV aunque falle el llenado o la exportación.'
+  if x=='catalogoDataSource.close();':
+   return 'Cierra explícitamente el `JRCsvDataSource` para liberar el lector del archivo de catálogo.'
+  if x=='new File("output/images").mkdirs();':
+   return 'Crea la carpeta física donde el handler HTML podrá escribir recursos de imagen.'
+  if x=='new File("output/styles").mkdirs();':
+   return 'Crea la carpeta publicada de estilos que debe acompañar a `informe_ventas.html`.'
+  if x=='StandardCopyOption.REPLACE_EXISTING);':
+   return 'Finaliza la copia del CSS indicando que una versión anterior debe reemplazarse para mantener la salida sincronizada.'
+  if x.startswith('+ "<title>Informe de Ventas - EditorialReports</title>"'):
+   return 'Añade a la cabecera HTML el título visible en la pestaña/metadata del navegador.'
+  if x.startswith('+ "<link rel='):
+   return 'Añade a la cabecera HTML el enlace relativo a `styles/editorial.css`.'
+  if 'Descargar PDF</a>' in x:
+   return 'Añade el enlace del reto `Descargar PDF`, apuntando al PDF generado en la misma carpeta `output`.'
+  if x.startswith('"Informe de Ventas - EditorialReports", "Departamento Comercial"'):
+   return 'Completa la llamada a la fábrica PDF pasando el título y el autor que deben aparecer en los metadatos.'
+  if x=='return c;':
+   return 'Devuelve al llamador la configuración ya preparada por el método fábrica.'
+  if x=='return new SimpleRtfExporterConfiguration();':
+   return 'Devuelve una configuración RTF nueva; la codificación seguirá definiéndose correctamente en el writer de salida.'
+  if 'new JROdtExporter()' in x:
+   return 'Crea `JROdtExporter` del paquete Oasis para producir un OpenDocument Text real.'
+ if lang=='xml':
+  if x.startswith('<project xmlns='):
+   return 'Abre el documento Maven `project` y declara los namespaces del modelo POM.'
+  if x.startswith('<modelVersion>'):
+   return 'Declara la versión 4.0.0 del modelo de proyecto Maven.'
+  if x.startswith('<groupId>'):
+   return 'Identifica el grupo Maven del proyecto EditorialReports.'
+  if x.startswith('<artifactId>'):
+   return 'Define el identificador del artefacto Maven que se compila y empaqueta.'
+  if x.startswith('<version>'):
+   return 'Fija la versión del artefacto Maven.'
+  if x=='<properties>':
+   return 'Abre el bloque de propiedades Maven usado para codificación y nivel del compilador Java.'
+  if x.startswith('<project.build.sourceEncoding>'):
+   return 'Fija UTF-8 como codificación fuente del proyecto Maven.'
+  if x.startswith('<maven.compiler.source>'):
+   return 'Fija Java 8 como nivel de lenguaje de compilación.'
+  if x.startswith('<maven.compiler.target>'):
+   return 'Fija Java 8 como bytecode objetivo.'
+  if x=='<repositories>':
+   return 'Abre la lista de repositorios adicionales desde los que Maven puede resolver dependencias.'
+  if x=='<dependencies>':
+   return 'Abre la colección de dependencias runtime/compilación, incluida JasperReports y POI.'
+  if x=='<build>':
+   return 'Abre la configuración de construcción Maven.'
+  if x.startswith('<sourceDirectory>'):
+   return 'Indica que las clases Java fuente del proyecto están directamente en la carpeta `src`.'
+  if x=='<plugins>':
+   return 'Abre la lista de plugins Maven usados durante la construcción.'
+  if x=='<resources>':
+   return 'Abre la configuración de recursos que Maven copiará al classpath.'
+  if x=='<resource>':
+   return 'Declara una fuente de recursos adicional para el empaquetado.'
+  if x.startswith('<directory>src</directory>'):
+   return 'Usa `src` como origen de recursos para incluir `jasperreports.properties` en `target/classes`.'
+
  return _m5docs.explain_line(line,lang)
 
 def annotated_code(label,path,lang):
