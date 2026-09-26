@@ -13,3 +13,12 @@ body {
     border-top: 1px solid #d6eaf8;
     margin: 24px 0;
 }
+.enlace-pdf {
+    display: block;
+    padding: 8px;
+    background: #173f6b;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    font-family: "DejaVu Sans", Arial, sans-serif;
+}

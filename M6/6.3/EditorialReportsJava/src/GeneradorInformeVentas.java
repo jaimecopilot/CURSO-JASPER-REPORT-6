@@ -11,6 +11,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
@@ -30,6 +31,9 @@ public class GeneradorInformeVentas {
             String rutaPdf = "output/informe_ventas.pdf";
             String rutaPdfProtegido = "output/informe_ventas_protegido.pdf";
             String rutaXlsx = "output/informe_ventas.xlsx";
+            String rutaCatalogoJrxml = "reports/informe_catalogo_csv.jrxml";
+            String rutaCatalogoJasper = "reports/informe_catalogo_csv.jasper";
+            String rutaXlsxCatalogo = "output/informe_catalogo.xlsx";
             String rutaHtml = "output/informe_ventas.html";
             String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
             new File("output").mkdirs();
@@ -38,6 +42,8 @@ public class GeneradorInformeVentas {
             String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";
             JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+            JasperCompileManager.compileReportToFile(rutaCatalogoJrxml, rutaCatalogoJasper);
+
 
             Map<String, Object> parametros = new HashMap<String, Object>();
             parametros.put("usuario", "Ana Martínez");
@@ -56,7 +62,17 @@ public class GeneradorInformeVentas {
                 JasperPrint documento = JasperFillManager.fillReport(rutaJasper, parametros, conexion);
                 exportarPdf(documento, rutaPdf);
                 exportarPdfProtegido(documento, rutaPdfProtegido);
-                exportarXlsx(documento, rutaXlsx);
+                exportarXlsx(documento, rutaXlsx, "Ventas");
+                JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");
+                try {
+                    catalogoDataSource.setFieldDelimiter(',');
+                    catalogoDataSource.setUseFirstRowAsHeader(true);
+                    JasperPrint documentoCatalogo = JasperFillManager.fillReport(
+                            rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);
+                    exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");
+                } finally {
+                    catalogoDataSource.close();
+                }
                 new File("output/images").mkdirs();
                 new File("output/styles").mkdirs();
                 Files.copy(Paths.get("resources/styles/editorial.css"), Paths.get("output/styles/editorial.css"),
@@ -65,6 +81,7 @@ public class GeneradorInformeVentas {
                 System.out.println("Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Informe PDF protegido generado en: " + new File(rutaPdfProtegido).getAbsolutePath());
                 System.out.println("Informe Excel generado en: " + new File(rutaXlsx).getAbsolutePath());
+                System.out.println("Informe catálogo Excel generado en: " + new File(rutaXlsxCatalogo).getAbsolutePath());
                 System.out.println("Informe HTML generado en: " + new File(rutaHtml).getAbsolutePath());
                 System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
@@ -106,10 +123,10 @@ public class GeneradorInformeVentas {
         exportador.exportReport();
     }
 
-    private static void exportarXlsx(JasperPrint documento, String ruta) throws Exception {
+    private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {
         JRXlsxExporter exportador = new JRXlsxExporter();
         SimpleXlsxReportConfiguration informe = new SimpleXlsxReportConfiguration();
-        informe.setSheetNames(new String[]{"Ventas"});
+        informe.setSheetNames(new String[]{nombreHoja});
         informe.setShowGridLines(Boolean.FALSE);
         informe.setCellLocked(Boolean.FALSE);
         informe.setCellHidden(Boolean.FALSE);
@@ -130,7 +147,7 @@ public class GeneradorInformeVentas {
         configuracion.setHtmlHeader("<html><head><meta charset='UTF-8'>"
                 + "<title>Informe de Ventas - EditorialReports</title>"
                 + "<link rel='stylesheet' href='styles/editorial.css'>"
-                + "</head><body>");
+                + "</head><body><a class='enlace-pdf' href='informe_ventas.pdf'>Descargar PDF</a>");
         configuracion.setHtmlFooter("</body></html>");
         configuracion.setBetweenPagesHtml("<hr class='salto-pagina'/>");
         SimpleHtmlExporterOutput salida = new SimpleHtmlExporterOutput(ruta, "UTF-8");

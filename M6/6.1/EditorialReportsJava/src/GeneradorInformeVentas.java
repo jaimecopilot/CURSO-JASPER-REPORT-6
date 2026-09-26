@@ -27,6 +27,7 @@ public class GeneradorInformeVentas {
             JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
 
+
             Map<String, Object> parametros = new HashMap<String, Object>();
             parametros.put("usuario", "Ana Martínez");
             parametros.put("departamento", "Comercial");
