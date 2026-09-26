@@ -1029,10 +1029,7 @@ Workflow documental final: **36237682222 — SUCCESS**.
 - Inspección visual distribuida realizada sobre portada, teoría 5.1–5.6, prácticas, código, crosstab, cierres y páginas finales, sin recortes, solapes ni texto roto.
 - Los renders del artefacto final son visualmente idénticos al render previamente inspeccionado en toda la teoría y en una muestra distribuida de la práctica.
 
-SHA-256 vigentes:
-
-- `TEORIA_M5.pdf`: `a3b24e74ca6fca957731bcd362c369fe661ebf4b2dd46a48d06dd1ddb853cc41`
-- `PRACTICA_M5.pdf`: `562f2d789b40938854e83c9fbb3c2025497db257a314af9e29094be334d8bbad`
+Los SHA-256 exactos de los PDFs producidos por cada render se registran en `M5/SHA256SUMS.txt`. Se mantienen fuera del texto generado porque el contenedor PDF puede incorporar metadatos variables aunque el render visual sea idéntico.
 
 ## Correcciones técnicas frente a la fuente original
 
@@ -1092,8 +1089,8 @@ def main():
   'e2e_run_final':36237682524,
   'docs_run_final':36237682222,
   'pdfs':{
-   'teoria':{'paginas':28,'sha256':'a3b24e74ca6fca957731bcd362c369fe661ebf4b2dd46a48d06dd1ddb853cc41'},
-   'practica':{'paginas':184,'sha256':'562f2d789b40938854e83c9fbb3c2025497db257a314af9e29094be334d8bbad'}
+   'teoria':{'paginas':28,'sha256_manifest':'M5/SHA256SUMS.txt'},
+   'practica':{'paginas':184,'sha256_manifest':'M5/SHA256SUMS.txt'}
   },
   'inspeccion_visual':'PASS',
   'invariantes':{'libros':14,'ventas':9,'unidades':31,'importe':633.40}
