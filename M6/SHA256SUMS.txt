@@ -1,0 +1,2 @@
+c2fde5381fba61a2d1c71bdb3d36d52f96fe236250730cd78689c4c8769460c6  M6/_pdf_build/TEORIA_M6.pdf
+f0cfa3f946ceae07efb0c2d20ee2f3277569721fdc40b6cf0b7362a52356f01d  M6/_pdf_build/PRACTICA_M6.pdf

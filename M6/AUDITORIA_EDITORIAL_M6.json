@@ -1,0 +1,34 @@
+{
+  "module": "M6",
+  "source": ".github/source/M6_ORIGINAL.md",
+  "points": [
+    "6.1",
+    "6.2",
+    "6.3",
+    "6.4",
+    "6.5"
+  ],
+  "objectives_total": 30,
+  "objectives_covered": 30,
+  "theory_blocks_expected": 25,
+  "theory_blocks_present": 25,
+  "practice_parts_per_point": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "challenges_expected": 5,
+  "challenges_present": 5,
+  "e2e_run": 36249131955,
+  "e2e_commit": "12a0eba90859a92b12578d59ae592ad17dac5fb6",
+  "runtime_artifacts": {
+    "6.1": 10908358174,
+    "6.2": 10907873672,
+    "6.3": 10907968651,
+    "6.4": 10908577199,
+    "6.5": 10908427540
+  },
+  "baseline": "M5/5.6",
+  "status": "GENERATED_PENDING_PDF_VISUAL_CLOSE"
+}
