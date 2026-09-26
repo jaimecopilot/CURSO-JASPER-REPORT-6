@@ -30,10 +30,10 @@
   "PRACTICA_M5": {
     "pdf": "M5/_pdf_build/PRACTICA_M5.pdf",
     "preflight": {
-      "pages": 166,
+      "pages": 165,
       "issues": [],
       "replacement_glyphs": 0,
-      "text_chars": 616604
+      "text_chars": 615036
     },
     "audit_pages": [
       1,
@@ -44,13 +44,13 @@
       27,
       42,
       51,
-      76,
+      75,
       83,
-      103,
+      102,
       124,
-      135,
-      165,
-      166
+      134,
+      164,
+      165
     ],
     "contacts": [
       "M5/_pdf_build/contact_practica_01.jpg",

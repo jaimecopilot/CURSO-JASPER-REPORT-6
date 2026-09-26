@@ -4200,77 +4200,72 @@ El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El pun
 
 ## Errores comunes del ejercicio completo
 
-| **ErrorCausaSolución**                                |                                                                        |                                                        |
-| ----------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| Los registros no se agrupan correctamente             | La consulta SQL no ordena por la expresión de agrupación               | Añadir `ORDER BY l.categoria` a la consulta            |
-| `Group not found: GrupoCategoria`                     | El nombre del grupo en la variable no coincide con el declarado        | Revisar el atributo `resetGroup` de la variable        |
-| Los subtotales muestran el total del informe          | La variable tiene `resetType="Report"` en lugar de `"Group"`           | Cambiar el valor de `resetType` a `Group`              |
-| El subtotal del grupo no se reinicia                  | Falta el atributo `resetGroup` en la variable                          | Añadir `resetGroup="GrupoCategoria"` a la variable     |
-| Los grupos no comienzan en página nueva               | El atributo `isStartNewPage` está a `false`                            | Marcar la casilla Start New Page en Properties         |
-| El encabezado del grupo no se reimprime               | El atributo `isReprintHeaderOnEachPage` está a `false`                 | Marcar la casilla Reprint Header on Each Page          |
-| El encabezado del grupo queda al final de una página  | El valor de `minHeightToStartNewPage` es cero                          | Establecer el valor a 60 píxeles                       |
-| El contador del grupo cuenta todos los registros      | La variable no tiene `resetType="Group"`                               | Cambiar el valor de `resetType` a `Group`              |
-| Los grupos anidados no se emiten en el orden correcto | El orden de declaración de los grupos es incorrecto                    | Declarar primero el grupo externo y después el interno |
-| El informe produce un error de ordenación             | La consulta SQL no incluye la expresión de agrupación en el `ORDER BY` | Añadir la expresión al `ORDER BY`                      |
+| Error | Causa | Solución |
+|---|---|---|
+| `Group not found: CategoriaGroup` | Una variable referencia un nombre de grupo distinto | Usar `resetGroup="CategoriaGroup"` |
+| El grupo no cambia al cambiar la categoría | La expresión de grupo no usa `$F{categoria}` | Revisar `groupExpression` |
+| Los acumulados se mezclan entre categorías | Falta `resetType="Group"` o el resetGroup correcto | Configurar las tres variables contra `CategoriaGroup` |
+| El número de libros no coincide | `GrupoLibros` no usa `Count` sobre `$F{titulo}` | Revisar cálculo y expresión |
+| Las unidades no se totalizan | `GrupoUnidades` no usa `Sum` | Sumar `$F{unidades_vendidas}` |
+| El importe no se totaliza | `GrupoImporte` no usa `Sum` | Sumar `$F{importe_total}` |
+| Cada categoría fuerza una página nueva | Se ha activado `isStartNewPage` | Mantener `isStartNewPage="false"` |
+| El encabezado no se repite cuando un grupo cruza página | `isReprintHeaderOnEachPage` está desactivado | Mantenerlo en `true` |
 
 ---
 
 ## Reto resuelto paso a paso
 
-**Enunciado original conservado:** añadir un segundo grupo anidado dentro de `GrupoCategoria` que agrupe por año de publicación.
+**Enunciado original conservado:** añadir un segundo grupo anidado por año de publicación dentro de la agrupación por categoría.
 
-**Corrección técnica:** el checkpoint 5.3 no expone originalmente `anio_publicacion`; antes de crear el grupo hay que añadir el año a la consulta y declararlo como field. Sin ese paso, `$F{anio_publicacion}` no compila.
+**Corrección técnica:** el dataset principal del checkpoint 5.3 no expone originalmente el año como field independiente. Antes de crear el grupo anidado hay que ampliar la consulta y declarar ese field.
 
-**Paso 1.** En Source, añadir a la consulta principal `substr(l.fecha_publicacion, 1, 4) AS anio_publicacion`.
+**Paso 1.** Añadir a la consulta principal una expresión de año, por ejemplo `substr(l.fecha_publicacion, 1, 4) AS anio_publicacion`, si la columna `fecha_publicacion` existe en el esquema de trabajo.
 
-**Paso 2.** Añadir `<field name="anio_publicacion" class="java.lang.String"/>` después de los fields existentes.
+**Paso 2.** Declarar `<field name="anio_publicacion" class="java.lang.String"/>`.
 
-**Paso 3.** Crear el grupo `GrupoAnio` desde Outline > Add Group.
+**Paso 3.** Crear un grupo llamado `GrupoAnio`.
 
 **Paso 4.** Usar `$F{anio_publicacion}` como Group Expression.
 
-**Paso 5.** Crear Group Header y Group Footer.
+**Paso 5.** Añadir Group Header y Group Footer para `GrupoAnio`.
 
-**Paso 6.** En el header imprimir `"Año: " + $F{anio_publicacion}`.
+**Paso 6.** Situar `GrupoAnio` dentro del flujo de `CategoriaGroup`, de modo que el cambio de categoría siga siendo la agrupación exterior.
 
-**Paso 7.** Crear una variable `LibrosAnio`, `calculation="Count"`, `resetType="Group"`, `resetGroup="GrupoAnio"`, con expresión `$F{titulo}`.
+**Paso 7.** Crear, si se necesita un contador propio, una variable con `resetType="Group"` y `resetGroup="GrupoAnio"`.
 
-**Paso 8.** En el footer imprimir `"Libros del año: " + $V{LibrosAnio}`.
+**Paso 8.** Compilar y comprobar que no aparece `Field not found: anio_publicacion`.
 
-**Paso 9.** Mantener `GrupoAnio` dentro del orden de `GrupoCategoria` y guardar.
+**Paso 9.** Ejecutar el informe y comprobar que los años quedan anidados dentro de cada categoría.
 
-**Paso 10.** Compilar el JRXML y comprobar que no aparece `Field not found: anio_publicacion`.
+**Resultado del reto:** se conserva la intención pedagógica del material original, pero se hace explícito el contrato de datos necesario para que el grupo anidado pueda compilar.
 
-**Paso 11.** Ejecutar `GeneradorInformeVentas` y verificar que los encabezados de año aparecen dentro de cada categoría.
-
-**Paso 12.** Confirmar que siguen existiendo 14 títulos, 31 unidades y 633,40 € en el conjunto base.
-
-**Resultado del reto:** se conserva la intención original —grupo anidado por año— pero se añade el contrato de datos necesario para que el ejercicio sea reproducible.
+---
 
 ## Analogía final con el contexto de la editorial
 
-La agrupación es la organización del catálogo en secciones. Cada grupo es una sección del catálogo con su título y su contenido. La banda `groupHeader` es el título de la sección. La banda `groupFooter` es el subtotal de la sección. La expresión de agrupación es el criterio que determina qué libros van en cada sección. Las variables con reinicio por grupo son los acumuladores que el editor mantiene durante cada sección. Las propiedades del grupo son las decisiones sobre cómo se distribuyen las secciones en las páginas. La combinación de todos los elementos construye un catálogo organizado que permite al lector localizar la información por categoría, por año o por cualquier otro criterio.
+`CategoriaGroup` funciona como una sección del catálogo: cada categoría abre una cabecera y cierra con tres indicadores —libros, unidades e importe—. Las variables de grupo son contadores y acumuladores que se ponen a cero cada vez que comienza una nueva sección.
 
 ---
 
 ## Resultado esperado
 
-Al finalizar este punto, el alumno dispone de:
+Al finalizar 5.3:
 
-- El archivo `reports/informe_ventas.jrxml` con el grupo `GrupoCategoria` declarado y sus bandas `Group Header` y `Group Footer` configuradas.
-- Las variables `SubtotalCategoria` y `ContadorCategoria` con `resetType="Group"` y `resetGroup="GrupoCategoria"`.
-- Las propiedades `isStartNewPage`, `isReprintHeaderOnEachPage` y `minHeightToStartNewPage` configuradas.
-- El archivo `output/informe_ventas.pdf` con las categorías en secciones separadas y sus subtotales.
-- El archivo `AGRUPACIONES.md` en la raíz del proyecto con la documentación.
-- Comprensión operativa del elemento `group`, de las bandas asociadas, de las variables con reinicio por grupo y de las propiedades del grupo.
+- `reports/informe_ventas.jrxml` contiene el grupo `CategoriaGroup`.
+- La expresión de grupo es `$F{categoria}`.
+- `isStartNewPage="false"`, `isReprintHeaderOnEachPage="true"` y `minHeightToStartNewPage="80"`.
+- Las variables son `GrupoLibros`, `GrupoUnidades` y `GrupoImporte`.
+- Las tres variables usan `resetType="Group"` y `resetGroup="CategoriaGroup"`.
+- El Group Header tiene altura 28 y el Group Footer altura 34.
+- El subreporte y la tabla heredados de 5.1 y 5.2 permanecen intactos.
+- `output/informe_ventas.pdf` tiene 5 páginas en la evidencia E2E final.
+- Se conservan 14 libros, 9 ventas, 31 unidades y 633,40 €.
 
 ---
 
 ## Conclusión y enlace al siguiente punto
 
-El punto 5.3 ha introducido las agrupaciones en el proyecto EditorialReports. Ha quedado declarado el grupo `GrupoCategoria` con su expresión de agrupación, sus bandas `Group Header` y `Group Footer` y sus variables asociadas con `resetType="Group"`. El informe contiene ahora secciones por categoría con sus subtotales y su número de libros. Las propiedades del grupo garantizan que cada categoría comience en una página nueva y que el encabezado se reimprima en todas las páginas.
-
-El punto 5.4, «Gráficos
+El punto 5.3 añade `CategoriaGroup` y sus tres acumuladores sin romper los componentes anteriores. El informe agrupa por categoría en flujo continuo, reimprime la cabecera cuando es necesario y resume libros, unidades e importe en el pie del grupo. El punto 5.4 reutiliza esta base para incorporar un gráfico de ventas por categoría.
 
 ---
 
