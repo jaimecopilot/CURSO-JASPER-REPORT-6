@@ -950,3 +950,103 @@ def visual_65():
 def visual(point):
  return {'6.1':visual_61,'6.2':visual_62,'6.3':visual_63,'6.4':visual_64,'6.5':visual_65}[point]()
 
+
+def part_b(point):
+ cp=M6/point/'EditorialReports'
+ blocks=[
+  annotated_code('Informe maestro heredado y ejecutable',cp/'reports/informe_ventas.jrxml','xml'),
+  annotated_code('Subinforme heredado y ejecutable',cp/'reports/subinforme_ventas_detalle.jrxml','xml'),
+  annotated_code('Plantilla JRTX heredada y ejecutable',cp/'resources/styles/EditorialStyles.jrtx','xml'),
+ ]
+ return '### Parte B — JRXML/JRTX completo explicado línea por línea\n\n> En M6 el diseño no cambia: estos tres archivos deben permanecer byte a byte iguales a M5/5.6.\n\n'+'\n\n---\n\n'.join(blocks)
+
+def part_c(point):
+ cp=M6/point
+ blocks=[annotated_code('GeneradorInformeVentas.java',cp/'EditorialReportsJava/src/GeneradorInformeVentas.java','java')]
+ if point in ['6.2','6.5']:
+  blocks.append(annotated_code('pom.xml',cp/'EditorialReportsJava/pom.xml','xml'))
+ if point=='6.3':
+  blocks.append(annotated_code('editorial.css',cp/'EditorialReports/resources/styles/editorial.css','css'))
+ if point=='6.5':
+  blocks.append(annotated_code('ConfiguracionExportacion.java',cp/'EditorialReportsJava/src/ConfiguracionExportacion.java','java'))
+  blocks.append(annotated_code('jasperreports.properties',cp/'EditorialReportsJava/src/jasperreports.properties','properties'))
+ return '### Parte C — Código y configuración ejecutable explicados línea por línea\n\n'+'\n\n---\n\n'.join(blocks)
+
+PART_D={
+ '6.1':{
+  'design':'JasperPrint de informe_ventas (6 páginas)\n├── JRPdfExporter normal -> informe_ventas.pdf\n│   ├── metadatos\n│   └── compresión\n└── JRPdfExporter protegido -> informe_ventas_protegido.pdf\n    ├── user password: editorial2026\n    ├── owner password\n    └── PRINTING | COPY | SCREENREADERS',
+  'outline':'JRXML/JRTX/Outline = idénticos a M5/5.6\nJava\n├── exportarPdf\n└── exportarPdfProtegido',
+  'outputs':'output/\n├── informe_ventas.pdf\n└── informe_ventas_protegido.pdf',
+  'tree':'M6/6.1/\n├── EditorialReports/EXPORTACION_PDF.md\n├── EditorialReports/reports/ (heredado)\n├── EditorialReports/resources/ (heredado)\n└── EditorialReportsJava/src/GeneradorInformeVentas.java'
+ },
+ '6.2':{
+  'design':'JasperPrint ventas\n└── XLSX hoja Ventas\n\nJasperPrint catálogo desde JRCsvDataSource\n└── XLSX hoja Catálogo',
+  'outline':'Java\n├── JRXlsxExporter\n├── SimpleXlsxReportConfiguration\n├── SimpleXlsxExporterConfiguration\n└── JRCsvDataSource para el reto de catálogo\n\npom.xml\n└── POI 5.1.0 + POI-OOXML 5.1.0',
+  'outputs':'output/\n├── informe_ventas.pdf\n├── informe_ventas_protegido.pdf\n├── informe_ventas.xlsx      [Ventas]\n└── informe_catalogo.xlsx    [Catálogo]',
+  'tree':'M6/6.2/\n├── EditorialReports/EXPORTACION_EXCEL.md\n├── EditorialReportsJava/pom.xml\n└── EditorialReportsJava/src/GeneradorInformeVentas.java'
+ },
+ '6.3':{
+  'design':'JasperPrint ventas\n└── HtmlExporter\n    ├── header: charset + title + CSS + Descargar PDF\n    ├── footer\n    ├── separador entre páginas\n    └── FileHtmlResourceHandler -> images/{0}',
+  'outline':'resources/styles/editorial.css\n├── body\n├── .jrPage\n├── .salto-pagina\n└── .enlace-pdf',
+  'outputs':'output/\n├── informe_ventas.html\n├── informe_ventas.pdf\n├── images/\n└── styles/editorial.css',
+  'tree':'M6/6.3/\n├── EditorialReports/EXPORTACION_HTML.md\n├── EditorialReports/resources/styles/editorial.css\n└── EditorialReportsJava/src/GeneradorInformeVentas.java'
+ },
+ '6.4':{
+  'design':'JasperPrint ventas\n├── JRCsvExporter -> CSV\n├── JRXmlExporter -> XML\n├── JRRtfExporter -> RTF\n└── oasis.JROdtExporter -> ODT',
+  'outline':'Java\n├── exportarCsv\n├── exportarXml\n├── exportarRtf\n└── exportarOdt\n\nTodos reutilizan el mismo JasperPrint.',
+  'outputs':'output/\n├── informe_ventas.csv\n├── informe_ventas.xml\n├── informe_ventas.rtf\n└── informe_ventas.odt',
+  'tree':'M6/6.4/\n├── EditorialReports/EXPORTACION_OTROS.md\n└── EditorialReportsJava/src/GeneradorInformeVentas.java'
+ },
+ '6.5':{
+  'design':'GeneradorInformeVentas\n├── PDF -> ConfiguracionExportacion.getConfiguracionPdf\n├── XLSX -> getConfiguracionXlsxReport + getConfiguracionXlsxExportador\n├── HTML -> getConfiguracionHtml\n├── CSV -> getConfiguracionCsv\n├── RTF -> getConfiguracionRtf\n└── ODT -> exportador directo',
+  'outline':'EditorialReportsJava/src/\n├── GeneradorInformeVentas.java\n├── ConfiguracionExportacion.java\n└── jasperreports.properties\n\ntarget/classes/\n└── jasperreports.properties',
+  'outputs':'output/\n├── informe_ventas.pdf\n├── informe_ventas_protegido.pdf\n├── informe_ventas.xlsx\n├── informe_catalogo.xlsx\n├── informe_ventas.html\n├── informe_ventas.csv\n├── informe_ventas.xml\n├── informe_ventas.rtf\n└── informe_ventas.odt',
+  'tree':'M6/6.5/\n├── EditorialReports/CONFIGURACION_EXPORTACION.md\n├── EditorialReportsJava/pom.xml\n└── EditorialReportsJava/src/\n    ├── GeneradorInformeVentas.java\n    ├── ConfiguracionExportacion.java\n    └── jasperreports.properties'
+ }
+}
+
+def part_d(point):
+ d=PART_D[point]
+ return f'''### Parte D — Simulación del resultado y de la estructura del proyecto
+
+#### D.1 — Flujo de exportación / diseño
+
+```text
+{d['design']}
+```
+
+**Qué representa:** la transformación funcional que debe existir al terminar {point}.
+
+**Cómo verificarlo:** comparar el flujo con la Parte C y ejecutar el generador; el JRXML/JRTX debe seguir siendo el heredado de M5/5.6.
+
+#### D.2 — Estructura lógica en código y recursos
+
+```text
+{d['outline']}
+```
+
+**Qué representa:** las clases, métodos y recursos que sustituyen en M6 al trabajo visual sobre bandas y componentes.
+
+**Cómo verificarlo:** abrir Java/POM/CSS/properties según corresponda y contrastar nombres y tipos con la Parte C ejecutable.
+
+#### D.3 — Archivos de salida
+
+```text
+{d['outputs']}
+```
+
+**Qué representa:** los artefactos acumulativos esperados en `output`.
+
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas`, abrir cada formato con una herramienta compatible y contrastar los contratos automatizados del E2E.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+{d['tree']}
+```
+
+**Evidencia E2E:** run **{E2E_RUN}**, commit `{E2E_COMMIT}`, artifact runtime **{RUNTIME_ARTIFACTS[point]}**.
+
+**Invariantes:** 14 libros, 9 ventas, 31 unidades, 633,40 € y 6 páginas en `informe_ventas`.
+'''
+
