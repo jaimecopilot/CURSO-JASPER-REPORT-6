@@ -2,22 +2,22 @@
   "TEORIA_M6": {
     "pdf": "M6/_pdf_build/TEORIA_M6.pdf",
     "preflight": {
-      "pages": 22,
+      "pages": 18,
       "issues": [],
       "replacement_glyphs": 0,
-      "text_chars": 80087
+      "text_chars": 79419
     },
     "audit_pages": [
       1,
-      3,
-      6,
-      7,
-      11,
+      2,
+      5,
+      8,
+      9,
+      12,
+      13,
       15,
-      16,
-      19,
-      21,
-      22
+      17,
+      18
     ],
     "contacts": [
       "M6/_pdf_build/contact_teoria_01.jpg",
