@@ -1,0 +1,88 @@
+name: M5 - Generar PDFs docentes
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/source/M5_ORIGINAL_5_1_5_3.md'
+      - '.github/source/M5_ORIGINAL_5_4_5_6.md'
+      - '.github/scripts/build_m5_docs.py'
+      - '.github/scripts/audit_m5_docs.py'
+      - '.github/scripts/audit_m5_traceability.py'
+      - '.github/scripts/render_m5_docs.py'
+      - '.github/workflows/m5-docs.yml'
+      - 'M5/5.*/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: m5-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    name: Construir, auditar y renderizar M5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dependencias del render
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-core fonts-noto-mono poppler-utils
+          python -m pip install --upgrade pip
+          python -m pip install mistune beautifulsoup4 weasyprint pymupdf pillow
+
+      - name: Construir documentación desde fuentes y código
+        run: python .github/scripts/build_m5_docs.py
+
+      - name: Auditar trazabilidad y paridad documental
+        run: |
+          python .github/scripts/audit_m5_traceability.py
+          python .github/scripts/audit_m5_docs.py
+
+      - name: Generar y prevalidar PDFs
+        run: |
+          rm -rf M5/_pdf_build
+          mkdir -p M5/_pdf_build
+          python .github/scripts/render_m5_docs.py --theory M5/TEORIA_M5.md --practice M5/PRACTICA_M5.md --out-dir M5/_pdf_build
+          pdfinfo M5/_pdf_build/TEORIA_M5.pdf | grep -E 'Pages|Page size'
+          pdfinfo M5/_pdf_build/PRACTICA_M5.pdf | grep -E 'Pages|Page size'
+          sha256sum M5/_pdf_build/TEORIA_M5.pdf M5/_pdf_build/PRACTICA_M5.pdf | tee M5/_pdf_build/SHA256SUMS.txt
+
+      - name: Versionar documentación validada
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp M5/_pdf_build/TEORIA_M5.pdf M5/TEORIA_M5.pdf
+          cp M5/_pdf_build/PRACTICA_M5.pdf M5/PRACTICA_M5.pdf
+          cp M5/_pdf_build/PRECHECK_M5.json M5/PRECHECK_M5.json
+          cp M5/_pdf_build/SHA256SUMS.txt M5/SHA256SUMS.txt
+          git add M5/TEORIA_M5.md M5/PRACTICA_M5.md M5/TRAZABILIDAD_M5.md M5/VALIDACION_M5.md M5/AUDITORIA_EDITORIAL_M5.json M5/TEORIA_M5.pdf M5/PRACTICA_M5.pdf M5/PRECHECK_M5.json M5/SHA256SUMS.txt
+          if git diff --cached --quiet; then
+            echo "Documentación M5 ya coincide."
+          else
+            git commit -m "Genera documentacion validada del Modulo 5 [skip ci]"
+            git push
+          fi
+
+      - name: Publicar documentación final
+        uses: actions/upload-artifact@v4
+        with:
+          name: M5-documentacion-final
+          if-no-files-found: error
+          path: |
+            M5/_pdf_build/TEORIA_M5.pdf
+            M5/_pdf_build/PRACTICA_M5.pdf
+            M5/_pdf_build/PRECHECK_M5.json
+            M5/_pdf_build/SHA256SUMS.txt
+            M5/_pdf_build/contact_*.jpg
