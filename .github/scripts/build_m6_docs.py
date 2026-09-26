@@ -1402,16 +1402,27 @@ def main():
 
 def audit_parity(practice):
  ticks=chr(96)*3
- pattern='<!-- EXECUTABLE_START ([^ ]+) -->\\s*'+re.escape(ticks)+'(?:xml|java|css|properties)\\n(.*?)\\n'+re.escape(ticks)+'\\s*<!-- EXECUTABLE_END \\\\1 -->'
+ pattern=(
+  '<!-- EXECUTABLE_START ([^ ]+) -->\\s*'
+  +re.escape(ticks)
+  +'(?:xml|java|css|properties)\\n(.*?)\\n'
+  +re.escape(ticks)
+  +'\\s*<!-- EXECUTABLE_END ([^ ]+) -->'
+ )
  pat=re.compile(pattern,re.S)
  seen=0
  for m in pat.finditer(practice):
-  rel=m.group(1)
+  start_rel=m.group(1)
+  end_rel=m.group(3)
+  if start_rel!=end_rel:
+   fail('embedded marker mismatch: '+start_rel+' != '+end_rel)
   code=m.group(2).rstrip()
-  actual=read(ROOT/rel).rstrip()
-  if code!=actual: fail('embedded executable drift: '+rel)
+  actual=read(ROOT/start_rel).rstrip()
+  if code!=actual:
+   fail('embedded executable drift: '+start_rel)
   seen+=1
- if seen!=25: fail('embedded executable block count '+str(seen)+' expected 25')
+ if seen!=25:
+  fail('embedded executable block count '+str(seen)+' expected 25')
  return seen
 
 def main():
