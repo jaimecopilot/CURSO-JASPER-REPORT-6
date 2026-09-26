@@ -447,6 +447,30 @@ JasperCompileManager.compileReportToFile(
 
 Después, `JasperFillManager.fillReport(...)` ejecuta el informe principal y, cuando alcanza la tabla, ejecuta su subdataset con la conexión indicada. El E2E de M5 verifica deliberadamente que `informe_ventas.jasper` existe y que no aparecen falsos artefactos `informe_ventas_table_*.jasper`.
 
+#### Contrato ejecutable de `DatasetTopVentas`
+
+La tabla del checkpoint 5.2 no recorre el dataset principal. Usa el subdataset real `DatasetTopVentas`, que recibe el parámetro `tituloLibro` y devuelve exactamente tres fields: `fecha_venta`, `cantidad` y `precio_unitario`.
+
+```xml
+<subDataset name="DatasetTopVentas">
+    <parameter name="tituloLibro" class="java.lang.String"/>
+    <queryString language="sql"><![CDATA[
+        SELECT fecha_venta, cantidad, precio_unitario
+        FROM ventas
+        WHERE titulo_libro = $P{tituloLibro}
+        ORDER BY cantidad DESC, fecha_venta
+        LIMIT 3
+    ]]></queryString>
+    <field name="fecha_venta" class="java.lang.String"/>
+    <field name="cantidad" class="java.lang.Integer"/>
+    <field name="precio_unitario" class="java.lang.Double"/>
+</subDataset>
+```
+
+El `datasetRun` de `c:table` pasa `$F{titulo}` a `tituloLibro` y reutiliza `$P{REPORT_CONNECTION}`. Por tanto, cada fila del informe maestro obtiene su propio Top 3 sin alterar la consulta principal. Los encabezados usan `M5TableHeader` y las celdas de detalle `M5TableDetail`.
+
+Este contrato conecta directamente la teoría con la Parte A, el JRXML completo de Parte B y la ejecución de Parte C: si cambia el nombre del subdataset, del parámetro o de cualquiera de los fields, la tabla deja de reproducir el checkpoint validado.
+
 ## Resumen rápido de la teoría
 
 - La tabla es un componente que organiza datos en filas y columnas.
@@ -459,6 +483,8 @@ Después, `JasperFillManager.fillReport(...)` ejecuta el informe principal y, cu
 - La tabla se compila dentro de `informe_ventas.jasper`; no genera un `.jasper` independiente.
 
 ---
+
+- La tabla ejecutable usa `DatasetTopVentas`, recibe `tituloLibro` y presenta `fecha_venta`, `cantidad` y `precio_unitario`.
 
 ---
 
@@ -817,60 +843,137 @@ ESTRUCTURA CON GRUPOS Y TABLAS
 
 ## Parte teórica
 
-### Bloque 1 — El gráfico en JasperReports 6.20.0
+### Bloque 1 — El gráfico en JasperReports 6.20.0 y su ciclo de ejecución
 
-En JasperReports 6.20.0 los gráficos clásicos se declaran como elementos nativos del JRXML, por ejemplo `<barChart>`, no mediante un namespace inventado `chart:` dentro de `componentElement`. Cada gráfico contiene un bloque `<chart>` para propiedades generales, un dataset específico y un plot específico del tipo de gráfico.
+Un gráfico de JasperReports no es una imagen decorativa que se añade después de generar el informe. Forma parte del árbol JRXML, se compila junto con el resto del documento y se alimenta durante la fase de `fill`. En JasperReports Library 6.20.0 los gráficos clásicos se representan mediante elementos nativos como `barChart`, `pieChart` o `lineChart`. En el checkpoint 5.4 de EditorialReports se usa un `barChart` colocado directamente dentro de la banda Summary. No se envuelve en un `componentElement` y tampoco utiliza un namespace inventado `chart:`.
+
+El bloque `chart` concentra las propiedades comunes: posición y tamaño a través de `reportElement`, título, subtítulo y leyenda. Después aparecen el dataset específico del tipo de gráfico y su plot.
 
 ```xml
 <barChart>
     <chart>
-        <reportElement x="0" y="0" width="555" height="260"/>
-        <chartTitle><titleExpression><![CDATA["Ventas por categoría"]]></titleExpression></chartTitle>
+        <reportElement x="0" y="165" width="555" height="250"/>
+        <chartTitle>
+            <titleExpression><![CDATA["Ventas por categoría"]]></titleExpression>
+        </chartTitle>
+        <chartSubtitle/>
         <chartLegend position="Bottom"/>
     </chart>
     ...
 </barChart>
 ```
 
-El `reportElement` fija geometría; `chartTitle` define el título; `chartLegend` controla la leyenda. El gráfico se compila dentro de `informe_ventas.jasper`.
+**Línea 1:** `<barChart>` → abre el gráfico de barras nativo que JasperReports compilará dentro del informe maestro.
 
-### Bloque 2 — Subdataset propio del gráfico
+**Línea 3:** `<reportElement x="0" y="165" width="555" height="250"/>` → fija exactamente la geometría validada del gráfico en Summary.
 
-Un gráfico puede ejecutar una consulta independiente mediante un `subDataset` y un `datasetRun`. En EditorialReports, `DatasetVentasPorCategoria` agrega las ventas por categoría; el gráfico no altera el dataset principal que sigue conservando los 14 libros mediante `LEFT JOIN`.
+**Líneas 4-6:** `chartTitle` y `titleExpression` → definen el título visible sin depender de un elemento de texto externo.
+
+**Línea 8:** `<chartLegend position="Bottom"/>` → coloca la leyenda debajo del área de trazado.
+
+Durante la compilación, `JasperCompileManager` transforma esta definición en objetos internos del `informe_ventas.jasper`. Durante el llenado, JasperReports ejecuta el dataset del gráfico, construye las categorías y valores y finalmente pinta el componente en el `JasperPrint`. Por eso una definición que sea XML válido pero use elementos equivocados puede fallar al compilar, y una definición que compile pero use un dataset incorrecto puede producir un gráfico vacío o semánticamente erróneo.
+
+**Qué representa el diagrama:** el flujo real del gráfico desde JRXML hasta PDF.
+
+```text
+barChart en JRXML
+      │
+      ├── chart: geometría + título + leyenda
+      ├── categoryDataset: datos y serie
+      └── barPlot: ejes y representación
+      │
+      ▼
+informe_ventas.jasper
+      │
+      ▼
+JasperFillManager + SQLite
+      │
+      ▼
+JasperPrint -> informe_ventas.pdf
+```
+
+**Por qué es relevante:** evita confundir el gráfico con un recurso externo. En este módulo el gráfico no genera ningún `_chart_1.jasper` independiente.
+
+### Bloque 2 — Dataset independiente y consulta agregada por categoría
+
+El informe principal necesita conservar una fila por libro para seguir mostrando los catorce títulos del catálogo incluso cuando un libro no tenga ventas. El gráfico, en cambio, necesita una fila por categoría. Mezclar ambos objetivos en la misma consulta obligaría a cambiar la granularidad del dataset principal y rompería la maquetación acumulada. La solución correcta es declarar `DatasetVentasPorCategoria` como `subDataset`.
+
+El checkpoint 5.4 usa una consulta que parte de `libros` y realiza un `LEFT JOIN` con `ventas`. La función `COALESCE` convierte en 0,0 el importe de una categoría si la suma pudiera resultar nula.
 
 ```xml
 <subDataset name="DatasetVentasPorCategoria">
-    <queryString language="sql"><![CDATA[
-        SELECT l.categoria AS categoria_grafico,
-               SUM(v.cantidad * v.precio_unitario) AS importe_categoria
-        FROM libros l
-        LEFT JOIN ventas v ON l.titulo = v.titulo_libro
-        GROUP BY l.categoria
-        ORDER BY l.categoria
-    ]]></queryString>
+    <queryString language="sql">
+        <![CDATA[
+            SELECT l.categoria AS categoria_grafico,
+                   COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria
+            FROM libros l
+            LEFT JOIN ventas v ON l.titulo = v.titulo_libro
+            GROUP BY l.categoria
+            ORDER BY l.categoria
+        ]]>
+    </queryString>
     <field name="categoria_grafico" class="java.lang.String"/>
     <field name="importe_categoria" class="java.lang.Double"/>
 </subDataset>
 ```
 
-La consulta mantiene el mismo criterio de conservación de libros y produce una fila por categoría.
+**Línea 1:** `DatasetVentasPorCategoria` → crea un ámbito de datos independiente del dataset principal.
 
-### Bloque 3 — Elección del tipo de gráfico
+**Línea 4:** `l.categoria AS categoria_grafico` → expone la dimensión categórica con un nombre que coincide con el field JRXML.
 
-La elección debe responder a la naturaleza del dato. Las barras comparan magnitudes entre categorías; un `pieChart` representa composición; un `lineChart` o un gráfico temporal sirve para evolución; los gráficos XY comparan pares numéricos. El punto 5.4 implementa un gráfico de barras porque la pregunta es «¿qué importe de ventas corresponde a cada categoría?».
+**Línea 5:** `COALESCE(SUM(...), 0.0) AS importe_categoria` → calcula el importe agregado y garantiza un valor numérico utilizable por el gráfico.
+
+**Línea 7:** `LEFT JOIN ventas...` → mantiene la categoría aunque alguno de sus libros no tenga movimientos de venta.
+
+**Línea 8:** `GROUP BY l.categoria` → reduce todas las ventas de una categoría a una sola fila agregada.
+
+El contrato entre SQL y JRXML es estricto. Si la consulta devuelve `importe_categoria` pero el field se llama `importe_categoria`, JasperReports no puede resolver la expresión del gráfico. Por eso la teoría, la práctica visual y el checkpoint usan exactamente los mismos nombres.
+
+**Qué representa el diagrama:** dos granularidades que coexisten en el mismo informe.
 
 ```text
-Comparación discreta     -> barChart
-Composición de un total  -> pieChart
-Evolución temporal       -> lineChart / timeSeriesChart
-Relación X-Y             -> xyLineChart / scatterChart
+Dataset principal                    DatasetVentasPorCategoria
+1 fila por libro                     1 fila por categoría
+14 títulos                           categorías del catálogo
+campos de detalle                    categoria_grafico
+totales del informe                  importe_categoria
+        │                                      │
+        └──── mantiene fichas                  └──── alimenta barChart
 ```
 
-Elegir un tipo incorrecto puede compilar perfectamente y, aun así, comunicar mal la información; por eso la validación debe ser también semántica.
+**Por qué es relevante:** los subdatasets permiten añadir análisis sin alterar la consulta que sustenta la parte principal del documento.
 
-### Bloque 4 — Series, categorías y valores
+### Bloque 3 — Elegir el tipo de gráfico según la pregunta analítica
 
-Un `categoryDataset` contiene una o varias `categorySeries`. Cada serie define tres expresiones: nombre de serie, categoría y valor. Cuando el gráfico usa un subdataset, el `datasetRun` se declara dentro del bloque `<dataset>`.
+El tipo de gráfico debe elegirse a partir de la relación que se quiere comunicar, no por preferencia estética. En 5.4 la pregunta es: “¿qué importe de ventas corresponde a cada categoría editorial?”. El eje horizontal contiene categorías discretas y el eje vertical una magnitud comparable. Un gráfico de barras es adecuado porque permite comparar longitudes con una escala común.
+
+```text
+Pregunta analítica                              Tipo habitual
+Comparar magnitudes entre categorías            barChart
+Mostrar composición de un total                 pieChart
+Mostrar evolución ordenada en el tiempo         lineChart / timeSeriesChart
+Relacionar dos magnitudes numéricas             xyLineChart / scatterChart
+```
+
+Un `pieChart` podría representar el porcentaje de cada categoría sobre el total, pero dificultaría comparar valores próximos y no mostraría con la misma claridad el importe absoluto. Un `lineChart` sugeriría continuidad u orden temporal entre categorías que no existe. Un gráfico XY requeriría dos ejes numéricos, algo que tampoco corresponde a este conjunto de datos.
+
+La elección del gráfico afecta también al dataset. `barChart` usa un `categoryDataset`; dentro de él cada `categorySeries` necesita una expresión de serie, otra de categoría y otra de valor. Si se cambia el tipo de gráfico hay que revisar la estructura JRXML asociada y no limitarse a cambiar el nombre de la etiqueta externa.
+
+En EditorialReports se usa una única serie lógica llamada `"Importe"`. Esto significa que la leyenda no distingue múltiples métricas; identifica una sola medida que se repite para cada categoría. La categoría se obtiene de `$F{categoria_grafico}` y la altura de cada barra de `$F{importe_categoria}`.
+
+**Qué representa la decisión:** una correspondencia entre pregunta, estructura de datos y codificación visual.
+
+```text
+categoría editorial ──► posición en eje X
+importe de ventas   ──► altura de la barra
+"Importe"           ──► nombre de serie / leyenda
+```
+
+**Por qué es relevante:** un informe puede compilar y ser técnicamente correcto pero comunicar mal si el tipo de gráfico no corresponde a la naturaleza de los datos. La validación de 5.4 es, por tanto, sintáctica, ejecutable y semántica.
+
+### Bloque 4 — DatasetRun, serie, categoría y valor
+
+El `categoryDataset` conecta el gráfico con `DatasetVentasPorCategoria`. La conexión se realiza mediante `datasetRun`. Al igual que en la tabla del punto 5.2, se reutiliza `$P{REPORT_CONNECTION}` para que el subdataset ejecute su SQL con la misma conexión JDBC que ya usa el informe maestro.
 
 ```xml
 <categoryDataset>
@@ -887,21 +990,83 @@ Un `categoryDataset` contiene una o varias `categorySeries`. Cada serie define t
 </categoryDataset>
 ```
 
-La conexión se reutiliza sin abrir otra conexión Java. La serie se evalúa en el contexto del subdataset.
+**Línea 1:** `categoryDataset` → abre la estructura de datos propia de un gráfico categórico.
 
-### Bloque 5 — Plot, ejes, título y compilación
+**Línea 3:** `datasetRun subDataset="DatasetVentasPorCategoria"` → selecciona el subdataset que debe ejecutarse.
 
-El `barPlot` configura los ejes y opciones específicas de las barras. El título y la leyenda pertenecen al bloque general `<chart>`. Todo el gráfico se integra en el `.jasper` principal; no existe un `_chart_1.jasper` independiente.
+**Línea 4:** `REPORT_CONNECTION` → reutiliza la conexión JDBC existente y evita abrir otra conexión desde Java.
+
+**Línea 8:** `seriesExpression` → asigna el nombre `Importe` a la serie.
+
+**Línea 9:** `categoryExpression` → toma la categoría de cada fila devuelta por el subdataset.
+
+**Línea 10:** `valueExpression` → toma el importe agregado que determina la longitud de cada barra.
+
+Los fields usados aquí pertenecen al contexto de `DatasetVentasPorCategoria`, no al dataset principal. Esa diferencia de ámbito es fundamental. Dentro de `categorySeries`, `$F{categoria_grafico}` y `$F{importe_categoria}` existen porque fueron declarados como fields del subdataset. Si se intentara usar un field exclusivo del dataset principal sin pasarlo o declararlo en el subdataset, la expresión sería inválida en ese contexto.
+
+El mismo principio se aplica a parámetros: un subdataset no “hereda mágicamente” parámetros arbitrarios. En este caso no necesita parámetros propios, únicamente la conexión. Si en un ejercicio posterior se quisiera filtrar el gráfico por un parámetro independiente, habría que declarar ese parámetro en el subdataset y pasarlo mediante `datasetParameter`.
+
+**Qué representa el diagrama:** la separación entre contexto principal y contexto del gráfico.
+
+```text
+REPORT_CONNECTION
+       │
+       ▼
+datasetRun
+       │
+       ▼
+DatasetVentasPorCategoria
+       │
+       ├── categoria_grafico ──► categoryExpression
+       └── importe_categoria ──► valueExpression
+```
+
+**Por qué es relevante:** evita errores de scope y explica por qué el gráfico puede ejecutar una consulta diferente sin modificar el generador Java.
+
+### Bloque 5 — Summary, plot, ejes, título, compilación y evidencia E2E
+
+El gráfico no se coloca de forma aislada: convive con el resumen acumulado del informe. En el checkpoint 5.4 la banda Summary tiene altura `430`. Los elementos de resumen heredados ocupan la zona superior; en y=`140` se añade el rótulo `Ventas por categoría — importe` y el `barChart` empieza en y=`165` con tamaño 555 × 250. Esta geometría evita solapes y deja el componente dentro de los límites de la banda.
+
+El `barPlot` del checkpoint mantiene una configuración deliberadamente sencilla.
 
 ```xml
-<barPlot isShowTickLabels="true" isShowTickMarks="true">
+<barPlot>
     <plot/>
+    <itemLabel/>
     <categoryAxisFormat><axisFormat/></categoryAxisFormat>
     <valueAxisFormat><axisFormat/></valueAxisFormat>
 </barPlot>
 ```
 
-En el E2E, el éxito se demuestra compilando `informe_ventas.jrxml`, llenándolo con SQLite y exportando el PDF final de seis páginas.
+**Línea 1:** `barPlot` → abre las opciones específicas del gráfico de barras.
+
+**Línea 2:** `plot` → conserva el plot base sin sobrescribir color, transparencia u orientación.
+
+**Línea 3:** `itemLabel` → incluye el nodo de configuración de etiquetas de ítems.
+
+**Línea 4:** `categoryAxisFormat` → mantiene el formato del eje de categorías.
+
+**Línea 5:** `valueAxisFormat` → mantiene el formato del eje numérico.
+
+No se introduce `seriesColor` directamente dentro de `barPlot` porque esa no es la estructura usada por el checkpoint. Tampoco se añade `position="Top"` a `chartTitle`. La práctica visual debe llevar exactamente al XML que se compila en la Parte B.
+
+La compilación del informe maestro incorpora el gráfico en `reports/informe_ventas.jasper`. No se produce un `.jasper` auxiliar separado para el gráfico. El E2E verifica explícitamente la ausencia de ese falso artefacto, compila todos los JRXML acumulados, inicializa SQLite, llena el informe y comprueba que el PDF de 5.4 tiene seis páginas.
+
+```text
+Summary height = 430
+├── resumen heredado          y=5..121
+├── rótulo del gráfico        y=140, h=20
+└── barChart                  y=165, h=250
+      ├── DatasetVentasPorCategoria
+      ├── categorySeries
+      └── barPlot
+```
+
+La evidencia de datos permanece inalterada: 14 libros, 9 ventas, 31 unidades y 633,40 €. Que aparezca el gráfico no autoriza a cambiar la consulta principal ni los invariantes del informe.
+
+**Qué representa el diagrama:** la ubicación física y el contrato de ejecución del gráfico.
+
+**Por qué es relevante:** une diseño, JRXML, compilación y resultado PDF en una misma cadena verificable. Ese es el criterio que permite considerar el punto 5.4 realmente terminado y no sólo visualmente “parecido”.
 
 ## Resumen rápido de la teoría
 
@@ -1089,6 +1254,32 @@ Los estilos de un crosstab son estilos JasperReports normales. Se declaran con `
 
 El crosstab también forma parte de `informe_ventas.jasper`; no genera un `_crosstab_1.jasper` separado. El E2E verifica tanto la presencia del `.jasper` principal como la ausencia de ese falso artefacto auxiliar.
 
+#### Contrato ejecutable de las dos medidas del crosstab
+
+El checkpoint 5.5 usa dos medidas reales y complementarias. `ImporteCross` suma el field `importe_cross`, mientras `VentasCross` suma el contador unitario `ventas_cross`. Ambas se calculan para la misma combinación `CategoriaCross × AnioCross`.
+
+```xml
+<measure name="ImporteCross" class="java.lang.Double" calculation="Sum">
+    <measureExpression><![CDATA[$F{importe_cross}]]></measureExpression>
+</measure>
+<measure name="VentasCross" class="java.lang.Integer" calculation="Sum">
+    <measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression>
+</measure>
+```
+
+La celda de detalle muestra las dos variables generadas por JasperReports: `$V{ImporteCross}` con formato monetario y `$V{VentasCross} + " ventas"`. El mismo patrón se repite en el total de fila, el total de columna y el total general.
+
+```text
+detalle                     -> ImporteCross + VentasCross
+rowTotalGroup               -> total por CategoriaCross
+columnTotalGroup            -> total por AnioCross
+rowTotalGroup + columnTotal -> total general
+```
+
+Esto significa que `VentasCross` no es una segunda tabla ni una segunda `crosstabCell` independiente: es una segunda medida dentro de las mismas celdas. La fuente `DatasetCrosstabVentas` aporta `ventas_cross = 1` por venta y la medida `Sum` convierte esos unos en el número de operaciones de cada cruce.
+
+El contrato completo del checkpoint queda, por tanto, formado por `DatasetCrosstabVentas`, los grupos `CategoriaCross` y `AnioCross`, y las medidas `ImporteCross` y `VentasCross`. Esos mismos nombres aparecen en la Parte A, en el JRXML byte a byte de Parte B y en la ejecución E2E.
+
 ## Resumen rápido de la teoría
 
 - El crosstab es una matriz que organiza los datos en filas, columnas y medidas.
@@ -1101,6 +1292,8 @@ El crosstab también forma parte de `informe_ventas.jasper`; no genera un `_cros
 - El crosstab se compila dentro de `informe_ventas.jasper`; no genera un `.jasper` independiente.
 
 ---
+
+- El crosstab ejecutable calcula simultáneamente `ImporteCross` y `VentasCross` para detalle y totales.
 
 ---
 

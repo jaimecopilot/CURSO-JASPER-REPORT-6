@@ -1294,41 +1294,99 @@ public class GeneradorInformeVentas {
 
 ---
 
-### Parte D — Simulación y verificación del resultado real
+### Parte D — Simulación del resultado y de la estructura del proyecto
 
-#### D.1 — Estado de Design/Source
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
-El checkpoint 5.1 parte íntegramente del anterior e incorpora subreporte `subinforme_ventas_detalle.jrxml` y relación maestro-detalle. En **Source** deben aparecer los elementos descritos en Parte B; en **Design/Outline** deben aparecer los nodos correspondientes sin eliminar los componentes heredados.
+```text
+informe_ventas.jrxml
+├── Detail heredado
+├── banda nueva h=88, splitType=Stretch
+│   ├── printWhen: unidades_vendidas != null
+│   ├── "Detalle de ventas" y=2, h=16
+│   └── subreport y=22, h=60
+│       ├── parametro tituloLibro <- $F{titulo}
+│       ├── REPORT_CONNECTION
+│       └── reports/subinforme_ventas_detalle.jasper
+└── Summary heredado
 
-#### D.2 — Contratos del Outline
+subinforme_ventas_detalle.jrxml
+├── Column Header h=18: Fecha | Cantidad | Precio unitario
+└── Detail h=18: fecha_venta | cantidad | precio_unitario
+```
+
+**Qué representa:** la distribución visual y funcional que debe existir en Design al terminar el checkpoint 5.1.
+
+**Cómo verificarlo:** abrir `reports/informe_ventas.jrxml` en Design y Source; en 5.1 abrir además el subinforme y en 5.6 la plantilla JRTX. Las posiciones, nombres y componentes deben coincidir con la Parte B ejecutable.
+
+#### D.2 — Jerarquía de Outline y contratos de Source
 
 ```text
 informe_ventas
-├── parámetros y variables heredados de M4
-├── consulta principal con LEFT JOIN
-├── detalle del informe
-├── componentes avanzados acumulados hasta 5.1
+├── Parameters: parámetros heredados de M4
+├── Fields: fields heredados del informe de ventas
+├── Variables: variables acumulativas heredadas
+├── Detail
+│   └── Subreport
 ├── Page Footer
 └── Summary
+
+subinforme_ventas_detalle
+├── Parameter: tituloLibro
+├── Fields: fecha_venta, cantidad, precio_unitario
+├── Column Header
+└── Detail
 ```
 
-**Verificación:** el Outline debe conservar los componentes anteriores y añadir exclusivamente el delta del punto actual.
+**Qué representa:** los nodos y contratos que deben estar visibles después de aplicar la Parte A.
 
-#### D.3 — Ejecución real de GitHub Actions
+**Cómo verificarlo:** expandir Subdatasets, Parameters, Fields, Variables, Groups, Detail y Summary. Comparar los nombres exactos con la Parte B y confirmar que no desaparece ningún nodo heredado del checkpoint anterior.
 
-El E2E inicial del M5 ejecutó este checkpoint con Java 8, JasperReports 6.20.0 y SQLite. `informe_ventas.pdf` resultó en **4 páginas**. También se regeneraron correctamente los otros cuatro informes acumulados.
+#### D.3 — Documento PDF y ejecución end-to-end
 
 ```text
-libros              = 14
-ventas               = 9
-unidades vendidas    = 31
-importe ventas       = 633,40 €
-páginas ventas 5.1 = 4
+CHECKPOINT          = 5.1
+RUNTIME             = Java 8 + Maven + JasperReports Library 6.20.0 + SQLite
+LIBROS              = 14
+VENTAS              = 9
+UNIDADES            = 31
+IMPORTE             = 633,40 €
+PÁGINAS VENTAS      = 4
+INFORME COMPILADO   = reports/informe_ventas.jasper
+PDF REAL            = output/informe_ventas.pdf
+E2E DE REFERENCIA   = run 36237682524 — SUCCESS
 ```
 
-#### D.4 — Árbol de proyecto esperado
+**Qué representa:** la evidencia funcional que debe permanecer después de añadir el diseño avanzado del punto.
 
-El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El punto añade su documento técnico y, cuando corresponde, un JRXML/JRTX nuevo. Los componentes table/chart/crosstab están integrados en `informe_ventas.jasper`; **no** se esperan `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper`.
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas` y contrastar `execution.log`, el SQLite inicializado y el PDF. El archivo debe comenzar por `%PDF-` y el workflow debe compilar, llenar y exportar sin excepciones.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+M5/5.1/
+├── EditorialReports/
+│   ├── documentación heredada M1-M4
+│   ├── SUBREPORTES.md
+│   ├── data/
+│   ├── reports/
+│   │   ├── informe_ventas.jrxml
+│   │   └── subinforme_ventas_detalle.jrxml
+│   ├── resources/
+│   └── output/
+├── EditorialReportsJava/
+│   ├── data/editorial.db
+│   ├── pom.xml
+│   └── src/
+│       ├── InicializadorBD.java
+│       └── GeneradorInformeVentas.java
+├── README.md
+└── VALIDACION.md
+```
+
+**Qué representa:** el checkpoint físico completo, no sólo el JRXML mostrado en el ejercicio.
+
+**Cómo verificarlo:** comparar el árbol con el checkpoint anterior y con `TRAZABILIDAD_M5.md`. No se permiten eliminaciones heredadas. Table, chart y crosstab se compilan dentro de `informe_ventas.jasper`; no deben aparecer `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper` separados.
 
 
 ---
@@ -2773,41 +2831,91 @@ public class GeneradorInformeVentas {
 
 ---
 
-### Parte D — Simulación y verificación del resultado real
+### Parte D — Simulación del resultado y de la estructura del proyecto
 
-#### D.1 — Estado de Design/Source
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
-El checkpoint 5.2 parte íntegramente del anterior e incorpora `DatasetTopVentas` y tabla de las tres mejores ventas. En **Source** deben aparecer los elementos descritos en Parte B; en **Design/Outline** deben aparecer los nodos correspondientes sin eliminar los componentes heredados.
+```text
+informe_ventas.jrxml
+├── subreporte 5.1 conservado
+├── banda Detail nueva h=104
+│   ├── "Top 3 ventas por cantidad" y=2
+│   └── componentElement/table y=22, h=76
+│       ├── Fecha        width=255
+│       ├── Cantidad     width=100
+│       └── Precio unit. width=200
+└── Summary heredado
+```
 
-#### D.2 — Contratos del Outline
+**Qué representa:** la distribución visual y funcional que debe existir en Design al terminar el checkpoint 5.2.
+
+**Cómo verificarlo:** abrir `reports/informe_ventas.jrxml` en Design y Source; en 5.1 abrir además el subinforme y en 5.6 la plantilla JRTX. Las posiciones, nombres y componentes deben coincidir con la Parte B ejecutable.
+
+#### D.2 — Jerarquía de Outline y contratos de Source
 
 ```text
 informe_ventas
-├── parámetros y variables heredados de M4
-├── consulta principal con LEFT JOIN
-├── detalle del informe
-├── componentes avanzados acumulados hasta 5.2
+├── Subdatasets
+│   └── DatasetTopVentas
+│       ├── Parameter: tituloLibro
+│       └── Fields: fecha_venta, cantidad, precio_unitario
+├── Detail
+│   ├── Subreport
+│   └── ComponentElement
+│       └── Table
+│           ├── Fecha
+│           ├── Cantidad
+│           └── Precio unitario
 ├── Page Footer
 └── Summary
 ```
 
-**Verificación:** el Outline debe conservar los componentes anteriores y añadir exclusivamente el delta del punto actual.
+**Qué representa:** los nodos y contratos que deben estar visibles después de aplicar la Parte A.
 
-#### D.3 — Ejecución real de GitHub Actions
+**Cómo verificarlo:** expandir Subdatasets, Parameters, Fields, Variables, Groups, Detail y Summary. Comparar los nombres exactos con la Parte B y confirmar que no desaparece ningún nodo heredado del checkpoint anterior.
 
-El E2E inicial del M5 ejecutó este checkpoint con Java 8, JasperReports 6.20.0 y SQLite. `informe_ventas.pdf` resultó en **5 páginas**. También se regeneraron correctamente los otros cuatro informes acumulados.
+#### D.3 — Documento PDF y ejecución end-to-end
 
 ```text
-libros              = 14
-ventas               = 9
-unidades vendidas    = 31
-importe ventas       = 633,40 €
-páginas ventas 5.2 = 5
+CHECKPOINT          = 5.2
+RUNTIME             = Java 8 + Maven + JasperReports Library 6.20.0 + SQLite
+LIBROS              = 14
+VENTAS              = 9
+UNIDADES            = 31
+IMPORTE             = 633,40 €
+PÁGINAS VENTAS      = 5
+INFORME COMPILADO   = reports/informe_ventas.jasper
+PDF REAL            = output/informe_ventas.pdf
+E2E DE REFERENCIA   = run 36237682524 — SUCCESS
 ```
 
-#### D.4 — Árbol de proyecto esperado
+**Qué representa:** la evidencia funcional que debe permanecer después de añadir el diseño avanzado del punto.
 
-El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El punto añade su documento técnico y, cuando corresponde, un JRXML/JRTX nuevo. Los componentes table/chart/crosstab están integrados en `informe_ventas.jasper`; **no** se esperan `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper`.
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas` y contrastar `execution.log`, el SQLite inicializado y el PDF. El archivo debe comenzar por `%PDF-` y el workflow debe compilar, llenar y exportar sin excepciones.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+M5/5.2/
+├── EditorialReports/
+│   ├── documentación heredada
+│   ├── SUBREPORTES.md
+│   ├── TABLAS.md
+│   ├── reports/
+│   │   ├── informe_ventas.jrxml
+│   │   └── subinforme_ventas_detalle.jrxml
+│   ├── data/ · resources/ · output/
+├── EditorialReportsJava/
+│   ├── data/editorial.db
+│   ├── pom.xml
+│   └── src/...
+├── README.md
+└── VALIDACION.md
+```
+
+**Qué representa:** el checkpoint físico completo, no sólo el JRXML mostrado en el ejercicio.
+
+**Cómo verificarlo:** comparar el árbol con el checkpoint anterior y con `TRAZABILIDAD_M5.md`. No se permiten eliminaciones heredadas. Table, chart y crosstab se compilan dentro de `informe_ventas.jasper`; no deben aparecer `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper` separados.
 
 
 ---
@@ -4326,41 +4434,85 @@ public class GeneradorInformeVentas {
 
 ---
 
-### Parte D — Simulación y verificación del resultado real
+### Parte D — Simulación del resultado y de la estructura del proyecto
 
-#### D.1 — Estado de Design/Source
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
-El checkpoint 5.3 parte íntegramente del anterior e incorpora `CategoriaGroup` y subtotales por categoría. En **Source** deben aparecer los elementos descritos en Parte B; en **Design/Outline** deben aparecer los nodos correspondientes sin eliminar los componentes heredados.
+```text
+informe_ventas.jrxml
+├── CategoriaGroup
+│   ├── Group Header h=28
+│   │   └── "Categoría: " + $F{categoria}
+│   └── Group Footer h=34
+│       ├── GrupoLibros
+│       ├── GrupoUnidades
+│       └── GrupoImporte
+├── subreporte 5.1 conservado
+└── tabla 5.2 conservada
+```
 
-#### D.2 — Contratos del Outline
+**Qué representa:** la distribución visual y funcional que debe existir en Design al terminar el checkpoint 5.3.
+
+**Cómo verificarlo:** abrir `reports/informe_ventas.jrxml` en Design y Source; en 5.1 abrir además el subinforme y en 5.6 la plantilla JRTX. Las posiciones, nombres y componentes deben coincidir con la Parte B ejecutable.
+
+#### D.2 — Jerarquía de Outline y contratos de Source
 
 ```text
 informe_ventas
-├── parámetros y variables heredados de M4
-├── consulta principal con LEFT JOIN
-├── detalle del informe
-├── componentes avanzados acumulados hasta 5.3
-├── Page Footer
+├── Variables heredadas
+├── Variables de grupo
+│   ├── GrupoUnidades -> Sum / CategoriaGroup
+│   ├── GrupoImporte  -> Sum / CategoriaGroup
+│   └── GrupoLibros   -> Count / CategoriaGroup
+├── Group: CategoriaGroup
+│   ├── Group Header
+│   └── Group Footer
+├── Detail: Subreport + Table
 └── Summary
 ```
 
-**Verificación:** el Outline debe conservar los componentes anteriores y añadir exclusivamente el delta del punto actual.
+**Qué representa:** los nodos y contratos que deben estar visibles después de aplicar la Parte A.
 
-#### D.3 — Ejecución real de GitHub Actions
+**Cómo verificarlo:** expandir Subdatasets, Parameters, Fields, Variables, Groups, Detail y Summary. Comparar los nombres exactos con la Parte B y confirmar que no desaparece ningún nodo heredado del checkpoint anterior.
 
-El E2E inicial del M5 ejecutó este checkpoint con Java 8, JasperReports 6.20.0 y SQLite. `informe_ventas.pdf` resultó en **5 páginas**. También se regeneraron correctamente los otros cuatro informes acumulados.
+#### D.3 — Documento PDF y ejecución end-to-end
 
 ```text
-libros              = 14
-ventas               = 9
-unidades vendidas    = 31
-importe ventas       = 633,40 €
-páginas ventas 5.3 = 5
+CHECKPOINT          = 5.3
+RUNTIME             = Java 8 + Maven + JasperReports Library 6.20.0 + SQLite
+LIBROS              = 14
+VENTAS              = 9
+UNIDADES            = 31
+IMPORTE             = 633,40 €
+PÁGINAS VENTAS      = 5
+INFORME COMPILADO   = reports/informe_ventas.jasper
+PDF REAL            = output/informe_ventas.pdf
+E2E DE REFERENCIA   = run 36237682524 — SUCCESS
 ```
 
-#### D.4 — Árbol de proyecto esperado
+**Qué representa:** la evidencia funcional que debe permanecer después de añadir el diseño avanzado del punto.
 
-El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El punto añade su documento técnico y, cuando corresponde, un JRXML/JRTX nuevo. Los componentes table/chart/crosstab están integrados en `informe_ventas.jasper`; **no** se esperan `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper`.
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas` y contrastar `execution.log`, el SQLite inicializado y el PDF. El archivo debe comenzar por `%PDF-` y el workflow debe compilar, llenar y exportar sin excepciones.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+M5/5.3/
+├── EditorialReports/
+│   ├── SUBREPORTES.md
+│   ├── TABLAS.md
+│   ├── AGRUPACIONES.md
+│   ├── reports/informe_ventas.jrxml
+│   ├── reports/subinforme_ventas_detalle.jrxml
+│   └── resto heredado intacto
+├── EditorialReportsJava/ (sin cambios respecto a 5.2)
+├── README.md
+└── VALIDACION.md
+```
+
+**Qué representa:** el checkpoint físico completo, no sólo el JRXML mostrado en el ejercicio.
+
+**Cómo verificarlo:** comparar el árbol con el checkpoint anterior y con `TRAZABILIDAD_M5.md`. No se permiten eliminaciones heredadas. Table, chart y crosstab se compilan dentro de `informe_ventas.jasper`; no deben aparecer `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper` separados.
 
 
 ---
@@ -5936,41 +6088,82 @@ public class GeneradorInformeVentas {
 
 ---
 
-### Parte D — Simulación y verificación del resultado real
+### Parte D — Simulación del resultado y de la estructura del proyecto
 
-#### D.1 — Estado de Design/Source
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
-El checkpoint 5.4 parte íntegramente del anterior e incorpora `DatasetVentasPorCategoria` y gráfico de barras. En **Source** deben aparecer los elementos descritos en Parte B; en **Design/Outline** deben aparecer los nodos correspondientes sin eliminar los componentes heredados.
+```text
+Summary h=430
+├── resumen heredado y=5..121
+├── rótulo "Ventas por categoría — importe" y=140, h=20
+└── barChart x=0, y=165, w=555, h=250
+    ├── título "Ventas por categoría"
+    ├── leyenda Bottom
+    ├── DatasetVentasPorCategoria
+    └── barPlot con ejes de categoría y valor
+```
 
-#### D.2 — Contratos del Outline
+**Qué representa:** la distribución visual y funcional que debe existir en Design al terminar el checkpoint 5.4.
+
+**Cómo verificarlo:** abrir `reports/informe_ventas.jrxml` en Design y Source; en 5.1 abrir además el subinforme y en 5.6 la plantilla JRTX. Las posiciones, nombres y componentes deben coincidir con la Parte B ejecutable.
+
+#### D.2 — Jerarquía de Outline y contratos de Source
 
 ```text
 informe_ventas
-├── parámetros y variables heredados de M4
-├── consulta principal con LEFT JOIN
-├── detalle del informe
-├── componentes avanzados acumulados hasta 5.4
-├── Page Footer
+├── Subdatasets
+│   ├── DatasetTopVentas
+│   └── DatasetVentasPorCategoria
+│       └── Fields: categoria_grafico, importe_categoria
+├── Group: CategoriaGroup
+├── Detail: Subreport + Table
 └── Summary
+    └── Bar Chart
+        ├── Category Dataset
+        └── Category Series
 ```
 
-**Verificación:** el Outline debe conservar los componentes anteriores y añadir exclusivamente el delta del punto actual.
+**Qué representa:** los nodos y contratos que deben estar visibles después de aplicar la Parte A.
 
-#### D.3 — Ejecución real de GitHub Actions
+**Cómo verificarlo:** expandir Subdatasets, Parameters, Fields, Variables, Groups, Detail y Summary. Comparar los nombres exactos con la Parte B y confirmar que no desaparece ningún nodo heredado del checkpoint anterior.
 
-El E2E inicial del M5 ejecutó este checkpoint con Java 8, JasperReports 6.20.0 y SQLite. `informe_ventas.pdf` resultó en **6 páginas**. También se regeneraron correctamente los otros cuatro informes acumulados.
+#### D.3 — Documento PDF y ejecución end-to-end
 
 ```text
-libros              = 14
-ventas               = 9
-unidades vendidas    = 31
-importe ventas       = 633,40 €
-páginas ventas 5.4 = 6
+CHECKPOINT          = 5.4
+RUNTIME             = Java 8 + Maven + JasperReports Library 6.20.0 + SQLite
+LIBROS              = 14
+VENTAS              = 9
+UNIDADES            = 31
+IMPORTE             = 633,40 €
+PÁGINAS VENTAS      = 6
+INFORME COMPILADO   = reports/informe_ventas.jasper
+PDF REAL            = output/informe_ventas.pdf
+E2E DE REFERENCIA   = run 36237682524 — SUCCESS
 ```
 
-#### D.4 — Árbol de proyecto esperado
+**Qué representa:** la evidencia funcional que debe permanecer después de añadir el diseño avanzado del punto.
 
-El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El punto añade su documento técnico y, cuando corresponde, un JRXML/JRTX nuevo. Los componentes table/chart/crosstab están integrados en `informe_ventas.jasper`; **no** se esperan `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper`.
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas` y contrastar `execution.log`, el SQLite inicializado y el PDF. El archivo debe comenzar por `%PDF-` y el workflow debe compilar, llenar y exportar sin excepciones.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+M5/5.4/
+├── EditorialReports/
+│   ├── SUBREPORTES.md · TABLAS.md · AGRUPACIONES.md
+│   ├── GRAFICOS.md
+│   ├── reports/informe_ventas.jrxml
+│   ├── reports/subinforme_ventas_detalle.jrxml
+│   └── resto heredado intacto
+├── EditorialReportsJava/ (sin cambios respecto a 5.3)
+├── README.md
+└── VALIDACION.md
+```
+
+**Qué representa:** el checkpoint físico completo, no sólo el JRXML mostrado en el ejercicio.
+
+**Cómo verificarlo:** comparar el árbol con el checkpoint anterior y con `TRAZABILIDAD_M5.md`. No se permiten eliminaciones heredadas. Table, chart y crosstab se compilan dentro de `informe_ventas.jasper`; no deben aparecer `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper` separados.
 
 
 ---
@@ -7851,41 +8044,89 @@ public class GeneradorInformeVentas {
 
 ---
 
-### Parte D — Simulación y verificación del resultado real
+### Parte D — Simulación del resultado y de la estructura del proyecto
 
-#### D.1 — Estado de Design/Source
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
-El checkpoint 5.5 parte íntegramente del anterior e incorpora `DatasetCrosstabVentas` y crosstab categoría × año con dos medidas. En **Source** deben aparecer los elementos descritos en Parte B; en **Design/Outline** deben aparecer los nodos correspondientes sin eliminar los componentes heredados.
+```text
+Summary h=700
+├── resumen heredado
+├── gráfico 5.4 conservado
+├── rótulo "Ventas por categoría y año" y=430, h=20
+└── crosstab x=0, y=455, w=555, h=225
+    ├── filas: CategoriaCross
+    ├── columnas: AnioCross
+    ├── medida: ImporteCross
+    ├── medida: VentasCross
+    └── detalle + total fila + total columna + total general
+```
 
-#### D.2 — Contratos del Outline
+**Qué representa:** la distribución visual y funcional que debe existir en Design al terminar el checkpoint 5.5.
+
+**Cómo verificarlo:** abrir `reports/informe_ventas.jrxml` en Design y Source; en 5.1 abrir además el subinforme y en 5.6 la plantilla JRTX. Las posiciones, nombres y componentes deben coincidir con la Parte B ejecutable.
+
+#### D.2 — Jerarquía de Outline y contratos de Source
 
 ```text
 informe_ventas
-├── parámetros y variables heredados de M4
-├── consulta principal con LEFT JOIN
-├── detalle del informe
-├── componentes avanzados acumulados hasta 5.5
-├── Page Footer
-└── Summary
+├── Subdatasets
+│   ├── DatasetTopVentas
+│   ├── DatasetVentasPorCategoria
+│   └── DatasetCrosstabVentas
+│       └── Fields: categoria_cross, anio_cross, importe_cross, ventas_cross
+├── Group: CategoriaGroup
+├── Summary
+│   ├── Bar Chart
+│   └── Crosstab
+│       ├── Row Group: CategoriaCross
+│       ├── Column Group: AnioCross
+│       ├── Measure: ImporteCross
+│       └── Measure: VentasCross
+└── componentes heredados intactos
 ```
 
-**Verificación:** el Outline debe conservar los componentes anteriores y añadir exclusivamente el delta del punto actual.
+**Qué representa:** los nodos y contratos que deben estar visibles después de aplicar la Parte A.
 
-#### D.3 — Ejecución real de GitHub Actions
+**Cómo verificarlo:** expandir Subdatasets, Parameters, Fields, Variables, Groups, Detail y Summary. Comparar los nombres exactos con la Parte B y confirmar que no desaparece ningún nodo heredado del checkpoint anterior.
 
-El E2E inicial del M5 ejecutó este checkpoint con Java 8, JasperReports 6.20.0 y SQLite. `informe_ventas.pdf` resultó en **6 páginas**. También se regeneraron correctamente los otros cuatro informes acumulados.
+#### D.3 — Documento PDF y ejecución end-to-end
 
 ```text
-libros              = 14
-ventas               = 9
-unidades vendidas    = 31
-importe ventas       = 633,40 €
-páginas ventas 5.5 = 6
+CHECKPOINT          = 5.5
+RUNTIME             = Java 8 + Maven + JasperReports Library 6.20.0 + SQLite
+LIBROS              = 14
+VENTAS              = 9
+UNIDADES            = 31
+IMPORTE             = 633,40 €
+PÁGINAS VENTAS      = 6
+INFORME COMPILADO   = reports/informe_ventas.jasper
+PDF REAL            = output/informe_ventas.pdf
+E2E DE REFERENCIA   = run 36237682524 — SUCCESS
 ```
 
-#### D.4 — Árbol de proyecto esperado
+**Qué representa:** la evidencia funcional que debe permanecer después de añadir el diseño avanzado del punto.
 
-El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El punto añade su documento técnico y, cuando corresponde, un JRXML/JRTX nuevo. Los componentes table/chart/crosstab están integrados en `informe_ventas.jasper`; **no** se esperan `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper`.
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas` y contrastar `execution.log`, el SQLite inicializado y el PDF. El archivo debe comenzar por `%PDF-` y el workflow debe compilar, llenar y exportar sin excepciones.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+M5/5.5/
+├── EditorialReports/
+│   ├── documentación acumulada
+│   ├── GRAFICOS.md
+│   ├── CROSSTABS.md
+│   ├── reports/informe_ventas.jrxml
+│   ├── reports/subinforme_ventas_detalle.jrxml
+│   └── resto heredado intacto
+├── EditorialReportsJava/ (sin cambios respecto a 5.4)
+├── README.md
+└── VALIDACION.md
+```
+
+**Qué representa:** el checkpoint físico completo, no sólo el JRXML mostrado en el ejercicio.
+
+**Cómo verificarlo:** comparar el árbol con el checkpoint anterior y con `TRAZABILIDAD_M5.md`. No se permiten eliminaciones heredadas. Table, chart y crosstab se compilan dentro de `informe_ventas.jasper`; no deben aparecer `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper` separados.
 
 
 ---
@@ -9666,41 +9907,94 @@ public class GeneradorInformeVentas {
 
 ---
 
-### Parte D — Simulación y verificación del resultado real
+### Parte D — Simulación del resultado y de la estructura del proyecto
 
-#### D.1 — Estado de Design/Source
+#### D.1 — Vista de diseño en Jaspersoft Studio
 
-El checkpoint 5.6 parte íntegramente del anterior e incorpora plantilla `EditorialStyles.jrtx` importada y aplicada. En **Source** deben aparecer los elementos descritos en Parte B; en **Design/Outline** deben aparecer los nodos correspondientes sin eliminar los componentes heredados.
+```text
+informe_ventas.jrxml
+├── template: resources/styles/EditorialStyles.jrtx
+├── título -> M5TituloPrincipal
+├── CategoriaGroup header -> M5GrupoCabecera
+├── table
+│   ├── headers -> M5TablaCabecera
+│   └── detail -> M5TablaDetalle
+└── crosstab
+    ├── headers -> M5CrosstabCabecera
+    ├── detail -> M5CrosstabDetalle
+    └── totals -> M5CrosstabTotal
+```
 
-#### D.2 — Contratos del Outline
+**Qué representa:** la distribución visual y funcional que debe existir en Design al terminar el checkpoint 5.6.
+
+**Cómo verificarlo:** abrir `reports/informe_ventas.jrxml` en Design y Source; en 5.1 abrir además el subinforme y en 5.6 la plantilla JRTX. Las posiciones, nombres y componentes deben coincidir con la Parte B ejecutable.
+
+#### D.2 — Jerarquía de Outline y contratos de Source
 
 ```text
 informe_ventas
-├── parámetros y variables heredados de M4
-├── consulta principal con LEFT JOIN
-├── detalle del informe
-├── componentes avanzados acumulados hasta 5.6
-├── Page Footer
-└── Summary
+├── Template: resources/styles/EditorialStyles.jrtx
+├── Styles locales heredados
+├── Subdatasets: TopVentas + VentasPorCategoria + CrosstabVentas
+├── Group: CategoriaGroup
+├── Detail: Subreport + Table
+└── Summary: Bar Chart + Crosstab
+
+EditorialStyles.jrtx
+├── M5TituloPrincipal
+├── M5GrupoCabecera
+├── M5TablaCabecera
+├── M5TablaDetalle
+├── M5CrosstabCabecera
+├── M5CrosstabDetalle
+└── M5CrosstabTotal
 ```
 
-**Verificación:** el Outline debe conservar los componentes anteriores y añadir exclusivamente el delta del punto actual.
+**Qué representa:** los nodos y contratos que deben estar visibles después de aplicar la Parte A.
 
-#### D.3 — Ejecución real de GitHub Actions
+**Cómo verificarlo:** expandir Subdatasets, Parameters, Fields, Variables, Groups, Detail y Summary. Comparar los nombres exactos con la Parte B y confirmar que no desaparece ningún nodo heredado del checkpoint anterior.
 
-El E2E inicial del M5 ejecutó este checkpoint con Java 8, JasperReports 6.20.0 y SQLite. `informe_ventas.pdf` resultó en **6 páginas**. También se regeneraron correctamente los otros cuatro informes acumulados.
+#### D.3 — Documento PDF y ejecución end-to-end
 
 ```text
-libros              = 14
-ventas               = 9
-unidades vendidas    = 31
-importe ventas       = 633,40 €
-páginas ventas 5.6 = 6
+CHECKPOINT          = 5.6
+RUNTIME             = Java 8 + Maven + JasperReports Library 6.20.0 + SQLite
+LIBROS              = 14
+VENTAS              = 9
+UNIDADES            = 31
+IMPORTE             = 633,40 €
+PÁGINAS VENTAS      = 6
+INFORME COMPILADO   = reports/informe_ventas.jasper
+PDF REAL            = output/informe_ventas.pdf
+E2E DE REFERENCIA   = run 36237682524 — SUCCESS
 ```
 
-#### D.4 — Árbol de proyecto esperado
+**Qué representa:** la evidencia funcional que debe permanecer después de añadir el diseño avanzado del punto.
 
-El árbol mantiene `EditorialReports` y `EditorialReportsJava` completos. El punto añade su documento técnico y, cuando corresponde, un JRXML/JRTX nuevo. Los componentes table/chart/crosstab están integrados en `informe_ventas.jasper`; **no** se esperan `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper`.
+**Cómo verificarlo:** ejecutar `GeneradorInformeVentas` y contrastar `execution.log`, el SQLite inicializado y el PDF. El archivo debe comenzar por `%PDF-` y el workflow debe compilar, llenar y exportar sin excepciones.
+
+#### D.4 — Árbol acumulativo del checkpoint
+
+```text
+M5/5.6/
+├── EditorialReports/
+│   ├── documentación acumulada 5.1-5.5
+│   ├── PLANTILLAS.md
+│   ├── reports/
+│   │   ├── informe_ventas.jrxml
+│   │   └── subinforme_ventas_detalle.jrxml
+│   ├── resources/
+│   │   └── styles/
+│   │       └── EditorialStyles.jrtx
+│   └── data/ · output/
+├── EditorialReportsJava/ (sin cambios respecto a 5.5)
+├── README.md
+└── VALIDACION.md
+```
+
+**Qué representa:** el checkpoint físico completo, no sólo el JRXML mostrado en el ejercicio.
+
+**Cómo verificarlo:** comparar el árbol con el checkpoint anterior y con `TRAZABILIDAD_M5.md`. No se permiten eliminaciones heredadas. Table, chart y crosstab se compilan dentro de `informe_ventas.jasper`; no deben aparecer `_table_1.jasper`, `_chart_1.jasper` ni `_crosstab_1.jasper` separados.
 
 
 ---
