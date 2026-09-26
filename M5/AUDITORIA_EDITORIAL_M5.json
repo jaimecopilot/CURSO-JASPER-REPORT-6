@@ -1,0 +1,13 @@
+{
+  "objetivos_originales": 36,
+  "bloques_teoricos": 30,
+  "puntos": 6,
+  "embedded_executable_blocks": 14,
+  "e2e_run": 36225835677,
+  "invariantes": {
+    "libros": 14,
+    "ventas": 9,
+    "unidades": 31,
+    "importe": 633.4
+  }
+}
