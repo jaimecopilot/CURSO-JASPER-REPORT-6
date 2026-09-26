@@ -298,7 +298,455 @@ def clean_practice_text(s, point):
  s=s.replace('<chart:pieDataset>','<pieDataset>').replace('</chart:pieDataset>','</pieDataset>')
  return s
 
+
+def corrected_55_part_a():
+ return r'''**Paso 1: Verificar el punto de partida acumulativo**
+
+**Acciones:**
+
+1. Abrir `M5/5.5/EditorialReports/reports/informe_ventas.jrxml` en Jaspersoft Studio 6.20.0.
+2. En Outline, comprobar que siguen presentes tabla, grupos y gráfico heredados de 5.4.
+3. Abrir Source y localizar los estilos, los subdatasets y la banda `summary`.
+4. Guardar sin eliminar ningún elemento heredado.
+
+**Verificación visual:** Design y Outline conservan todo lo construido hasta 5.4.
+
+**Qué hace:** fija 5.4 como baseline real de 5.5.
+**Por qué:** el curso es acumulativo.
+**Error común:** reconstruir Summary desde cero y perder el gráfico. Solución: añadir el crosstab al informe existente.
+**Analogía:** es añadir una nueva sección al catálogo sin desmontar las anteriores.
+
+---
+
+**Paso 2: Declarar los estilos del crosstab**
+
+**Acciones:**
+
+1. En Source, localizar los estilos del informe antes de los subdatasets.
+2. Añadir `M5CrossHeader`, `M5CrossDetail` y `M5CrossTotal`.
+3. Hacer que hereden de `Dato`.
+4. Guardar con Ctrl+S.
+
+~~~xml
+<style name="M5CrossHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>
+<style name="M5CrossDetail" style="Dato" mode="Opaque" backcolor="#FFFFFF"/>
+<style name="M5CrossTotal" style="Dato" mode="Opaque" backcolor="#D6EAF8" forecolor="#173F6B" isBold="true"/>
+~~~
+
+**Verificación visual:** los tres estilos aparecen en Source y Problems no muestra errores.
+
+**Qué hace:** crea estilos JasperReports normales.
+**Por qué:** el crosstab los aplica desde `cellContents style="..."`.
+**Error común:** inventar un elemento de estilo específico dentro del crosstab. Solución: usar estilos de informe referenciados por las celdas.
+**Analogía:** es definir tres formatos de celda y reutilizarlos.
+
+---
+
+**Paso 3: Crear `DatasetCrosstabVentas`**
+
+**Acciones:**
+
+1. Insertar un nuevo `subDataset` después de los datasets heredados.
+2. Nombrarlo exactamente `DatasetCrosstabVentas`.
+3. Introducir la consulta y los cuatro fields del checkpoint.
+4. Guardar.
+
+~~~xml
+<subDataset name="DatasetCrosstabVentas">
+    <queryString language="sql">
+        <![CDATA[
+            SELECT l.categoria AS categoria_cross,
+                   SUBSTR(v.fecha_venta, 1, 4) AS anio_cross,
+                   (v.cantidad * v.precio_unitario) AS importe_cross,
+                   1 AS ventas_cross
+            FROM ventas v
+            JOIN libros l ON l.titulo = v.titulo_libro
+            ORDER BY l.categoria, anio_cross, v.fecha_venta
+        ]]>
+    </queryString>
+    <field name="categoria_cross" class="java.lang.String"/>
+    <field name="anio_cross" class="java.lang.String"/>
+    <field name="importe_cross" class="java.lang.Double"/>
+    <field name="ventas_cross" class="java.lang.Integer"/>
+</subDataset>
+~~~
+
+**Verificación visual:** Source muestra el dataset con exactamente esos cuatro fields.
+
+**Qué hace:** entrega una fila por venta con categoría, año, importe y contador unitario.
+**Por qué:** las medidas del crosstab realizan las agregaciones.
+**Error común:** agregar ya en SQL y volver a agregar en el crosstab. Solución: reproducir el dataset ejecutable.
+**Analogía:** es entregar al cuadro de mando los movimientos elementales para que él calcule los totales.
+
+---
+
+**Paso 4: Ajustar Summary a 700**
+
+**Acciones:**
+
+1. Seleccionar Summary en Outline.
+2. En Properties, establecer Band height en `700`.
+3. Guardar.
+
+**Verificación visual:** Source contiene `<band height="700">`.
+
+**Qué hace:** reserva el espacio exacto del checkpoint.
+**Por qué:** gráfico y crosstab comparten Summary.
+**Error común:** usar la altura 1050 de un borrador anterior. Solución: mantener 700.
+
+---
+
+**Paso 5: Añadir el rótulo**
+
+**Acciones:**
+
+1. Insertar un Static Text en Summary.
+2. Fijar X=`0`, Y=`430`, Width=`555` y Height=`20`.
+3. Asignar `style="Cabecera"`.
+4. Escribir `Ventas por categoría y año`.
+5. Guardar.
+
+**Verificación visual:** el rótulo aparece debajo del gráfico.
+
+**Qué hace:** identifica la nueva matriz.
+**Por qué:** separa visualmente el gráfico del crosstab.
+**Error común:** colocarlo en y=800. Solución: usar y=430, que es la geometría validada.
+
+---
+
+**Paso 6: Insertar el crosstab**
+
+**Acciones:**
+
+1. Desde Palette, arrastrar Crosstab a Summary.
+2. Fijar X=`0`, Y=`455`, Width=`555` y Height=`225`.
+3. Pasar a Source.
+4. Confirmar que el elemento raíz es `<crosstab>` y contiene su `reportElement`.
+
+**Verificación visual:** Source contiene `<reportElement x="0" y="455" width="555" height="225"/>`.
+
+**Qué hace:** crea el contenedor de la matriz.
+**Por qué:** reproduce la geometría del checkpoint.
+**Error común:** envolverlo en un `componentElement` innecesario. Solución: usar el crosstab nativo.
+
+---
+
+**Paso 7: Asociar dataset y conexión**
+
+**Acciones:**
+
+1. Dentro del crosstab, crear `crosstabDataset`.
+2. Añadir un `datasetRun` con `subDataset="DatasetCrosstabVentas"`.
+3. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+4. Guardar.
+
+~~~xml
+<crosstabDataset>
+    <dataset>
+        <datasetRun subDataset="DatasetCrosstabVentas">
+            <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+        </datasetRun>
+    </dataset>
+</crosstabDataset>
+~~~
+
+**Verificación visual:** Source muestra el datasetRun y la conexión sin errores.
+
+**Qué hace:** ejecuta el subdataset con la conexión del informe.
+**Por qué:** no hace falta una segunda conexión Java.
+**Error común:** omitir `connectionExpression`. Solución: reutilizar `REPORT_CONNECTION`.
+
+---
+
+**Paso 8: Crear el grupo de fila `CategoriaCross`**
+
+**Acciones:**
+
+1. Añadir `<rowGroup name="CategoriaCross" width="150" totalPosition="End">`.
+2. Configurar un bucket String con `$F{categoria_cross}`.
+3. Crear `crosstabRowHeader` con `cellContents style="M5CrossHeader"`.
+4. Mostrar `$V{CategoriaCross}` en un textField de 150×34.
+5. Crear `crosstabTotalRowHeader` con `cellContents style="M5CrossTotal"` y texto `TOTAL`.
+6. Guardar.
+
+**Verificación visual:** Source contiene el grupo, su header y su header de total.
+
+**Qué hace:** convierte categorías en filas.
+**Por qué:** el totalPosition End crea el total del eje.
+**Error común:** mostrar el field en vez de la variable de grupo. Solución: usar `$V{CategoriaCross}` en el header.
+
+---
+
+**Paso 9: Crear el grupo de columna `AnioCross`**
+
+**Acciones:**
+
+1. Añadir `<columnGroup name="AnioCross" height="28" totalPosition="End">`.
+2. Configurar un bucket String con `$F{anio_cross}`.
+3. Crear `crosstabColumnHeader` con `cellContents style="M5CrossHeader"`.
+4. Mostrar `$V{AnioCross}` en un textField de 100×28 centrado.
+5. Crear `crosstabTotalColumnHeader` con `cellContents style="M5CrossTotal"` y texto `TOTAL`.
+6. Guardar.
+
+**Verificación visual:** Source contiene el grupo de año y su total.
+
+**Qué hace:** convierte años de venta en columnas.
+**Por qué:** cruza los dos ejes analíticos.
+**Error común:** conservar el nombre genérico Anio. Solución: usar `AnioCross`.
+
+---
+
+**Paso 10: Declarar las dos medidas**
+
+**Acciones:**
+
+1. Añadir `ImporteCross`, tipo Double, cálculo Sum, expresión `$F{importe_cross}`.
+2. Añadir `VentasCross`, tipo Integer, cálculo Sum, expresión `$F{ventas_cross}`.
+3. Guardar.
+
+~~~xml
+<measure name="ImporteCross" class="java.lang.Double" calculation="Sum">
+    <measureExpression><![CDATA[$F{importe_cross}]]></measureExpression>
+</measure>
+<measure name="VentasCross" class="java.lang.Integer" calculation="Sum">
+    <measureExpression><![CDATA[$F{ventas_cross}]]></measureExpression>
+</measure>
+~~~
+
+**Verificación visual:** ambas medidas aparecen antes de las celdas.
+
+**Qué hace:** suma importe y número de ventas por intersección.
+**Por qué:** `ventas_cross` vale 1 por fila.
+**Error común:** crear una segunda crosstabCell para la segunda medida. Solución: mostrar ambas medidas dentro del mismo cellContents.
+
+---
+
+**Paso 11: Configurar la celda de detalle**
+
+**Acciones:**
+
+1. Añadir una `crosstabCell` de 100×34.
+2. Añadir `cellContents style="M5CrossDetail"`.
+3. Crear un textField 100×18 con patrón `#,##0.00 €` y `$V{ImporteCross}`.
+4. En y=`18`, añadir otro textField 100×14 con `$V{VentasCross} + " ventas"`.
+5. Alinear ambos a la derecha.
+6. Guardar.
+
+**Verificación visual:** cada intersección muestra las dos medidas.
+
+**Qué hace:** presenta importe y número de ventas juntos.
+**Por qué:** ambas medidas pertenecen a la misma categoría y año.
+**Error común:** omitir `cellContents`. Solución: colocar dentro de él todos los elementos visuales.
+
+---
+
+**Paso 12: Añadir el total de fila**
+
+**Acciones:**
+
+1. Añadir una crosstabCell de 100×34.
+2. Establecer `rowTotalGroup="CategoriaCross"`.
+3. Usar `cellContents style="M5CrossTotal"`.
+4. Repetir los textFields de `ImporteCross` y `VentasCross`.
+5. Guardar.
+
+**Verificación visual:** existe una celda total asociada a CategoriaCross.
+
+**Qué hace:** totaliza cada categoría a través de los años.
+**Por qué:** completa la lectura horizontal.
+**Error común:** poner el nombre del field en rowTotalGroup. Solución: referenciar el nombre del grupo.
+
+---
+
+**Paso 13: Añadir el total de columna**
+
+**Acciones:**
+
+1. Añadir una crosstabCell de 100×34.
+2. Establecer `columnTotalGroup="AnioCross"`.
+3. Usar `cellContents style="M5CrossTotal"`.
+4. Repetir los dos textFields de medidas.
+5. Guardar.
+
+**Verificación visual:** existe una celda total asociada a AnioCross.
+
+**Qué hace:** totaliza cada año a través de las categorías.
+**Por qué:** completa la lectura vertical.
+**Error común:** intercambiar los atributos de total. Solución: revisar el nombre exacto de cada grupo.
+
+---
+
+**Paso 14: Añadir el total general**
+
+**Acciones:**
+
+1. Añadir una cuarta crosstabCell de 100×34.
+2. Establecer a la vez `rowTotalGroup="CategoriaCross"` y `columnTotalGroup="AnioCross"`.
+3. Usar `cellContents style="M5CrossTotal"`.
+4. Repetir importe y número de ventas.
+5. Guardar.
+
+**Verificación visual:** existe una celda con ambos atributos de total.
+
+**Qué hace:** genera el total general.
+**Por qué:** completa la esquina de totales de la matriz.
+**Error común:** omitir esta celda y dejar la intersección sin valor.
+
+---
+
+**Paso 15: Validar el JRXML en Studio**
+
+**Acciones:**
+
+1. Pulsar Ctrl+S.
+2. Abrir Problems y confirmar que no hay errores.
+3. Volver a Design.
+4. Verificar que el crosstab permanece dentro de Summary y no tapa el gráfico.
+
+**Verificación visual:** Problems está limpio y Design conserva todos los componentes acumulados.
+
+**Qué hace:** valida esquema, expresiones y composición.
+**Por qué:** un XML bien formado puede seguir siendo inválido para JasperReports.
+**Error común:** revisar sólo Source. Solución: comprobar Problems y Design.
+
+---
+
+**Paso 16: Compilar y comprobar el artefacto real**
+
+**Acciones:**
+
+1. Compilar `informe_ventas.jrxml`.
+2. Refrescar la carpeta `reports`.
+3. Verificar que existe `informe_ventas.jasper`.
+4. Confirmar que el crosstab queda integrado en ese archivo.
+5. Confirmar que no se necesita un `_crosstab_1.jasper` independiente.
+
+**Verificación visual:** sólo se necesita el jasper principal para este componente.
+
+**Qué hace:** valida el modelo de compilación real.
+**Por qué:** el crosstab es parte del informe principal.
+**Error común:** buscar un jasper auxiliar del crosstab. Solución: comprobar el jasper principal.
+
+---
+
+**Paso 17: Ejecutar y verificar el PDF**
+
+**Acciones:**
+
+1. Abrir Preview y comprobar filas, columnas, medidas y totales.
+2. Ejecutar `GeneradorInformeVentas.java` como Java Application.
+3. Abrir `output/informe_ventas.pdf`.
+4. Verificar que el checkpoint 5.5 genera 6 páginas.
+5. Confirmar los invariantes: 14 libros, 9 ventas, 31 unidades y 633,40 €.
+
+**Verificación visual:** el PDF muestra el crosstab y conserva tabla, agrupaciones y gráfico heredados.
+
+**Qué hace:** completa la prueba JRXML → JasperPrint → PDF.
+**Por qué:** compilar no es suficiente para un cierre E2E.
+**Error común:** validar sólo Preview. Solución: ejecutar también el generador Java.
+
+---
+
+**Paso 18: Documentar `CROSSTABS.md`**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/CROSSTABS.md`.
+2. Registrar `DatasetCrosstabVentas`.
+3. Indicar filas = categoría y columnas = año de venta.
+4. Registrar importe total y número de ventas como medidas.
+5. Indicar que los estilos se aplican a `cellContents`.
+6. Indicar que el crosstab forma parte de `informe_ventas.jasper`.
+7. Guardar.
+
+**Verificación visual:** CROSSTABS.md describe el comportamiento real del checkpoint.
+
+**Qué hace:** mantiene documentación y código sincronizados.
+**Por qué:** evita recuperar en el futuro nombres o artefactos que no existen.
+**Error común:** documentar los nombres antiguos de campos o medidas. Solución: usar los contratos `*_cross` y `*Cross` del JRXML ejecutable.
+'''
+
+def corrected_55_tail():
+ return r'''## Errores comunes del ejercicio completo
+
+| Error | Causa | Solución |
+|---|---|---|
+| El crosstab aparece vacío | El subdataset no se ejecuta o no devuelve filas | Revisar `datasetRun`, `REPORT_CONNECTION` y la consulta |
+| Las filas no se generan | Falta `CategoriaCross` o su bucket | Usar `$F{categoria_cross}` y el grupo correcto |
+| Las columnas no se generan | Falta `AnioCross` o su bucket | Usar `$F{anio_cross}` y el grupo correcto |
+| El importe no se acumula | `ImporteCross` no usa Sum | Declarar la medida Double con cálculo Sum |
+| El número de ventas es incorrecto | `VentasCross` no suma `ventas_cross` | Mantener field Integer y medida Sum |
+| Los totales quedan vacíos | Faltan celdas de total | Declarar total de fila, columna y general |
+| Los estilos no se aplican | `cellContents` no referencia los estilos | Usar `M5CrossHeader`, `M5CrossDetail` y `M5CrossTotal` |
+| El crosstab tapa otros elementos | Geometría distinta del checkpoint | Summary=700, rótulo y=430, crosstab y=455, altura 225 |
+| Se busca un jasper auxiliar | Se confunde un componente interno con un subreporte | Verificar `informe_ventas.jasper` |
+
+---
+
+## Reto resuelto paso a paso
+
+**Enunciado original conservado:** mostrar, además del importe, el número de ventas en el crosstab.
+
+**Corrección técnica:** el checkpoint 5.5 integra la segunda medida dentro de la misma celda; no crea una crosstabCell independiente.
+
+**Paso 1.** El dataset devuelve `1 AS ventas_cross` por cada venta.
+
+**Paso 2.** Se declara el field `ventas_cross` como Integer.
+
+**Paso 3.** Se declara la medida `VentasCross` con cálculo Sum.
+
+**Paso 4.** La expresión de la medida es `$F{ventas_cross}`.
+
+**Paso 5.** La celda mantiene el textField de `$V{ImporteCross}`.
+
+**Paso 6.** Debajo se añade `$V{VentasCross} + " ventas"`.
+
+**Paso 7.** Se repite el patrón en el total de fila.
+
+**Paso 8.** Se repite en el total de columna.
+
+**Paso 9.** Se repite en el total general.
+
+**Paso 10.** Se compila `informe_ventas.jrxml`.
+
+**Paso 11.** Se ejecuta `GeneradorInformeVentas`.
+
+**Paso 12.** Se comprueba que el PDF conserva 31 unidades y 633,40 € y muestra las dos medidas.
+
+**Resultado del reto:** cada intersección y cada total presentan importe y número de ventas sin introducir un artefacto compilado separado.
+
+---
+
+## Analogía final con el contexto de la editorial
+
+El crosstab es una tabla de análisis editorial: las categorías forman las filas, los años de venta forman las columnas y cada intersección resume tanto el importe como el número de operaciones. Los grupos definen los ejes, las medidas agregan los datos y las celdas de total resumen cada eje y el conjunto completo.
+
+---
+
+## Resultado esperado
+
+Al finalizar 5.5:
+
+- `reports/informe_ventas.jrxml` contiene `DatasetCrosstabVentas` y el crosstab categoría × año.
+- Los fields son `categoria_cross`, `anio_cross`, `importe_cross` y `ventas_cross`.
+- Los grupos son `CategoriaCross` y `AnioCross`.
+- Las medidas son `ImporteCross` y `VentasCross`.
+- Los estilos `M5CrossHeader`, `M5CrossDetail` y `M5CrossTotal` se aplican mediante `cellContents`.
+- `reports/informe_ventas.jasper` contiene el informe compilado completo.
+- `output/informe_ventas.pdf` tiene 6 páginas en la evidencia E2E inicial.
+- `CROSSTABS.md` describe la implementación real.
+- Se conservan 14 libros, 9 ventas, 31 unidades y 633,40 €.
+
+---
+
+## Conclusión y enlace al siguiente punto
+
+El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Parte A, Parte B, Parte C y el checkpoint comparten los mismos nombres, medidas, geometría y comportamiento. El punto 5.6 reutiliza esta base para externalizar estilos mediante una plantilla `.jrtx`.
+'''
+
 def extract_part_a(sec,point):
+ if point=='5.5':
+  return corrected_55_part_a().strip()
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
  if a<0 or b<0: fail('part A '+point)
  x=sec[a:b]
@@ -307,6 +755,8 @@ def extract_part_a(sec,point):
  return clean_practice_text(x,point).strip()
 
 def extract_tail(sec,point):
+ if point=='5.5':
+  return corrected_55_tail().strip()
  a=sec.find('## Errores comunes del ejercicio completo')
  if a<0: fail('tail '+point)
  # Cut conversational material after conclusion at the first horizontal rule followed by meta.
