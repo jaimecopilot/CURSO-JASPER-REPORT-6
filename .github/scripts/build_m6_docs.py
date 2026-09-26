@@ -959,6 +959,16 @@ def explain_line(line,lang):
   if x.startswith('return '):
    return 'Devuelve `'+x[len('return '):].rstrip(';')+'` al método llamador.'
   return 'Ejecuta específicamente la instrucción `'+x+'` dentro del bloque actual; su efecto queda determinado por los valores y objetos preparados en las líneas anteriores.'
+ if lang=='xml' and base=='Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.':
+  if x.startswith('<') and x.endswith('>'):
+   m=re.match(r'<([A-Za-z0-9_.:-]+)(?:\\s|>)',x)
+   if m:
+    return 'Define o continúa el elemento XML `'+m.group(1)+'`; sus atributos o contenido concretan la configuración declarativa del archivo.'
+  if x.startswith('<'):
+   return 'Continúa la apertura de un elemento XML iniciado en esta línea; los atributos siguientes completan su configuración.'
+  if x.endswith('>'):
+   return 'Completa la declaración XML abierta en la línea anterior y cierra su lista de atributos.'
+  return 'Aporta el valor literal `'+x+'` al elemento XML/POM actualmente abierto.'
  return base
 
 def annotated_code(label,path,lang):
