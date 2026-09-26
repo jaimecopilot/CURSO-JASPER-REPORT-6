@@ -138,4 +138,22 @@ for phrase in [
 ]:
     if phrase in P: fail('generic explanation '+phrase)
 
+# Semantic regression guards discovered during page-by-page review.
+old_objectives=[
+ '- Configurar las propiedades del exportador mediante SimpleXlsxExporterConfiguration.',
+ '- Configurar el exportador JRHtmlExporter con SimpleHtmlExporterConfiguration.',
+ '- Configurar el separador de campos y la codificación del archivo CSV.'
+]
+for old in old_objectives:
+    if old in T or old in P: fail('obsolete objective wording remains: '+old)
+
+if P.count('Cierra el método `main`.') != 5:
+    fail('unexpected main-closing explanation count '+str(P.count('Cierra el método `main`.')))
+if P.count('Cierra la clase `GeneradorInformeVentas`.') != 5:
+    fail('unexpected GeneradorInformeVentas closing count')
+if P.count('Cierra la clase `ConfiguracionExportacion`.') != 1:
+    fail('ConfiguracionExportacion class closing explanation missing')
+if 'Asigna dinámicamente a la hoja el valor recibido en `nombreHoja`' not in P:
+    fail('dynamic sheet-name explanation missing')
+
 print('M6 DOCUMENTATION AUDIT PASS')
