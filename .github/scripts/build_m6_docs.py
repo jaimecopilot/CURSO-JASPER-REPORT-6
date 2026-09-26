@@ -473,3 +473,88 @@ Con este punto, la fuente original del M6 queda implementada en una forma compat
 
 def theory(point):
  return THEORY[point].replace('~~~','```').strip()
+
+# Reuse the mature M5 line explainer and extend it with M6 exporter semantics.
+_spec=importlib.util.spec_from_file_location('m5docs',ROOT/'.github/scripts/build_m5_docs.py')
+_m5docs=importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_m5docs)
+
+def code_block(code,lang): return '```'+lang+'\n'+code.rstrip()+'\n```'
+
+def explain_line(line,lang):
+ x=line.strip()
+ if lang=='css':
+  if not x: return 'Separa reglas CSS sin cambiar el contenido exportado.'
+  if x.endswith('{'): return 'Abre la regla CSS del selector `'+x[:-1].strip()+'`.'
+  if x=='}': return 'Cierra la regla CSS abierta.'
+  if ':' in x: return 'Asigna la propiedad CSS `'+x.split(':',1)[0].strip()+'` al valor `'+x.split(':',1)[1].strip().rstrip(';')+'`.'
+  return 'Forma parte de la hoja CSS que acompaña al HTML exportado.'
+ if lang=='properties':
+  if not x or x.startswith('#'): return 'Línea de separación o comentario del fichero de propiedades.'
+  if '=' in x: return 'Define la propiedad global `'+x.split('=',1)[0]+'` con valor `'+x.split('=',1)[1]+'`.'
+  return 'Entrada de configuración global de JasperReports.'
+ if lang=='java':
+  if 'exportarPdf(documento, rutaPdf' in x: return 'Invoca la exportación PDF normal usando el `JasperPrint` ya llenado y la ruta principal de salida.'
+  if 'exportarPdfProtegido(documento, rutaPdfProtegido)' in x: return 'Genera una segunda salida PDF cifrada para validar contraseñas y permisos sin alterar el PDF normal.'
+  if 'exportarXlsx(documento, rutaXlsx)' in x: return 'Reutiliza el mismo `JasperPrint` para generar el libro XLSX.'
+  if 'exportarHtml(documento, rutaHtml)' in x: return 'Reutiliza el mismo `JasperPrint` para generar la salida HTML y sus recursos.'
+  if 'exportarCsv(documento, rutaCsv)' in x: return 'Exporta el documento a CSV usando la configuración de delimitadores del checkpoint.'
+  if 'exportarXml(documento, rutaXml)' in x: return 'Serializa el `JasperPrint` a XML en la ruta documentada.'
+  if 'exportarRtf(documento, rutaRtf)' in x: return 'Exporta el documento a RTF para procesadores de texto.'
+  if 'new JRPdfExporter()' in x: return 'Crea el exportador PDF avanzado que admite configuración documental y de seguridad.'
+  if 'new JRXlsxExporter()' in x: return 'Crea el exportador OOXML que escribirá el libro XLSX.'
+  if 'new HtmlExporter()' in x: return 'Crea el exportador HTML vigente en JasperReports 6.20.0.'
+  if 'new JRCsvExporter()' in x: return 'Crea el exportador CSV orientado a texto delimitado.'
+  if 'new JRXmlExporter()' in x: return 'Crea el exportador que serializa el `JasperPrint` a XML.'
+  if 'new JRRtfExporter()' in x: return 'Crea el exportador RTF.'
+  if 'setMetadataTitle' in x: return 'Fija el título de los metadatos PDF con la API específica de `SimplePdfExporterConfiguration`.'
+  if 'setMetadataAuthor' in x: return 'Fija el autor en los metadatos del PDF.'
+  if 'setMetadataSubject' in x: return 'Fija el asunto documental del PDF.'
+  if 'setMetadataKeywords' in x: return 'Fija las palabras clave que quedarán registradas en las propiedades del PDF.'
+  if 'setMetadataCreator' in x: return 'Registra JasperReports 6.20.0 como creador del PDF.'
+  if 'setDisplayMetadataTitle' in x: return 'Solicita a los lectores PDF que utilicen el título de metadatos cuando soporten esa preferencia.'
+  if 'setCompressed' in x: return 'Activa la compresión del PDF mediante la configuración del exportador.'
+  if 'setEncrypted' in x: return 'Activa el cifrado de la salida PDF protegida.'
+  if 'setUserPassword' in x: return 'Configura la contraseña de apertura que el E2E verifica con `pdfinfo -upw`.'
+  if 'setOwnerPassword' in x: return 'Configura la contraseña de propietario del PDF protegido.'
+  if 'setAllowedPermissionsHint' in x: return 'Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.'
+  if 'new SimpleXlsxReportConfiguration' in x: return 'Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.'
+  if 'new SimpleXlsxExporterConfiguration' in x: return 'Crea la configuración propia del libro/exportador XLSX.'
+  if 'setSheetNames' in x: return 'Asigna el nombre `Ventas` a la hoja; el E2E lo comprueba dentro de `xl/workbook.xml`.'
+  if 'setShowGridLines' in x: return 'Desactiva la cuadrícula predeterminada de la hoja Excel.'
+  if 'setCellLocked' in x: return 'Configura las celdas exportadas sin bloqueo adicional.'
+  if 'setCellHidden' in x: return 'Evita marcar como ocultas las celdas exportadas.'
+  if 'setDetectCellType' in x: return 'Pide al exportador detectar tipos numéricos/fecha en lugar de convertir indiscriminadamente a texto.'
+  if 'setOnePagePerSheet' in x: return 'Mantiene el informe en una misma hoja lógica en lugar de crear una hoja por página.'
+  if 'setCreateCustomPalette' in x: return 'Activa la paleta personalizada del exportador XLSX para reproducir mejor los colores.'
+  if 'setHtmlHeader' in x: return 'Define la cabecera HTML, incluyendo UTF-8, título y enlace a la hoja CSS externa.'
+  if 'setHtmlFooter' in x: return 'Define el cierre de `body` y `html` del documento exportado.'
+  if 'setBetweenPagesHtml' in x: return 'Inserta el separador HTML que representa el cambio entre páginas del `JasperPrint`.'
+  if 'new SimpleHtmlExporterOutput' in x: return 'Crea la salida HTML con codificación UTF-8.'
+  if 'setImageHandler' in x: return 'Asocia un gestor de recursos para escribir imágenes en disco y generar sus URI relativas.'
+  if 'new FileHtmlResourceHandler' in x: return 'Define el directorio físico `output/images` y el patrón URI `images/{0}` usado por el HTML.'
+  if 'Files.copy' in x: return 'Copia la hoja CSS fuente a la carpeta publicada junto al HTML, sustituyéndola si ya existe.'
+  if 'setFieldDelimiter' in x: return 'Configura punto y coma como delimitador de campos CSV.'
+  if 'setRecordDelimiter' in x: return 'Configura el salto de línea como delimitador de registros CSV.'
+  if 'setWriteBOM' in x: return 'Activa el BOM UTF-8 para facilitar la detección de codificación en aplicaciones de escritorio.'
+  if 'new SimpleWriterExporterOutput' in x: return 'Crea una salida textual con UTF-8 para el formato correspondiente.'
+  if 'new SimpleXmlExporterOutput' in x: return 'Crea la salida XML con codificación UTF-8.'
+  if 'setEmbeddingImages' in x: return 'Solicita que los recursos gráficos de la salida XML queden embebidos.'
+  if 'ConfiguracionExportacion.getConfiguracionPdf' in x: return 'Obtiene de la clase central la política PDF reutilizable para título, autor y compresión.'
+  if 'ConfiguracionExportacion.getConfiguracionXlsxReport' in x: return 'Obtiene la configuración XLSX dependiente del informe y del nombre de hoja.'
+  if 'ConfiguracionExportacion.getConfiguracionXlsxExportador' in x: return 'Obtiene la configuración global del exportador XLSX.'
+  if 'ConfiguracionExportacion.getConfiguracionHtml' in x: return 'Obtiene la cabecera, pie y separador HTML centralizados.'
+  if 'ConfiguracionExportacion.getConfiguracionCsv' in x: return 'Obtiene delimitadores y BOM CSV desde la clase de configuración central.'
+  if 'ConfiguracionExportacion.getConfiguracionRtf' in x: return 'Obtiene la configuración RTF centralizada antes de escribir la salida textual.'
+ return _m5docs.explain_line(line,lang)
+
+def annotated_code(label,path,lang):
+ code=read(path).rstrip()
+ rel=Path(path).relative_to(ROOT).as_posix()
+ out=[f'**{label}**',f'<!-- EXECUTABLE_START {rel} -->',code_block(code,lang),f'<!-- EXECUTABLE_END {rel} -->','', '**Explicación línea por línea**','']
+ for i,line in enumerate(code.splitlines(),1):
+  frag=line.strip().replace('`','\\`')
+  if len(frag)>180: frag=frag[:177]+'...'
+  out.append(f'**Línea {i}:** `{frag}` → {explain_line(line,lang)}')
+ return '\n\n'.join(out)
+
