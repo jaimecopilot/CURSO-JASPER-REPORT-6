@@ -128,7 +128,14 @@ if css(R5) != css(R6): fail('renderer CSS differs from M5')
 if 'Módulo 5' in R6 or 'TEORIA_M5' in R6 or 'PRACTICA_M5' in R6:
     fail('renderer M5 identity remains')
 
-for phrase in ['Línea estructural del JRXML/JRTX ejecutable.','Forma parte de la lógica Java ejecutable del generador.','Fija posición, tamaño y propiedades del elemento visual.']:
+for phrase in [
+    'Línea estructural del JRXML/JRTX ejecutable.',
+    'Forma parte de la lógica Java ejecutable del generador.',
+    'Fija posición, tamaño y propiedades del elemento visual.',
+    'Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.',
+    'Declara o abre el elemento',
+    'Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.',
+]:
     if phrase in P: fail('generic explanation '+phrase)
 
 print('M6 DOCUMENTATION AUDIT PASS')
