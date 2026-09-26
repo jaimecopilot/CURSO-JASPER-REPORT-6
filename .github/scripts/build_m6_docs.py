@@ -1384,22 +1384,6 @@ Cadena física: `M5/5.6 → M6/6.1 → 6.2 → 6.3 → 6.4 → 6.5`.
 Markdown docente generado y auditado. PDF/preflight/inspección visual: pendiente de workflow documental definitivo.
 '''
 
-def main():
- if not SRC.is_file(): fail('missing preserved M6 source')
- for p in POINTS:
-  if not (M6/p).is_dir(): fail('missing checkpoint '+p)
-  if len(objectives(p))!=6: fail('objective count '+p)
- theory_md=build_theory(); practice_md=build_practice()
- write(M6/'TEORIA_M6.md',theory_md)
- write(M6/'PRACTICA_M6.md',practice_md)
- write(M6/'TRAZABILIDAD_M6.md',build_traceability())
- write(M6/'VALIDACION_M6.md',build_validation())
- write(M6/'README.md',module_readme())
- write(M6/'AUDITORIA_EDITORIAL_M6.json',json.dumps(build_editorial_audit(),ensure_ascii=False,indent=2))
- for p in POINTS: write(M6/p/'VALIDACION.md',checkpoint_validation(p))
- print('M6 DOC BUILD COMPLETE')
-
-
 def audit_parity(practice):
  ticks=chr(96)*3
  pattern=(
