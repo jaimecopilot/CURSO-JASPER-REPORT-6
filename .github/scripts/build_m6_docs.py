@@ -543,6 +543,112 @@ La trazabilidad física complementa esas pruebas. `audit_m6_traceability.py` com
 '''
 
 
+
+THEORY_DEEPEN['6.2']=r'''
+#### Profundización del bloque 1 — El cambio de un lienzo paginado a una rejilla de celdas
+
+PDF y XLSX representan el mismo informe con modelos muy diferentes. PDF conserva una geometría de página: cada elemento tiene una posición y un tamaño concretos. XLSX trabaja con una rejilla de filas y columnas. El exportador debe traducir posiciones del `JasperPrint` a límites de celdas, decidir cuándo combinar celdas y mantener, en la medida de lo posible, tipos, bordes, alineaciones y colores.
+
+Esta traducción explica por qué un informe que se ve perfecto en PDF puede generar un Excel poco cómodo para analizar. Si muchos elementos empiezan o terminan en coordenadas ligeramente distintas, el exportador necesita crear más columnas para respetar la geometría. Por eso los informes destinados a análisis tabular suelen diseñarse con una alineación rigurosa. En M6 no se rediseña `informe_ventas.jrxml` porque el objetivo es estudiar el comportamiento del exportador sobre el diseño ya cerrado en M5.
+
+XLSX es además un paquete OOXML. El archivo que el usuario percibe como un único libro es realmente un ZIP con documentos XML internos, relaciones, estilos y hojas. Esta propiedad permite al E2E validar la salida sin depender de Microsoft Excel: basta abrir el ZIP, comprobar su integridad y leer `xl/workbook.xml` para confirmar el nombre de hoja.
+
+La dependencia POI tiene sentido en este contexto. JasperReports delega parte de la construcción del libro en Apache POI. Que esa dependencia sea opcional evita imponerla a proyectos que nunca exportan a Office, pero obliga a declararla cuando se utiliza XLSX. El curso convierte esa circunstancia en una decisión explícita del `pom.xml`.
+
+#### Profundización del bloque 2 — ReportConfiguration y ExporterConfiguration como ámbitos diferentes
+
+La separación entre `SimpleXlsxReportConfiguration` y `SimpleXlsxExporterConfiguration` expresa dos ámbitos de decisión. El primero describe cómo debe interpretarse un informe concreto al producir hojas: nombres, cuadrícula, detección de tipos, protección de celdas o relación entre páginas y hojas. El segundo contiene opciones propias del libro/exportador, como la paleta.
+
+Esta distinción es importante cuando un exportador recibe varios `JasperPrint` o cuando una aplicación quiere reutilizar una política global con informes que necesitan ajustes diferentes. Mezclar ambos ámbitos en una sola clase haría más difícil decidir qué opción pertenece al documento y cuál pertenece al proceso de exportación.
+
+En el checkpoint, `setSheetNames` se aplica al report configuration porque el nombre “Ventas” describe la hoja resultante del informe de ventas. `setCreateCustomPalette` se aplica al exporter configuration porque afecta a cómo el libro gestiona colores. Maven confirma que esa separación corresponde a la API 6.20.0; no se trata sólo de una recomendación de estilo.
+
+Una consecuencia pedagógica es que no se debe memorizar una lista de métodos sin observar el tipo del objeto receptor. En Java, dos configuraciones con nombres parecidos pueden tener responsabilidades distintas. La forma fiable de trabajar es identificar primero qué aspecto se quiere controlar y después buscarlo en la interfaz de configuración adecuada.
+
+#### Profundización del bloque 3 — Tipos de celda, patrones y valor útil para análisis
+
+`setDetectCellType(Boolean.TRUE)` merece especial atención. Un Excel útil para el departamento comercial no debería convertir números en texto si puede conservarlos como valores numéricos. Una celda numérica puede sumarse, filtrarse y utilizarse en fórmulas; una cadena con apariencia de número obliga a transformaciones posteriores.
+
+JasperReports parte del tipo Java y del patrón de presentación del elemento. El valor del field y el patrón no son lo mismo: el primero determina el dato lógico y el segundo cómo se muestra. El exportador intenta trasladar esa información a Excel. Un importe puede seguir siendo numérico mientras Excel aplica un formato visual; una fecha puede conservar un valor de fecha con un formato legible.
+
+No todos los elementos de un informe paginado son igualmente útiles en una hoja de cálculo. Títulos, pies de página, líneas decorativas, subreportes o gráficos responden a necesidades de presentación. La exportación conserva todo lo posible porque la práctica trabaja con el mismo informe multiformato, pero en proyectos orientados a explotación de datos puede ser razonable mantener una plantilla específica o utilizar propiedades de exportación para omitir elementos.
+
+El curso evita prometer identidad visual entre PDF y XLSX. El criterio correcto es doble: que el libro sea válido y que conserve de forma razonable la información y la organización del informe. La inspección humana de Excel complementa las comprobaciones estructurales automáticas cuando el aspecto final sea un requisito contractual.
+
+#### Profundización del bloque 4 — El segundo XLSX del reto y la reutilización del exportador
+
+El reto de 6.2 no se limita a cambiar el nombre de una hoja. Genera un segundo `JasperPrint` a partir de `catalogo.csv` mediante `JRCsvDataSource` y el informe de catálogo heredado. Después reutiliza el mismo método `exportarXlsx` con el nombre de hoja `Catálogo`.
+
+Esta solución demuestra dos formas de reutilización. Por una parte, el método de exportación no conoce el origen de los datos: recibe un `JasperPrint`, una ruta y un nombre de hoja. Por otra, la aplicación puede producir libros distintos a partir de documentos distintos sin duplicar toda la configuración XLSX.
+
+El `JRCsvDataSource` utiliza la primera fila como cabecera para que los nombres de columna del CSV se correspondan con los fields del informe. El bloque `finally` cierra el datasource incluso si el fill o la exportación fallan. Este detalle es importante porque una práctica de exportación también debe enseñar el ciclo de vida de los recursos.
+
+El E2E abre ambos XLSX y exige las hojas `Ventas` y `Catálogo`. Con ello el reto queda probado en el mismo nivel que el ejercicio principal. No existe una “solución de papel” separada del código: la práctica documenta el mismo estado que el checkpoint ejecutable.
+
+#### Profundización del bloque 5 — Qué validar en un archivo XLSX
+
+La firma `PK` sólo indica que el fichero parece un ZIP; no demuestra que sea un libro Excel íntegro. Por eso el workflow recorre las entradas mediante `zipfile` y ejecuta `testzip()`. Después analiza `xl/workbook.xml` con un parser XML y comprueba los nombres de hoja.
+
+En una validación más extensa podrían inspeccionarse también `xl/worksheets/sheetN.xml`, `styles.xml`, tipos de celda, fórmulas o valores concretos. Apache POI podría reabrir el libro y validar propiedades a un nivel semántico superior. Para el alcance del curso, la integridad del paquete y el contrato de las hojas proporcionan una evidencia robusta sin acoplar la prueba a una aplicación gráfica.
+
+Es igualmente importante mantener la trazabilidad con el `pom.xml`. Si se eliminan `poi` o `poi-ooxml` y el proyecto deja de disponer de las clases necesarias en tiempo de ejecución, el E2E debe fallar. De este modo, dependencias, código y artefacto final forman una cadena única.
+
+La comparación acumulativa 6.1→6.2 permite además atribuir el cambio: se añaden las dependencias, el código XLSX, la documentación y el segundo libro del reto, mientras el JRXML principal permanece intacto. Esta disciplina evita resolver un problema de exportación mediante modificaciones silenciosas del informe.
+'''
+
+THEORY_DEEPEN['6.3']=r'''
+#### Profundización del bloque 1 — HTML no es “un PDF dentro del navegador”
+
+Aunque ambos formatos parten del mismo `JasperPrint`, HTML y PDF tienen objetivos distintos. PDF fija páginas y está pensado para impresión o distribución cerrada. HTML vive dentro de un navegador, utiliza un modelo de caja, puede cargar recursos mediante URI y participa en una página web más amplia. El exportador de JasperReports intenta conservar la disposición del informe, pero el resultado sigue sujeto a las reglas del navegador.
+
+Por esa razón, la práctica mantiene una carpeta de publicación coherente: el HTML principal, la subcarpeta de imágenes y la subcarpeta de estilos. Si una URI relativa no coincide con la estructura física, el documento puede abrirse sin estilos o con imágenes rotas aunque el Java haya terminado sin excepción.
+
+`HtmlExporter` es la clase utilizada en 6.20.0. La sustitución del nombre histórico del material original no cambia el concepto: existe un exportador especializado que recibe un `JasperPrint` y produce marcado. Lo importante es que la clase documentada sea la que realmente compila en el proyecto.
+
+El E2E no necesita un navegador para confirmar los contratos básicos. Puede abrir el HTML como texto, verificar charset, título, enlace CSS, enlace PDF y etiqueta de cierre. La comprobación visual en navegador sigue siendo útil para diseño, pero la estructura mínima ya queda automatizada.
+
+#### Profundización del bloque 2 — Cabecera y pie como frontera entre JasperReports y la aplicación web
+
+`setHtmlHeader` y `setHtmlFooter` permiten envolver el contenido exportado con la estructura que necesita la aplicación. Esto evita modificar el JRXML sólo para insertar elementos que pertenecen al canal web, como una etiqueta `meta`, una hoja CSS o un enlace de navegación.
+
+En el checkpoint la cabecera declara UTF-8, un título y `styles/editorial.css`. El pie cierra `body` y `html`. `setBetweenPagesHtml` inserta un separador entre las páginas lógicas del `JasperPrint`. El documento sigue recordando que procede de seis páginas, pero el navegador puede presentarlas en un flujo continuo.
+
+Esta frontera es útil cuando el mismo informe se publica en contextos distintos. Una intranet podría envolver el contenido con su navegación corporativa; una aplicación pública podría añadir cabeceras de accesibilidad o una hoja de estilos diferente; un correo HTML necesitaría restricciones adicionales. El JRXML seguiría concentrado en el contenido del informe.
+
+También conviene evitar introducir datos no confiables directamente en la cabecera HTML sin escapar. En esta práctica las cadenas son constantes controladas por el proyecto, por lo que no existe una superficie de inyección procedente del usuario. Si el título o enlaces fueran parámetros externos habría que tratarlos como cualquier otro contenido web.
+
+#### Profundización del bloque 3 — ResourceHandler y resolución de rutas
+
+Un HTML puede referirse a recursos con URI relativas aunque esos recursos se escriban en una ruta física distinta. `FileHtmlResourceHandler` conecta ambos mundos: recibe el directorio donde JasperReports debe guardar los recursos y el patrón de URI que se insertará en el marcado.
+
+El directorio `output/images` pertenece al sistema de archivos. La URI `images/{0}` pertenece al documento HTML. Como `informe_ventas.html` vive en `output`, ambas referencias coinciden: el navegador resolverá `images/...` dentro de la subcarpeta situada junto al HTML.
+
+Este principio es fundamental al desplegar en servidores. Si el HTML se mueve pero sus imágenes no, las URI dejan de resolver. Si se publica bajo un prefijo web distinto, quizá convenga un handler que genere URL absolutas o que almacene recursos en otro servicio. El checkpoint utiliza rutas relativas porque el artifact debe poder abrirse de forma autónoma.
+
+La carpeta puede quedar vacía si el informe no requiere recursos rasterizados externos en una ejecución concreta; eso no invalida la configuración. Lo que se valida es que el mecanismo y el directorio están disponibles para cuando el exportador los necesite.
+
+#### Profundización del bloque 4 — CSS externo, JRTX y responsabilidad de cada capa
+
+El CSS de 6.3 y `EditorialStyles.jrtx` no son alternativas. JRTX participa antes, durante el fill: define estilos de elementos que terminan formando parte del `JasperPrint`. CSS participa después, cuando ese `JasperPrint` ya se ha convertido a HTML y la aplicación quiere estilizar el contenedor web.
+
+El checkpoint usa CSS para el `body`, la representación de páginas y el separador. No intenta reconstruir manualmente cada estilo JasperReports mediante selectores CSS. Esa estrategia reduciría la trazabilidad y obligaría a mantener dos definiciones visuales completas.
+
+La copia de `resources/styles/editorial.css` a `output/styles/editorial.css` forma parte del proceso de publicación. El código utiliza `StandardCopyOption.REPLACE_EXISTING` para evitar que un archivo viejo permanezca en la salida después de cambiar el recurso fuente.
+
+En entornos de producción podría emplearse un pipeline de frontend que versionara o minificara el CSS. Para el curso, mantener el recurso dentro del proyecto y copiarlo de forma determinista facilita reproducir el resultado y empaquetarlo junto al artifact.
+
+#### Profundización del bloque 5 — El enlace al PDF y la publicación multicanal
+
+El reto añade al HTML un enlace `Descargar PDF` que apunta a `informe_ventas.pdf`. La decisión es coherente con el pipeline: el PDF normal se genera antes de exportar HTML y ambos archivos terminan en la misma carpeta `output`. Por ello basta una URI relativa.
+
+Este pequeño requisito demuestra una idea mayor: los formatos no tienen por qué vivir aislados. La versión HTML puede actuar como punto de navegación hacia la versión imprimible; una aplicación web podría ofrecer además XLSX o CSV según los permisos del usuario. El módulo empieza así a parecerse a un servicio real de publicación de informes.
+
+El E2E busca tanto el texto del enlace como su `href`. Si el generador centralizado de 6.5 olvidara conservar la cabecera personalizada, esa prueba detectaría la regresión. De hecho, la revalidación final se diseñó precisamente para asegurar que la refactorización no eliminara el reto HTML.
+
+Una validación manual posterior debería abrir el HTML desde su carpeta de salida, comprobar estilos, saltos y enlace. Pero la prueba automática ya garantiza que la estructura necesaria existe y que el PDF destino se genera en la misma ejecución.
+'''
+
+
 def theory(point):
  return (THEORY[point]+'\n\n'+THEORY_DEEPEN.get(point,'')).replace('~~~','```').strip()
 
