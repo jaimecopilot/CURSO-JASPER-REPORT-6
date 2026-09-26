@@ -311,3 +311,83 @@ output/
 
 El resultado se acumula sobre 6.2: PDF, PDF protegido y XLSX siguen generándose en la misma ejecución. Esta continuidad está verificada por el workflow, no sólo descrita en el texto.
 '''
+
+THEORY['6.4']=r'''### Bloque 1 — CSV: exportación orientada a datos
+
+CSV sacrifica la geometría de página para producir texto delimitado. `JRCsvExporter` recorre el contenido textual exportable del `JasperPrint` y genera registros. En EditorialReports se utiliza punto y coma como delimitador de campos y salto de línea como delimitador de registros.
+
+~~~java
+SimpleCsvExporterConfiguration configuracion = new SimpleCsvExporterConfiguration();
+configuracion.setFieldDelimiter(";");
+configuracion.setRecordDelimiter("\\n");
+configuracion.setWriteBOM(Boolean.TRUE);
+~~~
+
+La fuente original proponía `setEncoding("UTF-8")` sobre `SimpleCsvExporterConfiguration`. En el checkpoint real, la codificación pertenece al `ExporterOutput`:
+
+~~~java
+exportador.setExporterOutput(new SimpleWriterExporterOutput(rutaCsv, "UTF-8"));
+~~~
+
+El BOM facilita que aplicaciones de escritorio detecten UTF-8. El E2E comprueba los bytes `EF BB BF`, la presencia de punto y coma y que exista más de una línea. Por tanto, la prueba valida el fichero producido, no sólo la llamada Java.
+
+### Bloque 2 — XML: representación estructural del documento
+
+`JRXmlExporter` serializa el `JasperPrint` a XML. No produce el XML de negocio original ni ejecuta una consulta diferente: representa el documento ya llenado. `SimpleXmlExporterOutput` permite definir archivo y codificación.
+
+~~~java
+JRXmlExporter exportador = new JRXmlExporter();
+SimpleXmlExporterOutput salida = new SimpleXmlExporterOutput(rutaXml, "UTF-8");
+salida.setEmbeddingImages(Boolean.TRUE);
+exportador.setExporterInput(new SimpleExporterInput(documento));
+exportador.setExporterOutput(salida);
+exportador.exportReport();
+~~~
+
+Con `setEmbeddingImages(Boolean.TRUE)` los recursos gráficos pueden quedar embebidos según la representación del exportador, evitando referencias externas. La prueba automática exige que el fichero comience con una declaración XML.
+
+### Bloque 3 — RTF: salida para procesadores de texto
+
+`JRRtfExporter` produce Rich Text Format. La salida es textual y el checkpoint utiliza `SimpleWriterExporterOutput(rutaRtf, "UTF-8")`.
+
+~~~java
+JRRtfExporter exportador = new JRRtfExporter();
+exportador.setExporterInput(new SimpleExporterInput(documento));
+exportador.setExporterOutput(new SimpleWriterExporterOutput(rutaRtf, "UTF-8"));
+exportador.exportReport();
+~~~
+
+La fuente original trasladaba la codificación a una configuración RTF. La implementación corregida la aplica al writer. El E2E verifica la cabecera RTF del archivo.
+
+### Bloque 4 — Un JasperPrint, varios formatos
+
+Al llegar a 6.4 una sola ejecución de `GeneradorInformeVentas` produce PDF, PDF protegido, XLSX, HTML, CSV, XML y RTF. Todos parten del mismo objeto `documento`.
+
+~~~text
+                     ┌─ PDF
+                     ├─ PDF protegido
+JasperPrint ─────────┼─ XLSX
+                     ├─ HTML + recursos
+                     ├─ CSV
+                     ├─ XML
+                     └─ RTF
+~~~
+
+Esta arquitectura es más eficiente que volver a llenar el informe para cada formato. Los parámetros, consulta y totales son idénticos para todas las salidas. Si una exportación lanza excepción, el `catch` final registra la traza y `System.exit(1)` hace visible el fallo en CI.
+
+### Bloque 5 — Contratos de archivo y E2E multiformato
+
+Cada formato necesita una evidencia distinta. El workflow aplica contratos estructurales: PDF con firma PDF, XLSX como ZIP OOXML y hoja `Ventas`, HTML con etiquetas y CSS, CSV con BOM/delimitador, XML con declaración XML y RTF con su firma.
+
+~~~text
+Formato   Evidencia mínima
+PDF       firma PDF + pdfinfo
+XLSX      PK + ZIP íntegro + workbook.xml
+HTML      charset + título + CSS + cierre
+CSV       BOM UTF-8 + ; + registros
+XML       declaración XML
+RTF       cabecera RTF
+~~~
+
+A la vez, el workflow comprueba SQLite y las seis páginas de `informe_ventas`. `EXPORTACION_OTROS.md` documenta las decisiones corregidas y el JRXML/JRTX continúan byte a byte iguales a M5/5.6.
+'''
