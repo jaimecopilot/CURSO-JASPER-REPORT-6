@@ -889,7 +889,10 @@ def explain_line(line,lang):
   if 'setAllowedPermissionsHint' in x: return 'Declara los permisos PDF autorizados mediante la cadena de hints admitida por JasperReports.'
   if 'new SimpleXlsxReportConfiguration' in x: return 'Crea la configuración de cómo el `JasperPrint` se distribuye en hojas y celdas XLSX.'
   if 'new SimpleXlsxExporterConfiguration' in x: return 'Crea la configuración propia del libro/exportador XLSX.'
-  if 'setSheetNames' in x: return 'Asigna el nombre `Ventas` a la hoja; el E2E lo comprueba dentro de `xl/workbook.xml`.'
+  if 'setSheetNames' in x:
+   if 'nombreHoja' in x:
+    return 'Asigna dinámicamente a la hoja el valor recibido en `nombreHoja`; el mismo método sirve para `Ventas` y `Catálogo`.'
+   return 'Asigna explícitamente el nombre `Ventas` a la hoja de este checkpoint; el E2E lo comprueba dentro de `xl/workbook.xml`.'
   if 'setShowGridLines' in x: return 'Desactiva la cuadrícula predeterminada de la hoja Excel.'
   if 'setCellLocked' in x: return 'Configura las celdas exportadas sin bloqueo adicional.'
   if 'setCellHidden' in x: return 'Evita marcar como ocultas las celdas exportadas.'
@@ -1046,16 +1049,49 @@ def explain_line(line,lang):
   return 'Aporta el valor literal `'+x+'` al elemento XML/POM actualmente abierto.'
  return base
 
+def _java_block_desc(x):
+ m=re.match(r'public class\\s+([A-Za-z0-9_]+)\\s*\\{',x)
+ if m: return 'la clase `'+m.group(1)+'`'
+ m=re.match(r'(?:public|private|protected)\\s+(?:static\\s+)?[^=]+?\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*\\([^;]*\\)\\s*(?:throws\\s+[^\\{]+)?\\{',x)
+ if m: return 'el método `'+m.group(1)+'`'
+ if x.startswith('try ('): return 'el bloque try-with-resources'
+ if x=='try {': return 'el bloque `try`'
+ if x.startswith('if ') or x.startswith('if('): return 'el bloque condicional `if`'
+ if x.startswith('for ') or x.startswith('for('): return 'el bucle `for`'
+ if x.startswith('while ') or x.startswith('while('): return 'el bucle `while`'
+ if x.startswith('else'): return 'el bloque `else`'
+ return 'el bloque Java abierto en este nivel'
+
 def annotated_code(label,path,lang):
  code=read(path).rstrip()
  rel=Path(path).relative_to(ROOT).as_posix()
  out=[f'**{label}**',f'<!-- EXECUTABLE_START {rel} -->',code_block(code,lang),f'<!-- EXECUTABLE_END {rel} -->','', '**Explicación línea por línea**','']
+ stack=[]
  for i,line in enumerate(code.splitlines(),1):
-  frag=line.strip().replace('`','\\`')
+  x=line.strip()
+  frag=x.replace('`','\\`')
   if len(frag)>180: frag=frag[:177]+'...'
-  out.append(f'**Línea {i}:** `{frag}` → {explain_line(line,lang)}')
+  explanation=None
+  if lang=='java':
+   if x.startswith('} catch'):
+    closed=stack.pop() if stack else 'el bloque anterior'
+    explanation='Cierra '+closed+' y abre el bloque `catch` que tratará la excepción indicada.'
+    stack.append('el bloque `catch`')
+   elif x.startswith('} finally'):
+    closed=stack.pop() if stack else 'el bloque anterior'
+    explanation='Cierra '+closed+' y abre el bloque `finally`, que se ejecutará exista o no una excepción.'
+    stack.append('el bloque `finally`')
+   elif x=='}':
+    closed=stack.pop() if stack else 'el bloque Java actual'
+    explanation='Cierra '+closed+'.'
+   else:
+    explanation=explain_line(line,lang)
+    if x.endswith('{'):
+     stack.append(_java_block_desc(x))
+  else:
+   explanation=explain_line(line,lang)
+  out.append(f'**Línea {i}:** `{frag}` → {explanation}')
  return '\n\n'.join(out)
-
 
 ANALOGY={
  '6.1':'es como configurar la prensa PDF antes de lanzar la tirada definitiva.',
