@@ -42,7 +42,7 @@ theory_required={
  '6.2':['SimpleXlsxReportConfiguration','SimpleXlsxExporterConfiguration','Apache POI'],
  '6.3':['HtmlExporter','SimpleHtmlExporterOutput','FileHtmlResourceHandler'],
  '6.4':['SimpleWriterExporterOutput','JROdtExporter'],
- '6.5':['jasperreports.properties','target/classes','ReportConfiguration'],
+ '6.5':['JasperReportsContext','System.setProperty','jasperreports.properties','target/classes','ReportConfiguration','ConfiguracionExportacion'],
 }
 
 for i,p in enumerate(POINTS):
