@@ -559,6 +559,221 @@ def corrected_51_part_a():
 **Por qué:** evita recuperar nombres obsoletos en puntos posteriores.
 '''
 
+
+def corrected_52_part_a():
+ return r'''**Paso 1: Verificar el estado heredado de 5.1**
+
+**Acciones:**
+
+1. Abrir `M5/5.2/EditorialReports/reports/informe_ventas.jrxml`.
+2. En Outline, comprobar que el subreporte de 5.1 sigue presente.
+3. Guardar sin eliminar bandas ni recursos heredados.
+
+**Verificación visual:** Detail conserva el bloque `Detalle de ventas`.
+
+**Qué hace:** fija 5.1 como base.
+**Por qué:** 5.2 añade una tabla sin sustituir el subreporte.
+
+---
+
+**Paso 2: Declarar los estilos de tabla**
+
+**Acciones:**
+
+1. En Source, junto a los estilos del informe, añadir `M5TableHeader`.
+2. Configurarlo con `style="Dato"`, fondo `#EAF2F8`, texto `#173F6B` y negrita.
+3. Añadir `M5TableDetail` heredando de `Dato`.
+4. Guardar.
+
+**Verificación visual:** ambos estilos aparecen antes de los subdatasets.
+
+**Qué hace:** crea los estilos que usarán las celdas reales de la tabla.
+**Por qué:** JasperReports 6.20.0 no usa un bloque `tableStyle` dentro del componente.
+**Error común:** inventar `tableStyle`. Solución: aplicar estilos normales a `c:columnHeader` y `c:detailCell`.
+
+---
+
+**Paso 3: Crear `DatasetTopVentas`**
+
+**Acciones:**
+
+1. Añadir un `subDataset` llamado `DatasetTopVentas`.
+2. Declarar el parámetro `tituloLibro` como String.
+3. Usar una consulta sobre `ventas` filtrada por `$P{tituloLibro}`.
+4. Ordenar por `cantidad DESC, fecha_venta`.
+5. Limitar a 3 filas.
+6. Declarar fields `fecha_venta`, `cantidad` y `precio_unitario`.
+7. Guardar.
+
+**Verificación visual:** Source contiene el dataset, el parámetro, `ORDER BY cantidad DESC` y `LIMIT 3`.
+
+**Qué hace:** obtiene las tres ventas de mayor cantidad para el libro actual.
+**Por qué:** la tabla tiene un dataset independiente del informe principal.
+
+---
+
+**Paso 4: Añadir una banda de 104 píxeles en Detail**
+
+**Acciones:**
+
+1. Mantener la banda del subreporte de 88 píxeles.
+2. Añadir después una banda nueva de altura 104 y `splitType="Stretch"`.
+3. Añadir `printWhenExpression` para `$F{unidades_vendidas} != null`.
+4. Guardar.
+
+**Verificación visual:** Detail muestra una nueva banda debajo del subreporte.
+
+**Qué hace:** reserva el espacio de la tabla.
+**Por qué:** evita superponer componentes heredados.
+
+---
+
+**Paso 5: Añadir el rótulo de la tabla**
+
+**Acciones:**
+
+1. En la nueva banda, crear Static Text en x=0, y=2, width=555, height=16.
+2. Aplicar `Cabecera`.
+3. Escribir `Top 3 ventas por cantidad`.
+4. Guardar.
+
+**Verificación visual:** el rótulo aparece encima del componente.
+
+---
+
+**Paso 6: Insertar `componentElement` y `c:table`**
+
+**Acciones:**
+
+1. Insertar un componente Table debajo del rótulo.
+2. Fijar el `reportElement` del componente en x=0, y=22, width=555, height=76.
+3. Confirmar namespace `http://jasperreports.sourceforge.net/jasperreports/components`.
+4. Guardar.
+
+**Verificación visual:** Source contiene `componentElement` con un `c:table`.
+
+**Qué hace:** crea el componente de tabla real.
+**Por qué:** la tabla sí pertenece al namespace de componentes.
+
+---
+
+**Paso 7: Asociar `DatasetTopVentas`**
+
+**Acciones:**
+
+1. Dentro de `c:table`, crear `datasetRun subDataset="DatasetTopVentas"`.
+2. Añadir `datasetParameter name="tituloLibro"`.
+3. Usar `$F{titulo}` como expresión del parámetro.
+4. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+5. Guardar.
+
+**Verificación visual:** Source muestra parámetro y conexión dentro del datasetRun.
+
+**Qué hace:** ejecuta el dataset de la tabla para cada libro.
+**Por qué:** reutiliza la misma conexión del informe.
+
+---
+
+**Paso 8: Crear la columna Fecha**
+
+**Acciones:**
+
+1. Añadir una columna de width 255.
+2. Crear `c:columnHeader style="M5TableHeader" height="20"` con texto `Fecha`.
+3. Crear `c:detailCell style="M5TableDetail" height="18"`.
+4. Mostrar `$F{fecha_venta}`.
+5. Guardar.
+
+**Verificación visual:** la primera columna ocupa 255 píxeles.
+
+---
+
+**Paso 9: Crear la columna Cantidad**
+
+**Acciones:**
+
+1. Añadir una columna de width 100.
+2. Aplicar `M5TableHeader` al header y `M5TableDetail` al detalle.
+3. Mostrar `$F{cantidad}`.
+4. Alinear a la derecha.
+5. Guardar.
+
+**Verificación visual:** la segunda columna muestra cantidades alineadas.
+
+---
+
+**Paso 10: Crear la columna Precio unitario**
+
+**Acciones:**
+
+1. Añadir una columna de width 200.
+2. Aplicar los mismos estilos de cabecera y detalle.
+3. Mostrar `$F{precio_unitario}`.
+4. Usar patrón `#,##0.00 €` y alineación derecha.
+5. Guardar.
+
+**Verificación visual:** 255 + 100 + 200 = 555 píxeles.
+
+---
+
+**Paso 11: Validar la estructura en Source**
+
+**Acciones:**
+
+1. Pulsar Ctrl+S.
+2. Abrir Problems.
+3. Confirmar que no hay errores de namespace.
+4. Comprobar que no existe ningún elemento `tableStyle`.
+5. Volver a Design.
+
+**Verificación visual:** Problems está limpio y la tabla cuelga de la banda correcta.
+
+---
+
+**Paso 12: Compilar el informe**
+
+**Acciones:**
+
+1. Compilar `informe_ventas.jrxml`.
+2. Refrescar `reports`.
+3. Verificar `informe_ventas.jasper`.
+4. No buscar ni crear un `_table_1.jasper` independiente.
+
+**Verificación visual:** la tabla está integrada en el jasper principal.
+
+**Qué hace:** valida el modelo real de compilación.
+**Por qué:** la tabla no produce un artefacto compilado separado.
+
+---
+
+**Paso 13: Previsualizar y ejecutar**
+
+**Acciones:**
+
+1. Abrir Preview.
+2. Comprobar que cada libro con ventas muestra el subreporte y el Top 3.
+3. Ejecutar `GeneradorInformeVentas.java`.
+4. Abrir `output/informe_ventas.pdf`.
+5. Confirmar que el checkpoint 5.2 genera 5 páginas.
+
+**Verificación visual:** el PDF conserva el subreporte y añade la tabla.
+
+---
+
+**Paso 14: Documentar `TABLAS.md`**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/TABLAS.md`.
+2. Registrar `DatasetTopVentas`.
+3. Registrar parámetro `tituloLibro`.
+4. Registrar las tres columnas y sus anchos.
+5. Indicar que la tabla se compila dentro de `informe_ventas.jasper`.
+6. Guardar.
+
+**Verificación visual:** la documentación coincide con el JRXML del checkpoint.
+'''
+
 def corrected_55_part_a():
  return r'''**Paso 1: Verificar el punto de partida acumulativo**
 
@@ -1007,6 +1222,8 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 def extract_part_a(sec,point):
  if point=='5.1':
   return corrected_51_part_a().strip()
+ if point=='5.2':
+  return corrected_52_part_a().strip()
  if point=='5.5':
   return corrected_55_part_a().strip()
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
