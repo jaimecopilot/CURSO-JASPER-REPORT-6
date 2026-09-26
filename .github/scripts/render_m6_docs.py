@@ -324,6 +324,11 @@ def markdown_to_soup(md_text: str) -> BeautifulSoup:
 
 def html_document(md_text: str, kind: str) -> str:
     soup = markdown_to_soup(md_text)
+    # Preserve the M5 CSS baseline, but avoid wasting most of a theory page
+    # merely to force every point onto a fresh sheet. Practice keeps the forced breaks.
+    if kind == "teoria":
+        for h in soup.select(".point-title"):
+            h["style"] = (h.get("style","") + "; page-break-before:auto !important; break-before:auto !important;").strip()
     kind_es = "PRÁCTICAS" if kind == "practica" else "TEORÍA"
     kind_title = "Prácticas" if kind == "practica" else "Teoría"
     header = f"CURSO: Curso Profesional de JasperReports 6.20.0 Community · MÓDULO 6. Exportación - {kind_es} · AUTOR: JAIME GALLO"
@@ -389,7 +394,7 @@ def create_contact_sheets(pdf_path: Path, out_dir: Path, label: str):
     return pages, paths
 
 
-def preflight(pdf_path: Path):
+def preflight(pdf_path: Path, kind: str):
     doc=fitz.open(pdf_path)
     issues=[]
     a4=(595.276,841.89)
@@ -415,6 +420,9 @@ def preflight(pdf_path: Path):
             body_lines.append(t)
         if not body_lines:
             issues.append(f"page {i+1}: no body content")
+        body_chars=len("\n".join(body_lines))
+        if kind=="teoria" and 0 < i < len(doc)-1 and body_chars < 500:
+            issues.append(f"page {i+1}: theory page too sparse ({body_chars} body chars)")
         if "�" in text: issues.append(f"page {i+1}: replacement glyph")
         for b in p.get_text("blocks"):
             x0,y0,x1,y1,*_=b
@@ -442,7 +450,7 @@ def main():
         html_path=out/f"{name}.html"; html_path.write_text(html,encoding="utf-8")
         pdf_path=out/f"{name}.pdf"
         HTML(string=html, base_url=str(Path(src).parent)).write_pdf(str(pdf_path))
-        pf=preflight(pdf_path)
+        pf=preflight(pdf_path, kind)
         pages,contacts=create_contact_sheets(pdf_path,out,"practica" if kind=="practica" else "teoria")
         reports[name]={"pdf":str(pdf_path),"preflight":pf,"audit_pages":[p+1 for p in pages],"contacts":contacts}
     (out/"PRECHECK_M6.json").write_text(json.dumps(reports,ensure_ascii=False,indent=2),encoding="utf-8")
