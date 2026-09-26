@@ -67,11 +67,11 @@ def part_a(doc, point, next_point=None):
 
 guards={
  '5.1':{
-  'required':['subinforme_ventas_detalle.jrxml','subinforme_ventas_detalle.jasper','tituloLibro','Band height=`88`','y=`22`'],
+  'required':['subinforme_ventas_detalle.jrxml','subinforme_ventas_detalle.jasper','tituloLibro','altura 88','y=22'],
   'banned':['subreporte_ventas_detalle.jasper','subreporte_ventas.jasper']
  },
  '5.2':{
-  'required':['DatasetTopVentas','M5TableHeader','M5TableDetail','Band height = `104`','width 255','width 100','width 200'],
+  'required':['DatasetTopVentas','M5TableHeader','M5TableDetail','altura 104','width 255','width 100','width 200'],
   'banned':['tabla integrada en informe_ventas.jasper junto','_table_1.jasper independiente debe']
  },
  '5.3':{
@@ -79,7 +79,7 @@ guards={
   'banned':['GrupoCategoria','SubtotalCategoria','ContadorCategoria','isStartNewPage=true','minHeightToStartNewPage=60']
  },
  '5.4':{
-  'required':['DatasetVentasPorCategoria','importe_categoria','Band height = `430`','Y=`140`','y=`165`','<barChart>','<itemLabel/>'],
+  'required':['DatasetVentasPorCategoria','importe_categoria','Summary a 430','y=140','y=165','<barChart>','<itemLabel/>'],
   'banned':['importe_grafico','chartTitle position="Top"','seriesColor','Band height = `540`','Y=`230`','y=`255`']
  },
  '5.5':{
