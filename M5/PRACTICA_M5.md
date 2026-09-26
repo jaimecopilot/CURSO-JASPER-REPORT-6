@@ -17,377 +17,245 @@ Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del ch
 
 ### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Crear el subreporte subinforme_ventas_detalle.jrxml**
+**Paso 1: Abrir el checkpoint 5.1 y verificar la herencia de M4**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre la carpeta `reports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción Jasper Report en el submenú.
-4. Hacer clic sobre la plantilla Blank A4 en la lista de plantillas del asistente.
-5. Hacer clic sobre el botón Next.
-6. Escribir exactamente `subinforme_ventas_detalle` en el campo File name.
-7. Hacer clic sobre el botón Next.
-8. Hacer clic sobre `SQLiteEditorial` en la lista de adaptadores disponibles.
-9. Hacer clic sobre el botón Finish.
+1. Abrir `M5/5.1/EditorialReports/reports/informe_ventas.jrxml`.
+2. En Outline, comprobar que siguen presentes parámetros, variables, Detail, Page Footer y Summary heredados.
+3. Guardar sin eliminar ningún elemento existente.
 
-**Verificación visual:** el editor central muestra el archivo `subinforme_ventas_detalle.jrxml` con las bandas por defecto.
+**Verificación visual:** el informe de ventas conserva la estructura del cierre 4.6.
 
-**Qué hace:** crea el archivo JRXML del subreporte asociado al adaptador SQLite.
-**Por qué:** el subreporte obtiene los datos de la misma base de datos que el maestro.
-**Error común:** seleccionar un adaptador distinto al de la base de datos. Solución: cerrar el asistente y repetir el paso seleccionando `SQLiteEditorial`.
-**Analogía:** es como abrir un nuevo pliego del catálogo para el detalle de las ventas.
+**Qué hace:** fija el baseline acumulativo.
+**Por qué:** 5.1 añade un subreporte sin sustituir el informe maestro.
+**Error común:** partir de un JRXML vacío. Solución: trabajar sobre el checkpoint heredado.
 
 ---
 
-**Paso 2: Declarar el parámetro tituloLibro en el subreporte**
+**Paso 2: Crear `subinforme_ventas_detalle.jrxml`**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `subinforme_ventas_detalle` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Parameter en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `tituloLibro` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.String`.
-5. Hacer clic sobre el botón Finish.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. En `EditorialReports/reports`, crear un Jasper Report llamado `subinforme_ventas_detalle`.
+2. Establecer márgenes a 0 y ancho de columna 555.
+3. Mantener únicamente Column Header y Detail como bandas de contenido.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra el parámetro `tituloLibro` de tipo `java.lang.String`.
+**Verificación visual:** Project Explorer muestra `reports/subinforme_ventas_detalle.jrxml`.
 
-**Qué hace:** declara el parámetro que el subreporte recibirá del maestro.
-**Por qué:** el parámetro permite filtrar las ventas del libro correspondiente.
-**Error común:** escribir el nombre del parámetro con mayúscula inicial. El maestro busca el parámetro por el nombre exacto. Solución: usar el nombre exacto en minúsculas.
-**Analogía:** es como indicar al subreporte qué libro debe consultar sus ventas.
+**Qué hace:** crea el informe hijo exacto del checkpoint.
+**Por qué:** cada libro del maestro ejecutará este informe con su título.
+**Error común:** llamarlo `subreporte_ventas_detalle`. Solución: usar exactamente `subinforme_ventas_detalle`.
 
 ---
 
-**Paso 3: Declarar la consulta SQL del subreporte**
+**Paso 3: Declarar estilos y parámetro del subinforme**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `<queryString language="sql">` y seleccionar el bloque completo.
-3. Eliminar el bloque con la tecla Suprimir.
-4. Escribir exactamente `<queryString language="sql">` y pulsar Enter.
-5. Escribir exactamente `<![CDATA[` y pulsar Enter.
-6. Escribir exactamente `SELECT fecha_venta, cantidad, precio_unitario` y pulsar Enter.
-7. Escribir exactamente `FROM ventas` y pulsar Enter.
-8. Escribir exactamente `WHERE titulo_libro = $P{tituloLibro}` y pulsar Enter.
-9. Escribir exactamente `ORDER BY fecha_venta` y pulsar Enter.
-10. Escribir exactamente `]]>` y pulsar Enter.
-11. Escribir exactamente `</queryString>` y pulsar Enter.
-12. Pulsar Ctrl+S para guardar el archivo.
+1. En Source, declarar `SubBase` como estilo por defecto con DejaVu Sans 8.
+2. Declarar `SubHeader` heredando de `SubBase`.
+3. Añadir `<parameter name="tituloLibro" class="java.lang.String"/>`.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra la consulta SQL con el parámetro `$P{tituloLibro}` en la cláusula `WHERE`.
+**Verificación visual:** Source contiene los dos estilos y el parámetro `tituloLibro`.
 
-**Qué hace:** declara la consulta que recupera las ventas del libro indicado por el parámetro.
-**Por qué:** la consulta filtra las ventas por el título del libro que el maestro proporciona.
-**Error común:** olvidar el bloque `CDATA` y provocar un error de análisis XML. Solución: encerrar la consulta en `<![CDATA[...]]>`.
-**Analogía:** es como pedir al archivero las fichas de ventas del libro indicado.
+**Qué hace:** prepara tipografía y contrato de entrada.
+**Por qué:** el maestro filtrará las ventas mediante ese parámetro.
+**Error común:** cambiar el nombre del parámetro. Solución: mantener `tituloLibro` en maestro y subinforme.
 
 ---
 
-**Paso 4: Declarar los campos del subreporte**
+**Paso 4: Configurar la consulta SQL**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `</queryString>` y pulsar Enter al final.
-3. Escribir exactamente `<field name="fecha_venta" class="java.lang.String"/>` y pulsar Enter.
-4. Escribir exactamente `<field name="cantidad" class="java.lang.Integer"/>` y pulsar Enter.
-5. Escribir exactamente `<field name="precio_unitario" class="java.lang.Double"/>` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
-7. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-8. Expandir el nodo Fields en el panel Outline y verificar que aparecen los tres campos.
+1. Abrir Dataset and Query.
+2. Usar la conexión SQLite del proyecto.
+3. Introducir la consulta que selecciona `fecha_venta`, `cantidad` y `precio_unitario` desde `ventas`.
+4. Filtrar con `WHERE titulo_libro = $P{tituloLibro}`.
+5. Ordenar por `fecha_venta`.
+6. Guardar.
 
-**Verificación visual:** el panel Outline muestra el nodo Fields con los campos `fecha_venta`, `cantidad` y `precio_unitario`.
+**Verificación visual:** la consulta devuelve únicamente ventas del libro recibido.
 
-**Qué hace:** declara los campos que corresponden a las columnas de la consulta.
-**Por qué:** los campos permiten que las expresiones del subreporte resuelvan los valores de cada venta.
-**Error común:** declarar el campo `cantidad` como `java.lang.String`. El motor lanza una excepción de conversión. Solución: declarar el campo con el tipo correcto según el tipo de la columna.
-**Analogía:** es como definir las columnas del detalle de ventas del catálogo.
+**Qué hace:** filtra el detalle por título.
+**Por qué:** cada ejecución del subreporte pertenece a una fila concreta del maestro.
+**Error común:** omitir el WHERE y repetir todas las ventas para cada libro.
 
 ---
 
-**Paso 5: Ajustar las bandas del subreporte**
+**Paso 5: Declarar los tres fields**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `subinforme_ventas_detalle` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Delete en el menú contextual para eliminar el nodo Page Header.
-3. Hacer clic con el botón derecho sobre el nodo `subinforme_ventas_detalle` y eliminar el nodo Column Footer.
-4. Hacer clic con el botón derecho sobre el nodo `subinforme_ventas_detalle` y eliminar el nodo Summary.
-5. Hacer clic con el botón derecho sobre el nodo `subinforme_ventas_detalle` y eliminar el nodo Title.
-6. Hacer clic sobre el nodo Column Header en el panel Outline y ajustar su Band height a 20 píxeles desde el panel Properties.
-7. Hacer clic sobre el nodo Detail 1 y ajustar su Band height a 15 píxeles.
+1. Declarar `fecha_venta` como String.
+2. Declarar `cantidad` como Integer.
+3. Declarar `precio_unitario` como Double.
+4. Guardar.
 
-**Verificación visual:** el panel Outline muestra solo las bandas Column Header, Detail 1, Page Footer y Background.
+**Verificación visual:** Outline muestra exactamente esos tres fields.
 
-**Qué hace:** reduce el subreporte a las bandas esenciales para el detalle de ventas.
-**Por qué:** el subreporte no necesita título ni resumen porque se incrusta dentro del maestro.
-**Error común:** mantener la banda Title y provocar que cada subreporte muestre un título redundante. Solución: eliminar la banda Title.
-**Analogía:** es como reducir el pliego del detalle de ventas a las secciones mínimas.
+**Qué hace:** define el contrato de datos del subinforme.
+**Por qué:** las expresiones de Detail dependen de esos tipos.
+**Error común:** declarar `precio_unitario` como String y perder el formato numérico.
 
 ---
 
-**Paso 6: Añadir los encabezados de las columnas del subreporte**
+**Paso 6: Construir Column Header**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Column Header en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-4. Arrastrar el icono Static Text y soltarlo dentro de la banda Column Header, en la coordenada aproximada x=0, y=2.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `2` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer doble clic sobre el Static Text creado en la acción anterior.
-10. Escribir exactamente `Fecha`.
-11. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-12. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-13. Marcar la casilla Bold.
-14. Repetir las acciones 3 a 13 para los encabezados `Cantidad` (x=150, ancho 80, alineación derecha) y `Precio` (x=230, ancho 100, alineación derecha).
+1. Establecer la banda Column Header a 18.
+2. Crear encabezado `Fecha` de ancho 245.
+3. Crear encabezado `Cantidad` de ancho 100 y alineación derecha.
+4. Crear encabezado `Precio unitario` de ancho 210 y alineación derecha.
+5. Aplicar `SubHeader`.
+6. Guardar.
 
-**Verificación visual:** la banda Column Header muestra los tres encabezados `Fecha`, `Cantidad` y `Precio` en negrita.
+**Verificación visual:** los tres encabezados ocupan exactamente 555 píxeles.
 
-**Qué hace:** inserta los encabezados de las columnas del detalle de ventas.
-**Por qué:** los encabezados identifican las columnas del subreporte.
-**Error común:** olvidar el centrado o la alineación derecha en las columnas numéricas. Solución: seleccionar `Right` en el desplegable Horizontal Text Alignment de las columnas numéricas.
-**Analogía:** es como añadir los títulos de las columnas al detalle de ventas.
+**Qué hace:** define la cabecera del detalle.
+**Por qué:** coincide con la geometría ejecutable.
+**Error común:** usar anchos que superen el columnWidth.
 
 ---
 
-**Paso 7: Añadir los campos del subreporte en la banda Detail**
+**Paso 7: Construir Detail**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-4. Arrastrar el icono Text Field y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=0.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `150` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$F{fecha_venta}` y pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `9`. Pulsar Enter.
-11. Repetir las acciones 3 a 10 para los campos `cantidad` (x=150, ancho 80, alineación derecha) y `precio_unitario` (x=230, ancho 100, alineación derecha, patrón `#,##0.00 €`).
+1. Establecer Detail a 18.
+2. Añadir `$F{fecha_venta}` con ancho 245.
+3. Añadir `$F{cantidad}` con ancho 100 y alineación derecha.
+4. Añadir `$F{precio_unitario}` con ancho 210, alineación derecha y patrón `#,##0.00 €`.
+5. Guardar.
 
-**Verificación visual:** la banda Detail 1 muestra los tres campos con las expresiones correspondientes.
+**Verificación visual:** cada fila reproduce las tres columnas de la consulta.
 
-**Qué hace:** inserta los campos que muestran los datos de cada venta.
-**Por qué:** los campos resuelven los valores de las columnas de la consulta del subreporte.
-**Error común:** olvidar el patrón numérico en el campo del precio. Solución: añadir el patrón `#,##0.00 €` en el panel Properties.
-**Analogía:** es como rellenar las celdas del detalle de ventas con los datos de cada venta.
+**Qué hace:** emite una línea por venta.
+**Por qué:** el subinforme debe ser compacto para incrustarse en el maestro.
+**Error común:** añadir Summary o Title innecesarios.
 
 ---
 
-**Paso 8: Compilar el subreporte**
+**Paso 8: Compilar el subinforme**
 
 **Acciones:**
 
-1. Pulsar Ctrl+S para guardar el archivo.
-2. Pulsar Ctrl+Mayús+B para compilar el subreporte.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
+1. Pulsar Ctrl+S.
+2. Compilar `subinforme_ventas_detalle.jrxml`.
+3. Refrescar `reports`.
+4. Confirmar `subinforme_ventas_detalle.jasper`.
 
-**Verificación visual:** el panel Project Explorer muestra el archivo `subinforme_ventas_detalle.jasper` junto al `.jrxml`. El panel Problems permanece vacío.
+**Verificación visual:** JRXML y JASPER aparecen con el mismo nombre base.
 
-**Qué hace:** compila el subreporte y genera el artefacto `.jasper`.
-**Por qué:** el maestro carga el artefacto compilado, no el JRXML.
-**Error común:** olvidar compilar el subreporte y obtener `Could not load subreport` al previsualizar el maestro. Solución: pulsar Ctrl+Mayús+B.
-**Analogía:** es como pasar el pliego del detalle a plancha antes de incorporarlo al catálogo.
+**Qué hace:** genera el artefacto que cargará el maestro.
+**Por qué:** `subreportExpression` referencia el archivo compilado.
+**Error común:** compilar un nombre distinto y provocar `Could not load subreport`.
 
 ---
 
-**Paso 9: Añadir el elemento subreport en la banda Detail del maestro**
+**Paso 9: Crear la banda de detalle adicional en el maestro**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-3. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-4. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `160` y pulsar Enter.
-5. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-6. Hacer clic sobre el icono Subreport (un rectángulo con líneas horizontales).
-7. Arrastrar el icono Subreport y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=100.
-8. Hacer clic sobre el campo X en el panel Properties, escribir `0` y pulsar Enter.
-9. Hacer clic sobre el campo Y, escribir `100` y pulsar Enter.
-10. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-11. Hacer clic sobre el campo Height, escribir `50` y pulsar Enter.
+1. Volver a `informe_ventas.jrxml`.
+2. En Detail, conservar las bandas heredadas.
+3. Añadir una banda de altura 88 con `splitType="Stretch"`.
+4. Añadir `printWhenExpression` para mostrarla sólo cuando `unidades_vendidas != null`.
+5. Guardar.
 
-**Verificación visual:** la banda Detail 1 muestra un elemento de subreporte en la parte inferior.
+**Verificación visual:** Detail incorpora una nueva banda sin modificar las anteriores.
 
-**Qué hace:** inserta el elemento de subreporte en la banda de detalle del maestro.
-**Por qué:** el subreporte se ejecuta una vez por cada libro y muestra sus ventas.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el subreporte se solape con el contenido existente. Solución: ampliar la altura a 160 píxeles.
-**Analogía:** es como reservar un espacio en la ficha de cada libro para el detalle de sus ventas.
+**Qué hace:** reserva el área del subreporte.
+**Por qué:** el checkpoint mantiene la lógica null-safe heredada.
+**Error común:** aumentar una banda antigua y desordenar el layout.
 
 ---
 
-**Paso 10: Configurar la expresión del subreporte**
+**Paso 10: Añadir el rótulo `Detalle de ventas`**
 
 **Acciones:**
 
-1. Hacer clic sobre el elemento Subreport en la banda Detail 1.
-2. Hacer clic sobre el campo Subreport Expression en el panel Properties, pestaña Properties.
-3. Escribir exactamente `"reports/subreporte_ventas_detalle.jasper"` y pulsar Enter.
-4. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-5. Localizar el elemento `<subreport>` y verificar que contiene `<subreportExpression>` con la ruta del artefacto compilado.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. En la nueva banda, crear un Static Text en x=0, y=2, width=555, height=16.
+2. Aplicar el estilo `Cabecera`.
+3. Escribir `Detalle de ventas`.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<subreport>` con la expresión configurada.
+**Verificación visual:** el rótulo aparece encima del subreporte.
 
-**Qué hace:** configura la ruta del artefacto compilado del subreporte.
-**Por qué:** el maestro debe saber qué archivo `.jasper` debe cargar y ejecutar.
-**Error común:** escribir la ruta del `.jrxml` en lugar del `.jasper`. El motor lanza `Could not load subreport`. Solución: usar la ruta del `.jasper`.
-**Analogía:** es como indicar al maestro qué pliego de detalle debe incorporar.
+**Qué hace:** identifica la sección insertada.
+**Por qué:** separa el detalle de ventas del resto de información del libro.
 
 ---
 
-**Paso 11: Configurar la conexión del subreporte**
+**Paso 11: Insertar y configurar el subreport**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-2. Hacer clic sobre el elemento Subreport en la banda Detail 1.
-3. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-4. Localizar el elemento `<subreport>` y pulsar Enter al final de la línea que contiene `<reportElement .../>`.
-5. Escribir exactamente `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
-7. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Insertar Subreport en x=0, y=22, width=555, height=60.
+2. Activar `isRemoveLineWhenBlank="true"`.
+3. Añadir `subreportParameter` llamado `tituloLibro` con expresión `$F{titulo}`.
+4. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+5. Establecer `subreportExpression` a `"reports/subinforme_ventas_detalle.jasper"`.
+6. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<connectionExpression>` con el parámetro interno `REPORT_CONNECTION`.
+**Verificación visual:** Source contiene exactamente el parámetro, la conexión y la ruta del subinforme ejecutable.
 
-**Qué hace:** pasa la conexión del maestro al subreporte para que ejecute su propia consulta.
-**Por qué:** el subreporte necesita una conexión para ejecutar su consulta.
-**Error común:** olvidar la conexión y provocar que el subreporte no pueda ejecutar su consulta. Solución: añadir el elemento `<connectionExpression>` con `$P{REPORT_CONNECTION}`.
-**Analogía:** es como indicar al subreporte que utilice el mismo archivador que el maestro.
+**Qué hace:** conecta maestro e hijo.
+**Por qué:** el subreporte reutiliza la conexión del maestro y recibe el título de la fila actual.
+**Error común:** usar `reports/subreporte_ventas_detalle.jasper`. Solución: usar `subinforme_ventas_detalle.jasper`.
 
 ---
 
-**Paso 12: Configurar el paso del parámetro tituloLibro**
+**Paso 12: Validar en Preview**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<subreport>` y pulsar Enter al final de la línea que contiene `<connectionExpression>`.
-3. Escribir exactamente `<subreportParameter name="tituloLibro">` y pulsar Enter.
-4. Escribir exactamente `<subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>` y pulsar Enter.
-5. Escribir exactamente `</subreportParameter>` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
-7. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Compilar maestro y subinforme.
+2. Abrir Preview.
+3. Comprobar que sólo los libros con ventas muestran el detalle.
+4. Comprobar fecha, cantidad y precio unitario.
 
-**Verificación visual:** la vista Source muestra el elemento `<subreportParameter>` con la expresión que pasa el campo `titulo` del maestro al subreporte.
+**Verificación visual:** cada libro con ventas muestra su propio bloque de detalle.
 
-**Qué hace:** configura el paso del parámetro `tituloLibro` del maestro al subreporte.
-**Por qué:** el subreporte utiliza el parámetro en su consulta para filtrar las ventas del libro.
-**Error común:** olvidar el cierre `</subreportParameter>` y provocar un error de análisis XML. Solución: revisar el cierre.
-**Analogía:** es como indicar al detalle de ventas qué libro debe consultar.
+**Qué hace:** valida el enlace maestro-detalle dentro de Studio.
+**Por qué:** detecta errores de ruta, parámetro o conexión antes de Java.
 
 ---
 
-**Paso 13: Añadir un rótulo para el subreporte en la banda Detail**
+**Paso 13: Ejecutar desde Java**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-4. Arrastrar el icono Static Text y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=80.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `80` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer doble clic sobre el Static Text creado en la acción anterior.
-10. Escribir exactamente `Detalle de ventas:`.
-11. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-12. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-13. Marcar la casilla Bold.
-14. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Left.
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Comprobar que finaliza sin excepción.
+3. Abrir `output/informe_ventas.pdf`.
+4. Confirmar que el checkpoint 5.1 genera 4 páginas.
 
-**Verificación visual:** la banda Detail 1 muestra el rótulo `Detalle de ventas:` encima del subreporte.
+**Verificación visual:** el PDF contiene el subreporte y conserva los totales del informe.
 
-**Qué hace:** inserta un rótulo que identifica la sección del subreporte.
-**Por qué:** el rótulo ayuda al lector a interpretar el contenido del subreporte.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el rótulo se solape con el subreporte. Solución: ajustar la altura a 160 píxeles.
-**Analogía:** es como añadir el título del detalle de ventas en la ficha de cada libro.
+**Qué hace:** valida compilación, fill y export real.
+**Por qué:** Preview no sustituye la prueba E2E.
 
 ---
 
-**Paso 14: Compilar y previsualizar el informe maestro**
+**Paso 14: Documentar `SUBREPORTES.md`**
 
 **Acciones:**
 
-1. Pulsar Ctrl+S para guardar el archivo.
-2. Pulsar Ctrl+Mayús+B para compilar el informe maestro.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Pulsar el botón Preview de la barra de herramientas superior.
-5. En el diálogo de previsualización, verificar que los parámetros están configurados.
-6. Hacer clic sobre el botón OK.
-7. Esperar a que se abra la pestaña Preview en el editor central.
+1. Abrir `EditorialReports/SUBREPORTES.md`.
+2. Registrar maestro = `reports/informe_ventas.jrxml`.
+3. Registrar hijo = `reports/subinforme_ventas_detalle.jrxml`.
+4. Registrar parámetro `tituloLibro` y conexión compartida.
+5. Guardar.
 
-**Verificación visual:** la pestaña Preview muestra el informe maestro con las fichas de los libros y el subreporte con las ventas de cada libro.
+**Verificación visual:** la documentación usa los mismos nombres que el checkpoint.
 
-**Qué hace:** compila y previsualiza el informe maestro con el subreporte incrustado.
-**Por qué:** la previsualización confirma que la relación maestro-detalle funciona correctamente.
-**Error común:** obtener `Could not load subreport`. Indica que el artefacto del subreporte no existe o la ruta es incorrecta. Solución: compilar el subreporte y verificar la ruta.
-**Analogía:** es como revisar la prueba de color del catálogo con el detalle de ventas ya incorporado.
-
----
-
-**Paso 15: Ejecutar el programa Java y verificar el PDF**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra el detalle de ventas de cada libro.
-
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra el maestro con el subreporte incrustado.
-
-**Qué hace:** ejecuta el programa Java que genera el informe maestro con el subreporte.
-**Por qué:** la ejecución confirma que el subreporte se ejecuta correctamente desde código Java.
-**Error común:** olvidar compilar el subreporte antes de ejecutar el maestro. Solución: pulsar Ctrl+Mayús+B en ambos archivos.
-**Analogía:** es como imprimir el catálogo con el detalle de ventas de cada libro.
-
----
-
-**Paso 16: Documentar los subreportes**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `SUBRREPORTES.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Subreportes del proyecto` y pulsar Enter dos veces.
-7. Escribir exactamente `## Relación maestro-detalle` y pulsar Enter dos veces.
-8. Escribir exactamente `- Maestro: informe_ventas.jrxml` y pulsar Enter.
-9. Escribir exactamente `- Subreporte: subinforme_ventas_detalle.jrxml` y pulsar Enter.
-10. Escribir exactamente `- Parámetro pasado: tituloLibro ($F{titulo} del maestro)` y pulsar Enter dos veces.
-11. Escribir exactamente `## Alimentación del subreporte` y pulsar Enter dos veces.
-12. Escribir exactamente `- Conexión: $P{REPORT_CONNECTION}` y pulsar Enter.
-13. Escribir exactamente `- Consulta propia del subreporte: SELECT ... WHERE titulo_libro = $P{tituloLibro}` y pulsar Enter dos veces.
-14. Escribir exactamente `## Documentación asociada` y pulsar Enter dos veces.
-15. Escribir exactamente `- SUBRREPORTES.md` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `SUBRREPORTES.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra los subreportes y su configuración.
-**Por qué:** la documentación de los subreportes facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar el paso del parámetro. Solución: incluir la sección completa.
-**Analogía:** es como dejar en la editorial una ficha técnica con la estructura maestro-detalle del catálogo.
-
----
+**Qué hace:** deja trazabilidad del diseño maestro-detalle.
+**Por qué:** evita recuperar nombres obsoletos en puntos posteriores.
 
 ---
 
@@ -1589,93 +1457,70 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 ### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Verificar el estado heredado de 5.1**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `M5/5.2/EditorialReports/reports/informe_ventas.jrxml`.
+2. En Outline, comprobar que el subreporte de 5.1 sigue presente.
+3. Guardar sin eliminar bandas ni recursos heredados.
 
-**Verificación visual:** el editor central muestra el informe de ventas con el subreporte declarado en la banda Detail 1.
+**Verificación visual:** Detail conserva el bloque `Detalle de ventas`.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir la tabla.
-**Por qué:** el informe de ventas es la base para la tabla de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para añadir una tabla de detalle.
+**Qué hace:** fija 5.1 como base.
+**Por qué:** 5.2 añade una tabla sin sustituir el subreporte.
 
 ---
 
-**Paso 2: Declarar el subdataset de la tabla**
+**Paso 2: Declarar los estilos de tabla**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `</variable>` de la última variable del informe y pulsar Enter al final.
-3. Escribir exactamente `<subDataset name="DatasetTopVentas">` y pulsar Enter.
-4. Escribir exactamente `<parameter name="tituloLibro" class="java.lang.String"/>` y pulsar Enter.
-5. Escribir exactamente `<queryString language="sql">` y pulsar Enter.
-6. Escribir exactamente `<![CDATA[` y pulsar Enter.
-7. Escribir exactamente `SELECT fecha_venta, cantidad, precio_unitario` y pulsar Enter.
-8. Escribir exactamente `FROM ventas` y pulsar Enter.
-9. Escribir exactamente `WHERE titulo_libro = $P{tituloLibro}` y pulsar Enter.
-10. Escribir exactamente `ORDER BY cantidad DESC` y pulsar Enter.
-11. Escribir exactamente `LIMIT 3` y pulsar Enter.
-12. Escribir exactamente `]]>` y pulsar Enter.
-13. Escribir exactamente `</queryString>` y pulsar Enter.
-14. Escribir exactamente `<field name="fecha_venta" class="java.lang.String"/>` y pulsar Enter.
-15. Escribir exactamente `<field name="cantidad" class="java.lang.Integer"/>` y pulsar Enter.
-16. Escribir exactamente `<field name="precio_unitario" class="java.lang.Double"/>` y pulsar Enter.
-17. Escribir exactamente `</subDataset>` y pulsar Enter.
-18. Pulsar Ctrl+S para guardar el archivo.
+1. En Source, junto a los estilos del informe, añadir `M5TableHeader`.
+2. Configurarlo con `style="Dato"`, fondo `#EAF2F8`, texto `#173F6B` y negrita.
+3. Añadir `M5TableDetail` heredando de `Dato`.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra el subdataset `DatasetTopVentas` con su parámetro, su consulta y sus tres campos.
+**Verificación visual:** ambos estilos aparecen antes de los subdatasets.
 
-**Qué hace:** declara el subdataset que alimentará la tabla de las tres mejores ventas por libro.
-**Por qué:** la tabla necesita un dataset propio con su consulta y sus campos.
-**Error común:** olvidar el cierre `</subDataset>` y provocar un error de análisis XML. Solución: revisar la estructura del bloque.
-**Analogía:** es como preparar una consulta específica para la tabla de las tres mejores ventas.
+**Qué hace:** crea los estilos que usarán las celdas reales de la tabla.
+**Por qué:** JasperReports 6.20.0 no usa un bloque `tableStyle` dentro del componente.
+**Error común:** inventar `tableStyle`. Solución: aplicar estilos normales a `c:columnHeader` y `c:detailCell`.
 
 ---
 
-**Paso 3: Reducir la altura del subreporte existente**
+**Paso 3: Crear `DatasetTopVentas`**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-2. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-3. Hacer clic sobre el elemento Subreport en la banda Detail 1.
-4. Hacer clic sobre el campo Height en el panel Properties, pestaña Properties, escribir `50` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `100` y pulsar Enter.
-6. Hacer clic sobre el elemento Subreport que contiene la expresión del subreporte anterior y verificar que la coordenada Y es 100.
+1. Añadir un `subDataset` llamado `DatasetTopVentas`.
+2. Declarar el parámetro `tituloLibro` como String.
+3. Usar una consulta sobre `ventas` filtrada por `$P{tituloLibro}`.
+4. Ordenar por `cantidad DESC, fecha_venta`.
+5. Limitar a 3 filas.
+6. Declarar fields `fecha_venta`, `cantidad` y `precio_unitario`.
+7. Guardar.
 
-**Verificación visual:** el subreporte existente mantiene su posición y su altura de 50 píxeles.
+**Verificación visual:** Source contiene el dataset, el parámetro, `ORDER BY cantidad DESC` y `LIMIT 3`.
 
-**Qué hace:** confirma la posición del subreporte existente para colocar la tabla debajo.
-**Por qué:** la tabla se colocará en la parte inferior de la banda Detail 1.
-**Error común:** olvidar la posición del subreporte y provocar el solapamiento con la tabla. Solución: verificar la coordenada Y del subreporte.
-**Analogía:** es como reorganizar el espacio del detalle de ventas para acomodar la nueva tabla.
+**Qué hace:** obtiene las tres ventas de mayor cantidad para el libro actual.
+**Por qué:** la tabla tiene un dataset independiente del informe principal.
 
 ---
 
-**Paso 4: Ampliar la altura de la banda Detail**
+**Paso 4: Añadir una banda de 104 píxeles en Detail**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `200` y pulsar Enter.
-3. Verificar que el subreporte existente sigue visible en la parte superior de la banda.
+1. Mantener la banda del subreporte de 88 píxeles.
+2. Añadir después una banda nueva de altura 104 y `splitType="Stretch"`.
+3. Añadir `printWhenExpression` para `$F{unidades_vendidas} != null`.
+4. Guardar.
 
-**Verificación visual:** la banda Detail 1 aparece con 200 píxeles de altura. El subreporte existente ocupa la franja entre 100 y 150.
+**Verificación visual:** Detail muestra una nueva banda debajo del subreporte.
 
-**Qué hace:** amplía la altura de la banda para acomodar la tabla en la parte inferior.
-**Por qué:** la tabla se colocará en la franja entre 155 y 195.
-**Error común:** ampliar la altura sin ajustar la posición de la tabla y provocar el solapamiento con el subreporte. Solución: colocar la tabla en la coordenada Y=155.
-**Analogía:** es como ampliar la ficha del libro para acomodar la tabla de las mejores ventas.
+**Qué hace:** reserva el espacio de la tabla.
+**Por qué:** evita superponer componentes heredados.
 
 ---
 
@@ -1683,337 +1528,146 @@ El punto 5.2, «Tablas», introduce el elemento `table` de JasperReports y demue
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-4. Arrastrar el icono Static Text y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=155.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `155` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-9. Hacer doble clic sobre el Static Text creado en la acción anterior.
-10. Escribir exactamente `Top 3 ventas por cantidad:`.
-11. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-12. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-13. Marcar la casilla Bold.
+1. En la nueva banda, crear Static Text en x=0, y=2, width=555, height=16.
+2. Aplicar `Cabecera`.
+3. Escribir `Top 3 ventas por cantidad`.
+4. Guardar.
 
-**Verificación visual:** la banda Detail 1 muestra el rótulo `Top 3 ventas por cantidad:` en la coordenada Y=155.
-
-**Qué hace:** inserta el rótulo que identifica la tabla.
-**Por qué:** el rótulo ayuda al lector a interpretar el contenido de la tabla.
-**Error común:** olvidar la posición Y y provocar el solapamiento con el subreporte. Solución: colocar el rótulo en la coordenada Y=155.
-**Analogía:** es como añadir el título de la tabla de las mejores ventas.
+**Verificación visual:** el rótulo aparece encima del componente.
 
 ---
 
-**Paso 6: Añadir el elemento table en la banda Detail**
+**Paso 6: Insertar `componentElement` y `c:table`**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Detail 1 en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Table (un rectángulo con líneas horizontales y verticales).
-4. Arrastrar el icono Table y soltarlo dentro de la banda Detail 1, en la coordenada aproximada x=0, y=170.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `170` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `30` y pulsar Enter.
+1. Insertar un componente Table debajo del rótulo.
+2. Fijar el `reportElement` del componente en x=0, y=22, width=555, height=76.
+3. Confirmar namespace `http://jasperreports.sourceforge.net/jasperreports/components`.
+4. Guardar.
 
-**Verificación visual:** la banda Detail 1 muestra un elemento de tabla en la coordenada Y=170.
+**Verificación visual:** Source contiene `componentElement` con un `c:table`.
 
-**Qué hace:** inserta el elemento table en la banda Detail 1.
-**Por qué:** la tabla mostrará las tres mejores ventas de cada libro.
-**Error común:** soltar la tabla fuera de los límites de la banda y provocar que se coloque en otra banda. Solución: comprobar en el panel Outline que el nodo Table cuelga de Detail 1.
-**Analogía:** es como reservar el espacio para la tabla de las mejores ventas en la ficha de cada libro.
+**Qué hace:** crea el componente de tabla real.
+**Por qué:** la tabla sí pertenece al namespace de componentes.
 
 ---
 
-**Paso 7: Configurar el dataset de la tabla**
+**Paso 7: Asociar `DatasetTopVentas`**
 
 **Acciones:**
 
-1. Hacer clic sobre el elemento Table en el editor central.
-2. Hacer clic sobre el campo Dataset en el panel Properties, pestaña Properties.
-3. Hacer clic sobre el botón ... situado junto al campo Dataset.
-4. En el diálogo, seleccionar `DatasetTopVentas` en la lista de subdatasets disponibles.
-5. Hacer clic sobre el botón OK.
-6. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-7. Localizar el elemento `<datasetRun>` dentro de la tabla y verificar que hace referencia a `DatasetTopVentas`.
-8. Pulsar Ctrl+S para guardar el archivo.
+1. Dentro de `c:table`, crear `datasetRun subDataset="DatasetTopVentas"`.
+2. Añadir `datasetParameter name="tituloLibro"`.
+3. Usar `$F{titulo}` como expresión del parámetro.
+4. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<datasetRun>` con `subDataset="DatasetTopVentas"`.
+**Verificación visual:** Source muestra parámetro y conexión dentro del datasetRun.
 
-**Qué hace:** asocia el subdataset declarado con la tabla.
-**Por qué:** la tabla necesita saber qué dataset debe recorrer para construir sus filas.
-**Error común:** no seleccionar ningún dataset y provocar que la tabla aparezca vacía. Solución: seleccionar `DatasetTopVentas` en el diálogo.
-**Analogía:** es como indicar a la tabla qué consulta debe utilizar para obtener sus datos.
+**Qué hace:** ejecuta el dataset de la tabla para cada libro.
+**Por qué:** reutiliza la misma conexión del informe.
 
 ---
 
-**Paso 8: Configurar la conexión de la tabla**
+**Paso 8: Crear la columna Fecha**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<datasetRun subDataset="DatasetTopVentas">`.
-3. Hacer clic al final de esa línea y pulsar Enter.
-4. Escribir exactamente `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
-6. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Añadir una columna de width 255.
+2. Crear `c:columnHeader style="M5TableHeader" height="20"` con texto `Fecha`.
+3. Crear `c:detailCell style="M5TableDetail" height="18"`.
+4. Mostrar `$F{fecha_venta}`.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<connectionExpression>` dentro del `datasetRun`.
-
-**Qué hace:** pasa la conexión del informe principal al dataset de la tabla.
-**Por qué:** el subdataset necesita una conexión para ejecutar su consulta.
-**Error común:** olvidar la conexión y provocar que la tabla no pueda ejecutar su consulta. Solución: añadir el elemento `<connectionExpression>` con `$P{REPORT_CONNECTION}`.
-**Analogía:** es como indicar a la tabla que utilice el mismo archivador que el informe.
+**Verificación visual:** la primera columna ocupa 255 píxeles.
 
 ---
 
-**Paso 9: Configurar el paso del parámetro tituloLibro a la tabla**
+**Paso 9: Crear la columna Cantidad**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<connectionExpression>` dentro del `datasetRun`.
-3. Hacer clic al final de esa línea y pulsar Enter.
-4. Escribir exactamente `<datasetParameter name="tituloLibro">` y pulsar Enter.
-5. Escribir exactamente `<datasetParameterExpression><![CDATA[$F{titulo}]]></datasetParameterExpression>` y pulsar Enter.
-6. Escribir exactamente `</datasetParameter>` y pulsar Enter.
-7. Pulsar Ctrl+S para guardar el archivo.
-8. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Añadir una columna de width 100.
+2. Aplicar `M5TableHeader` al header y `M5TableDetail` al detalle.
+3. Mostrar `$F{cantidad}`.
+4. Alinear a la derecha.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<datasetParameter>` con la expresión que pasa el campo `titulo` del informe al subdataset.
-
-**Qué hace:** pasa el título del libro como parámetro al subdataset de la tabla.
-**Por qué:** el subdataset utiliza el parámetro en su consulta para filtrar las ventas del libro.
-**Error común:** olvidar el cierre `</datasetParameter>` y provocar un error de análisis XML. Solución: revisar el cierre.
-**Analogía:** es como indicar a la tabla qué libro debe consultar sus mejores ventas.
+**Verificación visual:** la segunda columna muestra cantidades alineadas.
 
 ---
 
-**Paso 10: Declarar la primera columna de la tabla (Fecha)**
+**Paso 10: Crear la columna Precio unitario**
 
 **Acciones:**
 
-1. Hacer clic sobre el elemento Table en el editor central.
-2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-3. Localizar el elemento `<c:table>` y pulsar Enter al final de su bloque de apertura.
-4. Escribir exactamente `<c:column width="150">` y pulsar Enter.
-5. Escribir exactamente `<c:columnHeader height="20" rowSpan="1">` y pulsar Enter.
-6. Escribir exactamente `<staticText>` y pulsar Enter.
-7. Escribir exactamente `<reportElement x="0" y="0" width="150" height="20" uuid="..."/>` y pulsar Enter.
-8. Escribir exactamente `<textElement verticalAlignment="Middle">` y pulsar Enter.
-9. Escribir exactamente `<font fontName="DejaVu Sans" size="9" isBold="true"/>` y pulsar Enter.
-10. Escribir exactamente `</textElement>` y pulsar Enter.
-11. Escribir exactamente `<text><![CDATA[Fecha]]></text>` y pulsar Enter.
-12. Escribir exactamente `</staticText>` y pulsar Enter.
-13. Escribir exactamente `</c:columnHeader>` y pulsar Enter.
-14. Escribir exactamente `<c:detailCell height="15">` y pulsar Enter.
-15. Escribir exactamente `<textField>` y pulsar Enter.
-16. Escribir exactamente `<reportElement x="0" y="0" width="150" height="15" uuid="..."/>` y pulsar Enter.
-17. Escribir exactamente `<textElement verticalAlignment="Middle">` y pulsar Enter.
-18. Escribir exactamente `<font fontName="DejaVu Sans" size="9"/>` y pulsar Enter.
-19. Escribir exactamente `</textElement>` y pulsar Enter.
-20. Escribir exactamente `<textFieldExpression><![CDATA[$F{fecha_venta}]]></textFieldExpression>` y pulsar Enter.
-21. Escribir exactamente `</textField>` y pulsar Enter.
-22. Escribir exactamente `</c:detailCell>` y pulsar Enter.
-23. Escribir exactamente `</c:column>` y pulsar Enter.
-24. Pulsar Ctrl+S para guardar el archivo.
+1. Añadir una columna de width 200.
+2. Aplicar los mismos estilos de cabecera y detalle.
+3. Mostrar `$F{precio_unitario}`.
+4. Usar patrón `#,##0.00 €` y alineación derecha.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra la primera columna con su encabezado y su celda de detalle.
-
-**Qué hace:** declara la primera columna de la tabla con el encabezado `Fecha` y el campo `fecha_venta`.
-**Por qué:** la columna muestra la fecha de cada venta.
-**Error común:** olvidar el atributo `width` en el elemento `jr:column`. El compilador rechaza la declaración. Solución: añadir el atributo `width` con el ancho en píxeles.
-**Analogía:** es como añadir la primera columna de la tabla de las mejores ventas.
+**Verificación visual:** 255 + 100 + 200 = 555 píxeles.
 
 ---
 
-**Paso 11: Declarar la segunda columna de la tabla (Cantidad)**
+**Paso 11: Validar la estructura en Source**
 
 **Acciones:**
 
-1. En la vista Source, localizar el cierre `</c:column>` de la primera columna.
-2. Hacer clic al final de esa línea y pulsar Enter.
-3. Escribir exactamente `<c:column width="200">` y pulsar Enter.
-4. Escribir exactamente `<c:columnHeader height="20" rowSpan="1">` y pulsar Enter.
-5. Escribir exactamente `<staticText>` y pulsar Enter.
-6. Escribir exactamente `<reportElement x="0" y="0" width="200" height="20" uuid="..."/>` y pulsar Enter.
-7. Escribir exactamente `<textElement textAlignment="Right" verticalAlignment="Middle">` y pulsar Enter.
-8. Escribir exactamente `<font fontName="DejaVu Sans" size="9" isBold="true"/>` y pulsar Enter.
-9. Escribir exactamente `</textElement>` y pulsar Enter.
-10. Escribir exactamente `<text><![CDATA[Cantidad]]></text>` y pulsar Enter.
-11. Escribir exactamente `</staticText>` y pulsar Enter.
-12. Escribir exactamente `</c:columnHeader>` y pulsar Enter.
-13. Escribir exactamente `<c:detailCell height="15">` y pulsar Enter.
-14. Escribir exactamente `<textField>` y pulsar Enter.
-15. Escribir exactamente `<reportElement x="0" y="0" width="200" height="15" uuid="..."/>` y pulsar Enter.
-16. Escribir exactamente `<textElement textAlignment="Right" verticalAlignment="Middle">` y pulsar Enter.
-17. Escribir exactamente `<font fontName="DejaVu Sans" size="9"/>` y pulsar Enter.
-18. Escribir exactamente `</textElement>` y pulsar Enter.
-19. Escribir exactamente `<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>` y pulsar Enter.
-20. Escribir exactamente `</textField>` y pulsar Enter.
-21. Escribir exactamente `</c:detailCell>` y pulsar Enter.
-22. Escribir exactamente `</c:column>` y pulsar Enter.
-23. Pulsar Ctrl+S para guardar el archivo.
+1. Pulsar Ctrl+S.
+2. Abrir Problems.
+3. Confirmar que no hay errores de namespace.
+4. Comprobar que no existe ningún elemento `tableStyle`.
+5. Volver a Design.
 
-**Verificación visual:** la vista Source muestra la segunda columna con el encabezado `Cantidad` alineado a la derecha.
-
-**Qué hace:** declara la segunda columna de la tabla con el encabezado `Cantidad` y el campo `cantidad`.
-**Por qué:** la columna muestra la cantidad de cada venta.
-**Error común:** olvidar el atributo `textAlignment="Right"`. La columna numérica aparece alineada a la izquierda. Solución: añadir `textAlignment="Right"` al `textElement`.
-**Analogía:** es como añadir la columna de cantidad a la tabla de las mejores ventas.
+**Verificación visual:** Problems está limpio y la tabla cuelga de la banda correcta.
 
 ---
 
-**Paso 12: Declarar la tercera columna de la tabla (Precio)**
+**Paso 12: Compilar el informe**
 
 **Acciones:**
 
-1. En la vista Source, localizar el cierre `</c:column>` de la segunda columna.
-2. Hacer clic al final de esa línea y pulsar Enter.
-3. Escribir exactamente `<c:column width="205">` y pulsar Enter.
-4. Escribir exactamente `<c:columnHeader height="20" rowSpan="1">` y pulsar Enter.
-5. Escribir exactamente `<staticText>` y pulsar Enter.
-6. Escribir exactamente `<reportElement x="0" y="0" width="205" height="20" uuid="..."/>` y pulsar Enter.
-7. Escribir exactamente `<textElement textAlignment="Right" verticalAlignment="Middle">` y pulsar Enter.
-8. Escribir exactamente `<font fontName="DejaVu Sans" size="9" isBold="true"/>` y pulsar Enter.
-9. Escribir exactamente `</textElement>` y pulsar Enter.
-10. Escribir exactamente `<text><![CDATA[Precio]]></text>` y pulsar Enter.
-11. Escribir exactamente `</staticText>` y pulsar Enter.
-12. Escribir exactamente `</c:columnHeader>` y pulsar Enter.
-13. Escribir exactamente `<c:detailCell height="15">` y pulsar Enter.
-14. Escribir exactamente `<textField pattern="#,##0.00 €">` y pulsar Enter.
-15. Escribir exactamente `<reportElement x="0" y="0" width="205" height="15" uuid="..."/>` y pulsar Enter.
-16. Escribir exactamente `<textElement textAlignment="Right" verticalAlignment="Middle">` y pulsar Enter.
-17. Escribir exactamente `<font fontName="DejaVu Sans" size="9"/>` y pulsar Enter.
-18. Escribir exactamente `</textElement>` y pulsar Enter.
-19. Escribir exactamente `<textFieldExpression><![CDATA[$F{precio_unitario}]]></textFieldExpression>` y pulsar Enter.
-20. Escribir exactamente `</textField>` y pulsar Enter.
-21. Escribir exactamente `</c:detailCell>` y pulsar Enter.
-22. Escribir exactamente `</c:column>` y pulsar Enter.
-23. Pulsar Ctrl+S para guardar el archivo.
+1. Compilar `informe_ventas.jrxml`.
+2. Refrescar `reports`.
+3. Verificar `informe_ventas.jasper`.
+4. No buscar ni crear un `_table_1.jasper` independiente.
 
-**Verificación visual:** la vista Source muestra la tercera columna con el encabezado `Precio` y el patrón numérico.
+**Verificación visual:** la tabla está integrada en el jasper principal.
 
-**Qué hace:** declara la tercera columna de la tabla con el encabezado `Precio` y el campo `precio_unitario`.
-**Por qué:** la columna muestra el precio unitario de cada venta con formato numérico.
-**Error común:** olvidar el patrón `#,##0.00 €` y provocar que el precio se muestre sin decimales. Solución: añadir el patrón al `textField`.
-**Analogía:** es como añadir la columna de precio a la tabla de las mejores ventas.
+**Qué hace:** valida el modelo real de compilación.
+**Por qué:** la tabla no produce un artefacto compilado separado.
 
 ---
 
-**Paso 13: Declarar y aplicar los estilos reales de la tabla**
+**Paso 13: Previsualizar y ejecutar**
 
 **Acciones:**
 
-1. En Source, subir a la zona de estilos del informe, antes de los parámetros.
-2. Añadir `<style name="M5TableHeader" style="Dato" mode="Opaque" backcolor="#EAF2F8" forecolor="#173F6B" isBold="true"/>`.
-3. Añadir `<style name="M5TableDetail" style="Dato"/>`.
-4. Volver al componente `<c:table>`.
-5. En cada `<c:columnHeader>` añadir `style="M5TableHeader"`.
-6. En cada `<c:detailCell>` añadir `style="M5TableDetail"`.
-7. Pulsar Ctrl+S y volver a Design.
+1. Abrir Preview.
+2. Comprobar que cada libro con ventas muestra el subreporte y el Top 3.
+3. Ejecutar `GeneradorInformeVentas.java`.
+4. Abrir `output/informe_ventas.pdf`.
+5. Confirmar que el checkpoint 5.2 genera 5 páginas.
 
-**Verificación visual:** el encabezado usa fondo azul claro y las celdas conservan la tipografía del informe.
-
-**Qué hace:** aplica estilos JasperReports normales a las celdas del componente table.
-**Por qué:** JasperReports 6.20.0 no utiliza un elemento `tableStyle` dentro del componente.
-**Error común:** inventar un bloque `tableStyle`. Solución: declarar estilos del informe y referenciarlos desde `c:columnHeader` y `c:detailCell`.
-**Analogía:** es como definir una hoja de estilo y asignarla a cada tipo de celda.
+**Verificación visual:** el PDF conserva el subreporte y añade la tabla.
 
 ---
 
-**Paso 14: Compilar y verificar los artefactos generados**
+**Paso 14: Documentar `TABLAS.md`**
 
 **Acciones:**
 
-1. Pulsar Ctrl+S para guardar el archivo.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Hacer clic con el botón derecho sobre el nodo `reports` en el panel Project Explorer.
-5. Hacer clic sobre la opción Refresh en el menú contextual.
-6. Expandir el nodo `reports` y verificar que aparece el archivo `tabla integrada en informe_ventas.jasper` junto a `informe_ventas.jasper`.
+1. Abrir `EditorialReports/TABLAS.md`.
+2. Registrar `DatasetTopVentas`.
+3. Registrar parámetro `tituloLibro`.
+4. Registrar las tres columnas y sus anchos.
+5. Indicar que la tabla se compila dentro de `informe_ventas.jasper`.
+6. Guardar.
 
-**Verificación visual:** la carpeta `reports` contiene `informe_ventas.jasper`; la tabla está integrada en ese archivo compilado.
-
-**Qué hace:** compila el informe y verifica que se genera el artefacto de la tabla.
-**Por qué:** el artefacto de la tabla debe estar presente junto al `.jasper` del informe.
-**Error común:** olvidar compilar el informe y provocar que el artefacto de la tabla no exista. Solución: pulsar Ctrl+Mayús+B.
-**Analogía:** es como pasar la tabla a plancha antes de incorporarla al catálogo.
-
----
-
-**Paso 15: Previsualizar el informe**
-
-**Acciones:**
-
-1. Pulsar el botón Preview de la barra de herramientas superior.
-2. En el diálogo de previsualización, verificar que los parámetros están configurados.
-3. Hacer clic sobre el botón OK.
-4. Esperar a que se abra la pestaña Preview en el editor central.
-5. Verificar que cada libro muestra la tabla con las tres mejores ventas.
-
-**Verificación visual:** la pestaña Preview muestra el informe con el subreporte de detalle y la tabla de las tres mejores ventas por cantidad.
-
-**Qué hace:** previsualiza el informe con la tabla.
-**Por qué:** la previsualización confirma que la tabla se ejecuta y muestra los datos correctamente.
-**Error común:** obtener `Could not load table component`. Indica que el artefacto de la tabla no se ha generado. Solución: compilar el informe.
-**Analogía:** es como revisar la prueba de color del catálogo con la tabla de las mejores ventas.
-
----
-
-**Paso 16: Ejecutar el programa Java y verificar el PDF**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra la tabla con las tres mejores ventas de cada libro.
-
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra la tabla de las mejores ventas.
-
-**Qué hace:** ejecuta el programa Java que genera el informe con la tabla.
-**Por qué:** la ejecución confirma que la tabla se ejecuta correctamente desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el catálogo con la tabla de las mejores ventas.
-
----
-
-**Paso 17: Documentar las tablas**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `TABLAS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Tablas del proyecto` y pulsar Enter dos veces.
-7. Escribir exactamente `## Tabla en informe_ventas.jrxml` y pulsar Enter dos veces.
-8. Escribir exactamente `- Nombre del subdataset: DatasetTopVentas` y pulsar Enter.
-9. Escribir exactamente `- Consulta: SELECT fecha_venta, cantidad, precio_unitario FROM ventas WHERE titulo_libro = $P{tituloLibro} ORDER BY cantidad DESC LIMIT 3` y pulsar Enter.
-10. Escribir exactamente `- Columnas: Fecha (150), Cantidad (200), Precio (205)` y pulsar Enter.
-11. Escribir exactamente `- Parámetro pasado: tituloLibro ← $F{titulo}` y pulsar Enter dos veces.
-12. Escribir exactamente `## Artefactos generados` y pulsar Enter dos veces.
-13. Escribir exactamente `- informe_ventas.jasper (informe principal)` y pulsar Enter.
-14. Escribir exactamente `- tabla integrada en informe_ventas.jasper (tabla 1)` y pulsar Enter.
-15. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `TABLAS.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra la tabla y su configuración.
-**Por qué:** la documentación de las tablas facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar los artefactos generados. Solución: incluir la sección completa.
-**Analogía:** es como dejar en la editorial una ficha técnica con la tabla de las mejores ventas.
-
----
+**Verificación visual:** la documentación coincide con el JRXML del checkpoint.
 
 ---
 
@@ -3211,325 +2865,215 @@ El punto 5.3, «Agrupaciones», introduce el elemento `group` y demuestra su uso
 
 ### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Verificar el checkpoint 5.2 como base**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `M5/5.3/EditorialReports/reports/informe_ventas.jrxml`.
+2. Confirmar en Outline que siguen presentes subreporte y tabla.
+3. Guardar sin eliminar componentes anteriores.
 
-**Verificación visual:** el editor central muestra el informe de ventas con el subreporte y la tabla declarados.
+**Verificación visual:** el informe conserva todo 5.2.
 
-**Qué hace:** abre el informe de ventas y lo prepara para añadir la agrupación por categoría.
-**Por qué:** el informe de ventas es la base para la agrupación de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para reorganizarlo por categorías.
+**Qué hace:** fija la base acumulativa.
+**Por qué:** 5.3 sólo añade agrupación y variables de grupo.
 
 ---
 
-**Paso 2: Declarar el grupo GrupoCategoria**
+**Paso 2: Crear el grupo `CategoriaGroup`**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Group en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `GrupoCategoria` en el campo Name.
-4. Hacer clic sobre el campo Group Expression y escribir exactamente `$F{categoria}`.
-5. Marcar la casilla Add Group Header Band.
-6. Marcar la casilla Add Group Footer Band.
-7. Hacer clic sobre el botón Finish.
-8. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, usar Add Group.
+2. Escribir exactamente `CategoriaGroup`.
+3. Usar `$F{categoria}` como Group Expression.
+4. Añadir Group Header y Group Footer.
+5. Guardar.
 
-**Verificación visual:** el panel Outline muestra un nuevo nodo `GrupoCategoria` con las bandas `Group Header` y `Group Footer`.
+**Verificación visual:** Outline muestra `CategoriaGroup` con sus dos bandas.
 
-**Qué hace:** declara un grupo que organiza los registros por categoría.
-**Por qué:** la agrupación por categoría permite mostrar los libros organizados por secciones.
-**Error común:** olvidar marcar las casillas de las bandas y provocar que el grupo no tenga encabezado ni pie. Solución: marcar ambas casillas en el diálogo.
-**Analogía:** es como organizar el catálogo en secciones por categoría.
+**Qué hace:** agrupa registros por categoría.
+**Por qué:** el checkpoint usa ese nombre exacto en variables y totales.
+**Error común:** crear `GrupoCategoria`. Solución: usar `CategoriaGroup`.
 
 ---
 
-**Paso 3: Declarar la variable SubtotalCategoria**
+**Paso 3: Configurar las propiedades reales del grupo**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `SubtotalCategoria` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Double`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Sum`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Group`.
-7. Hacer clic sobre el desplegable Reset Group y seleccionar `GrupoCategoria`.
-8. Hacer clic sobre el campo Expression y escribir exactamente `$F{importe_total}`.
-9. Hacer clic sobre el botón Finish.
-10. Pulsar Ctrl+S para guardar el archivo.
+1. Seleccionar `CategoriaGroup`.
+2. Establecer `isStartNewPage=false`.
+3. Establecer `isReprintHeaderOnEachPage=true`.
+4. Establecer `minHeightToStartNewPage=80`.
+5. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `SubtotalCategoria` de tipo `java.lang.Double` con cálculo `Sum`, reinicio `Group` y grupo `GrupoCategoria`.
+**Verificación visual:** Source contiene los tres atributos con esos valores.
 
-**Qué hace:** declara una variable que acumula el importe total de cada categoría.
-**Por qué:** la variable proporciona el subtotal por grupo que se muestra en el pie del grupo.
-**Error común:** olvidar el atributo `resetGroup` y provocar que la variable no se reinicie al inicio de cada grupo. Solución: seleccionar `GrupoCategoria` en el desplegable Reset Group.
-**Analogía:** es como sumar el importe de los libros de cada categoría.
+**Qué hace:** controla paginación y repetición de cabecera.
+**Por qué:** reproduce el comportamiento validado.
+**Error común:** usar `isStartNewPage=true` y modificar la paginación del PDF.
 
 ---
 
-**Paso 4: Declarar la variable ContadorCategoria**
+**Paso 4: Crear `GrupoUnidades`**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la opción Add Variable en el menú contextual.
-3. En el diálogo de propiedades que aparece, escribir exactamente `ContadorCategoria` en el campo Name.
-4. Hacer clic sobre el desplegable Class y seleccionar `java.lang.Integer`.
-5. Hacer clic sobre el desplegable Calculation y seleccionar `Count`.
-6. Hacer clic sobre el desplegable Reset Type y seleccionar `Group`.
-7. Hacer clic sobre el desplegable Reset Group y seleccionar `GrupoCategoria`.
-8. Hacer clic sobre el campo Expression y escribir exactamente `$F{titulo}`.
-9. Hacer clic sobre el botón Finish.
-10. Pulsar Ctrl+S para guardar el archivo.
+1. Añadir una Variable llamada `GrupoUnidades`.
+2. Tipo = `java.lang.Integer`.
+3. Calculation = `Sum`.
+4. Reset Type = `Group`.
+5. Reset Group = `CategoriaGroup`.
+6. Expresión = `$F{unidades_vendidas}`.
+7. Guardar.
 
-**Verificación visual:** el panel Outline muestra la variable `ContadorCategoria` de tipo `java.lang.Integer` con cálculo `Count`, reinicio `Group` y grupo `GrupoCategoria`.
-
-**Qué hace:** declara una variable que cuenta los libros de cada categoría.
-**Por qué:** la variable proporciona el número de libros del grupo que se muestra en el pie del grupo.
-**Error común:** olvidar el campo en la expresión y provocar que la variable cuente cero. Solución: escribir `$F{titulo}` en el campo Expression.
-**Analogía:** es como contar los libros de cada categoría.
+**Verificación visual:** la variable aparece asociada al grupo correcto.
 
 ---
 
-**Paso 5: Añadir el encabezado del grupo con el nombre de la categoría**
+**Paso 5: Crear `GrupoImporte`**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo `Group Header` del grupo `GrupoCategoria` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `25` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-5. Arrastrar el icono Text Field y soltarlo dentro de la banda Group Header, en la coordenada aproximada x=0, y=3.
-6. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `3` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `300` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer clic sobre el campo Text Field Expression y escribir exactamente `"Categoría: " + $F{categoria}` y pulsar Enter.
-11. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-12. Marcar la casilla Bold.
-13. Marcar la casilla Styled Text para activar la interpretación de estilos en el contenido.
+1. Añadir `GrupoImporte` como `java.lang.Double`.
+2. Calculation = `Sum`.
+3. Reset Type = Group.
+4. Reset Group = `CategoriaGroup`.
+5. Expresión = `$F{importe_total}`.
+6. Guardar.
 
-**Verificación visual:** la banda Group Header muestra el campo con la expresión `"Categoría: " + $F{categoria}` en negrita y tamaño 12.
-
-**Qué hace:** inserta un campo que muestra el nombre de la categoría al inicio de cada grupo.
-**Por qué:** el encabezado identifica la categoría de los libros que se listan a continuación.
-**Error común:** olvidar el espacio después de `:` en la expresión. El resultado es `Categoría:Novela` sin espacio. Solución: incluir el espacio en la cadena literal.
-**Analogía:** es como titular cada sección del catálogo con el nombre de la categoría.
+**Verificación visual:** Source contiene la variable y su resetGroup.
 
 ---
 
-**Paso 6: Añadir el subtotal del grupo en la banda Group Footer**
+**Paso 6: Crear `GrupoLibros`**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo `Group Footer` del grupo `GrupoCategoria` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el campo Band height en el panel Properties, pestaña Properties, escribir `40` y pulsar Enter.
-3. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-4. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-5. Arrastrar el icono Static Text y soltarlo dentro de la banda Group Footer, en la coordenada aproximada x=0, y=5.
-6. Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-7. Hacer clic sobre el campo Y, escribir `5` y pulsar Enter.
-8. Hacer clic sobre el campo Width, escribir `200` y pulsar Enter.
-9. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-10. Hacer doble clic sobre el Static Text creado en la acción anterior.
-11. Escribir exactamente `Subtotal categoría:`.
-12. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-13. Hacer clic sobre el campo Font size y escribir `11`. Pulsar Enter.
-14. Marcar la casilla Bold.
+1. Añadir `GrupoLibros` como `java.lang.Integer`.
+2. Calculation = `Count`.
+3. Reset Type = Group.
+4. Reset Group = `CategoriaGroup`.
+5. Expresión = `$F{titulo}`.
+6. Guardar.
 
-**Verificación visual:** la banda Group Footer muestra el rótulo `Subtotal categoría:` en negrita.
+**Verificación visual:** quedan tres variables de grupo.
 
-**Qué hace:** inserta el rótulo que precede al subtotal del grupo.
-**Por qué:** el rótulo identifica el valor que se muestra a continuación.
-**Error común:** olvidar ampliar la altura de la banda y provocar que el rótulo se solape con la banda siguiente. Solución: ampliar la altura a 40 píxeles.
-**Analogía:** es como añadir el rótulo del subtotal de cada categoría.
+**Qué hace:** cuenta títulos por categoría.
+**Por qué:** el pie muestra libros, unidades e importe.
 
 ---
 
-**Paso 7: Añadir el campo del subtotal del grupo**
+**Paso 7: Construir Group Header**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Text Field (una letra F dentro de un cuadrado).
-3. Arrastrar el icono Text Field y soltarlo dentro de la banda Group Footer, a la derecha del rótulo, en la coordenada aproximada x=200, y=5.
-4. Hacer clic sobre el campo X, escribir `200` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `5` y pulsar Enter.
-6. Hacer clic sobre el campo Width, escribir `130` y pulsar Enter.
-7. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-8. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{SubtotalCategoria}` y pulsar Enter.
-9. Hacer clic sobre el campo Pattern y escribir exactamente `#,##0.00 €`. Pulsar Enter.
-10. Hacer clic sobre el campo Font size y escribir `11`. Pulsar Enter.
-11. Marcar la casilla Bold.
-12. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+1. Establecer la banda Group Header a 28.
+2. Añadir un Text Field en x=0, y=2, width=555, height=22.
+3. Aplicar `Cabecera`, modo Opaque y fondo `#D6EAF8`.
+4. Usar la expresión `"Categoría: " + $F{categoria}`.
+5. Guardar.
 
-**Verificación visual:** la banda Group Footer muestra el campo con la expresión `$V{SubtotalCategoria}` alineado a la derecha.
-
-**Qué hace:** inserta un campo que muestra el subtotal de la categoría.
-**Por qué:** el subtotal informa del importe total de los libros de cada categoría.
-**Error común:** usar `$F{SubtotalCategoria}` en lugar de `$V{SubtotalCategoria}`. El compilador informa que el campo no existe. Solución: cambiar el prefijo a `$V{`.
-**Analogía:** es como escribir el subtotal de cada categoría al final de la sección.
+**Verificación visual:** cada categoría comienza con una cabecera azul clara.
 
 ---
 
-**Paso 8: Añadir el contador de libros del grupo**
+**Paso 8: Construir Group Footer**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-2. Hacer clic sobre el icono Static Text.
-3. Arrastrar el icono Static Text y soltarlo dentro de la banda Group Footer, debajo del rótulo anterior, en la coordenada aproximada x=0, y=25.
-4. Hacer clic sobre el campo X, escribir `0` y pulsar Enter.
-5. Hacer clic sobre el campo Y, escribir `25` y pulsar Enter.
-6. Hacer clic sobre el campo Width, escribir `200` y pulsar Enter.
-7. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-8. Hacer doble clic sobre el Static Text creado en la acción anterior.
-9. Escribir exactamente `Libros en la categoría:`.
-10. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-11. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-12. Marcar la casilla Bold.
-13. Hacer clic sobre la pestaña Elements en el panel Palette.
-14. Hacer clic sobre el icono Text Field.
-15. Arrastrar el icono Text Field y soltarlo a la derecha del rótulo, en la coordenada aproximada x=200, y=25.
-16. Hacer clic sobre el campo X, escribir `200` y pulsar Enter.
-17. Hacer clic sobre el campo Y, escribir `25` y pulsar Enter.
-18. Hacer clic sobre el campo Width, escribir `80` y pulsar Enter.
-19. Hacer clic sobre el campo Height, escribir `15` y pulsar Enter.
-20. Hacer clic sobre el campo Text Field Expression y escribir exactamente `$V{ContadorCategoria}` y pulsar Enter.
-21. Hacer clic sobre el campo Font size y escribir `10`. Pulsar Enter.
-22. Marcar la casilla Bold.
-23. Hacer clic sobre el desplegable Horizontal Text Alignment y seleccionar Right.
+1. Establecer Group Footer a 34.
+2. Añadir un Text Field de 185 píxeles con `"Libros del grupo: " + $V{GrupoLibros}`.
+3. Añadir otro de 180 píxeles con `GrupoUnidades`.
+4. Añadir uno de 190 píxeles, alineado a la derecha, con `GrupoImporte` formateado como euros.
+5. Guardar.
 
-**Verificación visual:** la banda Group Footer muestra el rótulo `Libros en la categoría:` seguido del campo con la variable `$V{ContadorCategoria}`.
-
-**Qué hace:** inserta un campo que muestra el número de libros de la categoría.
-**Por qué:** el contador informa del volumen de libros de cada categoría.
-**Error común:** olvidar el campo en la expresión de la variable. Solución: verificar que la variable `ContadorCategoria` tiene `$F{titulo}` como expresión.
-**Analogía:** es como escribir el número de libros de cada categoría en el subtotal.
+**Verificación visual:** el pie ocupa 555 píxeles y muestra tres resúmenes.
 
 ---
 
-**Paso 9: Configurar las propiedades del grupo**
+**Paso 9: Verificar reinicios por grupo**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo `GrupoCategoria` en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Properties en el panel Properties (inferior derecho).
-3. Marcar la casilla Start New Page para activar el atributo `isStartNewPage`.
-4. Marcar la casilla Reprint Header on Each Page para activar el atributo `isReprintHeaderOnEachPage`.
-5. Hacer clic sobre el campo Min Height to Start New Page y escribir `60`. Pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir Source.
+2. Localizar las tres variables.
+3. Confirmar `resetType="Group"` y `resetGroup="CategoriaGroup"`.
+4. Confirmar la posición de `<group name="CategoriaGroup"...>`.
+5. Guardar.
 
-**Verificación visual:** el panel Properties muestra las tres propiedades del grupo configuradas.
-
-**Qué hace:** configura el grupo para que comience en una página nueva y reimprima el encabezado en cada página.
-**Por qué:** cada categoría debe ocupar una sección independiente del documento y el encabezado debe ser visible en todas las páginas del grupo.
-**Error común:** olvidar el valor de `minHeightToStartNewPage` y provocar que el encabezado del grupo quede al final de una página sin espacio para el primer registro. Solución: establecer el valor a 60 píxeles.
-**Analogía:** es como asegurar que cada categoría del catálogo comience en una página nueva con su título visible.
+**Verificación visual:** no aparece ningún `resetGroup="GrupoCategoria"`.
 
 ---
 
-**Paso 10: Compilar el informe y verificar la estructura de grupos**
+**Paso 10: Comprobar que la tabla y el subreporte siguen intactos**
 
 **Acciones:**
 
-1. Pulsar Ctrl+Mayús+B para compilar el informe.
-2. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-3. Hacer clic sobre la pestaña Source y localizar el elemento `<group name="GrupoCategoria">`.
-4. Verificar que contiene `<groupExpression>` con `$F{categoria}`, `<groupHeader>` y `<groupFooter>`.
-5. Verificar que las variables `SubtotalCategoria` y `ContadorCategoria` tienen `resetType="Group"` y `resetGroup="GrupoCategoria"`.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. En Outline, expandir Detail.
+2. Comprobar el subreporte de ventas.
+3. Comprobar el componente Table.
+4. Verificar sus datasets y parámetros.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra la estructura completa del grupo y las dos variables con sus atributos de reinicio.
-
-**Qué hace:** compila el informe y verifica la estructura de la agrupación.
-**Por qué:** la compilación detecta errores en la declaración del grupo y en las variables asociadas.
-**Error común:** obtener `Group not found: GrupoCategoria`. Indica que el nombre del grupo en la variable no coincide con el declarado. Solución: revisar el atributo `resetGroup`.
-**Analogía:** es como revisar la estructura de las secciones del catálogo antes de imprimirlo.
+**Verificación visual:** 5.3 es estrictamente acumulativo.
 
 ---
 
-**Paso 11: Previsualizar el informe con la agrupación**
+**Paso 11: Compilar en Studio**
 
 **Acciones:**
 
-1. Pulsar el botón Preview de la barra de herramientas superior.
-2. En el diálogo de previsualización, verificar que los parámetros están configurados.
-3. Hacer clic sobre el botón OK.
-4. Esperar a que se abra la pestaña Preview en el editor central.
-5. Verificar que el informe muestra las categorías en secciones separadas.
+1. Pulsar Ctrl+S.
+2. Compilar `informe_ventas.jrxml`.
+3. Abrir Problems.
+4. Confirmar que no aparece `Group not found`.
 
-**Verificación visual:** la pestaña Preview muestra el informe con las categorías en secciones separadas. Cada sección tiene su encabezado con el nombre de la categoría y su pie con el subtotal.
+**Verificación visual:** compilación limpia.
 
-**Qué hace:** previsualiza el informe con la agrupación por categoría.
-**Por qué:** la previsualización confirma que el grupo se emite correctamente y que los subtotales se calculan bien.
-**Error común:** obtener `Group not found: GrupoCategoria` en la previsualización. Solución: revisar la declaración del grupo.
-**Analogía:** es como revisar la prueba de color del catálogo con las secciones por categoría.
+**Qué hace:** valida nombres de grupo y variables.
+**Error común:** dejar una variable con resetGroup antiguo.
 
 ---
 
-**Paso 12: Ejecutar el programa Java y verificar el PDF**
+**Paso 12: Previsualizar la agrupación**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra las categorías en secciones separadas con sus subtotales.
+1. Abrir Preview.
+2. Comprobar cabecera por categoría.
+3. Comprobar libros, unidades e importe al final de cada grupo.
+4. Verificar que no se fuerza una página nueva por categoría.
 
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra las categorías en secciones separadas.
-
-**Qué hace:** ejecuta el programa Java que genera el informe con la agrupación.
-**Por qué:** la ejecución confirma que el grupo se emite correctamente desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el catálogo con las secciones por categoría.
+**Verificación visual:** las categorías se agrupan en flujo continuo.
 
 ---
 
-**Paso 13: Documentar las agrupaciones**
+**Paso 13: Ejecutar el generador Java**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `AGRUPACIONES.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Agrupaciones del proyecto` y pulsar Enter dos veces.
-7. Escribir exactamente `## Grupo GrupoCategoria` y pulsar Enter dos veces.
-8. Escribir exactamente `- Expresión de agrupación: $F{categoria}` y pulsar Enter.
-9. Escribir exactamente `- Bandas: Group Header y Group Footer` y pulsar Enter.
-10. Escribir exactamente `- isStartNewPage: true` y pulsar Enter.
-11. Escribir exactamente `- isReprintHeaderOnEachPage: true` y pulsar Enter.
-12. Escribir exactamente `- minHeightToStartNewPage: 60` y pulsar Enter dos veces.
-13. Escribir exactamente `## Variables asociadas` y pulsar Enter dos veces.
-14. Escribir exactamente `- SubtotalCategoria: Double, Sum, resetType=Group, resetGroup=GrupoCategoria` y pulsar Enter.
-15. Escribir exactamente `- ContadorCategoria: Integer, Count, resetType=Group, resetGroup=GrupoCategoria` y pulsar Enter.
-16. Pulsar Ctrl+S para guardar el archivo.
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que el checkpoint 5.3 genera 5 páginas.
+4. Confirmar 14 libros, 9 ventas, 31 unidades y 633,40 €.
 
-**Verificación visual:** el panel Project Explorer muestra el archivo `AGRUPACIONES.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra la agrupación y sus variables asociadas.
-**Por qué:** la documentación de las agrupaciones facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar las propiedades del grupo. Solución: incluir las tres propiedades en el documento.
-**Analogía:** es como dejar en la editorial una ficha técnica con las secciones del catálogo y sus subtotales.
+**Verificación visual:** el PDF mantiene invariantes y añade agrupaciones.
 
 ---
+
+**Paso 14: Documentar `AGRUPACIONES.md`**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/AGRUPACIONES.md`.
+2. Registrar `CategoriaGroup` y `$F{categoria}`.
+3. Registrar propiedades false/true/80.
+4. Registrar `GrupoLibros`, `GrupoUnidades` y `GrupoImporte`.
+5. Guardar.
+
+**Verificación visual:** la documentación coincide con Source y el checkpoint.
 
 ---
 
@@ -4743,73 +4287,51 @@ El punto 5.4, «Gráficos
 
 ### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Abrir el informe de ventas**
+**Paso 1: Verificar el checkpoint 5.3 como base**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción Refresh en el menú contextual.
-3. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-4. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-5. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
+1. Abrir `M5/5.4/EditorialReports/reports/informe_ventas.jrxml`.
+2. Confirmar en Outline subreporte, tabla y `CategoriaGroup`.
+3. Guardar sin eliminar elementos heredados.
 
-**Verificación visual:** el editor central muestra el informe de ventas con el grupo declarado.
-
-**Qué hace:** abre el informe de ventas y lo prepara para añadir el gráfico.
-**Por qué:** el informe de ventas es la base para el gráfico de este punto.
-**Error común:** abrir el archivo en la vista Source en lugar de Design. Solución: hacer clic sobre la pestaña Design.
-**Analogía:** es como abrir el resumen de ventas para añadir el gráfico.
+**Verificación visual:** 5.4 parte físicamente de 5.3.
 
 ---
 
-**Paso 2: Declarar el subdataset del gráfico**
+**Paso 2: Crear `DatasetVentasPorCategoria`**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el cierre `</subDataset>` del `DatasetTopVentas` y pulsar Enter al final.
-3. Escribir exactamente `<subDataset name="DatasetVentasPorCategoria">` y pulsar Enter.
-4. Escribir exactamente `<queryString language="sql">` y pulsar Enter.
-5. Escribir exactamente `<![CDATA[` y pulsar Enter.
-6. Escribir exactamente `SELECT l.categoria AS categoria,` y pulsar Enter.
-7. Escribir exactamente `SUM(v.cantidad * v.precio_unitario) AS importe_total` y pulsar Enter.
-8. Escribir exactamente `FROM libros l` y pulsar Enter.
-9. Escribir exactamente `INNER JOIN ventas v ON l.titulo = v.titulo_libro` y pulsar Enter.
-10. Escribir exactamente `GROUP BY l.categoria` y pulsar Enter.
-11. Escribir exactamente `ORDER BY importe_total DESC` y pulsar Enter.
-12. Escribir exactamente `]]>` y pulsar Enter.
-13. Escribir exactamente `</queryString>` y pulsar Enter.
-14. Escribir exactamente `<field name="categoria" class="java.lang.String"/>` y pulsar Enter.
-15. Escribir exactamente `<field name="importe_total" class="java.lang.Double"/>` y pulsar Enter.
-16. Escribir exactamente `</subDataset>` y pulsar Enter.
-17. Pulsar Ctrl+S para guardar el archivo.
+1. En Source, añadir un `subDataset` llamado `DatasetVentasPorCategoria`.
+2. Usar `SELECT l.categoria AS categoria_grafico`.
+3. Calcular `COALESCE(SUM(v.cantidad * v.precio_unitario), 0.0) AS importe_categoria`.
+4. Usar `LEFT JOIN ventas` para conservar categorías sin ventas.
+5. Agrupar y ordenar por `l.categoria`.
+6. Declarar `categoria_grafico` como String e `importe_categoria` como Double.
+7. Guardar.
 
-**Verificación visual:** la vista Source muestra el subdataset `DatasetVentasPorCategoria` con su consulta y sus dos campos.
+**Verificación visual:** el dataset contiene exactamente los aliases `categoria_grafico` e `importe_categoria`.
 
-**Qué hace:** declara el subdataset que alimentará el gráfico con las ventas agregadas por categoría.
-**Por qué:** el gráfico necesita un dataset con una fila por categoría.
-**Error común:** olvidar el `GROUP BY` y provocar que la consulta devuelva una sola fila. Solución: añadir `GROUP BY l.categoria`.
-**Analogía:** es como preparar la consulta que agrupa las ventas por categoría.
+**Qué hace:** prepara una fila agregada por categoría.
+**Por qué:** el gráfico usa un dataset independiente.
+**Error común:** usar el alias antiguo `importe_grafico`. Solución: usar `importe_categoria`.
 
 ---
 
-**Paso 3: Ampliar la banda Summary**
+**Paso 3: Ajustar Summary a 430**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-2. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-3. Hacer clic sobre el campo Band height en el panel Properties (inferior derecho), pestaña Properties, escribir `540` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
+1. Seleccionar Summary.
+2. Establecer Band height = `430`.
+3. Mantener intactos los elementos de resumen heredados entre y=5 e y=121.
+4. Guardar.
 
-**Verificación visual:** la banda Summary aparece con 540 píxeles de altura.
+**Verificación visual:** Source contiene `<band height="430">`.
 
-**Qué hace:** amplía la altura de la banda Summary para alojar el gráfico.
-**Por qué:** el gráfico tiene 300 píxeles de altura y necesita espacio adicional.
-**Error común:** olvidar ampliar la altura y provocar que el gráfico se solape con la banda siguiente. Solución: ampliar la altura a 540 píxeles.
-**Analogía:** es como ampliar la última página del catálogo para acomodar el gráfico.
+**Qué hace:** reserva el espacio exacto del gráfico.
+**Error común:** usar 540 de un borrador anterior.
 
 ---
 
@@ -4817,271 +4339,160 @@ El punto 5.4, «Gráficos
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Static Text (una letra T mayúscula).
-4. Arrastrar el icono Static Text y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=230.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `230` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `20` y pulsar Enter.
-9. Hacer doble clic sobre el Static Text creado en la acción anterior.
-10. Escribir exactamente `Ventas por categoría:`.
-11. Hacer clic sobre una zona vacía del editor central para confirmar el texto.
-12. Hacer clic sobre el campo Font size y escribir `12`. Pulsar Enter.
-13. Marcar la casilla Bold.
+1. Insertar Static Text en x=0, y=140, width=555, height=20.
+2. Aplicar `style="Cabecera"`.
+3. Escribir `Ventas por categoría — importe`.
+4. Guardar.
 
-**Verificación visual:** la banda Summary muestra el rótulo `Ventas por categoría:` en la coordenada Y=230.
-
-**Qué hace:** inserta el rótulo que identifica el gráfico.
-**Por qué:** el rótulo ayuda al lector a interpretar el contenido del gráfico.
-**Error común:** olvidar la posición Y y provocar el solapamiento con el contenido existente. Solución: colocar el rótulo en la coordenada Y=230.
-**Analogía:** es como añadir el título de la sección del gráfico en el catálogo.
+**Verificación visual:** el rótulo queda encima del gráfico.
 
 ---
 
-**Paso 5: Añadir el elemento chart en la banda Summary**
+**Paso 5: Insertar el `barChart` nativo**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Summary en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre la pestaña Elements en el panel Palette (derecha del editor central).
-3. Hacer clic sobre el icono Chart (un rectángulo con barras verticales).
-4. Arrastrar el icono Chart y soltarlo dentro de la banda Summary, en la coordenada aproximada x=0, y=255.
-5. Hacer clic sobre el campo X en el panel Properties, pestaña Properties, escribir `0` y pulsar Enter.
-6. Hacer clic sobre el campo Y, escribir `255` y pulsar Enter.
-7. Hacer clic sobre el campo Width, escribir `555` y pulsar Enter.
-8. Hacer clic sobre el campo Height, escribir `280` y pulsar Enter.
+1. Desde Palette, insertar un gráfico de barras.
+2. En Source, confirmar que el elemento es `<barChart>` y no un componente con namespace `chart:`.
+3. Dentro de `<chart>`, fijar `reportElement` en x=0, y=165, width=555, height=250.
+4. Guardar.
 
-**Verificación visual:** la banda Summary muestra un elemento de gráfico en la coordenada Y=255.
+**Verificación visual:** Source contiene un `barChart` nativo en la geometría del checkpoint.
 
-**Qué hace:** inserta el elemento chart en la banda Summary.
-**Por qué:** el gráfico muestra las ventas por categoría al final del informe.
-**Error común:** soltar el gráfico fuera de los límites de la banda y provocar que se coloque en otra banda. Solución: comprobar en el panel Outline que el nodo Chart cuelga de Summary.
-**Analogía:** es como reservar el espacio para el gráfico en la última página del catálogo.
+**Qué hace:** crea el gráfico real de JasperReports 6.20.0.
+**Error común:** envolverlo en `componentElement` con un namespace inventado.
 
 ---
 
-**Paso 6: Configurar el dataset del gráfico**
+**Paso 6: Configurar título, subtítulo y leyenda**
 
 **Acciones:**
 
-1. Hacer clic sobre el elemento Chart en el editor central.
-2. Hacer clic sobre el campo Dataset en el panel Properties, pestaña Properties.
-3. Hacer clic sobre el botón ... situado junto al campo Dataset.
-4. En el diálogo, seleccionar `DatasetVentasPorCategoria` en la lista de subdatasets disponibles.
-5. Hacer clic sobre el botón OK.
-6. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-7. Localizar el elemento `<datasetRun>` dentro del gráfico y verificar que hace referencia a `DatasetVentasPorCategoria`.
-8. Pulsar Ctrl+S para guardar el archivo.
+1. Dentro de `<chart>`, añadir `chartTitle` con `"Ventas por categoría"`.
+2. Mantener `<chartSubtitle/>`.
+3. Añadir `<chartLegend position="Bottom"/>`.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<datasetRun>` con `subDataset="DatasetVentasPorCategoria"`.
+**Verificación visual:** título y leyenda están dentro del bloque `chart`.
 
-**Qué hace:** asocia el subdataset declarado con el gráfico.
-**Por qué:** el gráfico necesita saber qué dataset debe recorrer para construir sus barras.
-**Error común:** no seleccionar ningún dataset y provocar que el gráfico aparezca vacío. Solución: seleccionar `DatasetVentasPorCategoria` en el diálogo.
-**Analogía:** es como indicar al gráfico qué consulta debe utilizar para obtener sus datos.
+**Qué hace:** configura propiedades generales del gráfico.
+**Error común:** escribir `chartTitle position="Top"`. Solución: el checkpoint no usa ese atributo.
 
 ---
 
-**Paso 7: Configurar la conexión del gráfico**
+**Paso 7: Asociar el subdataset**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<datasetRun subDataset="DatasetVentasPorCategoria">`.
-3. Hacer clic al final de esa línea y pulsar Enter.
-4. Escribir exactamente `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
-6. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Dentro de `categoryDataset`, añadir `dataset`.
+2. Crear `datasetRun subDataset="DatasetVentasPorCategoria"`.
+3. Añadir `connectionExpression` con `$P{REPORT_CONNECTION}`.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<connectionExpression>` dentro del `datasetRun`.
-
-**Qué hace:** pasa la conexión del informe principal al dataset del gráfico.
-**Por qué:** el subdataset necesita una conexión para ejecutar su consulta.
-**Error común:** olvidar la conexión y provocar que el gráfico no pueda ejecutar su consulta. Solución: añadir el elemento `<connectionExpression>` con `$P{REPORT_CONNECTION}`.
-**Analogía:** es como indicar al gráfico que utilice el mismo archivador que el informe.
+**Verificación visual:** el gráfico reutiliza la conexión JDBC del informe.
 
 ---
 
-**Paso 8: Configurar la serie del gráfico**
+**Paso 8: Definir la serie categórica**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<categoryDataset>` dentro del gráfico y pulsar Enter al final de su línea de apertura.
-3. Escribir exactamente `<categorySeries>` y pulsar Enter.
-4. Escribir exactamente `<seriesExpression><![CDATA["Importe total"]]></seriesExpression>` y pulsar Enter.
-5. Escribir exactamente `<categoryExpression><![CDATA[$F{categoria}]]></categoryExpression>` y pulsar Enter.
-6. Escribir exactamente `<valueExpression><![CDATA[$F{importe_total}]]></valueExpression>` y pulsar Enter.
-7. Escribir exactamente `</categorySeries>` y pulsar Enter.
-8. Pulsar Ctrl+S para guardar el archivo.
-9. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Añadir una `categorySeries`.
+2. Usar `"Importe"` como `seriesExpression`.
+3. Usar `$F{categoria_grafico}` como `categoryExpression`.
+4. Usar `$F{importe_categoria}` como `valueExpression`.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra la serie del gráfico con sus tres expresiones.
+**Verificación visual:** la serie usa exactamente los fields del subdataset.
 
-**Qué hace:** configura la serie del gráfico con su nombre, su categoría y su valor.
-**Por qué:** la serie determina qué datos se representan en el gráfico.
-**Error común:** olvidar el bloque `<categorySeries>` y provocar que el gráfico aparezca vacío. Solución: añadir el bloque con las tres expresiones.
-**Analogía:** es como indicar al gráfico qué datos debe representar y cómo.
+**Qué hace:** vincula categorías y valores a las barras.
+**Error común:** referenciar fields del dataset principal.
 
 ---
 
-**Paso 9: Añadir el título del gráfico**
+**Paso 9: Configurar `barPlot`**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<chart>` dentro del gráfico y pulsar Enter al final de su línea de apertura.
-3. Escribir exactamente `<chartTitle position="Top">` y pulsar Enter.
-4. Escribir exactamente `<titleExpression><![CDATA["Ventas por categoría - Importe total"]]></titleExpression>` y pulsar Enter.
-5. Escribir exactamente `</chartTitle>` y pulsar Enter.
-6. Pulsar Ctrl+S para guardar el archivo.
-7. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Añadir `<barPlot>` después de `categoryDataset`.
+2. Dentro, mantener `<plot/>`.
+3. Añadir `<itemLabel/>`.
+4. Añadir `<categoryAxisFormat><axisFormat/></categoryAxisFormat>`.
+5. Añadir `<valueAxisFormat><axisFormat/></valueAxisFormat>`.
+6. Guardar.
 
-**Verificación visual:** la vista Source muestra el bloque `<chartTitle>` con la expresión del título.
+**Verificación visual:** el bloque coincide con el JRXML ejecutable.
 
-**Qué hace:** configura el título que se muestra en la parte superior del gráfico.
-**Por qué:** el título identifica el contenido del gráfico.
-**Error común:** olvidar el atributo `position="Top"` y provocar que el título no se muestre. Solución: añadir el atributo con el valor `Top`.
-**Analogía:** es como titular el gráfico en el catálogo.
+**Qué hace:** configura plot, etiquetas y ejes.
+**Error común:** añadir `seriesColor` directamente en `barPlot`. Solución: no introducir elementos que no existen en el checkpoint.
 
 ---
 
-**Paso 10: Añadir la leyenda del gráfico**
+**Paso 10: Validar Source contra el checkpoint**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el cierre `</chartTitle>` y pulsar Enter al final.
-3. Escribir exactamente `<chartLegend position="Bottom"/>` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
-5. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Comprobar `barChart → chart → categoryDataset → barPlot`.
+2. Confirmar que no aparece `chartTitle position="Top"`.
+3. Confirmar que no aparece `seriesColor` dentro de `barPlot`.
+4. Abrir Problems y verificar cero errores.
 
-**Verificación visual:** la vista Source muestra el bloque `<chartLegend>` con la posición `Bottom`.
-
-**Qué hace:** configura la leyenda que identifica las series del gráfico.
-**Por qué:** la leyenda permite al lector identificar el significado de las barras.
-**Error común:** olvidar el bloque `<chartLegend>` y provocar que la leyenda no se muestre. Solución: añadir el bloque con la posición `Bottom`.
-**Analogía:** es como añadir la leyenda del gráfico en el catálogo.
+**Verificación visual:** la estructura del gráfico es idéntica a la Parte B.
 
 ---
 
-**Paso 11: Configurar el estilo de las barras**
+**Paso 11: Compilar el informe**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el cierre `</chartLegend>` y pulsar Enter al final.
-3. Escribir exactamente `<plot/>` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
-5. Localizar el cierre `</categoryDataset>` y pulsar Enter al final.
-6. Escribir exactamente `<barPlot>` y pulsar Enter.
-7. Escribir exactamente `<seriesColor seriesOrder="1" color="#1A3D6B"/>` y pulsar Enter.
-8. Escribir exactamente `</barPlot>` y pulsar Enter.
-9. Pulsar Ctrl+S para guardar el archivo.
-10. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Pulsar Ctrl+S.
+2. Compilar `informe_ventas.jrxml`.
+3. Refrescar `reports`.
+4. Confirmar `informe_ventas.jasper`.
+5. No buscar un `_chart_1.jasper` independiente.
 
-**Verificación visual:** la vista Source muestra los bloques `<plot>` y `<barPlot>` con el color de la serie.
-
-**Qué hace:** configura el área de dibujo y el color de las barras del gráfico.
-**Por qué:** el estilo del gráfico lo integra visualmente con el resto del informe.
-**Error común:** olvidar el bloque `<barPlot>` y provocar que las barras usen el color por defecto. Solución: añadir el bloque con el color de la serie.
-**Analogía:** es como aplicar los colores corporativos al gráfico del catálogo.
+**Verificación visual:** el gráfico queda integrado en el jasper principal.
 
 ---
 
-**Paso 12: Compilar y verificar los artefactos generados**
+**Paso 12: Previsualizar**
 
 **Acciones:**
 
-1. Pulsar Ctrl+S para guardar el archivo.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Hacer clic con el botón derecho sobre el nodo `reports` en el panel Project Explorer.
-5. Hacer clic sobre la opción Refresh en el menú contextual.
-6. Expandir el nodo `reports` y verificar que `informe_ventas.jasper` existe y se ha actualizado tras la compilación.
+1. Abrir Preview.
+2. Comprobar el título del gráfico.
+3. Comprobar la leyenda inferior.
+4. Comprobar una barra por categoría.
 
-**Verificación visual:** la carpeta `reports` contiene `informe_ventas.jasper`; el gráfico está integrado en ese archivo compilado.
-
-**Qué hace:** compila el informe y verifica que se genera el artefacto del gráfico.
-**Por qué:** el artefacto del gráfico debe estar presente junto al `.jasper` del informe.
-**Error común:** olvidar compilar el informe y provocar que el artefacto del gráfico no exista. Solución: pulsar Ctrl+Mayús+B.
-**Analogía:** es como pasar el gráfico a plancha antes de incorporarlo al catálogo.
+**Verificación visual:** el gráfico aparece después del resumen acumulado.
 
 ---
 
-**Paso 13: Previsualizar el informe**
+**Paso 13: Ejecutar desde Java**
 
 **Acciones:**
 
-1. Pulsar el botón Preview de la barra de herramientas superior.
-2. En el diálogo de previsualización, verificar que los parámetros están configurados.
-3. Hacer clic sobre el botón OK.
-4. Esperar a que se abra la pestaña Preview en el editor central.
-5. Verificar que el gráfico muestra las ventas por categoría con sus barras y su leyenda.
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que el checkpoint 5.4 genera 6 páginas.
+4. Confirmar 14 libros, 9 ventas, 31 unidades y 633,40 €.
 
-**Verificación visual:** la pestaña Preview muestra el informe con el gráfico de barras al final.
-
-**Qué hace:** previsualiza el informe con el gráfico.
-**Por qué:** la previsualización confirma que el gráfico se ejecuta y muestra los datos correctamente.
-**Error común:** obtener `Could not load chart component`. Indica que el artefacto del gráfico no se ha generado. Solución: compilar el informe.
-**Analogía:** es como revisar la prueba de color del catálogo con el gráfico.
+**Verificación visual:** el PDF conserva todos los componentes anteriores y añade el gráfico.
 
 ---
 
-**Paso 14: Ejecutar el programa Java y verificar el PDF**
+**Paso 14: Documentar `GRAFICOS.md`**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre el archivo `GeneradorInformeVentas.java` en el panel Project Explorer.
-2. Hacer clic sobre la opción Run As en el menú contextual.
-3. Hacer clic sobre la opción Java Application en el submenú.
-4. Hacer clic sobre la vista Console en el panel inferior y observar el resultado.
-5. Abrir el explorador de archivos del sistema operativo.
-6. Navegar hasta la carpeta `output` del proyecto `EditorialReports`.
-7. Hacer doble clic sobre el archivo `informe_ventas.pdf`.
-8. Verificar que el PDF muestra el gráfico con las barras por categoría y su leyenda.
+1. Registrar tipo = `barChart`.
+2. Registrar `DatasetVentasPorCategoria`.
+3. Registrar fields `categoria_grafico` e `importe_categoria`.
+4. Registrar título, leyenda Bottom y plot.
+5. Indicar que el gráfico forma parte de `informe_ventas.jasper`.
+6. Guardar.
 
-**Verificación visual:** la vista Console muestra la línea `Informe generado en: ...` con la ruta absoluta del PDF. El archivo PDF muestra el gráfico de barras al final del informe.
-
-**Qué hace:** ejecuta el programa Java que genera el informe con el gráfico.
-**Por qué:** la ejecución confirma que el gráfico se ejecuta correctamente desde código Java.
-**Error común:** ejecutar el programa sin haber compilado el informe. Solución: pulsar Ctrl+Mayús+B antes de ejecutar.
-**Analogía:** es como imprimir el catálogo con el gráfico.
-
----
-
-**Paso 15: Documentar los gráficos**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `GRAFICOS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Gráficos del proyecto` y pulsar Enter dos veces.
-7. Escribir exactamente `## Gráfico de barras en informe_ventas.jrxml` y pulsar Enter dos veces.
-8. Escribir exactamente `- Tipo: barChart vertical` y pulsar Enter.
-9. Escribir exactamente `- Subdataset: DatasetVentasPorCategoria` y pulsar Enter.
-10. Escribir exactamente `- Serie: Importe total` y pulsar Enter.
-11. Escribir exactamente `- Categoría: $F{categoria}` y pulsar Enter.
-12. Escribir exactamente `- Valor: $F{importe_total}` y pulsar Enter.
-13. Escribir exactamente `- Título: "Ventas por categoría - Importe total"` y pulsar Enter.
-14. Escribir exactamente `- Leyenda: posición Bottom` y pulsar Enter dos veces.
-15. Escribir exactamente `## Artefactos generados` y pulsar Enter dos veces.
-16. Escribir exactamente `- gráfico integrado en informe_ventas.jasper` y pulsar Enter.
-17. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `GRAFICOS.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra el gráfico y su configuración.
-**Por qué:** la documentación de los gráficos facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar los artefactos generados. Solución: incluir la sección completa.
-**Analogía:** es como dejar en la editorial una ficha técnica con el gráfico y su configuración.
-
----
+**Verificación visual:** GRAFICOS.md describe la implementación ejecutable.
 
 ---
 
@@ -8322,346 +7733,211 @@ El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Part
 
 ### Parte A — Práctica visual verificada
 
----
-
-**Paso 1: Crear la carpeta styles en el proyecto**
+**Paso 1: Verificar el checkpoint 5.5 como base**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre la carpeta `resources` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción Folder en el submenú.
-4. Escribir exactamente `styles` en el campo Folder name.
-5. Hacer clic sobre el botón Finish.
-6. Pulsar Ctrl+S para guardar el proyecto.
+1. Abrir `M5/5.6/EditorialReports/reports/informe_ventas.jrxml`.
+2. Confirmar subreporte, tabla, `CategoriaGroup`, gráfico y crosstab.
+3. Guardar sin eliminar recursos heredados.
 
-**Verificación visual:** el panel Project Explorer muestra la carpeta `styles` dentro de la carpeta `resources`.
-
-**Qué hace:** crea la carpeta que alojará la plantilla de estilo del proyecto.
-**Por qué:** la convención del proyecto sitúa las plantillas en una subcarpeta específica dentro de `resources`.
-**Error común:** crear la carpeta en la raíz del proyecto en lugar de dentro de `resources`. Solución: eliminar la carpeta mal ubicada y volver a crearla dentro de `resources`.
-**Analogía:** es como habilitar una carpeta específica en la editorial para las hojas de estilo del catálogo.
+**Verificación visual:** 5.6 conserva todo el diseño avanzado acumulado.
 
 ---
 
-**Paso 2: Crear la plantilla EditorialStyles.jrtx**
+**Paso 2: Crear la carpeta de estilos**
 
 **Acciones:**
 
-1. Hacer clic con el botón derecho sobre la carpeta `styles` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción Jasper Template en el submenú.
-4. Escribir exactamente `EditorialStyles` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. Pulsar Ctrl+S para guardar el archivo.
+1. En `EditorialReports`, crear `resources/styles` si no existe.
+2. Crear dentro el archivo `EditorialStyles.jrtx`.
+3. Guardar.
 
-**Verificación visual:** el panel Project Explorer muestra el archivo `EditorialStyles.jrtx` dentro de la carpeta `resources/styles`. El editor central muestra la plantilla vacía con el elemento raíz `jasperTemplate`.
+**Verificación visual:** Project Explorer muestra `resources/styles/EditorialStyles.jrtx`.
 
-**Qué hace:** crea el archivo de plantilla de estilo del proyecto.
-**Por qué:** la plantilla centralizará los estilos que se comparten entre los informes del proyecto.
-**Error común:** crear el archivo como Jasper Report en lugar de Jasper Template. La extensión sería `.jrxml` en lugar de `.jrtx`. Solución: eliminar el archivo y repetir el paso seleccionando Jasper Template.
-**Analogía:** es como crear la hoja de estilo maestra de la editorial.
+**Qué hace:** separa los estilos reutilizables del JRXML.
+**Por qué:** la plantilla debe poder cargarse con una ruta relativa estable.
 
 ---
 
-**Paso 3: Declarar el estilo por defecto de la plantilla**
+**Paso 3: Configurar el namespace JRTX correcto**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar la línea que contiene `<jasperTemplate xmlns="...">` y pulsar Enter al final.
-3. Escribir exactamente `<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" bold="false" italic="false" underline="false" strikeThrough="false"/>` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
+1. Abrir Source de `EditorialStyles.jrtx`.
+2. Usar como raíz `jasperTemplate`.
+3. Configurar namespace `http://jasperreports.sourceforge.net/jasperreports/template`.
+4. Configurar el schema `http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd`.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra el estilo `Sans_Normal` declarado como estilo por defecto.
+**Verificación visual:** el archivo no usa el namespace raíz de `jasperReport`.
 
-**Qué hace:** declara el estilo por defecto que heredarán todos los estilos derivados.
-**Por qué:** el estilo por defecto garantiza la coherencia tipográfica de los informes que importen la plantilla.
-**Error común:** declarar dos estilos con `isDefault="true"` en la misma plantilla. El motor lanza `Duplicate default style`. Solución: dejar solo un estilo con `isDefault="true"`.
-**Analogía:** es como definir la tipografía base de la hoja de estilo maestra.
+**Qué hace:** declara una plantilla de estilos válida para JasperReports 6.20.0.
+**Error común:** crear un JRXML de informe en lugar de un JRTX.
 
 ---
 
-**Paso 4: Declarar los estilos de título de la plantilla**
+**Paso 4: Declarar los siete estilos del checkpoint**
 
 **Acciones:**
 
-1. En la vista Source, localizar el cierre de la línea de `Sans_Normal` y pulsar Enter al final.
-2. Escribir exactamente `<style name="TituloPrincipal" parent="Sans_Normal" fontSize="18" isBold="true" forecolor="#1A3D6B"/>` y pulsar Enter.
-3. Escribir exactamente `<style name="TituloSecundario" parent="Sans_Normal" fontSize="14" isBold="true" forecolor="#4A6B8A"/>` y pulsar Enter.
-4. Pulsar Ctrl+S para guardar el archivo.
+1. Crear `M5TituloPrincipal` con DejaVu Sans 18, negrita y `#173F6B`.
+2. Crear `M5GrupoCabecera` con tamaño 10, negrita, fondo `#D6EAF8`.
+3. Crear `M5TablaCabecera` con tamaño 9, negrita, fondo `#EAF2F8`.
+4. Crear `M5TablaDetalle` con tamaño 9.
+5. Crear `M5CrosstabCabecera` con tamaño 9, negrita y fondo `#EAF2F8`.
+6. Crear `M5CrosstabDetalle` con fondo blanco.
+7. Crear `M5CrosstabTotal` con negrita y fondo `#D6EAF8`.
+8. Guardar.
 
-**Verificación visual:** la vista Source muestra los dos estilos de título con sus propiedades.
+**Verificación visual:** la plantilla contiene exactamente siete estilos M5.
 
-**Qué hace:** declara los estilos de título principal y secundario en la plantilla.
-**Por qué:** los títulos comparten presentación en todos los informes del proyecto.
-**Error común:** olvidar el atributo `parent`. El estilo no hereda la tipografía del estilo por defecto. Solución: añadir `parent="Sans_Normal"` a cada estilo.
-**Analogía:** es como definir los estilos tipográficos de los títulos en la hoja de estilo maestra.
+**Qué hace:** externaliza los estilos que el checkpoint aplica realmente.
+**Error común:** añadir un segundo estilo por defecto. Solución: la plantilla del checkpoint no declara `isDefault="true"`.
 
 ---
 
-**Paso 5: Declarar los estilos de tabla de la plantilla**
+**Paso 5: Importar la plantilla en el JRXML**
 
 **Acciones:**
 
-1. En la vista Source, localizar el cierre de la línea de `TituloSecundario` y pulsar Enter al final.
-2. Escribir exactamente `<style name="TextoTablaCabecera" parent="Sans_Normal" fontSize="10" isBold="true" forecolor="#FFFFFF" backcolor="#4A6B8A" mode="Opaque"/>` y pulsar Enter.
-3. Escribir exactamente `<style name="TextoTabla" parent="Sans_Normal" fontSize="10"/>` y pulsar Enter.
-4. Escribir exactamente `<style name="TextoPequeño" parent="Sans_Normal" fontSize="9" isItalic="true" forecolor="#666666"/>` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
+1. Volver a `informe_ventas.jrxml`.
+2. Antes de los estilos locales, añadir `<template><![CDATA["resources/styles/EditorialStyles.jrtx"]]></template>`.
+3. Guardar.
 
-**Verificación visual:** la vista Source muestra los tres estilos de tabla y texto pequeño.
+**Verificación visual:** Source muestra el template antes de las declaraciones locales.
 
-**Qué hace:** declara los estilos para las cabeceras de tabla, las celdas y los textos pequeños.
-**Por qué:** las tablas comparten presentación en todos los informes del proyecto.
-**Error común:** olvidar el atributo `mode="Opaque"` en el estilo de cabecera. El fondo no se rellena y el texto blanco queda invisible. Solución: añadir el atributo.
-**Analogía:** es como definir los estilos de la tabla en la hoja de estilo maestra.
+**Qué hace:** carga los siete estilos externos.
+**Por qué:** las referencias de estilo deben poder resolverse al compilar.
 
 ---
 
-**Paso 6: Declarar el estilo condicional de la plantilla**
+**Paso 6: Aplicar `M5TituloPrincipal`**
 
 **Acciones:**
 
-1. En la vista Source, localizar el cierre de la línea de `TextoPequeño` y pulsar Enter al final.
-2. Escribir exactamente `<style name="TextoEstado" parent="TextoTabla">` y pulsar Enter.
-3. Escribir exactamente `<conditionalStyle>` y pulsar Enter.
-4. Escribir exactamente `<conditionExpression><![CDATA["Activo".equals($V{EstadoLibro})]]></conditionExpression>` y pulsar Enter.
-5. Escribir exactamente `<style forecolor="#006600" isBold="true"/>` y pulsar Enter.
-6. Escribir exactamente `</conditionalStyle>` y pulsar Enter.
-7. Escribir exactamente `<conditionalStyle>` y pulsar Enter.
-8. Escribir exactamente `<conditionExpression><![CDATA[true]]></conditionExpression>` y pulsar Enter.
-9. Escribir exactamente `<style forecolor="#888888" isItalic="true"/>` y pulsar Enter.
-10. Escribir exactamente `</conditionalStyle>` y pulsar Enter.
-11. Escribir exactamente `</style>` y pulsar Enter.
-12. Pulsar Ctrl+S para guardar el archivo.
+1. Localizar el `reportElement` del título principal.
+2. Cambiar su atributo a `style="M5TituloPrincipal"`.
+3. Mantener geometría x=0, y=4, width=555, height=28.
+4. Guardar.
 
-**Verificación visual:** la vista Source muestra el estilo condicional `TextoEstado` con sus dos bloques.
-
-**Qué hace:** declara un estilo condicional que muestra en verde los estados activos y en gris los inactivos.
-**Por qué:** el estilo condicional permite reutilizar la misma definición en varios informes.
-**Error común:** olvidar el bloque con la condición `true` como caso por defecto. Solución: añadir el bloque.
-**Analogía:** es como definir el estilo de los estados en la hoja de estilo maestra.
+**Verificación visual:** el título usa el estilo importado.
 
 ---
 
-**Paso 7: Verificar la compilación de la plantilla**
+**Paso 7: Aplicar `M5GrupoCabecera`**
 
 **Acciones:**
 
-1. Pulsar Ctrl+S para guardar el archivo.
-2. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-3. Hacer clic con el botón derecho sobre el archivo `EditorialStyles.jrtx` en el panel Project Explorer.
-4. Hacer clic sobre la opción Properties en el menú contextual.
-5. Verificar que la ruta del archivo es `resources/styles/EditorialStyles.jrtx`.
-6. Hacer clic sobre el botón Close.
+1. Localizar el Text Field del Group Header de `CategoriaGroup`.
+2. Cambiar su `reportElement` a `style="M5GrupoCabecera"`.
+3. Mantener la expresión de categoría.
+4. Guardar.
 
-**Verificación visual:** el panel Problems permanece vacío. La ruta del archivo es la esperada.
-
-**Qué hace:** verifica que la plantilla no contiene errores de sintaxis.
-**Por qué:** la plantilla debe ser válida antes de importarla en los informes.
-**Error común:** olvidar el cierre `</style>` de un estilo con bloques hijos. Solución: revisar la estructura del archivo.
-**Analogía:** es como revisar la hoja de estilo maestra antes de aplicarla a los informes.
+**Verificación visual:** la cabecera de grupo usa el estilo externo.
 
 ---
 
-**Paso 8: Importar la plantilla en el informe de ventas**
+**Paso 8: Aplicar los estilos de tabla**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-3. Localizar la línea que contiene `<jasperReport xmlns="...">` y pulsar Enter al final.
-4. Escribir exactamente `<template><![CDATA["resources/styles/EditorialStyles.jrtx"]]></template>` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
-6. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Localizar el componente `c:table`.
+2. Sustituir los headers por `style="M5TablaCabecera"`.
+3. Sustituir los detalles por `style="M5TablaDetalle"`.
+4. Mantener anchos, heights, fields y datasetRun.
+5. Guardar.
 
-**Verificación visual:** la vista Source muestra el elemento `<template>` con la ruta de la plantilla. El panel Outline muestra los estilos de la plantilla en el nodo Styles.
+**Verificación visual:** las tres columnas usan los dos estilos de la plantilla.
 
-**Qué hace:** importa la plantilla de estilo en el informe.
-**Por qué:** los estilos de la plantilla están disponibles en el informe para ser referenciados.
-**Error común:** escribir la ruta con barras invertidas en lugar de barras normales. El motor no encuentra el archivo. Solución: usar barras normales: `"resources/styles/EditorialStyles.jrtx"`.
-**Analogía:** es como importar la hoja de estilo maestra en el informe del catálogo.
+**Qué hace:** externaliza el aspecto sin alterar los datos de la tabla.
 
 ---
 
-**Paso 9: Verificar los estilos importados en el panel Outline**
+**Paso 9: Aplicar los estilos del crosstab**
 
 **Acciones:**
 
-1. Expandir el nodo `informe_ventas` en el panel Outline (inferior izquierdo).
-2. Expandir el nodo Styles.
-3. Verificar que aparecen los estilos de la plantilla junto a los estilos locales del informe.
-4. Hacer clic sobre el estilo `TituloPrincipal` y verificar que el panel Properties muestra sus propiedades.
+1. Localizar `crosstabRowHeader` y `crosstabColumnHeader`.
+2. Usar `M5CrosstabCabecera` en sus `cellContents`.
+3. Usar `M5CrosstabDetalle` en la celda de detalle.
+4. Usar `M5CrosstabTotal` en headers y celdas de total.
+5. Guardar.
 
-**Verificación visual:** el panel Outline muestra los estilos de la plantilla y los locales. El panel Properties muestra las propiedades del estilo seleccionado.
-
-**Qué hace:** verifica que los estilos de la plantilla están disponibles en el informe.
-**Por qué:** la verificación confirma que la importación se ha realizado correctamente.
-**Error común:** no ver los estilos de la plantilla. Solución: verificar que el elemento `<template>` está declarado antes de los estilos locales.
-**Analogía:** es como comprobar que la hoja de estilo maestra se ha aplicado al informe.
+**Verificación visual:** el crosstab conserva medidas y grupos; sólo cambian los nombres de estilo.
 
 ---
 
-**Paso 10: Aplicar el estilo TituloPrincipal al título del informe**
+**Paso 10: Mantener los estilos locales heredados**
 
 **Acciones:**
 
-1. Hacer clic sobre el nodo Title en el panel Outline (inferior izquierdo).
-2. Hacer clic sobre el Static Text que contiene el texto `Informe de Ventas - Agregación por Título` en el editor central.
-3. Hacer clic sobre el desplegable Style en el panel Properties (inferior derecho), pestaña Properties.
-4. Seleccionar `TituloPrincipal` en la lista de estilos.
-5. Hacer clic sobre el campo Font size y escribir `18`. Pulsar Enter.
-6. Marcar la casilla Bold.
-7. Pulsar Ctrl+S para guardar el archivo.
+1. Confirmar que `Sans_Normal`, `Cabecera`, `Dato` y `UnidadesCondicional` siguen en el JRXML.
+2. Confirmar que `Sans_Normal` sigue siendo el único estilo por defecto.
+3. No duplicar ese default en el JRTX.
+4. Guardar.
 
-**Verificación visual:** el título del informe muestra el tamaño 18, en negrita y con el color azul oscuro del estilo.
+**Verificación visual:** estilos locales y externos coexisten sin conflicto.
 
-**Qué hace:** aplica el estilo de la plantilla al título del informe.
-**Por qué:** el título hereda las propiedades de la plantilla y mantiene la coherencia con el resto del proyecto.
-**Error común:** olvidar seleccionar el estilo en el desplegable. El título conserva las propiedades locales. Solución: seleccionar `TituloPrincipal`.
-**Analogía:** es como aplicar el estilo tipográfico de los títulos al rótulo del informe.
+**Qué hace:** evita una migración destructiva del informe.
+**Por qué:** 5.6 demuestra reutilización gradual, no reescritura total.
 
 ---
 
-**Paso 11: Aplicar el estilo TextoTablaCabecera a las cabeceras de la tabla**
+**Paso 11: Validar la plantilla y el informe**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<c:columnHeader>` de la primera columna de la tabla.
-3. Localizar la línea que contiene `<font fontName="DejaVu Sans" size="9" isBold="true"/>` y pulsar Enter al final.
-4. Escribir exactamente `<font fontName="DejaVu Sans" size="9" isBold="true" forecolor="#FFFFFF"/>` y pulsar Enter.
-5. Localizar el `<reportElement>` de la columna y pulsar Enter al final.
-6. Escribir exactamente `<property name="com.jaspersoft.studio.style" value="TextoTablaCabecera"/>` y pulsar Enter.
-7. Pulsar Ctrl+S para guardar el archivo.
-8. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Guardar JRTX y JRXML.
+2. Abrir Problems.
+3. Confirmar que no aparece `Could not load template`.
+4. Confirmar que no aparece `Duplicate default style`.
+5. Confirmar que todos los nombres `M5*` se resuelven.
 
-**Verificación visual:** la cabecera de la primera columna de la tabla muestra el estilo de la plantilla.
-
-**Qué hace:** aplica el estilo de la plantilla a la cabecera de la tabla.
-**Por qué:** la cabecera hereda las propiedades tipográficas de la plantilla.
-**Error común:** olvidar el atributo de estilo en el `reportElement`. Solución: añadir la referencia al estilo.
-**Analogía:** es como aplicar el estilo de las cabeceras de tabla al resumen.
+**Verificación visual:** Studio valida ambos archivos.
 
 ---
 
-**Paso 12: Aplicar el estilo TextoTabla a las celdas de la tabla**
+**Paso 12: Compilar y previsualizar**
 
 **Acciones:**
 
-1. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-2. Localizar el elemento `<c:detailCell>` de la primera columna de la tabla.
-3. Localizar el `<reportElement>` de la celda y pulsar Enter al final.
-4. Escribir exactamente `<property name="com.jaspersoft.studio.style" value="TextoTabla"/>` y pulsar Enter.
-5. Pulsar Ctrl+S para guardar el archivo.
-6. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
+1. Compilar `informe_ventas.jrxml`.
+2. Abrir Preview.
+3. Comprobar título, cabecera de grupo, tabla y crosstab.
+4. Confirmar que el gráfico y el resto del informe no cambian funcionalmente.
 
-**Verificación visual:** las celdas de la tabla muestran el estilo de la plantilla.
-
-**Qué hace:** aplica el estilo de la plantilla a las celdas de la tabla.
-**Por qué:** las celdas heredan las propiedades tipográficas de la plantilla.
-**Error común:** olvidar el atributo de estilo en el `reportElement`. Solución: añadir la referencia al estilo.
-**Analogía:** es como aplicar el estilo de las celdas de tabla al resumen.
+**Verificación visual:** la nueva identidad visual se aplica sin pérdidas de contenido.
 
 ---
 
-**Paso 13: Modificar un estilo de la plantilla**
+**Paso 13: Ejecutar desde Java**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `EditorialStyles.jrtx` en el panel Project Explorer.
-2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-3. Localizar la línea del estilo `TituloPrincipal`.
-4. Cambiar el valor del atributo `forecolor` de `#1A3D6B` a `#660000`.
-5. Pulsar Ctrl+S para guardar el archivo.
-6. Hacer doble clic sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-7. Hacer clic sobre la pestaña Design en la parte inferior del editor central.
-8. Verificar que el título del informe aparece en rojo oscuro.
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que el checkpoint 5.6 genera 6 páginas.
+4. Confirmar 14 libros, 9 ventas, 31 unidades y 633,40 €.
 
-**Verificación visual:** el título del informe aparece en rojo oscuro porque el estilo de la plantilla se ha modificado.
+**Verificación visual:** el PDF se genera con la plantilla cargada.
 
-**Qué hace:** modifica un estilo de la plantilla y verifica que el cambio se propaga al informe.
-**Por qué:** demuestra que los estilos de la plantilla se comparten entre los informes.
-**Error común:** olvidar guardar la plantilla antes de comprobar el informe. Solución: pulsar Ctrl+S en la plantilla.
-**Analogía:** es como modificar la hoja de estilo maestra y ver el cambio en todos los informes que la usan.
+**Qué hace:** demuestra que la ruta JRTX funciona también fuera de Preview.
 
 ---
 
-**Paso 14: Restaurar el color original del estilo**
+**Paso 14: Documentar `PLANTILLAS.md`**
 
 **Acciones:**
 
-1. Hacer doble clic sobre el archivo `EditorialStyles.jrtx` en el panel Project Explorer.
-2. Hacer clic sobre la pestaña Source en la parte inferior del editor central.
-3. Localizar la línea del estilo `TituloPrincipal`.
-4. Cambiar el valor del atributo `forecolor` de `#660000` a `#1A3D6B`.
-5. Pulsar Ctrl+S para guardar el archivo.
+1. Registrar la ruta `resources/styles/EditorialStyles.jrtx`.
+2. Listar los siete estilos.
+3. Indicar dónde se aplica cada estilo.
+4. Registrar el elemento `template` del JRXML.
+5. Indicar que los estilos locales heredados siguen disponibles.
+6. Guardar.
 
-**Verificación visual:** el estilo de la plantilla vuelve a tener el color original.
-
-**Qué hace:** restaura el color original del estilo de la plantilla.
-**Por qué:** el cambio de prueba no forma parte del punto y debe revertirse antes de continuar.
-**Error común:** olvidar restaurar el color y arrastrar diferencias no deseadas a los puntos posteriores. Solución: comprobar el color antes de continuar.
-**Analogía:** es como restaurar la hoja de estilo maestra tras la prueba.
-
----
-
-**Paso 15: Compilar y previsualizar el informe con la plantilla**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el archivo `informe_ventas.jrxml` en el panel Project Explorer.
-2. Pulsar Ctrl+Mayús+B para compilar el informe.
-3. Hacer clic sobre el panel Problems (inferior) y verificar que no hay errores.
-4. Pulsar el botón Preview de la barra de herramientas superior.
-5. En el diálogo de previsualización, verificar que los parámetros están configurados.
-6. Hacer clic sobre el botón OK.
-7. Esperar a que se abra la pestaña Preview en el editor central.
-
-**Verificación visual:** la pestaña Preview muestra el informe con los estilos de la plantilla aplicados al título y a las tablas.
-
-**Qué hace:** compila y previsualiza el informe con la plantilla importada.
-**Por qué:** la previsualización confirma que los estilos de la plantilla se aplican correctamente.
-**Error común:** obtener `Could not load template`. Indica que la ruta de la plantilla es incorrecta. Solución: revisar la ruta en el elemento `<template>`.
-**Analogía:** es como revisar la prueba de color del informe con la hoja de estilo maestra.
-
----
-
-**Paso 16: Documentar la plantilla de estilo**
-
-**Acciones:**
-
-1. Hacer clic con el botón derecho sobre el nodo `EditorialReports` en el panel Project Explorer (superior izquierdo).
-2. Hacer clic sobre la opción New en el menú contextual.
-3. Hacer clic sobre la opción File en el submenú.
-4. Escribir exactamente `PLANTILLAS.md` en el campo File name del diálogo.
-5. Hacer clic sobre el botón Finish.
-6. En el editor central, escribir exactamente `# Plantillas de estilo del proyecto` y pulsar Enter dos veces.
-7. Escribir exactamente `## Plantilla EditorialStyles.jrtx` y pulsar Enter dos veces.
-8. Escribir exactamente `- Ubicación: resources/styles/EditorialStyles.jrtx` y pulsar Enter dos veces.
-9. Escribir exactamente `## Estilos declarados` y pulsar Enter dos veces.
-10. Escribir exactamente `| Estilo | Parent | Uso |` y pulsar Enter.
-11. Escribir exactamente `|---|---|---|` y pulsar Enter.
-12. Escribir exactamente `| Sans_Normal | (default) | Estilo por defecto |` y pulsar Enter.
-13. Escribir exactamente `| TituloPrincipal | Sans_Normal | Títulos principales |` y pulsar Enter.
-14. Escribir exactamente `| TituloSecundario | Sans_Normal | Títulos secundarios |` y pulsar Enter.
-15. Escribir exactamente `| TextoTablaCabecera | Sans_Normal | Cabeceras de tabla |` y pulsar Enter.
-16. Escribir exactamente `| TextoTabla | Sans_Normal | Celdas de tabla |` y pulsar Enter.
-17. Escribir exactamente `| TextoPequeño | Sans_Normal | Textos pequeños |` y pulsar Enter.
-18. Escribir exactamente `| TextoEstado | TextoTabla | Estado con condicionales |` y pulsar Enter dos veces.
-19. Escribir exactamente `## Informes que importan la plantilla` y pulsar Enter dos veces.
-20. Escribir exactamente `- informe_ventas.jrxml` y pulsar Enter.
-21. Pulsar Ctrl+S para guardar el archivo.
-
-**Verificación visual:** el panel Project Explorer muestra el archivo `PLANTILLAS.md` en la raíz del proyecto `EditorialReports`.
-
-**Qué hace:** incorpora al proyecto un documento que registra la plantilla de estilo y sus estilos declarados.
-**Por qué:** la documentación de la plantilla facilita el mantenimiento y la incorporación de nuevos desarrolladores.
-**Error común:** olvidar documentar el estilo condicional. Solución: incluir todos los estilos en la tabla.
-**Analogía:** es como dejar en la editorial una ficha técnica con la hoja de estilo maestra y sus estilos.
-
----
+**Verificación visual:** PLANTILLAS.md coincide con JRTX y JRXML ejecutables.
 
 ---
 

@@ -5,18 +5,9 @@
   "embedded_executable_blocks": 14,
   "e2e_run_inicial": 36225835677,
   "e2e_run_final": 36237682524,
-  "docs_run_final": 36237682222,
-  "pdfs": {
-    "teoria": {
-      "paginas": 28,
-      "sha256_manifest": "M5/SHA256SUMS.txt"
-    },
-    "practica": {
-      "paginas": 184,
-      "sha256_manifest": "M5/SHA256SUMS.txt"
-    }
-  },
-  "inspeccion_visual": "PASS",
+  "pdf_precheck": "M5/PRECHECK_M5.json",
+  "sha256_manifest": "M5/SHA256SUMS.txt",
+  "inspeccion_visual_cierre": "M5/README.md",
   "invariantes": {
     "libros": 14,
     "ventas": 9,

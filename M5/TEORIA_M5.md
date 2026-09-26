@@ -76,7 +76,7 @@ Un subreporte se declara en el informe maestro con el elemento `subreport`. Este
 <subreport>
     <reportElement x="0" y="20" width="555" height="30" uuid="..."/>
     <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-    <subreportExpression><![CDATA["reports/subreporte_ventas.jasper"]]></subreportExpression>
+    <subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>
 </subreport>
 ```
 
@@ -84,7 +84,7 @@ Un subreporte se declara en el informe maestro con el elemento `subreport`. Este
 **Línea 1:** `<subreport>` → declara el elemento de subreporte.
 **Línea 2:** `<reportElement x="0" y="20" width="555" height="30" uuid="..."/>` → posición y tamaño del elemento dentro de la banda.
 **Línea 3:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → expresión que devuelve la conexión que el subreporte utilizará. El parámetro interno `REPORT_CONNECTION` contiene la conexión que el maestro recibió. El subreporte la hereda y ejecuta su propia consulta.
-**Línea 4:** `<subreportExpression><![CDATA["reports/subreporte_ventas.jasper"]]></subreportExpression>` → expresión que devuelve la ruta del artefacto compilado del subreporte.
+**Línea 4:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → expresión que devuelve la ruta del artefacto compilado del subreporte.
 
 La conexión no es la única forma de alimentar un subreporte. El subreporte puede recibir una fuente de datos propia mediante el elemento `dataSourceExpression` o heredar la fuente de datos del maestro. La elección entre las tres formas depende de si el subreporte necesita una consulta distinta, la misma conexión o los mismos datos. La conexión es la forma más habitual cuando el subreporte ejecuta su propia consulta SQL. La fuente de datos propia se utiliza cuando el subreporte recibe una colección de objetos Java. La herencia de la fuente de datos se utiliza cuando el subreporte itera sobre los mismos registros que el maestro.
 
@@ -159,7 +159,7 @@ El caso más habitual de subreporte es el que se alimenta con una conexión JDBC
 <subreport>
     <reportElement x="0" y="20" width="555" height="30" uuid="..."/>
     <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-    <subreportExpression><![CDATA["reports/subreporte_ventas.jasper"]]></subreportExpression>
+    <subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>
     <subreportParameter name="tituloLibro">
         <subreportParameterExpression><![CDATA[$F{titulo}]]></subreportParameterExpression>
     </subreportParameter>
@@ -170,7 +170,7 @@ El caso más habitual de subreporte es el que se alimenta con una conexión JDBC
 **Línea 1:** `<subreport>` → declara el subreporte.
 **Línea 2:** `<reportElement .../>` → posición y tamaño del elemento.
 **Línea 3:** `<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>` → pasa la conexión del maestro al subreporte. El subreporte ejecutará su propia consulta contra esta conexión.
-**Línea 4:** `<subreportExpression><![CDATA["reports/subreporte_ventas.jasper"]]></subreportExpression>` → ruta del artefacto compilado del subreporte.
+**Línea 4:** `<subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>` → ruta del artefacto compilado del subreporte.
 **Línea 5-7:** `<subreportParameter name="tituloLibro">` → paso del parámetro `tituloLibro` al subreporte con el valor del campo `titulo` del maestro.
 
 El subreporte que se alimenta con una conexión JDBC declara su propia consulta SQL con la sintaxis `$P{}`. La consulta puede incluir parámetros que el maestro ha proporcionado. El motor ejecuta la consulta del subreporte una vez por cada emisión de la banda que lo contiene. Si el maestro tiene 10 registros y el subreporte se declara en la banda de detalle, la consulta del subreporte se ejecuta 10 veces. Esta característica es la que permite construir relaciones maestro-detalle sin necesidad de escribir una consulta SQL con `JOIN` y `GROUP BY`. La contrapartida es el rendimiento: muchas consultas pequeñas pueden ser más lentas que una consulta grande.
@@ -204,7 +204,7 @@ Un subreporte también puede alimentarse con una fuente de datos propia que el m
 <subreport>
     <reportElement x="0" y="20" width="555" height="30" uuid="..."/>
     <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{listaVentas})]]></dataSourceExpression>
-    <subreportExpression><![CDATA["reports/subreporte_ventas.jasper"]]></subreportExpression>
+    <subreportExpression><![CDATA["reports/subinforme_ventas_detalle.jasper"]]></subreportExpression>
 </subreport>
 ```
 
@@ -450,12 +450,12 @@ Después, `JasperFillManager.fillReport(...)` ejecuta el informe principal y, cu
 ## Resumen rápido de la teoría
 
 - La tabla es un componente que organiza datos en filas y columnas.
-- Se declara con el elemento `componentElement` y el elemento `jr:table`.
+- Se declara con el elemento `componentElement` y el elemento `c:table`.
 - La tabla se alimenta de un `subDataset` con su propia consulta y sus propios campos.
 - El `datasetRun` conecta el subdataset con la conexión o la fuente de datos.
 - Los parámetros se pasan con `datasetParameter`.
 - Cada columna se declara con `jr:column` y contiene un `columnHeader` y un `detailCell`.
-- Los estilos se declaran con `jr:tableStyle` y sus bloques `box`, `columnHeaderStyle` y `detailCellStyle`.
+- Los estilos son estilos JasperReports normales aplicados a `c:columnHeader` y `c:detailCell`.
 - La tabla se compila dentro de `informe_ventas.jasper`; no genera un `.jasper` independiente.
 
 ---
@@ -480,7 +480,7 @@ Después, `JasperFillManager.fillReport(...)` ejecuta el informe principal y, cu
 Un grupo en JasperReports es una sección del informe que se emite cada vez que cambia el valor de una expresión. La expresión se denomina expresión de agrupación y se declara en el elemento `groupExpression`. El motor evalúa la expresión en cada registro del informe y, cuando el valor cambia, cierra el grupo actual y abre uno nuevo. Este comportamiento permite organizar los registros por categoría, por año, por rango de precio o por cualquier otro criterio. La agrupación es la técnica que permite construir informes con secciones que se repiten un número indeterminado de veces según los datos.
 
 ```xml
-<group name="GrupoCategoria">
+<group name="CategoriaGroup">
     <groupExpression><![CDATA[$F{categoria}]]></groupExpression>
     <groupHeader>
         <band height="20">
@@ -497,7 +497,7 @@ Un grupo en JasperReports es una sección del informe que se emite cada vez que 
 ```
 
 
-**Línea 1:** `<group name="GrupoCategoria">` → declara un grupo con nombre identificable. El nombre se utiliza para referenciar el grupo desde las variables y desde otras partes del informe.
+**Línea 1:** `<group name="CategoriaGroup">` → declara un grupo con nombre identificable. El nombre se utiliza para referenciar el grupo desde las variables y desde otras partes del informe.
 **Línea 2:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → expresión de agrupación. El motor evalúa el campo `categoria` en cada registro y agrupa los registros consecutivos que tienen el mismo valor.
 **Línea 3-13:** `<groupHeader>` → banda que se emite al inicio de cada grupo. En este caso contiene un texto estático con la etiqueta `Categoría:`. La banda del encabezado puede incluir también el valor del campo de agrupación mediante una expresión.
 
@@ -534,7 +534,7 @@ JERARQUÍA DE GRUPOS ANIDADOS
 Cada grupo tiene dos bandas asociadas: `groupHeader` y `groupFooter`. La banda `groupHeader` se emite al inicio de cada grupo, antes del primer registro del grupo. La banda `groupFooter` se emite al final de cada grupo, después del último registro. Ambas bandas son opcionales: un grupo puede tener solo el encabezado, solo el pie o ambos. La banda `groupHeader` se utiliza habitualmente para mostrar el valor de la agrupación y los encabezados de columna del grupo. La banda `groupFooter` se utiliza para mostrar los subtotales del grupo.
 
 ```xml
-<group name="GrupoCategoria">
+<group name="CategoriaGroup">
     <groupExpression><![CDATA[$F{categoria}]]></groupExpression>
     <groupHeader>
         <band height="20">
@@ -561,7 +561,7 @@ Cada grupo tiene dos bandas asociadas: `groupHeader` y `groupFooter`. La banda `
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font fontName="DejaVu Sans" size="10" isBold="true"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$V{SubtotalCategoria}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$V{GrupoImporte}]]></textFieldExpression>
             </textField>
         </band>
     </groupFooter>
@@ -569,10 +569,10 @@ Cada grupo tiene dos bandas asociadas: `groupHeader` y `groupFooter`. La banda `
 ```
 
 
-**Línea 1:** `<group name="GrupoCategoria">` → declara el grupo.
+**Línea 1:** `<group name="CategoriaGroup">` → declara el grupo.
 **Línea 2:** `<groupExpression><![CDATA[$F{categoria}]]></groupExpression>` → expresión de agrupación por categoría.
 **Línea 3-13:** `<groupHeader>` con la banda de encabezado. La banda contiene un `textField` que muestra el valor de la categoría.
-**Línea 14-34:** `<groupFooter>` con la banda de pie. La banda contiene un `staticText` con el rótulo `Subtotal categoría:` y un `textField` con la variable `SubtotalCategoria`.
+**Línea 14-34:** `<groupFooter>` con la banda de pie. La banda contiene un `staticText` con el rótulo `Subtotal categoría:` y un `textField` con la variable `GrupoImporte`.
 
 La banda `groupHeader` se emite al inicio de cada grupo. Si el grupo tiene muchos registros y ocupa varias páginas, la banda `groupHeader` se emite una sola vez, al principio del grupo. El atributo `isReprintHeaderOnEachPage` de la banda permite que el encabezado se reimprima en cada página del grupo para que el lector pueda identificar la categoría. La banda `groupFooter` se emite una sola vez, al final del grupo. Si el grupo tiene un pie y el grupo termina al final de una página, el pie se emite antes del salto de página.
 
@@ -612,18 +612,18 @@ EMISIÓN DE LAS BANDAS DEL GRUPO
 Una variable con `resetType="Group"` se reinicia al inicio de cada grupo. La combinación del cálculo y del reinicio permite calcular subtotales por grupo. El atributo `resetGroup` de la variable indica el nombre del grupo que dispara el reinicio. El motor reinicia la variable cada vez que se abre un nuevo grupo con ese nombre. La variable acumula el valor a lo largo del grupo y se reinicia al inicio del siguiente. La banda `groupFooter` es el lugar natural para mostrar el valor final del subtotal antes de que la variable se reinicie.
 
 ```xml
-<variable name="SubtotalCategoria" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="GrupoCategoria">
+<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">
     <variableExpression><![CDATA[$F{importe_total}]]></variableExpression>
 </variable>
-<variable name="ContadorCategoria" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="GrupoCategoria">
+<variable name="GrupoLibros" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="CategoriaGroup">
     <variableExpression><![CDATA[$F{titulo}]]></variableExpression>
 </variable>
 ```
 
 
-**Línea 1:** `<variable name="SubtotalCategoria" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="GrupoCategoria">` → declara una variable que acumula el importe total mediante suma y se reinicia al inicio de cada grupo `GrupoCategoria`.
+**Línea 1:** `<variable name="GrupoImporte" class="java.lang.Double" calculation="Sum" resetType="Group" resetGroup="CategoriaGroup">` → declara una variable que acumula el importe total mediante suma y se reinicia al inicio de cada grupo `CategoriaGroup`.
 **Línea 2:** `<variableExpression><![CDATA[$F{importe_total}]]></variableExpression>` → expresión que se evalúa en cada registro del grupo.
-**Línea 4:** `<variable name="ContadorCategoria" ...>` → declara una variable que cuenta los libros de cada categoría con reinicio por grupo.
+**Línea 4:** `<variable name="GrupoLibros" ...>` → declara una variable que cuenta los libros de cada categoría con reinicio por grupo.
 
 La declaración de la variable con `resetType="Group"` requiere que el grupo exista y que el atributo `resetGroup` coincida con el nombre del grupo. Si el grupo no existe o el nombre no coincide, el compilador lanza un error. La variable se declara antes del grupo en el JRXML porque el atributo `resetGroup` la referencia. La organización del archivo es: parámetros, campos, variables, grupos y bandas. El motor procesa las variables antes de los grupos y las reinicia cuando el grupo correspondiente se abre. La coherencia entre el nombre de la variable, el nombre del grupo y el atributo `resetGroup` es condición necesaria para que el subtotal se calcule correctamente.
 
@@ -631,23 +631,23 @@ La declaración de la variable con `resetType="Group"` requiere que el grupo exi
 CICLO DE VIDA DE UNA VARIABLE CON RESETTYPE="GROUP"
 
   Inicio del grupo "Novela":
-    ContadorCategoria = 0
-    SubtotalCategoria = 0.0
+    GrupoLibros = 0
+    GrupoImporte = 0.0
     │
     ▼
   Registro 1: Cien años de soledad
-    ContadorCategoria = 1
-    SubtotalCategoria = 159.60
+    GrupoLibros = 1
+    GrupoImporte = 159.60
 
   Registro 2: Rayuela
-    ContadorCategoria = 2
-    SubtotalCategoria = 294.60
+    GrupoLibros = 2
+    GrupoImporte = 294.60
 
   ...
 
   Último registro del grupo: Paradiso
-    ContadorCategoria = 12
-    SubtotalCategoria = 252.55
+    GrupoLibros = 12
+    GrupoImporte = 252.55
 
   Fin del grupo "Novela" → se emite la banda groupFooter con los valores finales.
   │
@@ -665,7 +665,7 @@ CICLO DE VIDA DE UNA VARIABLE CON RESETTYPE="GROUP"
 El elemento `group` admite varias propiedades que controlan su comportamiento. El atributo `isStartNewPage` determina si el grupo debe comenzar en una página nueva. El atributo `isReprintHeaderOnEachPage` determina si el encabezado del grupo se debe reimprimir en cada página del grupo. El atributo `minHeightToStartNewPage` define la altura mínima que debe quedar al final de la página para que el grupo pueda comenzar en ella. Si el espacio disponible es inferior a este valor, el motor emite un salto de página antes de comenzar el grupo. Estas propiedades permiten controlar el comportamiento del grupo en relación con los saltos de página.
 
 ```xml
-<group name="GrupoCategoria" isStartNewPage="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="60">
+<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">
     <groupExpression><![CDATA[$F{categoria}]]></groupExpression>
     <groupHeader>
         <band height="25">
@@ -681,7 +681,7 @@ El elemento `group` admite varias propiedades que controlan su comportamiento. E
 ```
 
 
-**Línea 1:** `<group name="GrupoCategoria" isStartNewPage="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="60">` → declara el grupo con tres propiedades. `isStartNewPage="true"` hace que cada grupo comience en una página nueva. `isReprintHeaderOnEachPage="true"` reimprime el encabezado del grupo en cada página. `minHeightToStartNewPage="60"` exige al menos 60 píxeles libres al final de la página para que el grupo pueda comenzar.
+**Línea 1:** `<group name="CategoriaGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="80">` → declara el grupo con tres propiedades. `isStartNewPage="false"` hace que cada grupo comience en una página nueva. `isReprintHeaderOnEachPage="true"` reimprime el encabezado del grupo en cada página. `minHeightToStartNewPage="80"` exige al menos 60 píxeles libres al final de la página para que el grupo pueda comenzar.
 
 La propiedad `isStartNewPage` resulta útil cuando cada grupo debe ocupar una sección independiente del documento. Un informe de facturas con una factura por grupo puede comenzar cada factura en una página nueva. La propiedad `isReprintHeaderOnEachPage` resulta útil cuando el grupo ocupa varias páginas y el lector necesita identificar la categoría en cada página. La propiedad `minHeightToStartNewPage` resulta útil cuando el encabezado y el primer registro del grupo deben aparecer juntos en la misma página. La combinación de las tres propiedades permite construir informes visualmente coherentes y evitar saltos de página que separan el encabezado de su contenido.
 
@@ -690,7 +690,7 @@ COMPORTAMIENTO DE LAS PROPIEDADES DEL GRUPO
 
   isStartNewPage="false" (por defecto):
     El grupo comienza en la misma página que el anterior si hay espacio.
-  isStartNewPage="true":
+  isStartNewPage="false":
     El grupo comienza en una página nueva siempre.
 
   isReprintHeaderOnEachPage="false" (por defecto):
@@ -700,7 +700,7 @@ COMPORTAMIENTO DE LAS PROPIEDADES DEL GRUPO
 
   minHeightToStartNewPage="0" (por defecto):
     El grupo comienza en la página actual si hay espacio, aunque sea mínimo.
-  minHeightToStartNewPage="60":
+  minHeightToStartNewPage="80":
     El grupo comienza en la página actual solo si hay al menos 60 píxeles libres.
 ```
 
@@ -714,7 +714,7 @@ COMPORTAMIENTO DE LAS PROPIEDADES DEL GRUPO
 Los grupos se combinan con los subreportes y las tablas para construir informes con múltiples niveles de detalle. Un informe puede tener un grupo por categoría, y dentro de cada grupo, una tabla con los libros de esa categoría. El grupo organiza los registros del informe principal y la tabla muestra los datos relacionados del subdataset. La combinación de ambos niveles permite construir informes jerárquicos que no pueden representarse con una sola consulta SQL. La coordinación entre los dos niveles se realiza mediante el paso de parámetros del grupo a la tabla.
 
 ```xml
-<group name="GrupoCategoria">
+<group name="CategoriaGroup">
     <groupExpression><![CDATA[$F{categoria}]]></groupExpression>
     <groupHeader>
         <band height="25">
@@ -743,7 +743,7 @@ Los grupos se combinan con los subreportes y las tablas para construir informes 
             </staticText>
             <textField pattern="#,##0.00 €">
                 <reportElement x="200" y="0" width="130" height="20" uuid="..."/>
-                <textFieldExpression><![CDATA[$V{SubtotalCategoria}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$V{GrupoImporte}]]></textFieldExpression>
             </textField>
         </band>
     </groupFooter>
@@ -751,7 +751,7 @@ Los grupos se combinan con los subreportes y las tablas para construir informes 
 ```
 
 
-**Línea 1:** `<group name="GrupoCategoria">` → declara el grupo por categoría.
+**Línea 1:** `<group name="CategoriaGroup">` → declara el grupo por categoría.
 **Línea 3-15:** `<groupHeader>` con el encabezado del grupo que muestra la categoría.
 **Línea 16-23:** `<detail>` con la banda de detalle del grupo. Cada libro de la categoría se emite en esta banda.
 **Línea 24-38:** `<groupFooter>` con el subtotal de la categoría.
@@ -842,14 +842,14 @@ Un gráfico puede ejecutar una consulta independiente mediante un `subDataset` y
 <subDataset name="DatasetVentasPorCategoria">
     <queryString language="sql"><![CDATA[
         SELECT l.categoria AS categoria_grafico,
-               SUM(v.cantidad * v.precio_unitario) AS importe_grafico
+               SUM(v.cantidad * v.precio_unitario) AS importe_categoria
         FROM libros l
         LEFT JOIN ventas v ON l.titulo = v.titulo_libro
         GROUP BY l.categoria
         ORDER BY l.categoria
     ]]></queryString>
     <field name="categoria_grafico" class="java.lang.String"/>
-    <field name="importe_grafico" class="java.lang.Double"/>
+    <field name="importe_categoria" class="java.lang.Double"/>
 </subDataset>
 ```
 
@@ -882,7 +882,7 @@ Un `categoryDataset` contiene una o varias `categorySeries`. Cada serie define t
     <categorySeries>
         <seriesExpression><![CDATA["Importe"]]></seriesExpression>
         <categoryExpression><![CDATA[$F{categoria_grafico}]]></categoryExpression>
-        <valueExpression><![CDATA[$F{importe_grafico}]]></valueExpression>
+        <valueExpression><![CDATA[$F{importe_categoria}]]></valueExpression>
     </categorySeries>
 </categoryDataset>
 ```
@@ -929,84 +929,50 @@ En el E2E, el éxito se demuestra compilando `informe_ventas.jrxml`, llenándolo
 
 ### Bloque 1 — El elemento crosstab y su estructura
 
-Un crosstab, o tabla cruzada, es un componente que organiza los datos en una matriz de filas y columnas con celdas que contienen valores agregados. A diferencia de la tabla, que presenta los datos en una estructura fija de columnas, el crosstab genera dinámicamente tantas filas y columnas como valores distintos tengan los campos de agrupación. Esta característica lo hace adecuado para representar datos que cambian de forma según los valores del conjunto. El crosstab se declara dentro de una banda del informe mediante el elemento `componentElement` que contiene un elemento `crosstab`. El motor genera la matriz en el momento de la emisión y la incrusta en el documento.
+En JasperReports 6.20.0 el crosstab es un elemento nativo del JRXML. En el checkpoint 5.5 se coloca directamente dentro de la banda Summary; no se envuelve en un `componentElement`. El propio crosstab contiene su `reportElement`, el dataset, los grupos, las medidas y las celdas.
 
 ```xml
-<componentElement>
-    <reportElement x="0" y="0" width="555" height="200" uuid="..."/>
-    <crosstab>
-        <rowGroup name="Categoria" width="150" totalPosition="End">
-            <bucket><bucketExpression><![CDATA[$F{categoria}]]></bucketExpression></bucket>
-        </rowGroup>
-        <columnGroup name="Anio" height="30" totalPosition="End">
-            <bucket><bucketExpression><![CDATA[$F{anio}]]></bucketExpression></bucket>
-        </columnGroup>
-        <measure name="ImporteTotal" class="java.lang.Double" calculation="Sum">
-            <measureExpression><![CDATA[$F{importe_total}]]></measureExpression>
-        </measure>
-        <crosstabCell height="20" width="80">
-            <textField pattern="#,##0.00 €">
-                <reportElement x="0" y="0" width="80" height="20" uuid="..."/>
-                <textFieldExpression><![CDATA[$V{ImporteTotal}]]></textFieldExpression>
-            </textField>
-        </crosstabCell>
-    </crosstab>
-</componentElement>
+<crosstab>
+    <reportElement x="0" y="455" width="555" height="225"/>
+    <crosstabDataset>
+        <dataset>
+            <datasetRun subDataset="DatasetCrosstabVentas">
+                <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+            </datasetRun>
+        </dataset>
+    </crosstabDataset>
+    ...
+</crosstab>
 ```
 
+**Línea 1:** `<crosstab>` → abre la tabla cruzada nativa.
 
-**Línea 1:** `<componentElement>` → declara un componente dentro de una banda del informe.
-**Línea 2:** `<reportElement x="0" y="0" width="555" height="200" uuid="..."/>` → posición y tamaño inicial del componente. La anchura y la altura se ajustan automáticamente según el número de filas y columnas generadas.
-**Línea 3:** `<crosstab>` → declara el elemento crosstab.
-**Línea 4-6:** `<rowGroup name="Categoria" width="150" totalPosition="End">` → declara el grupo de fila con nombre `Categoria`, ancho 150 píxeles y total al final.
-**Línea 7-9:** `<columnGroup name="Anio" height="30" totalPosition="End">` → declara el grupo de columna con nombre `Anio`, altura 30 píxeles y total al final.
-**Línea 10-12:** `<measure name="ImporteTotal" ...>` → declara la medida con nombre `ImporteTotal`, tipo `Double` y cálculo `Sum`.
-**Línea 13-17:** `<crosstabCell>` → declara la celda que contiene el valor de la medida.
+**Línea 2:** `<reportElement .../>` → fija posición y tamaño dentro de Summary.
 
-El crosstab tiene tres partes diferenciadas. La primera son los grupos de fila, que definen las etiquetas de las filas. La segunda son los grupos de columna, que definen las etiquetas de las columnas. La tercera son las medidas, que definen los valores que se muestran en las intersecciones. El motor recorre el subdataset, extrae los valores distintos de los grupos de fila y de columna, y construye la matriz. Cada combinación de fila y columna produce una celda con el valor agregado de la medida. Si una combinación no tiene datos, la celda correspondiente queda vacía.
+**Líneas 3-9:** `crosstabDataset` y `datasetRun` → ejecutan `DatasetCrosstabVentas` con la conexión del informe principal.
 
-```text
-ESTRUCTURA DE UN CROSSTAB
-
-  Subdataset: filas con (categoria, anio, importe)
-
-  Matriz generada:
-              │  2024     │  2025     │  2026     │ Total
-  ────────────┼───────────┼───────────┼───────────┼───────
-  Novela      │  1200.00  │  1500.00  │  800.00   │  3500.00
-  ────────────┼───────────┼───────────┼───────────┼───────
-  Ensayo      │   400.00  │   600.00  │  300.00   │  1300.00
-  ────────────┼───────────┼───────────┼───────────┼───────
-  Poesía      │   150.00  │   200.00  │  100.00   │   450.00
-  ────────────┼───────────┼───────────┼───────────┼───────
-  Total       │  1750.00  │  2300.00  │ 1200.00   │  5250.00
-```
-
-
-**Qué representa el diagrama:** la estructura del crosstab con los grupos de fila, los grupos de columna y las medidas. Cada celda muestra el valor agregado de la medida para la combinación de fila y columna.
-
-**Por qué es relevante:** permite comprender cómo el crosstab genera dinámicamente la matriz según los valores del subdataset.
+El motor genera dinámicamente filas y columnas a partir de los grupos del crosstab y calcula las medidas en cada intersección. La definición completa se compila dentro de `informe_ventas.jasper`.
 
 ### Bloque 2 — Los grupos de fila y de columna
 
 Los grupos de fila y de columna se declaran con los elementos `rowGroup` y `columnGroup`. Cada grupo contiene un elemento `bucket` con un elemento `bucketExpression` que devuelve el valor de agrupación. El motor extrae los valores distintos de la expresión y los ordena según su orden natural. El atributo `width` del `rowGroup` define el ancho de la columna de etiquetas de fila. El atributo `height` del `columnGroup` define la altura de la fila de etiquetas de columna. El atributo `totalPosition` define la posición de la fila o columna de totales: `Start`, `End`, `None`.
 
 ```xml
-<rowGroup name="Categoria" width="150" totalPosition="End">
+<rowGroup name="CategoriaCross" width="150" totalPosition="End">
     <bucket>
-        <bucketExpression><![CDATA[$F{categoria}]]></bucketExpression>
+        <bucketExpression><![CDATA[$F{categoria_cross}]]></bucketExpression>
     </bucket>
 </rowGroup>
-<columnGroup name="Anio" height="30" totalPosition="End">
+<columnGroup name="AnioCross" height="30" totalPosition="End">
     <bucket>
-        <bucketExpression><![CDATA[$F{anio}]]></bucketExpression>
+        <bucketExpression><![CDATA[$F{anio_cross}]]></bucketExpression>
     </bucket>
 </columnGroup>
 ```
 
 
-**Línea 1-5:** `<rowGroup name="Categoria" width="150" totalPosition="End">` → declara el grupo de fila `Categoria` con ancho 150 píxeles y total al final. La expresión `$F{categoria}` determina los valores distintos que aparecerán en las filas.
-**Línea 6-10:** `<columnGroup name="Anio" height="30" totalPosition="End">` → declara el grupo de columna `Anio` con altura 30 píxeles y total al final. La expresión `$F{anio}` determina los valores distintos que aparecerán en las columnas.
+**Línea 1-5:** `<rowGroup name="CategoriaCross" width="150" totalPosition="End">` → declara el grupo de fila `CategoriaCross` con ancho 150 píxeles y total al final. La expresión `$F{categoria_cross}` determina los valores distintos que aparecerán en las filas.
+**Línea 6-10:** `<columnGroup name="AnioCross" height="30" totalPosition="End">` → declara el grupo de columna `AnioCross` con altura 30 píxeles y total al final. La expresión `$F{anio_cross}` determina los valores distintos que aparecerán en las columnas.
 
 Los grupos pueden anidarse para construir matrices con varios niveles. Un crosstab puede tener dos grupos de fila (por ejemplo, categoría y subcategoría) y dos grupos de columna (por ejemplo, año y trimestre). La combinación de varios grupos produce una matriz con filas y columnas jerárquicas. El orden de declaración determina la jerarquía: el primer grupo es el más externo y el último es el más interno. La anidación de grupos es una de las características que hacen del crosstab una herramienta potente para el análisis multidimensional.
 
@@ -1035,14 +1001,14 @@ CROSSTAB CON DOS GRUPOS DE FILA Y DOS DE COLUMNA
 Una medida se declara con el elemento `measure` y define el valor que se muestra en las celdas del crosstab. El atributo `name` identifica la medida dentro del crosstab. El atributo `class` indica el tipo Java del valor. El atributo `calculation` indica el tipo de cálculo: `Sum`, `Count`, `Average`, `Lowest`, `Highest`, `StandardDeviation`, `Variance`, `First`, `DistinctCount`. El elemento hijo `measureExpression` contiene la expresión que devuelve el valor que se acumula. La medida se evalúa en el contexto de cada celda del crosstab, es decir, para cada combinación de fila y columna.
 
 ```xml
-<measure name="ImporteTotal" class="java.lang.Double" calculation="Sum">
-    <measureExpression><![CDATA[$F{importe_total}]]></measureExpression>
+<measure name="ImporteCross" class="java.lang.Double" calculation="Sum">
+    <measureExpression><![CDATA[$F{importe_cross}]]></measureExpression>
 </measure>
 ```
 
 
-**Línea 1:** `<measure name="ImporteTotal" class="java.lang.Double" calculation="Sum">` → declara la medida `ImporteTotal` con tipo `Double` y cálculo `Sum`.
-**Línea 2:** `<measureExpression><![CDATA[$F{importe_total}]]></measureExpression>` → expresión que devuelve el valor que se acumula en cada celda.
+**Línea 1:** `<measure name="ImporteCross" class="java.lang.Double" calculation="Sum">` → declara la medida `ImporteCross` con tipo `Double` y cálculo `Sum`.
+**Línea 2:** `<measureExpression><![CDATA[$F{importe_cross}]]></measureExpression>` → expresión que devuelve el valor que se acumula en cada celda.
 **Línea 3:** `</measure>` → cierra la declaración de la medida.
 
 Un crosstab puede tener varias medidas. Cada medida se muestra en una celda propia y su valor se calcula de forma independiente. Un crosstab de ventas puede mostrar el importe total con cálculo `Sum` y el número de ventas con cálculo `Count`. La combinación de varias medidas permite construir matrices que muestran distintas perspectivas del mismo conjunto de datos. La celda de cada medida puede tener su propio formato, su propio estilo y su propia expresión. La independencia entre las medidas permite construir crosstabs visualmente ricos sin duplicar la estructura de la matriz.
@@ -1078,7 +1044,7 @@ Las celdas del crosstab se declaran con el elemento `crosstabCell`. Cada celda c
         <textElement textAlignment="Right" verticalAlignment="Middle">
             <font fontName="DejaVu Sans" size="9"/>
         </textElement>
-        <textFieldExpression><![CDATA[$V{ImporteTotal}]]></textFieldExpression>
+        <textFieldExpression><![CDATA[$V{ImporteCross}]]></textFieldExpression>
     </textField>
 </crosstabCell>
 ```
@@ -1088,7 +1054,7 @@ Las celdas del crosstab se declaran con el elemento `crosstabCell`. Cada celda c
 **Línea 2:** `<textField pattern="#,##0.00 €">` → declara el campo de texto con el patrón numérico.
 **Línea 3:** `<reportElement x="0" y="0" width="80" height="20" uuid="..."/>` → posición y tamaño del elemento dentro de la celda.
 **Línea 4-6:** `<textElement textAlignment="Right" verticalAlignment="Middle">` → alineación del texto.
-**Línea 7:** `<textFieldExpression><![CDATA[$V{ImporteTotal}]]></textFieldExpression>` → expresión que referencia la medida.
+**Línea 7:** `<textFieldExpression><![CDATA[$V{ImporteCross}]]></textFieldExpression>` → expresión que referencia la medida.
 **Línea 8:** `</textField>` → cierra el campo.
 
 El crosstab admite varios tipos de celdas. La celda `crosstabCell` define la celda genérica que se aplica a todas las intersecciones. El crosstab también admite celdas específicas para los encabezados de fila y de columna mediante los elementos `rowGroup` y `columnGroup` que contienen elementos `crosstabRowHeader` y `crosstabColumnHeader`. Estas celdas contienen el texto que aparece en los encabezados de fila y de columna. La personalización de las celdas de encabezado permite construir matrices con encabezados visualmente ricos.
@@ -1126,7 +1092,7 @@ El crosstab también forma parte de `informe_ventas.jasper`; no genera un `_cros
 ## Resumen rápido de la teoría
 
 - El crosstab es una matriz que organiza los datos en filas, columnas y medidas.
-- Se declara con `componentElement` y el elemento `crosstab`.
+- Se declara directamente con el elemento nativo `crosstab`.
 - Los grupos de fila y de columna se declaran con `rowGroup` y `columnGroup`.
 - La expresión `bucketExpression` determina los valores distintos de cada grupo.
 - Las medidas se declaran con `measure` y contienen su cálculo y su expresión.
@@ -1292,7 +1258,7 @@ PRECEDENCIA DE ESTILOS
 
 ### Bloque 4 — Aplicación de estilos de plantilla a componentes
 
-Los estilos de la plantilla pueden aplicarse a elementos, bandas y componentes. Los elementos `staticText`, `textField`, `image`, `line`, `rectangle` y `frame` admiten el atributo `style` con el nombre del estilo. Las bandas admiten el atributo `style` en el elemento `band`. Los componentes reutilizan estilos JasperReports en sus elementos internos. En una tabla se aplica el estilo a `c:columnHeader` o `c:detailCell`; en un crosstab, a `cellContents`. No existe un bloque genérico `tableStyle` o `crosstabStyle` en JasperReports 6.20.0. La coherencia de nombres entre la plantilla y el componente es condición necesaria para que el estilo se aplique.
+Los estilos de la plantilla se aplican a elementos y a las celdas internas de componentes. Los elementos `staticText`, `textField`, `image`, `line`, `rectangle` y `frame` admiten el atributo `style` con el nombre del estilo. Los componentes reutilizan estilos JasperReports en sus elementos internos. En una tabla se aplica el estilo a `c:columnHeader` o `c:detailCell`; en un crosstab, a `cellContents`. No existe un bloque genérico `tableStyle` o `crosstabStyle` en JasperReports 6.20.0. La coherencia de nombres entre la plantilla y el componente es condición necesaria para que el estilo se aplique.
 
 ```xml
 <staticText>
@@ -1390,6 +1356,22 @@ VERSIONADO DE PLANTILLAS
 
 ---
 
+#### Contrato real de estilos del checkpoint 5.6
+
+La plantilla ejecutable es `resources/styles/EditorialStyles.jrtx` y expone siete estilos que el JRXML referencia por nombre. Este contrato es importante: cambiar un nombre en el JRTX sin cambiar el JRXML provoca que el estilo no pueda resolverse al compilar.
+
+| Estilo | Aplicación en `informe_ventas.jrxml` |
+|---|---|
+| `M5TituloPrincipal` | título principal del informe |
+| `M5GrupoCabecera` | cabecera de `CategoriaGroup` |
+| `M5TablaCabecera` | `c:columnHeader` de la tabla |
+| `M5TablaDetalle` | `c:detailCell` de la tabla |
+| `M5CrosstabCabecera` | cabeceras de fila y columna del crosstab |
+| `M5CrosstabDetalle` | celda de detalle del crosstab |
+| `M5CrosstabTotal` | cabeceras y celdas de total del crosstab |
+
+Los estilos locales heredados siguen coexistiendo con los externos; `Sans_Normal` continúa siendo el único estilo por defecto del informe. La plantilla no introduce un segundo `isDefault="true"`.
+
 ## Resumen rápido de la teoría
 
 - Una plantilla de estilo es un archivo `.jrtx` con estilos reutilizables.
@@ -1402,5 +1384,7 @@ VERSIONADO DE PLANTILLAS
 - Las buenas prácticas incluyen centralizar, documentar y versionar.
 
 ---
+
+- El contrato ejecutable de la plantilla usa `M5TituloPrincipal`, `M5GrupoCabecera`, `M5TablaCabecera`, `M5TablaDetalle`, `M5CrosstabCabecera`, `M5CrosstabDetalle` y `M5CrosstabTotal`.
 
 ---
