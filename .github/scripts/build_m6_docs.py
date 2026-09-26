@@ -32,7 +32,24 @@ def objectives(point):
  if len(vals)!=6: fail(point+' objective count '+str(len(vals)))
  return vals
 
-def objective_md(point): return '\n'.join('- '+x for x in objectives(point))
+def objective_md(point):
+ vals=objectives(point)
+ corrections={
+  '6.2':{
+   'Configurar las propiedades del exportador mediante SimpleXlsxExporterConfiguration.':
+    'Configurar XLSX mediante SimpleXlsxReportConfiguration y SimpleXlsxExporterConfiguration, separando opciones del informe y del libro.',
+  },
+  '6.3':{
+   'Configurar el exportador JRHtmlExporter con SimpleHtmlExporterConfiguration.':
+    'Configurar el exportador HtmlExporter de JasperReports 6.20.0 con SimpleHtmlExporterConfiguration y SimpleHtmlExporterOutput.',
+  },
+  '6.4':{
+   'Configurar el separador de campos y la codificación del archivo CSV.':
+    'Configurar el separador CSV mediante SimpleCsvExporterConfiguration y la codificación UTF-8 mediante SimpleWriterExporterOutput.',
+  }
+ }
+ vals=[corrections.get(point,{}).get(x,x) for x in vals]
+ return '\n'.join('- '+x for x in vals)
 
 THEORY={}
 
