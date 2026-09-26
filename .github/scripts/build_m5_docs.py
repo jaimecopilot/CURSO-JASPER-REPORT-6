@@ -193,6 +193,35 @@ El `barPlot` configura los ejes y opciones específicas de las barras. El títul
 En el E2E, el éxito se demuestra compilando `informe_ventas.jrxml`, llenándolo con SQLite y exportando el PDF final de seis páginas.
 '''
 
+
+def corrected_55_block1():
+ return r'''### Bloque 1 — El elemento crosstab y su estructura
+
+En JasperReports 6.20.0 el crosstab es un elemento nativo del JRXML. En el checkpoint 5.5 se coloca directamente dentro de la banda Summary; no se envuelve en un `componentElement`. El propio crosstab contiene su `reportElement`, el dataset, los grupos, las medidas y las celdas.
+
+```xml
+<crosstab>
+    <reportElement x="0" y="455" width="555" height="225"/>
+    <crosstabDataset>
+        <dataset>
+            <datasetRun subDataset="DatasetCrosstabVentas">
+                <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+            </datasetRun>
+        </dataset>
+    </crosstabDataset>
+    ...
+</crosstab>
+```
+
+**Línea 1:** `<crosstab>` → abre la tabla cruzada nativa.
+
+**Línea 2:** `<reportElement .../>` → fija posición y tamaño dentro de Summary.
+
+**Líneas 3-9:** `crosstabDataset` y `datasetRun` → ejecutan `DatasetCrosstabVentas` con la conexión del informe principal.
+
+El motor genera dinámicamente filas y columnas a partir de los grupos del crosstab y calcula las medidas en cada intersección. La definición completa se compila dentro de `informe_ventas.jasper`.
+'''
+
 def corrected_55_block5():
  return '''### Bloque 5 — Estilos y compilación del crosstab
 
@@ -253,6 +282,7 @@ def corrected_theory(point, sec):
 - Título, leyenda y plot se configuran dentro del gráfico.
 - El gráfico queda integrado en `informe_ventas.jasper`; no genera un `_chart_N.jasper` separado.'''
  if point=='5.5':
+  theory=replace_block(theory,'### Bloque 1 — El elemento crosstab y su estructura','### Bloque 2 — Los grupos de fila y de columna',corrected_55_block1())
   theory=theory.replace('se declara dentro de una banda del informe mediante el elemento `componentElement` que contiene un elemento `crosstab`','se declara directamente dentro de una banda mediante el elemento nativo `crosstab`')
   theory=theory.replace('<componentElement>\n','').replace('</componentElement>\n','').replace('</componentElement>','')
   summary=summary.replace('Se declara con `componentElement` y el elemento `crosstab`.','Se declara directamente con el elemento nativo `crosstab`.')
