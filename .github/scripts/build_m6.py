@@ -64,7 +64,8 @@ def java_source(level,central=False):
           'import net.sf.jasperreports.export.SimpleExporterInput;','import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;',
           'import net.sf.jasperreports.export.SimplePdfExporterConfiguration;']
  if level>=2:
-  imports += ['import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;',
+  imports += ['import net.sf.jasperreports.engine.data.JRCsvDataSource;',
+              'import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;',
               'import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;',
               'import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;']
  if level>=3:
@@ -77,6 +78,7 @@ def java_source(level,central=False):
   imports += ['import net.sf.jasperreports.engine.export.JRCsvExporter;',
               'import net.sf.jasperreports.engine.export.JRXmlExporter;',
               'import net.sf.jasperreports.engine.export.JRRtfExporter;',
+              'import net.sf.jasperreports.engine.export.oasis.JROdtExporter;',
               'import net.sf.jasperreports.export.SimpleCsvExporterConfiguration;',
               'import net.sf.jasperreports.export.SimpleWriterExporterOutput;',
               'import net.sf.jasperreports.export.SimpleXmlExporterOutput;']
@@ -92,12 +94,18 @@ public class GeneradorInformeVentas {
             String rutaPdf = "output/informe_ventas.pdf";
             String rutaPdfProtegido = "output/informe_ventas_protegido.pdf";
 '''
- if level>=2: out+='            String rutaXlsx = "output/informe_ventas.xlsx";\n'
+ if level>=2:
+  out+='''            String rutaXlsx = "output/informe_ventas.xlsx";
+            String rutaCatalogoJrxml = "reports/informe_catalogo_csv.jrxml";
+            String rutaCatalogoJasper = "reports/informe_catalogo_csv.jasper";
+            String rutaXlsxCatalogo = "output/informe_catalogo.xlsx";
+'''
  if level>=3: out+='            String rutaHtml = "output/informe_ventas.html";\n'
  if level>=4:
   out+='''            String rutaCsv = "output/informe_ventas.csv";
             String rutaXml = "output/informe_ventas.xml";
             String rutaRtf = "output/informe_ventas.rtf";
+            String rutaOdt = "output/informe_ventas.odt";
 '''
  out+='''            String urlBD = "jdbc:sqlite:../EditorialReportsJava/data/editorial.db";
             new File("output").mkdirs();
@@ -106,6 +114,10 @@ public class GeneradorInformeVentas {
             String rutaSubJasper = "reports/subinforme_ventas_detalle.jasper";
             JasperCompileManager.compileReportToFile(rutaSubJrxml, rutaSubJasper);
             JasperCompileManager.compileReportToFile(rutaJrxml, rutaJasper);
+'''
+ if level>=2:
+  out+='            JasperCompileManager.compileReportToFile(rutaCatalogoJrxml, rutaCatalogoJasper);\n'
+ out+='''
 
             Map<String, Object> parametros = new HashMap<String, Object>();
             parametros.put("usuario", "Ana Martínez");
@@ -133,7 +145,18 @@ public class GeneradorInformeVentas {
                 exportarPdfProtegido(documento, rutaPdfProtegido);
 '''
  if level>=2:
-  out+='                exportarXlsx(documento, rutaXlsx);\n'
+  out+='''                exportarXlsx(documento, rutaXlsx, "Ventas");
+                JRCsvDataSource catalogoDataSource = new JRCsvDataSource(new File("data/catalogo.csv"), "UTF-8");
+                try {
+                    catalogoDataSource.setFieldDelimiter(',');
+                    catalogoDataSource.setUseFirstRowAsHeader(true);
+                    JasperPrint documentoCatalogo = JasperFillManager.fillReport(
+                            rutaCatalogoJasper, new HashMap<String, Object>(), catalogoDataSource);
+                    exportarXlsx(documentoCatalogo, rutaXlsxCatalogo, "Catálogo");
+                } finally {
+                    catalogoDataSource.close();
+                }
+'''
  if level>=3:
   out+='''                new File("output/images").mkdirs();
                 new File("output/styles").mkdirs();
@@ -145,16 +168,21 @@ public class GeneradorInformeVentas {
   out+='''                exportarCsv(documento, rutaCsv);
                 exportarXml(documento, rutaXml);
                 exportarRtf(documento, rutaRtf);
+                exportarOdt(documento, rutaOdt);
 '''
  out+='''                System.out.println("Informe PDF generado en: " + new File(rutaPdf).getAbsolutePath());
                 System.out.println("Informe PDF protegido generado en: " + new File(rutaPdfProtegido).getAbsolutePath());
 '''
- if level>=2: out+='                System.out.println("Informe Excel generado en: " + new File(rutaXlsx).getAbsolutePath());\n'
+ if level>=2:
+  out+='''                System.out.println("Informe Excel generado en: " + new File(rutaXlsx).getAbsolutePath());
+                System.out.println("Informe catálogo Excel generado en: " + new File(rutaXlsxCatalogo).getAbsolutePath());
+'''
  if level>=3: out+='                System.out.println("Informe HTML generado en: " + new File(rutaHtml).getAbsolutePath());\n'
  if level>=4:
   out+='''                System.out.println("Informe CSV generado en: " + new File(rutaCsv).getAbsolutePath());
                 System.out.println("Informe XML generado en: " + new File(rutaXml).getAbsolutePath());
                 System.out.println("Informe RTF generado en: " + new File(rutaRtf).getAbsolutePath());
+                System.out.println("Informe ODT generado en: " + new File(rutaOdt).getAbsolutePath());
 '''
  out+='''                System.out.println("Paginas del documento: " + documento.getPages().size());
                 System.out.println("Parametro usuario: " + parametros.get("usuario"));
@@ -212,9 +240,9 @@ public class GeneradorInformeVentas {
 '''
  if level>=2:
   if central:
-   out+='''    private static void exportarXlsx(JasperPrint documento, String ruta) throws Exception {
+   out+='''    private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {
         JRXlsxExporter exportador = new JRXlsxExporter();
-        exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionXlsxReport("Ventas"));
+        exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionXlsxReport(nombreHoja));
         exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionXlsxExportador());
         exportador.setExporterInput(new SimpleExporterInput(documento));
         exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));
@@ -223,10 +251,10 @@ public class GeneradorInformeVentas {
 
 '''
   else:
-   out+='''    private static void exportarXlsx(JasperPrint documento, String ruta) throws Exception {
+   out+='''    private static void exportarXlsx(JasperPrint documento, String ruta, String nombreHoja) throws Exception {
         JRXlsxExporter exportador = new JRXlsxExporter();
         SimpleXlsxReportConfiguration informe = new SimpleXlsxReportConfiguration();
-        informe.setSheetNames(new String[]{"Ventas"});
+        informe.setSheetNames(new String[]{nombreHoja});
         informe.setShowGridLines(Boolean.FALSE);
         informe.setCellLocked(Boolean.FALSE);
         informe.setCellHidden(Boolean.FALSE);
@@ -262,7 +290,7 @@ public class GeneradorInformeVentas {
         configuracion.setHtmlHeader("<html><head><meta charset='UTF-8'>"
                 + "<title>Informe de Ventas - EditorialReports</title>"
                 + "<link rel='stylesheet' href='styles/editorial.css'>"
-                + "</head><body>");
+                + "</head><body><a class=\'enlace-pdf\' href=\'informe_ventas.pdf\'>Descargar PDF</a>");
         configuracion.setHtmlFooter("</body></html>");
         configuracion.setBetweenPagesHtml("<hr class='salto-pagina'/>");
         SimpleHtmlExporterOutput salida = new SimpleHtmlExporterOutput(ruta, "UTF-8");
@@ -315,6 +343,13 @@ public class GeneradorInformeVentas {
    out+='        exportador.setConfiguration(ConfiguracionExportacion.getConfiguracionRtf());\n'
   out+='''        exportador.setExporterInput(new SimpleExporterInput(documento));
         exportador.setExporterOutput(new SimpleWriterExporterOutput(ruta, "UTF-8"));
+        exportador.exportReport();
+    }
+
+    private static void exportarOdt(JasperPrint documento, String ruta) throws Exception {
+        JROdtExporter exportador = new JROdtExporter();
+        exportador.setExporterInput(new SimpleExporterInput(documento));
+        exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(ruta));
         exportador.exportReport();
     }
 
@@ -397,6 +432,15 @@ def css():
     border-top: 1px solid #d6eaf8;
     margin: 24px 0;
 }
+.enlace-pdf {
+    display: block;
+    padding: 8px;
+    background: #173f6b;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    font-family: "DejaVu Sans", Arial, sans-serif;
+}
 '''
 
 def modify_pom_resources(pom):
@@ -439,7 +483,7 @@ El checkpoint 6.2 añade `JRXlsxExporter` sin modificar el JRXML.
 
 - `SimpleXlsxReportConfiguration`: nombre de hoja, cuadrícula, bloqueo/ocultación, detección de tipos y paginación.
 - `SimpleXlsxExporterConfiguration`: opciones del libro, incluida la paleta personalizada.
-- Salida: `output/informe_ventas.xlsx`.
+- Salidas: `output/informe_ventas.xlsx` (hoja `Ventas`) y, como reto resuelto, `output/informe_catalogo.xlsx` (hoja `Catálogo`).
 - Apache POI 5.1.0 se declara explícitamente porque JasperReports 6.20.0 lo marca como dependencia opcional.
 
 Corrección respecto a la fuente original: `setSheetNames`, `setShowGridLines`, `setCellLocked` y `setCellHidden` son configuración por informe, no métodos de `SimpleXlsxExporterConfiguration`.
@@ -458,6 +502,7 @@ El checkpoint 6.3 usa `HtmlExporter`, `SimpleHtmlExporterConfiguration` y `Simpl
 - Recursos de imagen gestionados con `FileHtmlResourceHandler` desde el `HtmlExporterOutput`.
 - Salida: `output/informe_ventas.html`.
 - CSS copiado a `output/styles/editorial.css`.
+- Reto resuelto: la cabecera contiene un enlace `Descargar PDF` a `informe_ventas.pdf`.
 
 Corrección respecto a la fuente original: la gestión de directorios/URI de imágenes no pertenece a `SimpleHtmlExporterConfiguration`.
 ''')
@@ -471,8 +516,9 @@ El checkpoint 6.4 conserva PDF/XLSX/HTML y añade:
 - CSV con `JRCsvExporter`, separador `;`, salto de línea y BOM.
 - XML con `JRXmlExporter` y `SimpleXmlExporterOutput` UTF-8.
 - RTF con `JRRtfExporter` y `SimpleWriterExporterOutput` UTF-8.
+- Reto resuelto: ODT con `net.sf.jasperreports.engine.export.oasis.JROdtExporter`.
 
-Salidas: `output/informe_ventas.csv`, `output/informe_ventas.xml` y `output/informe_ventas.rtf`.
+Salidas: `output/informe_ventas.csv`, `output/informe_ventas.xml`, `output/informe_ventas.rtf` y `output/informe_ventas.odt`.
 
 Corrección respecto a la fuente original: la codificación de CSV/RTF se establece en el `ExporterOutput`; `SimpleCsvExporterConfiguration` no tiene `setEncoding`.
 ''')
