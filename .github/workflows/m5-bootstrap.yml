@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- M5; then
+          if [ -z "$(git status --porcelain -- M5)" ]; then
             echo 'M5 ya coincide con la construcción reproducible.'
             exit 0
           fi
