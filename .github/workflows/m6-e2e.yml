@@ -1,0 +1,179 @@
+name: M6 - Validacion end-to-end
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'M6/6.*/**'
+      - '!M6/6.*/VALIDACION.md'
+      - '.github/scripts/audit_m6_traceability.py'
+      - '.github/workflows/m6-e2e.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: m6-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  traceability:
+    name: Trazabilidad acumulativa
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar no regresion
+        run: python .github/scripts/audit_m6_traceability.py
+
+  checkpoint:
+    name: Checkpoint ${{ matrix.checkpoint }}
+    needs: traceability
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        checkpoint: ['6.1','6.2','6.3','6.4','6.5']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+          cache-dependency-path: M6/${{ matrix.checkpoint }}/EditorialReportsJava/pom.xml
+
+      - name: Herramientas de validacion
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Compilar Java y resolver JasperReports 6.20.0
+        working-directory: M6/${{ matrix.checkpoint }}/EditorialReportsJava
+        run: |
+          mvn -B -ntp clean package
+          mvn -B -ntp dependency:build-classpath -Dmdep.outputFile=classpath.txt
+
+      - name: Ejecutar proyecto acumulado y exportadores
+        working-directory: M6/${{ matrix.checkpoint }}/EditorialReports
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf output
+          mkdir -p output
+          : > execution.log
+          CP="../EditorialReportsJava/target/classes:$(cat ../EditorialReportsJava/classpath.txt)"
+
+          java -cp "$CP" InicializadorBD 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorInformeConcepto 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorCatalogoCSV 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorDistribucionXML 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorAutoresJSON 2>&1 | tee -a execution.log
+          java -cp "$CP" GeneradorInformeVentas 2>&1 | tee -a execution.log
+
+          # Toda la base heredada sigue siendo funcional.
+          for name in informe_concepto informe_catalogo_csv informe_distribucion_xml informe_autores_json informe_ventas; do
+            test -s "reports/${name}.jasper"
+            test -s "output/${name}.pdf"
+            test "$(head -c 5 "output/${name}.pdf")" = "%PDF-"
+          done
+          test -s reports/subinforme_ventas_detalle.jasper
+
+          grep -q "Libros insertados: 14" execution.log
+          grep -q "Ventas insertadas: 9" execution.log
+          grep -q "Registros CSV esperados: 14" execution.log
+          grep -q "Entregas XML esperadas: 8" execution.log
+          grep -q "Autores JSON esperados: 6" execution.log
+          grep -q "Parametro usuario: Ana Martínez" execution.log
+          grep -q "M6 checkpoint generado correctamente" execution.log
+          grep -q 'System.exit(1);' ../EditorialReportsJava/src/GeneradorInformeVentas.java
+
+          # M6 no modifica el diseño del informe: JRXML/JRTX/data heredados son idénticos.
+          cmp reports/informe_ventas.jrxml ../../../../M5/5.6/EditorialReports/reports/informe_ventas.jrxml
+          cmp reports/subinforme_ventas_detalle.jrxml ../../../../M5/5.6/EditorialReports/reports/subinforme_ventas_detalle.jrxml
+          cmp resources/styles/EditorialStyles.jrtx ../../../../M5/5.6/EditorialReports/resources/styles/EditorialStyles.jrtx
+
+          CHECKPOINT="${{ matrix.checkpoint }}" python3 - <<'PY'
+          import os, sqlite3, pathlib, zipfile, xml.etree.ElementTree as ET
+          cp=os.environ['CHECKPOINT']
+          root=pathlib.Path('.')
+          con=sqlite3.connect('../EditorialReportsJava/data/editorial.db')
+          assert con.execute('select count(*) from libros').fetchone()[0] == 14
+          sales=con.execute('select count(*), sum(cantidad), sum(cantidad*precio_unitario) from ventas').fetchone()
+          assert sales[0] == 9 and sales[1] == 31 and abs(sales[2]-633.40) < 0.001
+          con.close()
+
+          log=(root/'execution.log').read_text(encoding='utf-8')
+          assert 'Paginas del documento: 6' in log, log
+
+          # PDF avanzado: metadatos y PDF protegido.
+          assert (root/'output/informe_ventas.pdf').read_bytes()[:5] == b'%PDF-'
+          assert (root/'output/informe_ventas_protegido.pdf').read_bytes()[:5] == b'%PDF-'
+
+          order=['6.1','6.2','6.3','6.4','6.5']
+          n=order.index(cp)
+
+          if n >= 1:
+              x=root/'output/informe_ventas.xlsx'
+              assert x.is_file() and x.stat().st_size>0
+              assert x.read_bytes()[:2] == b'PK'
+              with zipfile.ZipFile(x) as z:
+                  assert z.testzip() is None
+                  wb=ET.fromstring(z.read('xl/workbook.xml'))
+                  ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+                  names=[e.attrib['name'] for e in wb.findall('.//m:sheet',ns)]
+                  assert 'Ventas' in names, names
+          if n >= 2:
+              h=(root/'output/informe_ventas.html').read_text(encoding='utf-8')
+              assert '<meta charset=' in h.lower()
+              assert 'Informe de Ventas - EditorialReports' in h
+              assert 'styles/editorial.css' in h
+              assert '</html>' in h.lower()
+              assert (root/'output/styles/editorial.css').is_file()
+              assert (root/'output/images').is_dir()
+          if n >= 3:
+              c=(root/'output/informe_ventas.csv').read_bytes()
+              assert c.startswith(b'\xef\xbb\xbf'), c[:8]
+              txt=c.decode('utf-8-sig')
+              assert ';' in txt and len(txt.splitlines())>1
+              x=(root/'output/informe_ventas.xml').read_bytes()
+              assert x.lstrip().startswith(b'<?xml')
+              r=(root/'output/informe_ventas.rtf').read_bytes()
+              assert r.lstrip().startswith(b'{\\rtf')
+          if n >= 4:
+              assert pathlib.Path('../EditorialReportsJava/src/ConfiguracionExportacion.java').is_file()
+              assert pathlib.Path('../EditorialReportsJava/target/classes/jasperreports.properties').is_file()
+              j=pathlib.Path('../EditorialReportsJava/src/GeneradorInformeVentas.java').read_text(encoding='utf-8')
+              for token in [
+                  'ConfiguracionExportacion.getConfiguracionPdf',
+                  'ConfiguracionExportacion.getConfiguracionXlsxReport',
+                  'ConfiguracionExportacion.getConfiguracionXlsxExportador',
+                  'ConfiguracionExportacion.getConfiguracionHtml',
+                  'ConfiguracionExportacion.getConfiguracionCsv',
+                  'ConfiguracionExportacion.getConfiguracionRtf',
+              ]:
+                  assert token in j, token
+          print('M6 structural contracts PASS',cp)
+          PY
+
+          # Metadatos del PDF avanzado.
+          pdfinfo output/informe_ventas.pdf > pdfinfo.txt
+          grep -F "Title:" pdfinfo.txt | grep -F "Informe de Ventas - EditorialReports"
+          grep -F "Author:" pdfinfo.txt | grep -F "Departamento Comercial"
+          grep -F "Creator:" pdfinfo.txt | grep -F "JasperReports 6.20.0"
+
+          # El PDF de seguridad debe poder abrirse con la contraseña documentada.
+          pdfinfo -upw editorial2026 output/informe_ventas_protegido.pdf > pdfinfo-protegido.txt
+
+          echo "PASS checkpoint ${{ matrix.checkpoint }}"
+
+      - name: Publicar artefactos de ejecucion
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: M6-${{ matrix.checkpoint }}-runtime
+          if-no-files-found: warn
+          path: |
+            M6/${{ matrix.checkpoint }}/EditorialReports/reports/*.jasper
+            M6/${{ matrix.checkpoint }}/EditorialReports/output/**
+            M6/${{ matrix.checkpoint }}/EditorialReports/execution.log
+            M6/${{ matrix.checkpoint }}/EditorialReports/pdfinfo*.txt
+            M6/${{ matrix.checkpoint }}/EditorialReportsJava/data/editorial.db
