@@ -1399,133 +1399,63 @@ def main():
  for p in POINTS: write(M6/p/'VALIDACION.md',checkpoint_validation(p))
  print('M6 DOC BUILD COMPLETE')
 
-if __name__=='__main__': main()
 
 def audit_parity(practice):
- pat=re.compile(r'<!-- EXECUTABLE_START ([^ ]+) -->\s*```(?:xml|java|css|properties)\n([\s\S]*?)\n```\s*<!-- EXECUTABLE_END \\1 -->')
+ ticks=chr(96)*3
+ pattern='<!-- EXECUTABLE_START ([^ ]+) -->\\s*'+re.escape(ticks)+'(?:xml|java|css|properties)\\n(.*?)\\n'+re.escape(ticks)+'\\s*<!-- EXECUTABLE_END \\\\1 -->'
+ pat=re.compile(pattern,re.S)
  seen=0
  for m in pat.finditer(practice):
-  rel=m.group(1); code=m.group(2).rstrip(); actual=read(ROOT/rel).rstrip()
+  rel=m.group(1)
+  code=m.group(2).rstrip()
+  actual=read(ROOT/rel).rstrip()
   if code!=actual: fail('embedded executable drift: '+rel)
   seen+=1
  if seen!=25: fail('embedded executable block count '+str(seen)+' expected 25')
  return seen
 
-def build_theory():
- out=['# Módulo 6 — Exportación','',
-      'Proyecto acumulativo: **EditorialReports**. Baseline: `M5/5.6` cerrado y validado E2E.','',
-      '> **Criterio editorial:** objetivos, orden y retos proceden de `m6.txt`. Cuando la fuente usa una API que no corresponde a JasperReports 6.20.0, se conserva el objetivo y se documenta explícitamente la implementación corregida que ha compilado y pasado E2E.','']
- for p in POINTS:
-  out += [f'# Punto {p} — {TITLES[p]}','',objective_md(p),'',theory(p),'','---','']
- return '\n'.join(out)
-
-def build_practice():
- out=['# Módulo 6 — Práctica de exportación','',
-      'Proyecto acumulativo: **EditorialReports**. Cada punto parte físicamente del checkpoint anterior y reutiliza el mismo `JasperPrint`.','',
-      '> Las Partes A conservan la intención operativa de `m6.txt`, pero se han corregido clases, métodos, dependencias, rutas y expectativas para conducir exactamente al código que pasa el E2E.','']
- for p in POINTS:
-  out += [f'# Punto {p} — {TITLES[p]}','',objective_md(p),'',
-          '### Parte A — Práctica visual verificada','',visual(p),'','---','',
-          part_b(p),'','---','',part_c(p),'','---','',part_d(p),'','---','',tail(p),'','---','']
- return '\n'.join(out)
-
-def traceability():
- rows=[]
- for p in POINTS:
-  rows.append(f'| {p} | `m6.txt` / `.github/source/M6_ORIGINAL.md` | 5 bloques + 6 objetivos | A/B/C/D | `M6/{p}` | run `{E2E_RUN}` |')
- return '''# Trazabilidad — Módulo 6
-
-| Punto | Fuente original | Teoría | Práctica | Checkpoint | E2E |
-|---|---|---|---|---|---|
-'''+ '\n'.join(rows)+'''
-
-## Cadena acumulativa
-
-`M5/5.6 → M6/6.1 → 6.2 → 6.3 → 6.4 → 6.5`.
-
-El auditor `audit_m6_traceability.py` impide eliminaciones heredadas y exige que JRXML/JRTX del M5 permanezcan byte a byte estables durante M6.
-
-## Correcciones técnicas trazadas
-
-- 6.1: metadatos PDF mediante `setMetadata*`; seguridad mediante cifrado, passwords y `setAllowedPermissionsHint`.
-- 6.2: separación `SimpleXlsxReportConfiguration` / `SimpleXlsxExporterConfiguration` y POI explícito.
-- 6.3: `HtmlExporter` y recursos mediante `SimpleHtmlExporterOutput` + `FileHtmlResourceHandler`.
-- 6.4: codificación CSV/RTF en `ExporterOutput`; ODT mediante `engine.export.oasis.JROdtExporter`.
-- 6.5: configuración centralizada, `jasperreports.properties` en classpath y conservación de todos los retos anteriores.
-'''
-
-def validation():
- return f'''# Validación integral — Módulo 6
-
-**Estado técnico:** código y retos revalidados por E2E; el cierre documental queda condicionado al workflow PDF y a la inspección visual final.
-
-## Cadena
-
-`M5/5.6 → M6/6.1 → 6.2 → 6.3 → 6.4 → 6.5`.
-
-## E2E
-
-Run de referencia de la primera implementación multiformato: **{E2E_RUN} — SUCCESS** sobre `{E2E_COMMIT}`.
-
-La revalidación posterior incorpora además los retos originales ejecutables: PDF protegido, XLSX de catálogo, enlace HTML al PDF, ODT y configuración RTF centralizada.
-
-- Java 8 + Maven + JasperReports Library 6.20.0.
-- JRXML/JRTX heredados de M5/5.6 sin cambios.
-- 14 libros, 9 ventas, 31 unidades y 633,40 €.
-- `informe_ventas` = 6 páginas.
-- PDF normal/protegido, XLSX Ventas/Catálogo, HTML/CSS, CSV, XML, RTF y ODT estructuralmente verificados.
-- `System.exit(1)` ante cualquier excepción del generador.
-
-## Documentación
-
-- 5 puntos.
-- 30 objetivos originales.
-- 25 bloques teóricos.
-- Partes A/B/C/D en 6.1–6.5.
-- Errores comunes, reto resuelto, analogía, resultado esperado y conclusión en los cinco puntos.
-- Partes B/C generadas desde los archivos ejecutables actuales con paridad exacta.
-- Explicación línea por línea de JRXML, JRTX, Java, POM, CSS y properties incluidos.
-
-Los datos exactos del render PDF se registrarán en `PRECHECK_M6.json` y `SHA256SUMS.txt`.
-'''
-
 def main():
- if not SRC.exists(): fail('M6 original source missing')
- theory_doc=build_theory(); practice=build_practice()
- banned=[
-  'Cuando me confirmes','The user wants me','configuracion.setTitle(','configuracion.setAuthor(',
-  'setCharacterEncoding("UTF-8")','new JRHtmlExporter','SimpleXlsxExporterConfiguration configuracionCatalogo =',
-  'net.sf.jasperreports.engine.export.JROdtExporter;'
- ]
- for token in banned:
-  if token in theory_doc or token in practice: fail('banned legacy token in docs: '+token)
+ if not SRC.is_file(): fail('missing preserved M6 source')
+ if read(SRC)!=read(ROOT/'m6.txt'): fail('preserved source differs from m6.txt')
  for p in POINTS:
-  if theory_doc.count(f'# Punto {p} —')!=1 or practice.count(f'# Punto {p} —')!=1: fail('point count '+p)
-  ta=theory_doc.index(f'# Punto {p} —')
+  if not (M6/p).is_dir(): fail('missing checkpoint '+p)
+  if len(objectives(p))!=6: fail('objective count '+p)
+
+ theory_md=build_theory()
+ practice_md=build_practice()
+
+ # Reject conversational residue, but allow obsolete APIs when they are explicitly
+ # discussed as errors/corrections. Executable parity is enforced separately.
+ for token in ['Cuando me confirmes','The user wants me','Punto 6.6']:
+  if token in theory_md or token in practice_md:
+   fail('residue in docs: '+token)
+
+ for p in POINTS:
+  if theory_md.count(f'# Punto {p} —')!=1: fail('theory point count '+p)
+  if practice_md.count(f'# Punto {p} —')!=1: fail('practice point count '+p)
   n=POINTS.index(p)
-  tb=theory_doc.find('# Punto '+POINTS[n+1]+' —',ta+1) if n+1<len(POINTS) else len(theory_doc)
-  ts=theory_doc[ta:tb if tb>=0 else len(theory_doc)]
-  if len(re.findall(r'^### Bloque [1-5] ',ts,flags=re.M))!=5: fail('theory blocks '+p)
-  pa=practice.index(f'# Punto {p} —')
-  pb=practice.find('# Punto '+POINTS[n+1]+' —',pa+1) if n+1<len(POINTS) else len(practice)
-  ps=practice[pa:pb if pb>=0 else len(practice)]
+  ta=theory_md.index(f'# Punto {p} —')
+  tb=theory_md.find('# Punto '+POINTS[n+1]+' —',ta+1) if n+1<len(POINTS) else len(theory_md)
+  ts=theory_md[ta:tb if tb>=0 else len(theory_md)]
+  if len(re.findall(r'^### Bloque [1-5] ',ts,flags=re.M))!=5:
+   fail('theory blocks '+p)
+  pa=practice_md.index(f'# Punto {p} —')
+  pb=practice_md.find('# Punto '+POINTS[n+1]+' —',pa+1) if n+1<len(POINTS) else len(practice_md)
+  ps=practice_md[pa:pb if pb>=0 else len(practice_md)]
   for marker in ['### Parte A','### Parte B','### Parte C','### Parte D','## Errores comunes','## Reto resuelto','## Analogía final','## Resultado esperado','## Conclusión']:
    if marker not in ps: fail(p+' missing '+marker)
-  if len(re.findall(r'^- ',objective_md(p),flags=re.M))!=6: fail('objective count '+p)
- seen=audit_parity(practice)
- write(M6/'TEORIA_M6.md',theory_doc)
- write(M6/'PRACTICA_M6.md',practice)
- write(M6/'TRAZABILIDAD_M6.md',traceability())
- write(M6/'VALIDACION_M6.md',validation())
- audit={
-  'objetivos_originales':30,'bloques_teoricos':25,'puntos':5,
-  'embedded_executable_blocks':seen,
-  'e2e_run_base':E2E_RUN,'e2e_commit_base':E2E_COMMIT,
-  'runtime_artifacts':RUNTIME_ARTIFACTS,
-  'pdf_precheck':'M6/PRECHECK_M6.json','sha256_manifest':'M6/SHA256SUMS.txt',
-  'invariantes':{'libros':14,'ventas':9,'unidades':31,'importe':633.40,'paginas_ventas':6}
- }
- write(M6/'AUDITORIA_EDITORIAL_M6.json',json.dumps(audit,ensure_ascii=False,indent=2))
- print('M6 DOC BUILD PASS',audit)
 
-if __name__=='__main__': main()
+ seen=audit_parity(practice_md)
+
+ write(M6/'TEORIA_M6.md',theory_md)
+ write(M6/'PRACTICA_M6.md',practice_md)
+ write(M6/'TRAZABILIDAD_M6.md',build_traceability())
+ write(M6/'VALIDACION_M6.md',build_validation())
+ write(M6/'README.md',module_readme())
+ write(M6/'AUDITORIA_EDITORIAL_M6.json',json.dumps(build_editorial_audit(),ensure_ascii=False,indent=2))
+ for p in POINTS:
+  write(M6/p/'VALIDACION.md',checkpoint_validation(p))
+ print('M6 DOC BUILD COMPLETE embedded='+str(seen))
+
+if __name__=='__main__':
+ main()
