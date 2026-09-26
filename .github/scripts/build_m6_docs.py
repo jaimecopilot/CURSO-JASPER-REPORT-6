@@ -127,3 +127,187 @@ La auditoría de trazabilidad exige que ningún archivo heredado del proyecto de
 
 `EXPORTACION_PDF.md` registra las APIs reales y los archivos generados. El workflow E2E produce además un artefacto runtime. Así, teoría, práctica, fuente Java y evidencia de ejecución describen el mismo mecanismo.
 '''
+
+
+THEORY['6.2']=r'''### Bloque 1 — XLS frente a XLSX y dependencia de Apache POI
+
+El segundo punto añade Excel al mismo `JasperPrint` que ya se exporta a PDF. XLS es el formato binario histórico de Excel; XLSX es el formato OOXML moderno, empaquetado como ZIP y compuesto por documentos XML. EditorialReports utiliza `JRXlsxExporter` porque el objetivo es producir `output/informe_ventas.xlsx`.
+
+JasperReports 6.20.0 declara Apache POI como dependencia opcional. Por eso un proyecto Maven que sólo había generado PDF puede compilar JasperReports y, sin embargo, fallar en tiempo de ejecución al usar XLSX si POI no está en el classpath. El checkpoint 6.2 añade explícitamente `poi` y `poi-ooxml` 5.1.0 al `pom.xml`.
+
+~~~xml
+<dependency>
+  <groupId>org.apache.poi</groupId>
+  <artifactId>poi-ooxml</artifactId>
+  <version>5.1.0</version>
+</dependency>
+~~~
+
+El E2E comprueba que Maven resuelve las dependencias, que el archivo empieza por la firma `PK` propia de ZIP y que el paquete OOXML no contiene entradas corruptas. Así la dependencia no queda como una nota teórica: forma parte del contrato ejecutable.
+
+### Bloque 2 — Dos niveles de configuración XLSX
+
+La fuente original concentraba nombre de hoja, cuadrícula, bloqueo y paleta en `SimpleXlsxExporterConfiguration`. En la API real esas opciones se dividen. `SimpleXlsxReportConfiguration` controla cómo un `JasperPrint` se transforma en hojas y celdas; `SimpleXlsxExporterConfiguration` contiene opciones del libro/exportador.
+
+~~~java
+SimpleXlsxReportConfiguration informe = new SimpleXlsxReportConfiguration();
+informe.setSheetNames(new String[]{"Ventas"});
+informe.setShowGridLines(Boolean.FALSE);
+informe.setCellLocked(Boolean.FALSE);
+informe.setCellHidden(Boolean.FALSE);
+informe.setDetectCellType(Boolean.TRUE);
+informe.setOnePagePerSheet(Boolean.FALSE);
+
+SimpleXlsxExporterConfiguration libro = new SimpleXlsxExporterConfiguration();
+libro.setCreateCustomPalette(Boolean.TRUE);
+~~~
+
+Separar ambas configuraciones evita llamar métodos sobre una clase que no los define. `setDetectCellType` intenta conservar valores numéricos como tipos Excel en lugar de convertir todo a texto. `setOnePagePerSheet(FALSE)` evita crear una hoja por cada página del JasperPrint.
+
+### Bloque 3 — Flujo de JRXlsxExporter
+
+`JRXlsxExporter` recibe el mismo `documento` ya utilizado por PDF. Se aplican las dos configuraciones, se establece `SimpleExporterInput` y la salida binaria con `SimpleOutputStreamExporterOutput`.
+
+~~~java
+JRXlsxExporter exportador = new JRXlsxExporter();
+exportador.setConfiguration(informe);
+exportador.setConfiguration(libro);
+exportador.setExporterInput(new SimpleExporterInput(documento));
+exportador.setExporterOutput(new SimpleOutputStreamExporterOutput(rutaXlsx));
+exportador.exportReport();
+~~~
+
+JasperReports convierte coordenadas y elementos gráficos a una rejilla de celdas. Esa traducción nunca es idéntica a un PDF porque Excel trabaja con filas y columnas, pero conserva información útil de texto, números y estilos. Cuanto más tabular sea el informe, más natural será el resultado.
+
+El diseño JRXML no cambia. La auditoría compara byte a byte `informe_ventas.jrxml` y `EditorialStyles.jrtx` con M5/5.6. El objetivo del punto es el exportador, no rediseñar el informe para Excel.
+
+### Bloque 4 — Nombre de hoja, cuadrícula, tipos y edición
+
+El nombre `Ventas` se aplica mediante `setSheetNames`. El workflow abre internamente `xl/workbook.xml` del XLSX y exige que exista una hoja con ese nombre. Esto convierte un requisito de la práctica en una prueba automática.
+
+`setShowGridLines(FALSE)` elimina las líneas de cuadrícula predeterminadas. `setCellLocked(FALSE)` y `setCellHidden(FALSE)` dejan las celdas sin protección adicional. `setCreateCustomPalette(TRUE)` intenta conservar los colores del informe dentro de las limitaciones del formato/exportador.
+
+~~~text
+JasperPrint (6 páginas)
+       │
+       ▼
+JRXlsxExporter
+       ├── ReportConfiguration
+       │    ├── sheet = Ventas
+       │    ├── gridlines = false
+       │    └── detectCellType = true
+       └── ExporterConfiguration
+            └── custom palette = true
+       │
+       ▼
+informe_ventas.xlsx
+~~~
+
+La práctica no afirma que cada píxel del PDF tenga una equivalencia exacta en Excel. Enseña qué propiedades controla el exportador y cómo verificar el resultado estructural.
+
+### Bloque 5 — Validación OOXML y continuidad acumulativa
+
+Un fichero con extensión `.xlsx` no es suficiente evidencia. El E2E comprueba tamaño mayor que cero, firma ZIP, integridad de todas las entradas y presencia de la hoja `Ventas`. A la vez, vuelve a ejecutar los cinco generadores heredados y comprueba los invariantes SQLite.
+
+El checkpoint 6.2 es físicamente 6.1 más: dos dependencias Maven, la lógica XLSX en `GeneradorInformeVentas.java` y `EXPORTACION_EXCEL.md`. No elimina la exportación PDF ni el PDF protegido.
+
+~~~text
+6.1: PDF + PDF protegido
+          │
+          ▼
+6.2: PDF + PDF protegido + XLSX
+          │
+          └── hoja Ventas validada desde workbook.xml
+~~~
+
+Esta acumulación permite que los puntos posteriores reutilicen el mismo XLSX sin duplicar el llenado. La documentación distingue además la configuración por informe y la configuración por exportador para impedir que reaparezca el error técnico de la fuente original.
+'''
+
+THEORY['6.3']=r'''### Bloque 1 — HTML como exportación navegable del JasperPrint
+
+HTML representa el informe mediante marcado que un navegador puede interpretar. A diferencia del PDF, el resultado puede depender de recursos externos —imágenes y CSS—, por lo que una validación correcta debe considerar el archivo principal y esos recursos. JasperReports 6.20.0 utiliza `HtmlExporter`; el nombre `JRHtmlExporter` del material original no es la clase empleada por el checkpoint compilado.
+
+~~~java
+HtmlExporter exportador = new HtmlExporter();
+exportador.setExporterInput(new SimpleExporterInput(documento));
+~~~
+
+El mismo `JasperPrint` de seis páginas alimenta el exportador. No se ejecuta de nuevo SQLite y no se modifica `informe_ventas.jrxml`. El checkpoint crea `output/informe_ventas.html`, `output/images/` y `output/styles/editorial.css`.
+
+### Bloque 2 — SimpleHtmlExporterConfiguration: cabecera, pie y páginas
+
+`SimpleHtmlExporterConfiguration` controla elementos HTML generales. El checkpoint define una cabecera completa con UTF-8, título y enlace a CSS; define también el cierre del documento y un separador entre páginas del `JasperPrint`.
+
+~~~java
+SimpleHtmlExporterConfiguration configuracion = new SimpleHtmlExporterConfiguration();
+configuracion.setHtmlHeader("<html><head><meta charset='UTF-8'>"
+        + "<title>Informe de Ventas - EditorialReports</title>"
+        + "<link rel='stylesheet' href='styles/editorial.css'>"
+        + "</head><body>");
+configuracion.setHtmlFooter("</body></html>");
+configuracion.setBetweenPagesHtml("<hr class='salto-pagina'/>");
+~~~
+
+La codificación se declara en el HTML y también en el objeto de salida. El enlace CSS es relativo al HTML final, por eso el archivo se copia a `output/styles`. El separador permite aplicar un estilo específico entre páginas sin introducir contenido en el JRXML.
+
+### Bloque 3 — SimpleHtmlExporterOutput y recursos de imagen
+
+La fuente original asignaba rutas de imágenes mediante métodos de `SimpleHtmlExporterConfiguration`. En el modelo real, el tratamiento de recursos corresponde al output. El checkpoint crea `SimpleHtmlExporterOutput` y le asigna un `FileHtmlResourceHandler`.
+
+~~~java
+SimpleHtmlExporterOutput salida = new SimpleHtmlExporterOutput(rutaHtml, "UTF-8");
+salida.setImageHandler(
+    new FileHtmlResourceHandler(new File("output/images"), "images/{0}")
+);
+exportador.setExporterOutput(salida);
+~~~
+
+El handler conoce dónde escribir físicamente los recursos y qué URI debe aparecer en el HTML. Así el navegador puede resolver `images/...` desde el archivo ubicado en `output`.
+
+Aunque una ejecución concreta pueda necesitar cero o varias imágenes externas, la carpeta y la estrategia quedan preparadas. El E2E exige que el directorio exista y que el HTML sea coherente con la estructura documentada.
+
+### Bloque 4 — CSS externo y separación de presentación web
+
+`editorial.css` no sustituye los estilos JasperReports. Los estilos JRTX siguen controlando el `JasperPrint`; el CSS añade presentación al contenedor HTML que rodea el contenido exportado.
+
+~~~css
+body {
+    margin: 24px;
+    background: #ffffff;
+    color: #173f6b;
+    font-family: "DejaVu Sans", Arial, sans-serif;
+}
+.salto-pagina {
+    border-top: 1px solid #d6eaf8;
+}
+~~~
+
+Esta separación evita incrustar grandes cantidades de CSS en Java y hace visible en el árbol del proyecto el recurso que debe publicarse junto al HTML. La práctica visual enseña a crear el CSS, copiarlo y validar el enlace.
+
+El E2E comprueba que el HTML contiene `meta charset`, título, referencia `styles/editorial.css` y etiqueta de cierre; también exige que el CSS exista en la salida.
+
+### Bloque 5 — Validación funcional del HTML
+
+La validación se realiza en varias capas. Maven verifica que las clases y métodos existen. La ejecución verifica que el exportador serializa el `JasperPrint` real. Las aserciones estructurales comprueban las piezas mínimas del documento y sus recursos.
+
+~~~text
+JasperPrint
+    │
+    ▼
+HtmlExporter
+    ├── SimpleHtmlExporterConfiguration
+    │     ├── header
+    │     ├── footer
+    │     └── betweenPagesHtml
+    └── SimpleHtmlExporterOutput
+          └── FileHtmlResourceHandler
+    │
+    ▼
+output/
+├── informe_ventas.html
+├── images/
+└── styles/editorial.css
+~~~
+
+El resultado se acumula sobre 6.2: PDF, PDF protegido y XLSX siguen generándose en la misma ejecución. Esta continuidad está verificada por el workflow, no sólo descrita en el texto.
+'''
