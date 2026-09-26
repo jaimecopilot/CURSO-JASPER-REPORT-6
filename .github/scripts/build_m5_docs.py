@@ -774,6 +774,219 @@ def corrected_52_part_a():
 **Verificación visual:** la documentación coincide con el JRXML del checkpoint.
 '''
 
+
+def corrected_53_part_a():
+ return r'''**Paso 1: Verificar el checkpoint 5.2 como base**
+
+**Acciones:**
+
+1. Abrir `M5/5.3/EditorialReports/reports/informe_ventas.jrxml`.
+2. Confirmar en Outline que siguen presentes subreporte y tabla.
+3. Guardar sin eliminar componentes anteriores.
+
+**Verificación visual:** el informe conserva todo 5.2.
+
+**Qué hace:** fija la base acumulativa.
+**Por qué:** 5.3 sólo añade agrupación y variables de grupo.
+
+---
+
+**Paso 2: Crear el grupo `CategoriaGroup`**
+
+**Acciones:**
+
+1. En Outline, usar Add Group.
+2. Escribir exactamente `CategoriaGroup`.
+3. Usar `$F{categoria}` como Group Expression.
+4. Añadir Group Header y Group Footer.
+5. Guardar.
+
+**Verificación visual:** Outline muestra `CategoriaGroup` con sus dos bandas.
+
+**Qué hace:** agrupa registros por categoría.
+**Por qué:** el checkpoint usa ese nombre exacto en variables y totales.
+**Error común:** crear `GrupoCategoria`. Solución: usar `CategoriaGroup`.
+
+---
+
+**Paso 3: Configurar las propiedades reales del grupo**
+
+**Acciones:**
+
+1. Seleccionar `CategoriaGroup`.
+2. Establecer `isStartNewPage=false`.
+3. Establecer `isReprintHeaderOnEachPage=true`.
+4. Establecer `minHeightToStartNewPage=80`.
+5. Guardar.
+
+**Verificación visual:** Source contiene los tres atributos con esos valores.
+
+**Qué hace:** controla paginación y repetición de cabecera.
+**Por qué:** reproduce el comportamiento validado.
+**Error común:** usar `isStartNewPage=true` y modificar la paginación del PDF.
+
+---
+
+**Paso 4: Crear `GrupoUnidades`**
+
+**Acciones:**
+
+1. Añadir una Variable llamada `GrupoUnidades`.
+2. Tipo = `java.lang.Integer`.
+3. Calculation = `Sum`.
+4. Reset Type = `Group`.
+5. Reset Group = `CategoriaGroup`.
+6. Expresión = `$F{unidades_vendidas}`.
+7. Guardar.
+
+**Verificación visual:** la variable aparece asociada al grupo correcto.
+
+---
+
+**Paso 5: Crear `GrupoImporte`**
+
+**Acciones:**
+
+1. Añadir `GrupoImporte` como `java.lang.Double`.
+2. Calculation = `Sum`.
+3. Reset Type = Group.
+4. Reset Group = `CategoriaGroup`.
+5. Expresión = `$F{importe_total}`.
+6. Guardar.
+
+**Verificación visual:** Source contiene la variable y su resetGroup.
+
+---
+
+**Paso 6: Crear `GrupoLibros`**
+
+**Acciones:**
+
+1. Añadir `GrupoLibros` como `java.lang.Integer`.
+2. Calculation = `Count`.
+3. Reset Type = Group.
+4. Reset Group = `CategoriaGroup`.
+5. Expresión = `$F{titulo}`.
+6. Guardar.
+
+**Verificación visual:** quedan tres variables de grupo.
+
+**Qué hace:** cuenta títulos por categoría.
+**Por qué:** el pie muestra libros, unidades e importe.
+
+---
+
+**Paso 7: Construir Group Header**
+
+**Acciones:**
+
+1. Establecer la banda Group Header a 28.
+2. Añadir un Text Field en x=0, y=2, width=555, height=22.
+3. Aplicar `Cabecera`, modo Opaque y fondo `#D6EAF8`.
+4. Usar la expresión `"Categoría: " + $F{categoria}`.
+5. Guardar.
+
+**Verificación visual:** cada categoría comienza con una cabecera azul clara.
+
+---
+
+**Paso 8: Construir Group Footer**
+
+**Acciones:**
+
+1. Establecer Group Footer a 34.
+2. Añadir un Text Field de 185 píxeles con `"Libros del grupo: " + $V{GrupoLibros}`.
+3. Añadir otro de 180 píxeles con `GrupoUnidades`.
+4. Añadir uno de 190 píxeles, alineado a la derecha, con `GrupoImporte` formateado como euros.
+5. Guardar.
+
+**Verificación visual:** el pie ocupa 555 píxeles y muestra tres resúmenes.
+
+---
+
+**Paso 9: Verificar reinicios por grupo**
+
+**Acciones:**
+
+1. Abrir Source.
+2. Localizar las tres variables.
+3. Confirmar `resetType="Group"` y `resetGroup="CategoriaGroup"`.
+4. Confirmar la posición de `<group name="CategoriaGroup"...>`.
+5. Guardar.
+
+**Verificación visual:** no aparece ningún `resetGroup="GrupoCategoria"`.
+
+---
+
+**Paso 10: Comprobar que la tabla y el subreporte siguen intactos**
+
+**Acciones:**
+
+1. En Outline, expandir Detail.
+2. Comprobar el subreporte de ventas.
+3. Comprobar el componente Table.
+4. Verificar sus datasets y parámetros.
+5. Guardar.
+
+**Verificación visual:** 5.3 es estrictamente acumulativo.
+
+---
+
+**Paso 11: Compilar en Studio**
+
+**Acciones:**
+
+1. Pulsar Ctrl+S.
+2. Compilar `informe_ventas.jrxml`.
+3. Abrir Problems.
+4. Confirmar que no aparece `Group not found`.
+
+**Verificación visual:** compilación limpia.
+
+**Qué hace:** valida nombres de grupo y variables.
+**Error común:** dejar una variable con resetGroup antiguo.
+
+---
+
+**Paso 12: Previsualizar la agrupación**
+
+**Acciones:**
+
+1. Abrir Preview.
+2. Comprobar cabecera por categoría.
+3. Comprobar libros, unidades e importe al final de cada grupo.
+4. Verificar que no se fuerza una página nueva por categoría.
+
+**Verificación visual:** las categorías se agrupan en flujo continuo.
+
+---
+
+**Paso 13: Ejecutar el generador Java**
+
+**Acciones:**
+
+1. Ejecutar `GeneradorInformeVentas.java`.
+2. Abrir `output/informe_ventas.pdf`.
+3. Confirmar que el checkpoint 5.3 genera 5 páginas.
+4. Confirmar 14 libros, 9 ventas, 31 unidades y 633,40 €.
+
+**Verificación visual:** el PDF mantiene invariantes y añade agrupaciones.
+
+---
+
+**Paso 14: Documentar `AGRUPACIONES.md`**
+
+**Acciones:**
+
+1. Abrir `EditorialReports/AGRUPACIONES.md`.
+2. Registrar `CategoriaGroup` y `$F{categoria}`.
+3. Registrar propiedades false/true/80.
+4. Registrar `GrupoLibros`, `GrupoUnidades` y `GrupoImporte`.
+5. Guardar.
+
+**Verificación visual:** la documentación coincide con Source y el checkpoint.
+'''
+
 def corrected_55_part_a():
  return r'''**Paso 1: Verificar el punto de partida acumulativo**
 
@@ -1224,6 +1437,8 @@ def extract_part_a(sec,point):
   return corrected_51_part_a().strip()
  if point=='5.2':
   return corrected_52_part_a().strip()
+ if point=='5.3':
+  return corrected_53_part_a().strip()
  if point=='5.5':
   return corrected_55_part_a().strip()
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
