@@ -941,6 +941,7 @@ def explain_line(line,lang):
   if x.startswith('<directory>src</directory>'):
    return 'Usa `src` como origen de recursos para incluir `jasperreports.properties` en `target/classes`.'
 
+
  base=_m5docs.explain_line(line,lang)
  if lang=='java' and base=='Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.':
   if x.startswith('+ '):
@@ -950,7 +951,17 @@ def explain_line(line,lang):
   if '=' in x and x.endswith(';'):
    left,right=x[:-1].split('=',1)
    return 'Asigna a `'+left.strip()+'` el resultado de evaluar `'+right.strip()+'` para reutilizarlo en las líneas posteriores.'
-  m=re.match(r'([A-Za-z0-9_.$]+)\\.([A-Za-z0-9_]+)\\((.*)\\);(label,path,lang):
+  m=re.match(r'([A-Za-z0-9_.$]+)\.([A-Za-z0-9_]+)\((.*)\);$',x)
+  if m:
+   return 'Invoca el método `'+m.group(2)+'` sobre `'+m.group(1)+'` con los argumentos indicados para avanzar este paso de la exportación.'
+  if x.endswith(');'):
+   return 'Completa una llamada Java iniciada en la línea anterior y cierra su lista de argumentos.'
+  if x.startswith('return '):
+   return 'Devuelve `'+x[len('return '):].rstrip(';')+'` al método llamador.'
+  return 'Ejecuta específicamente la instrucción `'+x+'` dentro del bloque actual; su efecto queda determinado por los valores y objetos preparados en las líneas anteriores.'
+ return base
+
+def annotated_code(label,path,lang):
  code=read(path).rstrip()
  rel=Path(path).relative_to(ROOT).as_posix()
  out=[f'**{label}**',f'<!-- EXECUTABLE_START {rel} -->',code_block(code,lang),f'<!-- EXECUTABLE_END {rel} -->','', '**Explicación línea por línea**','']
