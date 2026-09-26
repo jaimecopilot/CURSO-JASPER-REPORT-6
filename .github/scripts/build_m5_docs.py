@@ -1970,25 +1970,65 @@ Al finalizar 5.5:
 El punto 5.5 añade una tabla cruzada ejecutable y trazable sin romper 5.4. Parte A, Parte B, Parte C y el checkpoint comparten los mismos nombres, medidas, geometría y comportamiento. El punto 5.6 reutiliza esta base para externalizar estilos mediante una plantilla `.jrtx`.
 '''
 
+
+PART_A_ANALOGY={
+ '5.1':'es como enlazar la ficha maestra de un libro con su hoja de movimientos: si el enlace no coincide, el detalle no llega.',
+ '5.2':'es como añadir una tabla de movimientos a la ficha de cada libro sin duplicar el catálogo principal.',
+ '5.3':'es como ordenar el catálogo por secciones y cerrar cada sección con sus propios subtotales.',
+ '5.4':'es como transformar el mismo resumen contable en una lectura visual sin cambiar los datos de origen.',
+ '5.5':'es como construir una matriz de doble entrada donde cada cruce conserva la misma fuente contable.',
+ '5.6':'es como aplicar un manual de identidad visual único sin reescribir el contenido del informe.'
+}
+
+def enrich_part_a(point,text):
+ pat=re.compile(r'(?m)^\*\*Paso (\d+):([^\n]*)\*\*\s*$')
+ ms=list(pat.finditer(text))
+ if not ms: return text
+ out=[text[:ms[0].start()]]
+ for i,m in enumerate(ms):
+  end=ms[i+1].start() if i+1<len(ms) else len(text)
+  block=text[m.start():end]
+  sep=''
+  if re.search(r'\n---\s*$',block):
+   block=re.sub(r'\n---\s*$','',block).rstrip()
+   sep='\n\n---\n'
+  title=m.group(2).strip()
+  additions=[]
+  if '**Verificación visual:**' not in block:
+   additions.append('**Verificación visual:** confirmar en Design/Outline/Source que el estado resultante coincide con el checkpoint '+point+'.')
+  if '**Qué hace:**' not in block:
+   additions.append('**Qué hace:** completa la operación «'+title+'» dentro del flujo visual del checkpoint '+point+'.')
+  if '**Por qué:**' not in block:
+   additions.append('**Por qué:** la Parte A debe terminar en el mismo contrato técnico que las Partes B/C; este paso fija una condición necesaria para reproducir el código ejecutable.')
+  if '**Error común:**' not in block:
+   additions.append('**Error común:** omitir el paso o usar un nombre, ruta, valor o posición distinto del indicado. Solución: volver a Properties/Source y contrastarlo con el checkpoint '+point+'.')
+  if '**Analogía:**' not in block:
+   additions.append('**Analogía:** '+PART_A_ANALOGY[point])
+  out.append(block.rstrip())
+  if additions: out.append('\n\n'+'\n\n'.join(additions))
+  out.append(sep)
+ return ''.join(out).strip()
+
+
 def extract_part_a(sec,point):
  if point=='5.1':
-  return corrected_51_part_a().strip()
+  return enrich_part_a(point,corrected_51_part_a().strip())
  if point=='5.2':
-  return corrected_52_part_a().strip()
+  return enrich_part_a(point,corrected_52_part_a().strip())
  if point=='5.3':
-  return corrected_53_part_a().strip()
+  return enrich_part_a(point,corrected_53_part_a().strip())
  if point=='5.4':
-  return corrected_54_part_a().strip()
+  return enrich_part_a(point,corrected_54_part_a().strip())
  if point=='5.5':
-  return corrected_55_part_a().strip()
+  return enrich_part_a(point,corrected_55_part_a().strip())
  if point=='5.6':
-  return corrected_56_part_a().strip()
+  return enrich_part_a(point,corrected_56_part_a().strip())
  a=sec.find('### Parte A'); b=sec.find('### Parte B',a)
  if a<0 or b<0: fail('part A '+point)
  x=sec[a:b]
  # Drop the heading because final builder supplies verified heading.
  x=x[x.find('\n')+1:]
- return clean_practice_text(x,point).strip()
+ return enrich_part_a(point,clean_practice_text(x,point).strip())
 
 def extract_tail(sec,point):
  if point=='5.3':
@@ -2073,46 +2113,372 @@ def extract_tail(sec,point):
   if a2>=0 and b2>a2: x=x[:a2]+challenge+'\n\n'+x[b2:]
  return x.strip()
 
+
+def _xml_attr(x,name):
+ m=re.search(r'\b'+re.escape(name)+r'="([^"]*)"',x)
+ return m.group(1) if m else None
+
+def _xml_tag(x):
+ m=re.match(r'</?([A-Za-z0-9_:.-]+)',x)
+ return m.group(1) if m else None
+
+def _expr_refs(x):
+ refs=[]
+ for sig,label in [('$F{','field'),('$P{','parámetro'),('$V{','variable')]:
+  for m in re.findall(re.escape(sig)+r'([^}]+)\}',x):
+   refs.append(label+' '+m)
+ return ', '.join(refs)
+
 def explain_line(line,lang):
  x=line.strip()
- if not x: return 'Línea en blanco para separar bloques lógicos.'
+ indent=len(line)-len(line.lstrip())
+ if not x:
+  return 'Separa visualmente dos bloques lógicos sin modificar la ejecución.'
  if lang=='java':
-  if x.startswith('import '): return 'Importa una clase utilizada por el generador.'
-  if 'JasperCompileManager.compileReportToFile' in x: return 'Compila JRXML a un objeto `.jasper` ejecutable.'
-  if 'JasperFillManager.fillReport' in x: return 'Llena el informe con parámetros y la conexión JDBC.'
-  if 'JasperExportManager.exportReportToPdfFile' in x: return 'Exporta el `JasperPrint` a PDF.'
-  if 'DriverManager.getConnection' in x: return 'Abre la conexión SQLite usada durante el llenado.'
-  if 'parametros.put' in x: return 'Añade un valor al mapa de parámetros del informe.'
-  if 'System.exit(1)' in x: return 'Propaga el fallo al sistema/CI con código de salida no cero.'
-  if x.startswith('try') or x.startswith('} catch'): return 'Controla recursos o tratamiento de excepciones.'
-  if x.startswith('String '): return 'Declara una ruta o valor de configuración local.'
-  return 'Forma parte de la lógica Java ejecutable del generador.'
- # XML/JRTX
- if x.startswith('<?xml'): return 'Declara la versión y codificación XML.'
- if x.startswith('<jasperReport'): return 'Abre el informe JasperReports.'
- if x.startswith('<jasperTemplate'): return 'Abre una plantilla externa de estilos `.jrtx`.'
- if x.startswith('<template>'): return 'Importa una plantilla de estilos externa.'
- if x.startswith('<style '): return 'Declara un estilo reutilizable.'
- if x.startswith('<subDataset'): return 'Declara un dataset auxiliar independiente del dataset principal.'
- if x.startswith('<queryString'): return 'Abre la consulta SQL del dataset actual.'
- if x.startswith('SELECT ') or x.startswith('FROM ') or x.startswith('LEFT JOIN') or x.startswith('WHERE ') or x.startswith('GROUP BY') or x.startswith('ORDER BY') or x.startswith('LIMIT '): return 'Forma parte de la consulta SQL ejecutada por JasperReports.'
- if x.startswith('<field '): return 'Declara un field y su tipo Java.'
- if x.startswith('<parameter '): return 'Declara un parámetro y su tipo Java.'
- if x.startswith('<variable '): return 'Declara una variable de JasperReports y su cálculo/reinicio.'
- if '<group ' in x: return 'Declara una agrupación del informe.'
- if '<subreport' in x: return 'Declara o configura el subreporte maestro-detalle.'
- if '<c:table' in x: return 'Abre el componente table del namespace de componentes.'
- if '<datasetRun' in x: return 'Asocia un subdataset con su ejecución concreta.'
- if '<barChart' in x: return 'Abre un gráfico de barras nativo de JasperReports.'
- if '<categoryDataset' in x or '<categorySeries' in x: return 'Define el dataset o una serie del gráfico categórico.'
- if '<crosstab' in x: return 'Declara o configura la tabla cruzada.'
- if '<rowGroup' in x or '<columnGroup' in x: return 'Declara un grupo de fila o columna del crosstab.'
- if '<measure ' in x: return 'Declara una medida agregada del crosstab.'
- if '<band ' in x: return 'Define una banda y su altura.'
- if '<reportElement' in x: return 'Fija posición, tamaño y propiedades del elemento visual.'
- if '<textFieldExpression' in x or '<printWhenExpression' in x or '<variableExpression' in x: return 'Expresión Java evaluada por JasperReports.'
- if x.startswith('</'): return 'Cierra el elemento XML correspondiente.'
- return 'Línea estructural del JRXML/JRTX ejecutable.'
+  if x.startswith('import '):
+   cls=x[len('import '):].rstrip(';')
+   simple=cls.split('.')[-1]
+   purpose={
+    'File':'gestionar rutas y crear la carpeta de salida',
+    'Connection':'representar la conexión JDBC abierta contra SQLite',
+    'DriverManager':'abrir la conexión JDBC a partir de la URL SQLite',
+    'HashMap':'crear la implementación mutable del mapa de parámetros',
+    'Map':'tipar el mapa de parámetros que recibe JasperReports',
+    'Arrays':'construir la colección de categorías usada por el parámetro de lista',
+    'JasperCompileManager':'compilar los JRXML a artefactos .jasper',
+    'JasperExportManager':'exportar el JasperPrint resultante a PDF',
+    'JasperFillManager':'llenar el informe compilado con parámetros y conexión',
+    'JasperPrint':'representar en memoria el documento ya paginado por JasperReports'
+   }.get(simple,'usar la clase '+simple+' en el generador')
+   return f'Importa `{cls}` para {purpose}.'
+  if x.startswith('public class '):
+   name=re.search(r'public class\s+([A-Za-z0-9_]+)',x).group(1)
+   return f'Declara la clase ejecutable `{name}` que encapsula el generador del informe.'
+  if x.startswith('public static void main'):
+   return 'Declara `main` como punto de entrada de la aplicación Java; recibe los argumentos de línea de comandos aunque este ejemplo no los utiliza.'
+  if x=='try {':
+   return 'Abre el bloque principal protegido: cualquier error de compilación, conexión, llenado o exportación será capturado por el `catch` final.'
+  if x.startswith('String '):
+   m=re.match(r'String\s+([A-Za-z0-9_]+)\s*=\s*(.+);',x)
+   if m:
+    var,val=m.group(1),m.group(2)
+    purpose={
+     'rutaJrxml':'ruta del JRXML maestro que se compilará',
+     'rutaJasper':'ruta del .jasper maestro que producirá la compilación',
+     'rutaPdf':'ruta del PDF final exportado',
+     'urlBD':'URL JDBC de la base SQLite',
+     'rutaSubJrxml':'ruta del JRXML del subinforme de detalle',
+     'rutaSubJasper':'ruta del .jasper del subinforme compilado'
+    }.get(var,'valor de configuración usado por el generador')
+    return f'Declara `{var}` con {purpose}; el valor configurado es `{val}`.'
+  if 'new File("output").mkdirs()' in x:
+   return 'Crea la carpeta `output` si todavía no existe para evitar que la exportación falle por una ruta inexistente.'
+  if 'JasperCompileManager.compileReportToFile' in x:
+   args=x[x.find('(')+1:x.rfind(')')]
+   return f'Compila el JRXML indicado en `{args.split(",")[0].strip()}` y escribe el artefacto compilado en `{args.split(",")[1].strip()}`.'
+  if x.startswith('Map<String, Object> parametros'):
+   return 'Crea el mapa tipado de parámetros que se entregará a `JasperFillManager.fillReport`.'
+  if 'parametros.put' in x:
+   m=re.search(r'parametros\.put\("([^"]+)",\s*(.*)\);',x)
+   if m:
+    return f'Asigna al parámetro JasperReports `{m.group(1)}` el valor Java `{m.group(2)}` antes del llenado.'
+   return 'Añade un valor al mapa de parámetros que consumirá el informe.'
+  if x.startswith('try (Connection conexion = DriverManager.getConnection'):
+   return 'Abre la conexión SQLite mediante `DriverManager` dentro de un try-with-resources, por lo que `conexion` se cierra automáticamente al terminar el bloque.'
+  if x.startswith('JasperPrint documento = JasperFillManager.fillReport'):
+   return 'Inicia el llenado del informe y guarda en `documento` el `JasperPrint` paginado que devolverá JasperReports.'
+  if x=='rutaJasper,':
+   return 'Pasa como primer argumento de `fillReport` la ruta del informe maestro ya compilado.'
+  if x=='parametros,':
+   return 'Pasa como segundo argumento el mapa con todos los parámetros del informe.'
+  if x=='conexion);':
+   return 'Pasa como tercer argumento la conexión JDBC y cierra la llamada a `fillReport`.'
+  if 'JasperExportManager.exportReportToPdfFile' in x:
+   return 'Exporta el `JasperPrint documento` al archivo indicado por `rutaPdf`.'
+  if 'System.out.println' in x:
+   inner=x[x.find('(')+1:x.rfind(')')]
+   return f'Escribe en la consola la evidencia `{inner}`, que queda registrada por el workflow E2E.'
+  if x.startswith('} catch (Exception '):
+   return 'Cierra el bloque protegido y abre el manejador que captura cualquier excepción del proceso completo.'
+  if 'e.printStackTrace()' in x:
+   return 'Imprime la traza completa de la excepción para que el fallo sea diagnosticable en local y en GitHub Actions.'
+  if 'System.exit(1)' in x:
+   return 'Finaliza el proceso con código 1 para que CI marque la ejecución como fallida y no oculte el error.'
+  if x=='}':
+   if indent==0: return 'Cierra la clase `GeneradorInformeVentas`.'
+   if indent==4: return 'Cierra el método `main`.'
+   if indent==8: return 'Cierra el bloque `catch` o el bloque principal de control asociado a `main`.'
+   if indent>=12: return 'Cierra el bloque try-with-resources de la conexión JDBC.'
+   return 'Cierra el bloque Java abierto en el nivel de indentación anterior.'
+  return 'Ejecuta esta instrucción Java como parte del flujo secuencial de compilación, llenado o exportación descrito por las líneas adyacentes.'
+
+ # JRXML/JRTX
+ if x.startswith('<?xml'):
+  return 'Declara XML 1.0 y codificación UTF-8 para que nombres, textos y símbolos del informe se interpreten correctamente.'
+ if x.startswith('<jasperReport'):
+  return 'Abre el documento raíz `jasperReport` del informe y fija el namespace principal de JasperReports.'
+ if x.startswith('<jasperTemplate'):
+  return 'Abre el documento raíz `jasperTemplate` de la plantilla JRTX que contiene estilos reutilizables.'
+ if x.startswith('xmlns:xsi='):
+  return 'Declara el namespace XML Schema Instance usado por `xsi:schemaLocation` para validar el documento.'
+ if x.startswith('xsi:schemaLocation='):
+  return 'Relaciona el namespace de JasperReports con su XSD para que Studio y el compilador validen la estructura.'
+ if re.match(r'^name="',x):
+  return f'Asigna al documento JasperReports el nombre interno `{_xml_attr(x,"name")}`.'
+ if x.startswith('language='):
+  return f'Configura `language={_xml_attr(x,"language")}` para evaluar expresiones con el lenguaje Java.'
+ if x.startswith('pageWidth='):
+  return f'Fija el ancho físico de página en `{_xml_attr(x,"pageWidth")}` puntos.'
+ if x.startswith('pageHeight='):
+  return f'Fija la altura física de página en `{_xml_attr(x,"pageHeight")}` puntos.'
+ if x.startswith('columnWidth='):
+  return f'Fija el ancho útil de la columna de contenido en `{_xml_attr(x,"columnWidth")}` puntos.'
+ if x.startswith('leftMargin='):
+  return f'Fija el margen izquierdo del informe en `{_xml_attr(x,"leftMargin")}` puntos.'
+ if x.startswith('rightMargin='):
+  return f'Fija el margen derecho del informe en `{_xml_attr(x,"rightMargin")}` puntos.'
+ if x.startswith('topMargin='):
+  return f'Fija el margen superior del informe en `{_xml_attr(x,"topMargin")}` puntos.'
+ if x.startswith('bottomMargin='):
+  return f'Fija el margen inferior del informe en `{_xml_attr(x,"bottomMargin")}` puntos y completa la apertura del elemento raíz.'
+ if x.startswith('uuid='):
+  return f'Asigna el UUID de diseño `{_xml_attr(x,"uuid")}` para identificar de forma estable el informe en Studio.'
+ if x.startswith('<property ') and 'defaultdataadapter' in x:
+  return f'Indica a Jaspersoft Studio que use el Data Adapter `{_xml_attr(x,"value")}` como conexión de diseño por defecto.'
+ if x.startswith('<template>'):
+  return 'Importa la plantilla externa cuya expresión CDATA devuelve `resources/styles/EditorialStyles.jrtx`.'
+ if x.startswith('<style '):
+  name=_xml_attr(x,'name'); parent=_xml_attr(x,'style')
+  extra=[]
+  if parent: extra.append('hereda de '+parent)
+  if _xml_attr(x,'isDefault')=='true': extra.append('es el estilo por defecto')
+  if _xml_attr(x,'fontName'): extra.append('fuente '+_xml_attr(x,'fontName'))
+  if _xml_attr(x,'fontSize'): extra.append('tamaño '+_xml_attr(x,'fontSize'))
+  if _xml_attr(x,'backcolor'): extra.append('fondo '+_xml_attr(x,'backcolor'))
+  return f'Declara el estilo `{name}`'+(('; '+', '.join(extra)) if extra else '')+'.'
+ if x.startswith('<conditionalStyle'):
+  return 'Abre una variante condicional del estilo; sólo se aplicará cuando su `conditionExpression` sea verdadera.'
+ if x.startswith('<conditionExpression'):
+  refs=_expr_refs(x)
+  return 'Define la condición booleana que activa el estilo condicional'+((' usando '+refs) if refs else '')+'.'
+ if x.startswith('<subDataset'):
+  return f'Declara el subdataset `{_xml_attr(x,"name")}`, con consulta y fields propios independientes del dataset principal.'
+ if x.startswith('<queryString'):
+  return 'Abre la consulta SQL que JasperReports ejecutará para el dataset actual.'
+ if x=='<![CDATA[':
+  return 'Abre CDATA para escribir SQL o una expresión Java sin que sus caracteres especiales se interpreten como XML.'
+ if x==']]>' or x==']]>':
+  return 'Cierra el bloque CDATA y devuelve el control al parser XML.'
+ if re.match(r'^(SELECT|FROM|LEFT JOIN|JOIN|WHERE|GROUP BY|ORDER BY|LIMIT)\b',x,re.I):
+  head=x.split()[0].upper()
+  if x.upper().startswith('LEFT JOIN'): head='LEFT JOIN'
+  if x.upper().startswith('GROUP BY'): head='GROUP BY'
+  if x.upper().startswith('ORDER BY'): head='ORDER BY'
+  purpose={'SELECT':'selecciona y calcula las columnas que devolverá la consulta',
+           'FROM':'define la tabla base de la consulta',
+           'LEFT JOIN':'une datos conservando las filas del lado izquierdo aunque no tengan ventas',
+           'JOIN':'une las filas que cumplen la relación indicada',
+           'WHERE':'aplica el filtro de filas',
+           'GROUP BY':'agrupa las filas antes de evaluar las funciones agregadas',
+           'ORDER BY':'ordena el resultado que recibirá JasperReports',
+           'LIMIT':'limita el número de filas devueltas'}[head]
+  return f'Cláusula SQL `{head}`: {purpose}.'
+ if re.match(r'^(AND|OR)\b',x,re.I):
+  return 'Añade otra condición lógica al filtro SQL, combinándola con la condición anterior.'
+ if re.search(r'\bAS\s+[A-Za-z_][A-Za-z0-9_]*',x,re.I):
+  alias=re.search(r'\bAS\s+([A-Za-z_][A-Za-z0-9_]*)',x,re.I).group(1)
+  return f'Calcula o selecciona un valor SQL y lo expone con el alias `{alias}`, que después coincide con un field del subdataset.'
+ if x.startswith('<field '):
+  return f'Declara el field `{_xml_attr(x,"name")}` con tipo Java `{_xml_attr(x,"class")}` para mapear una columna del dataset.'
+ if x.startswith('<parameter '):
+  return f'Declara el parámetro `{_xml_attr(x,"name")}` con tipo `{_xml_attr(x,"class")}`'+(' y lo expone al diálogo de parámetros de Studio.' if _xml_attr(x,'isForPrompting')!='false' else ' como parámetro interno no solicitado al usuario.') 
+ if x.startswith('<defaultValueExpression'):
+  return 'Define el valor que tomará el parámetro cuando el llamador no suministre uno explícitamente.'
+ if x.startswith('<variable '):
+  name=_xml_attr(x,'name'); calc=_xml_attr(x,'calculation') or 'Nothing'; reset=_xml_attr(x,'resetType') or 'Report'
+  group=_xml_attr(x,'resetGroup')
+  return f'Declara la variable `{name}` con cálculo `{calc}` y reinicio `{reset}`'+((f' asociado a `{group}`') if group else '')+'.'
+ if x.startswith('<variableExpression'):
+  refs=_expr_refs(x)
+  return 'Define el valor de entrada que JasperReports evaluará/acumulará para la variable'+((' a partir de '+refs) if refs else '')+'.'
+ if x.startswith('<group '):
+  return f'Declara el grupo `{_xml_attr(x,"name")}` y sus propiedades de paginación/reimpresión.'
+ if x.startswith('<groupExpression'):
+  refs=_expr_refs(x)
+  return 'Define la clave que decide cuándo cambia el grupo'+((' mediante '+refs) if refs else '')+'.'
+ if x.startswith('<groupHeader'):
+  return 'Abre la cabecera del grupo, que se emite cuando comienza cada nuevo valor de agrupación.'
+ if x.startswith('<groupFooter'):
+  return 'Abre el pie del grupo, donde se muestran los acumulados justo antes de cambiar de grupo.'
+ if x.startswith('<background'):
+  return 'Abre la banda Background, renderizada como fondo de las páginas.'
+ if x.startswith('<title'):
+  return 'Abre la banda Title, emitida una sola vez al inicio del informe.'
+ if x.startswith('<columnHeader'):
+  return 'Abre Column Header, repetida al comienzo de cada columna/página según la paginación.'
+ if x.startswith('<detail'):
+  return 'Abre Detail, la sección que se repite para cada registro del dataset principal.'
+ if x.startswith('<pageFooter'):
+  return 'Abre Page Footer, emitido al pie de cada página.'
+ if x.startswith('<summary'):
+  return 'Abre Summary, emitido una sola vez después del último registro.'
+ if x.startswith('<band '):
+  h=_xml_attr(x,'height'); split=_xml_attr(x,'splitType')
+  return f'Define una banda de `{h}` puntos'+((f' con splitType `{split}`') if split else '')+', reservando ese espacio para sus elementos.'
+ if x.startswith('<printWhenExpression'):
+  refs=_expr_refs(x)
+  return 'Evalúa una condición booleana para decidir si la banda o elemento se imprime'+((' usando '+refs) if refs else '')+'.'
+ if x.startswith('<staticText'):
+  return 'Abre un elemento de texto literal; su contenido no depende de fields, parámetros ni variables.'
+ if x.startswith('<textField') and not x.startswith('<textFieldExpression'):
+  pattern=_xml_attr(x,'pattern')
+  return 'Abre un textField dinámico'+((f' con formato `{pattern}`') if pattern else '')+', cuyo valor se obtiene de su `textFieldExpression`.'
+ if x.startswith('<reportElement'):
+  xx=_xml_attr(x,'x'); yy=_xml_attr(x,'y'); w=_xml_attr(x,'width'); h=_xml_attr(x,'height'); style=_xml_attr(x,'style')
+  msg=f'Posiciona el elemento en x={xx}, y={yy}, con ancho {w} y alto {h}'
+  if style: msg+=f', aplicando el estilo `{style}`'
+  if _xml_attr(x,'isRemoveLineWhenBlank')=='true': msg+=', y elimina su línea cuando queda vacío'
+  return msg+'.'
+ if x.startswith('<textElement'):
+  ha=_xml_attr(x,'textAlignment'); va=_xml_attr(x,'verticalAlignment')
+  vals=[]
+  if ha: vals.append('alineación horizontal '+ha)
+  if va: vals.append('alineación vertical '+va)
+  return 'Configura el formato interno del texto'+((': '+', '.join(vals)) if vals else '')+'.'
+ if x.startswith('<font '):
+  return f'Configura la fuente del texto con familia `{_xml_attr(x,"fontName")}`, tamaño `{_xml_attr(x,"size")}`'+(', negrita' if _xml_attr(x,'isBold')=='true' else '')+'.'
+ if x.startswith('<text>'):
+  m=re.search(r'<!\[CDATA\[(.*?)\]\]>',x)
+  return 'Define el texto literal visible'+((f': `{m.group(1)}`') if m else '')+'.'
+ if x.startswith('<textFieldExpression'):
+  refs=_expr_refs(x)
+  return 'Calcula el valor mostrado por el textField mediante una expresión Java'+((' que usa '+refs) if refs else '')+'.'
+ if x.startswith('<subreport>'):
+  return 'Abre el componente subreport que ejecuta un informe hijo dentro de la banda del maestro.'
+ if x.startswith('<subreportParameter '):
+  return f'Declara el parámetro del subreporte `{_xml_attr(x,"name")}` que recibirá un valor del informe maestro.'
+ if x.startswith('<subreportParameterExpression'):
+  refs=_expr_refs(x)
+  return 'Calcula el valor enviado al parámetro del subreporte'+((' a partir de '+refs) if refs else '')+'.'
+ if x.startswith('<connectionExpression'):
+  return 'Entrega al subreporte/subdataset la misma `REPORT_CONNECTION` usada por el informe maestro, evitando abrir otra conexión.'
+ if x.startswith('<subreportExpression'):
+  return 'Devuelve la ruta del archivo `subinforme_ventas_detalle.jasper` que JasperReports cargará como informe hijo.'
+ if x.startswith('<componentElement'):
+  return 'Abre un contenedor de componentes extendidos; en este checkpoint contiene la tabla `c:table`.'
+ if x.startswith('<c:table'):
+  return 'Abre la tabla del namespace de componentes JasperReports; sus columnas usan un datasetRun independiente.'
+ if x.startswith('<dataset>'):
+  return 'Abre el contenedor de ejecución de datos del componente actual.'
+ if x.startswith('<datasetRun '):
+  return f'Asocia el componente con el subdataset `{_xml_attr(x,"subDataset")}` para ejecutar su consulta.'
+ if x.startswith('<datasetParameter '):
+  return f'Declara el parámetro `{_xml_attr(x,"name")}` que se enviará al subdataset de la tabla.'
+ if x.startswith('<datasetParameterExpression'):
+  refs=_expr_refs(x)
+  return 'Calcula el valor enviado al parámetro del subdataset'+((' desde '+refs) if refs else '')+'.'
+ if x.startswith('<c:column '):
+  return f'Declara una columna de tabla de `{_xml_attr(x,"width")}` puntos de ancho.'
+ if x.startswith('<c:columnHeader'):
+  return f'Define la celda de cabecera de la columna con altura `{_xml_attr(x,"height")}` y estilo `{_xml_attr(x,"style")}`.'
+ if x.startswith('<c:detailCell'):
+  return f'Define la celda de detalle repetida por fila con altura `{_xml_attr(x,"height")}` y estilo `{_xml_attr(x,"style")}`.'
+ if x.startswith('<barChart'):
+  return 'Abre el gráfico de barras nativo de JasperReports que se integrará en el informe maestro.'
+ if x.startswith('<chart>'):
+  return 'Abre la configuración común del gráfico: geometría, título, subtítulo y leyenda.'
+ if x.startswith('<chartTitle'):
+  return 'Abre la definición del título del gráfico.'
+ if x.startswith('<titleExpression'):
+  return 'Calcula el título visible del gráfico a partir de la expresión indicada.'
+ if x.startswith('<chartSubtitle'):
+  return 'Declara el subtítulo del gráfico; en este checkpoint queda vacío.'
+ if x.startswith('<chartLegend'):
+  return f'Configura la leyenda del gráfico en la posición `{_xml_attr(x,"position")}`.'
+ if x.startswith('<categoryDataset'):
+  return 'Abre el dataset categórico que alimenta al gráfico con serie, categoría y valor.'
+ if x.startswith('<categorySeries'):
+  return 'Abre una serie del dataset categórico; cada fila del subdataset aportará categoría y valor.'
+ if x.startswith('<seriesExpression'):
+  return 'Define el nombre lógico de la serie que aparecerá en la leyenda.'
+ if x.startswith('<categoryExpression'):
+  refs=_expr_refs(x)
+  return 'Define la categoría del eje X'+((' a partir de '+refs) if refs else '')+'.'
+ if x.startswith('<valueExpression'):
+  refs=_expr_refs(x)
+  return 'Define el valor numérico representado por cada barra'+((' a partir de '+refs) if refs else '')+'.'
+ if x.startswith('<barPlot'):
+  return 'Abre el plot específico del gráfico de barras, donde se configuran etiquetas y ejes.'
+ if x.startswith('<plot'):
+  return 'Declara el bloque base del plot; mantiene la configuración visual por defecto del checkpoint.'
+ if x.startswith('<itemLabel'):
+  return 'Habilita el bloque de configuración de etiquetas de los ítems/barras.'
+ if x.startswith('<categoryAxisFormat'):
+  return 'Abre el formato del eje de categorías (eje X).'
+ if x.startswith('<valueAxisFormat'):
+  return 'Abre el formato del eje de valores (eje Y).'
+ if x.startswith('<axisFormat'):
+  return 'Mantiene el formato de eje por defecto sin sobrescribir fuente, color o máscara.'
+ if x.startswith('<crosstab>'):
+  return 'Abre la tabla cruzada nativa que genera dinámicamente la matriz de filas, columnas, medidas y totales.'
+ if x.startswith('<crosstabDataset'):
+  return 'Abre la fuente de datos específica del crosstab.'
+ if x.startswith('<rowGroup '):
+  return f'Declara el grupo de filas `{_xml_attr(x,"name")}`, ancho `{_xml_attr(x,"width")}` y total en `{_xml_attr(x,"totalPosition")}`.'
+ if x.startswith('<columnGroup '):
+  return f'Declara el grupo de columnas `{_xml_attr(x,"name")}`, altura `{_xml_attr(x,"height")}` y total en `{_xml_attr(x,"totalPosition")}`.'
+ if x.startswith('<bucket '):
+  return f'Declara el bucket de agrupación con tipo `{_xml_attr(x,"class")}`.'
+ if x.startswith('<bucketExpression'):
+  refs=_expr_refs(x)
+  return 'Define la clave de agrupación del bucket'+((' usando '+refs) if refs else '')+'.'
+ if x.startswith('<crosstabRowHeader'):
+  return 'Abre la cabecera que identifica cada grupo de fila del crosstab.'
+ if x.startswith('<crosstabTotalRowHeader'):
+  return 'Abre la cabecera de la fila de total del crosstab.'
+ if x.startswith('<crosstabColumnHeader'):
+  return 'Abre la cabecera que identifica cada grupo de columna del crosstab.'
+ if x.startswith('<crosstabTotalColumnHeader'):
+  return 'Abre la cabecera de la columna de total del crosstab.'
+ if x.startswith('<cellContents'):
+  return f'Abre el contenido visual de la celda y aplica el estilo `{_xml_attr(x,"style")}`.'
+ if x.startswith('<measure '):
+  return f'Declara la medida `{_xml_attr(x,"name")}` de tipo `{_xml_attr(x,"class")}` con cálculo `{_xml_attr(x,"calculation")}`.'
+ if x.startswith('<measureExpression'):
+  refs=_expr_refs(x)
+  return 'Define el valor elemental que la medida agregará'+((' desde '+refs) if refs else '')+'.'
+ if x.startswith('<crosstabCell'):
+  row=_xml_attr(x,'rowTotalGroup'); col=_xml_attr(x,'columnTotalGroup')
+  if row and col: kind=f'total general de `{row}` × `{col}`'
+  elif row: kind=f'total de fila para `{row}`'
+  elif col: kind=f'total de columna para `{col}`'
+  else: kind='detalle de cada intersección fila × columna'
+  return f'Declara la celda de {kind}, con ancho `{_xml_attr(x,"width")}` y alto `{_xml_attr(x,"height")}`.'
+ if x.startswith('</'):
+  tag=re.match(r'</([A-Za-z0-9_:.-]+)>',x)
+  name=tag.group(1) if tag else 'elemento'
+  meanings={
+   'jasperReport':'Finaliza la definición completa del informe JasperReports.',
+   'jasperTemplate':'Finaliza la plantilla externa JRTX.',
+   'queryString':'Cierra la consulta SQL del dataset actual.',
+   'subDataset':'Finaliza el subdataset auxiliar y vuelve al nivel del informe.',
+   'group':'Finaliza la definición del grupo y sus bandas asociadas.',
+   'detail':'Finaliza la sección Detail del informe.',
+   'summary':'Finaliza la sección Summary.',
+   'subreport':'Finaliza el componente de subreporte.',
+   'c:table':'Finaliza la tabla integrada.',
+   'barChart':'Finaliza el gráfico de barras.',
+   'crosstab':'Finaliza la tabla cruzada.'
+  }
+  return meanings.get(name,f'Cierra `{name}` y vuelve al elemento padre de la jerarquía JRXML.')
+ tag=_xml_tag(x)
+ if tag:
+  return f'Declara o abre el elemento `{tag}` dentro de la jerarquía JRXML; su contenido se completa en las líneas siguientes.'
+ if re.match(r'^[A-Za-z_:.-]+="',x):
+  key=x.split('=',1)[0]
+  return f'Continúa la configuración del elemento abierto asignando el atributo `{key}`.'
+ return 'Continúa la expresión SQL/XML del bloque actual con el fragmento necesario para completar su contrato ejecutable.'
+
 
 def annotated_code(label,path,lang):
  code=read(path).rstrip()
